@@ -1,0 +1,211 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Sadr $sadr
+ */
+?>
+<div class="row">
+  <div class="col-md-12"><h3 class="text-center">Spontenous Adverse Drug Reaction (ADR) Report Form</h3>  
+    <div class="row">
+      <div class="col-md-12"><h5 class="text-center">Identities of Reporter, Patient and Institute will remain confidential</h5></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <?= $this->Form->create($sadr, ['type' => 'file']) ?>
+        <div class="row">
+          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b id="sadr_pr_id"><?= $this->Util->generateXOR($sadr->id) ?></b></h5></div>          
+        </div>
+        <div class="row">
+          <div class="col-md-12"><h5 class="text-center">Patient details (to allow linkage with other reports)</h5></div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <?php
+                echo $this->Form->control('name_of_institution', 
+                  ['label' => ['text' => 'Clinic/Hospital Name: <span class="sterix">*</span>', 'escape' => false]]);
+                echo $this->Form->control('patient_name', ['label' => 'Patient Initials: <span class="sterix">*</span>', 'escape' => false]);
+                //echo $this->Form->control('date_of_birth');
+                 
+                echo $this->Form->control('date_of_birth', array(
+                  'type' => 'date',
+                  'label' => 'Date of Birth:',
+                  'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
+                                  'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                  'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
+                ));
+            
+                echo $this->Form->control('age_group', ['type' => 'select',                      
+                     'options' => [
+                            'neonate' => 'neonate',
+                            'infant' => 'infant',
+                            'child' => 'child',
+                            'adolescent' => 'adolescent',
+                            'adult' =>'adult',
+                            'elderly'=>'elderly',
+                            ]
+                     , 'empty' => true]
+                                              );
+            ?>            
+          </div>
+          <div class="col-md-6">
+            <?php
+                echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number:']);
+                echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number:']);
+                echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
+                echo $this->Form->control('height', ['label' => 'Height (meters)']);
+                echo $this->Form->control('gender', ['type' => 'radio', 
+                   'label' => '<b>Gender: <span class="sterix">*</span></b>', 'escape' => false,
+                   'templates' => [
+                     'radio' => '<input type="radio" class="radio-inline" name="{{name}}" value="{{value}}"{{attrs}}>', 
+                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                     'nestingLabel' => '{{hidden}}<label class="radio-inline" {{attrs}}>{{input}}{{text}}</label>',
+                   ],
+                     'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
+            ?>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"><h4 class="text-center">Adverse Reaction</h4></div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <?php 
+                //$this->Form->control('date_of_onset_of_reaction', ['label' => 'Date of Onset:']); 
+                echo $this->Form->control('date_of_onset_of_reaction', array(
+                  'type' => 'date',
+                  'label' => 'Date of onset of Reaction:',
+                  'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
+                                  'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                  'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
+                ));
+            ?>
+          </div>
+          <div class="col-md-6">
+            <?php 
+                //$this->Form->control('date_of_end_of_reaction', ['label' => 'Date of Onset:']); 
+                echo $this->Form->control('date_of_end_of_reaction', array(
+                  'type' => 'date',
+                  'label' => 'Date of end of Reaction: <br> <i>(if it ended)</i>', 'escape' => false,
+                  'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
+                                  'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                  'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
+                ));
+            ?>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+          <div class="col-md-8"><?php
+            // $this->Form->control('duration_type', [
+            // 'type' => 'radio', 'label' => 'Duration Type:',
+            // 'options' => ['Less than one hour' => 'Less than one hour', 'Hours' => 'Hours', 'Days' => 'Days',
+            //                                 'Weeks' => 'Weeks', 'Months' => 'Months']]); 
+            ?></div>
+           <div class="col-md-4"></div>
+        </div> -->
+
+        <!-- <div class="row">
+          <div class="col-md-6"><?php //$this->Form->control('duration', ['label' => 'Duration:']); ?></div>
+          <div class="col-md-6"></div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-md-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR:']); ?></div>
+          <div class="col-md-4"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3"><?= 
+            // $this->Form->control('severity', ['type' => 'radio', //'label' => 'Serious:',
+            //     'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+            //        'templates' => [
+            //          'radio' => '<input type="radio" class="radio-inline" name="{{name}}" value="{{value}}"{{attrs}}>', 
+            //          'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+            //          'nestingLabel' => '{{hidden}}<label class="radio-inline" {{attrs}}>{{input}}{{text}}</label>',
+            //        ],
+            //       'options' => ['Yes' => 'Yes', 'No' => 'No']]); 
+              $this->Form->control('severity', ['type' => 'radio', 
+                  'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+                  //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+                  'templates' => [
+                     'label' => '<div class="radio"><label {{attrs}}>{{text}}</label></div>',
+                     'radioWrapper' => '<div class="radio">{{label}}</div>', 
+                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  ],
+                  'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+            ?>            
+          </div>
+          <div class="col-md-5"><?= $this->Form->control('severity_reason', ['type' => 'radio', 
+                  'label' => 'Reason for Seriousness:',
+                  //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+                  'templates' => [
+                     'label' => '<div class="radio"><label {{attrs}}>{{text}}</label></div>',
+                     'radioWrapper' => '<div class="radio">{{label}}</div>', 
+                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  ],
+                  'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 
+                                    'Congenital-anomaly' => 'Congenital-anomaly', 
+                                            'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?></div>
+            <div class="col-md-4">
+              <?=
+                $this->Form->control('outcome', ['type' => 'radio', 
+                    'label' => 'Outcome:',
+                    'templates' => [
+                     'label' => '<div class="radio"><label {{attrs}}>{{text}}</label></div>',
+                     'radioWrapper' => '<div class="radio">{{label}}</div>', 
+                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                    ],
+                    'options' => ['Recovered' => 'Recovered', 
+                                                  'Not yet recovered' => 'Not yet recovered', 
+                                                  'Fatal' => 'Fatal', 'Unknown' => 'Unknown']]); 
+              ?>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History']); ?></div>
+          <div class="col-md-6"><?= $this->Form->control('past_drug_therapy', ['label' => 'Relevant Past Drug Therapy']); ?></div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12"><h4 class="text-center">Current Medication</h4></div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12"><?php echo $this->element('multi/list_of_drugs');?></div>
+        </div>        
+
+        <div class="row">
+          <div class="col-md-8"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results:']); ?></div>
+          <div class="col-md-4"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12"><h4 class="text-center">Reported By:</h4></div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-6">
+          <?php
+            echo $this->Form->control('reporter_name', ['label' => 'Reporter name']);
+            echo $this->Form->control('reporter_email', ['label' => 'Reporter email']);
+          ?>
+        </div><!--/span-->
+        <div class="col-md-6">
+          <?php
+            echo $this->Form->control('reporter_phone', ['label' => 'Reporter phone']);
+            echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);
+
+          ?>
+        </div><!--/span-->
+      </div><!--/row-->
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
+  </div>
+</div>
