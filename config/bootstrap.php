@@ -231,3 +231,5 @@ Plugin::load('Acl', ['bootstrap' => true]);
 //Plugin::load('BootstrapUI');
 
 Plugin::load('Crud');
+
+Plugin::load('Migrations');

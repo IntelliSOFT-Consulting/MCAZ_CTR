@@ -15,7 +15,7 @@ class AefisController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['add', 'edit']);       
+       //$this->Auth->allow(['add', 'edit']);       
     }
 
     /**
