@@ -6,26 +6,26 @@
           <?php
               if($this->request->session()->read('Auth.User')) {
           ?>
-          <p><a class="btn btn-success" href="/sadrs/add" role="button">Report!</a></p>
+          <p><a class="btn btn-primary" href="/sadrs/add" role="button">Report!</a></p>
           <?php                  
               } else {
           ?>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-primary" href="/sadrs/add" role="button">Report &raquo;</a></p>
           <?php
               }
           ?>
         </div>
         <div class="col-md-4">
           <h2>AEFI</h2>
-          <p>Adverse drug reaction. </p>
+          <p>Adverse Event Following Immunization. </p>
           <?php
               if($this->request->session()->read('Auth.User')) {
           ?>
-          <p><a class="btn btn-success" href="/sadrs/add" role="button">Report!</a></p>
+          <p><a class="btn btn-success" href="/aefis/add" role="button">Report!</a></p>
           <?php                  
               } else {
           ?>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-success" href="/aefis/add" role="button">Report &raquo;</a></p>
           <?php
               }
           ?>
@@ -40,7 +40,7 @@
           <?php                  
               } else {
           ?>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="/sadrs/add" role="button">View details &raquo;</a></p>
           <?php
               }
           ?>

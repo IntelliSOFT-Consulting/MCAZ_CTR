@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Sadr $sadr
  */
     // $this->Html->script('multi/list_of_drugs', array('inline' => false));
-$this->Html->script('multi/list_of_drugs', ['block' => true]);
+    $this->Html->script('multi/list_of_drugs', ['block' => true]);
 ?>
 
     <div class="row">
