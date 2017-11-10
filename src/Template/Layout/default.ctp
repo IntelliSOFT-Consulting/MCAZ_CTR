@@ -39,11 +39,13 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <!-- Custom styles for this template -->
     <?= $this->Html->css('bootstrap/jumbotron') ?>
     <?= $this->Html->css('bootstrap/font-awesome.min'); ?>
+    <?= $this->Html->css('jquery.datetimepicker'); ?>
 
     <!-- jquery UI -->
     <?= $this->Html->css('jquery-ui.min') ?>
     <?= $this->Html->script('jquery/jquery') ?>
     <?= $this->Html->script('jquery/jquery-ui.min') ?>
+    <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
 
     <?= $this->Html->script('bootstrap/bootstrap.min'); ?>
     <?= $this->Html->script('bootstrap/ie10-viewport-bug-workaround'); ?>    

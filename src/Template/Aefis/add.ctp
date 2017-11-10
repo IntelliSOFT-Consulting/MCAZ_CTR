@@ -15,7 +15,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <?= $this->Form->create($aefi, ['type' => 'file']) ?>
+    <?= $this->Form->create($aefi) ?>
         
         <div class="row">
           <div class="col-md-12"><h5 class="text-center">Enter your email address to start:</h5></div>

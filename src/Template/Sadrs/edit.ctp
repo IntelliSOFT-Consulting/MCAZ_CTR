@@ -60,11 +60,7 @@
                 echo $this->Form->control('height', ['label' => 'Height (meters)']);
                 echo $this->Form->control('gender', ['type' => 'radio', 
                    'label' => '<b>Gender: <span class="sterix">*</span></b>', 'escape' => false,
-                   'templates' => [
-                     'radio' => '<input type="radio" class="radio-inline" name="{{name}}" value="{{value}}"{{attrs}}>', 
-                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                     'nestingLabel' => '{{hidden}}<label class="radio-inline" {{attrs}}>{{input}}{{text}}</label>',
-                   ],
+                   'templates' => 'radio_form',
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
             ?>
           </div>
@@ -133,22 +129,14 @@
               $this->Form->control('severity', ['type' => 'radio', 
                   'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
                   //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
-                  'templates' => [
-                     'label' => '<div class="radio"><label {{attrs}}>{{text}}</label></div>',
-                     'radioWrapper' => '<div class="radio">{{label}}</div>', 
-                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                  ],
+                  'templates' => 'radio_form',
                   'options' => ['Yes' => 'Yes', 'No' => 'No']]);
             ?>            
           </div>
           <div class="col-md-5"><?= $this->Form->control('severity_reason', ['type' => 'radio', 
                   'label' => 'Reason for Seriousness:',
                   //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
-                  'templates' => [
-                     'label' => '<div class="radio"><label {{attrs}}>{{text}}</label></div>',
-                     'radioWrapper' => '<div class="radio">{{label}}</div>', 
-                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                  ],
+                  'templates' => 'radio_form',
                   'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 
                                     'Congenital-anomaly' => 'Congenital-anomaly', 
                                             'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?></div>
@@ -156,11 +144,7 @@
               <?=
                 $this->Form->control('outcome', ['type' => 'radio', 
                     'label' => 'Outcome:',
-                    'templates' => [
-                     'label' => '<div class="radio"><label {{attrs}}>{{text}}</label></div>',
-                     'radioWrapper' => '<div class="radio">{{label}}</div>', 
-                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                    ],
+                    'templates' => 'radio_form',
                     'options' => ['Recovered' => 'Recovered', 
                                                   'Not yet recovered' => 'Not yet recovered', 
                                                   'Fatal' => 'Fatal', 'Unknown' => 'Unknown']]); 

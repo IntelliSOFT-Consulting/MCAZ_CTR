@@ -14,7 +14,7 @@ class SadrOtherDrugsController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['delete']);       
+       //$this->Auth->allow(['delete']);       
     }
     /**
      * Index method

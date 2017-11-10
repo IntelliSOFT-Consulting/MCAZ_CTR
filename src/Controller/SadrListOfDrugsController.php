@@ -14,7 +14,7 @@ class SadrListOfDrugsController extends AppController
 {   
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['delete']);       
+       //$this->Auth->allow(['delete']);       
     }
 
     /**

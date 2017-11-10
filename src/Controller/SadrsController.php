@@ -116,7 +116,7 @@ class SadrsController extends AppController
         //
 
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['Users', 'SadrListOfDrugs', 'SadrOtherDrugs']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());

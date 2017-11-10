@@ -60,6 +60,476 @@ class Initial extends AbstractMigration
             )
             ->create();
 
+        $this->table('adr_lab_tests')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('adr_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('lab_test', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('abnormal_result', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('site_normal_range', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('collection_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('lab_value', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('lab_value_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
+        $this->table('adr_list_of_drugs')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('adr_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('drug_name', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('dosage', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('dose_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('route_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('frequency_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('start_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('stop_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('taking_drug', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('relationship_to_sae', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
+        $this->table('adr_other_drugs')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('adr_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('drug_name', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('start_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('stop_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('relationship_to_sae', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
+        $this->table('adrs')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('mrcz_protocol_number', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('mcaz_protocol_number', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('principal_investigator', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('reporter_name', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('reporter_email', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('designation_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('reporter_phone', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('name_of_institution', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('institution_code', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('study_title', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('study_sponsor', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('date_of_adverse_event', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('participant_number', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('report_type', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('date_of_site_awareness', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('date_of_birth', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('gender', 'string', [
+                'default' => null,
+                'limit' => 17,
+                'null' => true,
+            ])
+            ->addColumn('study_week', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('visit_number', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('adverse_event_type', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('sae_type', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('sae_description', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('toxicity_grade', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('previous_events', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('previous_events_number', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('total_saes', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('location_event', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('location_event_specify', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('research_involves', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('research_involves_specify', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('name_of_drug', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('drug_investigational', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('patient_other_drug', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('report_to_mcaz', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('report_to_mcaz_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('report_to_mrcz', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('report_to_mrcz_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('report_to_sponsor', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('report_to_sponsor_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('report_to_irb', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('report_to_irb_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('medical_history', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('diagnosis', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('immediate_cause', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('symptoms', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('investigations', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('results', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('management', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('outcome', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('d1_consent_form', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('d2_brochure', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('d3_changes_sae', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('d4_consent_sae', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('changes_explain', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('assess_risk', 'string', [
+                'default' => null,
+                'limit' => 55,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->create();
+
         $this->table('aefi_list_of_vaccines')
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
@@ -81,11 +551,6 @@ class Initial extends AbstractMigration
             ->addColumn('vaccination_date', 'date', [
                 'default' => null,
                 'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('dose', 'string', [
-                'default' => null,
-                'limit' => 100,
                 'null' => true,
             ])
             ->addColumn('dose_id', 'integer', [
@@ -111,6 +576,11 @@ class Initial extends AbstractMigration
             ->addColumn('modified', 'datetime', [
                 'default' => null,
                 'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('dosage', 'string', [
+                'default' => null,
+                'limit' => 255,
                 'null' => true,
             ])
             ->create();
@@ -158,7 +628,7 @@ class Initial extends AbstractMigration
                 'limit' => 255,
                 'null' => true,
             ])
-            ->addColumn('patient_next_of_kin', 'integer', [
+            ->addColumn('patient_next_of_kin', 'string', [
                 'default' => null,
                 'limit' => 255,
                 'null' => true,
@@ -2217,6 +2687,10 @@ class Initial extends AbstractMigration
     public function down()
     {
         $this->dropTable('acos');
+        $this->dropTable('adr_lab_tests');
+        $this->dropTable('adr_list_of_drugs');
+        $this->dropTable('adr_other_drugs');
+        $this->dropTable('adrs');
         $this->dropTable('aefi_list_of_vaccines');
         $this->dropTable('aefis');
         $this->dropTable('aros');

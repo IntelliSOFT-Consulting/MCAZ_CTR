@@ -86,7 +86,7 @@ class AefisController extends AppController
             if ($this->Aefis->save($aefi, ['validate' => false])) {
                 $this->Flash->success(__('The aefi has been saved.'));
 
-                return $this->redirect(['action' => 'edit', $this->Util->generateXOR($aefi->id)]);
+                return $this->redirect(['action' => 'edit', $aefi->id]);
             }
             $this->Flash->error(__('The aefi could not be saved. Please, try again.'));
         }
@@ -106,19 +106,17 @@ class AefisController extends AppController
      */
     public function edit($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => []
+            'contain' => ['AefiListOfVaccines']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            //debug((string)$aefi);
             if ($this->Aefis->save($aefi)) {
                 $this->Flash->success(__('The aefi has been saved.'));
-
-                return $this->redirect(['action' => 'edit', $this->Util->generateXOR($aefi->id)]);
+                //debug($this->request->getData());
+                return $this->redirect(['action' => 'edit', $aefi->id]);
             }
             $this->Flash->error(__('The aefi could not be saved. Please, try again.'));
         }

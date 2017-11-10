@@ -32,15 +32,15 @@
        </div>
         <div class="col-md-4">
           <h2>SAE</h2>
-          <p>SAE.</p>
+          <p>SERIOUS ADVERSE EVENT REPORTING FORM.</p>
           <?php
               if($this->request->session()->read('Auth.User')) {
           ?>
-          <p><a class="btn btn-success" href="/sadrs/add" role="button">Report!</a></p>
+          <p><a class="btn btn-info" href="/adrs/add" role="button">Report!</a></p>
           <?php                  
               } else {
           ?>
-          <p><a class="btn btn-default" href="/sadrs/add" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-info" href="/adrs/add" role="button">View details &raquo;</a></p>
           <?php
               }
           ?>
