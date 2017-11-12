@@ -61,13 +61,13 @@ class AdrOtherDrugsTable extends Table
             ->scalar('drug_name')
             ->allowEmpty('drug_name');
 
-        $validator
-            ->date('start_date')
-            ->allowEmpty('start_date');
+        // $validator
+        //     ->date('start_date')
+        //     ->allowEmpty('start_date');
 
-        $validator
-            ->date('stop_date')
-            ->allowEmpty('stop_date');
+        // $validator
+        //     ->date('stop_date')
+        //     ->allowEmpty('stop_date');
 
         $validator
             ->scalar('relationship_to_sae')

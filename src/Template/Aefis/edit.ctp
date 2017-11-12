@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Aefi $aefi
  */
 // pr($aefi);
+$this->Html->script('aefi_edit', ['block' => true]);
 ?>
 <div class="row">
   <div class="col-md-12"><h3 class="text-center">Adverse Event After Immunization (AEFI) Report Form</h3>  
@@ -91,23 +92,73 @@
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
+            <h4>Adverse Event(s) <span class="sterix">*</span>:</h4>
             <?php
-                echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):']);
-                echo $this->Form->control('adverse_events_specify', ['label' => 'If other, specify:']);
-                echo $this->Form->control('aefi_date', ['label' => 'Date & Time AEFI started:', 'type' => 'text']);
-                echo $this->Form->control('notification_date', ['label' => 'Date patient notified event to health system:', 'type' => 'text']);
+                // echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):', 'type' => 'select', 'multiple' => true, 'options' => ['Severe local reaction' => 'Severe local reaction', 'Seizures' => 'Seizures', 'Abscess' => 'Abscess']]);
+                echo $this->Form->control('ae_severe_local_reaction', ['type' => 'checkbox', 'label' => 'Severe local reaction', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_seizures', ['type' => 'checkbox', 'label' => 'Seizures', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_toxic_shock', ['type' => 'checkbox', 'label' => 'Toxic shock syndrome', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_thrombocytopenia', ['type' => 'checkbox', 'label' => 'Thrombocytopenia', 'templates' => 'checkbox_form']);
+                                
             ?>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
+            <br><br>
             <?php
-                echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms):']);
+                echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => 'checkbox_form']);
+                echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => 'checkbox_form']);
+                
+            ?>
+          </div>
+          <div class="col-md-3">
+            <br><br>
+            <?php 
+                echo $this->Form->control('ae_other', ['type' => 'checkbox', 'label' => 'Other (specify):', 
+                  //'templates' => 'checkbox_form'
+                  'templates' => [
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                      'inputContainer' => '<div class="form-group"><div class=" {{required}}"><div class="checkbox">{{content}}</div></div></div>',
+                  ]
+                ]);
+                echo $this->Form->control('adverse_events_specify', ['label' => 'If other, specify:',  
+                  'templates' =>[ 
+                    'label' => '<label {{attrs}}>{{text}}</label>',
+                    'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                    'textarea' => '<textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea>',]]);
+
+                echo $this->Form->control('aefi_date', ['label' => 'Date & Time AEFI started:', 'type' => 'text',                   
+                  'templates' =>[    
+                    'label' => '<label {{attrs}}>{{text}}</label>',
+                    'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>']]);
+                echo $this->Form->control('notification_date', ['label' => 'Date patient notified event to health system:', 'type' => 'text',
+                  'templates' =>[    
+                    'label' => '<label {{attrs}}>{{text}}</label>',
+                    'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>']]);
+            ?>
+          </div>
+          <div class="col-md-3">
+            <br><br><br>
+            <?php
+                //echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms):']);
+                echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms):',  
+                  'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="7" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
             ?>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <?php
                 echo $this->Form->control('treatment_provided', ['type' => 'radio', 
                    'label' => 'Treatment provided:', 'escape' => false,
@@ -115,7 +166,9 @@
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
             ?>
           </div>
-          <div class="col-md-6">
+        </div>
+        <div class="row">
+          <div class="col-md-12">
             <?php
                 echo $this->Form->control('serious', ['type' => 'radio', 
                    'label' => 'Serious?:', 'escape' => false,

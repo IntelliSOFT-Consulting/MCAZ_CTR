@@ -121,6 +121,76 @@ class CreateAefis extends AbstractMigration
                 'limit' => 100,
                 'null' => true,
             ]);
+        $table->addColumn('ae_severe_local_reaction', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_seizures', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_abscess', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_sepsis', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_encephalopathy', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_toxic_shock', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_thrombocytopenia', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_anaphylaxis', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_fever', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_3days', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_febrile', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_beyond_joint', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_afebrile', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
+        $table->addColumn('ae_other', 'integer', [
+                'default' => null,
+                'limit' => 2,
+                'null' => true,
+            ]);
         $table->addColumn('adverse_events_specify', 'text', [
                 'default' => null,
                 'null' => true,

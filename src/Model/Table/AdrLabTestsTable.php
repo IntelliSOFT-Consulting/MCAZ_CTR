@@ -69,17 +69,17 @@ class AdrLabTestsTable extends Table
             ->scalar('site_normal_range')
             ->allowEmpty('site_normal_range');
 
-        $validator
-            ->date('collection_date')
-            ->allowEmpty('collection_date');
+        // $validator
+        //     ->date('collection_date')
+        //     ->allowEmpty('collection_date');
 
         $validator
             ->scalar('lab_value')
             ->allowEmpty('lab_value');
 
-        $validator
-            ->date('lab_value_date')
-            ->allowEmpty('lab_value_date');
+        // $validator
+        //     ->date('lab_value_date')
+        //     ->allowEmpty('lab_value_date');
 
         return $validator;
     }

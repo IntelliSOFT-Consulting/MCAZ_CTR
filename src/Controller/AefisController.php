@@ -108,11 +108,12 @@ class AefisController extends AppController
     {
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
             //debug((string)$aefi);
+            //debug($this->request->getData());
             if ($this->Aefis->save($aefi)) {
                 $this->Flash->success(__('The aefi has been saved.'));
                 //debug($this->request->getData());

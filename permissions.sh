@@ -14,3 +14,5 @@ bin/cake acl grant Groups.3 controllers/SadrListOfDrugs/delete
 bin/cake acl grant Groups.3 controllers/SadrOtherDrugs/delete
 bin/cake acl grant Groups.3 controllers/AefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/AefiListOfDiluents/delete
+bin/cake acl grant Groups.3 controllers/AdrListOfDrugs/delete
+bin/cake acl grant Groups.3 controllers/AdrOtherDrugs/delete

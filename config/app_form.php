@@ -1,6 +1,18 @@
 <?php
 // in config/app_form.php
 return [
+    // Used for button elements in button().
+    'button' => '<div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                    <button  class="btn btn-default"{{attrs}}>{{text}}</button>
+                    </div>
+                </div>',
+     // Used for checkboxes in checkbox() and multiCheckbox().
+    'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
+    // Input group wrapper for checkboxes created via control().
+    'checkboxFormGroup' => '{{label}}',
+    // Wrapper container for checkboxes.
+    'checkboxWrapper' => '<div class="checkbox">{{label}}</div>',
     'formStart' => '<form  class="form-horizontal" {{attrs}}>',
     'formGroup' => '<div class="form-group"> {{label}}{{input}} </div>',
     'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
@@ -8,12 +20,6 @@ return [
     'input' => '<div class="col-sm-6"><input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/></div>',
     // Select element,
     'select' => '<div class="col-sm-6"><select class="form-control" name="{{name}}"{{attrs}}>{{content}}</select></div>',
-    // Used for button elements in button().
-    'button' => '<div class="form-group">
-    				<div class="col-sm-offset-2 col-sm-10">
-    				<button  class="btn btn-default"{{attrs}}>{{text}}</button>
-    				</div>
-  				</div>',
   	// Radio input element,
     //'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}>',
     //'radioWrapper' => '<div class="col-sm-8"><div class="radio">{{label}}</div></div>',

@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Adr $adr
  */
+$this->Html->script('adr_edit', ['block' => true]);
 ?>
 <div class="row">
   <div class="col-md-12"><h3 class="text-center">SERIOUS ADVERSE EVENT REPORTING FORM </h3>  
@@ -80,7 +81,7 @@
                 echo $this->Form->control('gender', ['type' => 'radio', 
                    'label' => '<b>Gender: <span class="sterix">*</span></b>', 'escape' => false,
                    'templates' => 'radio_form',
-                     'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
+                     'options' => ['Male' => 'Male', 'Female' => 'Female']]);
                 echo $this->Form->control('study_week', 
                   ['label' => ['text' => 'Study Week:', 'escape' => false]]);
                 echo $this->Form->control('visit_number', 
@@ -98,16 +99,26 @@
                    'templates' => 'radio_form',
                      'options' => ['AE' => 'AE', 'SAE' => 'SAE', 'Death' => 'Death']]);
 
-                echo $this->Form->control('sae_type', 
-                  ['label' => ['text' => 'If SAE, is it: 1. Fatal, 2. Life', 'escape' => false]]);
+                // echo $this->Form->control('sae_type', 
+                //   ['label' => ['text' => 'If SAE, is it: 1. Fatal, 2. Life', 'escape' => false]]);
+
+                echo $this->Form->control('sae_type', ['label' => 'If SAE, is it:', 'type' => 'select', 'options' => ['Fatal' => 'Fatal', 'Seizures' => 'Seizures', 'Life-threatening (an actual risk of death at the time of the event).' => 'Life-threatening (an actual risk of death at the time of the event).', 'Caused or prolonged hospitalization (non-elective).' => 'Caused or prolonged hospitalization (non-elective).', 'Resulted in persistent or significant disability or incapacity.' => 'Resulted in persistent or significant disability or incapacity.', 'Any other important medical event.' => 'Any other important medical event.'], 'empty' => true]);
+                echo $this->Form->control('sae_description', ['label' => 'If Other, specify:', 'escape' => false]);
 
             ?>            
           </div>
           <div class="col-md-6">
             <?php
-                echo $this->Form->control('sae_description', ['label' => 'Describe other important medical event:', 'escape' => false]);                                
-                echo $this->Form->control('toxicity_grade', ['type' => 'radio','label' => 'Toxicity Grade:', 
-                    'options' => ['Grade 1' => 'Grade 1', 'Grade 2' => 'Grade 2', 'Grade 3' => 'Grade 3', 'Grade 4' => 'Grade 4', 'Grade 5' => 'Grade 5']]);
+                                                
+                // echo $this->Form->control('toxicity_grade', ['type' => 'radio','label' => 'Toxicity Grade:', 
+                //     'options' => ['Grade 1' => 'Grade 1', 'Grade 2' => 'Grade 2', 'Grade 3' => 'Grade 3', 'Grade 4' => 'Grade 4', 'Grade 5' => 'Grade 5']]);
+                echo $this->Form->control('toxicity_grade', ['type' => 'radio', 'label' => 'Toxicity Grade:', 
+                  // 'templates' => 'radio_form',
+                  'options' => ['Grade 1' => 'Grade 1', 'Grade 2' => 'Grade 2', 'Grade 3' => 'Grade 3', 'Grade 4' => 'Grade 4', 'Grade 5' => 'Grade 5'],
+                  'templates' => [
+    'nestingLabel' => '<div class="col-sm-offset-4 radio">{{hidden}}<label  {{attrs}}>{{input}}{{text}}</label></div>',
+                  ]
+                ]);
             ?>
           </div>
         </div>
@@ -145,7 +156,7 @@
                    'templates' => 'radio_form',
                      'options' => ['Home' => 'Home', 'Clinic/Hospital' => 'Clinic/Hospital', 'Work' => 'Work', 'Study site' => 'Study site', 'Other, specify' => 'Other, specify']]);
 
-                echo $this->Form->control('location_event_specify', ['label' => 'Total Number of SAEs to date for the whole study:', 'escape' => false]);
+                echo $this->Form->control('location_event_specify', ['label' => 'If Other, specify:', 'escape' => false]);
             ?>
           </div>
         </div>
@@ -154,15 +165,21 @@
           <div class="col-md-6">
             <?php
                 echo $this->Form->control('research_involves', ['type' => 'radio', 
-                   'label' => 'Location of the current Adverse Event:', 'escape' => false,
+                   'label' => 'Research involves:', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Drug' => 'Drug', 'Device' => 'Device', 'Procedure' => 'Procedure', 'Vaccine' => 'Vaccine', 'Other, specify' => 'Other, specify']]);
-                echo $this->Form->control('research_involves_specify', ['label' => 'if other, specify:', 'escape' => false]);
+                echo $this->Form->control('research_involves_specify', ['label' => 'if other, specify:', 'escape' => false, 'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
             ?>
           </div>
           <div class="col-md-6">
             <?php
-                echo $this->Form->control('name_of_drug', ['label' => 'Name of Drug, Device or Procedure:', 'escape' => false]);
+                echo $this->Form->control('name_of_drug', ['label' => 'Name of Drug, Device or Procedure:', 'escape' => false, 'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="4" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
             ?>
           </div>
         </div>
@@ -180,22 +197,9 @@
           <div class="col-md-12"><h4 class="text-center">List all study / intervention drugs being taken at the time of onset of the SAE, or within 30 days prior to onset, and describe their relationship to the SAE:</h4></div>
         </div>
 
-        <p>>>> Insert here list of drug/devices</p>
-
         <div class="row">
-          <div class="col-md-12"><?php 
-            echo $this->Form->control('patient_other_drug', ['type' => 'radio', 
-                   'label' => 'Was the patient taking any other drug at the time of onset of the AE? ', 'escape' => false,
-                   'templates' => 'radio_form',
-                     'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-          ?></div>
-        </div>  
-
-        <div class="row">
-          <div class="col-md-12"><h4 class="text-center"> If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE:</h4></div>
+          <div class="col-md-12"><?php echo $this->element('multi/list_of_devices');?></div>
         </div>
-
-        <p>>>> Insert here list of concomitant medication</p>
 
         <div class="row">
           <p>Has the Adverse Event been reported to:      </p>
@@ -204,7 +208,7 @@
                    'label' => '(a) MCAZ', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text']);
+            echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
           <div class="col-md-3"><?php 
@@ -212,7 +216,7 @@
                    'label' => '(b) MRCZ', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text']);
+            echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
           <div class="col-md-3"><?php 
@@ -220,7 +224,7 @@
                    'label' => '(c) Sponsor', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text']);
+            echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
           <div class="col-md-3"><?php 
@@ -228,7 +232,7 @@
                    'label' => '(d) IRB', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_irb_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text']);
+            echo $this->Form->control('report_to_irb_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
         </div> 
@@ -239,35 +243,55 @@
 
         <div class="row">
           <div class="col-md-12"><?php 
-            echo $this->Form->control('medical_history', ['label' => 'Summary of relevant past medical history of participant:', 'escape' => false]);
+            echo $this->Form->control('medical_history', ['label' => 'Summary of relevant past medical history of participant:', 'escape' => false,
+              'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
             ?></div>
         </div>
 
         <div class="row">
           <div class="col-md-6"><?php 
-            echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis:', 'escape' => false]);
-            echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause:', 'escape' => false]);
+            echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis:', 'escape' => false, 'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
+            echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause:', 'escape' => false, 'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
             ?>
           </div>
           <div class="col-md-6">
               <?php             
-            echo $this->Form->control('symptoms', ['label' => '(c) Symptoms:', 'escape' => false]);             
-            echo $this->Form->control('investigations', ['label' => '(d) Investigations-Laboratory and any other significant investigations conducted:', 'escape' => false]);
+            echo $this->Form->control('symptoms', ['label' => '(c) Symptoms:', 'escape' => false, 
+          'templates' =>[ 'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);             
+            echo $this->Form->control('investigations', ['label' => '(d) Investigations-Laboratory and any other significant investigations conducted:', 'escape' => false, 
+          'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
             ?>
           </div>
         </div>
 
-        <p>>>> Insert here list of lab tests</p>
+        <div class="row">
+          <div class="col-md-12"><?php echo $this->element('multi/adr_lab_tests');?></div>
+        </div>
 
         <div class="row">
           <div class="col-md-6"><?php 
-            echo $this->Form->control('results', ['label' => '(e) Results:', 'escape' => false]);
+            echo $this->Form->control('results', ['label' => '(e) Results:', 'escape' => false, 
+          'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
             echo $this->Form->control('management', ['label' => '(f) Management (Include management of study treatment, continued, temporarily held, reduced dose, permanent discontinuation, off Product):', 'escape' => false]);
             ?>
           </div>
           <div class="col-md-6">
               <?php             
-            echo $this->Form->control('outcome', ['label' => '(g) Outcome:', 'escape' => false]);             
+            echo $this->Form->control('outcome', ['label' => '(g) Outcome:', 'escape' => false, 
+          'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);             
 
             ?>
           </div>

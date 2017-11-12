@@ -111,6 +111,5 @@ class AefiListOfDiluentsController extends AppController
             $this->Flash->error(__('The aefi list of diluent could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
     }
 }

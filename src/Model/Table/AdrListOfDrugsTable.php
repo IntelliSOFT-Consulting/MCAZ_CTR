@@ -77,13 +77,13 @@ class AdrListOfDrugsTable extends Table
             ->scalar('dosage')
             ->allowEmpty('dosage');
 
-        $validator
-            ->date('start_date')
-            ->allowEmpty('start_date');
+        // $validator
+        //     ->date('start_date')
+        //     ->allowEmpty('start_date');
 
-        $validator
-            ->date('stop_date')
-            ->allowEmpty('stop_date');
+        // $validator
+        //     ->date('stop_date')
+        //     ->allowEmpty('stop_date');
 
         $validator
             ->scalar('taking_drug')

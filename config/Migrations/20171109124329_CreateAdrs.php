@@ -120,7 +120,7 @@ class CreateAdrs extends AbstractMigration
         ]);
         $table->addColumn('sae_type', 'string', [
                 'default' => null,
-                'limit' => 55,
+                'limit' => 255,
                 'null' => true,
         ]);
         $table->addColumn('sae_description', 'text', [

@@ -113,9 +113,9 @@ class AdrsTable extends Table
             ->scalar('study_sponsor')
             ->allowEmpty('study_sponsor');
 
-        $validator
-            ->date('date_of_adverse_event')
-            ->allowEmpty('date_of_adverse_event');
+        // $validator
+        //     ->date('date_of_adverse_event')
+        //     ->allowEmpty('date_of_adverse_event');
 
         $validator
             ->scalar('participant_number')
@@ -125,9 +125,9 @@ class AdrsTable extends Table
             ->scalar('report_type')
             ->allowEmpty('report_type');
 
-        $validator
-            ->date('date_of_site_awareness')
-            ->allowEmpty('date_of_site_awareness');
+        // $validator
+        //     ->date('date_of_site_awareness')
+        //     ->allowEmpty('date_of_site_awareness');
 
         $validator
             ->scalar('date_of_birth')
@@ -205,33 +205,33 @@ class AdrsTable extends Table
             ->scalar('report_to_mcaz')
             ->allowEmpty('report_to_mcaz');
 
-        $validator
-            ->date('report_to_mcaz_date')
-            ->allowEmpty('report_to_mcaz_date');
+        // $validator
+        //     ->date('report_to_mcaz_date')
+        //     ->allowEmpty('report_to_mcaz_date');
 
         $validator
             ->scalar('report_to_mrcz')
             ->allowEmpty('report_to_mrcz');
 
-        $validator
-            ->date('report_to_mrcz_date')
-            ->allowEmpty('report_to_mrcz_date');
+        // $validator
+        //     ->date('report_to_mrcz_date')
+        //     ->allowEmpty('report_to_mrcz_date');
 
         $validator
             ->scalar('report_to_sponsor')
             ->allowEmpty('report_to_sponsor');
 
-        $validator
-            ->date('report_to_sponsor_date')
-            ->allowEmpty('report_to_sponsor_date');
+        // $validator
+        //     ->date('report_to_sponsor_date')
+        //     ->allowEmpty('report_to_sponsor_date');
 
         $validator
             ->scalar('report_to_irb')
             ->allowEmpty('report_to_irb');
 
-        $validator
-            ->date('report_to_irb_date')
-            ->allowEmpty('report_to_irb_date');
+        // $validator
+        //     ->date('report_to_irb_date')
+        //     ->allowEmpty('report_to_irb_date');
 
         $validator
             ->scalar('medical_history')

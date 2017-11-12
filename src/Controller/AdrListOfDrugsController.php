@@ -112,9 +112,13 @@ class AdrListOfDrugsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $adrListOfDrug = $this->AdrListOfDrugs->get($this->request->data['id']);
         if ($this->AdrListOfDrugs->delete($adrListOfDrug)) {
-            $this->Flash->success(__('The adr list of drug has been deleted.'));
+            $adrListOfDrug['message'] = 'success';
+            $this->set('adrListOfDrug', $adrListOfDrug);
+            $this->set('_serialize', ['adrListOfDrug']);
         } else {
-            $this->Flash->error(__('The adr list of drug could not be deleted. Please, try again.'));
+            $adrListOfDrug['message'] = 'fail';
+            $this->set('adrListOfDrug', $adrListOfDrug);
+            $this->set('_serialize', ['adrListOfDrug']);
         }
 
     }

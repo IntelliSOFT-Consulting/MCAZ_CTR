@@ -105,7 +105,7 @@ class AdrsController extends AppController
     public function edit($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => []
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
@@ -118,7 +118,11 @@ class AdrsController extends AppController
         }
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('adr', 'users', 'designations'));
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
+        // $this->set(compact('adr', 'users', 'designations'));
         $this->set('_serialize', ['adr']);
     }
 

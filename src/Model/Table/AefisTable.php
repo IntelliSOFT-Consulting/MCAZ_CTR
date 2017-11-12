@@ -51,6 +51,9 @@ class AefisTable extends Table
         $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'aefi_id'
         ]);
+        $this->hasMany('AefiListOfDiluents', [
+            'foreignKey' => 'aefi_id'
+        ]);
     }
 
     /**

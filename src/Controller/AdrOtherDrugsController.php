@@ -106,9 +106,13 @@ class AdrOtherDrugsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $adrOtherDrug = $this->AdrOtherDrugs->get($this->request->data['id']);
         if ($this->AdrOtherDrugs->delete($adrOtherDrug)) {
-            $this->Flash->success(__('The adr other drug has been deleted.'));
+            $adrOtherDrug['message'] = 'success';
+            $this->set('adrOtherDrug', $adrOtherDrug);
+            $this->set('_serialize', ['adrOtherDrug']);
         } else {
-            $this->Flash->error(__('The adr other drug could not be deleted. Please, try again.'));
+            $adrOtherDrug['message'] = 'fail';
+            $this->set('adrOtherDrug', $adrOtherDrug);
+            $this->set('_serialize', ['adrOtherDrug']);
         }
 
     }
