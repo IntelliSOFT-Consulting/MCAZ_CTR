@@ -88,7 +88,7 @@ class AppController extends Controller
             ],
             'loginRedirect' => [
                 'plugin' => false,
-                'controller' => 'Pages',
+                'controller' => 'Users',
                 'action' => 'home'
             ],
             'logoutRedirect' => [

@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Api;
 
-use App\Controller\AppController;
+use App\Controller\Api\AppController;
 use Cake\Event\Event;
 
 /**
@@ -13,10 +13,19 @@ use Cake\Event\Event;
  */
 class AdrsController extends AppController
 {
-    public function initialize() {
-       parent::initialize();
-       //$this->Auth->allow(['add', 'edit']);       
-    }
+    public $paginate = [
+        'page' => 1,
+        'limit' => 5,
+        'maxLimit' => 15,
+        'sortWhitelist' => [
+            'id', 'name'
+        ]
+    ];
+
+    // public function initialize() {
+    //    parent::initialize();
+    //    $this->Auth->allow(['add', 'edit']);       
+    // }
 
     /**
      * BeforeFilter method
@@ -64,8 +73,11 @@ class AdrsController extends AppController
      */
     public function view($id = null)
     {
+        //Reverse id
+        $id = $this->Util->reverseXOR($id);
+        //
         $adr = $this->Adrs->get($id, [
-            'contain' => ['Users', 'Designations', 'AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs']
+            'contain' => ['Users', 'AdrListOfDrugs', 'AdrOtherDrugs']
         ]);
 
         $this->set('adr', $adr);
@@ -82,16 +94,20 @@ class AdrsController extends AppController
         $adr = $this->Adrs->newEntity();
         if ($this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
-            if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('The adr has been saved.'));
 
-                return $this->redirect(['action' => 'edit', $adr->id]);
+            if ($this->Adrs->save($adr, ['validate' => false])) {
+
+                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($adr->id)]);
+                $adr->id = $this->Util->generateXOR($adr->id);
+                $this->set('_serialize', ['adr']);
             }
-            $this->Flash->error(__('The adr could not be saved. Please, try again.'));
         }
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('adr', 'users', 'designations'));
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', ['adr']);
     }
 
@@ -104,33 +120,51 @@ class AdrsController extends AppController
      */
     public function edit($id = null)
     {
+        //Reverse id
+        $id = $this->Util->reverseXOR($id);
+        //
+
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
+            'contain' => ['Users', 'AdrListOfDrugs', 'AdrOtherDrugs']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $this->request->data['id'] = $this->Util->reverseXOR($this->request->data['id']);
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
-            if (!empty($adr->attachments)) {
-              for ($i = 0; $i <= count($adr->attachments)-1; $i++) { 
-                $adr->attachments[$i]->model = 'Adrs';
-                $adr->attachments[$i]->category = 'attachments';
-              }
-            }
-            // debug((string)$adr);
-            // debug($this->request->getData());
-            if ($this->Adrs->save($adr)) {
-                $this->Flash->success(__('The adr has been saved.'));
+            //debug((string)$adr);
+            //debug($this->request->data);
+            if ($this->Adrs->save($adr, ['associated' => ['AdrListOfDrugs', 'AdrOtherDrugs']])) {
 
-                return $this->redirect(['action' => 'edit', $adr->id]);
+                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($adr->id)]);
+                //generate id
+                $adr->id = $this->Util->generateXOR($adr->id);
+                //
+                $this->set('_serialize', ['adr']);
             }
-            $this->Flash->error(__('The adr could not be saved. Please, try again.'));
         }
+
+        //format dates
+        if (!empty($adr->date_of_birth)) {
+            if(empty($adr->date_of_birth)) $adr->date_of_birth = '--';
+            $a = explode('-', $adr->date_of_birth);
+            $adr->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }
+        if (!empty($adr->date_of_onset_of_reaction)) {
+            if(empty($adr->date_of_onset_of_reaction)) $adr->date_of_onset_of_reaction = '--';
+            $a = explode('-', $adr->date_of_onset_of_reaction);
+            $adr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }
+        if (!empty($adr->date_of_end_of_reaction)) {
+            if(empty($adr->date_of_end_of_reaction)) $adr->date_of_end_of_reaction = '--';
+            $a = explode('-', $adr->date_of_end_of_reaction);
+            $adr->date_of_end_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }
+
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
         $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
-        // $this->set(compact('adr', 'users', 'designations'));
         $this->set('_serialize', ['adr']);
     }
 
@@ -143,6 +177,10 @@ class AdrsController extends AppController
      */
     public function delete($id = null)
     {
+        //Reverse id
+        $id = $this->Util->reverseXOR($id);
+        //
+
         $this->request->allowMethod(['post', 'delete']);
         $adr = $this->Adrs->get($id);
         if ($this->Adrs->delete($adr)) {

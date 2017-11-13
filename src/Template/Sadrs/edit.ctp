@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Sadr $sadr
  */
+// pr($sadr);
 ?>
 <div class="row">
   <div class="col-md-12"><h3 class="text-center">Spontenous Adverse Drug Reaction (ADR) Report Form</h3>  
@@ -17,7 +18,7 @@
   <div class="col-md-12">
     <?= $this->Form->create($sadr, ['type' => 'file']) ?>
         <div class="row">
-          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b id="sadr_pr_id"><?= $this->Util->generateXOR($sadr->id) ?></b></h5></div>          
+          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b>ADR<?= '<span id="sadr_pr_id">'.$sadr->id.'</span>/'.$sadr->created->i18nFormat('yyyy') ?></b></h5></div>          
         </div>
         <div class="row">
           <div class="col-md-12"><h5 class="text-center">Patient details (to allow linkage with other reports)</h5></div>
@@ -164,6 +165,11 @@
         <div class="row">
           <div class="col-md-12"><?php echo $this->element('multi/list_of_drugs');?></div>
         </div>        
+
+        <!-- <p>Attachments!!</p> -->
+        <div class="row">
+          <div class="col-md-12"><?php echo $this->element('multi/attachments');?></div>
+        </div>
 
         <div class="row">
           <div class="col-md-8"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results:']); ?></div>

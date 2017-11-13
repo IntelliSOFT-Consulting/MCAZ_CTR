@@ -64,9 +64,6 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['Users']
         ]);
@@ -89,7 +86,7 @@ class SadrsController extends AppController
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('The sadr has been saved.'));
 
-                return $this->redirect(['action' => 'edit', $this->Util->generateXOR($sadr->id)]);
+                return $this->redirect(['action' => 'edit', $sadr->id]);
             }
             $this->Flash->error(__('The sadr could not be saved. Kindly correct the errors below and retry.'));
         }
@@ -111,21 +108,27 @@ class SadrsController extends AppController
      */
     public function edit($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
+        // //Reverse id
+        // $id = $this->Util->reverseXOR($id);
+        // //
 
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            //debug((string)$sadr);
-            //debug($this->request->data);
-            if ($this->Sadrs->save($sadr, ['associated' => ['SadrListOfDrugs', 'SadrOtherDrugs']])) {
+            if (!empty($sadr->attachments)) {
+              for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
+                $sadr->attachments[$i]->model = 'Sadrs';
+                $sadr->attachments[$i]->category = 'attachments';
+              }
+            }
+            // debug((string)$sadr);
+            // debug($this->request->data);
+            if ($this->Sadrs->save($sadr, ['associated' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']])) {
                 $this->Flash->success(__('The sadr has been saved.'));
 
-                return $this->redirect(['action' => 'edit', $this->Util->generateXOR($sadr->id)]);
+                return $this->redirect(['action' => 'edit', $sadr->id]);
             }
             $this->Flash->error(__('The sadr could not be saved. Please, try again.'));
         }
@@ -165,9 +168,6 @@ class SadrsController extends AppController
      */
     public function delete($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
 
         $this->request->allowMethod(['post', 'delete']);
         $sadr = $this->Sadrs->get($id);

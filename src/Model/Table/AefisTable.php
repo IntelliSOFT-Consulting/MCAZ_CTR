@@ -54,6 +54,13 @@ class AefisTable extends Table
         $this->hasMany('AefiListOfDiluents', [
             'foreignKey' => 'aefi_id'
         ]);
+
+        $this->hasMany('Attachments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'Aefis', 'Attachments.category' => 'attachments'),
+        ]);
     }
 
     /**

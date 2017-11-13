@@ -83,7 +83,7 @@
                         ?>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn-sm" id="addListOfDrug">
+                        <button type="button" class="btn btn-primary btn-sm" id="addListOfDrug">
                           <i class="fa fa-plus"></i>
                         </button>
                     </td>
@@ -166,7 +166,7 @@
 
     <div class="row">
       <div class="col-md-12"><h4 class="text-center">Concomitant (Other) drugs taken, including herbal medicines & Dates/period taken: 
-        <button type="button" class="btn btn-default" id="addConcomitantDrug">
+        <button type="button" class="btn btn-success" id="addConcomitantDrug">
                            <i class="fa fa-plus"></i>
                         </button>
                       </h4></div>

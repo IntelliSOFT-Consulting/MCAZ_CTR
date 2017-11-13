@@ -18,7 +18,7 @@ $this->Html->script('adr_edit', ['block' => true]);
   <div class="col-md-12">
     <?= $this->Form->create($adr, ['type' => 'file']) ?>
         <div class="row">
-          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b id="aefi_pr_id">insert here...</b></h5></div>          
+          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b>SAE<?= '<span id="adr_pr_id">'.$adr->id.'</span>/'.$adr->created->i18nFormat('yyyy') ?></b></h5></div>          
         </div>
 
         <div class="row">
@@ -283,7 +283,10 @@ $this->Html->script('adr_edit', ['block' => true]);
           'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
-            echo $this->Form->control('management', ['label' => '(f) Management (Include management of study treatment, continued, temporarily held, reduced dose, permanent discontinuation, off Product):', 'escape' => false]);
+            echo $this->Form->control('management', ['label' => '(f) Management (Include management of study treatment, continued, temporarily held, reduced dose, permanent discontinuation, off Product):', 'escape' => false, 
+          'templates' =>[ 
+                    'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                    'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
             ?>
           </div>
           <div class="col-md-6">
@@ -336,6 +339,11 @@ $this->Html->script('adr_edit', ['block' => true]);
           </div>
         </div>
 
+        <!-- <p>Attachments!!</p> -->
+        <div class="row">
+          <div class="col-md-12"><?php echo $this->element('multi/attachments');?></div>
+        </div>
+        
         <p>If changes are <b>required</b>, please attach a copy of the revised protocol/consent form with changes highlighted with a bright coloured  highlighter. </p>
 
         <p>If changes are <b>not required</b>, please explain as to why changes to the protocol /consent form are not necessary based on the event.   </p>

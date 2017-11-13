@@ -9,10 +9,6 @@ use Cake\Validation\Validator;
 /**
  * Attachments Model
  *
- * @property \App\Model\Table\SadrsTable|\Cake\ORM\Association\BelongsTo $Sadrs
- * @property \App\Model\Table\SadrFollowupsTable|\Cake\ORM\Association\BelongsTo $SadrFollowups
- * @property \App\Model\Table\PqmpsTable|\Cake\ORM\Association\BelongsTo $Pqmps
- *
  * @method \App\Model\Entity\Attachment get($primaryKey, $options = [])
  * @method \App\Model\Entity\Attachment newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Attachment[] newEntities(array $data, array $options = [])
@@ -40,29 +36,10 @@ class AttachmentsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Josegonzalez/Upload.Upload', [
-            'file' => [
-                'fields' => [
-                    // if these fields or their defaults exist
-                    // the values will be set.
-                    'dir' => 'dirname', // defaults to `dir`
-                    'size' => 'file_size', // defaults to `size`
-                    'type' => 'file_type', // defaults to `type`
-                ],
-            ],
-        ]);
-
         $this->addBehavior('Timestamp');
-
-        // $this->belongsTo('Sadrs', [
-        //     'foreignKey' => 'sadr_id'
-        // ]);
-        // $this->belongsTo('SadrFollowups', [
-        //     'foreignKey' => 'sadr_followup_id'
-        // ]);
-        // $this->belongsTo('Pqmps', [
-        //     'foreignKey' => 'pqmp_id'
-        // ]);
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
     }
 
     /**
@@ -77,74 +54,38 @@ class AttachmentsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->scalar('filename')
-            ->allowEmpty('filename');
+        // $validator
+        //     ->integer('foreign_key')
+        //     ->requirePresence('foreign_key', 'create')
+        //     ->notEmpty('foreign_key');
 
         $validator
-            ->scalar('description')
-            ->allowEmpty('description');
-
-        $validator
-            ->scalar('mimetype')
-            ->allowEmpty('mimetype');
-
-        $validator
-            ->integer('filesize')
-            ->allowEmpty('filesize');
+            ->allowEmpty('file');
 
         $validator
             ->scalar('dir')
             ->allowEmpty('dir');
 
         $validator
-            ->scalar('file')
-            ->allowEmpty('file');
+            ->scalar('size')
+            ->allowEmpty('size');
 
         $validator
-            ->scalar('basename')
-            ->allowEmpty('basename');
-
-        $validator
-            ->scalar('dirname')
-            ->allowEmpty('dirname');
-
-        $validator
-            ->scalar('checksum')
-            ->allowEmpty('checksum');
+            ->scalar('type')
+            ->allowEmpty('type');
 
         $validator
             ->scalar('model')
             ->allowEmpty('model');
 
         $validator
-            ->integer('foreign_key')
-            ->allowEmpty('foreign_key');
-
-        $validator
-            ->scalar('alternative')
-            ->allowEmpty('alternative');
-
-        $validator
             ->scalar('group')
             ->allowEmpty('group');
 
+        $validator
+            ->scalar('description')
+            ->allowEmpty('description');
+
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
-        $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
-        $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
-
-        return $rules;
     }
 }

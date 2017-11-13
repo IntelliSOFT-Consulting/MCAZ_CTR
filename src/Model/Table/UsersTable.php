@@ -65,13 +65,19 @@ class UsersTable extends Table
         $this->hasMany('Feedbacks', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('Pqmps', [
-            'foreignKey' => 'user_id'
-        ]);
+        // $this->hasMany('Pqmps', [
+        //     'foreignKey' => 'user_id'
+        // ]);
         $this->hasMany('SadrFollowups', [
             'foreignKey' => 'user_id'
         ]);
         $this->hasMany('Sadrs', [
+            'foreignKey' => 'user_id'
+        ]);
+        $this->hasMany('Adrs', [
+            'foreignKey' => 'user_id'
+        ]);
+        $this->hasMany('Aefis', [
             'foreignKey' => 'user_id'
         ]);
     }

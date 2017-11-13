@@ -7,28 +7,16 @@ use Cake\ORM\Entity;
  * Attachment Entity
  *
  * @property int $id
- * @property int $sadr_id
- * @property int $sadr_followup_id
- * @property int $pqmp_id
- * @property string $filename
- * @property string $description
- * @property string $mimetype
- * @property int $filesize
- * @property string $dir
- * @property string $file
- * @property string $basename
- * @property string $dirname
- * @property string $checksum
- * @property string $model
  * @property int $foreign_key
- * @property string $alternative
+ * @property $file
+ * @property string $dir
+ * @property string $size
+ * @property string $type
+ * @property string $model
  * @property string $group
+ * @property string $description
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
- *
- * @property \App\Model\Entity\Sadr $sadr
- * @property \App\Model\Entity\SadrFollowup $sadr_followup
- * @property \App\Model\Entity\Pqmp $pqmp
  */
 class Attachment extends Entity
 {
@@ -43,26 +31,15 @@ class Attachment extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sadr_id' => true,
-        'sadr_followup_id' => true,
-        'pqmp_id' => true,
-        'filename' => true,
-        'description' => true,
-        'mimetype' => true,
-        'filesize' => true,
-        'dir' => true,
-        'file' => true,
-        'basename' => true,
-        'dirname' => true,
-        'checksum' => true,
-        'model' => true,
         'foreign_key' => true,
-        'alternative' => true,
+        'file' => true,
+        'dir' => true,
+        'size' => true,
+        'type' => true,
+        'model' => true,
         'group' => true,
+        'description' => true,
         'created' => true,
-        'modified' => true,
-        'sadr' => true,
-        'sadr_followup' => true,
-        'pqmp' => true
+        'modified' => true
     ];
 }

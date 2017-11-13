@@ -15,7 +15,7 @@ return [
     // Radio input element,
     'radio' => '<input type="radio" class="radio-inline" name="{{name}}" value="{{value}}"{{attrs}}>',
     //'radioWrapper' => '<div class="col-sm-8"><div class="radio">{{label}}</div></div>',
-    'textarea' => '<textarea class="form-control" name="{{name}}"{{attrs}}>{{value}}</textarea>',
+    'textarea' => '<textarea rows="1" class="form-control" name="{{name}}"{{attrs}}>{{value}}</textarea>',
     'checkboxWrapper' => '{{label}}',
     'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
     'dateWidget' => '{{day}}{{month}}{{year}}',

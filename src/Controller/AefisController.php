@@ -108,10 +108,16 @@ class AefisController extends AppController
     {
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            if (!empty($aefi->attachments)) {
+              for ($i = 0; $i <= count($aefi->attachments)-1; $i++) { 
+                $aefi->attachments[$i]->model = 'Aefis';
+                $aefi->attachments[$i]->category = 'attachments';
+              }
+            }
             //debug((string)$aefi);
             //debug($this->request->getData());
             if ($this->Aefis->save($aefi)) {

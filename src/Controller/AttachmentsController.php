@@ -20,9 +20,6 @@ class AttachmentsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Sadrs', 'SadrFollowups', 'Pqmps']
-        ];
         $attachments = $this->paginate($this->Attachments);
 
         $this->set(compact('attachments'));
@@ -39,7 +36,7 @@ class AttachmentsController extends AppController
     public function view($id = null)
     {
         $attachment = $this->Attachments->get($id, [
-            'contain' => ['Sadrs', 'SadrFollowups', 'Pqmps']
+            'contain' => []
         ]);
 
         $this->set('attachment', $attachment);
@@ -63,10 +60,7 @@ class AttachmentsController extends AppController
             }
             $this->Flash->error(__('The attachment could not be saved. Please, try again.'));
         }
-        $sadrs = $this->Attachments->Sadrs->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Attachments->SadrFollowups->find('list', ['limit' => 200]);
-        $pqmps = $this->Attachments->Pqmps->find('list', ['limit' => 200]);
-        $this->set(compact('attachment', 'sadrs', 'sadrFollowups', 'pqmps'));
+        $this->set(compact('attachment'));
         $this->set('_serialize', ['attachment']);
     }
 
@@ -91,10 +85,7 @@ class AttachmentsController extends AppController
             }
             $this->Flash->error(__('The attachment could not be saved. Please, try again.'));
         }
-        $sadrs = $this->Attachments->Sadrs->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Attachments->SadrFollowups->find('list', ['limit' => 200]);
-        $pqmps = $this->Attachments->Pqmps->find('list', ['limit' => 200]);
-        $this->set(compact('attachment', 'sadrs', 'sadrFollowups', 'pqmps'));
+        $this->set(compact('attachment'));
         $this->set('_serialize', ['attachment']);
     }
 

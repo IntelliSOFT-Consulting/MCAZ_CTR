@@ -47,7 +47,7 @@ class SadrsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->addBehavior('Timestamp');        
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -57,7 +57,10 @@ class SadrsTable extends Table
             'foreignKey' => 'designation_id'
         ]);
         $this->hasMany('Attachments', [
-            'foreignKey' => 'foreign_key'
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'Sadrs', 'Attachments.category' => 'attachments'),
         ]);
         // $this->hasMany('Feedbacks', [
         //     'foreignKey' => 'sadr_id'

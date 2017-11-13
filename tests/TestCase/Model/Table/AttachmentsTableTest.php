@@ -24,20 +24,7 @@ class AttachmentsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.attachments',
-        'app.sadrs',
-        'app.users',
-        'app.designations',
-        'app.pqmps',
-        'app.counties',
-        'app.sadr_followups',
-        'app.sub_counties',
-        'app.countries',
-        'app.feedbacks',
-        'app.messages',
-        'app.groups',
-        'app.vigiflows',
-        'app.sadr_list_of_drugs'
+        'app.attachments'
     ];
 
     /**

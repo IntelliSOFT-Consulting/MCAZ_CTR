@@ -19,7 +19,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
   <div class="col-md-12">
     <?= $this->Form->create($aefi, ['type' => 'file']) ?>
         <div class="row">
-          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b id="aefi_pr_id"><?= $aefi->id ?></b></h5></div>         
+          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b>AEFI<?= '<span id="aefi_pr_id">'.$aefi->id.'</span>/'.$aefi->created->i18nFormat('yyyy') ?></b></h5></div>         
           <?php 
           // echo $this->Form->control('aefi_list_of_vaccines.0.vaccination_date', [
           //         'label' => 'vaccination_date:',
@@ -207,6 +207,11 @@ $this->Html->script('aefi_edit', ['block' => true]);
           </div>
         </div>
 
+        <!-- <p>Attachments!!</p> -->
+        <div class="row">
+          <div class="col-md-12"><?php echo $this->element('multi/attachments');?></div>
+        </div>
+        
         <p>First decision making level to complete (District level):</p>
         <div class="row">
           <div class="col-md-6">

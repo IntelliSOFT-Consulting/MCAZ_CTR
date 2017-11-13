@@ -47,7 +47,10 @@ Router::extensions(['json', 'xml']);
 Router::prefix('api', function ($routes) {
     $routes->extensions(['json', 'xml']);
     $routes->resources('Sadrs');
+    $routes->resources('Aefis');
+    $routes->resources('Adrs');
 });
+
 //
 Router::scope('/', function (RouteBuilder $routes) {
     /**

@@ -59,6 +59,13 @@ class AdrsTable extends Table
         $this->hasMany('AdrOtherDrugs', [
             'foreignKey' => 'adr_id'
         ]);
+
+        $this->hasMany('Attachments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'Adrs', 'Attachments.category' => 'attachments'),
+        ]);
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class DropAefis extends AbstractMigration
+class DropAttachments extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,7 +12,7 @@ class DropAefis extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('aefis');
+        $table = $this->table('attachments');
         $table->drop();
     }
 }

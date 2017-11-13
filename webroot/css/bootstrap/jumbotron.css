@@ -12,3 +12,43 @@ body {
 .sterix {
     color: red;
 }
+
+/*change navbar color*/
+
+.jumbotron {
+    /*background: -moz-linear-gradient(45deg, #020031 0%, #6D3353 100%) repeat scroll 0 0 transparent;  old */
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#251e4f+0,4073a5+56,98c1e0+100 */
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#22315b+0,4785b7+52,9ddce8+100 */
+background: rgb(34,49,91); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(34,49,91,1) 0%, rgba(71,133,183,1) 52%, rgba(157,220,232,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(34,49,91,1) 0%,rgba(71,133,183,1) 52%,rgba(157,220,232,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(34,49,91,1) 0%,rgba(71,133,183,1) 52%,rgba(157,220,232,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22315b', endColorstr='#9ddce8',GradientType=0 ); /* IE6-9 */
+
+    
+    /*#2F1F50*/
+
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2) inset, 0 -3px 7px rgba(0, 0, 0, 0.2) inset;
+    color: #FFFFFF;
+    padding: 0px 0;
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 0, 0, 0.075);
+}
+
+.jumbotron a {
+  color: #FBFBFB;
+  color: rgba(255,255,255,0.9);
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+
+.jumbotron h1 {
+  color: #FBFBFB;
+  color: rgba(255,255,255,0.9);
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+   font-size: 48px;
+}

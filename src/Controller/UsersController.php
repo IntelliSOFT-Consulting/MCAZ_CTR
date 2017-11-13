@@ -13,8 +13,15 @@ use Cake\Event\Event;
  */
 class UsersController extends AppController
 {
+    public $paginate = [
+            // 'limit' => 2,
+            'Sadrs' => ['scope' => 'sadr'],
+            'Adrs' => ['scope' => 'adr']
+        ];
+
     public function initialize() {
        parent::initialize();
+       $this->loadComponent('Paginator');
        $this->Auth->allow('logout');       
     }
 
@@ -61,6 +68,33 @@ class UsersController extends AppController
         $this->set(compact('user', 'designations'));
         $this->set('_serialize', ['user']);
     }
+
+    public function home() {
+        $this->loadModel('Sadrs');
+        $this->loadModel('Adrs');
+        $user = $this->Users->get($this->Auth->user('id'), [
+            'contain' => []
+        ]);
+
+        $this->paginate = [
+            'limit' => 5,
+            // 'Sadrs' => ['scope' => 'sadr'],
+            // 'Adrs' => ['scope' => 'adr']
+        ];
+
+        // pr($user);
+
+        $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
+                                    'fields' => ['Sadrs.id', 'Sadrs.created']]);
+        $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
+                                    'fields' => ['Adrs.id', 'Adrs.created']]);
+        $aefis = $this->paginate($this->Users->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
+                                    'fields' => ['Aefis.id', 'Aefis.created']]);
+
+        $this->set(compact('sadrs', 'adrs', 'aefis'));
+        // $this->set('_serialize', ['sadrs', 'adrs', 'aefis']);
+    }
+
     /**
      * Index method
      *
