@@ -146,7 +146,8 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
         <p class="lead" style="margin-bottom:10px; font-size:19px;">SAE, ADR and AEFI electronic reporting.</p>
         <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
         <?php if($this->request->session()->read('Auth.User')) { ?>
-            <p><a class="btn btn-primary btn-lg" href="/users/home" role="button">Learn more &raquo;</a></p>
+            <p><a class="btn btn-primary btn-lg" href="/users/home" role="button"><i class="fa fa-file" aria-hidden="true"></i>
+ My Reports &raquo;</a></p>
         <?php    } else { ?>
             <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
         <?php     }       ?>
