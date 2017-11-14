@@ -43,6 +43,7 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 //added
+Router::extensions(['pdf']);
 Router::extensions(['json', 'xml']);
 Router::prefix('api', function ($routes) {
     $routes->extensions(['json', 'xml']);

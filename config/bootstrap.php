@@ -239,3 +239,9 @@ Plugin::load('Acl', ['bootstrap' => true]);
 Plugin::load('Crud');
 
 Plugin::load('Migrations');
+
+Plugin::load('CakePdf', ['bootstrap' => true]);
+Configure::write('CakePdf', [
+    'engine' => 'CakePdf.WkHtmlToPdf',
+    'download' => true
+]);

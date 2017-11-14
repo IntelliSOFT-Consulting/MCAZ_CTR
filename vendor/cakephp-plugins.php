@@ -5,6 +5,7 @@ return [
         'Acl' => $baseDir . '/vendor/cakephp/acl/',
         'Bake' => $baseDir . '/vendor/cakephp/bake/',
         'BootstrapUI' => $baseDir . '/vendor/friendsofcake/bootstrap-ui/',
+        'CakePdf' => $baseDir . '/vendor/friendsofcake/cakepdf/',
         'Crud' => $baseDir . '/vendor/friendsofcake/crud/',
         'DebugKit' => $baseDir . '/vendor/cakephp/debug_kit/',
         'Josegonzalez/Upload' => $baseDir . '/vendor/josegonzalez/cakephp-upload/',

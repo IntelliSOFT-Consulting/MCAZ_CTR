@@ -14,7 +14,8 @@
         "cakephp/acl": "^0.2.5",
         "friendsofcake/bootstrap-ui": "^1.2",
         "josegonzalez/cakephp-upload": "^3.7",
-        "friendsofcake/crud": "^4.3"
+        "friendsofcake/crud": "^4.3",
+        "friendsofcake/cakepdf": "^3.2"
     },
     "require-dev": {
         "psy/psysh": "@stable",
