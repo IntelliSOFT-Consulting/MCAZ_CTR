@@ -97,40 +97,40 @@ class SadrsTable extends Table
             ->notEmpty('patient_name');   
 
         //We shall revisit!!
-        // $validator
-        //     ->scalar('date_of_birth')
-        //     ->notEmpty('date_of_birth')
-        //     ->add('date_of_birth', [
-        //             'length' => [
-        //                 'rule' => ['minLength', 3],
-        //                 'message' => 'Please select at least year of birth.',
-        //             ]
-        //         ]);
+        $validator
+            ->scalar('date_of_birth')
+            ->notEmpty('date_of_birth')
+            ->add('date_of_birth', [
+                    'length' => [
+                        'rule' => ['minLength', 3],
+                        'message' => 'Please select at least year of birth.',
+                    ]
+                ]);
 
-        // $validator
-        //     ->scalar('gender')
-        //     ->notEmpty('gender');
+        $validator
+            ->scalar('gender')
+            ->notEmpty('gender');
 
-        // $validator
-        //     ->scalar('date_of_onset_of_reaction')
-        //     ->notEmpty('date_of_onset_of_reaction')
-        //     ->add('date_of_onset_of_reaction', [
-        //             'length' => [
-        //                 'rule' => ['minLength', 3],
-        //                 'message' => 'Please select date of onset of the reaction.',
-        //             ]
-        //         ]);
+        $validator
+            ->scalar('date_of_onset_of_reaction')
+            ->notEmpty('date_of_onset_of_reaction')
+            ->add('date_of_onset_of_reaction', [
+                    'length' => [
+                        'rule' => ['minLength', 3],
+                        'message' => 'Please select date of onset of the reaction.',
+                    ]
+                ]);
 
-        // $validator
-        //     ->scalar('description_of_reaction')
-        //     ->notEmpty('description_of_reaction');
+        $validator
+            ->scalar('description_of_reaction')
+            ->notEmpty('description_of_reaction');
 
-        // $validator
-        //     ->scalar('severity')
-        //     ->notEmpty('severity');
-        // $validator
-        //     ->scalar('outcome')
-        //     ->notEmpty('outcome');
+        $validator
+            ->scalar('severity')
+            ->notEmpty('severity');
+        $validator
+            ->scalar('outcome')
+            ->notEmpty('outcome');
 
         return $validator;
     }

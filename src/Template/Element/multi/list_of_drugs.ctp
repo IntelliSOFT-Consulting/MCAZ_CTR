@@ -12,15 +12,15 @@
             <table id="listofdrugsform"  class="table table-bordered">
                 <thead>
                   <tr>
-                    <th colspan="2" > Generic Name <span class="sterix">*</span></th>
+                    <th colspan="2" > Generic Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Brand Name </th>
                     <th> Batch Number</th>
-                    <th colspan="2" > Dose <span class="sterix">*</span></th>
-                    <th colspan="2" > Route and Frequency <span class="sterix">*</span></th>
+                    <th colspan="2" > Dose <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" > Route and Frequency <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Indication </th>
-                    <th> Date Started <span class="sterix">*</span></th>
+                    <th> Date Started <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Date Stopped </th>
-                    <th colspan="2"> Tick Suspected Drug(s) <span class="sterix">*</span></th>
+                    <th colspan="2"> Tick Suspected Drug(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                   </tr>
                 </thead>
                 <tbody>

@@ -24,27 +24,27 @@ $this->Html->script('adr_edit', ['block' => true]);
         <div class="row">
           <div class="col-md-6">
             <?php
-                echo $this->Form->control('mrcz_protocol_number', ['label' => 'MRCZ Protocol #: <span class="sterix">*</span>', 'escape' => false]);
+                echo $this->Form->control('mrcz_protocol_number', ['label' => 'MRCZ Protocol # <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
 
-                echo $this->Form->control('mcaz_protocol_number', ['label' => 'MCAZ Protocol #: <span class="sterix">*</span>', 'escape' => false]);
+                echo $this->Form->control('mcaz_protocol_number', ['label' => 'MCAZ Protocol # <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
 
-                echo $this->Form->control('principal_investigator', ['label' => 'Principal Investigator: <span class="sterix">*</span>', 'escape' => false]);
+                echo $this->Form->control('principal_investigator', ['label' => 'Principal Investigator <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
 
-                echo $this->Form->control('reporter_name', ['label' => 'Reporter Name: ', 'escape' => false]);
+                echo $this->Form->control('reporter_name', ['label' => 'Reporter Name', 'escape' => false]);
 
-                echo $this->Form->control('reporter_email', ['label' => 'Reporter Email: ', 'escape' => false]);
+                echo $this->Form->control('reporter_email', ['label' => 'Reporter Email', 'escape' => false]);
 
             ?>            
           </div>
           <div class="col-md-6">
             <?php
                 echo $this->Form->control('name_of_institution', 
-                  ['label' => ['text' => 'Clinic/Hospital Name: <span class="sterix">*</span>', 'escape' => false]]);                                
-                echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number:']);
+                  ['label' => ['text' => 'Clinic/Hospital Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]]);                                
+                echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
 
                 echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);
 
-                echo $this->Form->control('reporter_phone', ['label' => 'Reporter Phone: ', 'escape' => false]);
+                echo $this->Form->control('reporter_phone', ['label' => 'Reporter Phone ', 'escape' => false]);
             ?>
           </div>
         </div>
@@ -52,14 +52,14 @@ $this->Html->script('adr_edit', ['block' => true]);
         <div class="row">
           <div class="col-md-6">
             <?php
-                echo $this->Form->control('study_title', ['label' => 'Study Title:', 'escape' => false]);
+                echo $this->Form->control('study_title', ['label' => 'Study Title', 'escape' => false]);
 
-                echo $this->Form->control('date_of_adverse_event', ['label' => 'Date of Adverse Event:', 'escape' => false, 'type' => 'text']);
+                echo $this->Form->control('date_of_adverse_event', ['label' => 'Date of Adverse Event', 'escape' => false, 'type' => 'text']);
 
-                echo $this->Form->control('participant_number', ['label' => 'Participant ID:', 'escape' => false]);
+                echo $this->Form->control('participant_number', ['label' => 'Participant ID', 'escape' => false]);
 
                 echo $this->Form->control('report_type', ['type' => 'radio', 
-                   'label' => '<b>Type of Report: <span class="sterix">*</span></b>', 'escape' => false,
+                   'label' => '<b>Type of Report <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']]);
                 
@@ -68,24 +68,24 @@ $this->Html->script('adr_edit', ['block' => true]);
           <div class="col-md-6">
             <?php
                 echo $this->Form->control('study_sponsor', 
-                  ['label' => ['text' => 'Study Sponsor:', 'escape' => false]]);                                
-                echo $this->Form->control('date_of_site_awareness', ['label' => 'Date of site Awareness:', 'type' => 'text']);
+                  ['label' => ['text' => 'Study Sponsor', 'escape' => false]]);                                
+                echo $this->Form->control('date_of_site_awareness', ['label' => 'Date of site Awareness', 'type' => 'text']);
 
                 echo $this->Form->control('date_of_birth', array(
                   'type' => 'date',
-                  'label' => 'Date of Birth:',
+                  'label' => 'Date of Birth',
                   'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                   'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                 ));
                 echo $this->Form->control('gender', ['type' => 'radio', 
-                   'label' => '<b>Gender: <span class="sterix">*</span></b>', 'escape' => false,
+                   'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
                 echo $this->Form->control('study_week', 
-                  ['label' => ['text' => 'Study Week:', 'escape' => false]]);
+                  ['label' => ['text' => 'Study Week', 'escape' => false]]);
                 echo $this->Form->control('visit_number', 
-                  ['label' => ['text' => 'Visit number:', 'escape' => false]]);
+                  ['label' => ['text' => 'Visit number', 'escape' => false]]);
 
             ?>
           </div>
@@ -100,10 +100,10 @@ $this->Html->script('adr_edit', ['block' => true]);
                      'options' => ['AE' => 'AE', 'SAE' => 'SAE', 'Death' => 'Death']]);
 
                 // echo $this->Form->control('sae_type', 
-                //   ['label' => ['text' => 'If SAE, is it: 1. Fatal, 2. Life', 'escape' => false]]);
+                //   ['label' => ['text' => 'If SAE, is it 1. Fatal, 2. Life', 'escape' => false]]);
 
-                echo $this->Form->control('sae_type', ['label' => 'If SAE, is it:', 'type' => 'select', 'options' => ['Fatal' => 'Fatal', 'Seizures' => 'Seizures', 'Life-threatening (an actual risk of death at the time of the event).' => 'Life-threatening (an actual risk of death at the time of the event).', 'Caused or prolonged hospitalization (non-elective).' => 'Caused or prolonged hospitalization (non-elective).', 'Resulted in persistent or significant disability or incapacity.' => 'Resulted in persistent or significant disability or incapacity.', 'Any other important medical event.' => 'Any other important medical event.'], 'empty' => true]);
-                echo $this->Form->control('sae_description', ['label' => 'If Other, specify:', 'escape' => false]);
+                echo $this->Form->control('sae_type', ['label' => 'If SAE, is it', 'type' => 'select', 'options' => ['Fatal' => 'Fatal', 'Seizures' => 'Seizures', 'Life-threatening (an actual risk of death at the time of the event).' => 'Life-threatening (an actual risk of death at the time of the event).', 'Caused or prolonged hospitalization (non-elective).' => 'Caused or prolonged hospitalization (non-elective).', 'Resulted in persistent or significant disability or incapacity.' => 'Resulted in persistent or significant disability or incapacity.', 'Any other important medical event.' => 'Any other important medical event.'], 'empty' => true]);
+                echo $this->Form->control('sae_description', ['label' => 'If Other, specify', 'escape' => false]);
 
             ?>            
           </div>
@@ -112,7 +112,7 @@ $this->Html->script('adr_edit', ['block' => true]);
                                                 
                 // echo $this->Form->control('toxicity_grade', ['type' => 'radio','label' => 'Toxicity Grade:', 
                 //     'options' => ['Grade 1' => 'Grade 1', 'Grade 2' => 'Grade 2', 'Grade 3' => 'Grade 3', 'Grade 4' => 'Grade 4', 'Grade 5' => 'Grade 5']]);
-                echo $this->Form->control('toxicity_grade', ['type' => 'radio', 'label' => 'Toxicity Grade:', 
+                echo $this->Form->control('toxicity_grade', ['type' => 'radio', 'label' => 'Toxicity Grade', 
                   // 'templates' => 'radio_form',
                   'options' => ['Grade 1' => 'Grade 1', 'Grade 2' => 'Grade 2', 'Grade 3' => 'Grade 3', 'Grade 4' => 'Grade 4', 'Grade 5' => 'Grade 5'],
                   'templates' => [
@@ -127,7 +127,7 @@ $this->Html->script('adr_edit', ['block' => true]);
           <div class="col-md-9">
             <?php
                 echo $this->Form->control('previous_events', ['type' => 'radio', 
-                   'label' => 'Any previous Adverse Events report on this participant?:', 'escape' => false,
+                   'label' => 'Any previous Adverse Events report on this participant?', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
@@ -143,7 +143,7 @@ $this->Html->script('adr_edit', ['block' => true]);
         <div class="row">
           <div class="col-md-12">
             <?php
-                echo $this->Form->control('total_saes', ['label' => 'Total Number of SAEs to date for the whole study:', 'escape' => false]);
+                echo $this->Form->control('total_saes', ['label' => 'Total Number of SAEs to date for the whole study', 'escape' => false]);
             ?>
           </div>
         </div>
@@ -152,11 +152,11 @@ $this->Html->script('adr_edit', ['block' => true]);
           <div class="col-md-12">
             <?php
                 echo $this->Form->control('location_event', ['type' => 'radio', 
-                   'label' => 'Location of the current Adverse Event:', 'escape' => false,
+                   'label' => 'Location of the current Adverse Event', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Home' => 'Home', 'Clinic/Hospital' => 'Clinic/Hospital', 'Work' => 'Work', 'Study site' => 'Study site', 'Other, specify' => 'Other, specify']]);
 
-                echo $this->Form->control('location_event_specify', ['label' => 'If Other, specify:', 'escape' => false]);
+                echo $this->Form->control('location_event_specify', ['label' => 'If Other, specify', 'escape' => false]);
             ?>
           </div>
         </div>
@@ -165,10 +165,10 @@ $this->Html->script('adr_edit', ['block' => true]);
           <div class="col-md-6">
             <?php
                 echo $this->Form->control('research_involves', ['type' => 'radio', 
-                   'label' => 'Research involves:', 'escape' => false,
+                   'label' => 'Research involves', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Drug' => 'Drug', 'Device' => 'Device', 'Procedure' => 'Procedure', 'Vaccine' => 'Vaccine', 'Other, specify' => 'Other, specify']]);
-                echo $this->Form->control('research_involves_specify', ['label' => 'if other, specify:', 'escape' => false, 'templates' =>[ 
+                echo $this->Form->control('research_involves_specify', ['label' => 'if other, specify', 'escape' => false, 'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
@@ -176,7 +176,7 @@ $this->Html->script('adr_edit', ['block' => true]);
           </div>
           <div class="col-md-6">
             <?php
-                echo $this->Form->control('name_of_drug', ['label' => 'Name of Drug, Device or Procedure:', 'escape' => false, 'templates' =>[ 
+                echo $this->Form->control('name_of_drug', ['label' => 'Name of Drug, Device or Procedure', 'escape' => false, 'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="4" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
@@ -187,7 +187,7 @@ $this->Html->script('adr_edit', ['block' => true]);
         <div class="row">
           <div class="col-md-12"><?php 
             echo $this->Form->control('drug_investigational', ['type' => 'radio', 
-                   'label' => 'Is the drug/device investigational:', 'escape' => false,
+                   'label' => 'Is the drug/device investigational', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
           ?></div>
@@ -208,7 +208,7 @@ $this->Html->script('adr_edit', ['block' => true]);
                    'label' => '(a) MCAZ', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+            echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
           <div class="col-md-3"><?php 
@@ -216,7 +216,7 @@ $this->Html->script('adr_edit', ['block' => true]);
                    'label' => '(b) MRCZ', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+            echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
           <div class="col-md-3"><?php 
@@ -224,7 +224,7 @@ $this->Html->script('adr_edit', ['block' => true]);
                    'label' => '(c) Sponsor', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+            echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
           <div class="col-md-3"><?php 
@@ -232,7 +232,7 @@ $this->Html->script('adr_edit', ['block' => true]);
                    'label' => '(d) IRB', 'escape' => false,
                    'templates' => 'radio_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-            echo $this->Form->control('report_to_irb_date', ['label' => 'Date:', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+            echo $this->Form->control('report_to_irb_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
             ?>
           </div>
         </div> 
@@ -243,7 +243,7 @@ $this->Html->script('adr_edit', ['block' => true]);
 
         <div class="row">
           <div class="col-md-12"><?php 
-            echo $this->Form->control('medical_history', ['label' => 'Summary of relevant past medical history of participant:', 'escape' => false,
+            echo $this->Form->control('medical_history', ['label' => 'Summary of relevant past medical history of participant', 'escape' => false,
               'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
@@ -252,20 +252,20 @@ $this->Html->script('adr_edit', ['block' => true]);
 
         <div class="row">
           <div class="col-md-6"><?php 
-            echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis:', 'escape' => false, 'templates' =>[ 
+            echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis', 'escape' => false, 'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
-            echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause:', 'escape' => false, 'templates' =>[ 
+            echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause', 'escape' => false, 'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
             ?>
           </div>
           <div class="col-md-6">
               <?php             
-            echo $this->Form->control('symptoms', ['label' => '(c) Symptoms:', 'escape' => false, 
+            echo $this->Form->control('symptoms', ['label' => '(c) Symptoms', 'escape' => false, 
           'templates' =>[ 'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);             
-            echo $this->Form->control('investigations', ['label' => '(d) Investigations-Laboratory and any other significant investigations conducted:', 'escape' => false, 
+            echo $this->Form->control('investigations', ['label' => '(d) Investigations-Laboratory and any other significant investigations conducted', 'escape' => false, 
           'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
@@ -279,11 +279,11 @@ $this->Html->script('adr_edit', ['block' => true]);
 
         <div class="row">
           <div class="col-md-6"><?php 
-            echo $this->Form->control('results', ['label' => '(e) Results:', 'escape' => false, 
+            echo $this->Form->control('results', ['label' => '(e) Results', 'escape' => false, 
           'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
-            echo $this->Form->control('management', ['label' => '(f) Management (Include management of study treatment, continued, temporarily held, reduced dose, permanent discontinuation, off Product):', 'escape' => false, 
+            echo $this->Form->control('management', ['label' => '(f) Management (Include management of study treatment, continued, temporarily held, reduced dose, permanent discontinuation, off Product)', 'escape' => false, 
           'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
@@ -291,7 +291,7 @@ $this->Html->script('adr_edit', ['block' => true]);
           </div>
           <div class="col-md-6">
               <?php             
-            echo $this->Form->control('outcome', ['label' => '(g) Outcome:', 'escape' => false, 
+            echo $this->Form->control('outcome', ['label' => '(g) Outcome', 'escape' => false, 
           'templates' =>[ 
                     'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                     'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);             

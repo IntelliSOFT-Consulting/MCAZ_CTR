@@ -59,7 +59,7 @@ class AefiListOfVaccinesTable extends Table
 
         $validator
             ->scalar('vaccine_name')
-            ->allowEmpty('vaccine_name');
+            ->notEmpty('vaccine_name');
 
         // $validator
         //     ->dateTime('vaccination_date')
@@ -71,7 +71,7 @@ class AefiListOfVaccinesTable extends Table
 
         $validator
             ->scalar('batch_number')
-            ->allowEmpty('batch_number');
+            ->notEmpty('batch_number');
 
         // $validator
         //     ->date('expiry_date')

@@ -82,23 +82,23 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('mrcz_protocol_number')
-            ->allowEmpty('mrcz_protocol_number');
+            ->notEmpty('mrcz_protocol_number');
 
         $validator
             ->scalar('mcaz_protocol_number')
-            ->allowEmpty('mcaz_protocol_number');
+            ->notEmpty('mcaz_protocol_number');
 
         $validator
             ->scalar('principal_investigator')
-            ->allowEmpty('principal_investigator');
+            ->notEmpty('principal_investigator');
 
         $validator
             ->scalar('reporter_name')
-            ->allowEmpty('reporter_name');
+            ->notEmpty('reporter_name');
 
         $validator
             ->scalar('reporter_email')
-            ->allowEmpty('reporter_email');
+            ->notEmpty('reporter_email');
 
         $validator
             ->scalar('reporter_phone')
@@ -106,7 +106,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('name_of_institution')
-            ->allowEmpty('name_of_institution');
+            ->notEmpty('name_of_institution');
 
         $validator
             ->scalar('institution_code')
@@ -114,7 +114,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('study_title')
-            ->allowEmpty('study_title');
+            ->notEmpty('study_title');
 
         $validator
             ->scalar('study_sponsor')
@@ -142,7 +142,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('gender')
-            ->allowEmpty('gender');
+            ->notEmpty('gender');
 
         $validator
             ->scalar('study_week')
@@ -158,7 +158,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('sae_type')
-            ->allowEmpty('sae_type');
+            ->notEmpty('sae_type');
 
         $validator
             ->scalar('sae_description')

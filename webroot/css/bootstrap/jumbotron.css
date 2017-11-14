@@ -10,7 +10,10 @@ body {
 }
 
 .sterix {
-    color: red;
+    color: #b50909;
+    font-weight: bold;
+    font-size: 47%;/*7px;*/
+    vertical-align: super;
 }
 
 /*change navbar color*/

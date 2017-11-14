@@ -18,10 +18,10 @@
             <table id="listOfVaccinesTable"  class="table table-bordered">
                 <thead>
                   <tr>
-                    <th colspan="2" > Name </th>
-                    <th> <h5>Date and Time of Vaccination <br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:minute</small></h5></th>
+                    <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:minute</small></h5></th>
                     <th> Dose (1st, 2nd...)</th>
-                    <th> Batch/Lot number </th>
+                    <th> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th colspan="2"> Expiry date </th>
                   </tr>
                 </thead>
@@ -94,7 +94,7 @@
             <table id="listOfDiluentsTable"  class="table table-bordered">
                 <thead>
                   <tr>
-                    <th colspan="2" > Name </th>
+                    <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Date and Time of reconstitution </th>
                     <th> Batch/Lot number </th>
                     <th colspan="2"> Expiry date </th>

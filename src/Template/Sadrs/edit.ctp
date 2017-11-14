@@ -30,12 +30,12 @@
             <?php
                 echo $this->Form->control('name_of_institution', 
                   ['label' => ['text' => 'Clinic/Hospital Name ', 'escape' => false]]);
-                echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix">*</span>', 'escape' => false]);
+                echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                 //echo $this->Form->control('date_of_birth');
                  
                 echo $this->Form->control('date_of_birth', array(
                   'type' => 'date', 'escape' => false,
-                  'label' => 'Date of Birth <span class="sterix">*</span>',
+                  'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
                   'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                   'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -61,7 +61,7 @@
                 echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
                 echo $this->Form->control('height', ['label' => 'Height (meters)']);
                 echo $this->Form->control('gender', ['type' => 'radio', 
-                   'label' => '<b>Gender: <span class="sterix">*</span></b>', 'escape' => false,
+                   'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                    'templates' => 'radio_form',
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
             ?>
@@ -77,7 +77,7 @@
                 //$this->Form->control('date_of_onset_of_reaction', ['label' => 'Date of Onset:']); 
                 echo $this->Form->control('date_of_onset_of_reaction', array(
                   'type' => 'date', 'escape' => false,
-                  'label' => 'Date of onset of Reaction <span class="sterix">*</span>',
+                  'label' => 'Date of onset of Reaction <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
                   'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                   'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -114,14 +114,14 @@
         </div> -->
 
         <div class="row">
-          <div class="col-md-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR <span class="sterix">*</span>', 'escape' => false]); ?></div>
+          <div class="col-md-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]); ?></div>
           <div class="col-md-4"></div>
         </div>
 
         <div class="row">
           <div class="col-md-3"><?= 
             // $this->Form->control('severity', ['type' => 'radio', //'label' => 'Serious:',
-            //     'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+            //     'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
             //        'templates' => [
             //          'radio' => '<input type="radio" class="radio-inline" name="{{name}}" value="{{value}}"{{attrs}}>', 
             //          'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
@@ -129,15 +129,15 @@
             //        ],
             //       'options' => ['Yes' => 'Yes', 'No' => 'No']]); 
               $this->Form->control('severity', ['type' => 'radio', 
-                  'label' => '<b>Serious <span class="sterix">*</span></b>', 'escape' => false,
-                  //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+                  'label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                  //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                   'templates' => 'radio_form',
                   'options' => ['Yes' => 'Yes', 'No' => 'No']]);
             ?>            
           </div>
           <div class="col-md-5"><?= $this->Form->control('severity_reason', ['type' => 'select', 
                   'label' => 'Reason for Seriousness',
-                  //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+                  //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                   'templates' => 'radio_form', 'empty' => true,
                   'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 
                                     'Congenital-anomaly' => 'Congenital-anomaly', 
@@ -145,7 +145,7 @@
             <div class="col-md-4">
               <?=
                 $this->Form->control('outcome', ['type' => 'select', 
-                    'label' => 'Outcome <span class="sterix">*</span>', 'empty' => true, 'escape' => false,
+                    'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
                     'templates' => 'radio_form',
                     'options' => ['Recovered' => 'Recovered', 
                                                   'Not yet recovered' => 'Not yet recovered', 
@@ -173,7 +173,7 @@
         </div>
 
         <div class="row">
-          <div class="col-md-8"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results:']); ?></div>
+          <div class="col-md-8"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results']); ?></div>
           <div class="col-md-4"></div>
         </div>
 

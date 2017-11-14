@@ -75,6 +75,40 @@ class AefisTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
+        $validator
+            ->scalar('patient_name')
+            ->notEmpty('patient_name');
+
+        $validator
+            ->scalar('patient_surname')
+            ->notEmpty('patient_surname');
+
+        $validator
+            ->scalar('patient_address')
+            ->notEmpty('patient_address');
+
+        $validator
+            ->scalar('gender')
+            ->notEmpty('gender');
+
+        $validator
+            ->scalar('date_of_birth')
+            ->notEmpty('date_of_birth')
+            ->add('date_of_birth', [
+                    'length' => [
+                        'rule' => ['minLength', 3],
+                        'message' => 'Please select at least year of birth.',
+                    ]
+                ]);
+
+        $validator
+            ->scalar('reporter_name')
+            ->notEmpty('reporter_name');
+
+        $validator
+            ->scalar('reporter_email')
+            ->notEmpty('reporter_email');
+
 
         return $validator;
     }
