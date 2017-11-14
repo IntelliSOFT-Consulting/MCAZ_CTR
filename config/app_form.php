@@ -18,6 +18,12 @@ return [
     'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
     // Generic input element.
     'input' => '<div class="col-sm-6"><input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/></div>',
+    // Container element used by control() when a field has an error.
+    'inputContainerError' => '<div class="input {{type}}{{required}} has-error">{{content}}{{error}}</div>',
+    // Error message wrapper elements.
+    'error' => '<span class="col-sm-offset-4 col-sm-6 help-block">{{content}}</span>',
+    // Container for error items.
+    'errorList' => '<ul class="has-error">{{content}}</ul>',
     // Select element,
     'select' => '<div class="col-sm-6"><select class="form-control" name="{{name}}"{{attrs}}>{{content}}</select></div>',
   	// Radio input element,

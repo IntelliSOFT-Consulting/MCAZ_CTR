@@ -3,7 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Sadr $sadr
  */
-// pr($sadr);
+// debug($sadr);
+// debug($this->request->data);
 ?>
 <div class="row">
   <div class="col-md-12"><h3 class="text-center">Spontenous Adverse Drug Reaction (ADR) Report Form</h3>  
@@ -18,7 +19,7 @@
   <div class="col-md-12">
     <?= $this->Form->create($sadr, ['type' => 'file']) ?>
         <div class="row">
-          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b>ADR<?= '<span id="sadr_pr_id">'.$sadr->id.'</span>/'.$sadr->created->i18nFormat('yyyy') ?></b></h5></div>          
+          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= $sadr->reference_number ?></strong></h5></div>          
         </div>
         <div class="row">
           <div class="col-md-12"><h5 class="text-center">Patient details (to allow linkage with other reports)</h5></div>
@@ -28,13 +29,13 @@
           <div class="col-md-6">
             <?php
                 echo $this->Form->control('name_of_institution', 
-                  ['label' => ['text' => 'Clinic/Hospital Name: <span class="sterix">*</span>', 'escape' => false]]);
-                echo $this->Form->control('patient_name', ['label' => 'Patient Initials: <span class="sterix">*</span>', 'escape' => false]);
+                  ['label' => ['text' => 'Clinic/Hospital Name ', 'escape' => false]]);
+                echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix">*</span>', 'escape' => false]);
                 //echo $this->Form->control('date_of_birth');
                  
                 echo $this->Form->control('date_of_birth', array(
-                  'type' => 'date',
-                  'label' => 'Date of Birth:',
+                  'type' => 'date', 'escape' => false,
+                  'label' => 'Date of Birth <span class="sterix">*</span>',
                   'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                   'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -55,8 +56,8 @@
           </div>
           <div class="col-md-6">
             <?php
-                echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number:']);
-                echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number:']);
+                echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
+                echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                 echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
                 echo $this->Form->control('height', ['label' => 'Height (meters)']);
                 echo $this->Form->control('gender', ['type' => 'radio', 
@@ -75,8 +76,8 @@
             <?php 
                 //$this->Form->control('date_of_onset_of_reaction', ['label' => 'Date of Onset:']); 
                 echo $this->Form->control('date_of_onset_of_reaction', array(
-                  'type' => 'date',
-                  'label' => 'Date of onset of Reaction:',
+                  'type' => 'date', 'escape' => false,
+                  'label' => 'Date of onset of Reaction <span class="sterix">*</span>',
                   'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                   'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -88,7 +89,7 @@
                 //$this->Form->control('date_of_end_of_reaction', ['label' => 'Date of Onset:']); 
                 echo $this->Form->control('date_of_end_of_reaction', array(
                   'type' => 'date',
-                  'label' => 'Date of end of Reaction: <br> <i>(if it ended)</i>', 'escape' => false,
+                  'label' => 'Date of end of Reaction <br> <i>(if it ended)</i>', 'escape' => false,
                   'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                   'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -113,7 +114,7 @@
         </div> -->
 
         <div class="row">
-          <div class="col-md-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR:']); ?></div>
+          <div class="col-md-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR <span class="sterix">*</span>', 'escape' => false]); ?></div>
           <div class="col-md-4"></div>
         </div>
 
@@ -128,23 +129,23 @@
             //        ],
             //       'options' => ['Yes' => 'Yes', 'No' => 'No']]); 
               $this->Form->control('severity', ['type' => 'radio', 
-                  'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
+                  'label' => '<b>Serious <span class="sterix">*</span></b>', 'escape' => false,
                   //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
                   'templates' => 'radio_form',
                   'options' => ['Yes' => 'Yes', 'No' => 'No']]);
             ?>            
           </div>
-          <div class="col-md-5"><?= $this->Form->control('severity_reason', ['type' => 'radio', 
-                  'label' => 'Reason for Seriousness:',
+          <div class="col-md-5"><?= $this->Form->control('severity_reason', ['type' => 'select', 
+                  'label' => 'Reason for Seriousness',
                   //'label' => '<b>Serious: <span class="sterix">*</span></b>', 'escape' => false,
-                  'templates' => 'radio_form',
+                  'templates' => 'radio_form', 'empty' => true,
                   'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 
                                     'Congenital-anomaly' => 'Congenital-anomaly', 
                                             'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?></div>
             <div class="col-md-4">
               <?=
-                $this->Form->control('outcome', ['type' => 'radio', 
-                    'label' => 'Outcome:',
+                $this->Form->control('outcome', ['type' => 'select', 
+                    'label' => 'Outcome <span class="sterix">*</span>', 'empty' => true, 'escape' => false,
                     'templates' => 'radio_form',
                     'options' => ['Recovered' => 'Recovered', 
                                                   'Not yet recovered' => 'Not yet recovered', 

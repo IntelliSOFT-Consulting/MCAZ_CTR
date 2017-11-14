@@ -8,7 +8,7 @@ $this->Html->script('adr_edit', ['block' => true]);
 <div class="row">
   <div class="col-md-12"><h3 class="text-center">SERIOUS ADVERSE EVENT REPORTING FORM </h3>  
     <div class="row">
-      <div class="col-md-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI)</h5></div>
+      <div class="col-md-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI) </h5></div>
     </div>
   </div>
 </div>
@@ -18,7 +18,7 @@ $this->Html->script('adr_edit', ['block' => true]);
   <div class="col-md-12">
     <?= $this->Form->create($adr, ['type' => 'file']) ?>
         <div class="row">
-          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <b>SAE<?= '<span id="adr_pr_id">'.$adr->id.'</span>/'.$adr->created->i18nFormat('yyyy') ?></b></h5></div>          
+          <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= $adr->reference_number ?></strong></h5></div>          
         </div>
 
         <div class="row">

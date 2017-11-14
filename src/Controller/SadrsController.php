@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use App\Model\Entity;
 
 /**
  * Sadrs Controller
@@ -25,17 +26,19 @@ class SadrsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        //debug($this->request->data);
-        if (isset($this->request->data['date_of_birth'])) {
-            $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
-        } 
-        //date_of_onset_of_reaction
-        if (isset($this->request->data['date_of_onset_of_reaction'])) {
-            $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
-        }
-        //date_of_end_of_reaction
-        if (isset($this->request->data['date_of_end_of_reaction'])) {
-            $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            //debug($this->request->data);
+            if (isset($this->request->data['date_of_birth'])) {
+                $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+            } 
+            //date_of_onset_of_reaction
+            if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+            }
+            //date_of_end_of_reaction
+            if (isset($this->request->data['date_of_end_of_reaction'])) {
+                $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+            }
         }
     }
 
@@ -84,6 +87,14 @@ class SadrsController extends AppController
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             $sadr->user_id = $this->Auth->user('id');
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
+                //update field
+                $query = $this->Sadrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+                //
+
                 $this->Flash->success(__('The sadr has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $sadr->id]);
@@ -106,39 +117,13 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
-        // //Reverse id
-        // $id = $this->Util->reverseXOR($id);
-        // //
-
-        $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            if (!empty($sadr->attachments)) {
-              for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
-                $sadr->attachments[$i]->model = 'Sadrs';
-                $sadr->attachments[$i]->category = 'attachments';
-              }
-            }
-            // debug((string)$sadr);
-            // debug($this->request->data);
-            if ($this->Sadrs->save($sadr, ['associated' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']])) {
-                $this->Flash->success(__('The sadr has been saved.'));
-
-                return $this->redirect(['action' => 'edit', $sadr->id]);
-            }
-            $this->Flash->error(__('The sadr could not be saved. Please, try again.'));
-        }
-
+    private function format_dates($sadr) {
         //format dates
         if (!empty($sadr->date_of_birth)) {
             if(empty($sadr->date_of_birth)) $sadr->date_of_birth = '--';
             $a = explode('-', $sadr->date_of_birth);
             $sadr->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-        }
+        } 
         if (!empty($sadr->date_of_onset_of_reaction)) {
             if(empty($sadr->date_of_onset_of_reaction)) $sadr->date_of_onset_of_reaction = '--';
             $a = explode('-', $sadr->date_of_onset_of_reaction);
@@ -148,14 +133,42 @@ class SadrsController extends AppController
             if(empty($sadr->date_of_end_of_reaction)) $sadr->date_of_end_of_reaction = '--';
             $a = explode('-', $sadr->date_of_end_of_reaction);
             $sadr->date_of_end_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }        
+        return $sadr;
+    }
+
+    public function edit($id = null)
+    {
+        $sadr = $this->Sadrs->get($id, [
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+            //Attachments
+            if (!empty($sadr->attachments)) {
+                  for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
+                    $sadr->attachments[$i]->model = 'Sadrs';
+                    $sadr->attachments[$i]->category = 'attachments';
+                  }
+                }
+            // debug((string)$sadr);
+            // debug($this->request->data);
+            if ($this->Sadrs->save($sadr, ['associated' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']])) {
+                $this->Flash->success(__('The sadr has been saved.'));
+
+                return $this->redirect(['action' => 'edit', $sadr->id]);
+            }
+            $this->Flash->error(__('The sadr could not be saved. Please, try again.'));
         }
+        
+        $sadr = $this->format_dates($sadr);
 
         $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
+        $this->set(compact('sadr', 'designations', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', ['sadr']);
     }
 

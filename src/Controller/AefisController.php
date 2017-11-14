@@ -26,16 +26,18 @@ class AefisController extends AppController
     {
         parent::beforeFilter($event);
         //debug($this->request->data);
-        if (isset($this->request->data['date_of_birth'])) {
-            $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
-        } 
-        //date_of_onset_of_reaction
-        if (isset($this->request->data['date_of_onset_of_reaction'])) {
-            $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
-        }
-        //date_of_end_of_reaction
-        if (isset($this->request->data['date_of_end_of_reaction'])) {
-            $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if (isset($this->request->data['date_of_birth'])) {
+                $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+            } 
+            //date_of_onset_of_reaction
+            if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+            }
+            //date_of_end_of_reaction
+            if (isset($this->request->data['date_of_end_of_reaction'])) {
+                $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+            }
         }
     }
 
@@ -84,6 +86,13 @@ class AefisController extends AppController
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
             $aefi->user_id = $this->Auth->user('id');
             if ($this->Aefis->save($aefi, ['validate' => false])) {
+                //update field
+                $query = $this->Aefis->query();
+                $query->update()
+                    ->set(['reference_number' => 'ADR'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
+                    ->where(['id' => $aefi->id])
+                    ->execute();
+                //
                 $this->Flash->success(__('The aefi has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $aefi->id]);

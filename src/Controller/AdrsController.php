@@ -26,16 +26,18 @@ class AdrsController extends AppController
     {
         parent::beforeFilter($event);
         //debug($this->request->data);
-        if (isset($this->request->data['date_of_birth'])) {
-            $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
-        } 
-        //date_of_onset_of_reaction
-        if (isset($this->request->data['date_of_onset_of_reaction'])) {
-            $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
-        }
-        //date_of_end_of_reaction
-        if (isset($this->request->data['date_of_end_of_reaction'])) {
-            $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if (isset($this->request->data['date_of_birth'])) {
+                $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+            } 
+            //date_of_onset_of_reaction
+            if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+            }
+            //date_of_end_of_reaction
+            if (isset($this->request->data['date_of_end_of_reaction'])) {
+                $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+            }
         }
     }
 
@@ -83,6 +85,13 @@ class AdrsController extends AppController
         if ($this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if ($this->Adrs->save($adr, ['validate' => false])) {
+                //update field
+                $query = $this->Adrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'ADR'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $adr->id])
+                    ->execute();
+                //
                 $this->Flash->success(__('The adr has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $adr->id]);
