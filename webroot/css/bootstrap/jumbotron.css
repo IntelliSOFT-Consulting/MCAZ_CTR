@@ -55,3 +55,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22315b', end
           transition: all .2s ease-in-out;
    font-size: 48px;
 }
+
+.sadr_form {
+  background-color: #fcf25f;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.aefi_form {
+  background-color: #e293bf;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.adr_form {
+  background-color: #C7FF8E;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}

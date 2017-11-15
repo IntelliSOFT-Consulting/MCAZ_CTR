@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table id="listOfVaccinesTable"  class="table table-bordered">
+            <table id="listOfVaccinesTable"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
                     <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>

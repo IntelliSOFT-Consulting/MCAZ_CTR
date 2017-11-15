@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table id="listOfDevicesTable"  class="table table-bordered">
+            <table id="listOfDevicesTable"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
                     <th colspan="2" > Drug/Device/Vaccine </th>

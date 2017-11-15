@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table id="listofdrugsform"  class="table table-bordered">
+            <table id="listofdrugsform"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
                     <th colspan="2" > Generic Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>

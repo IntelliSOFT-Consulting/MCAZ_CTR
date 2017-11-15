@@ -16,7 +16,7 @@ class SadrsController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       //$this->Auth->allow(['add', 'edit']);       
+       $this->Auth->allow(['view']);       
     }
 
     /**
@@ -67,12 +67,22 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
+      if(strpos($this->request->url, 'pdf') == false) {
+        $this->viewBuilder()->setLayout('pdf/default');
+      }
+        
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['Users']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
-
-        $this->set('sadr', $sadr);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', ['sadr']);
+        // $this->set('sadr', $sadr);
+        // $this->set('_serialize', ['sadr']);
     }
 
     /**
@@ -95,7 +105,7 @@ class SadrsController extends AppController
                     ->execute();
                 //
 
-                $this->Flash->success(__('The sadr has been saved.'));
+                $this->Flash->success(__('The changes to the ADR have been saved.'));
 
                 return $this->redirect(['action' => 'edit', $sadr->id]);
             }
@@ -153,12 +163,36 @@ class SadrsController extends AppController
                 }
             // debug((string)$sadr);
             // debug($this->request->data);
-            if ($this->Sadrs->save($sadr, ['associated' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']])) {
-                $this->Flash->success(__('The sadr has been saved.'));
-
+            if ($sadr->submitted == 1) {
+              //save changes button
+              if ($this->Sadrs->save($sadr, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
-            }
-            $this->Flash->error(__('The sadr could not be saved. Please, try again.'));
+              } else {
+                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($sadr->submitted == 2) {
+              //submit to mcaz button
+              if ($this->Sadrs->save($sadr, ['validate' => false])) {
+                $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
+                return $this->redirect(['action' => 'view', $sadr->id]);
+              } else {
+                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($sadr->submitted == -1) {
+               //cancel button              
+                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$sadr->reference_number.' later'));
+                return $this->redirect(['controller' => 'Users','action' => 'home']);
+
+           } else {
+              if ($this->Sadrs->save($sadr, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                return $this->redirect(['action' => 'edit', $sadr->id]);
+              } else {
+                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+           }
+
         }
         
         $sadr = $this->format_dates($sadr);

@@ -36,7 +36,7 @@
             <tbody>
                 <?php foreach ($sadrs as $sadr): ?>
                 <tr>
-                    <td><?= $this->Html->link('ADR'.$this->Number->format($sadr->id).'/'.$sadr->created->i18nFormat('yyyy'), ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id])
+                    <td><?= $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id])
                      ?></td>
                     <td><?= h($sadr->created->i18nFormat('dd-MM-yyyy')) ?></td>
                 </tr>
@@ -88,7 +88,7 @@
             <tbody>
                 <?php foreach ($aefis as $aefi): ?>
                 <tr>
-                    <td><?= $this->Html->link('AEFI'.$this->Number->format($aefi->id).'/'.$aefi->created->i18nFormat('yyyy'), ['controller' => 'Aefis', 'action' => 'edit', $aefi->id])
+                    <td><?= $this->Html->link($aefi->reference_number, ['controller' => 'Aefis', 'action' => 'edit', $aefi->id])
                      ?></td>
                     <td><?= h($aefi->created->i18nFormat('dd-MM-yyyy')) ?></td>
                 </tr>
@@ -141,7 +141,7 @@
             <tbody>
                 <?php foreach ($adrs as $adr): ?>
                 <tr>
-                    <td><?= $this->Html->link('SAE'.$this->Number->format($adr->id).'/'.$adr->created->i18nFormat('yyyy'), ['controller' => 'Adrs', 'action' => 'edit', $adr->id])
+                    <td><?= $this->Html->link($adr->reference_number, ['controller' => 'Adrs', 'action' => 'edit', $adr->id])
                      ?></td>
                     <td><?= h($adr->created->i18nFormat('dd-MM-yyyy')) ?></td>
                 </tr>
