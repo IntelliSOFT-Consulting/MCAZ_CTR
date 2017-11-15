@@ -31,18 +31,28 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Sadrs']) ?></th>                
                     <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Sadrs']) ?></th>
+                    <th>pdf</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($sadrs as $sadr): ?>
                 <tr>
-                    <td><?= $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id])
+                    <td><?php 
+                      if($sadr->submitted == 2) {
+                        echo $this->Html->link($sadr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
+', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);
+                      } else {
+                        echo $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id]);
+                      }
+                      
                      ?></td>
                     <td><?= h($sadr->created->i18nFormat('dd-MM-yyyy')) ?></td>
+                    <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Sadrs', 'action' => 'view', '_ext' => 'pdf', $sadr->id], ['escape' => false])
+                     ?></td>
                 </tr>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <hr>
                         <nav aria-label="Page navigation">
                             <ul class="pagination">

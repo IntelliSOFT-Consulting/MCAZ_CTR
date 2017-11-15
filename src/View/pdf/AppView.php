@@ -11,7 +11,7 @@
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\View;
+namespace App\View\pdf;
 
 use Cake\View\View;
 
@@ -38,16 +38,8 @@ class AppView extends View
     {
       // In a View class
       // if (strpos($this->request->url, 'pdf')) {
-      if ($this->request->getParam('action') === 'view') {
-          $this->loadHelper('Form', ['templates' => 'pdf_form',]);
-      } else {
-          $this->loadHelper('Form', ['templates' => 'app_form',]);
-      }
-        
-      // } else {
-      //   $this->loadHelper('Form', ['templates' => 'app_form',]); //change to app_form
-      // }       
-      $this->loadHelper('Util');
-      $this->loadHelper('Paginator', ['templates' => 'paginator-templates']);
+      
+      $this->loadHelper('Form', ['templates' => 'pdf_form',]);
+      
     }
 }

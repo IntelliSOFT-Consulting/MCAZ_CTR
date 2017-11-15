@@ -85,7 +85,7 @@ class UsersController extends AppController
         // pr($user);
 
         $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number']]);
+                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
         $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
                                     'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
         $aefis = $this->paginate($this->Users->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],

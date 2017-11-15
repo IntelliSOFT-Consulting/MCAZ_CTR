@@ -16,7 +16,7 @@ class SadrsController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['view']);       
+       // $this->Auth->allow(['view']);       
     }
 
     /**
@@ -67,13 +67,22 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
-      if(strpos($this->request->url, 'pdf') == false) {
-        $this->viewBuilder()->setLayout('pdf/default');
-      }
-        
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
+
+        if(strpos($this->request->url, 'pdf')) {
+            // $this->viewBuilder()->setLayout('pdf/default');
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'portrait',
+                    'filename' => $sadr->reference_number
+                ]
+            ]);
+        }
+        
+        
         $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
@@ -152,6 +161,10 @@ class SadrsController extends AppController
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
+        if ($sadr->submitted == 2) {
+            $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
+            return $this->redirect(['action' => 'view', $sadr->id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             //Attachments
