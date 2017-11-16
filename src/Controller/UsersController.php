@@ -16,7 +16,8 @@ class UsersController extends AppController
     public $paginate = [
             // 'limit' => 2,
             'Sadrs' => ['scope' => 'sadr'],
-            'Adrs' => ['scope' => 'adr']
+            'Adrs' => ['scope' => 'adr'],
+            'Aefis' => ['scope' => 'aefi']
         ];
 
     public function initialize() {
@@ -72,6 +73,7 @@ class UsersController extends AppController
     public function home() {
         $this->loadModel('Sadrs');
         $this->loadModel('Adrs');
+        $this->loadModel('Aefis');
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
@@ -88,7 +90,7 @@ class UsersController extends AppController
                                     'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
         $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
                                     'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
-        $aefis = $this->paginate($this->Users->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
+        $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
                                     'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis'));

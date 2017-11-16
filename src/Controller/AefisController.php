@@ -89,7 +89,7 @@ class AefisController extends AppController
                 //update field
                 $query = $this->Aefis->query();
                 $query->update()
-                    ->set(['reference_number' => 'ADR'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
+                    ->set(['reference_number' => 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
                     ->where(['id' => $aefi->id])
                     ->execute();
                 //

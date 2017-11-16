@@ -86,9 +86,10 @@ class AdrsController extends AppController
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
+		$adr->user_id = $this->Auth->user('id');
                 $query = $this->Adrs->query();
                 $query->update()
-                    ->set(['reference_number' => 'ADR'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
+                    ->set(['reference_number' => 'SADR'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
                     ->where(['id' => $adr->id])
                     ->execute();
                 //

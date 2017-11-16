@@ -154,8 +154,10 @@
                       'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
                       'templates' => 'radio_form',
                       'options' => ['Recovered' => 'Recovered', 
-                                                    'Not yet recovered' => 'Not yet recovered', 
-                                                    'Fatal' => 'Fatal', 'Unknown' => 'Unknown']]); 
+									'Recovering' => 'Recovering', 
+									'Not yet recovered' => 'Not yet recovered', 
+									'Fatal' => 'Fatal', 
+									'Unknown' => 'Unknown']]); 
                 ?>
               </div>
           </div>

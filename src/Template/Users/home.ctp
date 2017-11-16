@@ -78,11 +78,11 @@
           <?php
               if($this->request->session()->read('Auth.User')) {
           ?>
-          <a class="btn btn-success" href="/aefi/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          <a class="btn btn-success" href="/aefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
           <?php                  
               } else {
           ?>
-          <a class="btn btn-success" href="/aefi/add" role="button">Report &raquo;</a>
+          <a class="btn btn-success" href="/aefis/add" role="button">Report &raquo;</a>
           <?php
               }
           ?>

@@ -77,7 +77,7 @@ class SadrsController extends AppController
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
-                    'filename' => $sadr->reference_number
+                    'filename' => $sadr->reference_number.'.pdf'
                 ]
             ]);
         }
