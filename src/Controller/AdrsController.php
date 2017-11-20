@@ -27,16 +27,18 @@ class AdrsController extends AppController
         parent::beforeFilter($event);
         //debug($this->request->data);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            if (isset($this->request->data['date_of_birth'])) {
-                $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
-            } 
-            //date_of_onset_of_reaction
-            if (isset($this->request->data['date_of_onset_of_reaction'])) {
-                $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
-            }
-            //date_of_end_of_reaction
-            if (isset($this->request->data['date_of_end_of_reaction'])) {
-                $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                if (isset($this->request->data['date_of_birth'])) {
+                    $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+                } 
+                //date_of_onset_of_reaction
+                if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                    $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+                }
+                //date_of_end_of_reaction
+                if (isset($this->request->data['date_of_end_of_reaction'])) {
+                    $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+                }
             }
         }
     }
@@ -131,11 +133,35 @@ class AdrsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+    private function format_dates($adr) {
+        //format dates
+        if (!empty($adr->date_of_birth)) {
+            if(empty($adr->date_of_birth)) $adr->date_of_birth = '--';
+            $a = explode('-', $adr->date_of_birth);
+            $adr->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        } 
+        if (!empty($adr->date_of_onset_of_reaction)) {
+            if(empty($adr->date_of_onset_of_reaction)) $adr->date_of_onset_of_reaction = '--';
+            $a = explode('-', $adr->date_of_onset_of_reaction);
+            $adr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }
+        if (!empty($adr->date_of_end_of_reaction)) {
+            if(empty($adr->date_of_end_of_reaction)) $adr->date_of_end_of_reaction = '--';
+            $a = explode('-', $adr->date_of_end_of_reaction);
+            $adr->date_of_end_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }        
+        return $adr;
+    }
+
     public function edit($id = null)
     {
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ]);
+        if ($adr->submitted == 2) {
+            $this->Flash->success(__('Report '.$adr->reference_number.' already submitted.'));
+            return $this->redirect(['action' => 'view', $adr->id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if (!empty($adr->attachments)) {
@@ -144,15 +170,40 @@ class AdrsController extends AppController
                 $adr->attachments[$i]->category = 'attachments';
               }
             }
-            // debug((string)$adr);
-            // debug($this->request->getData());
-            if ($this->Adrs->save($adr)) {
-                $this->Flash->success(__('The adr has been saved.'));
-
+            
+            if ($adr->submitted == 1) {
+              //save changes button
+              if ($this->Adrs->save($adr, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $adr->id]);
-            }
-            $this->Flash->error(__('The adr could not be saved. Please, try again.'));
+              } else {
+                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($adr->submitted == 2) {
+              //submit to mcaz button
+              if ($this->Adrs->save($adr, ['validate' => false])) {
+                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));
+                return $this->redirect(['action' => 'view', $adr->id]);
+              } else {
+                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($adr->submitted == -1) {
+               //cancel button              
+                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$adr->reference_number.' later'));
+                return $this->redirect(['controller' => 'Users','action' => 'home']);
+
+           } else {
+              if ($this->Adrs->save($adr, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
+                return $this->redirect(['action' => 'edit', $adr->id]);
+              } else {
+                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+           }
+           
         }
+        $adr = $this->format_dates($adr);
+
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');

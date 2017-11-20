@@ -149,20 +149,18 @@
                                       'Congenital-anomaly' => 'Congenital-anomaly', 
                                               'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?></div>
               <div class="col-xs-4">
-                <?=
-                  $this->Form->control('outcome', [ 
-                      'type' => 'textarea', 'type' => 'textarea', 'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
-                      'templates' => 'radio_form',
-                      'options' => ['Recovered' => 'Recovered', 
-                                                    'Not yet recovered' => 'Not yet recovered', 
-                                                    'Fatal' => 'Fatal', 'Unknown' => 'Unknown']]); 
-                ?>
+                
               </div>
           </div>
 
           <div class="row">
             <div class="col-xs-6"><?= $this->Form->control('medical_history', ['type' => 'textarea', 'type' => 'textarea', 'label' => 'Relevant Medical History']); ?></div>
             <div class="col-xs-6"><?= $this->Form->control('past_drug_therapy', ['type' => 'textarea', 'type' => 'textarea', 'label' => 'Relevant Past Drug Therapy']); ?></div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-8"><?= $this->Form->control('lab_test_results', ['type' => 'textarea', 'type' => 'textarea', 'label' => 'Laboratory test Results']); ?></div>
+            <div class="col-xs-4"></div>
           </div>
 
           <div class="row">
@@ -397,17 +395,57 @@
         </div><!--/span-->
     </div><!--/row-->
     <hr>
-       
+    
+    <div class="row">
+            <div class="col-xs-4">
+                <?=
+                  $this->Form->control('action_taken', ['type' => 'textarea', 
+                      'label' => 'Action Taken: <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
+                      'templates' => 'radio_form',
+                      'options' => ['Drug withdrawn' => 'Drug withdrawn',
+'Dose increased' => 'Dose increased',
+'Unknown' => 'Unknown',
+'Dose reduced' => 'Dose reduced',
+'Dose not changed' => 'Dose not changed',
+'Not applicable' => 'Not applicable',
+'Medical treatment of ADR' => 'Medical treatment of ADR']]); 
+                ?>
+            </div>
+            <div class="col-xs-4">
+                <?=
+                  $this->Form->control('outcome', ['type' => 'textarea', 
+                      'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
+                      'templates' => 'radio_form',
+                      'options' => ['Recovered' => 'Recovered', 
+                  'Recovering' => 'Recovering', 
+                  'Not yet recovered' => 'Not yet recovered', 
+                  'Fatal' => 'Fatal', 
+                  'Unknown' => 'Unknown']]); 
+                ?>
+              </div>
+            
+            <div class="col-xs-4">
+                <?=
+                  $this->Form->control('relatedness', ['type' => 'textarea', 
+                      'label' => 'Relatedness of suspected medicine(s) to ADR:', 'empty' => true, 'escape' => false,
+                      'templates' => 'radio_form',
+                      'options' => ['Certain' => 'Certain',
+'Probable / Likely' => 'Probable / Likely',
+'Possible' => 'Possible',
+'Unlikely' => 'Unlikely',
+'Conditional / Unclassified' => 'Conditional / Unclassified',
+'Unassessable / Unclassifiable,' => 'Unassessable / Unclassifiable,',]]); 
+                ?>
+            </div>
+          </div>
+
     <!-- <p>Attachments!!</p> -->
           <div class="row">
             <div class="col-xs-12"><?php echo $this->element('multi/attachments');?></div>
           </div>
 
 
-          <div class="row">
-            <div class="col-xs-8"><?= $this->Form->control('lab_test_results', ['type' => 'textarea', 'type' => 'textarea', 'label' => 'Laboratory test Results']); ?></div>
-            <div class="col-xs-4"></div>
-          </div>
+          
 
           <div class="row">
             <div class="col-xs-12"><h4 class="text-center">Reported By:</h4></div>

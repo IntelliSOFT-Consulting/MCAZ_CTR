@@ -25,18 +25,19 @@ class AefisController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        //debug($this->request->data);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            if (isset($this->request->data['date_of_birth'])) {
-                $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
-            } 
-            //date_of_onset_of_reaction
-            if (isset($this->request->data['date_of_onset_of_reaction'])) {
-                $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
-            }
-            //date_of_end_of_reaction
-            if (isset($this->request->data['date_of_end_of_reaction'])) {
-                $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                if (isset($this->request->data['date_of_birth'])) {
+                    $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+                } 
+                //date_of_onset_of_reaction
+                if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                    $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+                }
+                //date_of_end_of_reaction
+                if (isset($this->request->data['date_of_end_of_reaction'])) {
+                    $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+                }
             }
         }
     }
@@ -67,10 +68,20 @@ class AefisController extends AppController
     public function view($id = null)
     {
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
         ]);
 
-        $this->set('aefi', $aefi);
+        if(strpos($this->request->url, 'pdf')) {
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'portrait',
+                    'filename' => $aefi->reference_number.'.pdf'
+                ]
+            ]);
+        }
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('aefi', 'designations'));
         $this->set('_serialize', ['aefi']);
     }
 
@@ -119,6 +130,10 @@ class AefisController extends AppController
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
         ]);
+        if ($aefi->submitted == 2) {
+            $this->Flash->success(__('Report '.$aefi->reference_number.' already submitted.'));
+            return $this->redirect(['action' => 'view', $aefi->id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
             if (!empty($aefi->attachments)) {
@@ -127,30 +142,48 @@ class AefisController extends AppController
                 $aefi->attachments[$i]->category = 'attachments';
               }
             }
-            //debug((string)$aefi);
-            //debug($this->request->getData());
-            if ($this->Aefis->save($aefi)) {
-                $this->Flash->success(__('The aefi has been saved.'));
-                //debug($this->request->getData());
+            
+            if ($aefi->submitted == 1) {
+              //save changes button
+              if ($this->Aefis->save($aefi, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report '.$aefi->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $aefi->id]);
-            }
-            $this->Flash->error(__('The aefi could not be saved. Please, try again.'));
+              } else {
+                $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($aefi->submitted == 2) {
+              //submit to mcaz button
+              if ($this->Aefis->save($aefi, ['validate' => false])) {
+                $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
+                return $this->redirect(['action' => 'view', $aefi->id]);
+              } else {
+                $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($aefi->submitted == -1) {
+               //cancel button              
+                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$aefi->reference_number.' later'));
+                return $this->redirect(['controller' => 'Users','action' => 'home']);
+
+           } else {
+              if ($this->Aefis->save($aefi, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report '.$aefi->reference_number.' have been saved.'));
+                return $this->redirect(['action' => 'edit', $aefi->id]);
+              } else {
+                $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+              }
+           }
+
         }
+
         //format dates
         if (!empty($aefi->date_of_birth)) {
             if(empty($aefi->date_of_birth)) $aefi->date_of_birth = '--';
             $a = explode('-', $aefi->date_of_birth);
             $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }
-        if (!empty($aefi->date_of_onset_of_reaction)) {
-            if(empty($aefi->date_of_onset_of_reaction)) $aefi->date_of_onset_of_reaction = '--';
-            $a = explode('-', $aefi->date_of_onset_of_reaction);
-            $aefi->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-        }
 
-        $users = $this->Aefis->Users->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'users', 'designations'));
+        $this->set(compact('aefi', 'designations'));
         $this->set('_serialize', ['aefi']);
 
     }

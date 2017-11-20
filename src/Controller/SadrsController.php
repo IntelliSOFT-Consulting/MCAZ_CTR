@@ -210,7 +210,6 @@ class SadrsController extends AppController
         
         $sadr = $this->format_dates($sadr);
 
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');

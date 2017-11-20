@@ -32,7 +32,7 @@ return [
             // Wrapper content used to hide other content.
             'hiddenBlock' => '<div style="display:none;">{{content}}</div>',
             // Generic input element.
-            'input' => '<input type="{{type}}" name="{{name}}"{{attrs}}/>',
+            'input' => '<input type="{{type}}" name="{{name}}" {{attrs}}/>',
             // Submit input element.
             'inputSubmit' => '<input type="{{type}}"{{attrs}}/>',
             // Container element used by control().

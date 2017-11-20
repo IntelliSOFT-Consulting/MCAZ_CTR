@@ -4,31 +4,30 @@
  * @var \App\Model\Entity\Aefi $aefi
  */
 // pr($aefi);
-$this->Html->script('aefi_edit', ['block' => true]);
 ?>
-<div class="aefi_form">
+<div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
       <h3 class="text-center"> 
       <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
       Adverse Event After Immunization (AEFI) Report Form
       </h3>  
       <div class="row">
-        <div class="col-md-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI) </h5></div>
+        <div class="col-xs-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI) </h5></div>
       </div>
     </div>
   </div>
 
   <hr>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
       <?= $this->Form->create($aefi, ['type' => 'file']) ?>
           <div class="row">
-            <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= $aefi->reference_number ?></strong></h5></div>         
+            <div class="col-xs-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= $aefi->reference_number ?></strong></h5></div>         
           </div>
 
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-xs-6">
               <?php               
 
                   echo $this->Form->control('patient_name', ['label' => 'Patient first name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
@@ -40,13 +39,13 @@ $this->Html->script('aefi_edit', ['block' => true]);
                   echo $this->Form->control('patient_address', ['label' => 'Patient\'s physical address <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
 
                   echo $this->Form->control('patient_telephone', ['label' => 'Patient\'s telephone', 'escape' => false]);
-                  echo $this->Form->control('gender', ['type' => 'radio', 
+                  echo $this->Form->control('gender', ['type' => 'textarea', 
                      'label' => 'Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
 
                   echo $this->Form->control('date_of_birth', array(
-                    'type' => 'date', 'escape' => false,
+                    'type' => 'textarea', 'escape' => false,
                     'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
                     'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
@@ -54,7 +53,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
                   ));
               
                   // echo $this->Form->control('age_at_onset', ['label' => 'OR Age at onset:', 'escape' => false]);
-                  echo $this->Form->control('age_at_onset', ['type' => 'radio', 
+                  echo $this->Form->control('age_at_onset', ['type' => 'textarea', 
                      'label' => 'OR Age at onset:', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Years' => 'Years', 'Months' => 'Months', 'Days' => 'Days']]);
@@ -62,7 +61,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
                   
               ?>            
             </div>
-            <div class="col-md-6">
+            <div class="col-xs-6">
               <?php
                   echo $this->Form->control('reporter_name', ['label' => 'Reporter\'s name']);
                   echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);
@@ -77,7 +76,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
           </div>
 
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
                   echo $this->Form->control('name_of_vaccination_center', ['label' => 'Name of vaccination center']);
               ?>
@@ -85,11 +84,11 @@ $this->Html->script('aefi_edit', ['block' => true]);
           </div>
 
           <div class="row">
-            <div class="col-md-12"><?php echo $this->element('multi/list_of_vaccines');?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/list_of_vaccines');?></div>
           </div>
 
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-xs-3">
               <h4>Adverse Event(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>:</h4>
               <?php
                   // echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):', 'type' => 'select', 'multiple' => true, 'options' => ['Severe local reaction' => 'Severe local reaction', 'Seizures' => 'Seizures', 'Abscess' => 'Abscess']]);
@@ -103,7 +102,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
                                   
               ?>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
               <br><br>
               <?php
                   echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => 'checkbox_form']);
@@ -115,7 +114,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
                   
               ?>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
               <br><br>
               <?php 
                   echo $this->Form->control('ae_other', ['type' => 'checkbox', 'label' => 'Other (specify)', 
@@ -141,7 +140,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>']]);
               ?>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
               <br><br><br>
               <?php
                   //echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms):']);
@@ -155,9 +154,9 @@ $this->Html->script('aefi_edit', ['block' => true]);
           </div>
 
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('treatment_provided', ['type' => 'radio', 
+                  echo $this->Form->control('treatment_provided', ['type' => 'textarea', 
                      'label' => 'Treatment provided', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
@@ -165,13 +164,13 @@ $this->Html->script('aefi_edit', ['block' => true]);
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('serious', ['type' => 'radio', 
+                  echo $this->Form->control('serious', ['type' => 'textarea', 
                      'label' => 'Serious?', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-                  echo $this->Form->control('serious_yes', ['type' => 'radio', 
+                  echo $this->Form->control('serious_yes', ['type' => 'textarea', 
                      'label' => 'If yes,', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Death' => 'Death', 'Life threatening' => 'Life threatening', 'Disability' => 'Disability', 'Hospitalization' => 'Hospitalization', 'Congenital anomaly' => 'Congenital anomaly']]);
@@ -180,14 +179,14 @@ $this->Html->script('aefi_edit', ['block' => true]);
           </div>
 
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
                   echo $this->Form->control('outcome', ['type' => 'select', 'empty' => true, 
                      'label' => 'Outcome', 'escape' => false,
                      //'templates' => 'radio_form',
                      'options' => ['Recovering' => 'Recovering', 'Recovered' => 'Recovered', 'Recovered with sequelae' => 'Recovered with sequelae', 'Not Recovered' => 'Not Recovered', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('died_date', ['label' => 'If died, date of death', 'type' => 'text']);
-                  echo $this->Form->control('autopsy', ['type' => 'radio',  
+                  echo $this->Form->control('autopsy', ['type' => 'textarea',  
                      'label' => 'Autopsy done', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
@@ -196,7 +195,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
           </div>
 
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
                   echo $this->Form->control('past_medical_history', ['label' => 'Past medical history (including history of similar reaction or other allergies), concomitant medication and other relevant information 
   (e.g. other cases).']);
@@ -206,19 +205,19 @@ $this->Html->script('aefi_edit', ['block' => true]);
 
           <!-- <p>Attachments!!</p> -->
           <div class="row">
-            <div class="col-md-12"><?php echo $this->element('multi/attachments');?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/attachments');?></div>
           </div>
           
           <p>First decision making level to complete (District level):</p>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-xs-6">
               <?php
                   echo $this->Form->control('district_receive_date', ['label' => 'Date report received at district level', 'type' => 'text']);
               ?>
             </div>
-            <div class="col-md-6">
+            <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('investigation_needed', ['type' => 'radio',  
+                  echo $this->Form->control('investigation_needed', ['type' => 'textarea',  
                      'label' => 'Investigation needed', 'escape' => false,
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
@@ -229,7 +228,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
 
           <p>National level top complete:</p>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
                   echo $this->Form->control('national_receive_date', ['label' => 'Date report received at national level', 'type' => 'text']);
               ?>
@@ -238,7 +237,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
 
           <p>Comments:</p>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <?php
                   echo $this->Form->control('comments', ['label' => false]);
               ?>
@@ -247,24 +246,14 @@ $this->Html->script('aefi_edit', ['block' => true]);
 
           <div class="well">
             <div class="row">
-              <div class="col-md-4 text-center">
-                <button name="submitted" value="1" id="aefiSaveChanges" class="btn btn-primary active" type="submit">
-                  <span class="fa fa-edit" aria-hidden="true"></span> Save changes
-                </button>
+              <div class="col-xs-4 text-center">
+                <button class="btn btn-primary active" type="submit">Save changes</button>
               </div>
-              <div class="col-md-4 text-center">
-                <button name="submitted" value="2" id="aefiSubmit" class="btn btn-success active" type="submit"
-                        onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');"
-                >
-                  <span class="fa fa-send" aria-hidden="true"></span> Submit to MCAZ
-                </button>
+              <div class="col-xs-4 text-center">
+                <button class="btn btn-success active" type="submit">Submit to MCAZ</button>
               </div>
-              <div class="col-md-4 text-center">
-                <button name="submitted" value="-1" id="aefiCancel" class="btn btn-default active" type="submit"
-                        onclick="return confirm('Are you sure you wish to cancel the report?');"
-                >
-                  <span class="fa fa-close" aria-hidden="true"></span> Cancel
-                </button>
+              <div class="col-xs-4 text-center">
+                <button class="btn btn-default active" type="submit">Cancel</button>
               </div>
             </div>
           </div>
