@@ -67,8 +67,27 @@ class AdrsController extends AppController
     public function view($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['Users', 'Designations', 'AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
         ]);
+
+        // $this->viewBuilder()->setLayout('pdf/default');
+        if(strpos($this->request->url, 'pdf')) {
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'portrait',
+                    'filename' => $adr->reference_number.'.pdf'
+                ]
+            ]);
+        }
+        
+        
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['adr']);
 
         $this->set('adr', $adr);
         $this->set('_serialize', ['adr']);
@@ -89,7 +108,7 @@ class AdrsController extends AppController
 		$adr->user_id = $this->Auth->user('id');
                 $query = $this->Adrs->query();
                 $query->update()
-                    ->set(['reference_number' => 'SADR'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
+                    ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
                     ->where(['id' => $adr->id])
                     ->execute();
                 //

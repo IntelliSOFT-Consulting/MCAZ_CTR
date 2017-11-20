@@ -44,7 +44,7 @@
                     <td><?= $i+1; ?></td>
                     <td><p class="text-info text-left"><?php
                              echo $this->Form->input('attachments.'.$i.'.id', ['templates' => 'table_form']);
-                             echo $this->Html->link($att[$i]->file, '../'.substr($att[$i]->dir, 8) . '/' . $att[$i]->file);
+                             echo $this->Html->link($att[$i]->file, substr($att[$i]->dir, 8) . '/' . $att[$i]->file, ['fullBase' => true]);
                         ?></p>
                     </td>
                     <td>
