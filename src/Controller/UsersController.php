@@ -2,7 +2,10 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Validation\Validation;
 use Cake\Event\Event;
+use Cake\Log\Log;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -23,23 +26,50 @@ class UsersController extends AppController
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
-       $this->Auth->allow('logout');       
+       // $this->Auth->allow('logout', 'activate', 'view');       
     }
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
         // $this->Auth->allow('*');
-        $this->Auth->allow('register', 'login');
+        $this->Auth->allow(['register', 'login', 'logout', 'activate']);
     }
 
-    public function login() {
+    // public function login() {
+    //     if ($this->request->is('post')) {
+    //         $user = $this->Auth->identify();
+    //         if ($user) {
+    //             $this->Auth->setUser($user);
+    //             return $this->redirect($this->Auth->redirectUrl());
+    //         }
+    //         $this->Flash->error(__('Your username or password was incorrect.'));
+    //     }
+    // }
+
+    //Login with username or password
+    public function login()
+    {
         if ($this->request->is('post')) {
+
+            if (Validation::email($this->request->data['username'])) {
+                $this->Auth->config('authenticate', [
+                    'Form' => [
+                        'fields' => ['username' => 'email']
+                    ]
+                ]);
+                $this->Auth->constructAuthenticate();
+                $this->request->data['email'] = $this->request->data['username'];
+                unset($this->request->data['username']);
+            }
+
             $user = $this->Auth->identify();
+
             if ($user) {
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error(__('Your username or password was incorrect.'));
+
+            $this->Flash->error(__('Invalid username or password, try again'));
         }
     }
  
@@ -50,24 +80,103 @@ class UsersController extends AppController
     }
 
     public function register() {
-        //new
+        //newa
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+
+            if($user->errors()) {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $user->errors(), 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
+            }
+
+            // if($user->errors()) {
+            //     $this->response->statusCode(500);
+            //     $this->set([
+            //         // 'errors' => $user->errors(), 
+            //         'code' => 500, 'message' => 'yntax error, unexpected \u0027$user\u0027 (T_VARIABLE)', 'success' => false,
+            //         '_serialize' => ['code', 'message']]);
+            //     return;
+            // }
+
             $user->group_id = 3;
+            // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);
+            $user->activation_key = $this->Util->generateXOR($user->id);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registration successful.'));
 
+                //Send registration confirm email
+                $this->loadModel('Queue.QueuedJobs');                
+                $data = [
+                    'vars' => [
+                        'user' => $user->toArray()
+                    ]
+                ];
+                $this->QueuedJobs->createJob('RegisterEmail', $data);
+                //end
+
+                $this->Flash->success(__('You have successfully registered. Please click on the link sent to your email address to
+                    activate your account. Check your spam folder if you
+                    don\'t see it in your inbox.'));
+                
+                
+                if($this->request->is('json')) {
+                    $this->set([
+                        'message' => 'Registration successfull. Click on link sent on email to complete registration', 
+                        '_serialize' => ['message']]);
+                    return;
+                }
+
                 return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+
                 //return $this->redirect('/');
+            } else {
+                $this->Flash->error(__('The user could not be registered. Please, try again.'));     
+                // $user->success = false;
+                // $user->message =            
             }
-            $this->Flash->error(__('The user could not be registered. Please, try again.'));
         }
         $designations = $this->Users->Designations->find('list', ['limit' => 200]);
         //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
         //$groups = $this->Users->Groups->find('list', ['limit' => 200]);
         $this->set(compact('user', 'designations'));
         $this->set('_serialize', ['user']);
+    }
+
+    public function activate($id = null) {
+        if($id) {
+            $user = $this->Users->findByActivationKey($id)->first();
+            // pr($id);
+            // pr($this->Util->reverseXOR($id));
+            // pr($this->Util->generateXOR(8));
+            // $user = $this->Users->get($this->Util->reverseXOR($id), [
+            //     'contain' => []
+            // ]);
+            if ($user) {
+                // debug($user);
+                $query = $this->Users->query();
+                $query->update()
+                    ->set(['is_active' => 1])
+                    ->where(['id' => $user->id])
+                    ->execute();
+
+                $this->Flash->success(__('You have successfully activated your account.'));
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+
+            } else {
+                $this->Flash->error(__('Invalid activation token.'));
+                $this->redirect('/');
+            }
+        } else {
+            $this->Flash->error(__('Invalid activation token.'));
+            $this->redirect('/');
+        }
     }
 
     public function home() {
@@ -123,8 +232,37 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Designations', 'Groups', 'Feedbacks', 'Pqmps', 'SadrFollowups', 'Sadrs']
+            'contain' => []
         ]);
+
+        //
+                // $this->loadModel('Queue.QueuedJobs');
+                // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);
+                // $data = [
+                //     'vars' => [
+                //         'user' => $user->toArray()
+                //     ]
+                // ];
+                // $this->QueuedJobs->createJob('RegisterEmail', $data);
+                //end
+        //
+        // debug((new DefaultPasswordHasher)->hash($user->email));
+
+        //send email test --- remove
+        /** @var \Queue\Model\Table\QueuedJobsTable $QueuedJobs */
+        // Log::write('debug', 'Start queue manenos');
+        // $this->loadModel('Queue.QueuedJobs');
+        // $data = [
+        //     'settings' => [
+        //         'subject' => __('Test fired from Queue {0}', $user->name)
+        //     ],
+        //     'vars' => [
+        //         'user' => $user->toArray()
+        //     ]
+        // ];
+        // $this->QueuedJobs->createJob('TestEmail', $data);
+        // Log::write('debug', 'End queue manenos');
+        //end
 
         $this->set('user', $user);
         $this->set('_serialize', ['user']);

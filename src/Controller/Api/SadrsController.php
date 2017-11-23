@@ -73,9 +73,7 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
+       
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['Users', 'SadrListOfDrugs', 'SadrOtherDrugs']
         ]);
@@ -98,7 +96,7 @@ class SadrsController extends AppController
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
 
                 //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($sadr->id)]);
-                $sadr->id = $this->Util->generateXOR($sadr->id);
+                // $sadr->id = $this->Util->generateXOR($sadr->id);
                 $this->set('_serialize', ['sadr']);
             }
         }
@@ -120,15 +118,12 @@ class SadrsController extends AppController
      */
     public function edit($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
-
+       
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['Users', 'SadrListOfDrugs', 'SadrOtherDrugs']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $this->request->data['id'] = $this->Util->reverseXOR($this->request->data['id']);
+            // $this->request->data['id'] = $this->Util->reverseXOR($this->request->data['id']);
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             //debug((string)$sadr);
             //debug($this->request->data);
@@ -136,7 +131,7 @@ class SadrsController extends AppController
 
                 //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($sadr->id)]);
                 //generate id
-                $sadr->id = $this->Util->generateXOR($sadr->id);
+                // $sadr->id = $this->Util->generateXOR($sadr->id);
                 //
                 $this->set('_serialize', ['sadr']);
             }
@@ -177,10 +172,7 @@ class SadrsController extends AppController
      */
     public function delete($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
-
+        
         $this->request->allowMethod(['post', 'delete']);
         $sadr = $this->Sadrs->get($id);
         if ($this->Sadrs->delete($sadr)) {

@@ -245,3 +245,6 @@ Configure::write('CakePdf', [
     'engine' => 'CakePdf.WkHtmlToPdf',
     'download' => true
 ]);
+
+Plugin::load('Queue');
+Configure::load('app_queue');

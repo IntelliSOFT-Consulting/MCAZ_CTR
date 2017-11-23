@@ -81,8 +81,9 @@ class AefisController extends AppController
             ]);
         }
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations'));
-        $this->set('_serialize', ['aefi']);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('aefi', 'designations', 'provinces'));
+        $this->set('_serialize', ['aefi', 'designations', 'provinces']);
     }
 
     /**
@@ -183,7 +184,8 @@ class AefisController extends AppController
         }
 
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations'));
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi']);
 
     }

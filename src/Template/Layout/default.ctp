@@ -109,7 +109,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                 <?php
                     //if($this->Session->read('Auth.User')) {
                     if($this->request->session()->read('Auth.User')) {
-                        echo $this->Html->link('<i class="fa fa-user-circle"></i> '.$this->request->session()->read('Auth.User.username'),
+                        echo $this->Html->link('<i class="fa fa-user-circle"></i> '.$this->request->session()->read('Auth.User.email'),
                             array('controller' => 'users', 'action' => 'profile', 'admin' => false,) , array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-sign-in"></i> Login',

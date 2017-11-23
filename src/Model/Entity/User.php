@@ -49,34 +49,8 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'designation_id' => true,
-        //'county_id' => true,
-        'username' => true,
+        '*' => true,
         'password' => true,
-        'confirm_password' => true,
-        'name' => true,
-        'email' => true,
-        'group_id' => true,
-        'name_of_institution' => true,
-        'institution_address' => true,
-        'institution_code' => true,
-        'institution_contact' => true,
-        'ward' => true,
-        'phone_no' => true,
-        'forgot_password' => true,
-        'initial_email' => true,
-        'is_active' => true,
-        'is_admin' => true,
-        'created' => true,
-        'modified' => true,
-        'designation' => true,
-        //'county' => true,
-        'group' => true,
-        'feedbacks' => true,
-        'pqmps' => true,
-        'sadr_followups' => true,
-        'sadrs' => true,
-        'id' => false
     ];
 
     /**

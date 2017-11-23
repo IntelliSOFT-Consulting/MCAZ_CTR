@@ -16,12 +16,12 @@ class AddActionTakenToSadrs extends AbstractMigration
         $table->addColumn('action_taken', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('relatedness', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->update();
     }

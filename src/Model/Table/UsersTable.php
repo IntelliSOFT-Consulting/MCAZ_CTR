@@ -65,12 +65,9 @@ class UsersTable extends Table
         $this->hasMany('Feedbacks', [
             'foreignKey' => 'user_id'
         ]);
-        // $this->hasMany('Pqmps', [
+        // $this->hasMany('SadrFollowups', [
         //     'foreignKey' => 'user_id'
         // ]);
-        $this->hasMany('SadrFollowups', [
-            'foreignKey' => 'user_id'
-        ]);
         $this->hasMany('Sadrs', [
             'foreignKey' => 'user_id'
         ]);
@@ -109,27 +106,45 @@ class UsersTable extends Table
 
         $validator
             ->scalar('username')
-            ->requirePresence('username', 'create')
-            ->notEmpty('username')
-            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            // ->requirePresence('username', 'create')
+            ->allowEmpty('username') //changed to allow empty. User can login in with username or email
+            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 
+                'message' => 'Username already taken!!']);
 
         $validator
             ->scalar('password')
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password')
+            ->add('password',[
+                'minLength' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'Minimum password length is 6.'
+                ]]);
 
         $validator
             ->scalar('confirm_password')
-            ->requirePresence('confirm_password', 'create')
-            ->notEmpty('confirm_password');
+            ->requirePresence('confirm_password', 'create')            
+            ->add('confirm_password',[ 
+                'minLength' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'Minimum password length is 6.'
+                ]])
+            ->notEmpty('confirm_password')
+            ->add('confirm_password', [
+                'compare' => [
+                    'rule' => ['compareWith', 'password'],
+                    'message' => 'Passwords do not match'
+                ]
+            ]);
 
         $validator
             ->scalar('name')
-            ->notEmpty('name');
+            ->allowEmpty('name'); //name not mandatory
 
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table'])
             ->notEmpty('email');
 
         $validator
@@ -154,7 +169,7 @@ class UsersTable extends Table
 
         $validator
             ->scalar('phone_no')
-            ->notEmpty('phone_no');
+            ->allowEmpty('phone_no');
 
         $validator
             ->allowEmpty('forgot_password');
@@ -196,6 +211,7 @@ class UsersTable extends Table
     {
         $hasher = new DefaultPasswordHasher;
         $entity->password = $hasher->hash($entity->password);
+        $entity->confirm_password = $hasher->hash($entity->confirm_password);
         return true;
     }  
 }

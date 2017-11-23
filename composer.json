@@ -15,7 +15,8 @@
         "friendsofcake/bootstrap-ui": "^1.2",
         "josegonzalez/cakephp-upload": "^3.7",
         "friendsofcake/crud": "^4.3",
-        "friendsofcake/cakepdf": "^3.2"
+        "friendsofcake/cakepdf": "^3.2",
+        "dereuromark/cakephp-queue": "^3.5"
     },
     "require-dev": {
         "psy/psysh": "@stable",

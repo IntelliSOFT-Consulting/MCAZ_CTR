@@ -69,7 +69,8 @@ $this->Html->script('aefi_edit', ['block' => true]);
                   echo $this->Form->control('reporter_department', ['label' => 'Department']);
                   echo $this->Form->control('reporter_address', ['label' => 'Address']);
                   echo $this->Form->control('reporter_district', ['label' => 'District']);
-                  echo $this->Form->control('reporter_province', ['label' => 'Province']);
+                  //echo $this->Form->control('reporter_province', ['label' => 'Province']);
+                  echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('reporter_phone', ['label' => 'Reporter phone']);
                   echo $this->Form->control('reporter_email', ['label' => 'Reporter email']);
               ?>

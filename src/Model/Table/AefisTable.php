@@ -48,6 +48,9 @@ class AefisTable extends Table
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);
+        $this->belongsTo('Provinces', [
+            'foreignKey' => 'province_id'
+        ]);
         $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'aefi_id'
         ]);
@@ -91,15 +94,15 @@ class AefisTable extends Table
             ->scalar('gender')
             ->notEmpty('gender');
 
-        $validator
-            ->scalar('date_of_birth')
-            ->notEmpty('date_of_birth')
-            ->add('date_of_birth', [
-                    'length' => [
-                        'rule' => ['minLength', 3],
-                        'message' => 'Please select at least year of birth.',
-                    ]
-                ]);
+        // $validator
+        //     ->scalar('date_of_birth')
+        //     ->notEmpty('date_of_birth')
+        //     ->add('date_of_birth', [
+        //             'length' => [
+        //                 'rule' => ['minLength', 3],
+        //                 'message' => 'Please select at least year of birth.',
+        //             ]
+        //         ]);
 
         $validator
             ->scalar('reporter_name')

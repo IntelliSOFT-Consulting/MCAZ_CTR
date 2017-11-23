@@ -2578,5 +2578,66 @@
         ],
         "description": "CakePHP plugin for creating and/or rendering Pdfs, several Pdf engines supported.",
         "homepage": "http://github.com/friendsofcake/CakePdf"
+    },
+    {
+        "name": "dereuromark/cakephp-queue",
+        "version": "3.5.3",
+        "version_normalized": "3.5.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dereuromark/cakephp-queue.git",
+            "reference": "ea9c619b82f338f4733eedb1f2f061c12e713c3d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dereuromark/cakephp-queue/zipball/ea9c619b82f338f4733eedb1f2f061c12e713c3d",
+            "reference": "ea9c619b82f338f4733eedb1f2f061c12e713c3d",
+            "shasum": ""
+        },
+        "require": {
+            "cakephp/cakephp": "^3.4",
+            "php": ">=5.6"
+        },
+        "require-dev": {
+            "cakephp/migrations": "^1.0",
+            "dereuromark/cakephp-tools": "^1.2",
+            "fig-r/psr2r-sniffer": "dev-master"
+        },
+        "suggest": {
+            "dereuromark/cakephp-tools": "For the Email lib and QueueEmailTask. Or write your own task here. Also for admin backend."
+        },
+        "time": "2017-09-20T16:15:01+00:00",
+        "type": "cakephp-plugin",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Queue\\": "src",
+                "Queue\\Test\\Fixture\\": "tests/Fixture"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "David Yell",
+                "homepage": "https://github.com/davidyell",
+                "role": "Contributor"
+            },
+            {
+                "name": "Mark Scherer",
+                "homepage": "http://www.dereuromark.de",
+                "role": "Contributor"
+            }
+        ],
+        "description": "The Queue plugin for CakePHP provides deferred task execution.",
+        "homepage": "http://github.com/dereuromark/cakephp-queue",
+        "keywords": [
+            "background",
+            "cakephp",
+            "deferred tasks",
+            "queue"
+        ]
     }
 ]

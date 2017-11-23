@@ -41,6 +41,11 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Seld\\JsonLint\\' => 14,
             'Seld\\CliPrompt\\' => 15,
         ),
+        'Q' => 
+        array (
+            'Queue\\Test\\Fixture\\' => 19,
+            'Queue\\' => 6,
+        ),
         'P' => 
         array (
             'Psy\\' => 4,
@@ -153,6 +158,14 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Seld\\CliPrompt\\' => 
         array (
             0 => __DIR__ . '/..' . '/seld/cli-prompt/src',
+        ),
+        'Queue\\Test\\Fixture\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dereuromark/cakephp-queue/tests/Fixture',
+        ),
+        'Queue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dereuromark/cakephp-queue/src',
         ),
         'Psy\\' => 
         array (
