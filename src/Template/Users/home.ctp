@@ -134,7 +134,7 @@
         </div>
 
         <!-- SAEFIS -->
-        <h2 class="has-error">SAEFI</h2>
+        <h2>SAEFI</h2>
         <p class="has-error">Serious Adverse Event Following Immunization. 
           <?php
               if($this->request->session()->read('Auth.User')) {
