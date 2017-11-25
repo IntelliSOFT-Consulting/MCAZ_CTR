@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12"><h5 class="text-center"> MCAZ Reference Number: <strong><?= $sadr->reference_number ?></strong></h5></div>          
+    <div class="col-xs-12"><h5 class="text-center"> MCAZ Reference Number: <strong><?= ($sadr->submitted == 2) ? $sadr->reference_number : $sadr->created->i18nFormat('dd-MM-yyyy HH:mm:ss') ; ?></strong></h5></div>          
   </div>
 
 

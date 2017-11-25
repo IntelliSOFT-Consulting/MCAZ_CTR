@@ -1,7 +1,8 @@
 $(function() {
     // $(document).on('click', '#registerUser', reloadLabTests);
 
-    
+    //TODO: refresh page on successful cancel modal button.
+
     $("#registerUser").click(function() {
       var frm = $('#partialRegistration');
       $('.help-block').empty();

@@ -24,7 +24,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
     <div class="col-md-12">
       <?= $this->Form->create($aefi, ['type' => 'file']) ?>
           <div class="row">
-            <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= $aefi->reference_number ?></strong></h5></div>         
+            <div class="col-md-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= ($aefi->submitted == 2) ? $aefi->reference_number : $aefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss') ; ?></strong></h5></div>         
           </div>
 
           <div class="row">

@@ -6,12 +6,14 @@
     // $this->Html->script('multi/list_of_drugs', array('inline' => false));
     $this->Html->script('multi/attachments', ['block' => true]);
 
-    if (isset($sadr['attachments'])) {
+    if (!empty($sadr['attachments'])) {
         $att = $sadr['attachments'];
-    } elseif (isset($aefi['attachments'])) {
+    } elseif (!empty($aefi['attachments'])) {
         $att = $aefi['attachments'];
-    } elseif (isset($adr['attachments'])) {
+    } elseif (!empty($adr['attachments'])) {
         $att = $adr['attachments'];
+    } elseif (!empty($saefi['attachments'])) {
+        $att = $saefi['attachments'];
     }
 ?>
 
@@ -24,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table id="attachmentsTable"  class="table table-bordered">
+            <table id="attachmentsTable"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
                     <th> # </th>

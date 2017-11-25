@@ -39,7 +39,9 @@
               } else {
           ?>
           <!-- <p><a class="btn btn-success" href="/aefis/add" role="button">Report &raquo;</a></p> -->
-          <P><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></P>
+          <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></p>
+          <p class="has-error"><label>If Serious AEFI...</label></p>
+          <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></p>
           <?php
               }
           ?>
@@ -113,7 +115,7 @@
           <div class="col-md-6">
             <form method="post" accept-charset="utf-8" action="/users/login">                
               <div class="form-group">
-                  <label for="username">Username</label>
+                  <label for="username">Username/Email</label>
                   <input class="form-control" name="username" id="username" type="text">
               </div>        
               <div class="form-group"> 

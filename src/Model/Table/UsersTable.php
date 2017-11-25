@@ -77,6 +77,9 @@ class UsersTable extends Table
         $this->hasMany('Aefis', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Saefis', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
 

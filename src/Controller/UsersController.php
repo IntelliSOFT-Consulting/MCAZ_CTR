@@ -20,7 +20,8 @@ class UsersController extends AppController
             // 'limit' => 2,
             'Sadrs' => ['scope' => 'sadr'],
             'Adrs' => ['scope' => 'adr'],
-            'Aefis' => ['scope' => 'aefi']
+            'Aefis' => ['scope' => 'aefi'],
+            'Saefis' => ['scope' => 'saefi']
         ];
 
     public function initialize() {
@@ -31,7 +32,7 @@ class UsersController extends AppController
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        // $this->Auth->allow('*');
+        // $this->Auth->allow();
         $this->Auth->allow(['register', 'login', 'logout', 'activate']);
     }
 
@@ -105,10 +106,16 @@ class UsersController extends AppController
             // }
 
             $user->group_id = 3;
-            // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);
-            $user->activation_key = $this->Util->generateXOR($user->id);
+            // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);            
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registration successful.'));
+
+                $user->activation_key = $this->Util->generateXOR($user->id);
+                $query = $this->Users->query();
+                $query->update()
+                    ->set(['activation_key' => $this->Util->generateXOR($user->id)])
+                    ->where(['id' => $user->id])
+                    ->execute();
 
                 //Send registration confirm email
                 $this->loadModel('Queue.QueuedJobs');                
@@ -183,6 +190,7 @@ class UsersController extends AppController
         $this->loadModel('Sadrs');
         $this->loadModel('Adrs');
         $this->loadModel('Aefis');
+        $this->loadModel('Saefis');
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
@@ -201,8 +209,11 @@ class UsersController extends AppController
                                     'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
         $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
                                     'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
+        $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
+                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
 
-        $this->set(compact('sadrs', 'adrs', 'aefis'));
+        $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
+        $this->set(compact('saefis'));
         // $this->set('_serialize', ['sadrs', 'adrs', 'aefis']);
     }
 

@@ -76,3 +76,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22315b', end
   border-radius: 4px;
   padding: 4px;
 }
+
+.saefi_form {
+  background-color: #e293bf;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+h1.has-warning, h2.has-warning, h3.has-warning, h4.has-warning, h5.has-warning, p.has-warning {
+    color: #aa6708; 
+}
+
+h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-error {
+    color: #a94442;
+}

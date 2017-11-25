@@ -226,15 +226,3 @@ hr {
     font-size: 39px;
 }
 
-@media (min-width: 768px) {
-    .columns {
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-}
-
-@media (min-width: 992px) {
-    header.row {
-        max-width: 940px;
-    }
-}
