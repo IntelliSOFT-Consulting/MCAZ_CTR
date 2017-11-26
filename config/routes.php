@@ -50,6 +50,7 @@ Router::prefix('api', function ($routes) {
     $routes->resources('Sadrs');
     $routes->resources('Aefis');
     $routes->resources('Adrs');
+    $routes->resources('Saefis');
 });
 
 //
