@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-12">
         <h3 class="text-center">Number vaccinated for each antigen at session site. Attach record if available. <button type="button" class="btn btn-primary btn-sm" id="addSaefiVaccine">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button></h3>
       </div>
     </div>

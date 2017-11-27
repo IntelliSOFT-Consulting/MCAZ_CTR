@@ -143,7 +143,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <div class="jumbotron">
       <div class="container">
         <!-- <a href="/"> <img style="float:left; width: 190px; padding-top: 50px"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a> -->
-        <h2 class="text-center">Medicines Control Authourity of Zimbabwe</h2>
+        <h2 class="text-center">Medicines Control Authority of Zimbabwe</h2>
         <!-- <p class="text-center">SAE, ADR and AEFI electronic reporting. </p> -->
         <p class="lead" style="margin-bottom:10px; font-size:19px;">SAE, ADR and AEFI electronic reporting.</p>
         <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->

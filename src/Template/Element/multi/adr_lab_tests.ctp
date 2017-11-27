@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-12">
         <h4>Add Lab test: <button type="button" class="btn btn-primary btn-sm" id="addLabTest">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button></h4>
       </div>
     </div>

@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-md-12">
             <h4>Do you have files that you would like to attach? click on the button to add them: <button type="button" class="btn btn-info btn-sm" id="addAttachment">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button></h4>
         </div>
     </div>
