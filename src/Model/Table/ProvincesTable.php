@@ -42,6 +42,10 @@ class ProvincesTable extends Table
         $this->hasMany('Aefis', [
             'foreignKey' => 'province_id'
         ]);
+
+        $this->hasMany('Sadrs', [
+            'foreignKey' => 'province_id'
+        ]);
     }
 
     /**

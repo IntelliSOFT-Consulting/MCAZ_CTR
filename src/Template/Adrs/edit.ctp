@@ -10,7 +10,7 @@ $this->Html->script('adr_edit', ['block' => true]);
     <div class="col-md-12"><h3 class="text-center">
       <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>SERIOUS ADVERSE EVENT REPORTING FORM </h3>  
       <div class="row">
-        <div class="col-md-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI) </h5></div>
+        <div class="col-md-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR SERIOUS ADVERSE EVENT(SAE) </h5></div>
       </div>
     </div>
   </div>
