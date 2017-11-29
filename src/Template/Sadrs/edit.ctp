@@ -63,6 +63,7 @@
               <?php
                   echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
+                  echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
                   echo $this->Form->control('height', ['label' => 'Height (meters)']);
                   echo $this->Form->control('gender', ['type' => 'radio', 

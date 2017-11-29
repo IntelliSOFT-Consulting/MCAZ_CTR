@@ -85,11 +85,12 @@ class SadrsController extends AppController
         
         $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['sadr']);
+        $this->set(compact('sadr', 'users', 'designations', 'provinces','doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['sadr','provinces']);
         // $this->set('sadr', $sadr);
         // $this->set('_serialize', ['sadr']);
     }
@@ -211,11 +212,12 @@ class SadrsController extends AppController
         $sadr = $this->format_dates($sadr);
 
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['sadr']);
+        $this->set(compact('sadr', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['sadr', 'provinces']);
     }
 
     /**

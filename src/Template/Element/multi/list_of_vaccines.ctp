@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-12">
         <h3 class="text-center">Vaccines <button type="button" class="btn btn-primary btn-sm" id="addAefiVaccine">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button></h3>
       </div>
     </div>
@@ -85,7 +85,7 @@
     <div class="row">
       <div class="col-md-12">
         <h3 class="text-center">Diluents <button type="button" class="btn btn-success btn-sm" id="addAefiDiluent">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button></h3>
       </div>
     </div>

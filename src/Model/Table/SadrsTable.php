@@ -56,6 +56,9 @@ class SadrsTable extends Table
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);
+        $this->belongsTo('Provinces', [
+            'foreignKey' => 'province_id'
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

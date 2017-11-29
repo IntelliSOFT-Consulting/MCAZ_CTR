@@ -1,3 +1,6 @@
+<?php
+
+?>
 <div class="container">
   <div class="row">
     <div class="col-xs-12"><h3 class="text-center">
@@ -250,7 +253,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" id="addListOfDevice">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button>
                     </td>
                   </tr>
@@ -337,7 +340,7 @@
     <div class="row">
       <div class="col-xs-12"><h4>If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE: 
         <button type="button" class="btn btn-success" id="addAdrConcomitant">
-                           <i class="fa fa-plus"></i>
+                           Add <i class="fa fa-plus"></i>
                         </button>
                       </h4></div>
     </div>
@@ -462,7 +465,7 @@
           <div class="row">
       <div class="col-md-12">
         <h4>Add Lab test: <button type="button" class="btn btn-primary btn-sm" id="addLabTest">
-                          <i class="fa fa-plus"></i>
+                          Add <i class="fa fa-plus"></i>
                         </button></h4>
       </div>
     </div>
