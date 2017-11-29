@@ -150,6 +150,13 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
         <?php if($this->request->session()->read('Auth.User')) { ?>
             <p><a class="btn btn-primary btn-lg" href="/users/home" role="button"><i class="fa fa-file" aria-hidden="true"></i>
  My Reports &raquo;</a></p>
+            <p>
+              <?php echo $this->Html->link(
+                    '<i class="fa fa-dashboard" aria-hidden="true"></i> My Reports &raquo;',
+                    ['controller' => 'Users', 'action' => 'home', 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-primary btn-lg']
+                  );  
+              ?>
+            </p>
         <?php    } else { ?>
             <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
         <?php     }       ?>

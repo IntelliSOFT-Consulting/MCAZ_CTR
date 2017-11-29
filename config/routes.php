@@ -52,7 +52,12 @@ Router::prefix('api', function ($routes) {
     $routes->resources('Adrs');
     $routes->resources('Saefis');
 });
-
+Router::prefix('admin', function ($routes) {
+    // All routes here will be prefixed with `/admin`
+    // And have the prefix => admin route element added.
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'admin']);
+    $routes->fallbacks(DashedRoute::class);
+});
 //
 Router::scope('/', function (RouteBuilder $routes) {
     /**

@@ -83,16 +83,19 @@ class AppController extends Controller
             ],
             'loginAction' => [
                 'plugin' => false,
+                'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login'
             ],
             'loginRedirect' => [
                 'plugin' => false,
+                'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'home'
             ],
             'logoutRedirect' => [
                 'plugin' => false,
+                'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login'
             ],
@@ -112,9 +115,14 @@ class AppController extends Controller
     /*1. Ported from 1.2*/
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        $this->Auth->allow('display');        
+        $this->Auth->allow('display'); 
+        //if admin prefix, redirect to admin
+        if($this->request->getParam('prefix')) {
+            $this->viewBuilder()->setLayout('admin');
+        }
     }    
     /*end 1*/
+
 
     /**
      * Before render callback.
@@ -132,5 +140,11 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+
+        //pass prefix to all controllers
+        $prefix = null;
+        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
+        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'evaluator'; }
+        $this->set(['prefix'=> $prefix]);
     }
 }

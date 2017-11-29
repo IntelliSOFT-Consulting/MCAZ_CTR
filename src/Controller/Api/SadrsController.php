@@ -89,6 +89,9 @@ class SadrsController extends AppController
      */
     public function add()
     {
+        // $sadr = $this->Sadrs->get(3, [
+        //     'contain' => ['Users', 'SadrListOfDrugs', 'SadrOtherDrugs']
+        // ]);
         $sadr = $this->Sadrs->newEntity();
         if ($this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
@@ -96,16 +99,16 @@ class SadrsController extends AppController
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
 
                 //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($sadr->id)]);
-                // $sadr->id = $this->Util->generateXOR($sadr->id);
+                $this->set(compact('sadr'));
                 $this->set('_serialize', ['sadr']);
             }
         }
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
-        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
-        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
-        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
+
+        // $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        // $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
+        // $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
+        // $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('sadr'));
         $this->set('_serialize', ['sadr']);
     }
 
