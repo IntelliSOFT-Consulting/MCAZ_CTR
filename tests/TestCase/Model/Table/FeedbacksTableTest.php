@@ -25,19 +25,7 @@ class FeedbacksTableTest extends TestCase
      */
     public $fixtures = [
         'app.feedbacks',
-        'app.users',
-        'app.designations',
-        'app.pqmps',
-        'app.counties',
-        'app.sadr_followups',
-        'app.sadrs',
-        'app.sub_counties',
-        'app.vigiflows',
-        'app.attachments',
-        'app.messages',
-        'app.sadr_list_of_drugs',
-        'app.countries',
-        'app.groups'
+        'app.users'
     ];
 
     /**

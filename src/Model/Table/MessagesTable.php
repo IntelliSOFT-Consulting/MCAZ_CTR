@@ -9,10 +9,6 @@ use Cake\Validation\Validator;
 /**
  * Messages Model
  *
- * @property \App\Model\Table\SadrsTable|\Cake\ORM\Association\BelongsTo $Sadrs
- * @property \App\Model\Table\PqmpsTable|\Cake\ORM\Association\BelongsTo $Pqmps
- * @property \App\Model\Table\SadrFollowupsTable|\Cake\ORM\Association\BelongsTo $SadrFollowups
- *
  * @method \App\Model\Entity\Message get($primaryKey, $options = [])
  * @method \App\Model\Entity\Message newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Message[] newEntities(array $data, array $options = [])
@@ -37,20 +33,10 @@ class MessagesTable extends Table
         parent::initialize($config);
 
         $this->setTable('messages');
-        $this->setDisplayField('id');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
-        $this->belongsTo('Sadrs', [
-            'foreignKey' => 'sadr_id'
-        ]);
-        $this->belongsTo('Pqmps', [
-            'foreignKey' => 'pqmp_id'
-        ]);
-        $this->belongsTo('SadrFollowups', [
-            'foreignKey' => 'sadr_followup_id'
-        ]);
     }
 
     /**
@@ -66,40 +52,21 @@ class MessagesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('sender')
-            ->allowEmpty('sender');
+            ->scalar('name')
+            ->allowEmpty('name');
 
         $validator
-            ->scalar('receiver')
-            ->allowEmpty('receiver');
+            ->scalar('content')
+            ->allowEmpty('content');
 
         $validator
-            ->scalar('subject')
-            ->allowEmpty('subject');
+            ->scalar('type')
+            ->allowEmpty('type');
 
         $validator
-            ->scalar('message')
-            ->allowEmpty('message');
-
-        $validator
-            ->allowEmpty('sent');
+            ->scalar('description')
+            ->allowEmpty('description');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
-        $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
-        $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
-
-        return $rules;
     }
 }

@@ -19,17 +19,12 @@ body {
 /*change navbar color*/
 
 .jumbotron {
-    /*background: -moz-linear-gradient(45deg, #020031 0%, #6D3353 100%) repeat scroll 0 0 transparent;  old */
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#251e4f+0,4073a5+56,98c1e0+100 */
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#22315b+0,4785b7+52,9ddce8+100 */
-background: rgb(34,49,91); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(34,49,91,1) 0%, rgba(71,133,183,1) 52%, rgba(157,220,232,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(34,49,91,1) 0%,rgba(71,133,183,1) 52%,rgba(157,220,232,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(34,49,91,1) 0%,rgba(71,133,183,1) 52%,rgba(157,220,232,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22315b', endColorstr='#9ddce8',GradientType=0 ); /* IE6-9 */
-
-    
-    /*#2F1F50*/
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#aa89d6+0,685ba5+50,b38fe0+100 */
+background: rgb(170,137,214); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(170,137,214,1) 0%, rgba(104,91,165,1) 50%, rgba(179,143,224,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(170,137,214,1) 0%,rgba(104,91,165,1) 50%,rgba(179,143,224,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(170,137,214,1) 0%,rgba(104,91,165,1) 50%,rgba(179,143,224,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aa89d6', endColorstr='#b38fe0',GradientType=0 ); /* IE6-9 */
 
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2) inset, 0 -3px 7px rgba(0, 0, 0, 0.2) inset;
     color: #FFFFFF;
@@ -90,4 +85,15 @@ h1.has-warning, h2.has-warning, h3.has-warning, h4.has-warning, h5.has-warning, 
 
 h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-error {
     color: #a94442;
+}
+
+.footer {
+    background-color: #2F1F50;
+    margin-top: 2px;
+    padding: 30px 0;
+}
+
+.footer p {
+    color: #FFFFFF;
+    margin-bottom: 0;
 }

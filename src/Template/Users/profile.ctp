@@ -20,8 +20,6 @@
   <div class="col-md-12">
     <h3><?= h($user->name) ?></h3>
     <dl class="dl-horizontal">
-      <dt>Designation</dt>
-      <dd><?= $user->has('designation') ? $this->Html->link($user->designation->name, ['controller' => 'Designations', 'action' => 'view', $user->designation->id]) : '' ?></dd>
       <dt scope="row"><?= __('Username') ?></dt>
       <dd><?= h($user->username) ?></dd>
       <dt scope="row"><?= __('Name') ?></dt>
@@ -29,7 +27,9 @@
      <dt scope="row"><?= __('Email') ?></dt>
         <dd><?= h($user->email) ?></dd>
         <dt scope="row"><?= __('Group') ?></dt>
-        <dd><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group->id]) : '' ?></dd>
+        <dd><?php //echo $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group->id]) : '' ?>
+          <?= $user->group->name ?>
+        </dd>
         <dt scope="row"><?= __('Phone No') ?></dt>
             <dd><?= h($user->phone_no) ?></dd>
     </dl>

@@ -7,19 +7,14 @@ use Cake\ORM\Entity;
  * Feedback Entity
  *
  * @property int $id
- * @property string $email
  * @property int $user_id
- * @property int $sadr_id
- * @property int $sadr_followup_id
- * @property int $pqmp_id
+ * @property string $email
+ * @property string $subject
  * @property string $feedback
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\User $user
- * @property \App\Model\Entity\Sadr $sadr
- * @property \App\Model\Entity\SadrFollowup $sadr_followup
- * @property \App\Model\Entity\Pqmp $pqmp
  */
 class Feedback extends Entity
 {
@@ -34,17 +29,12 @@ class Feedback extends Entity
      * @var array
      */
     protected $_accessible = [
-        'email' => true,
         'user_id' => true,
-        'sadr_id' => true,
-        'sadr_followup_id' => true,
-        'pqmp_id' => true,
+        'email' => true,
+        'subject' => true,
         'feedback' => true,
         'created' => true,
         'modified' => true,
-        'user' => true,
-        'sadr' => true,
-        'sadr_followup' => true,
-        'pqmp' => true
+        'user' => true
     ];
 }

@@ -25,7 +25,7 @@ class CountriesTableTest extends TestCase
      */
     public $fixtures = [
         'app.countries',
-        'app.pqmps'
+        'app.users'
     ];
 
     /**

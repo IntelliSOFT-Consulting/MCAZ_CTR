@@ -38,7 +38,6 @@
                 echo $this->Form->control('name');
                 echo $this->Form->control('email');
                 echo $this->Form->control('phone_no');
-                echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);        
                 //echo $this->Form->control('name_of_institution');
                 //echo $this->Form->control('institution_address');
                 ?>

@@ -10,12 +10,6 @@
         <li><?= $this->Html->link(__('New Feedback'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sadrs'), ['controller' => 'Sadrs', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sadr'), ['controller' => 'Sadrs', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sadr Followups'), ['controller' => 'SadrFollowups', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sadr Followup'), ['controller' => 'SadrFollowups', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Pqmps'), ['controller' => 'Pqmps', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Pqmp'), ['controller' => 'Pqmps', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="feedbacks index large-9 medium-8 columns content">
@@ -24,11 +18,9 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sadr_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sadr_followup_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('pqmp_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('subject') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -38,11 +30,9 @@
             <?php foreach ($feedbacks as $feedback): ?>
             <tr>
                 <td><?= $this->Number->format($feedback->id) ?></td>
-                <td><?= h($feedback->email) ?></td>
                 <td><?= $feedback->has('user') ? $this->Html->link($feedback->user->name, ['controller' => 'Users', 'action' => 'view', $feedback->user->id]) : '' ?></td>
-                <td><?= $feedback->has('sadr') ? $this->Html->link($feedback->sadr->id, ['controller' => 'Sadrs', 'action' => 'view', $feedback->sadr->id]) : '' ?></td>
-                <td><?= $feedback->has('sadr_followup') ? $this->Html->link($feedback->sadr_followup->id, ['controller' => 'SadrFollowups', 'action' => 'view', $feedback->sadr_followup->id]) : '' ?></td>
-                <td><?= $feedback->has('pqmp') ? $this->Html->link($feedback->pqmp->id, ['controller' => 'Pqmps', 'action' => 'view', $feedback->pqmp->id]) : '' ?></td>
+                <td><?= h($feedback->email) ?></td>
+                <td><?= h($feedback->subject) ?></td>
                 <td><?= h($feedback->created) ?></td>
                 <td><?= h($feedback->modified) ?></td>
                 <td class="actions">

@@ -8,12 +8,12 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $foreign_key
- * @property $file
+ * @property string $file
  * @property string $dir
  * @property string $size
  * @property string $type
  * @property string $model
- * @property string $group
+ * @property string $category
  * @property string $description
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
@@ -37,7 +37,7 @@ class Attachment extends Entity
         'size' => true,
         'type' => true,
         'model' => true,
-        'group' => true,
+        'category' => true,
         'description' => true,
         'created' => true,
         'modified' => true

@@ -38,6 +38,7 @@ return array(
     'Crud\\' => array($vendorDir . '/friendsofcake/crud/src'),
     'Composer\\Spdx\\' => array($vendorDir . '/composer/spdx-licenses/src'),
     'Composer\\Semver\\' => array($vendorDir . '/composer/semver/src'),
+    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'Composer\\' => array($vendorDir . '/composer/composer/src/Composer'),
     'Cake\\Test\\' => array($vendorDir . '/cakephp/cakephp/tests'),
@@ -52,4 +53,5 @@ return array(
     'App\\Test\\' => array($baseDir . '/tests'),
     'App\\' => array($baseDir . '/src'),
     'Acl\\' => array($vendorDir . '/cakephp/acl/src'),
+    'AclManager\\' => array($vendorDir . '/ivanamat/cakephp3-aclmanager/src'),
 );

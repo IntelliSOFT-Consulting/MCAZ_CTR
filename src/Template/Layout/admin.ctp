@@ -75,8 +75,7 @@ $cakeDescription = 'MCAZ PV Admin';
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <?= $this->Html->link('<i class="fa fa-tachometer" aria-hidden="true"></i>
- Dashboard', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?>
+              <?= $this->Html->link('<i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => false], array('escape' => false)); ?>
             </li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li>

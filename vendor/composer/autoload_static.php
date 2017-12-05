@@ -79,6 +79,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Crud\\' => 5,
             'Composer\\Spdx\\' => 14,
             'Composer\\Semver\\' => 16,
+            'Composer\\Installers\\' => 20,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
             'Cake\\Test\\' => 10,
@@ -99,6 +100,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'App\\Test\\' => 9,
             'App\\' => 4,
             'Acl\\' => 4,
+            'AclManager\\' => 11,
         ),
     );
 
@@ -231,6 +233,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/composer/semver/src',
         ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
         'Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
@@ -286,6 +292,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Acl\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/acl/src',
+        ),
+        'AclManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ivanamat/cakephp3-aclmanager/src',
         ),
     );
 

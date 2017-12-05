@@ -3,6 +3,7 @@ $baseDir = dirname(dirname(__FILE__));
 return [
     'plugins' => [
         'Acl' => $baseDir . '/vendor/cakephp/acl/',
+        'AclManager' => $baseDir . '/vendor/ivanamat/cakephp3-aclmanager/',
         'Bake' => $baseDir . '/vendor/cakephp/bake/',
         'BootstrapUI' => $baseDir . '/vendor/friendsofcake/bootstrap-ui/',
         'CakePdf' => $baseDir . '/vendor/friendsofcake/cakepdf/',

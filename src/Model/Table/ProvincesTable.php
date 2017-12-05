@@ -39,13 +39,10 @@ class ProvincesTable extends Table
         $this->addBehavior('Timestamp');
 
 
-        $this->hasMany('Aefis', [
+        $this->hasMany('Sites', [
             'foreignKey' => 'province_id'
         ]);
 
-        $this->hasMany('Sadrs', [
-            'foreignKey' => 'province_id'
-        ]);
     }
 
     /**

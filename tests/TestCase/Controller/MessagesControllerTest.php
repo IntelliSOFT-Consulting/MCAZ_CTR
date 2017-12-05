@@ -16,20 +16,7 @@ class MessagesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.messages',
-        'app.sadrs',
-        'app.users',
-        'app.designations',
-        'app.pqmps',
-        'app.counties',
-        'app.sadr_followups',
-        'app.sub_counties',
-        'app.countries',
-        'app.attachments',
-        'app.feedbacks',
-        'app.groups',
-        'app.vigiflows',
-        'app.sadr_list_of_drugs'
+        'app.messages'
     ];
 
     /**

@@ -52,32 +52,16 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Acl.Acl', ['type' => 'requester']);
 
-        $this->belongsTo('Designations', [
-            'foreignKey' => 'designation_id'
-        ]);
-        // $this->belongsTo('Counties', [
-        //     'foreignKey' => 'county_id'
-        // ]);
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('Feedbacks', [
+
+        $this->hasMany('Applications', [
             'foreignKey' => 'user_id'
         ]);
-        // $this->hasMany('SadrFollowups', [
-        //     'foreignKey' => 'user_id'
-        // ]);
-        $this->hasMany('Sadrs', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->hasMany('Adrs', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->hasMany('Aefis', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->hasMany('Saefis', [
+
+        $this->hasMany('Notifications', [
             'foreignKey' => 'user_id'
         ]);
     }
@@ -94,18 +78,6 @@ class UsersTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-
-        // $validator
-        //     ->requirePresence('username', 'create')
-        //     ->notEmpty('username')
-        //     ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-        // $validator
-        //     ->requirePresence('password', 'create')
-        //     ->notEmpty('password');
-
-        // $validator
-        //     ->integer('id')
-        //     ->allowEmpty('id', 'create');
 
         $validator
             ->scalar('username')
@@ -202,8 +174,6 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['username']));
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['designation_id'], 'Designations'));
-        //$rules->add($rules->existsIn(['county_id'], 'Counties'));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
 
         return $rules;

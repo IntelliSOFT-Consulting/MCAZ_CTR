@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
+$cakeDescription = 'MCAZ CTR:';
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <!-- jquery UI -->
     <?= $this->Html->css('jquery-ui.min') ?>
     <?= $this->Html->script('jquery/jquery') ?>
-    <?= $this->Html->script('jquery/jquery-ui.min') ?>
+    <?= $this->Html->script('jquery/jquery-ui') ?>
     <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
 
     <?= $this->Html->css('bootstrap/jumbotron') ?>
@@ -78,24 +78,30 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
           <!-- <a class="navbar-brand" href="/">MCAZ, Pharmacovigilance reporting system</a>        -->
           <!-- <a class="navbar-brand" href="/"> <img style="width: 190px;"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a> -->
 
-          <?php if($this->request->session()->read('Auth.User')) { ?>
-              <a class="navbar-brand" href="/users/home"> <img style="width: 190px;"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a>                  
+          <?php if($this->request->session()->read('Auth.User')) { 
+              echo $this->Html->link(
+                  $this->Html->image("mcaz_logo.png", ["alt" => "Medicines Control Authourity of Zimbabwe"]),
+                   ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix],
+                   ['escape' => false, 'class' => "navbar-brand"]
+              );
+            ?>
+            <!--   <a class="navbar-brand" href="/users/home"> <img style="width: 190px;"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a>                   -->
           <?php    } else { ?>
               <a class="navbar-brand" href="/"> <img style="width: 190px;"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a>
           <?php     }       ?>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <!-- <li><a href="/"><i class="fa fa-home"></i> Home</a></li> -->
         <li class="<?php echo $this->fetch('Login') ?>">
                 <?php
                     if($this->request->session()->read('Auth.User')) {
-                        echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'users', 'action' => 'home') , 
+                        echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix) , 
                           array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-home"></i> Home',
-                            array('controller' => 'pages', 'action' =>  'home', 'admin' => false) , array('escape' => false));
+                            array('controller' => 'Pages', 'action' =>  'home', 'prefix' => $prefix) , array('escape' => false));
                     }
                 ?>
         </li>
@@ -110,10 +116,10 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                     //if($this->Session->read('Auth.User')) {
                     if($this->request->session()->read('Auth.User')) {
                         echo $this->Html->link('<i class="fa fa-user-circle"></i> '.$this->request->session()->read('Auth.User.email'),
-                            array('controller' => 'users', 'action' => 'profile', 'admin' => false,) , array('escape' => false));                    
+                            array('controller' => 'users', 'action' => 'profile', 'prefix' => false) , array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-sign-in"></i> Login',
-                            array('controller' => 'users', 'action' =>  'login', 'admin' => false) , array('escape' => false));
+                            array('controller' => 'users', 'action' =>  'login', 'prefix' => false) , array('escape' => false));
                     }
                 ?>
             </li>
@@ -121,14 +127,14 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                 <li role="presentation">
                 <?php
                         echo $this->Html->link('<i class="fa fa-sign-out"></i> Logout',
-                        array('controller' => 'users', 'action' => 'logout',  'admin' => false) , array('escape' => false));
+                        array('controller' => 'users', 'action' => 'logout',  'prefix' => false) , array('escape' => false));
                 ?>
                 </li>
             <?php } else { ?>
                 <li class="<?php echo $this->fetch('Register') ?>">
                 <?php
                         echo $this->Html->link('<i class="fa fa-edit"></i> Register',
-                        array('controller' => 'users', 'action' => 'register', 'admin' => false) , array('escape' => false));
+                        array('controller' => 'users', 'action' => 'register', 'prefix' => false) , array('escape' => false));
                 ?>
                 </li>
             <?php } ?>
@@ -145,20 +151,20 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
         <!-- <a href="/"> <img style="float:left; width: 190px; padding-top: 50px"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a> -->
         <h2 class="text-center">Medicines Control Authority of Zimbabwe</h2>
         <!-- <p class="text-center">SAE, ADR and AEFI electronic reporting. </p> -->
-        <p class="lead" style="margin-bottom:10px; font-size:19px;">SAE, ADR and AEFI electronic reporting.</p>
+        <p class="lead" style="margin-bottom:10px; font-size:19px;">Clinical Trials Registry</p>
         <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
         <?php if($this->request->session()->read('Auth.User')) { ?>
-            <p><a class="btn btn-primary btn-lg" href="/users/home" role="button"><i class="fa fa-file" aria-hidden="true"></i>
- My Reports &raquo;</a></p>
             <p>
-              <?php echo $this->Html->link(
-                    '<i class="fa fa-dashboard" aria-hidden="true"></i> My Reports &raquo;',
-                    ['controller' => 'Users', 'action' => 'home', 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-primary btn-lg']
-                  );  
+              <?php
+                // echo $this->Html->link(
+                //       '<i class="fa fa-file" aria-hidden="true"></i> My Reports &raquo;',
+                //       ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix],
+                //       ['escape' => false,'class' => 'btn btn-info']
+                //   );
               ?>
             </p>
         <?php    } else { ?>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            <p></p>
         <?php     }       ?>
       </div>
     </div>
@@ -168,9 +174,12 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
       <div class="row">   
         <?php 
           // Later come here to incldue the dashboard menu
-            // if($this->request->session()->read('Auth.User')) {
-            //   echo $this->element('menus/reporter_menu') ;
-            // }
+            if($this->request->session()->read('Auth.User')) {
+                if($this->request->session()->read('Auth.User.group_id') == '1') echo $this->element('menus/admin_menu') ;
+                if($this->request->session()->read('Auth.User.group_id') == '2') echo $this->element('menus/manager_menu');
+                if($this->request->session()->read('Auth.User.group_id') == '3') echo $this->element('menus/evaluator_menu');
+                if($this->request->session()->read('Auth.User.group_id') == '4') echo $this->element('menus/applicant_menu');
+            }
         ?>
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
@@ -178,11 +187,13 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
 
       <hr>
 
-      <footer>
-        <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, PV.</p>
-      </footer>
+      
     </div> <!-- /container -->
-
+    <footer class="footer">
+        <div class="container">
+            <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, CTR.</p>
+        </div>
+    </footer>
     
   </body>
 

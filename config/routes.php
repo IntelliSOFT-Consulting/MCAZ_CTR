@@ -41,21 +41,26 @@ use Cake\Routing\Route\DashedRoute;
  * `:action` markers.
  *
  */
+Plugin::routes();
 Router::defaultRouteClass(DashedRoute::class);
 //added
 Router::extensions(['pdf']);
 Router::extensions(['json', 'xml']);
-Router::prefix('api', function ($routes) {
-    $routes->extensions(['json', 'xml']);
-    $routes->resources('Sadrs');
-    $routes->resources('Aefis');
-    $routes->resources('Adrs');
-    $routes->resources('Saefis');
-});
+
 Router::prefix('admin', function ($routes) {
-    // All routes here will be prefixed with `/admin`
-    // And have the prefix => admin route element added.
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'admin']);
+    $routes->fallbacks(DashedRoute::class);
+});
+Router::prefix('manager', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'manager']);
+    $routes->fallbacks(DashedRoute::class);
+});
+Router::prefix('evaluator', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+    $routes->fallbacks(DashedRoute::class);
+});
+Router::prefix('applicant', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'applicant']);
     $routes->fallbacks(DashedRoute::class);
 });
 //
@@ -71,6 +76,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    // $routes->connect('/AclManager', ['plugin' => 'AclManager', 'controller' => 'Acl', 'action' => 'index']);
+    // $routes->connect('/AclManager/:action/*', ['plugin' => 'AclManager', 'controller' => 'Acl']);
 
     /**
      * Connect catchall routes for all controllers.
@@ -95,4 +102,4 @@ Router::scope('/', function (RouteBuilder $routes) {
  * Load all plugin routes. See the Plugin documentation on
  * how to customize the loading of plugin routes.
  */
-Plugin::routes();
+

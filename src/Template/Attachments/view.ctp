@@ -37,8 +37,8 @@
             <td><?= h($attachment->model) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Group') ?></th>
-            <td><?= h($attachment->group) ?></td>
+            <th scope="row"><?= __('Category') ?></th>
+            <td><?= h($attachment->category) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

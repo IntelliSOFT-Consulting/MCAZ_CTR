@@ -17,7 +17,7 @@ return [
     'formGroup' => '<div class="form-group"> {{label}}{{input}} </div>',
     'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
     // Generic input element.
-    'input' => '<div class="col-sm-6"><input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/></div>',
+    'input' => '<div class="col-sm-6"><input class="form-control" type="{{type}}" name="{{name}}" {{attrs}} /></div>',
     // Container element used by control() when a field has an error.
     'inputContainerError' => '<div class="input {{type}}{{required}} has-error">{{content}}{{error}}</div>',
     // Error message wrapper elements.
@@ -29,5 +29,6 @@ return [
   	// Radio input element,
     //'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}>',
     //'radioWrapper' => '<div class="col-sm-8"><div class="radio">{{label}}</div></div>',
-  	'textarea' => '<div class="col-sm-8"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',
+  	//'textarea' => '<div class="col-sm-8"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',
+    'textarea' => '<div class="col-sm-8"><textarea class="form-control" rows="3" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'
 ];

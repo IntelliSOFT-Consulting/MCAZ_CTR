@@ -76,6 +76,11 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+        $prefix = null;
+        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
+        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager';  }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
 
         $this->loadComponent('Auth', [
             'authorize' => [
@@ -89,9 +94,9 @@ class AppController extends Controller
             ],
             'loginRedirect' => [
                 'plugin' => false,
-                'prefix' => false,
+                'prefix' => 'applicant',
                 'controller' => 'Users',
-                'action' => 'home'
+                'action' => 'dashboard'
             ],
             'logoutRedirect' => [
                 'plugin' => false,
@@ -110,6 +115,7 @@ class AppController extends Controller
                 'element' => 'error'
             ]
         ]);
+        // $this->Auth->allow(); 
     }
 
     /*1. Ported from 1.2*/
@@ -117,9 +123,10 @@ class AppController extends Controller
         parent::beforeFilter($event);
         $this->Auth->allow('display'); 
         //if admin prefix, redirect to admin
-        if($this->request->getParam('prefix')) {
-            $this->viewBuilder()->setLayout('admin');
-        }
+        // $this->viewBuilder()->setLayout('admin');
+        // if($this->Auth->user('group_id')!= 'applicant') {
+        //     $this->viewBuilder()->setLayout('admin');
+        // }
     }    
     /*end 1*/
 
@@ -143,8 +150,10 @@ class AppController extends Controller
 
         //pass prefix to all controllers
         $prefix = null;
-        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
-        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'evaluator'; }
+        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin'; $this->viewBuilder()->setLayout('admin');} 
+        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager';  $this->viewBuilder()->setLayout('admin');}
+        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; $this->viewBuilder()->setLayout('admin'); }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
         $this->set(['prefix'=> $prefix]);
     }
 }

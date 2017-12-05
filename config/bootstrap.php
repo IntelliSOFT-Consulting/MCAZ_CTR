@@ -248,3 +248,10 @@ Configure::write('CakePdf', [
 
 Plugin::load('Queue');
 Configure::load('app_queue');
+
+Configure::write('AclManager.aros', array('Groups', 'Roles', 'Users'));
+
+Plugin::load('AclManager', ['bootstrap' => true, 'routes' => true]);
+// Set prefix admin ( http://www.domain.com/admin/AclManager )
+Configure::write('AclManager.admin', true);
+Configure::write('AclManager.ignoreActions', array('isAuthorized','login','logout'));

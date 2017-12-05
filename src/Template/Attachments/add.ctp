@@ -21,7 +21,7 @@
             echo $this->Form->control('size');
             echo $this->Form->control('type');
             echo $this->Form->control('model');
-            echo $this->Form->control('group');
+            echo $this->Form->control('category');
             echo $this->Form->control('description');
         ?>
     </fieldset>

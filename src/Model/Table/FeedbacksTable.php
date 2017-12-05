@@ -10,9 +10,6 @@ use Cake\Validation\Validator;
  * Feedbacks Model
  *
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\SadrsTable|\Cake\ORM\Association\BelongsTo $Sadrs
- * @property \App\Model\Table\SadrFollowupsTable|\Cake\ORM\Association\BelongsTo $SadrFollowups
- * @property \App\Model\Table\PqmpsTable|\Cake\ORM\Association\BelongsTo $Pqmps
  *
  * @method \App\Model\Entity\Feedback get($primaryKey, $options = [])
  * @method \App\Model\Entity\Feedback newEntity($data = null, array $options = [])
@@ -46,15 +43,6 @@ class FeedbacksTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
-        $this->belongsTo('Sadrs', [
-            'foreignKey' => 'sadr_id'
-        ]);
-        $this->belongsTo('SadrFollowups', [
-            'foreignKey' => 'sadr_followup_id'
-        ]);
-        $this->belongsTo('Pqmps', [
-            'foreignKey' => 'pqmp_id'
-        ]);
     }
 
     /**
@@ -74,6 +62,10 @@ class FeedbacksTable extends Table
             ->allowEmpty('email');
 
         $validator
+            ->scalar('subject')
+            ->allowEmpty('subject');
+
+        $validator
             ->scalar('feedback')
             ->allowEmpty('feedback');
 
@@ -91,9 +83,6 @@ class FeedbacksTable extends Table
     {
         $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
-        $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
-        $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
 
         return $rules;
     }

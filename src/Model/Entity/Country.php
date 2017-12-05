@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Pqmp[] $pqmps
+ * @property \App\Model\Entity\User[] $users
  */
 class Country extends Entity
 {
@@ -33,6 +33,6 @@ class Country extends Entity
         'name_fr' => true,
         'created' => true,
         'modified' => true,
-        'pqmps' => true
+        'users' => true
     ];
 }

@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Countries Model
  *
- * @property \App\Model\Table\PqmpsTable|\Cake\ORM\Association\HasMany $Pqmps
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
  *
  * @method \App\Model\Entity\Country get($primaryKey, $options = [])
  * @method \App\Model\Entity\Country newEntity($data = null, array $options = [])
@@ -40,7 +40,7 @@ class CountriesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('Pqmps', [
+        $this->hasMany('Users', [
             'foreignKey' => 'country_id'
         ]);
     }

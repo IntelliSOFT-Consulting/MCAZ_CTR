@@ -22,7 +22,7 @@
                 <th scope="col"><?= $this->Paginator->sort('size') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('model') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('group') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('category') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -38,7 +38,7 @@
                 <td><?= h($attachment->size) ?></td>
                 <td><?= h($attachment->type) ?></td>
                 <td><?= h($attachment->model) ?></td>
-                <td><?= h($attachment->group) ?></td>
+                <td><?= h($attachment->category) ?></td>
                 <td><?= h($attachment->created) ?></td>
                 <td><?= h($attachment->modified) ?></td>
                 <td class="actions">

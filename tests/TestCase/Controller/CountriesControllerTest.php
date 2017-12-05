@@ -17,7 +17,7 @@ class CountriesControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.countries',
-        'app.pqmps'
+        'app.users'
     ];
 
     /**

@@ -20,9 +20,6 @@ class MessagesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Sadrs', 'Pqmps', 'SadrFollowups']
-        ];
         $messages = $this->paginate($this->Messages);
 
         $this->set(compact('messages'));
@@ -39,7 +36,7 @@ class MessagesController extends AppController
     public function view($id = null)
     {
         $message = $this->Messages->get($id, [
-            'contain' => ['Sadrs', 'Pqmps', 'SadrFollowups']
+            'contain' => []
         ]);
 
         $this->set('message', $message);
@@ -63,10 +60,7 @@ class MessagesController extends AppController
             }
             $this->Flash->error(__('The message could not be saved. Please, try again.'));
         }
-        $sadrs = $this->Messages->Sadrs->find('list', ['limit' => 200]);
-        $pqmps = $this->Messages->Pqmps->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Messages->SadrFollowups->find('list', ['limit' => 200]);
-        $this->set(compact('message', 'sadrs', 'pqmps', 'sadrFollowups'));
+        $this->set(compact('message'));
         $this->set('_serialize', ['message']);
     }
 
@@ -91,10 +85,7 @@ class MessagesController extends AppController
             }
             $this->Flash->error(__('The message could not be saved. Please, try again.'));
         }
-        $sadrs = $this->Messages->Sadrs->find('list', ['limit' => 200]);
-        $pqmps = $this->Messages->Pqmps->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Messages->SadrFollowups->find('list', ['limit' => 200]);
-        $this->set(compact('message', 'sadrs', 'pqmps', 'sadrFollowups'));
+        $this->set(compact('message'));
         $this->set('_serialize', ['message']);
     }
 

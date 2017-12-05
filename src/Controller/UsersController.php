@@ -16,14 +16,6 @@ use Cake\Auth\DefaultPasswordHasher;
  */
 class UsersController extends AppController
 {
-    public $paginate = [
-            // 'limit' => 2,
-            'Sadrs' => ['scope' => 'sadr'],
-            'Adrs' => ['scope' => 'adr'],
-            'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi']
-        ];
-
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
@@ -35,17 +27,6 @@ class UsersController extends AppController
         // $this->Auth->allow();
         $this->Auth->allow(['register', 'login', 'logout', 'activate']);
     }
-
-    // public function login() {
-    //     if ($this->request->is('post')) {
-    //         $user = $this->Auth->identify();
-    //         if ($user) {
-    //             $this->Auth->setUser($user);
-    //             return $this->redirect($this->Auth->redirectUrl());
-    //         }
-    //         $this->Flash->error(__('Your username or password was incorrect.'));
-    //     }
-    // }
 
     //Login with username or password
     public function login()
@@ -64,14 +45,29 @@ class UsersController extends AppController
             }
 
             $user = $this->Auth->identify();
+            
 
             if ($user) {
                 $this->Auth->setUser($user);
+
+                if($user['is_active'] == 0) {
+                $this->Flash->error('Your account is not activated! If you have just registered, please click the activation link sent to your email. Remember to check you spam folder too!');
+                    $this->redirect($this->Auth->logout());
+                } elseif ($user['deactivated'] == 1) {
+                    $this->Flash->error('Your account has been deactivated! Please contact MCAZ.');
+                    $this->redirect($this->Auth->logout());
+                }
+
                 if ($user['group_id'] == 1) {
                     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
                 } elseif ($user['group_id'] == 2) {
+                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
+                } elseif ($user['group_id'] == 3) {
                     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
-                }    
+                } elseif ($user['group_id'] == 4) {
+                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant']);
+                } 
+                
                 return $this->redirect($this->Auth->redirectUrl());            
                 
             }
@@ -79,7 +75,7 @@ class UsersController extends AppController
             $this->Flash->error(__('Invalid username or password, try again'));
         }
     }
- 
+
     public function logout() {
         //Leave empty for now.
         $this->Flash->success(__('Good-Bye'));
@@ -102,16 +98,7 @@ class UsersController extends AppController
                 return;
             }
 
-            // if($user->errors()) {
-            //     $this->response->statusCode(500);
-            //     $this->set([
-            //         // 'errors' => $user->errors(), 
-            //         'code' => 500, 'message' => 'yntax error, unexpected \u0027$user\u0027 (T_VARIABLE)', 'success' => false,
-            //         '_serialize' => ['code', 'message']]);
-            //     return;
-            // }
-
-            $user->group_id = 3;
+            $user->group_id = 4;
             // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);            
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registration successful.'));
@@ -147,29 +134,18 @@ class UsersController extends AppController
 
                 return $this->redirect(['controller' => 'Users', 'action' => 'login']);
 
-                //return $this->redirect('/');
             } else {
                 $this->Flash->error(__('The user could not be registered. Please, try again.'));     
-                // $user->success = false;
-                // $user->message =            
+    
             }
         }
-        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
-        //$groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'designations'));
+        $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
 
     public function activate($id = null) {
         if($id) {
             $user = $this->Users->findByActivationKey($id)->first();
-            // pr($id);
-            // pr($this->Util->reverseXOR($id));
-            // pr($this->Util->generateXOR(8));
-            // $user = $this->Users->get($this->Util->reverseXOR($id), [
-            //     'contain' => []
-            // ]);
             if ($user) {
                 // debug($user);
                 $query = $this->Users->query();
@@ -193,34 +169,24 @@ class UsersController extends AppController
     }
 
     public function home() {
-        $this->loadModel('Sadrs');
-        $this->loadModel('Adrs');
-        $this->loadModel('Aefis');
-        $this->loadModel('Saefis');
+        $this->paginate = [
+            'contain' => [ 'Groups']
+        ];
+        $users = $this->paginate($this->Users);
+
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+    }
+
+    public function profile()
+    {
         $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => []
+            'contain' => ['Groups']
         ]);
 
-        $this->paginate = [
-            'limit' => 5,
-            // 'Sadrs' => ['scope' => 'sadr'],
-            // 'Adrs' => ['scope' => 'adr']
-        ];
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
 
-        // pr($user);
-
-        $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
-        $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
-        $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
-        $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
-
-        $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis'));
-        // $this->set('_serialize', ['sadrs', 'adrs', 'aefis']);
     }
 
     /**
@@ -231,7 +197,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Designations', 'Groups']
+            'contain' => ['Groups']
         ];
         $users = $this->paginate($this->Users);
 
@@ -249,51 +215,11 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
-
-        //
-                // $this->loadModel('Queue.QueuedJobs');
-                // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);
-                // $data = [
-                //     'vars' => [
-                //         'user' => $user->toArray()
-                //     ]
-                // ];
-                // $this->QueuedJobs->createJob('RegisterEmail', $data);
-                //end
-        //
-        // debug((new DefaultPasswordHasher)->hash($user->email));
-
-        //send email test --- remove
-        /** @var \Queue\Model\Table\QueuedJobsTable $QueuedJobs */
-        // Log::write('debug', 'Start queue manenos');
-        // $this->loadModel('Queue.QueuedJobs');
-        // $data = [
-        //     'settings' => [
-        //         'subject' => __('Test fired from Queue {0}', $user->name)
-        //     ],
-        //     'vars' => [
-        //         'user' => $user->toArray()
-        //     ]
-        // ];
-        // $this->QueuedJobs->createJob('TestEmail', $data);
-        // Log::write('debug', 'End queue manenos');
-        //end
-
-        $this->set('user', $user);
-        $this->set('_serialize', ['user']);
-    }
-
-    public function profile()
-    {
-        $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => ['Designations', 'Groups']
+            'contain' => [ 'Groups', 'Applications', 'Feedbacks', 'Notifications', 'Reviewers', 'Reviews']
         ]);
 
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
-
     }
 
     /**
@@ -313,10 +239,9 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
+
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'designations', 'groups'));
+        $this->set(compact('user',  'groups'));
         $this->set('_serialize', ['user']);
     }
 
@@ -341,10 +266,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'designations', 'groups'));
+        $this->set(compact('user',  'groups'));
         $this->set('_serialize', ['user']);
     }
 

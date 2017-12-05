@@ -7,20 +7,12 @@ use Cake\ORM\Entity;
  * Message Entity
  *
  * @property int $id
- * @property int $sadr_id
- * @property int $pqmp_id
- * @property int $sadr_followup_id
- * @property string $sender
- * @property string $receiver
- * @property string $subject
- * @property string $message
- * @property int $sent
+ * @property string $name
+ * @property string $content
+ * @property string $type
+ * @property string $description
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
- *
- * @property \App\Model\Entity\Sadr $sadr
- * @property \App\Model\Entity\Pqmp $pqmp
- * @property \App\Model\Entity\SadrFollowup $sadr_followup
  */
 class Message extends Entity
 {
@@ -35,18 +27,11 @@ class Message extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sadr_id' => true,
-        'pqmp_id' => true,
-        'sadr_followup_id' => true,
-        'sender' => true,
-        'receiver' => true,
-        'subject' => true,
-        'message' => true,
-        'sent' => true,
+        'name' => true,
+        'content' => true,
+        'type' => true,
+        'description' => true,
         'created' => true,
-        'modified' => true,
-        'sadr' => true,
-        'pqmp' => true,
-        'sadr_followup' => true
+        'modified' => true
     ];
 }

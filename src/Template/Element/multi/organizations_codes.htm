@@ -1,0 +1,817 @@
+<?php
+ 	$this->Html->script('multi/organizations', array('inline' => false));
+?>
+<h5>10.0 ORGANISATIONS TO WHOM THE SPONSOR HAS TRANSFERRED TRIAL RELATED DUTIES AND FUNCTIONS (<small>repeat as needed for multiple organisations
+					- <button type="button" class="btn-mini" id="addOrganization" title="add organization">Add Organization</button></small>) </h5>
+<div class="ctr-groups">
+	<?php
+		$organizationsError = '';
+		if($this->Form->isFieldError('organisations_transferred_')) $organizationsError = 'error';
+		echo $this->Form->input('organisations_transferred_', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'organisations_transferred_',
+			'before' => '<div class="control-group '.$organizationsError.'" style="padding-left:10px">  
+					<label class="nocontrols control-nolabel required">Has the sponsor transferred any major or all the sponsor&rsquo;s 
+					trial related duties and functions to another organisation or third party? </label>
+					<div class="nocontrols">  
+				<input type="hidden" value="" id="ApplicationOrganisationsTransferred__" name="data[Application][organisations_transferred_]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('organisations_transferred_', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'organisations_transferred_',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'span', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.organisations_transferred_\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));		
+	?>
+	<small><em>Repeat as necessary for multiple organizations</em></small>
+	<div id="organization_primary">
+	<?php
+		echo $this->Form->input('Organization.0.id');
+		echo $this->Form->input('Organization.0.organization', array(
+			'label' => array('class' => 'control-label required', 'text' => 'Organization <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		echo $this->Form->input('Organization.0.contact_person', array(
+			'label' => array('class' => 'control-label required', 'text' => 'Name of contact person <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		echo $this->Form->input('Organization.0.address', array(
+			'label' => array('class' => 'control-label required', 'text' => 'Address <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		echo $this->Form->input('Organization.0.telephone_number', array(
+			'label' => array('class' => 'control-label required', 'text' => 'Telephone Number <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		
+		$allTasksError = $monitoringError = $regulatoryError = $investigatorRecruitmentError = $ivrsTreatmentRandomisationError = 
+		$dataManagementError = $eDataCaptureError = $susarReportingError = $qualityAssuranceAuditingError = $statisticalAnalysisError = 
+		$medicalWritingError = $otherDutiesError = '';
+		if($this->Form->isFieldError('Organization.0.all_tasks')) $allTasksError = 'error';
+		if($this->Form->isFieldError('Organization.0.monitoring')) $monitoringError = 'error';
+		if($this->Form->isFieldError('Organization.0.regulatory')) $regulatoryError = 'error';
+		if($this->Form->isFieldError('Organization.0.investigator_recruitment')) $investigatorRecruitmentError = 'error';
+		if($this->Form->isFieldError('Organization.0.ivrs_treatment_randomisation')) $ivrsTreatmentRandomisationError = 'error';
+		if($this->Form->isFieldError('Organization.0.data_management')) $dataManagementError = 'error';
+		if($this->Form->isFieldError('Organization.0.e_data_capture')) $eDataCaptureError = 'error';
+		if($this->Form->isFieldError('Organization.0.susar_reporting')) $susarReportingError = 'error';
+		if($this->Form->isFieldError('Organization.0.quality_assurance_auditing')) $qualityAssuranceAuditingError = 'error';
+		if($this->Form->isFieldError('Organization.0.statistical_analysis')) $statisticalAnalysisError = 'error';
+		if($this->Form->isFieldError('Organization.0.medical_writing')) $medicalWritingError = 'error';
+		if($this->Form->isFieldError('Organization.0.other_duties')) $otherDutiesError = 'error';
+		
+		echo $this->Form->input('Organization.0.all_tasks', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'all_tasks',
+			'before' => '<div class="control-group '.$allTasksError.'"> <label class="control-label required">All tasks of the sponsor <span class="sterix">*</span>
+				</label> <div class="controls"> <input type="hidden" value="" id="Organisation0AllTasks_" name="data[Organization][0][all_tasks]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));		
+		echo $this->Form->input('Organization.0.all_tasks', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'all_tasks',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.all_tasks\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.monitoring', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'monitoring',
+			'before' => '<div class="control-group '.$monitoringError.'"> 
+					<label class="control-label required">Monitoring  <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0Monitoring_" name="data[Organization][0][monitoring]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.monitoring', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'monitoring',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.monitoring\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.regulatory', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'regulatory',
+			'before' => '<div class="control-group '.$regulatoryError.'"> 
+				<label class="control-label required">Regulatory (e.g. preparation of applications to CA and ethics committee) 
+				<span class="sterix">*</span></label>  <div class="controls">  
+				<input type="hidden" value="" id="Organisation0Regulatory_" name="data[Organization][0][regulatory]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.regulatory', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'regulatory',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.regulatory\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.investigator_recruitment', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'investigator_recruitment',
+			'before' => '<div class="control-group '.$investigatorRecruitmentError.'"> 
+					<label class="control-label required">Investigator Recruitment <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0InvestigatorRectruitment_" name="data[Organization][0][investigator_recruitment]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.investigator_recruitment', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'investigator_recruitment',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.investigator_recruitment\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.ivrs_treatment_randomisation', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'ivrs_treatment_randomisation',
+			'before' => '<div class="control-group '.$ivrsTreatmentRandomisationError.'">  
+							<label class="control-label required">IVRS &mdash; treatment randomisation <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0IvrsTreatmentRandomisation_" name="data[Organization][0][ivrs_treatment_randomisation]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.ivrs_treatment_randomisation', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'ivrs_treatment_randomisation',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.ivrs_treatment_randomisation\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.data_management', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'data_management',
+			'before' => '<div class="control-group '.$dataManagementError.'"> 
+					<label class="control-label required">Data management <span class="sterix">*</span> </label>  <div class="controls">  
+				<input type="hidden" value="" id="Organisation0DataManagement_" name="data[Organization][0][data_management]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.data_management', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'data_management',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.data_management\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.e_data_capture', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'e_data_capture',
+			'before' => '<div class="control-group '.$eDataCaptureError.'"> 
+					<label class="control-label required">E-data capture <span class="sterix">*</span></label>  <div class="controls">  
+				<input type="hidden" value="" id="Organisation0EDataCapture_" name="data[Organization][0][e_data_capture]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.e_data_capture', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'e_data_capture',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.e_data_capture\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.susar_reporting', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'susar_reporting',
+			'before' => '<div class="control-group '.$susarReportingError.'"> 
+					<label class="control-label required">SUSAR reporting <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0SusarReporting_" name="data[Organization][0][susar_reporting]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.susar_reporting', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'susar_reporting',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.susar_reporting\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.quality_assurance_auditing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'quality_assurance_auditing',
+			'before' => '<div class="control-group '.$qualityAssuranceAuditingError.'"> 
+					<label class="control-label required">Quality assurance auditing <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0QualityAssuranceAuditing_" name="data[Organization][0][quality_assurance_auditing]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.quality_assurance_auditing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'quality_assurance_auditing',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.quality_assurance_auditing\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.statistical_analysis', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'statistical_analysis',
+			'before' => '<div class="control-group '.$statisticalAnalysisError.'"> 
+					<label class="control-label required">Statistical analysis <span class="sterix">*</span> </label><div class="controls">  
+				<input type="hidden" value="" id="Organisation0StatisticalAnalysis_" name="data[Organization][0][statistical_analysis]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.statistical_analysis', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'statistical_analysis',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.statistical_analysis\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.medical_writing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'medical_writing',
+			'before' => '<div class="control-group '.$medicalWritingError.'"> 
+							<label class="control-label required">Medical Writing <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0MedicalWriting_" name="data[Organization][0][medical_writing]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.medical_writing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'medical_writing',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.medical_writing\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.0.other_duties', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'other_duties',
+			'before' => '<div class="control-group '.$otherDutiesError.'"> 
+							<label class="control-label required">Other duties subcontracted <span class="sterix">*</span></label> <div class="controls">  
+				<input type="hidden" value="" id="Organisation0OtherDuties_" name="data[Organization][0][other_duties]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.0.other_duties', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'other_duties',
+			'format' => array('before', 'label', 'between', 'input', 'after', 'error'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'controls required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.other_duties\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+													
+		echo $this->Form->input('Organization.0.other_duties_specify', array(
+			'label' => array('class' => 'control-label required', 'text' => 'If yes to other, please specify'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge', 'rows' => '3'
+		));			
+		echo $this->Html->tag('hr', '', array('id' => 'OrganizationHr0'));
+	?>
+	</div>
+	<div id="organization_multis">
+	<?php
+	if (!empty($this->request->data['Organization'])) {
+		for ($i = 1; $i <= count($this->request->data['Organization'])-1; $i++) { 
+		?>
+	<div class="organization-group">
+	<?php
+		echo $this->Form->input('Organization.'.$i.'.id');
+		echo $this->Form->input('Organization.'.$i.'.organization', array(
+			'label' => array('class' => 'control-label', 'text' => 'Organization <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		echo $this->Form->input('Organization.'.$i.'.contact_person', array(
+			'label' => array('class' => 'control-label', 'text' => 'Name of contact person <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		echo $this->Form->input('Organization.'.$i.'.address', array(
+			'label' => array('class' => 'control-label', 'text' => 'Address <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		echo $this->Form->input('Organization.'.$i.'.telephone_number', array(
+			'label' => array('class' => 'control-label', 'text' => 'Telephone Number <span class="sterix">*</span>'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge organizations_f'
+		));
+		
+		echo $this->Form->input('Organization.'.$i.'.all_tasks', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'all_tasks',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">All tasks of the sponsor </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'AllTasks_" name="data[Organization]['.$i.'][all_tasks]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.all_tasks', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'all_tasks',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.all_tasks\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.monitoring', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'monitoring',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Monitoring </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'Monitoring_" name="data[Organization]['.$i.'][monitoring]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.monitoring', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'monitoring',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.monitoring\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.regulatory', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'regulatory',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Regulatory (e.g. preparation of applications to CA and ethics committee) </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'Regulatory_" name="data[Organization]['.$i.'][regulatory]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.regulatory', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'regulatory',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.regulatory\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.investigator_recruitment', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'investigator_recruitment',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Investigator Recruitment </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'InvestigatorRectruitment_" name="data[Organization]['.$i.'][investigator_recruitment]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.investigator_recruitment', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'investigator_recruitment',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.investigator_recruitment\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.ivrs_treatment_randomisation', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'ivrs_treatment_randomisation',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">IVRS – treatment randomisation </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'IvrsTreatmentRandomisation_" name="data[Organization]['.$i.'][ivrs_treatment_randomisation]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.ivrs_treatment_randomisation', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'ivrs_treatment_randomisation',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.ivrs_treatment_randomisation\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.data_management', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'data_management',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Data management </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'DataManagement_" name="data[Organization]['.$i.'][data_management]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.data_management', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'data_management',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.data_management\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.e_data_capture', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'e_data_capture',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">E-data capture </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'EDataCapture_" name="data[Organization]['.$i.'][e_data_capture]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.e_data_capture', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'e_data_capture',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.e_data_capture\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.susar_reporting', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'susar_reporting',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">SUSAR reporting </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'SusarReporting_" name="data[Organization]['.$i.'][susar_reporting]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.susar_reporting', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'susar_reporting',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.susar_reporting\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.quality_assurance_auditing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'quality_assurance_auditing',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Quality assurance auditing </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'QualityAssuranceAuditing_" name="data[Organization]['.$i.'][quality_assurance_auditing]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.quality_assurance_auditing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'quality_assurance_auditing',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.quality_assurance_auditing\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.statistical_analysis', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'statistical_analysis',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Statistical analysis </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'StatisticalAnalysis_" name="data[Organization]['.$i.'][statistical_analysis]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.statistical_analysis', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'statistical_analysis',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.statistical_analysis\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.medical_writing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'medical_writing',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Medical Writing </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'MedicalWriting_" name="data[Organization]['.$i.'][medical_writing]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.medical_writing', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'medical_writing',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.medical_writing\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+		
+		echo $this->Form->input('Organization.'.$i.'.other_duties', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 'error' => false, 
+			'class' => 'other_duties',
+			'before' => '<div class="control-group"> <div class="required"> 
+							<label class="control-label">Other duties subcontracted </label> </div> <div class="controls">  
+				<input type="hidden" value="" id="Organisation'.$i.'OtherDuties_" name="data[Organization]['.$i.'][other_duties]"> 
+				<label class="radio inline">',
+			'after' => '</label>',
+			'options' => array('Yes' => 'Yes'),
+		));
+		echo $this->Form->input('Organization.'.$i.'.other_duties', array(
+			'type' => 'radio',	'label' => false, 'legend' => false, 'div' => false, 'hiddenField' => false, 
+			'class' => 'other_duties',
+			'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'required error')),
+			'before' => '<label class="radio inline">', 
+			'after' => '</label>
+						<span class="help-inline" style="padding-top: 5px;"><a class="tooltipper" data-original-title="Clear selection"
+						onclick="$(\'.other_duties\').removeAttr(\'checked disabled\')">
+						<em>clear!</em></a> </span>
+						</div> </div>',	
+			'options' => array('No' => 'No'),
+		));	
+													
+		echo $this->Form->input('Organization.'.$i.'.other_duties_specify', array(
+			'label' => array('class' => 'control-label', 'text' => 'If yes to other, please specify'),
+			'placeholder' => ' ' , 'class' => 'input-xxlarge', 'rows' => '3'
+		));	
+		
+		echo $this->Html->tag('div', '<button id="OrganizationButton'.$i.'" type="button" class="btn btn-mini btn-danger removeOrganization">
+									Add Organization</button>', array(
+					'class' => 'controls', 'escape' => false));				
+		echo $this->Html->tag('hr', '', array('id' => 'OrganizationHr'.$i.''));
+			?>
+		</div>
+		<?php							
+			}
+		}
+	?>
+	</div>
+</div>
+
+<script>
+'<div class="organization-group"> \
+				<p  class="topper" id="OrganizationLabel{i}">{i} additional organizations</p> \
+				<span class="badge badge-info">{i}</span> \
+				<div class="control-group"><label class="control-label" for="Organization{i}Organization">Organization</label> \
+				  <div class="controls"><input type="text" id="Organization{i}Organization" maxlength="255" placeholder=" " \
+				  class="input-xxlarge organizations_f" name="data[Organization][{i}][organization]"></div></div> \
+				<div class="control-group"><label class="control-label" for="Organization{i}ContactPerson">Name of contact person</label> \
+				  <div class="controls"><input type="text" id="Organization{i}ContactPerson" maxlength="255" placeholder=" " \
+				  class="input-xxlarge organizations_f" name="data[Organization][{i}][contact_person]"></div></div> \
+				<div class="control-group"><label class="control-label" for="Organization{i}Address">Address</label> \
+				  <div class="controls"><input type="text" id="Organization{i}Address" maxlength="255" placeholder=" " \
+				  class="input-xxlarge organizations_f" name="data[Organization][{i}][address]"></div></div> \
+				<div class="control-group"><label class="control-label" for="Organization{i}Qualification">Telephone Number</label> \
+				  <div class="controls"><input type="text" id="Organization{i}Qualification" placeholder=" " class="input-xxlarge organizations_f" \
+				  name="data[Organization][{i}][qualification]"></div></div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">All tasks of the sponsor </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][all_tasks]" id="Organisation{i}AllTasks_" value=""> \
+				  <label class="radio inline"><input type="radio" value="Yes" class="all_tasks{i}" id="Organization{i}AllTasksYes" \
+				  name="data[Organization][{i}][all_tasks]">Yes</label><label class="radio inline"><input type="radio" value="No" \
+				  class="all_tasks{i}" id="Organization{i}AllTasksNo" name="data[Organization][{i}][all_tasks]">No</label> \
+				  <span style="padding-top: 5px;" class="help-inline"><a onclick="$(\'.all_tasks{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper">	<em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Monitoring </label> </div> <div class="controls"> \
+				  <input type="hidden" name="data[Organization][{i}][monitoring]" id="Organisation{i}Monitoring_" value=""> \
+				  <label class="radio inline"><input type="radio" value="Yes" class="monitoring{i}" id="Organization{i}MonitoringYes" \
+				  name="data[Organization][{i}][monitoring]">Yes</label><label class="radio inline"><input type="radio" value="No" \
+				  class="monitoring{i}" id="Organization{i}MonitoringNo" name="data[Organization][{i}][monitoring]">No</label> \
+				  <span style="padding-top: 5px;" class="help-inline"><a onclick="$(\'.monitoring{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper"><em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Regulatory (e.g. preparation of applications to CA and ethics committee) </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][regulatory]" id="Organisation{i}Regulatory_" value=""> \
+				  <label class="radio inline"><input type="radio" value="Yes" class="regulatory{i}" id="Organization{i}RegulatoryYes" \
+				  name="data[Organization][{i}][regulatory]">Yes</label><label class="radio inline"><input type="radio" value="No" \
+				  class="regulatory{i}" id="Organization{i}RegulatoryNo" name="data[Organization][{i}][regulatory]">No</label> \
+				  <span style="padding-top: 5px;" class="help-inline"><a onclick="$(\'.regulatory{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper">	<em>clear!</em></a> </span>	</div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Investigator Recruitment </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][investigator_recruitment]" \
+				  id="Organisation{i}InvestigatorRectruitment_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="investigator_recruitment{i}" id="Organization{i}InvestigatorRecruitmentYes" \
+				  name="data[Organization][{i}][investigator_recruitment]">Yes</label><label class="radio inline"><input type="radio" \
+				  value="No" class="investigator_recruitment{i}" id="Organization{i}InvestigatorRecruitmentNo" \
+				  name="data[Organization][{i}][investigator_recruitment]">No</label> <span style="padding-top: 5px;" class="help-inline"> \
+				  <a onclick="$(\'.investigator_recruitment{i}\').removeAttr(\'checked disabled\')" data-original-title="Clear selection" \
+				  class="tooltipper"> <em>clear!</em></a> </span>	</div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">IVRS &mdash; treatment randomisation </label> \
+				  </div> <div class="controls">  <input type="hidden" name="data[Organization][{i}][ivrs_treatment_randomisation]" \
+				  id="Organisation{i}IvrsTreatmentRandomisation_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="ivrs_treatment_randomisation{i}" id="Organization{i}IvrsTreatmentRandomisationYes" \
+				  name="data[Organization][{i}][ivrs_treatment_randomisation]">Yes</label><label class="radio inline"><input type="radio" \
+				  value="No" class="ivrs_treatment_randomisation{i}" id="Organization{i}IvrsTreatmentRandomisationNo" \
+				  name="data[Organization][{i}][ivrs_treatment_randomisation]">No</label> <span style="padding-top: 5px;" class="help-inline"> \
+				  <a onclick="$(\'.ivrs_treatment_randomisation{i}\').removeAttr(\'checked disabled\')" data-original-title="Clear selection" \
+				  class="tooltipper"> <em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Data management </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][data_management]" \
+				  id="Organisation{i}DataManagement_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="data_management{i}" id="Organization{i}DataManagementYes" name="data[Organization][{i}][data_management]">Yes</label> \
+				  <label class="radio inline"> <input type="radio" value="No" class="data_management{i}" \
+				  id="Organization{i}DataManagementNo" name="data[Organization][{i}][data_management]">No</label> \
+				  <span style="padding-top: 5px;" class="help-inline"><a onclick="$(\'.data_management{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper">	<em>clear!</em></a> </span>	</div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">E-data capture </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][][e_data_capture]" \
+				  id="OrganisationEDataCapture_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="e_data_capture{i}" id="Organization{i}EDataCaptureYes" name="data[Organization][{i}][e_data_capture]">Yes</label> \
+				  <label class="radio inline"><input type="radio" value="No" class="e_data_capture{i}" \
+				  id="Organization{i}EDataCaptureNo" name="data[Organization][{i}][e_data_capture]">No</label> <span style="padding-top: 5px;" \
+				  class="help-inline"><a onclick="$(\'.e_data_capture{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper">	<em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">SUSAR reporting </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][susar_reporting]" \
+				  id="Organisation{i}SusarReporting_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="susar_reporting{i}" id="Organization{i}SusarReportingYes" name="data[Organization][{i}][susar_reporting]">Yes</label> \
+				  <label class="radio inline"><input type="radio" value="No" class="susar_reporting{i}" \
+				  id="Organization{i}SusarReportingNo" name="data[Organization][{i}][susar_reporting]">No</label><span style="padding-top: 5px;" \
+				  class="help-inline"><a onclick="$(\'.susar_reporting{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper">	<em>clear!</em></a> </span>	</div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Quality assurance auditing </label> \
+				  </div> <div class="controls"> <input type="hidden" name="data[Organization][{i}][quality_assurance_auditing]" \
+				  id="Organisation{i}QualityAssuranceAuditing_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="quality_assurance_auditing{i}" id="Organization{i}QualityAssuranceAuditingYes" \
+				  name="data[Organization][{i}][quality_assurance_auditing]">Yes</label><label class="radio inline"><input type="radio" \
+				  value="No" class="quality_assurance_auditing{i}" id="Organization{i}QualityAssuranceAuditingNo" \
+				  name="data[Organization][{i}][quality_assurance_auditing]">No</label>	<span style="padding-top: 5px;" class="help-inline"> \
+				  <a onclick="$(\'.quality_assurance_auditing{i}\').removeAttr(\'checked disabled\')" data-original-title="Clear selection" \
+				  class="tooltipper"> <em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Statistical analysis </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][statistical_analysis]" \
+				  id="Organisation{i}StatisticalAnalysis_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="statistical_analysis{i}" id="Organization{i}StatisticalAnalysisYes" name="data[Organization][{i}][statistical_analysis]"> \
+				  Yes</label><label class="radio inline"><input type="radio" value="No" class="statistical_analysis{i}" \
+				  id="Organization{i}StatisticalAnalysisNo" name="data[Organization][{i}][statistical_analysis]">No</label> \
+				  <span style="padding-top: 5px;" class="help-inline"><a onclick="$(\'.statistical_analysis{i}\').removeAttr(\'checked disabled\')" \
+				  data-original-title="Clear selection" class="tooltipper">	<em>clear!</em></a> </span>	</div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Medical Writing </label> </div> \
+				  <div class="controls">  <input type="hidden" name="data[Organization][{i}][medical_writing]" \
+				  id="Organisation{i}MedicalWriting_" value=""> <label class="radio inline"><input type="radio" value="Yes" \
+				  class="medical_writing{i}" id="Organization{i}MedicalWritingYes" name="data[Organization][{i}][medical_writing]">Yes</label> \
+				  <label class="radio inline"><input type="radio" value="No" class="medical_writing{i}" id="Organization{i}MedicalWritingNo" \
+				  name="data[Organization][{i}][medical_writing]">No</label> <span style="padding-top: 5px;" class="help-inline"> \
+				  <a onclick="$(\'.medical_writing{i}\').removeAttr(\'checked disabled\')" data-original-title="Clear selection" \
+				  class="tooltipper"> <em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"> <div class="required"> <label class="control-label">Other duties subcontracted </label> </div> \
+				  <div class="controls"> <input type="hidden" name="data[Organization][{i}][other_duties]" id="Organisation{i}OtherDuties_" \
+				  value=""> <label class="radio inline"><input type="radio" value="Yes" class="other_duties{i}" \
+				  id="Organization{i}OtherDutiesYes" name="data[Organization][{i}][other_duties]">Yes</label><label class="radio inline"> \
+				  <input type="radio" value="No" class="other_duties{i}" id="Organization{i}OtherDutiesNo" \
+				  name="data[Organization][{i}][other_duties]">No</label> <span style="padding-top: 5px;" class="help-inline"> \
+				  <a onclick="$(\'.other_duties{i}\').removeAttr(\'checked disabled\')" data-original-title="Clear selection" class="tooltipper"> \
+				  <em>clear!</em></a> </span> </div> </div> \
+				<div class="control-group"><label class="control-label" for="Organization{i}OtherDutiesSpecify">If yes to other, please specify \
+				  </label><div class="controls"><textarea id="Organization{i}OtherDutiesSpecify" cols="30" rows="3" placeholder=" " \
+				  class="input-xxlarge" name="data[Organization][{i}][other_duties_specify]"></textarea></div></div> \
+				  <div class="controls"><button type="button" id="OrganizationButton{i}" class="btn btn-mini btn-danger removeOrganization"> \
+				   <i class="icon-trash"></i> Remove Organization</button></div> \
+				  <hr id="OrganizationHr{i}"> </div> </div>'
+</script>

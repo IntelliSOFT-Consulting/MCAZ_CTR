@@ -8,12 +8,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Message'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sadrs'), ['controller' => 'Sadrs', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sadr'), ['controller' => 'Sadrs', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Pqmps'), ['controller' => 'Pqmps', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Pqmp'), ['controller' => 'Pqmps', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sadr Followups'), ['controller' => 'SadrFollowups', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sadr Followup'), ['controller' => 'SadrFollowups', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="messages index large-9 medium-8 columns content">
@@ -22,13 +16,8 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sadr_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('pqmp_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sadr_followup_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sender') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('receiver') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('subject') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sent') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -38,13 +27,8 @@
             <?php foreach ($messages as $message): ?>
             <tr>
                 <td><?= $this->Number->format($message->id) ?></td>
-                <td><?= $message->has('sadr') ? $this->Html->link($message->sadr->id, ['controller' => 'Sadrs', 'action' => 'view', $message->sadr->id]) : '' ?></td>
-                <td><?= $message->has('pqmp') ? $this->Html->link($message->pqmp->id, ['controller' => 'Pqmps', 'action' => 'view', $message->pqmp->id]) : '' ?></td>
-                <td><?= $message->has('sadr_followup') ? $this->Html->link($message->sadr_followup->id, ['controller' => 'SadrFollowups', 'action' => 'view', $message->sadr_followup->id]) : '' ?></td>
-                <td><?= h($message->sender) ?></td>
-                <td><?= h($message->receiver) ?></td>
-                <td><?= h($message->subject) ?></td>
-                <td><?= $this->Number->format($message->sent) ?></td>
+                <td><?= h($message->name) ?></td>
+                <td><?= h($message->type) ?></td>
                 <td><?= h($message->created) ?></td>
                 <td><?= h($message->modified) ?></td>
                 <td class="actions">
