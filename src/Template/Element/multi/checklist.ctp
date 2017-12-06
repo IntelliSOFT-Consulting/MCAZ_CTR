@@ -32,7 +32,7 @@
 </div>
 <?php
     echo $this->Form->control('applicant_protocol', 
-                ['type' => 'checkbox', 'label' => 'Protocol <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                ['type' => 'checkbox', 'label' => 'Application fee receipt <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
                  'templates' => [
                   'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
                   'inputContainer' => '<div class="form-group">
@@ -49,7 +49,214 @@
  if (!empty($application['protocols'])) {
         echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
     } else {
-      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach Protocol']);
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'MC10 Application form <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>3. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'Study Protocol <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>4. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'Informed Consent Form(s) <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>5. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'Proof of insurance cover <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>6. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'Signed declaration by investigators(PI and co-PIs) to comply with GCP <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>7. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'viii. Details of study medicines and concomitant medicines <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>8. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'Patient information leaflet', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>9. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'Investigators Brochure', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>10. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
+    }
+?>
+</div>
+<?php
+    echo $this->Form->control('applicant_protocol', 
+                ['type' => 'checkbox', 'label' => 'CVs for the study coordinator', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"><label>11. </label></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]);
+?>
+<div id="Protocol" class="checkcontrols0000" title="protocol">
+<?php
+ if (!empty($application['protocols'])) {
+        echo $this->Html->link($application['protocols'][0]->file, substr($application['protocols'][0]->dir, 8) . '/' . $application['protocols'][0]->file, ['fullBase' => true]);
+    } else {
+      echo $this->Form->control('protocols.0.file', ['type' => 'file','label' => 'Attach ...']);
     }
 ?>
 </div>
