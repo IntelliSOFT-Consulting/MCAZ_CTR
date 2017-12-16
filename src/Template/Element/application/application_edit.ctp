@@ -22,30 +22,75 @@
           <li><a href="#tabs-3">3. Sponsor</a></li>
           <li><a href="#tabs-4">4. Participants</a></li>
           <li><a href="#tabs-5">5. Sites</a></li>
-          <li><a href="#tabs-6">6. Placebo</a></li>
+          <li><a href="#tabs-6">6. Interventions</a></li>
           <li><a href="#tabs-7">7. Criteria</a></li>
           <li><a href="#tabs-8">8. Scope</a></li>
           <li><a href="#tabs-9">9. Design</a></li>
-          <li><a href="#tabs-10">10. Organizations</a></li>
-          <li><a href="#tabs-11">11. Other details</a></li>
-          <li><a href="#tabs-12">12. Checklist </a></li>
-          <li><a href="#tabs-13">13. Declaration</a></li>
-          <li><a href="#tabs-14">14. Notifications</a></li>
-          <li><a href="#tabs-15">15. Financials</a></li>
+          <li><a href="#tabs-10">10. Ethical Considerations</a></li>
+          <li><a href="#tabs-11">11. Organizations</a></li>
+          <li><a href="#tabs-12">12. Other details</a></li>
+          <li><a href="#tabs-13">13. Checklist </a></li>
+          <li><a href="#tabs-14">14. Declaration</a></li>
+          <li><a href="#tabs-15">15. Notifications</a></li>
+          <li><a href="#tabs-16">16. Financials</a></li>
         </ul>
         <div id="tabs-1">
           <?php
-            echo $this->Form->control('study_title', array(
-              'label' => 'Study Title <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
-              'escape' => false,
-              'templates' =>'textarea_form'
+            echo $this->Form->control('public_title', array(
+              'label' => 'Public Title <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
             ));
-            echo $this->Form->control('short_title', array(
-              'label' => 'Short Title <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+            echo $this->Form->control('scientific_title', array(
+              'label' => 'Scientific Title ',
               'escape' => false
             )); 
+
+
+            echo '<label>Contact for Public Queries</label><br/>';
+            echo $this->Form->control('public_contact_email', array(
+              'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('public_contact_phone', array(
+              'label' => 'Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('public_contact_postal', array(
+              'label' => 'Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('public_contact_affiliation', array(
+              'label' => 'Affiliation ',
+              'escape' => false
+            )); 
+
+
+            echo '<label>Contact for Scientific Queries</label><br/>';
+            echo $this->Form->control('scientific_contact_email', array(
+              'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('scientific_contact_phone', array(
+              'label' => 'Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('scientific_contact_postal', array(
+              'label' => 'Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('scientific_contact_affiliation', array(
+              'label' => 'Affiliation ',
+              'escape' => false
+            )); 
+
+            echo $this->Form->control('countries_recruitment', array(
+              'label' => 'Countries of Recruitment ',
+              'escape' => false,
+              'templates' => 'textarea_form'
+            ));
+
             echo $this->Form->control('abstract_of_study', array(
-              'label' =>  '<hr>ABSTRACT OF THE STUDY <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+              'label' =>  '<hr>Purpose and Reason for Trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
               'templates' => 'textarea_form'
             ));
             // echo $this->Form->control('protocol_no', array(
@@ -53,7 +98,7 @@
               // , 'escape' => false
             // ));
             echo $this->Form->control('version_no', array(
-              'label' =>  'Version No: <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+              'label' =>  'Trial Indentifying Number <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
             // echo $this->Form->control('title', ['class' => 'datepickers', 'templates' => [
             //   'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
@@ -62,11 +107,9 @@
             echo $this->Form->control('study_drug', array(
               'label' =>  'Study Drug <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
-            echo $this->Form->control('disease_condition', array(
-              'label' =>  'Disease condition being investigated <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
+            
 
-
+            /*
             echo $this->Form->control('product_type_biologicals', 
                 ['type' => 'checkbox', 'label' => 'Biologicals', 'escape' => false,
                  'templates' => [
@@ -92,7 +135,7 @@
               echo $this->Form->control('product_type_toxoid', 
                 ['type' => 'checkbox', 'label' => 'Toxoid', 'templates' => 'checkbox_inline_form']);
             echo "</div></div>";
-
+            */
             echo $this->Form->control('product_type_chemical', 
                 ['type' => 'checkbox', 'label' => 'Chemical', 'escape' => false,
                  'templates' => [
@@ -140,18 +183,18 @@
           ?>
         </div>
         <div id="tabs-2">
-                    <h5>2.0 CO-ORDINATING INVESTIGATOR (<em>for multicentre trials in Zimbabwe</em>) </h5>
-          <hr>
+            <h4> Individual </h4>
+          <div>
           <?php
-            echo $this->Form->control('investigator1_given_name', array(
-              'label' =>  'Given name <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+            echo $this->Form->control('investigator1_full_name', array(
+              'label' =>  'Full names <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
-            echo $this->Form->control('investigator1_middle_name', array(
-              'label' => array('class' => 'control-label', 'text' => 'Middle name, if applicable'), 'escape' => false
-            ));
-            echo $this->Form->control('investigator1_family_name', array(
-              'label' =>  'Family name <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
+            echo $this->Form->control('investigator1_date_of_birth', [
+              'label' => 'Date of Birth',
+              'type' => 'text', 
+              'class' => 'datepickers', 'templates' => [
+              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
+
             echo $this->Form->control('investigator1_qualification', array(
               'label' =>  'Qualification <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
@@ -165,32 +208,78 @@
               'type' => 'email', 'label' =>  'email address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
           ?>
-          <hr>
+          </div>
           <?php
-             echo $this->element('multi/investigators');
+             //echo $this->element('multi/investigators');
           ?>
+          <h4> Business </h4>
+          <div id="">
+          <?php
+            echo $this->Form->control('business_name', array(
+              'label' =>  'Name of Company <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'escape' => false
+            ));
+            echo $this->Form->control('business_office', array(
+              'label' =>  'Registered Office <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'escape' => false
+            ));
+             echo $this->Form->control('business_physical_address', array(
+              'label' =>  'Physical address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'escape' => false
+            ));
+            echo $this->Form->control('business_telephone', array(
+              'label' =>  'Telephone number <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'escape' => false
+            ));
+            echo $this->Form->control('business_position', array( 'label' =>  'Position of applicant <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'escape' => false
+            ));
+            echo $this->Form->control('business_field_manufacture', array( 'label' =>  'Main field of manufacture', 
+              'escape' => false
+            ));
+          ?>
+          </div>
         </div>
         <div id="tabs-3" >
+          <br/>
+          <h5>3.0 Sponsor Details</h5>
           <?php
+            echo $this->Form->control('money_source', array( 'label' =>  'Source of Funds', 
+              'escape' => false
+            ));
             echo $this->element('multi/sponsors');
+            echo $this->element('multi/secondary_sponsor');
           ?>
         </div>
         <div id="tabs-4">
-          <h5>4.0 PARTICIPANTS (SUBJECTS)</h5>
-          <hr>
+          <h5>4.0 Participants (SUBJECTS)</h5>
+          <div class="col-sm-12">
           <?php
+            echo $this->Form->control('participants_description', array(
+              'label' =>  '<hr>Participants Description <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+              'templates' => 'textarea_form'
+            ));
             echo $this->Form->control('number_participants', array(
-              'label' =>  'Expected Number of participants <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false 
+              'label' =>  'Expected Number of participants <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+               'type'=>'number',
+               'escape' => false 
             ));
             echo $this->Form->control('total_enrolment_per_site', array(
               'label' => array('class' => 'control-label required',
                       'text' => 'Total enrolment in each site: (if competitive enrolment, state minimum and maximum number per site.)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'), 'escape' => false 
             ));
             echo $this->Form->control('total_participants_worldwide', array(
-              'label' =>  'Total participants worldwide  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+              'label' =>  'Total participants worldwide  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+               'type'=>'number',
+               'escape' => false 
+            ));
+
+            echo $this->Form->control('participants_justification', array(
+              'label' =>  '<hr>Justification <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+              'templates' => 'textarea_form'
             ));
           ?>
-          <hr>
+          </div>
           <h5>4.1 AGE SPAN</h5>
           <hr>
           <?php
@@ -216,7 +305,7 @@
             ));
             echo $this->Form->control('population_infant_and_toddler', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'nfant and toddler (29 days - 23 months)'
+              'label' => 'Infant and toddler (29 days - 23 months)'
             ));
             echo $this->Form->control('population_children', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
@@ -320,7 +409,7 @@
           <?php
             echo $this->Form->control('single_site_member_state', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Singel site in Zimbabwe'
+              'label' => 'Single site in Zimbabwe'
             ));
             echo $this->Form->control('location_of_area', array(
               'label' => '<b>If yes</b>, name of site', 'escape' => false
@@ -357,7 +446,47 @@
           ?>
         </div>
         <div id="tabs-6">
-          <?php  echo $this->element('multi/placebos');?>
+          <?php  //echo $this->element('multi/placebos');
+              echo $this->Form->control('drug_name', array(
+              'label' =>  'Drug Name  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+               'escape' => false 
+            ));
+
+            echo $this->Form->control('drug_detials', array(
+              'label' =>  '<hr> State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+              'templates' => 'textarea_form'));
+
+            echo $this->Form->control('medicine_reaction', array(
+              'label' =>  'Adverse/ possible reactions to the medicine ', 
+               'escape' => false 
+            ));
+
+            echo $this->Form->control('medicine_reaction', array(
+              'label' =>  'Therapeutic effects of medicine', 
+               'escape' => false 
+            ));
+
+            echo $this->Form->control('medicine_registered', array(
+              'label' =>  'a)Has the medicine been registered in the country?',
+              'escape' => false, 
+              'type' => 'radio',  
+              'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
+            ));
+
+            echo $this->Form->control('trials_origin_country', array(
+              'label' =>  'b)Have clinical trials been conducted in the country of origin?',
+              'escape' => false,
+              'type' => 'radio',  
+              'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
+            ));
+
+            echo $this->Form->control('trial_origin_details', array(
+              'label' =>  'State detials/reason', 
+               'escape' => false,
+               'templates' => 'textarea_form' 
+            ));
+
+          ?>
         </div>
         <div id="tabs-7">
           <?php
@@ -379,6 +508,13 @@
           <hr>
           <h5>8.0 SCOPE OF THE TRIAL -  <i class="sterix fa fa-asterisk" aria-hidden="true"></i> <small>Tick all boxes where applicable</small></h5>
           <div class="row">
+            <div class="col-md-12">
+              <?php
+                echo $this->Form->control('disease_condition', array(
+              'label' =>  'Health Condition(s) or Problem(s) Studied <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+            ));
+              ?>
+            </div>
             <div class="col-md-4">
             <?php
               echo $this->Form->control('scope_diagnosis', 
@@ -454,12 +590,13 @@
           <hr>
           <?php
             echo $this->Form->control('design_controlled', array(
-              'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Controlled <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+              'type' => 'radio',  
+              'templates' => 'radio_form', 'options' => ['Opened' => 'Opened', 'Controlled' => 'Controlled'],
+              'label' => 'Type of trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
           ?>
           <div class="ctr-groups">
-            <p class="topper"><em class="text-success">If Yes, Specify</em></p>
+            <p class="topper"><em class="text-success">'If controlled'</em></p>
           <?php
             echo $this->Form->control('design_controlled_randomised', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
@@ -497,15 +634,18 @@
             ));
             echo $this->Form->control('design_controlled_other_medicinal', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Other medicinal product(s)',
+              'escape' => false,
+              'label' => '<b>Other medicinal product(s)',
             ));
             echo $this->Form->control('design_controlled_placebo', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Placebo'
+              'escape' => false,
+              'label' => '<b>Placebo'
             ));
             echo $this->Form->control('design_controlled_medicinal_other', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Other'
+              'escape' => false,
+              'label' => '<b>Other'
             ));
             echo $this->Form->control('design_controlled_medicinal_specify', array(
               'label' => 'If yes to other, specify'
@@ -514,9 +654,12 @@
           </div>
         </div>
         <div id="tabs-10">
-          <?php echo $this->element('multi/organizations');?>
+          <?php ?>
         </div>
         <div id="tabs-11">
+          <?php echo $this->element('multi/organizations');?>
+        </div>
+        <div id="tabs-12">
           <h5>11.0 OTHER DETAILS</h5>
           <hr>
           <?php
@@ -547,10 +690,10 @@
           ?>
         </div>
 
-        <div id="tabs-12">
+        <div id="tabs-13">
           <?php echo $this->element('multi/checklist'); ?>
         </div>
-        <div id="tabs-13">
+        <div id="tabs-14">
           <h5>DECLARATION BY APPLICANT</h5>
           <hr>
           <p>We, the undersigned have submitted all requested and required documentation, and have disclosed all
@@ -576,7 +719,7 @@
             );
           ?>
         </div>
-        <div id="tabs-14">
+        <div id="tabs-15">
           <!-- <p>Insert attachments here</p> -->
           <?php
             //echo $this->element('multi/attachments');
@@ -585,7 +728,7 @@
             ));
           ?>
         </div>
-        <div id="tabs-15">
+        <div id="tabs-16">
           <?php
             echo $this->element('multi/attachments');
           ?>
@@ -872,7 +1015,9 @@
 
 
   // CKEDITOR.replace( 'data[Application][study_title]' );
-  CKEDITOR.replace( 'study-title' );
+  CKEDITOR.replace( 'participants_description' );
+  CKEDITOR.replace( 'participants_justification' );
+  CKEDITOR.replace( 'countries_recruitment' );
   CKEDITOR.replace( 'abstract-of-study');
   CKEDITOR.replace( 'principal-inclusion-criteria');
   CKEDITOR.replace( 'principal-exclusion-criteria');

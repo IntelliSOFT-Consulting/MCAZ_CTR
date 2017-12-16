@@ -2,7 +2,7 @@
     $this->Html->script('multi/placebos', ['block' => true]);
 ?>
 <hr>
-<h5>6.0 INFORMATION ON PLACEBO (<small>if relevant; repeat as necessary -
+<h5>6.0 Information On Intervention(s) (<small>if relevant; repeat as necessary -
 <button type="button" class="btn-mini" id="addplacebos" title="add placebo">Add</button></small>) </h5>
 <?php
     echo $this->Form->input('placebo_present', array(
