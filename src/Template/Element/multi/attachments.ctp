@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h4>Kindly upload all the scanned receipts for the required fees: <button type="button" class="btn btn-info btn-sm" id="addAttachment">
+            <h4>Kindly upload all the scanned receipts for the required fees: <button type="button" class="btn btn-primary btn-sm" id="addAttachment">
                           Add <i class="fa fa-plus"></i>
                         </button></h4>
         </div>

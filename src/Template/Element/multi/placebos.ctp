@@ -3,7 +3,7 @@
 ?>
 <hr>
 <h5>6.0 Information On Intervention(s) (<small>if relevant; repeat as necessary -
-<button type="button" class="btn-mini" id="addplacebos" title="add placebo">Add</button></small>) </h5>
+<button type="button" class="btn btn-primary btn-mini" id="addplacebos" title="add placebo">Add</button></small>) </h5>
 <?php
     echo $this->Form->input('placebo_present', array(
         'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
