@@ -1,8 +1,8 @@
 <?php
  	$this->Html->script('multi/sponsors', ['block' => true]);
 ?>
-<h5>3.0 SPONSOR DETAILS (<small>where necessary, Click button to add more -
-<button type="button" class="btn-mini" id="addsponsorsDetail" title="add detail">Add Detail</button></small>) </h5>
+<h5>3.1 Primary Sponsor Details (<small>where necessary, Click button to add more -
+<button type="button" class="btn btn-primary btn-mini" id="addsponsorsDetail" title="add sponsor">Add Sponsor</button></small>) </h5>
 <div class="ctr-groups">
 	<div id="sponsor_primary_contact">
 	<?php

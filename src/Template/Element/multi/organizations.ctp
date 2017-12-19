@@ -2,7 +2,7 @@
     $this->Html->script('multi/organizations', array('block' => true));
 ?>
 <h5>10.0 ORGANISATIONS TO WHOM THE SPONSOR HAS TRANSFERRED TRIAL RELATED DUTIES AND FUNCTIONS (<small>repeat as needed for multiple organisations
-                    - <button type="button" class="btn-mini" id="addorganizations" title="add organization">Add organizations</button></small>) </h5>
+                    - <button type="button" class="btn btn-primary btn-mini" id="addorganizations" title="add organization">Add organizations</button></small>) </h5>
 <div class="ctr-groups">
     <?php
         echo $this->Form->input('organisations_transferred_', array(

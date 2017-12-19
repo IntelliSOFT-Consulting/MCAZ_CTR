@@ -14,7 +14,7 @@
 
     ?>
     <h5 class="controls">Details of Site(s) (<small>Repeat as necessary
-        <button title="add site" id="addsite_details" class="btn-mini multiple_sites_member_state_f" type="button">Add Site</button></small>)</h5>
+        <button title="add site" id="addsite_details" class="btn btn-primary btn-mini multiple_sites_member_state_f" type="button">Add Site</button></small>)</h5>
     <hr>
     <div id="site_primary_detail">
     <?php
