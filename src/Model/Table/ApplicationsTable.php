@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+use SoftDelete\Model\Table\SoftDeleteTrait;
 /**
  * Applications Model
  *
@@ -32,7 +33,8 @@ use Cake\Validation\Validator;
  */
 class ApplicationsTable extends Table
 {
-
+    use SoftDeleteTrait;
+    protected $softDeleteField = 'deleted_date';
     /**
      * Initialize method
      *
@@ -56,6 +58,9 @@ class ApplicationsTable extends Table
             'foreignKey' => 'trial_status_id'
         ]);
         $this->hasMany('InvestigatorContacts', [
+            'foreignKey' => 'application_id'
+        ]);
+        $this->hasMany('Participants', [
             'foreignKey' => 'application_id'
         ]);
         $this->hasMany('Organizations', [

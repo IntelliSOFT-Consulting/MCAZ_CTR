@@ -255,3 +255,5 @@ Plugin::load('AclManager', ['bootstrap' => true, 'routes' => true]);
 // Set prefix admin ( http://www.domain.com/admin/AclManager )
 Configure::write('AclManager.admin', true);
 Configure::write('AclManager.ignoreActions', array('isAuthorized','login','logout'));
+
+Plugin::load('SoftDelete');

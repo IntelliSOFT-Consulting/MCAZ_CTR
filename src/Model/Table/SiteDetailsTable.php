@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+use SoftDelete\Model\Table\SoftDeleteTrait;
 /**
  * SiteDetails Model
  *
@@ -23,7 +24,7 @@ use Cake\Validation\Validator;
  */
 class SiteDetailsTable extends Table
 {
-
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *

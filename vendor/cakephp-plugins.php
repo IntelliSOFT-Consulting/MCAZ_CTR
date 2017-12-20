@@ -11,6 +11,7 @@ return [
         'DebugKit' => $baseDir . '/vendor/cakephp/debug_kit/',
         'Josegonzalez/Upload' => $baseDir . '/vendor/josegonzalez/cakephp-upload/',
         'Migrations' => $baseDir . '/vendor/cakephp/migrations/',
-        'Queue' => $baseDir . '/vendor/dereuromark/cakephp-queue/'
+        'Queue' => $baseDir . '/vendor/dereuromark/cakephp-queue/',
+        'SoftDelete' => $baseDir . '/vendor/pgbi/cakephp3-soft-delete/'
     ]
 ];

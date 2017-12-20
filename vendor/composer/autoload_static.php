@@ -37,6 +37,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
+            'SoftDelete\\' => 11,
             'Seld\\PharUtils\\' => 15,
             'Seld\\JsonLint\\' => 14,
             'Seld\\CliPrompt\\' => 15,
@@ -148,6 +149,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Symfony\\Component\\Config\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/config',
+        ),
+        'SoftDelete\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pgbi/cakephp3-soft-delete/src',
         ),
         'Seld\\PharUtils\\' => 
         array (

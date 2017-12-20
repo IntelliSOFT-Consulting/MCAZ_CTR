@@ -122,7 +122,7 @@ class ApplicationsController extends AppController
     public function edit($id = null)
     {
         $application = $this->Applications->get($id, [
-            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
+            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
                           'CoverLetters', 'Protocols', 'Attachments']
         ]);
         if (empty($application)) {
@@ -147,6 +147,7 @@ class ApplicationsController extends AppController
 
                 return $this->redirect(['action' => 'edit', $application->id]);
             }
+            // debug($application->errors());
             $this->Flash->error(__('The application could not be saved. Please, try again.'));
         }
 

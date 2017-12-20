@@ -183,30 +183,9 @@
           ?>
         </div>
         <div id="tabs-2">
-            <h4> Individual </h4>
           <div>
           <?php
-            echo $this->Form->control('investigator1_full_name', array(
-              'label' =>  'Full names <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
-            echo $this->Form->control('investigator1_date_of_birth', [
-              'label' => 'Date of Birth',
-              'type' => 'text', 
-              'class' => 'datepickers', 'templates' => [
-              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
-
-            echo $this->Form->control('investigator1_qualification', array(
-              'label' =>  'Qualification <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
-            echo $this->Form->control('investigator1_professional_address', array(
-              'label' =>  'Professional address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
-            echo $this->Form->control('investigator1_telephone', array(
-              'label' =>  'Telephone number <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
-            echo $this->Form->control('investigator1_email', array(
-              'type' => 'email', 'label' =>  'email address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
+            echo $this->element('multi/investigators');
           ?>
           </div>
           <?php
@@ -237,6 +216,12 @@
             echo $this->Form->control('business_field_manufacture', array( 'label' =>  'Main field of manufacture', 
               'escape' => false
             ));
+          ?>
+          </div>
+          <hr>
+          <div>
+          <?php
+            echo $this->element('multi/participants');
           ?>
           </div>
         </div>

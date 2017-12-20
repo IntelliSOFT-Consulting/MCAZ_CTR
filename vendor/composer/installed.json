@@ -2810,5 +2810,51 @@
             "manager",
             "plugin"
         ]
+    },
+    {
+        "name": "pgbi/cakephp3-soft-delete",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PGBI/cakephp3-soft-delete.git",
+            "reference": "3326dc72af78f1d87117f0ad13666d10b8d1a5bd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PGBI/cakephp3-soft-delete/zipball/3326dc72af78f1d87117f0ad13666d10b8d1a5bd",
+            "reference": "3326dc72af78f1d87117f0ad13666d10b8d1a5bd",
+            "shasum": ""
+        },
+        "require": {
+            "cakephp/cakephp": "~3.0",
+            "cakephp/plugin-installer": "*",
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-10-18T01:46:04+00:00",
+        "type": "cakephp-plugin",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "SoftDelete\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "SoftDelete plugin for CakePHP",
+        "homepage": "https://github.com/pgbi/cakephp3-soft-delete",
+        "keywords": [
+            "cakephp",
+            "cakephp 3",
+            "deletable",
+            "delete",
+            "plugin",
+            "soft"
+        ]
     }
 ]

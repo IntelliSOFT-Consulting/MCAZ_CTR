@@ -33,16 +33,6 @@ class InvestigatorContact extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'given_name' => true,
-        'middle_name' => true,
-        'family_name' => true,
-        'qualification' => true,
-        'professional_address' => true,
-        'telephone' => true,
-        'email' => true,
-        'created' => true,
-        'modified' => true,
-        'application' => true
+        '*' => true,
     ];
 }
