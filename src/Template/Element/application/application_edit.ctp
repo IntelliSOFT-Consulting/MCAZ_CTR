@@ -6,11 +6,12 @@
       // $this->Html->script('jUpload/vendor/jquery.ui.widget.js', ['block' => true]);
       // $this->Html->script('jUpload/jquery.iframe-transport.js', ['block' => true]);
       // $this->Html->script('jUpload/jquery.fileupload.js', ['block' => true]);
-  // pr($this->request->data);
+      // pr($this->request->data);
 ?>
 <div class="row">
   <?= $this->fetch('header'); ?>
   <?= $this->Flash->render() ?>
+  <?php $this->ValidationMessages->display($application->errors()) ?>
 </div>
 <div class="row">
   <?= $this->Form->create($application, ['type' => 'file']); ?>
@@ -227,17 +228,51 @@
         </div>
         <div id="tabs-3" >
           <br/>
-          <h5>3.0 Sponsor Details</h5>
+          <h4>3.0 Sponsor Details</h4>
           <?php
             echo $this->Form->control('money_source', array( 'label' =>  'Source of Funds', 
               'escape' => false
             ));
-            echo $this->element('multi/sponsors');
-            echo $this->element('multi/secondary_sponsor');
+            //echo $this->element('multi/sponsors');
+            //echo $this->element('multi/secondary_sponsor');
           ?>
+          <h5>3.1 Primary Sponsor Details </h5>
+          <div class="ctr-groups">
+            <div id="sponsor_primary_contact">
+            <?php
+              echo $this->Form->input('sponsor_name', array(
+                'label' => 'sponsors <span class="sterix">*</span>', 'escape' => false
+              ));
+              echo $this->Form->input('sponsor_contact_person', array(
+                'label' => 'Contact Person', 'escape' => false
+              ));
+              echo $this->Form->input('sponsor_address', array(
+                'label' => 'Address <span class="sterix">*</span>', 'escape' => false
+              ));
+              echo $this->Form->input('sponsor_telephone_number', array(
+                'label' => 'Telephone Number <span class="sterix">*</span>', 'escape' => false
+              ));
+              echo $this->Form->input('sponsor_fax_number', array(
+                'label' => 'Fax Number', 'escape' => false
+              ));
+              echo $this->Form->input('sponsor_cell_number', array(
+                'label' => 'Mobile phone number <span class="sterix">*</span>', 'escape' => false
+              ));
+              echo $this->Form->input('sponsor_email_address', array(
+                'type' => 'email',
+                'label' => 'Email Address <span class="sterix">*</span>', 'escape' => false
+              ));
+              echo $this->Html->tag('hr', '', array('id' => 'sponsors'));
+            ?>
+            </div>
+          </div>
+          <?php
+            echo $this->element('multi/sponsors');
+          ?>
+
         </div>
         <div id="tabs-4">
-          <h5>4.0 Participants (SUBJECTS)</h5>
+          <h5>4.0 Participants (SUBJECTS) <small>(e.g age group of persons/animals, type or class of persons/animals, sex etc)</small></h5>
           <div class="col-sm-12">
           <?php
             echo $this->Form->control('participants_description', array(
@@ -444,7 +479,7 @@
                'escape' => false 
             ));
 
-            echo $this->Form->control('drug_detials', array(
+            echo $this->Form->control('drug_details', array(
               'label' =>  '<hr> State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
               'templates' => 'textarea_form'));
 
@@ -453,7 +488,7 @@
                'escape' => false 
             ));
 
-            echo $this->Form->control('medicine_reaction', array(
+            echo $this->Form->control('medicine_therapeutic_effects', array(
               'label' =>  'Therapeutic effects of medicine', 
                'escape' => false 
             ));
@@ -483,14 +518,14 @@
                'templates' => 'textarea_form' 
             ));
 
-            echo $this->Form->control('registered_other_country', array(
+            echo $this->Form->control('application_other_country', array(
               'label' =>  'c)Has application for registration been made in any other country?',
               'escape' => false,
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
             ));
 
-            echo $this->Form->control('trial_origin_details', array(
+            echo $this->Form->control('application_other_country_details', array(
               'label' =>  'If Yes,State details/reason', 
                'escape' => false,
                'templates' => 'textarea_form' 
@@ -503,7 +538,7 @@
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
             ));
 
-            echo $this->Form->control('trial_origin_details', array(
+            echo $this->Form->control('registered_other_country_details', array(
               'label' =>  'If Yes, State details/reason', 
                'escape' => false,
                'templates' => 'textarea_form' 
@@ -520,7 +555,7 @@
             //echo $this->element('multi/list_of_medicine');
 
           echo '<label>6.3</label>';
-            echo $this->Form->control('registered_other_country', array(
+            echo $this->Form->control('given_concomitantly', array(
               'label' =>  'Will medicine be given concomitantly?',
               'escape' => false,
               'type' => 'radio',  
@@ -531,7 +566,7 @@
                'escape' => false 
             ));
 
-            echo $this->Form->control('registered_other_country', array(
+            echo $this->Form->control('concurrent_medicine', array(
               'label' =>  ' State whether the person already on another medicine will be given the experimential medicine at the same time or will be taken off the medicine',
               'escape' => false,
               'type' => 'radio',  
@@ -739,7 +774,7 @@
             echo '<label>10.2 Ethical Reviews</label>
             <br/>The Ethics review process of the trial record in the primary register database comprises of:';
             echo '<label>10.2.1 Status</label>';
-            echo $this->Form->control('registered_other_country', array(
+            echo $this->Form->control('ethical_review_status', array(
               'label' =>  '',
               'escape' => false,
               'type' => 'radio',  
@@ -1172,7 +1207,7 @@
 
 
   // CKEDITOR.replace( 'data[Application][study_title]' );
-  CKEDITOR.replace( 'drug_detials' );
+  CKEDITOR.replace( 'drug_details' );
   CKEDITOR.replace( 'ethic_considerations' );
   CKEDITOR.replace( 'safety' );
   CKEDITOR.replace( 'participants_description' );

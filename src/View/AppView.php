@@ -48,6 +48,7 @@ class AppView extends View
       //   $this->loadHelper('Form', ['templates' => 'app_form',]); //change to app_form
       // }       
       $this->loadHelper('Util');
+      $this->loadHelper('ValidationMessages');
       $this->loadHelper('Paginator', ['templates' => 'paginator-templates']);
     }
 }

@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Participants Model
@@ -23,7 +24,7 @@ use Cake\Validation\Validator;
  */
 class ParticipantsTable extends Table
 {
-
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -79,11 +80,10 @@ class ParticipantsTable extends Table
         $validator
             ->scalar('place_of_birth')
             ->allowEmpty('place_of_birth');
-/*
-        $validator
-            ->scalar('file')
-            ->allowEmpty('file');
 
+        $validator
+            ->allowEmpty('file');
+/*
         $validator
             ->scalar('dir')
             ->allowEmpty('dir');

@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Sponsors Model
@@ -23,7 +24,7 @@ use Cake\Validation\Validator;
  */
 class SponsorsTable extends Table
 {
-
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -39,6 +40,9 @@ class SponsorsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'

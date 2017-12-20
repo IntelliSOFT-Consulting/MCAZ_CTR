@@ -80,8 +80,8 @@
                         ?>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn-sm remove-lab-test"  value="<?php if (isset($application['participants'][$i]['id'])) { echo $application['participants'][$i]['id']; } ?>" >
-                          <i class="fa fa-minus"></i>
+                        <button type="button" class="btn btn-default btn-sm remove-participant"  value="<?php if (isset($application['participants'][$i]['id'])) { echo $application['participants'][$i]['id']; } ?>" >
+                          <i class="fa fa-trash-o"></i>
                         </button>
                     </td>
                   </tr>

@@ -58,7 +58,7 @@ $(function() {
             <td>\
               <input name="participants[{i}][file]" id="participants-{i}-file" type="file">   </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-participant"><i class="fa fa-minus"></i> </button>\
+                <button type="button" class="btn btn-default btn-sm remove-participant"><i class="fa fa-trash-o"></i> </button>\
             </td>\
           </tr>\        ';
 
@@ -69,7 +69,7 @@ $(function() {
       if ( typeof $(this).val() !== 'undefined' && $(this).val() !== false && $(this).val() !== "") {
         $.ajax({
           async:true, type:'POST', 
-          url:'/participants/delete.json',
+          url:'/participants/delete/'+$(this).val()+'.json',
           data:{'id': $(this).val(), 'adr_id': $('#adr_pr_id').text()}, //TODO:Use this to ensure the adr belongs to the user
           success : function(data) {
              console.log(data);

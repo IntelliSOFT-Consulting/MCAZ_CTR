@@ -21,7 +21,7 @@ class SiteDetailsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Applications', 'Counties']
+            'contain' => ['Applications', 'Provinces']
         ];
         $siteDetails = $this->paginate($this->SiteDetails);
 
@@ -39,7 +39,7 @@ class SiteDetailsController extends AppController
     public function view($id = null)
     {
         $siteDetail = $this->SiteDetails->get($id, [
-            'contain' => ['Applications', 'Counties']
+            'contain' => ['Applications', 'Provinces']
         ]);
 
         $this->set('siteDetail', $siteDetail);
@@ -64,8 +64,8 @@ class SiteDetailsController extends AppController
             $this->Flash->error(__('The site detail could not be saved. Please, try again.'));
         }
         $applications = $this->SiteDetails->Applications->find('list', ['limit' => 200]);
-        $counties = $this->SiteDetails->Counties->find('list', ['limit' => 200]);
-        $this->set(compact('siteDetail', 'applications', 'counties'));
+        $provinces = $this->SiteDetails->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('siteDetail', 'applications', 'provinces'));
         $this->set('_serialize', ['siteDetail']);
     }
 
@@ -91,8 +91,8 @@ class SiteDetailsController extends AppController
             $this->Flash->error(__('The site detail could not be saved. Please, try again.'));
         }
         $applications = $this->SiteDetails->Applications->find('list', ['limit' => 200]);
-        $counties = $this->SiteDetails->Counties->find('list', ['limit' => 200]);
-        $this->set(compact('siteDetail', 'applications', 'counties'));
+        $provinces = $this->SiteDetails->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('siteDetail', 'applications', 'provinces'));
         $this->set('_serialize', ['siteDetail']);
     }
 

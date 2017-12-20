@@ -1,5 +1,5 @@
 <?php
-    $this->Html->script('multi/sites', array('inline' => false));
+    $this->Html->script('multi/sites', ['block' => true]);
 ?>
 <div class="ctr-groups">
     <?php
@@ -14,36 +14,35 @@
 
     ?>
     <h5 class="controls">Details of Site(s) (<small>Repeat as necessary
-        <button title="add site" id="addsite_details" class="btn btn-primary btn-mini multiple_sites_member_state_f" type="button">Add Site</button></small>)</h5>
+        <button title="add site" id="addSiteDetail" class="btn btn-primary btn-xs multiple_sites_member_state_f" type="button">Add Site</button></small>)</h5>
     <hr>
     <div id="site_primary_detail">
     <?php
-        echo $this->Form->input('site_details.0.id', ['templates' => 'table_form']);
-        echo $this->Form->input('site_details.0.site_name', array(
+        echo $this->Form->input('single_site_name', array(
             'label' =>  'Name of site',
         ));
-        echo $this->Form->input('site_details.0.physical_address', array(
+        echo $this->Form->input('single_site_physical_address', array(
             'label' =>  'Physical address',
         ));
-        echo $this->Form->input('site_details.0.contact_details', array(
+        echo $this->Form->input('single_site_contact_details', array(
             'label' => 'Contact details ',
         ));
-        echo $this->Form->input('site_details.0.contact_person', array(
+        echo $this->Form->input('single_site_contact_person', array(
             'label' => 'Contact person',
         ));
-        echo $this->Form->input('site_details.0.province_id', ['options' => $provinces, 'empty' => true]);
+        echo $this->Form->input('single_site_province_id', ['options' => $provinces, 'empty' => true]);
 
         echo $this->Html->tag('hr', '', array('id' => 'site_detailsHr0'));
     ?>
     </div>
     <div id="site_details">
     <?php
-        if (!empty($this->request->data['site_details'])) {
-            for ($i = 1; $i <= count($this->request->data['site_details'])-1; $i++) {
+        if (!empty($application['site_details'])) {
+            for ($i = 0; $i <= count($application['site_details'])-1; $i++) {
             ?>
             <div class="site-group">
             <?php
-                echo $this->Html->tag('p', $i.' additional sites', array('class' => 'topper'));
+                echo $this->Html->tag('p', ($i+1).' additional sites', array('class' => 'topper'));
                 echo $this->Form->input('site_details.'.$i.'.id', ['templates' => 'table_form']);
                 echo $this->Form->input('site_details.'.$i.'.site_name', array(
                     'label' => 'Name of site',
@@ -58,8 +57,7 @@
                     'label' => 'Contact person',
                 ));
                 echo $this->Form->input('site_details.'.$i.'.province_id', ['options' => $provinces, 'empty' => true]);
-                echo $this->Html->tag('div', '<button id="site_detailsButton'.$i.'" class="btn btn-mini btn-danger removesite_details" type="button">
-                                                 Remove Site</button>', array(
+                echo $this->Html->tag('div', '<button id="site_detailsButton'.$i.'" class="btn btn-xs btn-danger removesite_details" type="button"><i class="fa fa-trash-o"></i> Remove Site</button>', array(
                             'class' => 'controls', 'escape' => false));
                 echo $this->Html->tag('hr', '', array('id' => 'site_detailsHr'.$i));
             ?>
