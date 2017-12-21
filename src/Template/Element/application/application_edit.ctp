@@ -32,7 +32,7 @@
           <li><a href="#tabs-12">12. Other details</a></li>
           <li><a href="#tabs-13">13. Checklist </a></li>
           <li><a href="#tabs-14">14. Declaration</a></li>
-          <li><a href="#tabs-15">15. Notifications</a></li>
+          <li><a href="#tabs-15">15. MC10 Form</a></li>
           <li><a href="#tabs-16">16. Financials</a></li>
         </ul>
         <div id="tabs-1">
@@ -500,6 +500,13 @@
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
             ));
             echo '<label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label>';
+            
+            if (!empty($application['registrations'][0]->file)) {
+                echo "<p> <b>Registration Certificate:</b> ".$this->Html->link($application['registrations'][0]->file, substr($application['registrations'][0]->dir, 8) . '/' . $application['registrations'][0]->file, ['fullBase' => true])."</p>";
+            } else {
+                echo $this->Form->control('registrations.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
+                echo $this->Form->control('registrations.0.file', ['type' => 'file','label' => 'Attach valid certificate of registration']);
+            }
             echo $this->Form->control('medicine_registered_details', array(
               'label' =>  'State details/reason', 
                'escape' => false,
@@ -544,12 +551,42 @@
                'templates' => 'textarea_form' 
             ));
 
+            echo $this->Form->control('rejected_other_country', array(
+              'label' =>  'e) Has the registration of the medicine been rejected/deferred /cancelled in any country?',
+              'escape' => false,
+              'type' => 'radio',  
+              'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
+            ));
+
+            echo $this->Form->control('rejected_other_country_details', array(
+              'label' =>  'If Yes,State details/reason', 
+               'escape' => false,
+               'templates' => 'textarea_form' 
+            ));
+
+            echo $this->Form->control('administration_route', array(
+              'label' =>  'Administration route, dosage, dosage interval and period for the medicine being tested and the medicine being used as a control', 
+               'escape' => false,
+               'templates' => 'textarea_form' 
+            ));
 
             echo $this->Form->control('status_medicine', array(
-              'label' =>  'What is the status of medicine in Zimbabwe?',
+              'label' =>  'f) What is the status of medicine in Zimbabwe?',
               'escape' => false,
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Registered' => 'Registered', 'Unregistered ' => 'Unregistered', 'Application for registration submitted'=>'Application for registration submitted']
+            ));
+
+            echo $this->Form->control('state_antidote', array(
+              'label' =>  'State Antidote', 
+               'escape' => false,
+               'templates' => 'textarea_form' 
+            ));
+
+            echo $this->Form->control('exemption_required', array(
+              'label' =>  'State the quantity of the medicine for which exemption is required if the medicine is not registered', 
+               'escape' => false,
+               'templates' => 'textarea_form' 
             ));
 
             //echo $this->element('multi/list_of_medicine');
@@ -727,17 +764,17 @@
             echo $this->Form->control('design_controlled_other_medicinal', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
               'escape' => false,
-              'label' => '<b>Other medicinal product(s)',
+              'label' => 'Other medicinal product(s)',
             ));
             echo $this->Form->control('design_controlled_placebo', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
               'escape' => false,
-              'label' => '<b>Placebo'
+              'label' => 'Placebo'
             ));
             echo $this->Form->control('design_controlled_medicinal_other', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
               'escape' => false,
-              'label' => '<b>Other'
+              'label' => 'Other'
             ));
             echo $this->Form->control('design_controlled_medicinal_specify', array(
               'label' => 'If yes to other, specify'
@@ -762,10 +799,16 @@
               'label' => 'Company Address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
               'escape' => false));
             echo '<label>(Allow attachment for a letter from the insurance company indicating consent company\'s consent to the propose insurance and a copy of the proposed insurance policy)</label>';
-
-            echo $this->Form->control('insurance_amount', array(
-              'label' => 'State the amount of insurance in respect of each participant <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
-              'escape' => false));
+            
+            if (!empty($application['policies'][0]->file)) {
+                echo "<p> <b>Insurance Letter:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][0]->file, ['fullBase' => true])."</p>";
+                echo "<p> <b>Insurance Policy:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][1]->file, ['fullBase' => true])."</p>";
+            } else {
+                echo $this->Form->control('policies.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
+                echo $this->Form->control('policies.0.file', ['type' => 'file','label' => 'Insurance Letter']);
+                echo $this->Form->control('policies.1.id', ['type' => 'hidden', 'templates' => 'table_form']);
+                echo $this->Form->control('policies.1.file', ['type' => 'file','label' => 'Insurance Policy']);
+            }
 
             echo $this->Form->control('insurance_amount', array(
               'label' => 'State the amount of insurance in respect of each participant <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
@@ -788,23 +831,24 @@
               'class' => 'datepickers', 'templates' => [
               'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
 
-            echo '<label>10.2.3 Name and contact details of Ethics committee(s)</label><br/>';
-            echo $this->Form->control('ethics_contact_name', array(
-              'label' => 'Ethics Committee(s) Name ',
-              'escape' => false
-            ));
-            echo $this->Form->control('ethics_contact_email', array(
-              'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
-              'escape' => false
-            )); 
-            echo $this->Form->control('ethics_contact_phone', array(
-              'label' => 'Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i>',
-              'escape' => false
-            )); 
-            echo $this->Form->control('ethics_contact_postal', array(
-              'label' => 'Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
-              'escape' => false
-            )); 
+            // echo '<label>10.2.3 Name and contact details of Ethics committee(s)</label><br/>';
+            // echo $this->Form->control('ethics_contact_name', array(
+            //   'label' => 'Ethics Committee(s) Name ',
+            //   'escape' => false
+            // ));
+            // echo $this->Form->control('ethics_contact_email', array(
+            //   'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+            //   'escape' => false
+            // )); 
+            // echo $this->Form->control('ethics_contact_phone', array(
+            //   'label' => 'Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i>',
+            //   'escape' => false
+            // )); 
+            // echo $this->Form->control('ethics_contact_postal', array(
+            //   'label' => 'Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+            //   'escape' => false
+            // ));
+            echo $this->element('multi/committees'); 
           ?>
         </div>
         <div id="tabs-11">
@@ -878,7 +922,11 @@
               'label' => '<h5> 11.15  State how the staff involved are to be informed about the way the trial is to be conducted and about the procedures for medicine usage and administration and what to do in an emergency</h5>', 'escape' => false
             ));
 
-            echo '<label>Particulars of the animals that will take part in the clinical Trial</label>';
+            echo $this->Form->control('animal_particulars', array(
+              'label' => '<h5> Particulars of the animals that will take part in the clinical Trial <small>Kind and breed of animal
+Age of animal if known
+Names and Addresses of owners of animals</small></h5>', 'escape' => false, 'templates' => 'textarea_form'
+            ));
           ?>
         </div>
 
@@ -912,13 +960,18 @@
           ?>
         </div>
         <div id="tabs-15">
-          <!-- <p>Insert attachments here</p> -->
+          <h5>MC10 Form</h5>
+          <p>Download MC10 Form using link below. Sign and upload the file.</p>
           <?php
-            //echo $this->element('multi/attachments');
-            echo $this->Form->control('notification', array(
-              'label' => '<i class="icon-comment-alt"></i> Any other comment(s)', 'escape' => false
-            ));
+            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-primary']);
+            if (!empty($application['legal_forms'][0]->file)) {
+                echo "<p> <b>Registration Certificate:</b> ".$this->Html->link($application['legal_forms'][0]->file, substr($application['legal_forms'][0]->dir, 8) . '/' . $application['legal_forms'][0]->file, ['fullBase' => true])."</p>";
+            } else {
+                echo $this->Form->control('legal_forms.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
+                echo $this->Form->control('legal_forms.0.file', ['type' => 'file','label' => 'Attach MC10 Form']);
+            }
           ?>
+
         </div>
         <div id="tabs-16">
           <?php

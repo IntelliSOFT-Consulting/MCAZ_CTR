@@ -84,11 +84,26 @@ class ApplicationsTable extends Table
         $this->hasMany('Sponsors', [
             'foreignKey' => 'application_id'
         ]);
+        $this->hasMany('Committees', [
+            'foreignKey' => 'application_id'
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Applications', 'Attachments.category' => 'attachments'),
+        ]);
+        $this->hasMany('Registrations', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Registrations.model' => 'Applications', 'Registrations.category' => 'registrations'),
+        ]);
+        $this->hasMany('Policies', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Policies.model' => 'Applications', 'Policies.category' => 'policies'),
         ]);
         $this->hasMany('CoverLetters', [
             'className' => 'Attachments',
@@ -101,6 +116,24 @@ class ApplicationsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Protocols.model' => 'Applications', 'Protocols.category' => 'protocols'),
+        ]);
+        $this->hasMany('Fees', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Fees.model' => 'Applications', 'Fees.category' => 'fees'),
+        ]);
+        $this->hasMany('Mc10Forms', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Mc10Forms.model' => 'Applications', 'Mc10Forms.category' => 'mc10_forms'),
+        ]);
+        $this->hasMany('LegalForms', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('LegalForms.model' => 'Applications', 'LegalForms.category' => 'legal_forms'),
         ]);
     }
 

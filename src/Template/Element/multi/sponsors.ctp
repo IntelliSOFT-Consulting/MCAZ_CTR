@@ -2,7 +2,7 @@
  	$this->Html->script('multi/sponsors', ['block' => true]);
 ?>
 <h5>3.2 Secondary Sponsor Details <br>(<small>Additional individuals, organizations or other legal persons, if any, that have agreed with the primary sponsor to take on responsibilities of sponsorship. where necessary, Click button to add more -
-<button type="button" class="btn btn-primary btn-mini" id="addSponsorDetail" title="add ponsor">Add Sponsor</button></small>) </h5>
+<button type="button" class="btn btn-primary btn-xs" id="addSponsorDetail" title="add ponsor">Add Sponsor</button></small>) </h5>
 <div class="ctr-groups">
 	<div id="sponsor_primary_contact">
 	<?php

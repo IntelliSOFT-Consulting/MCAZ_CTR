@@ -46,6 +46,7 @@ class ApplicationsController extends AppController
         $this->set('application', $application);
         $this->set('_serialize', ['application']);
     }
+    
 
     /**
      * Add method
@@ -116,6 +117,38 @@ class ApplicationsController extends AppController
             $application->protocols[$i]->category = 'protocols';
           }
         }
+        // registration certificates
+        if (!empty($this->request->data['registrations'][0]['file'])) {
+          for ($i = 0; $i <= count($application->registrations)-1; $i++) { 
+            $application->registrations[$i]->model = 'Applications';
+            $application->registrations[$i]->category = 'registrations';
+          }
+        }
+        // insurance policies
+        if (!empty($this->request->data['policies'][0]['file'])) {
+          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
+            $application->policies[$i]->model = 'Applications';
+            $application->policies[$i]->category = 'policies';
+          }
+        }
+        if (!empty($this->request->data['fees'][0]['file'])) {
+          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
+            $application->policies[$i]->model = 'Applications';
+            $application->policies[$i]->category = 'fees';
+          }
+        }
+        if (!empty($this->request->data['fees'][0]['file'])) {
+          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
+            $application->policies[$i]->model = 'Applications';
+            $application->policies[$i]->category = 'mc10_forms';
+          }
+        }
+        if (!empty($this->request->data['legal_forms'][0]['file'])) {
+          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
+            $application->policies[$i]->model = 'Applications';
+            $application->policies[$i]->category = 'legal_forms';
+          }
+        }
         return $application;
     }
 
@@ -123,7 +156,7 @@ class ApplicationsController extends AppController
     {
         $application = $this->Applications->get($id, [
             'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
-                          'CoverLetters', 'Protocols', 'Attachments']
+                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
         ]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));

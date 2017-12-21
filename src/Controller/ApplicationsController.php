@@ -51,6 +51,17 @@ class ApplicationsController extends AppController
         $this->set('_serialize', ['application']);
     }
 
+    public function mc10($id = null)
+    {
+        $application = $this->Applications->get($id, [
+            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
+                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
+        ]);
+
+        $this->set('application', $application);
+        $this->set('_serialize', ['application']);
+    }
+
     /**
      * Add method
      *
