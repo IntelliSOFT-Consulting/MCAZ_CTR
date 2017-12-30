@@ -39,13 +39,13 @@ $(function() {
 		}
 		if ($("#organization_multis .organization-group").length < 9) {
 			var new_organization = $('#organization_primary').clone();
-			new_organization.find('#Organization0Id').remove();
+			new_organization.find('#organizations-0-id').remove();
 			new_organization.prop('id', 'organization_multi'+intId).prop('class', 'organization-group');
 			new_organization.prepend($('<p  class="topper" id="OrganizationLabel{i}">{i} additional organizations</p> \
 										<span class="badge badge-info">{i}</span> '.replace(/{i}/g, intId)));
 			new_organization.find(':text, textarea').each(function() {
 				$(this).val('');
-				$(this).parent().parent().prop('class', 'control-group required').find('.help-block').remove();
+				$(this).parent().parent().prop('class', 'form-group required').find('.help-block').remove();
 				var fore = $(this).parent().parent().find('label').attr('for');
 				$(this).parent().parent().find('label').prop('for', fore.replace(/0/g, intId));
 				this.id = this.id.replace(/0/g, intId);
@@ -54,7 +54,7 @@ $(function() {
 			new_organization.find(':radio').each(function() {
 				$(this).prop('checked', false);
 				var enc_div = $(this).parent().parent().parent();
-				enc_div.prop('class', 'control-group required').next('p.controls').remove();
+				enc_div.prop('class', 'form-group required').next('p.controls').remove();
 				enc_div.find(':input[type="hidden"]').each(function() {
 					this.id = this.id.replace(/0/g, intId);
 					this.name = this.name.replace(/0/g, intId);
@@ -77,7 +77,7 @@ $(function() {
 	}
 	function removeOrganization() {
 		intId = parseFloat($(this).attr('id').replace('OrganizationButton', ''));
-		var inputVal = $('#Organization'+ intId +'Id').val();
+		var inputVal = $('#organizations-'+ intId +'-id').val();
 		if (inputVal) {
 			$.ajax({
 				type:'POST',

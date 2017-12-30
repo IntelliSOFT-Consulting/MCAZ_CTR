@@ -103,52 +103,7 @@ class ApplicationsController extends AppController
             $application->attachments[$i]->category = 'attachments';
           }
         }
-        // cover_letters
-        if (!empty($this->request->data['cover_letters'][0]['file'])) {
-          for ($i = 0; $i <= count($application->cover_letters)-1; $i++) { 
-            $application->cover_letters[$i]->model = 'Applications';
-            $application->cover_letters[$i]->category = 'cover_letters';
-          }
-        }
-        // protocols
-        if (!empty($this->request->data['protocols'][0]['file'])) {
-          for ($i = 0; $i <= count($application->protocols)-1; $i++) { 
-            $application->protocols[$i]->model = 'Applications';
-            $application->protocols[$i]->category = 'protocols';
-          }
-        }
-        // registration certificates
-        if (!empty($this->request->data['registrations'][0]['file'])) {
-          for ($i = 0; $i <= count($application->registrations)-1; $i++) { 
-            $application->registrations[$i]->model = 'Applications';
-            $application->registrations[$i]->category = 'registrations';
-          }
-        }
-        // insurance policies
-        if (!empty($this->request->data['policies'][0]['file'])) {
-          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
-            $application->policies[$i]->model = 'Applications';
-            $application->policies[$i]->category = 'policies';
-          }
-        }
-        if (!empty($this->request->data['fees'][0]['file'])) {
-          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
-            $application->policies[$i]->model = 'Applications';
-            $application->policies[$i]->category = 'fees';
-          }
-        }
-        if (!empty($this->request->data['fees'][0]['file'])) {
-          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
-            $application->policies[$i]->model = 'Applications';
-            $application->policies[$i]->category = 'mc10_forms';
-          }
-        }
-        if (!empty($this->request->data['legal_forms'][0]['file'])) {
-          for ($i = 0; $i <= count($application->policies)-1; $i++) { 
-            $application->policies[$i]->model = 'Applications';
-            $application->policies[$i]->category = 'legal_forms';
-          }
-        }
+        
         return $application;
     }
 
@@ -156,7 +111,28 @@ class ApplicationsController extends AppController
     {
         $application = $this->Applications->get($id, [
             'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
-                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
+                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters',
+        'Leaflets',
+        'Brochures',
+        'InvestigatorCvs',
+        'Declarations',
+        'StudyMonitors',
+        'MonitoringPlans',
+        'PiDeclarations',
+        'StudySponsorships',
+        'PharmacyPlans',
+        'PharmacyLicenses',
+        'StudyMedicines',
+        'InsuranceCertificates',
+        'GenericInsurances',
+        'EthicsApprovals',
+        'EthicsLetters',
+        'CountryApprovals',
+        'Advertisments',
+        'ElectronicVersions',
+        'SafetyMonitors',
+        'BiologicalProducts',
+        'Dossiers',]
         ]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
@@ -190,6 +166,44 @@ class ApplicationsController extends AppController
         $this->set('_serialize', ['application']);
 
         //start
+    }
+
+
+    public function addAttachments()
+    {
+        $application = $this->Applications->get($this->request->getData('foreign_key'), ['contain' => [], 'fields' => ['id', 'user_id']]);
+        if (empty($application)) {
+            $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                        'errors' => 'The application does not exist',
+                        'message' => 'Failure', 
+                        '_serialize' => ['errors','message']]);
+                    return;
+        }
+
+        //$category = $this->request->getData();
+        if ($this->request->is('post')) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            if ($this->Applications->save($application)) {
+                $this->set([
+                        'message' => 'Success', 
+                        //'category' => $category,
+                        'content' => $application['attachments'],
+                        '_serialize' => ['message', 'content', 'category']]);
+                    return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                        'errors' => $application->errors(),
+                        'message' => 'Failure', 
+                        '_serialize' => ['errors','message']]);
+                    return;
+            }
+        }
+        $this->set(compact('application'));
+        $this->set('_serialize', ['application']);
     }
 
     /**

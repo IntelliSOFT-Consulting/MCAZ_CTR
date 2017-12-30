@@ -31,6 +31,15 @@ $cakeDescription = 'MCAZ CTR:';
         <?= $this->fetch('title') ?>
     </title>
 
+
+    <!-- jquery UI -->
+    <?= $this->Html->css('jquery-ui.min') ?>
+    <?= $this->Html->script('jquery/jquery') ?>
+    <?= $this->Html->script('jquery/jquery-ui') ?>
+    <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
+    <?= $this->Html->script('jquery/js.cookie') ?>
+
+
     <?= $this->Html->css('bootstrap/bootstrap.min') ?>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -39,13 +48,7 @@ $cakeDescription = 'MCAZ CTR:';
     <!-- Custom styles for this template -->
     <?= $this->Html->css('bootstrap/font-awesome.min'); ?>
     <?= $this->Html->css('jquery.datetimepicker'); ?>
-
-    <!-- jquery UI -->
-    <?= $this->Html->css('jquery-ui.min') ?>
-    <?= $this->Html->script('jquery/jquery') ?>
-    <?= $this->Html->script('jquery/jquery-ui') ?>
-    <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
-
+    
     <?= $this->Html->css('bootstrap/jumbotron') ?>
 
 
@@ -148,6 +151,10 @@ $cakeDescription = 'MCAZ CTR:';
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
+        <div class="alert alert-error alertbrowser" style="display: none;">
+          <button type="button" class="close"data-dismiss="alert">&times;</button>
+            <strong>NOTE TO APPLICANT!</strong> Please use the latest versions of Firefox or Google Chrome for the best experience on this site.
+        </div>
         <!-- <a href="/"> <img style="float:left; width: 190px; padding-top: 50px"  alt="Medicines Control Authourity of Zimbabwe" src="/img/mcaz_logo.png"></a> -->
         <h2 class="text-center">Medicines Control Authority of Zimbabwe</h2>
         <!-- <p class="text-center">SAE, ADR and AEFI electronic reporting. </p> -->
@@ -195,6 +202,38 @@ $cakeDescription = 'MCAZ CTR:';
         </div>
     </footer>
     
+    <script>
+    $(function() {
+        $('.mapop').popover();
+
+        $('.tiptip').tooltip();
+
+        $.browser = {};
+        $.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+        if ($.browser.msie) {
+              $('.alertbrowser').show();
+        }
+        /* Get browser */
+        $.browser.chrome = /chrome/.test(navigator.userAgent.toLowerCase());
+
+        /* Detect Chrome */
+        if($.browser.chrome){
+            /* Do something for Chrome at this point */
+            /* Finally, if it is Chrome then jQuery thinks it's
+               Safari so we have to tell it isn't */
+            $.browser.safari = false;
+        }
+
+        /* Detect Safari */
+        if($.browser.safari){
+            /* Do something for Safari */
+            $('.alertbrowser').show();
+        }
+
+      });
+
+    </script>
+
   </body>
 
 </html>

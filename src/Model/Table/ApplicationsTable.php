@@ -129,6 +129,132 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('Mc10Forms.model' => 'Applications', 'Mc10Forms.category' => 'mc10_forms'),
         ]);
+        $this->hasMany('Leaflets', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Leaflets.model' => 'Applications', 'Leaflets.category' => 'leaflets'),
+        ]);
+        $this->hasMany('Brochures', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Brochures.model' => 'Applications', 'Brochures.category' => 'brochures'),
+        ]);
+        $this->hasMany('InvestigatorCvs', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'investigator_cvs'),
+        ]);
+        $this->hasMany('Declarations', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'declarations'),
+        ]);
+        $this->hasMany('StudyMonitors', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'study_monitors'),
+        ]);
+        $this->hasMany('MonitoringPlans', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'monitoring_plans'),
+        ]);
+        $this->hasMany('PiDeclarations', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'pi_declarations'),
+        ]);
+        $this->hasMany('StudySponsorships', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'study_sponsorships'),
+        ]);
+        $this->hasMany('PharmacyPlans', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'pharmacy_plans'),
+        ]);
+        $this->hasMany('PharmacyLicenses', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'pharmacy_licenses'),
+        ]);
+        $this->hasMany('StudyMedicines', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'study_medicines'),
+        ]);
+        $this->hasMany('InsuranceCertificates', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'insurance_certificates'),
+        ]);
+        $this->hasMany('GenericInsurances', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'generic_insurances'),
+        ]);
+        $this->hasMany('EthicsApprovals', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'ethics_approvals'),
+        ]);
+        $this->hasMany('EthicsLetters', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'ethics_letters'),
+        ]);
+        $this->hasMany('CountryApprovals', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'country_approvals'),
+        ]);
+        $this->hasMany('Advertisments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'advertisments'),
+        ]);
+        $this->hasMany('ElectronicVersions', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'electronic_versions'),
+        ]);
+        $this->hasMany('SafetyMonitors', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'safety_monitors'),
+        ]);
+        $this->hasMany('BiologicalProducts', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'biological_products'),
+        ]);
+        $this->hasMany('Dossiers', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('model' => 'Applications', 'category' => 'dossiers'),
+        ]);
         $this->hasMany('LegalForms', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

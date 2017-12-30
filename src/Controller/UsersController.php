@@ -58,18 +58,19 @@ class UsersController extends AppController
                     $this->redirect($this->Auth->logout());
                 }
 
-                if ($user['group_id'] == 1) {
-                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
-                } elseif ($user['group_id'] == 2) {
-                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
-                } elseif ($user['group_id'] == 3) {
-                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
-                } elseif ($user['group_id'] == 4) {
-                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant']);
-                } 
-                
-                return $this->redirect($this->Auth->redirectUrl());            
-                
+                if(strlen($this->Auth->redirectUrl()) > 12) {
+                    return $this->redirect($this->Auth->redirectUrl());           
+                } else {
+                    if ($user['group_id'] == 1) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
+                    } elseif ($user['group_id'] == 2) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
+                    } elseif ($user['group_id'] == 3) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+                    } elseif ($user['group_id'] == 4) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant']);
+                    } 
+                }
             }
 
             $this->Flash->error(__('Invalid username or password, try again'));

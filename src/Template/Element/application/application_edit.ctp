@@ -3,9 +3,9 @@
   $this->Html->script('ckeditor/ckeditor', ['block' => true]);
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
-      // $this->Html->script('jUpload/vendor/jquery.ui.widget.js', ['block' => true]);
-      // $this->Html->script('jUpload/jquery.iframe-transport.js', ['block' => true]);
-      // $this->Html->script('jUpload/jquery.fileupload.js', ['block' => true]);
+  $this->Html->script('jquery/jUpload/js/vendor/jquery.ui.widget.js', ['block' => true]);
+  $this->Html->script('jquery/jUpload/js/jquery.iframe-transport.js', ['block' => true]);
+  $this->Html->script('jquery/jUpload/js/jquery.fileupload.js', ['block' => true]);
       // pr($this->request->data);
 ?>
 <div class="row">
@@ -15,6 +15,7 @@
 </div>
 <div class="row">
   <?= $this->Form->create($application, ['type' => 'file']); ?>
+  <?php echo $this->Form->control('id', ['id' => 'applications-id']); ?>
     <div class="col-md-10">
       <div id="tabs">
         <ul>
@@ -37,6 +38,7 @@
         </ul>
         <div id="tabs-1">
           <?php
+
             echo $this->Form->control('public_title', array(
               'label' => 'Public Title <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
@@ -272,11 +274,11 @@
 
         </div>
         <div id="tabs-4">
-          <h5>4.0 Participants (SUBJECTS) <small>(e.g age group of persons/animals, type or class of persons/animals, sex etc)</small></h5>
+          <h5>4.0 Participants (SUBJECTS) </h5>
           <div class="col-sm-12">
           <?php
             echo $this->Form->control('participants_description', array(
-              'label' =>  '<hr>Participants Description <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
+              'label' =>  '<hr>Participants Description <i class="sterix fa fa-asterisk" aria-hidden="true"> </i> <small>(e.g age group of persons/animals, type or class of persons/animals, sex etc)</small>', 'escape' => false,
               'templates' => 'textarea_form'
             ));
             echo $this->Form->control('number_participants', array(
@@ -801,8 +803,8 @@
             echo '<label>(Allow attachment for a letter from the insurance company indicating consent company\'s consent to the propose insurance and a copy of the proposed insurance policy)</label>';
             
             if (!empty($application['policies'][0]->file)) {
-                echo "<p> <b>Insurance Letter:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][0]->file, ['fullBase' => true])."</p>";
-                echo "<p> <b>Insurance Policy:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][1]->file, ['fullBase' => true])."</p>";
+                echo "<p> <b>Insurance Letter:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][0]->file, ['fullBase' => true, 'class' => 'btn btn-info'])."</p>";
+                echo "<p> <b>Insurance Policy:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][1]->file, ['fullBase' => true, 'class' => 'btn btn-info'])."</p>";
             } else {
                 echo $this->Form->control('policies.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
                 echo $this->Form->control('policies.0.file', ['type' => 'file','label' => 'Insurance Letter']);
@@ -1014,8 +1016,11 @@ Names and Addresses of owners of animals</small></h5>', 'escape' => false, 'temp
 <script type="text/javascript">
   $(function() {
     $( "#tabs" ).tabs({
-      cookie: {
-        expires: 1
+      active   : Cookies.get('activetab'),
+      activate : function( event, ui ){
+          Cookies.set( 'activetab', ui.newTab.index(),{
+              expires : 10
+          });
       }
     });
     // $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );

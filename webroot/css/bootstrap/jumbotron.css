@@ -97,3 +97,7 @@ h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-erro
     color: #FFFFFF;
     margin-bottom: 0;
 }
+/*
+.ui-widget-content a {
+    color: #337ab7;
+}*/

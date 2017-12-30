@@ -54,11 +54,23 @@ class AttachmentsController extends AppController
         if ($this->request->is('post')) {
             $attachment = $this->Attachments->patchEntity($attachment, $this->request->getData());
             if ($this->Attachments->save($attachment)) {
-                $this->Flash->success(__('The attachment has been saved.'));
+                /*$this->Flash->success(__('The attachment has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']);*/
+                $this->set([
+                        'message' => 'Success', 
+                        'content' => $attachment,
+                        '_serialize' => ['message', 'content']]);
+                    return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                        'errors' => $attachment->errors(),
+                        'message' => 'Failure', 
+                        '_serialize' => ['errors','message']]);
+                    return;
             }
-            $this->Flash->error(__('The attachment could not be saved. Please, try again.'));
         }
         $this->set(compact('attachment'));
         $this->set('_serialize', ['attachment']);
@@ -101,11 +113,20 @@ class AttachmentsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $attachment = $this->Attachments->get($id);
         if ($this->Attachments->delete($attachment)) {
-            $this->Flash->success(__('The attachment has been deleted.'));
+            $this->set([
+                        'message' => 'The attachment has been deleted.', 
+                        '_serialize' => ['message']]);
+                    return;
         } else {
-            $this->Flash->error(__('The attachment could not be deleted. Please, try again.'));
+            $this->response->body('Failure');
+            $this->response->statusCode(403);
+            $this->set([
+                'errors' => $attachment->errors(), 
+                'message' => 'The attachment could not be deleted. Please, try again', 
+                '_serialize' => ['errors', 'message']]);
+            return;
         }
 
-        return $this->redirect(['action' => 'index']);
+        // return $this->redirect(['action' => 'index']);
     }
 }
