@@ -1,0 +1,14 @@
+u {
+	text-decoration-style: dotted;
+}
+
+p.answer {
+	border-bottom: 1px dotted;
+	width: 80%;
+	min-height: 21px;
+}
+
+.answer p, .answer h1, .answer h2, .answer h3, .answer h4, .answer h5, .answer h6 {
+	border-bottom: 1px dotted;
+	min-height: 21px;
+}

@@ -535,7 +535,7 @@
             ));
 
             echo $this->Form->control('application_other_country_details', array(
-              'label' =>  'If Yes,State details/reason', 
+              'label' =>  'If Yes,State details/reason including the date on which the application was lodged', 
                'escape' => false,
                'templates' => 'textarea_form' 
             ));
@@ -965,7 +965,7 @@ Names and Addresses of owners of animals</small></h5>', 'escape' => false, 'temp
           <h5>MC10 Form</h5>
           <p>Download MC10 Form using link below. Sign and upload the file.</p>
           <?php
-            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-primary']);
+            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-info']);
             if (!empty($application['legal_forms'][0]->file)) {
                 echo "<p> <b>Registration Certificate:</b> ".$this->Html->link($application['legal_forms'][0]->file, substr($application['legal_forms'][0]->dir, 8) . '/' . $application['legal_forms'][0]->file, ['fullBase' => true])."</p>";
             } else {

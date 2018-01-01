@@ -53,6 +53,7 @@ class ApplicationsController extends AppController
 
     public function mc10($id = null)
     {
+        // $this->viewBuilder()->setLayout('vanilla');
         $application = $this->Applications->get($id, [
             'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
                           'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
