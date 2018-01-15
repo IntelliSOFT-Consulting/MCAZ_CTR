@@ -30,7 +30,7 @@
         echo $this->Form->input('single_site_contact_person', array(
             'label' => 'Contact person',
         ));
-        echo $this->Form->input('single_site_province_id', ['options' => $provinces, 'empty' => true]);
+        echo $this->Form->input('single_site_province_id', ['label' => 'Province', 'options' => $provinces, 'empty' => true]);
 
         echo $this->Html->tag('hr', '', array('id' => 'site_detailsHr0'));
     ?>

@@ -3,8 +3,11 @@
 ?>
 <h5>Individual(s) (<small>where necessary, Click button to add more -
 <button type="button" class="btn btn-xs btn-primary" id="addPIContact">Add Contact</button></small>) </h5>
+
 <div class="ctr-groups">
 	<div id="investigator_primary_contact">
+		<div style="margin-left: 30px;"><h5><b>PRINCIPAL INVESTIGATOR</b></h5> </div>
+    <p></p>
 	<?php
 		echo $this->Form->control('investigator_contacts.0.id', ['templates' => 'table_form']);
 		echo $this->Form->control('investigator_contacts.0.given_name', array(
@@ -33,6 +36,7 @@
 	<?php
 		if (!empty($application['investigator_contacts'])) {
 			for ($i = 1; $i <= count($application['investigator_contacts'])-1; $i++) {
+				if ($i == 1) echo "<h5 style='margin-left: 30px;'><b>CO-ORDINATING INVESTIGATOR</b></h5>" ;
 			?>
 			<div class="contact-group">
 			<?php

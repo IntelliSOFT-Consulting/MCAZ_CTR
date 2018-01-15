@@ -13,3 +13,4 @@ bin/cake acl grant Groups.4 controllers/Applications/add
 bin/cake acl grant Groups.4 controllers/Applications/edit
 bin/cake acl grant Groups.4 controllers/Applications/view
 bin/cake acl grant Groups.4 controllers/Applications/delete
+bin/cake acl grant Groups.4 controllers/Attachments/download

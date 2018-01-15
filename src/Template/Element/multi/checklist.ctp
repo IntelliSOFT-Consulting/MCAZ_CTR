@@ -48,7 +48,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_fees', 
-                      ['type' => 'checkbox', 'label' => 'Application Fees <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Practicing License for principal investigator or co-investigator <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="fees" class="checkcontrols" title="fees">
@@ -80,18 +80,18 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_mc10', 
-                      ['type' => 'checkbox', 'label' => 'Fully completed application MC 10 form in triplicate  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Pharmacy License or Certificate  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
-    <div id="mc10_forms" class="checkcontrols" title="mc10_forms">
+    <div id="legal_forms" class="checkcontrols" title="legal_forms">
     <?php
-    // pr($application['mc10_forms']);
-        if (!empty($application['mc10_forms'])) {
-          for ($i = 0; $i <= count($application['mc10_forms'])-1; $i++) { ?>
+    // pr($application['legal_forms']);
+        if (!empty($application['legal_forms'])) {
+          for ($i = 0; $i <= count($application['legal_forms'])-1; $i++) { ?>
           <div style="margin-top: 5px; margin-bottom: 5px;">
           <?php
-            echo $this->Html->link($application['mc10_forms'][$i]->file, substr($application['mc10_forms'][$i]->dir, 8) . '/' . $application['mc10_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
-            echo '&nbsp;<button value="'.$application['mc10_forms'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_link">
+            echo $this->Html->link($application['legal_forms'][$i]->file, substr($application['legal_forms'][$i]->dir, 8) . '/' . $application['legal_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
+            echo '&nbsp;<button value="'.$application['legal_forms'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_link">
               &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
           ?>
         </div>

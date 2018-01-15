@@ -63,6 +63,9 @@ class ApplicationsTable extends Table
         $this->hasMany('Participants', [
             'foreignKey' => 'application_id'
         ]);
+        $this->hasMany('Medicines', [
+            'foreignKey' => 'application_id'
+        ]);
         $this->hasMany('Organizations', [
             'foreignKey' => 'application_id'
         ]);
@@ -105,6 +108,12 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('Policies.model' => 'Applications', 'Policies.category' => 'policies'),
         ]);
+        $this->hasMany('Proofs', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Proofs.model' => 'Applications', 'Proofs.category' => 'proofs'),
+        ]);
         $this->hasMany('CoverLetters', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',
@@ -122,6 +131,12 @@ class ApplicationsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Fees.model' => 'Applications', 'Fees.category' => 'fees'),
+        ]);
+        $this->hasMany('Receipts', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Receipts.model' => 'Applications', 'Receipts.category' => 'receipts'),
         ]);
         $this->hasMany('Mc10Forms', [
             'className' => 'Attachments',

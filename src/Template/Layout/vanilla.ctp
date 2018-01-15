@@ -50,6 +50,7 @@ $cakeDescription = 'MCAZ CTR:';
     <?= $this->Html->css('jquery.datetimepicker'); ?>
 
     <?= $this->Html->css('bootstrap/jumbotron') ?>
+    <?= $this->Html->css('ctr-fix') ?>
     <?= $this->Html->css('vanilla') ?>
 
 

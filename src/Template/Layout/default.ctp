@@ -50,7 +50,7 @@ $cakeDescription = 'MCAZ CTR:';
     <?= $this->Html->css('jquery.datetimepicker'); ?>
     
     <?= $this->Html->css('bootstrap/jumbotron') ?>
-
+    <?= $this->Html->css('ctr-fix') ?>
 
     <?= $this->Html->script('bootstrap/bootstrap.min'); ?>
     <?= $this->Html->script('bootstrap/ie10-viewport-bug-workaround'); ?>    
@@ -179,6 +179,9 @@ $cakeDescription = 'MCAZ CTR:';
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">   
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
         <?php 
           // Later come here to incldue the dashboard menu
             if($this->request->session()->read('Auth.User')) {
@@ -188,8 +191,15 @@ $cakeDescription = 'MCAZ CTR:';
                 if($this->request->session()->read('Auth.User.group_id') == '4') echo $this->element('menus/applicant_menu');
             }
         ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
         <?= $this->Flash->render() ?>
+                </div>
+            </div>
         <?= $this->fetch('content') ?>
+        </div>
       </div>
 
       <hr>

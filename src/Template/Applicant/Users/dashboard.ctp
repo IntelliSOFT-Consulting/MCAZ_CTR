@@ -28,7 +28,7 @@
           ?>
           <hr>
           <p><i class="fa fa-minus"></i> <span class="label label-info">NOTE!</span> Fields marked with <span class="sterix">
-              <i class="fa fa-asterisk" aria-hidden="true"></i> </span> are mandatory and your application will not be submitted to PPB without first completing them.</p>
+              <i class="fa fa-asterisk" aria-hidden="true"></i> </span> are mandatory and your application will not be submitted to MCAZ without first completing them.</p>
           <p><i class="fa fa-minus"></i> Notifications will be sent to the email address entered above</p>
 
           </div>

@@ -137,7 +137,7 @@ $(function() {
                         name = data.context.closest('div.checkcontrols').attr('id');
                         cound = data.context.closest('div.checkcontrols').children().length;
                         data.context.prepend(' \
-                        <a href="/applicant/attachments/download/' + data.result.content[0].id + '" class="btn btn-info"> \
+                        <a href="/attachments/download/' + data.result.content[0].id + '" class="btn btn-info"> \
                         ' + data.result.content[0].file + '</a> \
                         <button class="btn btn-xs btn-danger delete_file_link" type="button" value="' + data.result.content[0].id + '">\
                         &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>');

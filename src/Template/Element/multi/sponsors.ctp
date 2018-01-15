@@ -8,7 +8,7 @@
 	<?php
 		echo $this->Form->control('sponsors.0.id', ['templates' => 'table_form']);
 		echo $this->Form->control('sponsors.0.sponsor', array(
-			'label' => 'sponsors <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Organization <span class="sterix">*</span>', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.contact_person', array(
 			'label' => 'Contact Person', 'escape' => false
@@ -23,7 +23,7 @@
 			'label' => 'Fax Number', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.cell_number', array(
-			'label' => 'Mobile phone number <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Mobile Phone Number <span class="sterix">*</span>', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.email_address', array(
 			'type' => 'email',
@@ -43,7 +43,7 @@
 				echo '<p  class="topper" id="sponsorsDetailLabel'.$i.'">'.($i+1).' additional sponsors</p>';
 				echo '<span class="badge badge-info">'.($i+1).'</span>';
 				echo $this->Form->control('sponsors.'.$i.'.sponsor', array(
-					'label' =>  'sponsors <span class="sterix">*</span>', 'escape' => false
+					'label' =>  'Organization <span class="sterix">*</span>', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.contact_person', array(
 					'label' => 'Contact Person', 'escape' => false

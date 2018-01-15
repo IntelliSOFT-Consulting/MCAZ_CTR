@@ -31,6 +31,10 @@ class UsersController extends AppController
     //Login with username or password
     public function login()
     {
+        if ($this->Auth->user()) {
+            return $this->redirect($this->Auth->redirectUrl()); 
+        }
+
         if ($this->request->is('post')) {
 
             if (Validation::email($this->request->data['username'])) {

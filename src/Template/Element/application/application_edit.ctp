@@ -6,8 +6,13 @@
   $this->Html->script('jquery/jUpload/js/vendor/jquery.ui.widget.js', ['block' => true]);
   $this->Html->script('jquery/jUpload/js/jquery.iframe-transport.js', ['block' => true]);
   $this->Html->script('jquery/jUpload/js/jquery.fileupload.js', ['block' => true]);
-      // pr($this->request->data);
+  $this->Html->script('application_edit', ['block' => true]);
+
+
+  $add_fileinput = '<button class="btn btn-warning btn-xs tiptip add-fileinput" data-toggle="tooltip" title="Add a file"
+                                style="margin-left:10px;" type="button">&nbsp;<i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; </button>';
 ?>
+
 <div class="row">
   <?= $this->fetch('header'); ?>
   <?= $this->Flash->render() ?>
@@ -32,7 +37,7 @@
           <li><a href="#tabs-11">11. Organizations</a></li>
           <li><a href="#tabs-12">12. Other details</a></li>
           <li><a href="#tabs-13">13. Checklist </a></li>
-          <li><a href="#tabs-14">14. Declaration</a></li>
+          <li><a href="#tabs-14">14. Notifications</a></li>
           <li><a href="#tabs-15">15. MC10 Form</a></li>
           <li><a href="#tabs-16">16. Financials</a></li>
         </ul>
@@ -40,11 +45,11 @@
           <?php
 
             echo $this->Form->control('public_title', array(
-              'label' => 'Public Title <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Public Title',
               'escape' => false
             ));
             echo $this->Form->control('scientific_title', array(
-              'label' => 'Scientific Title ',
+              'label' => 'Scientific Title <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
 
@@ -87,7 +92,7 @@
             )); 
 
             echo $this->Form->control('countries_recruitment', array(
-              'label' => 'Countries of Recruitment ',
+              'label' => 'Countries of Recruitment <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false,
               'templates' => 'textarea_form'
             ));
@@ -101,14 +106,14 @@
               // , 'escape' => false
             // ));
             echo $this->Form->control('version_no', array(
-              'label' =>  'Trial Indentifying Number <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+              'label' =>  'Trial Indentifying Number', 'escape' => false
             ));
             // echo $this->Form->control('title', ['class' => 'datepickers', 'templates' => [
             //   'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
             echo $this->Form->control('date_of_protocol', ['type' => 'text', 'class' => 'datepickers', 'templates' => [
               'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
             echo $this->Form->control('study_drug', array(
-              'label' =>  'Study Drug <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
+              'label' =>  'Study Product <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
             ));
             
 
@@ -183,6 +188,9 @@
               'class' => 'datepickers', 'templates' => [
               'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]
             ));
+            echo $this->Form->control('protocol_version', array(
+              'label' => 'Protocol Version No.', 'placeholder' => ''
+            ));
           ?>
         </div>
         <div id="tabs-2">
@@ -216,17 +224,10 @@
             echo $this->Form->control('business_position', array( 'label' =>  'Position of applicant <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
               'escape' => false
             ));
-            echo $this->Form->control('business_field_manufacture', array( 'label' =>  'Main field of manufacture', 
-              'escape' => false
-            ));
+            
           ?>
           </div>
           <hr>
-          <div>
-          <?php
-            echo $this->element('multi/participants');
-          ?>
-          </div>
         </div>
         <div id="tabs-3" >
           <br/>
@@ -274,7 +275,7 @@
 
         </div>
         <div id="tabs-4">
-          <h5>4.0 Participants (SUBJECTS) </h5>
+          <h5>4.0 Participants </h5>
           <div class="col-sm-12">
           <?php
             echo $this->Form->control('participants_description', array(
@@ -282,7 +283,7 @@
               'templates' => 'textarea_form'
             ));
             echo $this->Form->control('number_participants', array(
-              'label' =>  'Expected Number of participants <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' =>  'Expected Number of participants in Zimbabwe <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
                'type'=>'number',
                'escape' => false 
             ));
@@ -459,13 +460,6 @@
             ));
 
           ?>
-          <hr> <h5>5.1</h5>
-          <?php
-            echo $this->Form->control('staff_numbers', array(
-              'label' => '<h5> Capacity of Site(s)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> <h5> Number of staff, names, qualifications, experience
-              -- including study co-ordinators, site facilities, emergency facilities, other relevant infrastructure)  </h5>', 'escape' => false 
-            ));
-          ?>
         </div>
         <div id="tabs-6">
 
@@ -475,11 +469,12 @@
               'label' =>  'Medicine Name  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
                'escape' => false 
             ));
-
             echo $this->Form->control('quantity_excemption', array(
-              'label' =>  'Quantity of the medicine for which exemption is required if the medicine is not registered  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' =>  'Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
                'escape' => false 
             ));
+
+            echo $this->element('multi/medicines');
 
             echo $this->Form->control('drug_details', array(
               'label' =>  '<hr> State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
@@ -501,14 +496,36 @@
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
             ));
-            echo '<label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label>';
             
-            if (!empty($application['registrations'][0]->file)) {
+            
+            /*if (!empty($application['registrations'][0]->file)) {
                 echo "<p> <b>Registration Certificate:</b> ".$this->Html->link($application['registrations'][0]->file, substr($application['registrations'][0]->dir, 8) . '/' . $application['registrations'][0]->file, ['fullBase' => true])."</p>";
-            } else {
+            } else {*/
+
+          ?><!-- 
                 echo $this->Form->control('registrations.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
-                echo $this->Form->control('registrations.0.file', ['type' => 'file','label' => 'Attach valid certificate of registration']);
-            }
+                echo $this->Form->control('registrations.0.file', ['type' => 'file','label' => 'Attach valid certificate of registration']); -->
+            <div id="registrations" class="checkcontrols" title="registrations">              
+              <?php
+              echo '<label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application '.$add_fileinput.'</label>';
+                // echo $add_fileinput;
+                  if (!empty($application['registrations'])) {
+                    for ($i = 0; $i <= count($application['registrations'])-1; $i++) { ?>
+                    <div style="margin-top: 5px; margin-bottom: 5px;">
+                    <?php
+                      echo $this->Html->link($application['registrations'][$i]->file, substr($application['registrations'][$i]->dir, 8) . '/' . $application['registrations'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
+                      echo '&nbsp;<button value="'.$application['registrations'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_input">
+                        &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
+                    ?>
+                  </div>
+                  <?php
+                    }
+                  } 
+              ?>
+            </div>
+
+          <?php
+            // }
             echo $this->Form->control('medicine_registered_details', array(
               'label' =>  'State details/reason', 
                'escape' => false,
@@ -601,7 +618,7 @@
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
             ));
             echo $this->Form->control('concomitant_medicine', array(
-              'label' =>  'If YES, state the name of the medicine.', 
+              'label' =>  'If YES, state the name of the other medicines', 
                'escape' => false 
             ));
 
@@ -733,10 +750,7 @@
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
               'label' => 'Randomised'
             ));
-            echo $this->Form->control('design_controlled_open', array(
-              'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Open'
-            ));
+            
             echo $this->Form->control('design_controlled_single_blind', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
               'label' => 'Single Blind'
@@ -793,16 +807,16 @@
               'escape' => false, 
               'templates' => 'textarea_form'));
 
-            echo '<label> Company who wil insure the participants in the proposed trial</label>';
+            echo '<label> Company who will insure the participants in the proposed trial</label>';
             echo $this->Form->control('insurance_company', array(
-              'label' => 'Company Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' => 'Company Name', 
               'escape' => false));
             echo $this->Form->control('insurance_address', array(
-              'label' => 'Company Address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' => 'Company Address', 
               'escape' => false));
-            echo '<label>(Allow attachment for a letter from the insurance company indicating consent company\'s consent to the propose insurance and a copy of the proposed insurance policy)</label>';
+            // echo '<label>(Allow attachment for a letter from the insurance company indicating company\'s consent to the proposed insurance and a copy of the proposed insurance policy)</label>';
             
-            if (!empty($application['policies'][0]->file)) {
+            /*if (!empty($application['policies'][0]->file)) {
                 echo "<p> <b>Insurance Letter:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][0]->file, ['fullBase' => true, 'class' => 'btn btn-info'])."</p>";
                 echo "<p> <b>Insurance Policy:</b> ".$this->Html->link($application['policies'][0]->file, substr($application['policies'][0]->dir, 8) . '/' . $application['policies'][1]->file, ['fullBase' => true, 'class' => 'btn btn-info'])."</p>";
             } else {
@@ -810,21 +824,76 @@
                 echo $this->Form->control('policies.0.file', ['type' => 'file','label' => 'Insurance Letter']);
                 echo $this->Form->control('policies.1.id', ['type' => 'hidden', 'templates' => 'table_form']);
                 echo $this->Form->control('policies.1.file', ['type' => 'file','label' => 'Insurance Policy']);
-            }
-
+            }*/
+            ?>
+              <div id="policies" class="checkcontrols" title="policies">              
+                <?php
+                echo '<label>(Allow attachment for a letter from the insurance company indicating company\'s consent to the proposed insurance and a copy of the proposed insurance policy) '.$add_fileinput.'</label>';
+                  // echo $add_fileinput;
+                    if (!empty($application['policies'])) {
+                      for ($i = 0; $i <= count($application['policies'])-1; $i++) { ?>
+                      <div style="margin-top: 5px; margin-bottom: 5px;">
+                      <?php
+                        echo $this->Html->link($application['policies'][$i]->file, substr($application['policies'][$i]->dir, 8) . '/' . $application['policies'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
+                        echo '&nbsp;<button value="'.$application['policies'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_input">
+                          &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
+                      ?>
+                    </div>
+                    <?php
+                      }
+                    } 
+                ?>
+              </div>
+              <hr>
+            <?php
             echo $this->Form->control('insurance_amount', array(
-              'label' => 'State the amount of insurance in respect of each participant <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' => 'State the amount of insurance in respect of each participant', 
               'escape' => false));
 
+            echo "<h5>Other</h5>";
+            echo $this->Form->control('other_insurance', array(
+              'label' => 'If no insurance company, provide details',
+              'escape' => false
+            ));
+
             echo '<label>10.2 Ethical Reviews</label>
-            <br/>The Ethics review process of the trial record in the primary register database comprises of:';
+            <br/>The Ethics review process of the trial record in the primary register database comprises of:<br>';
             echo '<label>10.2.1 Status</label>';
             echo $this->Form->control('ethical_review_status', array(
               'label' =>  '',
               'escape' => false,
               'type' => 'radio',  
-              'templates' => 'radio_form', 'options' => ['Approved' => 'Approved', 'Not Approved' => 'Not Approved', 'Not Available' => 'Not Available']
+              'templates' => 'radio_form', 'options' => ['Approved' => 'Approved', 'Not Approved' => 'Not Approved', 'Pending' => 'Pending']
             ));
+
+
+            /*if (!empty($application['proofs'][0]->file)) {
+                echo "<p> <b>If approved, proof of approval / if pending, proof of submission:</b> ".$this->Html->link($application['proofs'][0]->file, substr($application['proofs'][0]->dir, 8) . '/' . $application['proofs'][0]->file, ['fullBase' => true, 'class' => 'btn btn-info'])."</p>";
+            } else {
+                echo $this->Form->control('proofs.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
+                echo $this->Form->control('proofs.0.file', ['type' => 'file','label' => 'If approved, proof of approval / if pending, proof of submission:']);
+            }*/
+            ?>
+              <div id="proofs" class="checkcontrols" title="proofs">              
+                <?php
+                echo '<p> <b>If approved, proof of approval / if pending, proof of submission:</b> '.$add_fileinput.'</p>';
+                  // echo $add_fileinput;
+                    if (!empty($application['proofs'])) {
+                      for ($i = 0; $i <= count($application['proofs'])-1; $i++) { ?>
+                      <div style="margin-top: 5px; margin-bottom: 5px;">
+                      <?php
+                        echo $this->Html->link($application['proofs'][$i]->file, substr($application['proofs'][$i]->dir, 8) . '/' . $application['proofs'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
+                        echo '&nbsp;<button value="'.$application['proofs'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_input">
+                          &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
+                      ?>
+                    </div>
+                    <?php
+                      }
+                    } 
+                ?>
+              </div>
+              <hr>
+            <?php
 
             echo '<label>10.2.2 Date of Approval</label>';
             echo $this->Form->control('date_of_approval_ethics', [
@@ -857,71 +926,71 @@
           <?php echo $this->element('multi/organizations');?>
         </div>
         <div id="tabs-12">
-          <h5>11.0 OTHER DETAILS</h5>
+          <h5>12.0 OTHER DETAILS</h5>
           <hr>
           <?php
             echo $this->Form->control('estimated_duration', array(
-              'label' => '11.1 State the time period for the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => '12.1 State the time period for the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             ));
 
             echo $this->Form->control('other_details_explanation', array(
-              'label' => '<h5> 11.2 If the trial is to be conducted in Zimbabwe and not in the host country of the applicant / sponsor, provide an explanation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false,
+              'label' => '<h5> 12.2 If the trial is to be conducted in Zimbabwe and not in the host country of the applicant / sponsor, provide an explanation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false,
               'templates' => 'textarea_form'
             ));
             
             echo $this->Form->control('other_details_regulatory_notapproved', array(
-              'label' => '<h5> 11.3 Name other Regulatory Authorities to
+              'label' => '<h5> 12.3 Name other Regulatory Authorities to
                 which applications to do this trial have been submitted, but approval has not yet been granted. Include date(s)
                 of application: <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 
               'escape' => false, 'templates' => 'textarea_form'
             ));
             echo $this->Form->control('other_details_regulatory_approved', array(
-              'label' => '<h5> 11.4 Name other Regulatory Authorities
+              'label' => '<h5> 12.4 Name other Regulatory Authorities
                 which have approved this trial, date(s) of approval and number of sites per country. <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
             echo $this->Form->control('other_details_regulatory_rejected', array(
-              'label' => '<h5> 11.5 if applicable, name other Regulatory Authorities or Ethics Committees which have rejected this trial and give reasons for rejection:</h5>', 'escape' => false , 'templates' => 'textarea_form'
+              'label' => '<h5> 12.5 if applicable, name other Regulatory Authorities or Ethics Committees which have rejected this trial and give reasons for rejection:</h5>', 'escape' => false , 'templates' => 'textarea_form'
             ));
             echo $this->Form->control('other_details_regulatory_halted', array(
-              'label' => '<h5> 11.6 If applicable, details of and reasons for this trial having been halted at any stage by other Regulatory Authorities:</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.6 If applicable, details of and reasons for this trial having been halted at any stage by other Regulatory Authorities:</h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('recording_effects', array(
-              'label' => '<h5> 11.7 Recording of effects, give a description of the methods of recordings and times of recordings</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.7 Recording of effects, give a description of the methods of recordings and times of recordings</h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('tests_done', array(
-              'label' => '<h5> 11.8 State the Clinical and laboratory tests, pharmacokinetic analysis etc that are to be carried out</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.8 State the Clinical and laboratory tests, pharmacokinetic analysis etc that are to be carried out</h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('recording_method', array(
-              'label' => '<h5> 11.9 State the method of recording adverse reactions and provisions for dealing with the same and other complications</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.9 State the method of recording adverse reactions and provisions for dealing with the same and other complications <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('record_keeping', array(
-              'label' => '<h5> 11.10 State the procedure for keeping participants lists and participant records for each participant taking part in the trial.
-(Attachment or records for identification of persons)</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.10 State the procedure for keeping participants lists and participant records for each participant taking part in the trial.
+(Attachment or records for identification of persons) <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('trial_storage', array(
-              'label' => '<h5> 11.11 State where will trial be kept and how it can it be broken in case of an emergency</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5><b> 12.11 State where will trial code will be kept and how it can it be broken in case of an emergency <i class="sterix fa fa-asterisk" aria-hidden="true"></i></b></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('measures_compliance', array(
-              'label' => '<h5> 11.12 State measures to be implemented to ensure the safe handling of medicines and promote and control compliances with prescribed instructions</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.12 State measures to be implemented to ensure the safe handling of medicines and promote and control compliances with prescribed instructions <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('evalution_of_results', array(
-              'label' => '<h5> 11.13 Evaluation of results, state the description of methodology (eg statistical methods)</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.13 Evaluation of results, state the description of methodology (eg statistical methods) <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('inform_persons', array(
-              'label' => '<h5> 11.14 State how the persons or owners of animals are to be informed about the trial</h5>', 'escape' => false, 'templates' => 'textarea_form'
+              'label' => '<h5> 12.14 State how the persons or owners of animals are to be informed about the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('inform_staff', array(
-              'label' => '<h5> 11.15  State how the staff involved are to be informed about the way the trial is to be conducted and about the procedures for medicine usage and administration and what to do in an emergency</h5>', 'escape' => false
+              'label' => '<h5> 12.15  State how the staff involved are to be informed about the way the trial is to be conducted and about the procedures for medicine usage and administration and what to do in an emergency <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false
             ));
 
             echo $this->Form->control('animal_particulars', array(
@@ -936,345 +1005,115 @@ Names and Addresses of owners of animals</small></h5>', 'escape' => false, 'temp
           <?php echo $this->element('multi/checklist'); ?>
         </div>
         <div id="tabs-14">
-          <h5>DECLARATION BY APPLICANT</h5>
-          <hr>
-          <p>We, the undersigned have submitted all requested and required documentation, and have disclosed all
-            information which may influence the approval of this application. </p>
-
-          <p>We, the undersigned, agree to ensure that if the above-said clinical trial is approved, it will be conducted
-            according to the submitted protocol and Zimbabwean legal, ethical and regulatory requirements. </p>
-
+          
           <?php
-            echo $this->Form->control('declaration_applicant', array(
-              'label' =>  'Applicant (local contact) <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false
-            ));
-            echo $this->Form->control('declaration_date1', 
-              ['type' => 'text', 'class' => 'datepickers', 'label' => 'Date', 'templates' => [
-              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]
-            );
-            echo $this->Form->control('declaration_principal_investigator', array(
-              'label' =>  'National Principal Investigator / National Co-ordinator / Other (state designation) <i class="sterix fa fa-asterisk" aria-hidden="true"></i>','escape' => false
-            ));
-            echo $this->Form->control('declaration_date2', 
-              ['type' => 'text', 'class' => 'datepickers', 'label' => 'Date', 'templates' => [
-              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]
-            );
+            echo $this->element('multi/attachments');
+            echo $this->Form->control('notification', ['label' => '<i class="fa fa-comment-o" aria-hidden="true"></i> Any other comment(s)', 
+                  'escape' => false,
+                  'templates' => [ 
+                      'label' => '<div class="checkbox col-sm-12"><label  style="font-weight: bold;" {{attrs}}>{{text}}</label></div>',
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                      'textarea' => '<div class="col-sm-12"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
           ?>
         </div>
         <div id="tabs-15">
           <h5>MC10 Form</h5>
           <p>Download MC10 Form using link below. Sign and upload the file.</p>
+
+
+              <div id="mc10_forms" class="checkcontrols" title="mc10_forms">              
+                <?php
+
+                echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-success']);
+
+                echo '<p class="checkbox"> <b>Upload complete MC10 form:</b> '.$add_fileinput.'</p>';
+                  // echo $add_fileinput;
+                    if (!empty($application['mc10_forms'])) {
+                      for ($i = 0; $i <= count($application['mc10_forms'])-1; $i++) { ?>
+                      <div style="margin-top: 5px; margin-bottom: 5px;">
+                      <?php
+                        echo $this->Html->link($application['mc10_forms'][$i]->file, substr($application['mc10_forms'][$i]->dir, 8) . '/' . $application['mc10_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
+                        echo '&nbsp;<button value="'.$application['mc10_forms'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_input">
+                          &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
+                      ?>
+                    </div>
+                    <?php
+                      }
+                    } 
+                ?>
+              </div>
+              <hr>
+            
           <?php
-            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-info']);
-            if (!empty($application['legal_forms'][0]->file)) {
-                echo "<p> <b>Registration Certificate:</b> ".$this->Html->link($application['legal_forms'][0]->file, substr($application['legal_forms'][0]->dir, 8) . '/' . $application['legal_forms'][0]->file, ['fullBase' => true])."</p>";
+            /*if (!empty($application['mc10_forms'][0]->file)) {
+                echo "<p> <b>Registration Certificate:</b> ".$this->Html->link($application['mc10_forms'][0]->file, substr($application['mc10_forms'][0]->dir, 8) . '/' . $application['mc10_forms'][0]->file, ['fullBase' => true])."</p>";
             } else {
-                echo $this->Form->control('legal_forms.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
-                echo $this->Form->control('legal_forms.0.file', ['type' => 'file','label' => 'Attach MC10 Form']);
-            }
+                echo $this->Form->control('mc10_forms.0.id', ['type' => 'hidden', 'templates' => 'table_form']);
+                echo $this->Form->control('mc10_forms.0.file', ['type' => 'file','label' => 'Attach MC10 Form']);
+            }*/
           ?>
 
         </div>
         <div id="tabs-16">
           <?php
-            echo $this->element('multi/attachments');
+            echo $this->element('multi/receipts');
           ?>
         </div>
       </div>
+
+<br>
+<div id="tabid"></div>
+<div class="row Footer">
+  <div class="col-md-6">    
+          <div class="divleft pull-left">
+              <button id="btnMoveLeftTab" class="btn btn-default" type="button" value="Previous page" text="Previous page"> 
+                <i class="fa fa-backward"></i> Previous page
+              </button>
+          </div>
+  </div>
+  <div class="col-md-6">    
+          <div class="divright pull-right">
+              <button id="btnMoveRightTab" class="btn btn-default" type="button" value="Next"  text="Next page"> <i class="fa fa-forward"></i> Next page
+              </button>
+          </div>
+  </div>
+</div>
+
   </div>
   <div class="col-md-2">
-    <div data-spy="affix" class="my-sidebar">
-    <div class="well">
-      <button name="saveReport" value="1" id="applicationSave" class="btn btn-primary" type="submit"
+    <div data-spy="affix" class="my-sidebar text-center">
+      <button name="saveReport" value="1" id="applicationSave" class="btn btn-primary btn-block active" type="submit"
               id="SadrSaveChanges" title="Save & continue editing"
               data-content="Save changes to form without submitting it. The form will still be available for further editing.">
                   <span class="fa fa-edit" aria-hidden="true"></span> Save changes
       </button>
       <hr>
-      <button name="submitReport" value="2" id="applicationSubmit" class="btn btn-success" type="submit"
+      <button name="submitReport" value="2" id="applicationSubmit" class="btn btn-success btn-block active" type="submit"
                         onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');"
                 >
                   <span class="fa fa-send" aria-hidden="true"></span> Submit to MCAZ
       </button>
       <hr>
-      <button name="cancelReport" value="1" id="applicationCancel" class="btn btn-default" type="submit"
+      <button name="cancelReport" value="1" id="applicationCancel" class="btn btn-default btn-block active" type="submit"
                         onclick="return confirm('Are you sure you wish to cancel the report?');"
                 >
                   <span class="fa fa-close" aria-hidden="true"></span> Cancel
                 </button>
+      <?= $this->Form->end() ?>
+      <hr>
+      <?= $this->Form->postLink(
+                '<span class="fa fa-trash" aria-hidden="true"></span> Delete',
+                ['action' => 'delete', $application->id],
+                ['confirm' => __('Are you sure you want to delete application # {0}?', $application->id), 'escape' => false,
+                  'class' => 'btn btn-danger btn-block active']
+            )
+      ?>
       <hr>
       <?php
-        // echo $this->Html->link('<button class="btn btn-primary"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF </button>', ['controller' => 'Applications', 'action' => 'view', 'ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false]);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', 'ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);
               ?>
-
-    </div>
+      <hr>
     </div>
   </div>
-  <?= $this->Form->end() ?>
 </div>
 
-<script type="text/javascript">
-  $(function() {
-    $( "#tabs" ).tabs({
-      active   : Cookies.get('activetab'),
-      activate : function( event, ui ){
-          Cookies.set( 'activetab', ui.newTab.index(),{
-              expires : 10
-          });
-      }
-    });
-    // $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-        // $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-
-    $( ".datepickers" ).datepicker({
-      minDate:"-100Y", maxDate:"-0D", dateFormat:'dd-mm-yy', showButtonPanel:true, changeMonth:true, changeYear:true,
-      buttonImageOnly:true, showAnim:'show', showOn:'both', buttonImage:'/img/calendar.gif'
-    });
-
-    ///---- Enable or disable based on checkbox
-    enable_ecct();
-    $("#ApplicationEcctNotApplicable").click(enable_ecct);
-    enable_scope();
-    $("#ApplicationScopeOthers").click(enable_scope);
-    enable_trial();
-    $("#ApplicationTrialOther").click(enable_trial);
-
-    toggle_single_location();
-    $('#ApplicationSingleSiteMemberStateYes').on("click", toggle_single_location);
-    $('#ApplicationSingleSiteMemberStateNo').on("click", toggle_single_location);
-    $('#ApplicationLocationOfArea').change(function() {
-      $('#ApplicationSingleSiteMemberStateYes').attr('checked', 'checked');
-      // $('#ApplicationSingleSiteMemberStateYes').click();
-      toggle_single_location();
-    });
-
-    toggle_multisite_location();
-    $('#ApplicationMultipleSitesMemberStateYes').on("click", toggle_multisite_location);
-    $('#ApplicationMultipleSitesMemberStateNo').on("click", toggle_multisite_location);
-    $('#ApplicationNumberOfSites, #ApplicationMultiSiteList').change(function() {
-      $('#ApplicationMultipleSitesMemberStateYes').attr('checked', 'checked');
-      // $('#ApplicationMultipleSitesMemberStateYes').click();
-      toggle_multisite_location();
-    });
-
-    toggle_multicountry_location();
-    $('#ApplicationMultipleCountriesYes').on("click", toggle_multicountry_location);
-    $('#ApplicationMultipleCountriesNo').on("click", toggle_multicountry_location);
-    $('#ApplicationMultipleMemberStates, #ApplicationMultiCountryList').change(function() {
-      $('#ApplicationMultipleCountriesYes').attr('checked', 'checked');
-      // $('#ApplicationMultipleCountriesYes').click();
-      toggle_multicountry_location();
-    });
-
-    $('.population_utero, .population_preterm_newborn, .population_newborn, .population_infant_and_toddler, \
-      .population_infant_and_toddler, .population_children, .population_adolescent').change(function() {
-      if($(this).val() == 'Yes') {
-        $('#ApplicationPopulationLessThan18YearsYes').attr('checked', 'checked');
-      }
-    });
-      $('.population_less_than_18_years').change(function() {
-          if($(this).val() == 'No') {
-            $('#ApplicationPopulationUteroNo, #ApplicationPopulationPretermNewbornNo, #ApplicationPopulationNewbornNo,  \
-              #ApplicationPopulationInfantAndToddlerNo, #ApplicationPopulationChildrenNo, \
-              #ApplicationPopulationAdolescentNo').attr('checked', 'checked');
-          }
-      });
-
-    $('.population_adult, .population_elderly').change(function() {
-      if($(this).val() == 'Yes') {
-        $('#ApplicationPopulationAbove18Yes').attr('checked', 'checked');
-      }
-    });
-    $('.population_above_18').change(function() {
-      if($(this).val() == 'No') {
-        $('#ApplicationPopulationAdultNo, #ApplicationPopulationElderlyNo').attr('checked', 'checked');
-      }
-    });
-
-    $('.subjects_patients, .subjects_women_child_bearing, .subjects_women_using_contraception, .subjects_pregnant_women, \
-      .subjects_nursing_women, .subjects_emergency_situation, .subjects_incapable_consent, .subjects_others').change(function() {
-        if($(this).val() == 'Yes') {
-          $('#ApplicationSubjectsVulnerablePopulationsYes').attr('checked', 'checked');
-        }
-      });
-      $('.subjects_vulnerable_populations').change(function() {
-        if($(this).val() == 'No') {
-          $('#ApplicationSubjectsPatientsNo, #ApplicationSubjectsWomenChildBearingNo, #ApplicationSubjectsWomenUsingContraceptionNo, \
-            #ApplicationSubjectsPregnantWomenNo, #ApplicationSubjectsNursingWomenNo, #ApplicationSubjectsEmergencySituationNo, \
-            #ApplicationSubjectsIncapableConsentNo, #ApplicationSubjectsOthersNo').attr('checked', 'checked');
-          toggle_subjects_incapable();
-          toggle_subjects_others();
-        }
-      });
-
-    toggle_design_controlled();
-    $('#ApplicationDesignControlledYes, #ApplicationDesignControlledNo').on("click", toggle_design_controlled);
-    $('.design_controlled_').change(function() {
-      if($(this).attr('id') == 'ApplicationDesignControlledSpecify'){
-        $('#ApplicationDesignControlledOtherYes').attr('checked', 'checked');
-      }
-      if ($(this).attr('id') == 'ApplicationDesignControlledMedicinalSpecify'){
-        $('#ApplicationDesignControlledMedicinalOtherYes').attr('checked', 'checked');
-      }
-      toggle_design_controlled();
-    });
-
-    toggle_subjects_incapable();
-    $('#ApplicationSubjectsIncapableConsentYes, #ApplicationSubjectsIncapableConsentNo').on("click", toggle_subjects_incapable);
-    $('#ApplicationSubjectsSpecify').change(function() {
-      $('#ApplicationSubjectsIncapableConsentYes').attr('checked', 'checked');
-      toggle_subjects_incapable();
-    });
-
-    toggle_subjects_others();
-    $('#ApplicationSubjectsOthersYes, #ApplicationSubjectsOthersNo').on("click", toggle_subjects_others);
-    $('#ApplicationSubjectsOthersSpecify').change(function() {
-      $('#ApplicationSubjectsOthersYes').attr('checked', 'checked');
-      toggle_subjects_others();
-    });
-
-  });
-
-  ///---- Functions to be used. Probably to be moved to separate file??
-
-
-  function enable_ecct() {
-    if ($("#ApplicationEcctNotApplicable").is(':checked')){
-      $("#ApplicationEcctRefNumber").attr("disabled", true);
-    } else {
-      $("#ApplicationEcctRefNumber").removeAttr("disabled");
-    }
-  }
-  function enable_scope() {
-    if ($("#ApplicationScopeOthers").is(':checked')){
-      $("#ApplicationScopeOthersSpecify").removeAttr("readonly");
-    } else {
-      $("#ApplicationScopeOthersSpecify").attr("readonly", "readonly");
-    }
-  }
-  function enable_trial() {
-    if ($("#ApplicationTrialOther").is(':checked')){
-      $("#ApplicationTrialOtherSpecify").removeAttr("readonly");
-    } else {
-      $("#ApplicationTrialOtherSpecify").attr("readonly", "readonly");
-    }
-  }
-
-
-  function toggle_single_location() {
-    if ($("#ApplicationSingleSiteMemberStateYes").is(":checked")) {
-      $('.single_site_member_state_f').removeAttr('readonly');
-      // $('.multiple_sites_member_state_f, .multiple_countries_f ').attr('readonly', 'readonly');
-      $('.multiple_sites_member_state_f').attr('readonly', 'readonly');
-      $('.multiple_sites_member_state_s').attr('disabled', 'disabled');
-      $('#addSiteDetail').attr('disabled', 'disabled');
-      // $('#ApplicationStaffNumbers').ckeditorGet().setReadOnly();
-      // $('.multiple_sites_member_state, .multiple_countries').removeAttr('checked');
-      $('#ApplicationMultipleSitesMemberStateNo').prop('checked', true);
-      // $('#ApplicationMultipleSitesMemberStateNo, #ApplicationMultipleCountriesNo').prop('checked', true);
-      $('.removeSiteDetail').each(function() {
-        $(this).click();
-      });
-      // $('.multiple_sites_member_state_f, .multiple_countries_f').val('');
-      $('.multiple_sites_member_state_f').val('');
-      $('.multiple_sites_member_state_s').val('');
-    }
-    else if ($("#ApplicationSingleSiteMemberStateNo").is(":checked")) {
-      $('.single_site_member_state_f').attr('readonly', 'readonly').val('');
-    }
-  }
-  function toggle_multisite_location() {
-    if ($("#ApplicationMultipleSitesMemberStateYes").is(":checked")) {
-      $('.multiple_sites_member_state_f').removeAttr('readonly');
-      $('.multiple_sites_member_state_s').removeAttr('disabled');
-      // $('.single_site_member_state_f, .multiple_countries_f').attr('readonly', 'readonly');
-      $('.single_site_member_state_f').attr('readonly', 'readonly');
-      $('#addSiteDetail').removeAttr('disabled');
-      // $('.single_site_member_state, .multiple_countries').prop('checked', false);
-      $('#ApplicationSingleSiteMemberStateNo').prop('checked', true);
-      // $('#ApplicationSingleSiteMemberStateNo, #ApplicationMultipleCountriesNo').prop('checked', true);
-      // $('.single_site_member_state_f, .multiple_countries_f').val('');
-      $('.single_site_member_state_f').val('');
-    }
-    else if ($("#ApplicationMultipleSitesMemberStateNo").is(":checked")) {
-      $('.multiple_sites_member_state_f').attr('readonly', 'readonly').val('');
-      $('.multiple_sites_member_state_s').attr('disabled', 'disabled').val('');
-      $('#addSiteDetail').attr('disabled', 'disabled');
-      // $('#ApplicationStaffNumbers').ckeditorGet().setReadOnly();
-      $('.removeSiteDetail').each(function() {
-        $(this).click();
-      });
-    }
-  }
-  function toggle_multicountry_location() {
-    if ($("#ApplicationMultipleCountriesYes").is(":checked")) {
-      $('.multiple_countries_f').removeAttr('readonly');
-      // $('.single_site_member_state_f, .multiple_sites_member_state_f').attr('readonly', 'readonly');
-      // $('.multiple_sites_member_state_s').attr('disabled', 'disabled');
-      // $('#addSiteDetail').attr('disabled', 'disabled');
-      // $('#ApplicationSingleSiteMemberStateNo, #ApplicationMultipleSitesMemberStateNo').prop('checked', true);
-      // $('.removeSiteDetail').each(function() {
-      //   $(this).click();
-      // });
-      // $('.single_site_member_state_f, .multiple_sites_member_state_f').val('');
-      // $('.multiple_sites_member_state_s').val('');
-    }
-    else if ($("#ApplicationMultipleCountriesNo").is(":checked")) {
-      $('.multiple_countries_f').attr('readonly', 'readonly').val('');
-    }
-  }
-
-  function toggle_design_controlled() {
-    if ($("#ApplicationDesignControlledYes").is(":checked")) {
-      $('.design_controlled_').removeAttr('disabled');
-      $('.design_controlled_f').removeAttr('readonly');
-    }  else if ($("#ApplicationDesignControlledNo").is(":checked")) {
-      $('.design_controlled_').removeAttr('checked').attr('disabled', 'disabled');
-      $('.design_controlled_f').val('').attr('readonly', 'readonly');
-      // $('.design_controlled_:input[type="text"]').val('');
-      $('.design_controlled_f').val('');
-    }
-
-    if($('#ApplicationDesignControlledOtherNo').is(':checked')){
-      $('#ApplicationDesignControlledSpecify').val('').attr('readonly', 'readonly');
-    } else if ($('#ApplicationDesignControlledOtherYes').is(':checked')){
-      $('#ApplicationDesignControlledSpecify').removeAttr('readonly');
-    }
-    if($('#ApplicationDesignControlledMedicinalOtherNo').is(':checked')){
-      $('#ApplicationDesignControlledMedicinalSpecify').val('').attr('readonly', 'readonly');
-    } else if ($('#ApplicationDesignControlledMedicinalOtherYes').is(':checked')){
-      $('#ApplicationDesignControlledMedicinalSpecify').removeAttr('readonly');
-    }
-  }
-  function toggle_subjects_incapable() {
-    if ($("#ApplicationSubjectsIncapableConsentYes").is(":checked")) {
-      $('#ApplicationSubjectsSpecify').removeAttr('readonly');
-    }
-    else if ($("#ApplicationSubjectsIncapableConsentNo").is(":checked")) {
-      $('#ApplicationSubjectsSpecify').val('').attr('readonly', 'readonly');
-    }
-  }
-  function toggle_subjects_others() {
-    if ($("#ApplicationSubjectsOthersYes").is(":checked")) {
-      $('#ApplicationSubjectsOthersSpecify').removeAttr('readonly');
-    }
-    else if ($("#ApplicationSubjectsOthersNo").is(":checked")) {
-      $('#ApplicationSubjectsOthersSpecify').val('').attr('readonly', 'readonly');
-    }
-  }
-
-
-  // CKEDITOR.replace( 'data[Application][study_title]' );
-  CKEDITOR.replace( 'drug_details' );
-  CKEDITOR.replace( 'ethic_considerations' );
-  CKEDITOR.replace( 'safety' );
-  CKEDITOR.replace( 'participants_description' );
-  CKEDITOR.replace( 'participants_justification' );
-  CKEDITOR.replace( 'countries_recruitment' );
-  CKEDITOR.replace( 'abstract-of-study');
-  CKEDITOR.replace( 'principal-inclusion-criteria');
-  CKEDITOR.replace( 'principal-exclusion-criteria');
-  CKEDITOR.replace( 'primary-end-points');
-  // CKEDITOR.replace( 'data[Application][staff_numbers]');
-  CKEDITOR.replace( 'other-details-explanation');
-</script>

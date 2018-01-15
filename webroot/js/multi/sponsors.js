@@ -22,7 +22,7 @@ $(function() {
                         <div class="input text"> \
                             <div class="form-group"> \
                                 <div class="col-sm-4 control-label"> \
-                                    <label for="sponsors-{i}-sponsor">sponsors <span class="sterix">*</span></label> \
+                                    <label for="sponsors-{i}-sponsor">Organization <span class="sterix">*</span></label> \
                                 </div> \
                                 <div class="col-sm-6"> \
                                     <input class="form-control" name="sponsors[{i}][sponsor]" maxlength="255" id="sponsors-{i}-sponsor" value="" type="text"> \
@@ -72,7 +72,7 @@ $(function() {
                         <div class="input text"> \
                             <div class="form-group"> \
                                 <div class="col-sm-4 control-label"> \
-                                    <label for="sponsors-{i}-cell-number">Mobile phone number <span class="sterix">*</span></label> \
+                                    <label for="sponsors-{i}-cell-number">Mobile Phone Number <span class="sterix">*</span></label> \
                                 </div> \
                                 <div class="col-sm-6"> \
                                     <input class="form-control" name="sponsors[{i}][cell_number]" maxlength="255" id="sponsors-{i}-cell-number" value="" type="text"> \

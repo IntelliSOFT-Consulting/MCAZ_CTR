@@ -14,6 +14,29 @@ use Cake\ORM\Entity;
 class ApplicationsController extends AppController
 {
 
+    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
+                          'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters',
+        'Leaflets',
+        'Brochures',
+        'InvestigatorCvs',
+        'Declarations',
+        'StudyMonitors',
+        'MonitoringPlans',
+        'PiDeclarations',
+        'StudySponsorships',
+        'PharmacyPlans',
+        'PharmacyLicenses',
+        'StudyMedicines',
+        'InsuranceCertificates',
+        'GenericInsurances',
+        'EthicsApprovals',
+        'EthicsLetters',
+        'CountryApprovals',
+        'Advertisments',
+        'ElectronicVersions',
+        'SafetyMonitors',
+        'BiologicalProducts',
+        'Dossiers',];
     /**
      * Index method
      *
@@ -39,11 +62,13 @@ class ApplicationsController extends AppController
      */
     public function view($id = null)
     {
+        // $this->viewBuilder()->setLayout('vanilla');
         $application = $this->Applications->get($id, [
-            'contain' => ['Users', 'TrialStatuses', 'InvestigatorContacts', 'Organizations', 'Placebos', 'PreviousDates', 'Reviewers', 'Reviews', 'SiteDetails', 'Sponsors']
+            'contain' => $this->_contain
         ]);
 
-        $this->set('application', $application);
+        $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('application', 'provinces'));
         $this->set('_serialize', ['application']);
     }
     
@@ -95,44 +120,10 @@ class ApplicationsController extends AppController
         return true;
     }
 
-    protected function _fileUploads(Entity $application) {
-        // attachments
-        if (!empty($this->request->data['attachments'][0]['file'])) {
-          for ($i = 0; $i <= count($application->attachments)-1; $i++) { 
-            $application->attachments[$i]->model = 'Applications';
-            $application->attachments[$i]->category = 'attachments';
-          }
-        }
-        
-        return $application;
-    }
-
     public function edit($id = null)
     {
         $application = $this->Applications->get($id, [
-            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
-                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters',
-        'Leaflets',
-        'Brochures',
-        'InvestigatorCvs',
-        'Declarations',
-        'StudyMonitors',
-        'MonitoringPlans',
-        'PiDeclarations',
-        'StudySponsorships',
-        'PharmacyPlans',
-        'PharmacyLicenses',
-        'StudyMedicines',
-        'InsuranceCertificates',
-        'GenericInsurances',
-        'EthicsApprovals',
-        'EthicsLetters',
-        'CountryApprovals',
-        'Advertisments',
-        'ElectronicVersions',
-        'SafetyMonitors',
-        'BiologicalProducts',
-        'Dossiers',]
+            'contain' => $this->_contain
         ]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
@@ -142,7 +133,7 @@ class ApplicationsController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application = $this->_fileUploads($application);
+            // $application = $this->_fileUploads($application);
             // pr($application);
             // debug($this->request->data);
             if (isset($this->request->data['cancelReport'])) {

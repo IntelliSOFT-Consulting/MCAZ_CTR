@@ -33,6 +33,30 @@ class AttachmentsController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    public function download($id = null) {
+        $attachment = $this->Attachments->get($id, [
+            'contain' => []
+        ]);
+        if(!$attachment) {
+            $this->Flash->error(__('Attachment does not exist.'));
+            return $this->redirect('/');
+        }
+        $this->loadModel($attachment['model']);
+        $parent = $this->{$attachment['model']}->get($attachment['foreign_key']);
+
+        // debug($parent);
+        // return;
+        if($this->Auth->user('group_id') == 4 && $parent->user_id != $this->Auth->user('id')) {
+            $this->Flash->error(__('You don\'t have permissions to access the file.'));
+            return $this->redirect('/');
+        }
+
+        $response = $this->response->withFile(substr($attachment['dir'], 8).$attachment['file'], ['download' => true]);
+        // Return the response to prevent controller from trying to render
+        // a view.
+        return $response;
+    }
+
     public function view($id = null)
     {
         $attachment = $this->Attachments->get($id, [
@@ -111,7 +135,7 @@ class AttachmentsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $attachment = $this->Attachments->get($id);
+        $attachment = $this->Attachments->get($this->request->getData('id'));
         if ($this->Attachments->delete($attachment)) {
             $this->set([
                         'message' => 'The attachment has been deleted.', 

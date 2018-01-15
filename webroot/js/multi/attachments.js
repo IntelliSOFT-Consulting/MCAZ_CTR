@@ -26,6 +26,8 @@ $(function() {
             <td>{i2}</td>\
             <td><input name="attachments[{i}][id]" id="attachments-{i}-id" type="hidden"> \
                 <input name="attachments[{i}][file]" id="attachments-{i}-file" type="file"> </td>\
+                <input type="hidden" id="attachments-{i}-model" value="Applications" name="attachments[{i}][model]" style="display: inline;">\
+                <input type="hidden" id="attachments-{i}-category" value="attachments" name="attachments[{i}][category]" style="display: inline;">\
             <td>\
                 <textarea name="attachments[{i}][description]" id="attachments-{i}-description" rows="1" cols="30"></textarea> </td>\
             <td>\
@@ -41,7 +43,7 @@ $(function() {
         $.ajax({
           async:true, type:'POST', 
           url:'/attachments/delete.json',
-          data:{'id': $(this).val(), 'sadr_id': $('#adr_pr_id').text()}, //TODO:Use this to ensure the adr belongs to the user
+          data:{'id': $(this).val(), 'application_id': $('#adr_pr_id').text()}, //TODO:Use this to ensure the adr belongs to the user
           success : function(data) {
              console.log(data);
           }

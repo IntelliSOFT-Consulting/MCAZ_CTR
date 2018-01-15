@@ -15,7 +15,7 @@
     <?php
         echo $this->Form->control('organizations.0.id', ['templates' => 'table_form']);
         echo $this->Form->control('organizations.0.organization', array(
-            'label' => 'organizations',
+            'label' => 'Organization',
         ));
         echo $this->Form->control('organizations.0.contact_person', array(
             'label' => 'Name of contact person',

@@ -10,9 +10,12 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h4>Kindly upload all the scanned receipts for the required fees: <button type="button" class="btn btn-primary btn-sm" id="addAttachment">
-                          Add <i class="fa fa-plus"></i>
-                        </button></h4>
+            <h4>14. Notification(s) -
+          <small class="muted">(Notifications may include files (pictures, scanned documents, pdf, word documents) or generic updates</small></h4>
+          <hr>
+          <h5><i class="icon-file"></i> Do you have attachments that you would like to send to MCAZ? click on the button to add them:
+            <button type="button" class="btn btn-primary btn-xs" id="addAttachment">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
+          </h5>
         </div>
     </div>
     <div class="row">
@@ -21,8 +24,8 @@
                 <thead>
                   <tr>
                     <th> # </th>
-                    <th> RECEIPT </th>
-                    <th> DESCRIPTION OF CONTENTS</th>
+                    <th> File </th>
+                    <th> Text Description</th>
                     <th>  </th>
                   </tr>
                 </thead>
