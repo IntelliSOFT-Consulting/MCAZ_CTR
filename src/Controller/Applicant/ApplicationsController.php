@@ -3,6 +3,7 @@ namespace App\Controller\Applicant;
 
 use App\Controller\AppController;
 use Cake\ORM\Entity;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Applications Controller
@@ -123,32 +124,78 @@ class ApplicationsController extends AppController
     public function edit($id = null)
     {
         $application = $this->Applications->get($id, [
-            'contain' => $this->_contain
+            'contain' => $this->_contain,
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
+        }        
+        if ($application->submitted == 2) {
+            $this->Flash->success(__('Application already submitted.'));
+            return $this->redirect(['action' => 'view', $application->id]);
         }
-        // $this->_isApplicant($application);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            // $application = $this->_fileUploads($application);
-            // pr($application);
-            // debug($this->request->data);
-            if (isset($this->request->data['cancelReport'])) {
-               //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$application->created.' later'));
-                return $this->redirect(['controller' => 'Users','action' => 'dashboard', 'prefix' => 'applicant']);
-            }
-
-            if ($this->Applications->save($application)) {
-                $this->Flash->success(__('The application has been saved.'));
-
+            //
+            if ($application->submitted == 1) {
+              //save changes button
+              if ($this->Applications->save($application, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'edit', $application->id]);
+              } else {
+                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($application->submitted == 2) {
+              //submit to mcaz button
+              $application->date_submitted = date("Y-m-d H:i:s");
+              $application->status = 'Submitted';
+              $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
+              if ($this->Applications->save($application, ['validate' => false])) {
+                $this->Flash->success(__('Report '.$application->protocol_no.' has been successfully submitted to MCAZ for review.'));
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_application_email', 'model' => 'applications', 'foreign_key' => $application->id,
+                    'vars' =>  $application->toArray()
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_application_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3]]);
+                foreach ($managers as $manager) {
+                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'applications', 'foreign_key' => $application->id,
+                    'vars' =>  $application->toArray()];
+                  $data['type'] = 'manager_submit_application_email';
+                  $this->QueuedJobs->createJob('GenericEmail', $data);
+                  $data['type'] = 'manager_submit_application_notification';
+                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //
+                return $this->redirect(['action' => 'view', $application->id]);
+              } else {
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($application->submitted == -1) {
+               //cancel button              
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
+                return $this->redirect(['controller' => 'Users','action' => 'home']);
+
+            } else {
+              if ($this->Applications->save($application, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report have been saved.'));
+                return $this->redirect(['action' => 'edit', $application->id]);
+              } else {
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
+              }
             }
-            // debug($application->errors());
-            $this->Flash->error(__('The application could not be saved. Please, try again.'));
         }
 
         $trialStatuses = $this->Applications->TrialStatuses->find('list', ['limit' => 200]);

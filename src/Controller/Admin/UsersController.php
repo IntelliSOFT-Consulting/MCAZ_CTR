@@ -46,8 +46,10 @@ class UsersController extends AppController
             'limit' => 5,
         ];
 
+        $this->loadModel('Feedbacks');
+        $feedbacks = $this->paginate($this->Feedbacks->find('all'), ['scope' => 'feedback', 'order' => ['Feedbacks.id' => 'desc']]);
 
-        $this->set(compact('user'));
+        $this->set(compact('user', 'feedbacks'));
     }
 
     /**
@@ -58,7 +60,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Designations', 'Groups']
+            'contain' => ['Groups']
         ];
         $users = $this->paginate($this->Users);
 
@@ -115,7 +117,7 @@ class UsersController extends AppController
     public function profile()
     {
         $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => ['Designations', 'Groups']
+            'contain' => ['Groups']
         ]);
 
         $this->set('user', $user);
@@ -140,10 +142,10 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
+
         //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'designations', 'groups'));
+        $this->set(compact('user', 'groups'));
         $this->set('_serialize', ['user']);
     }
 
@@ -168,10 +170,10 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
+
         //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'designations', 'groups'));
+        $this->set(compact('user', 'groups'));
         $this->set('_serialize', ['user']);
     }
 

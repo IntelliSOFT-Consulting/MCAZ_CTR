@@ -18,7 +18,9 @@
         "friendsofcake/cakepdf": "^3.2",
         "dereuromark/cakephp-queue": "^3.5",
         "ivanamat/cakephp3-aclmanager": "^1.2",
-        "pgbi/cakephp3-soft-delete": "~1.0"
+        "pgbi/cakephp3-soft-delete": "~1.0",
+        "friendsofcake/search": "^4.2",
+        "dereuromark/cakephp-captcha": "^0.1.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

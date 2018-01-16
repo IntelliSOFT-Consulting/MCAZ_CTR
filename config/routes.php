@@ -63,6 +63,10 @@ Router::prefix('applicant', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'applicant']);
     $routes->fallbacks(DashedRoute::class);
 });
+Router::prefix('finance', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'finance']);
+    $routes->fallbacks(DashedRoute::class);
+});
 //
 Router::scope('/', function (RouteBuilder $routes) {
     /**

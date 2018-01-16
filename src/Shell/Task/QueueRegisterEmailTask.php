@@ -9,6 +9,7 @@ namespace App\Shell\Task;
 use Cake\Mailer\Email;
 use Queue\Shell\Task\QueueTask;
 use Cake\Log\Log;
+use Cake\Core\Configure;
 
 /**
  * Send registration emails.

@@ -62,28 +62,8 @@
           <img alt="" src="/img/authenticated/preferences_desktop_notification.png">
           <div class="caption">
           <h4>Notifications <small>Actions that require your attention.</small></h4>
-          <!-- <dl class="notifications"> -->
-          <?php
-            // pr($notifications);
-            foreach ($notifications as $notification) {
-              echo '<div class="alert" id="'.$notification['Notification']['id'].'">';
-              echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-              if ($notification['Notification']['type'] == 'registration_welcome') {
-                echo '<strong>'.$notification['Notification']['title'].'</strong>';
-                echo "<br/><small>".$notification['Notification']['system_message']."</small>";
-              } elseif ($notification['Notification']['type'] == 'manager_comment_applicant') {
-                echo '<strong>'.$notification['Notification']['system_message'].'</strong>';
-              } elseif ($notification['Notification']['type'] == 'applicant_approve_message') {
-                echo "<strong>".$notification['Notification']['title']."</strong>";
-                echo "<br/><small>".$notification['Notification']['system_message']."</small>";
-                echo "<blockquote><p> ".$notification['Notification']['user_message']."</p><small>PPB Comment</small></blockquote>";
-              } elseif ($notification['Notification']['type'] == 'applicant_new_amendment') {
-                echo "<p>".$notification['Notification']['system_message']."</p>";
-              }
-              echo '</div>';
-            }
-          ?>
-          <!-- </dl> -->
+          <?= $this->Html->script('jquery/jquery.shorten', ['block' => true]); ?>
+          <?= $this->cell('Notification'); ?>    
           </div>
         </div>  
     </div>

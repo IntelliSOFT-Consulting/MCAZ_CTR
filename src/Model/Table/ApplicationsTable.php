@@ -834,10 +834,6 @@ class ApplicationsTable extends Table
         //     ->date('approval_date')
         //     ->allowEmpty('approval_date');
 
-        $validator
-            ->boolean('submitted')
-            ->requirePresence('submitted', 'create')
-            ->notEmpty('submitted');
 
         $validator
             ->boolean('deleted')

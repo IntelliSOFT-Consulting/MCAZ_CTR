@@ -1,0 +1,94 @@
+.sadr_form {
+  background-color: #71C7A0;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.aefi_form {
+  background-color: #FF92C9;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.adr_form {
+  background-color: #7f7fff;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.saefi_form {
+  background-color: #FF92C9;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+select.view_select {
+        /*for firefox*/
+        -moz-appearance: none;
+        /*for chrome*/
+        -webkit-appearance:none;
+        border: none;
+      }
+
+/*for IE10*/
+select.view_select::-ms-expand {
+    display: none;
+}
+
+.btn-zangu {
+    display: inline-block;
+    /*padding: 6px 12px;*/
+    margin-bottom: 0;
+    /*font-size: 14px;*/
+    /*font-weight: 400;*/
+    line-height: 1.42857143;
+    /*text-align: center;*/
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+a.btn-zangu {
+  /*color: #337ab7;*/
+  text-decoration: none;
+    /*text-decoration-color: currentcolor;*/
+    text-decoration-line: none;
+    text-decoration-style: solid;
+}
+
+a.label-link {
+  color: white;
+}
+
+.accordion-toggle {
+    cursor: pointer;
+}
+
+.badge-sadr {
+  background-color: #71C7A0;
+} 
+.badge-aefi {
+  background-color: #ff92c9;
+} 
+.badge-saefi {
+  background-color: #ff92c9;
+} 
+.badge-adr {
+  background-color: #7f7fff;
+} 
+.muted {
+    color: #999999;
+}

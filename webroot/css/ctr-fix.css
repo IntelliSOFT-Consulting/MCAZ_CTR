@@ -343,7 +343,7 @@ hr {
 }
 
 table.vertical-table th {
-  min-width: 27.33%;
+  width: 27.33%;
   text-align: right;
 }
 table.vertical-table th > label {

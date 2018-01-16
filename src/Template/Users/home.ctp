@@ -9,253 +9,132 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h2>ADR</h2>
+      <div style="min-height: 320px">
+        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #71C7A0;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small>          
+        </h3>
+        <hr>
         <p>Adverse drug reaction. 
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <a class="btn btn-primary" href="/sadrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i>
-</a>
-          <?php                  
-              } else {
-          ?>
-          <a class="btn btn-primary" href="/sadrs/add" role="button">Report &raquo;</a>
-          <?php
-              }
-          ?>
+          <small><a class="btn btn-primary tiptip" data-original-title="Report ADR" href="/sadrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></small>
         </p>
-        <div>
-          <?php //echo $this->Paginator->options(['defaultModel' => 'Sadrs']); ?>
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Sadrs']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Sadrs']) ?></th>
-                    <th>pdf</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($sadrs as $sadr): ?>
-                <tr>
-                    <td><?php 
-                      if($sadr->submitted == 2) {
-                        echo $this->Html->link($sadr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
-', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);
+ 
+        <ul class="list-unstyled">
+          <?php 
+            $i = 1;
+            foreach ($sadrs as $sadr): ?>
+          <li><?php 
+                  if($sadr->submitted == 2) {
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$sadr->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);
+                  } else {
+                    echo $i++.'. '.$this->Html->link(h($sadr->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id], ['escape' => false]);
+                  }
+                  
+                 ?></li>
+          <?php endforeach; ?>
+        </ul>
+        <nav aria-label="Page navigation">
+          <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Sadrs']) ?></small></h6>
+            <ul class="pagination pagination-sm">
+                <?= $this->Paginator->first('<< ', ['model' => 'Sadrs']) ?>
+                <?= $this->Paginator->prev('< ' , ['model' => 'Sadrs']) ?>
+                <?= $this->Paginator->next(' >', ['model' => 'Sadrs']) ?>
+                <?= $this->Paginator->last(' >>', ['model' => 'Sadrs']) ?>
+            </ul>
+                            
+        </nav>        
+      </div>
+
+        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #7f7fff;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
+        <hr>
+          <p>Serious Adverse Event Reporting Form. <a class="btn btn-info tiptip" href="/adrs/add"  data-original-title="Report SAE" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>          
+        <ul class="list-unstyled">
+          <?php 
+            $i = 1;
+            foreach ($adrs as $adr): ?>
+          <li><?php 
+                      if($adr->submitted == 2) {
+                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$adr->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
                       } else {
-                        echo $this->Html->link(h('ADR '.$sadr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id]);
+                        echo $i++.'. '.$this->Html->link(h($adr->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Adrs', 'action' => 'edit', $adr->id], ['escape' => false]);
                       }
                       
-                     ?></td>
-                    <td><?= h($sadr->created->i18nFormat('dd-MM-yyyy')) ?></td>
-                    <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Sadrs', 'action' => 'view', '_ext' => 'pdf', $sadr->id], ['escape' => false])
-                     ?></td>
-                </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="3">
-                        <hr>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Sadrs']) ?>
-                                <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Sadrs']) ?>
-                                <?= $this->Paginator->numbers(['model' => 'Sadrs']) ?>
-                                <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Sadrs']) ?>
-                                <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Sadrs']) ?>
-                            </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
-                        </nav>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        </div>
-      
+                     ?></li>
+          <?php endforeach; ?>
+        </ul>
+        <small><i>**The SAE form is to be completed for SAEs from Clinical Trials</i></small>
+        <nav aria-label="Page navigation">
+            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Adrs']) ?></small></h6>
+            <ul class="pagination pagination-sm">
+                <?= $this->Paginator->first('<< ', ['model' => 'Adrs']) ?>
+                <?= $this->Paginator->prev('< ' , ['model' => 'Adrs']) ?>
+                <?= $this->Paginator->next(' >', ['model' => 'Adrs']) ?>
+                <?= $this->Paginator->last(' >>', ['model' => 'Adrs']) ?>
+            </ul>
+        </nav>  
     </div>
     <div class="col-md-4">
-        <h2>AEFI</h2>
+      <div style="min-height: 352px">
+        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"  style="background-color: #ff92c9;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
+        <hr>
         <p>Adverse Event Following Immunization. 
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <a class="btn btn-success" href="/aefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
-          <?php                  
-              } else {
-          ?>
-          <a class="btn btn-success" href="/aefis/add" role="button">Report &raquo;</a>
-          <?php
-              }
-          ?>
-        </p>
-        <div>
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Aefis']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Aefis']) ?></th>
-                    <th>pdf</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($aefis as $aefi): ?>
-                <tr>                    
-                   <td><?php 
-                    if($aefi->submitted == 2) {
-                      echo $this->Html->link($aefi->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
-', ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);
-                    } else {
-                      echo $this->Html->link(h('AEFI '.$aefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Aefis', 'action' => 'edit', $aefi->id]);
-                    }
-                    
-                   ?></td>
-                  <td><?= h($aefi->created->i18nFormat('dd-MM-yyyy')) ?></td>
-                  <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Aefis', 'action' => 'view', '_ext' => 'pdf', $aefi->id], ['escape' => false])
-                     ?></td>
-                </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="2">
-                        <hr>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Aefis']) ?>
-                                <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Aefis']) ?>
-                                <?= $this->Paginator->numbers(['model' => 'Aefis']) ?>
-                                <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Aefis']) ?>
-                                <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Aefis']) ?>
-                            </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
-                        </nav>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        </div>
-
-        <!-- SAEFIS -->
-        <h2>SAEFI</h2>
+          <a class="btn btn-success tiptip" href="/aefis/add"  data-original-title="Report AEFI" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
+        <ul class="list-unstyled">
+          <?php  
+            $i = 1;
+            foreach ($aefis as $aefi): ?>
+          <li><?php 
+                  if($aefi->submitted == 2) {
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$aefi->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);
+                  } else {
+                    echo $i++.'. '.$this->Html->link(h($aefi->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Aefis', 'action' => 'edit', $aefi->id], ['escape' => false]);
+                  }
+                  
+                 ?> </li>
+          <?php endforeach; ?>
+        </ul>
+        <nav aria-label="Page navigation">
+            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Aefis']) ?></small></h6>
+            <ul class="pagination pagination-sm">
+                <?= $this->Paginator->first('<< ', ['model' => 'Aefis']) ?>
+                <?= $this->Paginator->prev('< ' , ['model' => 'Aefis']) ?>
+                <?= $this->Paginator->next(' >', ['model' => 'Aefis']) ?>
+                <?= $this->Paginator->last(' >>', ['model' => 'Aefis']) ?>
+            </ul>
+        </nav>   
+      </div>
+         
+        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> AEFI Investigation', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #ff92c9;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
+        <hr>
         <p class="has-error">Serious Adverse Event Following Immunization. 
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <a class="btn btn-success active" href="/saefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
-          <?php                  
-              } else {
-          ?>
-          <a class="btn btn-success active" href="/saefis/add" role="button">Report &raquo;</a>
-          <?php
-              }
-          ?>
-        </p>
-        <div>
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Saefis']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Aefis']) ?></th>
-                    <th>pdf</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($saefis as $saefi): ?>
-                <tr>                    
-                   <td><?php 
-                    if($saefi->submitted == 2) {
-                      echo $this->Html->link($saefi->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
-', ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);
-                    } else {
-                      echo $this->Html->link(h('SAEFI '.$saefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Saefis', 'action' => 'edit', $saefi->id]);
-                    }
-                    
-                   ?></td>
-                  <td><?= h($saefi->created->i18nFormat('dd-MM-yyyy')) ?></td>
-                  <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Saefis', 'action' => 'view', '_ext' => 'pdf', $saefi->id], ['escape' => false])
-                     ?></td>
-                </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="2">
-                        <hr>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Saefis']) ?>
-                                <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Saefis']) ?>
-                                <?= $this->Paginator->numbers(['model' => 'Saefis']) ?>
-                                <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Saefis']) ?>
-                                <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Saefis']) ?>
-                            </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
-                        </nav>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        </div>
+          <a class="btn btn-warning active tiptip"  data-original-title="Report SAEFI" href="/saefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
+        <ul class="list-unstyled">
+          <?php  
+            $i = 1;
+            foreach ($saefis as $saefi): ?>
+          <li><?php 
+                  if($saefi->submitted == 2) {
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$saefi->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);
+                  } else {
+                    echo $i++.'. '.$this->Html->link(h($saefi->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Saefis', 'action' => 'edit', $saefi->id], ['escape' => false]);
+                  }
+                  
+                 ?> </li>
+          <?php endforeach; ?>
+        </ul>
+        <nav aria-label="Page navigation">
+            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Saefis']) ?></small></h6>
+            <ul class="pagination pagination-sm">
+                <?= $this->Paginator->first('<< ', ['model' => 'Saefis']) ?>
+                <?= $this->Paginator->prev('< ' , ['model' => 'Saefis']) ?>
+                <?= $this->Paginator->next(' >', ['model' => 'Saefis']) ?>
+                <?= $this->Paginator->last(' >>', ['model' => 'Saefis']) ?>
+            </ul>
+        </nav> 
 
     </div>
+
     <!-- SAE -->
     <div class="col-md-4">
-        <h2>SAE</h2>
-        <p>SERIOUS ADVERSE EVENT REPORTING FORM. 
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <a class="btn btn-info" href="/adrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
-          <?php                  
-              } else {
-          ?>
-          <a class="btn btn-info" href="/adrs/add" role="button">Report &raquo;</a>
-          <?php
-              }
-          ?>
-        </p>
-        <div>
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Adrs']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Adrs']) ?></th>
-                    <th>pdf</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($adrs as $adr): ?>
-                <tr>
-                     <td><?php 
-                      if($adr->submitted == 2) {
-                        echo $this->Html->link($adr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
-', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
-                      } else {
-                        echo $this->Html->link(h('ADR '.$adr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Adrs', 'action' => 'edit', $adr->id]);
-                      }
-                      
-                     ?></td>
-                    <td><?= h($adr->created->i18nFormat('dd-MM-yyyy')) ?></td>
-                    <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Adrs', 'action' => 'view', '_ext' => 'pdf', $adr->id], ['escape' => false])
-                     ?></td>
-                </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="2">
-                        <hr>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->numbers(['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Adrs']) ?>
-                            </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
-                        </nav>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        </div>
-      
+      <?= $this->Html->script('jquery/jquery.shorten', ['block' => true]); ?>
+      <?= $this->cell('Notification'); ?>  
     </div>
 </div>

@@ -1082,19 +1082,19 @@ Names and Addresses of owners of animals</small></h5>', 'escape' => false, 'temp
   </div>
   <div class="col-md-2">
     <div data-spy="affix" class="my-sidebar text-center">
-      <button name="saveReport" value="1" id="applicationSave" class="btn btn-primary btn-block active" type="submit"
+      <button name="submitted" value="1" id="applicationSave" class="btn btn-primary btn-block active" type="submit"
               id="SadrSaveChanges" title="Save & continue editing"
               data-content="Save changes to form without submitting it. The form will still be available for further editing.">
                   <span class="fa fa-edit" aria-hidden="true"></span> Save changes
       </button>
       <hr>
-      <button name="submitReport" value="2" id="applicationSubmit" class="btn btn-success btn-block active" type="submit"
+      <button name="submitted" value="2" id="applicationSubmit" class="btn btn-success btn-block active" type="submit"
                         onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');"
                 >
                   <span class="fa fa-send" aria-hidden="true"></span> Submit to MCAZ
       </button>
       <hr>
-      <button name="cancelReport" value="1" id="applicationCancel" class="btn btn-default btn-block active" type="submit"
+      <button name="submitted" value="-1" id="applicationCancel" class="btn btn-default btn-block active" type="submit"
                         onclick="return confirm('Are you sure you wish to cancel the report?');"
                 >
                   <span class="fa fa-close" aria-hidden="true"></span> Cancel
@@ -1110,7 +1110,7 @@ Names and Addresses of owners of animals</small></h5>', 'escape' => false, 'temp
       ?>
       <hr>
       <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', 'ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);
               ?>
       <hr>
     </div>

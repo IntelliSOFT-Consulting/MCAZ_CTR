@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Notifications Model
@@ -23,7 +24,7 @@ use Cake\Validation\Validator;
  */
 class NotificationsTable extends Table
 {
-
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -39,10 +40,30 @@ class NotificationsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+
+        $this->belongsTo('Messages', [
+            'foreignKey' => 'type',
+            'bindingKey' => 'name'
+        ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->like('message', ['field' => ['system_message', 'user_message', 'title']])
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']]);
+
+        return $searchManager;
     }
 
     /**
@@ -67,8 +88,7 @@ class NotificationsTable extends Table
 
         $validator
             ->integer('foreign_key')
-            ->requirePresence('foreign_key', 'create')
-            ->notEmpty('foreign_key');
+            ->allowEmpty('foreign_key');
 
         $validator
             ->scalar('title')
@@ -76,8 +96,7 @@ class NotificationsTable extends Table
 
         $validator
             ->scalar('url')
-            ->requirePresence('url', 'create')
-            ->notEmpty('url');
+            ->allowEmpty('url');
 
         $validator
             ->scalar('system_message')
@@ -88,12 +107,8 @@ class NotificationsTable extends Table
             ->allowEmpty('user_message');
 
         $validator
-            ->boolean('deleted')
+            ->dateTime('deleted')
             ->allowEmpty('deleted');
-
-        $validator
-            ->dateTime('deleted_date')
-            ->allowEmpty('deleted_date');
 
         return $validator;
     }

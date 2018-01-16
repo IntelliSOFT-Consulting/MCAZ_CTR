@@ -257,3 +257,6 @@ Configure::write('AclManager.admin', true);
 Configure::write('AclManager.ignoreActions', array('isAuthorized','login','logout'));
 
 Plugin::load('SoftDelete');
+Plugin::load('Search');
+
+Plugin::load('Captcha', ['bootstrap' => true, 'routes' => true]);

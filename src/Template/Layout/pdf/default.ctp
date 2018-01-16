@@ -44,6 +44,8 @@ $cakeDescription = 'MCAZ CTR: ';
     <?= $this->Html->css('jquery-ui.min', ['fullBase' => true]) ?>
     <?= $this->Html->css('bootstrap/jumbotron', ['fullBase' => true]) ?>
     <?= $this->Html->css('vanilla', ['fullBase' => true]) ?>
+    
+    <?= $this->Html->css('ctr-fix', ['fullBase' => true]) ?>
 </head>
 <body>
 

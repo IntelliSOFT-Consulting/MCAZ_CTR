@@ -8,20 +8,22 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Countries'), ['controller' => 'Countries', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Country'), ['controller' => 'Countries', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Designations'), ['controller' => 'Designations', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Designation'), ['controller' => 'Designations', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Counties'), ['controller' => 'Counties', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New County'), ['controller' => 'Counties', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Groups'), ['controller' => 'Groups', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Group'), ['controller' => 'Groups', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applications'), ['controller' => 'Applications', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Aro'), ['controller' => 'Aros', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Aro'), ['controller' => 'Aros', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Feedbacks'), ['controller' => 'Feedbacks', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Feedback'), ['controller' => 'Feedbacks', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Notifications'), ['controller' => 'Notifications', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Notification'), ['controller' => 'Notifications', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Reviewers'), ['controller' => 'Reviewers', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Reviewer'), ['controller' => 'Reviewers', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Reviews'), ['controller' => 'Reviews', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Review'), ['controller' => 'Reviews', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Pqmps'), ['controller' => 'Pqmps', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Pqmp'), ['controller' => 'Pqmps', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sadr Followups'), ['controller' => 'SadrFollowups', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sadr Followup'), ['controller' => 'SadrFollowups', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sadrs'), ['controller' => 'Sadrs', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sadr'), ['controller' => 'Sadrs', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
@@ -30,23 +32,24 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('designation_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('county_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('username') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('password') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('confirm_password') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('phone_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('institution_physical') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('institution_address') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('institution_contact') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('county_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('country_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('group_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('activation_key') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('institution_address') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('institution_code') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('institution_contact') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('ward') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('phone_no') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('forgot_password') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('initial_email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_active') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('deactivated') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('is_admin') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -56,23 +59,24 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $this->Number->format($user->id) ?></td>
+                <td><?= $user->has('designation') ? $this->Html->link($user->designation->name, ['controller' => 'Designations', 'action' => 'view', $user->designation->id]) : '' ?></td>
+                <td><?= $user->has('county') ? $this->Html->link($user->county->id, ['controller' => 'Counties', 'action' => 'view', $user->county->id]) : '' ?></td>
                 <td><?= h($user->username) ?></td>
                 <td><?= h($user->password) ?></td>
                 <td><?= h($user->confirm_password) ?></td>
                 <td><?= h($user->name) ?></td>
                 <td><?= h($user->email) ?></td>
-                <td><?= h($user->phone_no) ?></td>
-                <td><?= h($user->name_of_institution) ?></td>
-                <td><?= h($user->institution_physical) ?></td>
-                <td><?= h($user->institution_address) ?></td>
-                <td><?= h($user->institution_contact) ?></td>
-                <td><?= $this->Number->format($user->county_id) ?></td>
-                <td><?= $user->has('country') ? $this->Html->link($user->country->name, ['controller' => 'Countries', 'action' => 'view', $user->country->id]) : '' ?></td>
                 <td><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group->id]) : '' ?></td>
-                <td><?= h($user->activation_key) ?></td>
+                <td><?= h($user->name_of_institution) ?></td>
+                <td><?= h($user->institution_address) ?></td>
+                <td><?= h($user->institution_code) ?></td>
+                <td><?= h($user->institution_contact) ?></td>
+                <td><?= h($user->ward) ?></td>
+                <td><?= h($user->phone_no) ?></td>
                 <td><?= $this->Number->format($user->forgot_password) ?></td>
+                <td><?= $this->Number->format($user->initial_email) ?></td>
                 <td><?= h($user->is_active) ?></td>
-                <td><?= h($user->deactivated) ?></td>
+                <td><?= h($user->is_admin) ?></td>
                 <td><?= h($user->created) ?></td>
                 <td><?= h($user->modified) ?></td>
                 <td class="actions">

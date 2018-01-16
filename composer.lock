@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1dc1a1f6e2f792d5d0e8250af4e3d595",
+    "content-hash": "e1974fb3f0b024a509a44157e06339c1",
     "packages": [
         {
             "name": "aura/intl",
@@ -452,6 +452,57 @@
             "time": "2017-08-09T07:53:48+00:00"
         },
         {
+            "name": "dereuromark/cakephp-captcha",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dereuromark/cakephp-captcha.git",
+                "reference": "e0caf11472cdc631757448cd4dac5813ce5942a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-captcha/zipball/e0caf11472cdc631757448cd4dac5813ce5942a4",
+                "reference": "e0caf11472cdc631757448cd4dac5813ce5942a4",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.4",
+                "paragonie/random_compat": "@stable",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "cakephp/migrations": "@stable",
+                "fig-r/psr2r-sniffer": "dev-master"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Captcha\\": "src",
+                    "Captcha\\Test\\Fixture\\": "tests/Fixture"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "http://www.dereuromark.de",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A CakePHP plugin to integrate captchas.",
+            "homepage": "https://github.com/dereuromark/cakephp-captcha",
+            "keywords": [
+                "cakephp",
+                "captchas",
+                "plugin",
+                "security"
+            ],
+            "time": "2017-09-22T06:58:37+00:00"
+        },
+        {
             "name": "dereuromark/cakephp-queue",
             "version": "3.5.3",
             "source": {
@@ -679,6 +730,59 @@
                 "update"
             ],
             "time": "2017-05-02T20:54:55+00:00"
+        },
+        {
+            "name": "friendsofcake/search",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/search.git",
+                "reference": "7b3c792511edc51589a40a37bbe0031263a48ef2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/7b3c792511edc51589a40a37bbe0031263a48ef2",
+                "reference": "7b3c792511edc51589a40a37bbe0031263a48ef2",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.4"
+            },
+            "require-dev": {
+                "friendsofcake/cakephp-test-utilities": "dev-master",
+                "phpunit/phpunit": "<6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Search\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Winther",
+                    "homepage": "http://cakephp.nu/",
+                    "role": "Author"
+                },
+                {
+                    "name": "ADmad",
+                    "homepage": "https://github.com/admad",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "CakePHP Search plugin using PRG pattern",
+            "homepage": "https://github.com/FriendsOfCake/search",
+            "keywords": [
+                "cake3",
+                "cakephp",
+                "cakephp3",
+                "search"
+            ],
+            "time": "2017-11-25T16:58:52+00:00"
         },
         {
             "name": "ivanamat/cakephp3-aclmanager",
@@ -1028,6 +1132,54 @@
                 "php mobile detect"
             ],
             "time": "2017-08-29T18:23:54+00:00"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "v2.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/random.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "pseudorandom",
+                "random"
+            ],
+            "time": "2017-09-27T21:40:39+00:00"
         },
         {
             "name": "pgbi/cakephp3-soft-delete",
