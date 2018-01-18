@@ -2,7 +2,7 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS
+<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> Applications
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
               <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
               <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>

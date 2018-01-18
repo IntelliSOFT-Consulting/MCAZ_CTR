@@ -11,7 +11,7 @@
           <div class="row">
             <!-- begin -->
             <div class="col-xs-12 col-sm-12">
-                <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Applications']) ?></small></h3>
+                <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> Applications', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Applications']) ?></small></h3>
                 <ul class="list-unstyled">
                   <?php foreach ($applications as $application): ?>
                   <li><?= $this->Html->link($application->protocol_no, ['controller' => 'Applications', 'action' => 'view', $application->id]);?> </li>
