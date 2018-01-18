@@ -506,6 +506,42 @@
             <td><label><?= ($application->gender_male) ? $checked : $nChecked; ?> Male</label></td>
           </tr>
         </table>
+        
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th> # </th>
+              <th> Name </th>
+              <th> Occupation</th>
+              <th> Address</th>
+              <th> Date of Birth</th>
+              <th> Place of Birth</th>
+              <th> Consent Letter </th>
+            </tr>
+          </thead>
+          <tbody>                  
+          <?php 
+          //Dynamic fields
+          if (!empty($application['participants'])) {
+            for ($i = 0; $i <= count($application['participants'])-1; $i++) { 
+          ?>
+
+            <tr>
+              <td><?= $i+1; ?></td>
+              <td><?= $application->participants[$i]['name']; ?> </td>   
+              <td><?= $application->participants[$i]['occupation']; ?> </td>   
+              <td><?= $application->participants[$i]['address']; ?> </td>   
+              <td><?= $application->participants[$i]['date_of_birth']; ?> </td>   
+              <td><?= $application->participants[$i]['place_of_birth']; ?> </td>   
+              <td><p class="text-info text-left"><?php
+                       echo $this->Html->link($application['participants'][$i]->file, substr($application['participants'][$i]->dir, 8) . '/' . $application['participants'][$i]->file, ['fullBase' => true]);
+                  ?></p>
+              </td>
+            </tr>
+            <?php } } ; ?>
+
+          </tbody>
+        </table>
        </div>
 
 
@@ -1719,9 +1755,6 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
               <h4>14. Notification(s) -
               <small class="muted">(Notifications may include files (pictures, scanned documents, pdf, word documents) or generic updates</small></h4>
               <hr>
-              <h5><i class="icon-file"></i> Do you have attachments that you would like to send to MCAZ? click on the button to add them:
-                <br>
-              </h5>
             </td>
           </tr>
         </table>
@@ -1761,6 +1794,10 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
 
           </tbody>
         </table>
+
+          <?php
+            echo $this->element('multi/notifications');
+          ?>
       </div>
 
       <div id="tabs-15">

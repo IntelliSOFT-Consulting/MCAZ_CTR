@@ -4,17 +4,25 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Message Entity
+ * FinanceApproval Entity
  *
  * @property int $id
- * @property string $name
- * @property string $content
+ * @property int $application_id
+ * @property string $internal_comments
+ * @property string $public_comments
+ * @property string $outcome
+ * @property \Cake\I18n\FrozenDate $outcome_date
+ * @property string $file
+ * @property string $dir
+ * @property string $size
  * @property string $type
- * @property string $description
+ * @property \Cake\I18n\FrozenTime $deleted
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
+ *
+ * @property \App\Model\Entity\Application $application
  */
-class Message extends Entity
+class FinanceApproval extends Entity
 {
 
     /**

@@ -8,5 +8,13 @@
       }
     });
 
+    $('#finance-approvals-100-outcome-date').datepicker({
+        minDate:"-100Y", maxDate:"-0D", 
+        dateFormat:'dd-mm-yy', 
+        showButtonPanel:true, 
+        changeMonth:true, 
+        changeYear:true, 
+        showAnim:'show'
+      });
 
   });

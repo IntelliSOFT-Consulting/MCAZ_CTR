@@ -11,6 +11,6 @@
     <?= $this->Html->script('application_view', ['block' => true]); ?>
     <ul>
       <li><a href="#tabs-16">16. Financials</a></li>
-      <li><a href="#tabs-17">17. Approvals</a></li>
+      <li><a href="#tabs-17">17. Finance Approvals</a></li>
     </ul>
 <?php $this->end(); ?>

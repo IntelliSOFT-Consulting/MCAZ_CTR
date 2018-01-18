@@ -8,6 +8,7 @@
 <hr>
 <?php
     $colors = ['info' => 'light-blue', 'warning' => 'orange', 'success' => 'green', 'danger' => 'red'];
+
 ?> 
 <div class="table-responsive">
     <table class="table table-striped table-condensed">
@@ -29,7 +30,7 @@
                 <td><?= h($message->name) ?></td>
                 <td><?= h($message->subject) ?></td>
                 <td><?= h($message->type) ?></td>
-                <td><span class="label label-<?= $message->style ?>"><?php echo (isset($message->style)) ? $colors[$message->style] : '' ; ?></span></td>
+                <td><span class="label label-<?= $message->style ?>"><?php echo (!empty($message->style)) ? $colors[$message->style] : '' ; ?></span></td>
                 <td><?= h($message->priority) ?></td>
                  <td>
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $message->id, 'prefix' => $prefix], array('escape' => false));  ?>

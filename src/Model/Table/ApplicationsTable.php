@@ -90,6 +90,9 @@ class ApplicationsTable extends Table
         $this->hasMany('Committees', [
             'foreignKey' => 'application_id'
         ]);
+        $this->hasMany('FinanceApprovals', [
+            'foreignKey' => 'application_id'
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

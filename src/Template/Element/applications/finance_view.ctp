@@ -1,9 +1,6 @@
 <?php
-  $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
-  $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
-  $numb = 1;
+    //$this->Html->script('finance_view', ['block' => true]);
 ?>
-
 <div class="row">
   <div class="col-xs-12">
       <div id="tabs">
@@ -67,7 +64,60 @@
             </td>
           </tr>
         </table>
-        Finance Approvals...
+        <div class="row">
+          <div class="col-xs-12">
+            <?php
+            if(!empty($application['finance_approvals'])) {
+              foreach ($application['finance_approvals'] as $finance_approval) {
+                echo "<h4 class='text-center'>Internal MCAZ Comments</h4><p class='text-center'>".$finance_approval['internal_comments']."</p>";
+                echo "<h4 class='text-center'>Applicant Visible Comments</h4><p class='text-center'>".$finance_approval['public_comments']."</p>";
+                echo "<h4 class='text-center'>Outcome</h4><p class='text-center'>".$finance_approval['outcome']."</p>";
+                echo "<h4 class='text-center'>Outcome Date</h4><p class='text-center'>".$finance_approval['outcome_date']."</p>";
+                echo "<h5 class='text-center'>";
+                  if (!empty($finance_approval['file'])) {
+                          echo '<span>File attachment: </span>';
+                          echo $this->Html->link($finance_approval->file, substr($finance_approval->dir, 8) . '/' . $finance_approval->file, ['fullBase' => true]);
+                      } 
+                  echo "</h5><hr>";
+                }
+            }
+            ?>
+          </div>
+        </div>
+         <?php 
+          echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'finance-approval']]);
+           ?>
+            <div class="row">
+              <div class="col-xs-12"><h5 class="text-center">Finance Report</h5></div>
+              <div class="col-xs-12">
+              <?php
+                    echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('finance_approvals.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('finance_approvals.100.internal_comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Internal MCAZ Comments']);
+                    echo $this->Form->control('finance_approvals.100.public_comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Applicant Visible Comments']);
+                    
+                    echo $this->Form->control('finance_approvals.100.outcome', ['type' => 'radio', 
+                               'label' => '<b>Decision/Outcome</b>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Fees Complete' => 'Fees Complete', 
+                                  'Incomplete Fees' => 'Incomplete Fees', 
+                                  'Request info' => 'Request info', 
+                                  'Declined' => 'Declined']]);
+                    echo $this->Form->control('finance_approvals.100.outcome_date', ['type' => 'text', 'escape' => false, 'templates' => 'app_form', 'label' => 'Outcome Date']);
+
+                    echo $this->Form->control('finance_approvals.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
+              ?>
+              </div>          
+            </div>
+            <div class="form-group"> 
+                <div class="col-sm-offset-4 col-sm-8"> 
+                  <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
+                </div> 
+              </div>
+          <?php          
+          echo $this->Form->end(); 
+          ?>
       </div>
 
 

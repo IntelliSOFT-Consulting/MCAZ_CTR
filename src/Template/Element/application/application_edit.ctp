@@ -423,6 +423,10 @@
             echo $this->Form->control('gender_female', ['type' => 'checkbox', 'label' => 'Female', 'templates' => 'checkbox_form']);
             echo $this->Form->control('gender_male', ['type' => 'checkbox', 'label' => 'Male', 'templates' => 'checkbox_form']);
           ?>
+          <hr>
+          <?php
+             echo $this->element('multi/participants');
+          ?>
         </div>
         <div id="tabs-5">
           <h5>TICK AND PROVIDE NECESSARY DETAILS AS APPROPRIATE</h5>
