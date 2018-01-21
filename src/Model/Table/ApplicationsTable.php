@@ -5,8 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
 use SoftDelete\Model\Table\SoftDeleteTrait;
+
 /**
  * Applications Model
  *
@@ -92,6 +92,18 @@ class ApplicationsTable extends Table
         ]);
         $this->hasMany('FinanceApprovals', [
             'foreignKey' => 'application_id'
+        ]);
+        $this->hasMany('AssignEvaluators', [
+            'foreignKey' => 'application_id'
+        ]);
+        $this->hasMany('CommitteeReviews', [
+            'foreignKey' => 'application_id'
+        ]); 
+        $this->hasMany('Amendments', [
+            'className' => 'Applications',
+            'foreignKey' => 'application_id',
+            'dependent' => true,
+            'conditions' => array('Amendments.report_type' => 'Amendment'),
         ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',

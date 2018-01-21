@@ -19,10 +19,6 @@ class UsersController extends AppController
 {
     public $paginate = [
             // 'limit' => 2,
-            'Sadrs' => ['scope' => 'sadr'],
-            'Adrs' => ['scope' => 'adr'],
-            'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi'],
             'Notifications' => ['scope' => 'notification'],
         ];
 
@@ -276,39 +272,6 @@ class UsersController extends AppController
             $this->Flash->error(__('The password could not be reset. Kindly contact MCAZ.'));
             $this->redirect('/');
         }
-    }
-
-    public function home() {
-        $this->loadModel('Sadrs');
-        $this->loadModel('Adrs');
-        $this->loadModel('Aefis');
-        $this->loadModel('Saefis');
-        $this->loadModel('Notifications');
-        $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => []
-        ]);
-
-        $this->paginate = [
-            'limit' => 5,
-            // 'Sadrs' => ['scope' => 'sadr'],
-            // 'Adrs' => ['scope' => 'adr']
-        ];
-
-        // pr($user);
-
-        $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
-        $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.submitted']]);
-        $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted']]);
-        $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted']]);
-        $notifications = $this->paginate($this->Notifications->findByUserId($this->Auth->user('id')), ['scope' => 'notification', 'order' => ['Notification.id' => 'desc'],]);
-
-        $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis', 'notifications'));
-        // $this->set('_serialize', ['sadrs', 'adrs', 'aefis']);
     }
 
     /**

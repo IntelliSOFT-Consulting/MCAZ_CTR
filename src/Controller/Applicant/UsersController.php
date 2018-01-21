@@ -38,7 +38,7 @@ class UsersController extends AppController
                 'study_drug', 'submitted', 'trial_status_id'),
             'order' => array('created' => 'desc'),
             'contain' => array(),
-            'conditions' => array('user_id' => $this->Auth->User('id')),
+            'conditions' => ['user_id' => $this->Auth->User('id'), 'report_type' => 'Initial'],
         ));
 
         $trial_statuses = $this->Users->Applications->TrialStatuses->find('list');

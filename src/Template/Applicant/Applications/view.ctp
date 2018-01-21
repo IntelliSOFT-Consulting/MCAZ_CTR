@@ -4,6 +4,10 @@
   // $this->assign('baseClass', 'sadr_form');  
 ?>
 
+<?php $this->start('form-actions'); ?>
+
+<?php $this->end(); ?>
+
 <?php $this->start('tabs'); ?>
     <!-- Nav tabs -->    
     <?= $this->Html->script('application_view', ['block' => true]); ?>
@@ -25,4 +29,24 @@
       <li><a href="#tabs-15">15. MC10 Form</a></li>
       <li><a href="#tabs-16">16. Financials</a></li>
     </ul>
+<?php $this->end(); ?>
+
+
+
+<?php $this->start('submit_buttons'); ?>
+    <div data-spy="affix" class="my-sidebar text-center">
+      <?php
+        if(!empty($application->amendments) && end($application->amendments)['submitted'] != 2) {
+            echo $this->Html->link('<button class="btn btn-success btn-block action"> <i class="fa fa-edit" aria-hidden="true"></i> Edit </button>', ['action' => 'amendment', end($application->amendments)['id']], ['escape' => false]);  
+        } else {
+            echo $this->Form->postLink('<button class="btn btn-primary btn-block active"> <i class="fa fa-edit" aria-hidden="true"></i> Amendment </button>', ['action' => 'add-amendment', $application->id], ['escape' => false, 'confirm' => 'Are you sure you want to amend application '.$application->protocol_no.'?', 'class' => 'label-link']);  
+        }
+      ?>
+      <hr>
+      <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);
+              ?>
+      <hr>
+    </div>
+
 <?php $this->end(); ?>

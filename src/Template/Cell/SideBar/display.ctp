@@ -4,11 +4,11 @@
      }
 
      $Submitted = isset($stats['Submitted']) ? '<small class="badge badge-sadr pull-right">'. $stats['Submitted'] .'</small>' : '' ;
-     $Manual = isset($stats['Manual']) ? '<small class="badge badge-sadr pull-right">'. $stats['Manual'] .'</small>' : '' ;
+     $Reviewed = isset($stats['Reviewed']) ? '<small class="badge badge-sadr pull-right">'. $stats['Reviewed'] .'</small>' : '' ;
      $UnSubmitted = isset($stats['UnSubmitted']) ? '<small class="badge badge-sadr pull-right">'. $stats['UnSubmitted'] .'</small>' : '' ;
      $Archived = isset($stats['Archived']) ? '<small class="badge badge-sadr pull-right">'. $stats['Archived'] .'</small>' : '' ;
-     $E2B = isset($stats['E2B']) ? '<small class="badge badge-sadr pull-right">'. $stats['E2B'] .'</small>' : '' ;
-     $VigiBase = isset($stats['VigiBase']) ? '<small class="badge badge-sadr pull-right">'. $stats['VigiBase'] .'</small>' : '' ;
+     $Approved = isset($stats['Approved']) ? '<small class="badge badge-sadr pull-right">'. $stats['Approved'] .'</small>' : '' ;
+     $Rejected = isset($stats['Rejected']) ? '<small class="badge badge-sadr pull-right">'. $stats['Rejected'] .'</small>' : '' ;
      $Assigned = isset($stats['Assigned']) ? '<small class="badge badge-sadr pull-right">'. $stats['Assigned'] .'</small>' : '' ;
      $Evaluated = isset($stats['Evaluated']) ? '<small class="badge badge-sadr pull-right">'. $stats['Evaluated'] .'</small>' : '' ;
      $Committee = isset($stats['Committee']) ? '<small class="badge badge-sadr pull-right">'. $stats['Committee'] .'</small>' : '' ;

@@ -44,7 +44,7 @@
         <ol><?php
            foreach($applications as $application) {            
               $ndata = (!empty($application['study_drug'])   ? $application['study_drug'] : date('d-m-Y h:i a', strtotime($application['created'])) );
-              echo $this->Html->link('<li>'.$ndata.'</li>', array('controller' => 'applications', 'action' => 'edit', $application['id']),
+              echo $this->Html->link('<li>'.$ndata.'</li>', array('controller' => 'applications', 'action' => ($application['submitted'] == 2) ? 'view' : 'edit', $application['id']),
                 array('escape' => false));            
             }
            ?>

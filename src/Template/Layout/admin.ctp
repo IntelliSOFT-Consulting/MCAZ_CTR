@@ -51,6 +51,8 @@ $cakeDescription = 'MCAZ CTR';
     
     <?= $this->Html->css('shared_styles') ?>
     <?= $this->Html->css('admin') ?>
+    <?= $this->Html->css('bootstrap/jumbotron') ?>
+    <?= $this->Html->css('ctr-fix') ?>
     <?= $this->Html->script('jquery/jquery') ?>
     <?= $this->Html->script('jquery/jquery-ui.min') ?>
     <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
@@ -133,11 +135,8 @@ $cakeDescription = 'MCAZ CTR';
       </div>
 
     </div>
-    <footer class="footer">
-        <div class="container">
-            <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, CTR.</p>
-        </div>
-    </footer>
+
+
 
     <script>
     $(function() {

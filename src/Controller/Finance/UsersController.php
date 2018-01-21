@@ -60,13 +60,13 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Designations', 'Groups']
-        ];
-        $users = $this->paginate($this->Users);
+        // $this->paginate = [
+        //     'contain' => ['Designations', 'Groups']
+        // ];
+        // $users = $this->paginate($this->Users);
 
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
+        // $this->set(compact('users'));
+        // $this->set('_serialize', ['users']);
     }
 
     /**

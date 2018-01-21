@@ -57,33 +57,8 @@
       </div>
 
       <div id="tabs-17">
-        <table class="table table-condensed vertical-table">
-          <tr>
-            <td colspan="4">
-              <h4>Approvals: </h4>
-            </td>
-          </tr>
-        </table>
-        <div class="row">
-          <div class="col-xs-12">
-            <?php
-            if(!empty($application['finance_approvals'])) {
-              foreach ($application['finance_approvals'] as $finance_approval) {
-                echo "<h4 class='text-center'>Internal MCAZ Comments</h4><p class='text-center'>".$finance_approval['internal_comments']."</p>";
-                echo "<h4 class='text-center'>Applicant Visible Comments</h4><p class='text-center'>".$finance_approval['public_comments']."</p>";
-                echo "<h4 class='text-center'>Outcome</h4><p class='text-center'>".$finance_approval['outcome']."</p>";
-                echo "<h4 class='text-center'>Outcome Date</h4><p class='text-center'>".$finance_approval['outcome_date']."</p>";
-                echo "<h5 class='text-center'>";
-                  if (!empty($finance_approval['file'])) {
-                          echo '<span>File attachment: </span>';
-                          echo $this->Html->link($finance_approval->file, substr($finance_approval->dir, 8) . '/' . $finance_approval->file, ['fullBase' => true]);
-                      } 
-                  echo "</h5><hr>";
-                }
-            }
-            ?>
-          </div>
-        </div>
+        <?php echo $this->element('applications/finance'); ?>
+
          <?php 
           echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'finance-approval']]);
            ?>

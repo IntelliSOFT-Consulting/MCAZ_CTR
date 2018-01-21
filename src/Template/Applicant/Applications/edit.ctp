@@ -1,4 +1,4 @@
-<?php echo $this->element('application/application_edit'); ?>
+<?php echo $this->element('applications/application_edit'); ?>
 
 <?php //echo $this->Form->control('cover_letters.0.file', ['type' => 'file','label' => 'Attach report (if available)']); ?>
 <?php $this->start('header'); ?>

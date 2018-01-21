@@ -39,6 +39,8 @@ class AppController extends Controller
      */
     use \Crud\Controller\ControllerTrait;
 
+    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',     'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'ElectronicVersions', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceApprovals', 'AssignEvaluators', 'Amendments', 'Reviews', 'CommitteeReviews'];
+
     public $components = [
         'Acl' => [
             'className' => 'Acl.Acl'

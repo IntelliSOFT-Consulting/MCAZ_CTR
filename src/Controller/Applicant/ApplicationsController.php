@@ -15,29 +15,7 @@ use Cake\View\Helper\HtmlHelper;
 class ApplicationsController extends AppController
 {
 
-    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
-                          'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters',
-        'Leaflets',
-        'Brochures',
-        'InvestigatorCvs',
-        'Declarations',
-        'StudyMonitors',
-        'MonitoringPlans',
-        'PiDeclarations',
-        'StudySponsorships',
-        'PharmacyPlans',
-        'PharmacyLicenses',
-        'StudyMedicines',
-        'InsuranceCertificates',
-        'GenericInsurances',
-        'EthicsApprovals',
-        'EthicsLetters',
-        'CountryApprovals',
-        'Advertisments',
-        'ElectronicVersions',
-        'SafetyMonitors',
-        'BiologicalProducts',
-        'Dossiers',];
+    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',     'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'ElectronicVersions', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'AssignEvaluators', 'Amendments'];
     /**
      * Index method
      *
@@ -65,7 +43,8 @@ class ApplicationsController extends AppController
     {
         // $this->viewBuilder()->setLayout('vanilla');
         $application = $this->Applications->get($id, [
-            'contain' => $this->_contain
+            'contain' => $this->_contain,
+            'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
         ]);
 
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
@@ -104,33 +83,30 @@ class ApplicationsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    protected function _isApplicant(Entity $application) {
+    /*protected function _isApplicant($application) {
         if($application->user_id != $this->Auth->user('id')) {
             $this->Flash->error(__('You don\'t have permission to access this application #'.$application->id.'!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-            return false;
         } elseif ($application->submitted == 2) {
             $this->Flash->error(__('You cannot edit this application because it has been submitted to MCAZ.'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-            return false;
         } elseif ($application->deactivated) {
             $this->Flash->error(__('You cannot view this application because it has been deactivated by MCAZ.'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-            return false;
         }
-        return true;
-    }
+    }*/
 
     public function edit($id = null)
     {
         $application = $this->Applications->get($id, [
             'contain' => $this->_contain,
-            'conditions' => ['user_id' => $this->Auth->user('id')]
+            'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
         ]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-        }        
+        } 
+        // $this->_isApplicant($application);  
         if ($application->submitted == 2) {
             $this->Flash->success(__('Application already submitted.'));
             return $this->redirect(['action' => 'view', $application->id]);
@@ -158,7 +134,7 @@ class ApplicationsController extends AppController
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_application_email', 'model' => 'applications', 'foreign_key' => $application->id,
+                    'type' => 'applicant_submit_amendment_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                     'vars' =>  $application->toArray()
                 ]; 
                 $html = new HtmlHelper(new \Cake\View\View());
@@ -171,7 +147,7 @@ class ApplicationsController extends AppController
                 //notify managers
                 $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3]]);
                 foreach ($managers as $manager) {
-                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'applications', 'foreign_key' => $application->id,
+                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
                     'vars' =>  $application->toArray()];
                   $data['type'] = 'manager_submit_application_email';
                   $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -206,6 +182,130 @@ class ApplicationsController extends AppController
         //start
     }
 
+    public function addAmendment($id) {
+        $application = $this->Applications->get($id, ['contain' => ['Amendments' => ['conditions' => ['submitted !=' => 2]]]]);
+        if (empty($application)) {
+            $this->Flash->error(__('The application does not exists!!'));
+            $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
+        } 
+        //$this->_isApplicant($application);  
+
+        if (!empty($application->amendments)) {            
+            $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
+            return $this->redirect(['action' => 'amendment', end($application->amendments)['id']]);
+        }
+        $amendment = $this->Applications->Amendments->newEntity();
+        if ($this->request->is('post')) {
+            // $amendment = $this->Applications->patchEntity($application, $this->request->getData());
+            $amendment->report_type = 'Amendment';
+            $amendment->application_id = $application->id;
+            $amendment->user_id = $this->Auth->user('id');
+            if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
+                $this->Flash->success(__('The amendment has been created.'));
+                return $this->redirect(['action' => 'amendment', $amendment->id]);
+            }
+            $this->Flash->error(__('The amendment could not be created. Please, try again.'));
+        }
+        $this->Flash->error(__('Unable to perform action. Kindly contact MCAZ.'));
+        $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
+    }
+
+    public function amendment($id = null)
+    {
+        $contains = $this->_contain;
+        unset($contains['Amendments']);
+        $amendment = $this->Applications->Amendments->get($id, [
+            'contain' => $contains,
+            'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Amendment']
+        ]);
+        $application = $this->Applications->get($amendment->application_id, [
+            'contain' => $this->_contain,
+            'conditions' => ['user_id' => $this->Auth->user('id')]
+        ]);
+        if (empty($amendment)) {
+            $this->Flash->error(__('The amendment does not exists!!'));
+            $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
+        } 
+        if ($amendment->submitted == 2) {
+            $this->Flash->success(__('Amendment already submitted.'));
+            return $this->redirect(['action' => 'view', $application->id]);
+        }
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $amendment = $this->Applications->patchEntity($amendment, $this->request->getData());
+            //
+            if ($amendment->submitted == 1) {
+              //save changes button
+              if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
+                $this->Flash->success(__('The changes to the Report  have been saved.'));
+                return $this->redirect(['action' => 'amendment', $amendment->id]);
+              } else {
+                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($amendment->submitted == 2) {
+              //submit to mcaz button
+              $amendment->date_submitted = date("Y-m-d H:i:s");
+              $amendment->status = 'Submitted';
+              if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
+                $this->Flash->success(__('Amendment '.$amendment->created.' has been successfully submitted to MCAZ for review.'));
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_amendment_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ]; 
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['applicant_name'] = $this->Auth->user('name');
+                $data['vars']['date_submitted'] = $amendment->date_submitted;
+                $data['vars']['email_address'] = $application->email_address;
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_amendment_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers 
+                $managers = $this->Applications->Users->find('all')->where(['Users.group_id' => 2]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id];
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['date_submitted'] = $amendment->date_submitted;
+                    $data['type'] = 'manager_submit_amendment_email';
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_submit_amendment_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //notify assigned evaluators
+                foreach ($application->assign_evaluators as $evaluator) {
+                    $manager = $this->Applications->Users->get($evaluator->assigned_to, []);
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id];
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['date_submitted'] = $amendment->date_submitted;
+                    $data['type'] = 'manager_submit_amendment_email';
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_submit_amendment_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //
+                return $this->redirect(['action' => 'view', $application->id]);
+              } else {
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
+              }
+            } elseif ($application->submitted == -1) {
+               //cancel button              
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
+                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
+
+            } 
+        }
+
+        $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('application', 'amendment', 'provinces'));
+        $this->set('_serialize', ['application']);
+    }
 
     public function addAttachments()
     {

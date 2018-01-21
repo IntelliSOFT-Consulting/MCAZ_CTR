@@ -11,7 +11,9 @@
                     } else { echo 'info'; }
                    ?> alert-dismissible fade in" title="<?= $notification->id ?>" role="alert"> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> 
-                 <div class="article"> <?= (!empty($notification->system_message)) ? $notification->system_message : $notification->user_message ; ?> </div>
+                 <div class="article">
+                  <p class="text-right"><small class="btn-zangu"><em><?php if(!empty($notification->model)) echo $this->Html->link('link', ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key]) ?>  </em></small></p>
+                  <?= (!empty($notification->system_message)) ? $notification->system_message : $notification->user_message ; ?> </div>
                 </div>
                 <?php endforeach; ?>
 
@@ -33,7 +35,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.article').shorten({
-      showChars: 45,
+      showChars: 105,
     });
 
     $('.alert').on('closed.bs.alert', function () {

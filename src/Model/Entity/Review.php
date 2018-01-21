@@ -34,17 +34,6 @@ class Review extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
-        'application_id' => true,
-        'type' => true,
-        'title' => true,
-        'text' => true,
-        'recommendation' => true,
-        'notified' => true,
-        'accepted' => true,
-        'created' => true,
-        'modified' => true,
-        'user' => true,
-        'application' => true
+        '*' => true,
     ];
 }

@@ -5,7 +5,10 @@
 ?>
 
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-10">
+       <?php
+           echo $this->fetch('form-actions');
+       ?>
       <div id="tabs">
       <?php 
           echo $this->fetch('tabs');
@@ -13,7 +16,23 @@
       <div id="tabs-1">
           <table class="table table-condensed vertical-table">
             <tr><th><label>Public Title</label></th><td><p><?= $application->public_title ?></p></td></tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_title'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public_title ?></td>
+               </tr>
+             <?php   } } ?>
             <tr><th><label>Scientific Title</label></th><td><?= $application->scientific_title ?></td></tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['scientific_title'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->scientific_title ?></td>
+               </tr>
+             <?php   } } ?>
             <tr><td colspan="2"> <label>Contact for Public Queries</label> </td></tr>
             <tr>
               <th>
@@ -21,24 +40,56 @@
               </th>
               <td><?= $application->public_contact_email ?></td>
             </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_contact_email'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public_contact_email ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
               </th>
               <td><?= $application->public_contact_phone ?></td>
             </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_contact_phone'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
               <td><?= $application->public_contact_postal ?></td>
             </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_contact_postal'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public_contact_postal ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Affiliation</label>
               </th>
               <td><?= $application->public_contact_affiliation ?></td>
-            </tr>
+            </tr>            
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_contact_affiliation'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public_contact_affiliation ?></td>
+               </tr>
+             <?php   } } ?>
             <tr><td colspan="2"> <label>Contact for Scientific Queries</label> </td></tr>
             <tr>
               <th>
@@ -46,12 +97,28 @@
               </th>
               <td><?= $application->scientific_contact_email ?></td>
             </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_email'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->scientific_contact_email ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
               </th>
               <td><?= $application->scientific_contact_phone ?></td>
             </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_phone'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->scientific_contact_phone ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
@@ -133,6 +200,9 @@
               <td><?= $application->protocol_version ?></td>
             </tr>
           </table>
+
+          
+            <?= $this->fetch('application_abstract') ?>
       </div>
 
       <div id="tabs-2">
@@ -260,6 +330,8 @@
               <td><?= $application->business_position ?></td>
             </tr>
           </table>
+
+            <?= $this->fetch('application_investigator') ?>
       </div>
 
       <div id="tabs-3">
@@ -355,6 +427,8 @@
             }
            ?>
           </table>
+
+            <?= $this->fetch('application_sponsor') ?>
       </div>
 
       <div id="tabs-4">
@@ -542,6 +616,8 @@
 
           </tbody>
         </table>
+
+            <?= $this->fetch('application_participants') ?>
        </div>
 
 
@@ -653,6 +729,8 @@
               <td><?= $application->multi_country_list ?></td>
             </tr> 
         </table>
+
+            <?= $this->fetch('application_sites') ?>
       </div>
 
 
@@ -834,6 +912,8 @@
              </td>
            </tr>
         </table>
+
+            <?= $this->fetch('application_interventions') ?>
       </div>
 
       <div id="tabs-7">
@@ -863,6 +943,8 @@
              </td>
            </tr>
         </table>
+
+            <?= $this->fetch('application_criteria') ?>
       </div>
 
       <div id="tabs-8">
@@ -947,6 +1029,8 @@
               <td colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked : $nChecked; ?> Therapeutic use (Phase IV)</label></td>
             </tr>
         </table>
+
+            <?= $this->fetch('application_scope') ?>
       </div>
 
       <div id="tabs-9">
@@ -1014,6 +1098,8 @@
             <td><?= $application->design_controlled_other ?></td>
           </tr>
         </table>
+
+            <?= $this->fetch('application_design') ?>
       </div>
 
 
@@ -1127,6 +1213,8 @@
            ?>
 
         </table>
+
+            <?= $this->fetch('application_ethics') ?>
       </div>
 
 
@@ -1221,6 +1309,8 @@
            ?>
 
         </table>
+
+            <?= $this->fetch('application_organizations') ?>
       </div>
 
       <div id="tabs-12">
@@ -1331,6 +1421,8 @@ Names and Addresses of owners of animals</small></h5> </td>
             <td colspan="2"><?= $application->animal_particulars ?></td>
           </tr>
         </table>
+
+            <?= $this->fetch('application_other') ?>
       </div>
 
       <div id="tabs-13">
@@ -1746,6 +1838,8 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
              </td>
            </tr>
         </table>
+
+            <?= $this->fetch('application_checklist') ?>
       </div>
 
       <div id="tabs-14">
@@ -1796,8 +1890,10 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
         </table>
 
           <?php
-            echo $this->element('multi/notifications');
+            //echo $this->element('multi/notifications');
           ?>
+
+            <?= $this->fetch('application_notifications') ?>
       </div>
 
       <div id="tabs-15">
@@ -1817,6 +1913,8 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             </td>
           </tr>
         </table>
+
+            <?= $this->fetch('application_mc10') ?>
       </div>
 
 
@@ -1864,10 +1962,16 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
 
           </tbody>
         </table>
+
+            <?= $this->fetch('application_receipts') ?>
       </div>
 
 
     </div>
+    <?php echo $this->fetch('endjs') ?>
+  </div>
+  <div class="col-xs-2">
+    <?= $this->fetch('submit_buttons') ?>
   </div>
 </div>
  
