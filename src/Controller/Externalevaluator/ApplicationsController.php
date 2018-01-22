@@ -51,7 +51,7 @@ class ApplicationsController extends AppController
         ]);
 
         $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-        // debug($filt);
+        array_push($filt, 1);
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $internal_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3,
