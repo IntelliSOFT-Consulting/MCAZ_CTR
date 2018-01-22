@@ -67,10 +67,10 @@ class CommitteeReviewsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('review_comment')
-            ->allowEmpty('review_comment');
+            ->scalar('internal_review_comment')
+            ->allowEmpty('internal_review_comment');
 
-        $validator
+        /*$validator
             ->scalar('file')
             ->allowEmpty('file');
 
@@ -84,7 +84,7 @@ class CommitteeReviewsTable extends Table
 
         $validator
             ->scalar('type')
-            ->allowEmpty('type');
+            ->allowEmpty('type');*/
 
         $validator
             ->dateTime('deleted')

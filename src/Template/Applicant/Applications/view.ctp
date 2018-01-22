@@ -5,7 +5,15 @@
 ?>
 
 <?php $this->start('form-actions'); ?>
-
+  <ul class="nav nav-tabs" data-offset-top="60"  role="tablist" id="myTab">
+      <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
+        <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
+      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    
+      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Request for info</b></a></li>    
+      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
+  </ul>
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="report">
 <?php $this->end(); ?>
 
 <?php $this->start('tabs'); ?>
@@ -31,7 +39,21 @@
     </ul>
 <?php $this->end(); ?>
 
+<?php $this->start('endjs'); ?>
+    </div> <!-- Firstly, close the first tab!! IMPORTANT -->
 
+    <div role="tabpanel" class="tab-pane" id="finance">
+        <?= $this->element('applications/applicant_finance') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="request">
+        <?= $this->element('applications/applicant_request_info') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="committee">
+        <?= $this->element('applications/applicant_committee') ?>
+    </div>
+  </div>
+
+<?php $this->end(); ?>
 
 <?php $this->start('submit_buttons'); ?>
     <div data-spy="affix" class="my-sidebar text-center">

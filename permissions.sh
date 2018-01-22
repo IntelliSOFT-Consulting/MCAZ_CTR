@@ -25,3 +25,8 @@ bin/cake acl grant Groups.4 controllers/Attachments/download
 #Finance permissions
 bin/cake acl grant Groups.5 controllers/Finance/Users
 bin/cake acl grant Groups.5 controllers/Finance/Applications
+#Evaluators permissions
+bin/cake acl grant Groups.3 controllers/Internalevaluator/Users
+bin/cake acl grant Groups.3 controllers/Internalevaluator/Applications
+bin/cake acl grant Groups.6 controllers/Externalevaluator/Users
+bin/cake acl grant Groups.6 controllers/Externalevaluator/Applications

@@ -85,11 +85,13 @@ class UsersController extends AppController
                     } elseif ($user['group_id'] == 2) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
                     } elseif ($user['group_id'] == 3) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'internalevaluator']);
                     } elseif ($user['group_id'] == 4) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant']);
                     } elseif ($user['group_id'] == 5) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'finance']);
+                    } elseif ($user['group_id'] == 6) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'externalevaluator']);
                     } 
                 }  
                 return $this->redirect($this->Auth->redirectUrl());            

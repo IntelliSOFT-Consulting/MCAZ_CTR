@@ -1,0 +1,10 @@
+
+.nav-tabs {
+  position: fixed;
+  z-index: 9;
+  background-color: white;
+  /*margin-top: 0%;*/
+}
+.tab-content   {
+    margin-top: 5%; 
+}

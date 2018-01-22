@@ -39,7 +39,7 @@ class AppController extends Controller
      */
     use \Crud\Controller\ControllerTrait;
 
-    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',     'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'ElectronicVersions', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceApprovals', 'AssignEvaluators', 'Amendments', 'Reviews', 'CommitteeReviews'];
+    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',     'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'ElectronicVersions', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceApprovals', 'AssignEvaluators', 'Amendments', 'Reviews', 'CommitteeReviews', 'RequestInfos', 'RequestInfos.Users'];
 
     public $components = [
         'Acl' => [
@@ -154,7 +154,8 @@ class AppController extends Controller
         $prefix = null;
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin'; $this->viewBuilder()->setLayout('admin');} 
         elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager';  $this->viewBuilder()->setLayout('admin');}
-        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; $this->viewBuilder()->setLayout('admin'); }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'internalevaluator'; $this->viewBuilder()->setLayout('admin'); }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'externalevaluator'; $this->viewBuilder()->setLayout('admin'); }
         elseif ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; $this->viewBuilder()->setLayout('admin'); }
         elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
         $this->set(['prefix'=> $prefix]);

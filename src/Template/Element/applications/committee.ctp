@@ -19,8 +19,12 @@
               <div class="amend-form">
                 <form>
                   <div class="form-group">
-                    <label>Review comment</label>
-                    <p class="form-control-static"><?= $committee_review->review_comment ?></p>
+                    <label>Internal Review comment</label>
+                    <p class="form-control-static"><?= $committee_review->internal_review_comment ?></p>
+                  </div>
+                  <div class="form-group">
+                    <label>Applicant Review comment</label>
+                    <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-4 control-label">File</label>
@@ -48,14 +52,17 @@
           </div>
           <?php } ?>
 
-         <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-committee-review']]); ?>
+          <hr style="border-width: 1px; border-color: #8a6d3b;">
+
+         <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-committee-review'], 'class' => 'form-horizontal']); ?>
               <div class="row">
                 <div class="col-xs-12">
                 <?php
                       echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
                       echo $this->Form->control('committee_reviews.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
                       echo $this->Form->control('committee_reviews.100.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
-                      echo $this->Form->control('committee_reviews.100.review_comment', ['escape' => false, 'templates' => 'textarea_form']);
+                      echo $this->Form->control('committee_reviews.100.internal_review_comment', ['escape' => false, 'templates' => 'textarea_form']);
+                      echo $this->Form->control('committee_reviews.100.applicant_review_comment', ['label' => 'Applicant review comment <small class="muted">(sent to applicants)</small>', 'escape' => false, 'templates' => 'textarea_form']);
 
                       echo $this->Form->control('committee_reviews.100.decision', ['type' => 'radio', 
                                'label' => '<b>Committee Decision</b>', 'escape' => false,
@@ -64,8 +71,7 @@
                                   'Approved' => 'Approved', 
                                   'Pending' => 'Pending', 
                                   'Declined' => 'Declined', ]]);
-
-                      echo $this->Form->control('committee-reviews.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
+                      echo $this->Form->control('committee_reviews.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
                 ?>
                 </div>          
               </div>
@@ -79,5 +85,6 @@
       </div>
 
 <script type="text/javascript">
-  CKEDITOR.replace('committee-reviews-100-review-comment');
+  CKEDITOR.replace('committee-reviews-100-internal-review-comment');
+  CKEDITOR.replace('committee-reviews-100-applicant-review-comment');
 </script>

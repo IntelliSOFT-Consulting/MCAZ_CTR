@@ -4,6 +4,7 @@ namespace App\Controller\Applicant;
 use App\Controller\AppController;
 use Cake\ORM\Entity;
 use Cake\View\Helper\HtmlHelper; 
+use Cake\Utility\Hash;
 
 /**
  * Applications Controller
@@ -15,7 +16,6 @@ use Cake\View\Helper\HtmlHelper;
 class ApplicationsController extends AppController
 {
 
-    protected $_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',     'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'ElectronicVersions', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'AssignEvaluators', 'Amendments'];
     /**
      * Index method
      *
@@ -342,6 +342,61 @@ class ApplicationsController extends AppController
         }
         $this->set(compact('application'));
         $this->set('_serialize', ['application']);
+    }
+
+
+    public function requestInfoResponse() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application->status = 'ReporterResponse';
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                (!empty($application->assign_evaluators)) ? 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $this->loadModel('Queue.QueuedJobs');
+                foreach ($managers as $manager) {
+                    //Notify managers    
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'applicant_respond_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_message'] = $this->request->getData('request_infos.100.applicant_comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_respond_request_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //Notify applicant 
+                // $applicant = $this->Applications->Users->get($application);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_send_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['applicant_message'] = $this->request->getData('request_infos.100.applicant_comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_send_request_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('Request sent to MCAZ for '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create review. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
     }
 
     /**

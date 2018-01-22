@@ -99,6 +99,9 @@ class ApplicationsTable extends Table
         $this->hasMany('CommitteeReviews', [
             'foreignKey' => 'application_id'
         ]); 
+        $this->hasMany('RequestInfos', [
+            'foreignKey' => 'application_id'
+        ]); 
         $this->hasMany('Amendments', [
             'className' => 'Applications',
             'foreignKey' => 'application_id',

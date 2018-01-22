@@ -18,6 +18,7 @@
 	    <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
 	</ul>
 <div class="tab-content">
+     <?= $this->Flash->render() ?>
 	<div role="tabpanel" class="tab-pane active" id="report">
 <?php $this->end(); ?>
 
@@ -62,7 +63,7 @@
         <?= $this->element('applications/reviews') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="request">
-        <?= $this->element('applications/assign_evaluator') ?>
+        <?= $this->element('applications/request_info') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/committee') ?>
