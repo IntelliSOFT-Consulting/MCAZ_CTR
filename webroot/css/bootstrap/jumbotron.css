@@ -12,8 +12,14 @@ body {
 .sterix {
     color: #b50909;
     font-weight: bold;
-    font-size: 47%;/*7px;*/
+    /*font-size: 47%;*/
     vertical-align: super;
+}
+i.sterix {
+  font-size: 47%;
+}
+span.sterix {
+  font-size: 47%;
 }
 
 /*change navbar color*/

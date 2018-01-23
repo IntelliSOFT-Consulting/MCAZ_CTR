@@ -11,22 +11,22 @@
           <div id="">
           <?php
             echo $this->Form->control('business_name', array(
-              'label' =>  'Name of Company <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' =>  'Name of Company', 
               'escape' => false
             ));
             echo $this->Form->control('business_office', array(
-              'label' =>  'Registered Office <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' =>  'Registered Office', 
               'escape' => false
             ));
              echo $this->Form->control('business_physical_address', array(
-              'label' =>  'Physical address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' =>  'Physical address', 
               'escape' => false
             ));
             echo $this->Form->control('business_telephone', array(
-              'label' =>  'Telephone number <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+              'label' =>  'Telephone number', 
               'escape' => false
             ));
-            echo $this->Form->control('business_position', array( 'label' =>  'Position of applicant <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+            echo $this->Form->control('business_position', array( 'label' =>  'Position of applicant', 
               'escape' => false
             ));
             

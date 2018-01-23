@@ -58,8 +58,13 @@ class AttachmentsTable extends Table
         //     ->requirePresence('foreign_key', 'create')
         //     ->notEmpty('foreign_key');
 
-        $validator
-            ->allowEmpty('file');
+        // $validator
+        //     ->notEmpty('file')
+        //     ->add('file',[
+        //         'file-required' => [
+        //             'rule' => ['minLength', 1],
+        //             'message' => 'Kindly upload a file.'
+        //         ]]);
 
         $validator
             ->scalar('dir')

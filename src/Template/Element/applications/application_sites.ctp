@@ -4,8 +4,8 @@
 
           <?php
             echo $this->Form->control('single_site_member_state', array(
-              'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Single site in Zimbabwe'
+              'type' => 'radio', 'escape' => false, 'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
+              'label' => 'Single site in Zimbabwe <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'
             ));
             echo $this->Form->control('location_of_area', array(
               'label' => '<b>If yes</b>, name of site', 'escape' => false

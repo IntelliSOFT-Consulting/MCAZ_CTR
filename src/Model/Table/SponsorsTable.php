@@ -63,7 +63,7 @@ class SponsorsTable extends Table
 
         $validator
             ->scalar('sponsor')
-            ->allowEmpty('sponsor');
+            ->notEmpty('sponsor');
 
         $validator
             ->scalar('contact_person')
@@ -71,7 +71,7 @@ class SponsorsTable extends Table
 
         $validator
             ->scalar('address')
-            ->allowEmpty('address');
+            ->notEmpty('address');
 
         $validator
             ->scalar('telephone_number')
@@ -83,11 +83,11 @@ class SponsorsTable extends Table
 
         $validator
             ->scalar('cell_number')
-            ->allowEmpty('cell_number');
+            ->notEmpty('cell_number');
 
         $validator
-            ->scalar('email_address')
-            ->allowEmpty('email_address');
+            ->email('email_address')
+            ->notEmpty('email_address');
 
         return $validator;
     }

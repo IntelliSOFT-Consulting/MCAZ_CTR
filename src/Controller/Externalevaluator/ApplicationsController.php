@@ -28,8 +28,12 @@ class ApplicationsController extends AppController
         ];
 
         // $applications = $this->paginate($this->Applications,['finder' => ['status' => $id]]);
-        if($this->request->getQuery('status')) {$applications = $this->paginate($this->Applications->find('all')->where(['status' => $this->request->getQuery('status'), 'submitted' => 2, 'report_type' => 'Initial']), ['order' => ['Applications.id' => 'desc']]); }
-        else {$applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']), ['order' => ['Applications.id' => 'desc']]);}
+        if($this->request->getQuery('status')) {$applications = $this->paginate($this->Applications->find('all')->where(['status' => $this->request->getQuery('status'), 'submitted' => 2, 'report_type' => 'Initial'])->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            }), ['order' => ['Applications.id' => 'desc']]); }
+        else {$applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial'])->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            }), ['order' => ['Applications.id' => 'desc']]);}
 
         //$applications = $this->paginate($this->Applications);
 

@@ -36,10 +36,6 @@ class UsersController extends AppController
     
     public function dashboard() {
         $this->loadModel('Applications');
-        $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => []
-        ]);
-
         $this->paginate = [
             'limit' => 5,
             // 'Applications' => ['scope' => 'application'],
@@ -47,7 +43,9 @@ class UsersController extends AppController
 
         // pr($user);
 
-        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2]), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
+        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2])->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            }), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
 
         $this->set(compact('applications'));

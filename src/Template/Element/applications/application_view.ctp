@@ -1454,7 +1454,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
               <label>
-                <?= ($application->applicant_covering_letter) ? $checked : $nChecked; ?> Covering Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
+                <?= ($application->applicant_fees) ? $checked : $nChecked; ?> Practicing License for principal investigator or co-investigator <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
               </label>
               <br>
                <?php
