@@ -18,6 +18,7 @@ bin/cake acl grant Groups.4 controllers/Users/profile
 bin/cake acl grant Groups.4 controllers/Users/edit
 bin/cake acl grant Groups.4 controllers/Applicant/Users
 bin/cake acl grant Groups.4 controllers/Applicant/Applications
+bin/cake acl deny Groups.4 controllers/Manager/Applications
 bin/cake acl grant Groups.4 controllers/Applications/add
 bin/cake acl grant Groups.4 controllers/Applications/edit
 bin/cake acl grant Groups.4 controllers/Applications/view
