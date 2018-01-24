@@ -9,8 +9,11 @@
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    
-      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Request for info</b></a></li>    
+      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li>    
+      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
+      <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
+      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>    
   </ul>
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="report">
@@ -33,9 +36,9 @@
       <li><a href="#tabs-11">11. Organizations</a></li>
       <li><a href="#tabs-12">12. Other details</a></li>
       <li><a href="#tabs-13">13. Checklist </a></li>
-      <li><a href="#tabs-14">14. Notifications</a></li>
-      <li><a href="#tabs-15">15. MC10 Form</a></li>
-      <li><a href="#tabs-16">16. Financials</a></li>
+      <li><a href="#tabs-14">14. MC10 Form</a></li>
+      <li><a href="#tabs-15">15. Financials</a></li>
+      <li><a href="#tabs-16">16. Notifications</a></li>
     </ul>
 <?php $this->end(); ?>
 
@@ -45,17 +48,28 @@
     <div role="tabpanel" class="tab-pane" id="finance">
         <?= $this->element('applications/applicant_finance') ?>
     </div>
+    <div role="tabpanel" class="tab-pane" id="section75">
+        <?= $this->element('applications/applicant_section75') ?>
+    </div>
     <div role="tabpanel" class="tab-pane" id="request">
         <?= $this->element('applications/applicant_request_info') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/applicant_committee') ?>
     </div>
+    <div role="tabpanel" class="tab-pane" id="notifications">
+        <?= $this->element('applications/applicant_notifications') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="gcp">
+        <?= $this->element('applications/applicant_gcp') ?>
+    </div>
   </div>
 
 <?php $this->end(); ?>
 
 <?php $this->start('submit_buttons'); ?>
+  
+  <div class="col-xs-2">
     <div data-spy="affix" class="my-sidebar text-center">
       <?php
         if(!empty($application->amendments) && end($application->amendments)['submitted'] != 2) {
@@ -70,5 +84,6 @@
               ?>
       <hr>
     </div>
+  </div>
 
 <?php $this->end(); ?>

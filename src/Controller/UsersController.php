@@ -127,7 +127,7 @@ class UsersController extends AppController
                     '_serialize' => ['errors', 'message']]);
             }
 
-            $user->group_id = 3;
+            $user->group_id = 4;
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registration successful.'));
 
@@ -353,7 +353,7 @@ class UsersController extends AppController
     public function profile()
     {
         $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => ['Designations', 'Groups']
+            'contain' => ['Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -414,8 +414,7 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id, [
             'contain' => [],
-            'fields' => ['id'  , 'username' , 'name' , 'email' , 'name_of_institution' ,
-                                'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no', 'group_id' ]
+            'fields' => ['id'  , 'username' , 'name' , 'email' , 'phone_no', 'group_id' ]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             // debug($this->request->getData())

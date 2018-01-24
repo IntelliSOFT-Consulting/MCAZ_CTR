@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h4>14. Notification(s) -
+            <h4>Notification(s) -
           <small class="muted">(Notifications may include files (pictures, scanned documents, pdf, word documents) or generic updates</small></h4>
           <hr>
           <h5><i class="icon-file"></i> Do you have attachments that you would like to send to MCAZ? click on the button to add them:

@@ -26,14 +26,6 @@
         <dd><?= h($user->phone_no) ?></dd>
         <dt scope="row"><?= __('Group') ?></dt>
         <dd><?= $user->group->name ?></dd>
-    <dt>Designation</dt>
-      <dd><?= $user->has('designation') ? $this->Html->link($user->designation->name, ['controller' => 'Designations', 'action' => 'view', $user->designation->id]) : '' ?></dd>
-      <dt scope="row"><?= __('name_of_institution') ?></dt>
-      <dd><?= h($user->name_of_institution) ?></dd>
-      <dt scope="row"><?= __('Institution Address') ?></dt>
-        <dd><?= h($user->institution_address) ?></dd>
-     <dt scope="row"><?= __('Institution Code') ?></dt>
-        <dd><?= h($user->institution_code) ?></dd>
     </dl>
     <hr>
     <div class="row">

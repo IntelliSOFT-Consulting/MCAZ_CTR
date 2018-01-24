@@ -12,14 +12,19 @@
 	    <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
 	      <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    
+      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li>    
       <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>    
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
-      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Request for info</b></a></li>    
-	    <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
+      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
+      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
+	    <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>    
 	</ul>
 <div class="tab-content">
      <?= $this->Flash->render() ?>
 	<div role="tabpanel" class="tab-pane active" id="report">
+    <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info active']);
+              ?>
 <?php $this->end(); ?>
 
 <?php $this->start('tabs'); ?>
@@ -43,9 +48,9 @@
       <li><a href="#tabs-11">11. Organizations</a></li>
       <li><a href="#tabs-12">12. Other details</a></li>
       <li><a href="#tabs-13">13. Checklist </a></li>
-      <li><a href="#tabs-14">14. Notifications</a></li>
-      <li><a href="#tabs-15">15. MC10 Form</a></li>
-      <li><a href="#tabs-16">16. Financials</a></li>
+      <li><a href="#tabs-14">14. MC10 Form</a></li>
+      <li><a href="#tabs-15">15. Financials</a></li>
+      <li><a href="#tabs-16">16. Notifications</a></li>
     </ul>
 <?php $this->end(); ?>
 
@@ -55,6 +60,9 @@
 
     <div role="tabpanel" class="tab-pane" id="finance">
         <?= $this->element('applications/finance') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="section75">
+        <?= $this->element('applications/section75') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="assign">
         <?= $this->element('applications/assign_evaluator') ?>
@@ -68,17 +76,10 @@
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/committee') ?>
     </div>
+    <div role="tabpanel" class="tab-pane" id="gcp">
+        <?= $this->element('applications/gcp') ?>
+    </div>
   </div>
 
 <?php $this->end(); ?>
 
-<?php $this->start('submit_buttons'); ?>
-    <br><br>
-    <div data-spy="affix" class="my-sidebar text-center">
-      <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);
-              ?>
-      <hr>
-    </div>
-
-<?php $this->end(); ?>

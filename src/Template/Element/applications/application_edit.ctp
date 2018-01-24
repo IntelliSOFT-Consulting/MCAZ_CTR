@@ -38,9 +38,9 @@
           <li><a href="#tabs-11">11. Organizations</a></li>
           <li><a href="#tabs-12">12. Other details</a></li>
           <li><a href="#tabs-13">13. Checklist </a></li>
-          <li><a href="#tabs-14">14. Notifications</a></li>
-          <li><a href="#tabs-15">15. MC10 Form</a></li>
-          <li><a href="#tabs-16">16. Financials</a></li>
+          <li><a href="#tabs-14">14. MC10 Form</a></li>
+          <li><a href="#tabs-15">15. Financials</a></li>
+          <li><a href="#tabs-16">16. Notifications</a></li>
         </ul>
         <div id="tabs-1">
           <?php echo $this->element('applications/application_abstract'); ?>
@@ -83,15 +83,15 @@
           <?php echo $this->element('multi/checklist'); ?>
         </div>
         <div id="tabs-14">
-          <?php echo $this->element('applications/application_notifications'); ?> 
-        </div>
-        <div id="tabs-15">
           <?php echo $this->element('applications/application_mc10', ['add_fileinput' => $add_fileinput]); ?> 
         </div>
-        <div id="tabs-16">
+        <div id="tabs-15">
           <?php
             echo $this->element('multi/receipts');
           ?>
+        </div>
+        <div id="tabs-16">
+          <?php echo $this->element('applications/application_notifications'); ?> 
         </div>
       </div>
 

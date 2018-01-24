@@ -5,7 +5,7 @@
 ?>
 
 <div class="row">
-  <div class="col-xs-10">
+  <div class="<?= ($this->request->session()->read('Auth.User.group_id')==4) ? 'col-xs-10' : 'col-xs-12' ?>">
        <?php
            echo $this->fetch('form-actions');
        ?>
@@ -1845,60 +1845,6 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
       <div id="tabs-14">
         <table class="table table-condensed vertical-table">
           <tr>
-            <td colspan="4">
-              <h4>14. Notification(s) -
-              <small class="muted">(Notifications may include files (pictures, scanned documents, pdf, word documents) or generic updates</small></h4>
-              <hr>
-            </td>
-          </tr>
-        </table>
-
-        <table class="table table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th> # </th>
-              <th> File </th>
-              <th> Text Description</th>
-              <th>  </th>
-            </tr>
-          </thead>
-          <tbody>                  
-          <?php 
-          //Dynamic fields
-          if (!empty($application['attachments'])) {
-            for ($i = 0; $i <= count($application['attachments'])-1; $i++) { 
-          ?>
-
-            <tr>
-              <td><?= $i+1; ?></td>
-              <td><p class="text-info text-left"><?php
-                       echo $this->Html->link($application['attachments'][$i]->file, substr($application['attachments'][$i]->dir, 8) . '/' . $application['attachments'][$i]->file, ['fullBase' => true]);
-                  ?></p>
-              </td>
-              <td>
-                  <?php
-                      echo $application->attachments[$i]['description'];
-                  ?>
-              </td>                    
-              <td>
-
-              </td>
-            </tr>
-            <?php } } ; ?>
-
-          </tbody>
-        </table>
-
-          <?php
-            //echo $this->element('multi/notifications');
-          ?>
-
-            <?= $this->fetch('application_notifications') ?>
-      </div>
-
-      <div id="tabs-15">
-        <table class="table table-condensed vertical-table">
-          <tr>
             <td>
               <h5>MC10 Form</h5>
               <p>Download MC10 Form using link below. Sign and upload the file.</p>
@@ -1917,8 +1863,7 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             <?= $this->fetch('application_mc10') ?>
       </div>
 
-
-      <div id="tabs-16">
+      <div id="tabs-15">
         <table class="table table-condensed vertical-table">
           <tr>
             <td colspan="4">
@@ -1966,12 +1911,69 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             <?= $this->fetch('application_receipts') ?>
       </div>
 
+      <div id="tabs-16">
+        <table class="table table-condensed vertical-table">
+          <tr>
+            <td colspan="4">
+            <h3 class="text-center text-success"><u>Notification(s) to MCAZ</u></h3>
+            <h4 class="text-center">Protocol deviations, Clarification memos, DSMB reports, Safety Updates, Progress updates etc.</h4>
+            <h6 class="text-center muted">(Notifications my be submitted at any stage of the application process)</h6>
+            <hr>
+            </td>
+          </tr>
+        </table>
+
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th> # </th>
+              <th> File </th>
+              <th> Text Description</th>
+              <th>  </th>
+            </tr>
+          </thead>
+          <tbody>                  
+          <?php 
+          //Dynamic fields
+          if (!empty($application['attachments'])) {
+            for ($i = 0; $i <= count($application['attachments'])-1; $i++) { 
+          ?>
+
+            <tr>
+              <td><?= $i+1; ?></td>
+              <td><p class="text-info text-left"><?php
+                       echo $this->Html->link($application['attachments'][$i]->file, substr($application['attachments'][$i]->dir, 8) . '/' . $application['attachments'][$i]->file, ['fullBase' => true]);
+                  ?></p>
+              </td>
+              <td>
+                  <?php
+                      echo $application->attachments[$i]['description'];
+                  ?>
+              </td>                    
+              <td>
+                  <?php
+                      echo $application->attachments[$i]['created'];
+                  ?>
+              </td>
+            </tr>
+            <?php } } ; ?>
+
+          </tbody>
+        </table>
+
+          <?php
+            //echo $this->element('multi/notifications');
+          ?>
+
+            <?= $this->fetch('application_notifications') ?>
+      </div>
+
 
     </div>
     <?php echo $this->fetch('endjs') ?>
   </div>
-  <div class="col-xs-2">
+
     <?= $this->fetch('submit_buttons') ?>
-  </div>
+
 </div>
  

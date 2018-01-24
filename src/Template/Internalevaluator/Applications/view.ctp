@@ -72,13 +72,3 @@
 
 <?php $this->end(); ?>
 
-<?php $this->start('submit_buttons'); ?>
-    <br><br>
-    <div data-spy="affix" class="my-sidebar text-center">
-      <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);
-              ?>
-      <hr>
-    </div>
-
-<?php $this->end(); ?>

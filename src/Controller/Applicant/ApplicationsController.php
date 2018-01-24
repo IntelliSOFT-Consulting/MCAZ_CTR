@@ -134,7 +134,11 @@ class ApplicationsController extends AppController
             } elseif ($application->submitted == 2) {
               //submit to mcaz button
               if (empty($application->mc10_forms)) {                  
-                $this->Flash->error(__('15. MC10 Form: Kindly download sign and upload the MC10 form.'));
+                $this->Flash->error(__('14. MC10 Form: Kindly download sign and upload the MC10 form.'));
+                return $this->redirect(['action' => 'edit', $application->id]);
+              }
+              if (empty($application->receipts)) {                  
+                $this->Flash->error(__('15. Financials: Kindly upload receipts.'));
                 return $this->redirect(['action' => 'edit', $application->id]);
               }
               $application->date_submitted = date("Y-m-d H:i:s");
@@ -410,6 +414,164 @@ class ApplicationsController extends AppController
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
         return $this->redirect($this->referer());
     }
+
+    public function addSection75() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application->status = 'Section75';
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                (!empty($application->assign_evaluators)) ? 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $this->loadModel('Queue.QueuedJobs');    
+                foreach ($managers as $manager) {
+                    //Notify managers    
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'applicant_section75_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_message'] = $this->request->getData('seventy_fives.100.applicant_comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_section75_request_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //Notify applicant 
+                // $applicant = $this->Applications->Users->get($application);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_send_section75_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['applicant_message'] = $this->request->getData('seventy_fives.100.applicant_comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_section75_request_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('Section 75 request sent to MCAZ for '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create request. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
+    public function addNotifications() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application->status = 'Notification';
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                (!empty($application->assign_evaluators)) ? 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $this->loadModel('Queue.QueuedJobs');    
+                foreach ($managers as $manager) {
+                    //Notify managers    
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'applicant_notification_managers_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    //notify managers
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_notification_managers_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //Notify applicant 
+                // $applicant = $this->Applications->Users->get($application);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_send_notification_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $this->Auth->user('name');                
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_send_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('Notification sent to MCAZ for '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create request. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
+    public function addGcpInspection() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application->status = 'GCP';
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                (!empty($application->assign_evaluators)) ? 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $this->loadModel('Queue.QueuedJobs');    
+                foreach ($managers as $manager) {
+                    //Notify managers    
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'applicant_gcp_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_message'] = $this->request->getData('gcp_inspections.100.applicant_comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_gcp_request_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //Notify applicant 
+                // $applicant = $this->Applications->Users->get($application);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_send_gcp_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['applicant_message'] = $this->request->getData('gcp_inspections.100.applicant_comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_gcp_inspection_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('GCP Inspection feedback sent to MCAZ for '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create gcp inspection request. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
 
     /**
      * Delete method

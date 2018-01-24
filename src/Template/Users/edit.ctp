@@ -40,8 +40,6 @@
             <?php
                 echo $this->Form->control('name', ['label' => 'Name', 'escape' => false]);
                 echo $this->Form->control('email', ['label' => 'Email', 'escape' => false]);
-                echo $this->Form->control('username');
-                echo $this->Form->control('phone_no');
                 //echo $this->Form->control('password', ['label' => 'Password', 'escape' => false, 'value' => '', 'required' => false]);
                 //echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password', 'escape' => false, 'value' => '', 'required' => false]);   
                 //echo $this->Form->control('name_of_institution');
@@ -49,10 +47,8 @@
         </div><!--/span-->
         <div class="col-md-6">
             <?php
-                echo $this->Form->control('name_of_institution');
-                echo $this->Form->control('institution_address');
-                echo $this->Form->control('institution_code');
-                echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);     
+                echo $this->Form->control('username');
+                echo $this->Form->control('phone_no');  
                 ?>
         </div><!--/span-->
     </div><!--/row-->
