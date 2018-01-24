@@ -74,9 +74,8 @@ class RequestInfosTable extends Table
             ->scalar('applicant_comment')
             ->allowEmpty('applicant_comment');
 
-        /*$validator
-            ->scalar('file')
-            ->allowEmpty('file');*/
+        $validator
+            ->allowEmpty('file');
 
         $validator
             ->scalar('dir')

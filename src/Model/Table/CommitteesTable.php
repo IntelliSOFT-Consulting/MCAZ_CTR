@@ -58,6 +58,9 @@ class CommitteesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->allowEmpty('file');
+
+        $validator
             ->scalar('name')
             ->allowEmpty('name');
 

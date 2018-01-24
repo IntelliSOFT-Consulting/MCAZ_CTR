@@ -164,20 +164,21 @@
 
 
 <?php $this->start('submit_buttons'); ?>
+<div class="col-xs-2">
     <div data-spy="affix" class="my-sidebar text-center">
-      <button name="submitted" value="1" id="amendmentSave" class="btn btn-primary btn-block active" type="submit"
+      <button name="submitted" value="1" id="amendmentSave" class="btn btn-primary btn-block active" type="submit" formnovalidate="formnovalidate"
               id="SadrSaveChanges" title="Save & continue editing"
               data-content="Save changes to form without submitting it. The form will still be available for further editing.">
                   <span class="fa fa-edit" aria-hidden="true"></span> Save changes
       </button>
       <hr>
-      <button name="submitted" value="2" id="amendmentSubmit" class="btn btn-success btn-block active" type="submit"
+      <button name="submitted" value="2" id="amendmentSubmit" class="btn btn-success btn-block active" type="submit" formnovalidate="formnovalidate"
                         onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');"
                 >
                   <span class="fa fa-send" aria-hidden="true"></span> Submit to MCAZ
       </button>
       <hr>
-      <button name="submitted" value="-1" id="amendmentCancel" class="btn btn-default btn-block active" type="submit"
+      <button name="submitted" value="-1" id="amendmentCancel" class="btn btn-default btn-block active" type="submit" formnovalidate="formnovalidate"
                         onclick="return confirm('Are you sure you wish to cancel the report?');"
                 >
                   <span class="fa fa-close" aria-hidden="true"></span> Cancel
@@ -214,4 +215,5 @@
         // CKEDITOR.replace( 'notification');
       // });
     </script>
+  </div>
 <?php $this->end(); ?>
