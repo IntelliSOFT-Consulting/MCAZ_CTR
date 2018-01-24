@@ -67,6 +67,9 @@ class ReviewsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->allowEmpty('file');
+
+        $validator
             ->scalar('type')
             ->allowEmpty('type');
 
