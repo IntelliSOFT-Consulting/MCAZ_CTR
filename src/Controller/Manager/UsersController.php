@@ -47,7 +47,7 @@ class UsersController extends AppController
 
         // pr($user);
 
-        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2]), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
+        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
 
         $this->set(compact('applications'));

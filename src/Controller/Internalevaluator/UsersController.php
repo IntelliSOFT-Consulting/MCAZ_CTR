@@ -43,7 +43,7 @@ class UsersController extends AppController
 
         // pr($user);
 
-        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2])->matching('AssignEvaluators', function ($q) {
+        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial'])->matching('AssignEvaluators', function ($q) {
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
             }), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
