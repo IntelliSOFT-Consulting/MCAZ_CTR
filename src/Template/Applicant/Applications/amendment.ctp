@@ -42,9 +42,9 @@
       <li><a href="#tabs-11">11. Organizations</a></li>
       <li><a href="#tabs-12">12. Other details</a></li>
       <li><a href="#tabs-13">13. Checklist </a></li>
-      <li><a href="#tabs-14">14. Notifications</a></li>
-      <li><a href="#tabs-15">15. MC10 Form</a></li>
-      <li><a href="#tabs-16">16. Financials</a></li>
+      <li><a href="#tabs-14">14. MC10 Form</a></li>
+      <li><a href="#tabs-15">15. Financials</a></li>
+      <li><a href="#tabs-16">16. Notifications</a></li>
     </ul>
 <?php $this->end(); ?>
 

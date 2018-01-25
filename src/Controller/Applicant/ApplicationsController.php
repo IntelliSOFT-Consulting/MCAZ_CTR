@@ -229,9 +229,8 @@ class ApplicationsController extends AppController
     public function amendment($id = null)
     {
         $contains = $this->_contain;
-        unset($contains['Amendments']);
         $amendment = $this->Applications->Amendments->get($id, [
-            'contain' => $contains,
+            'contain' => $this->a_contains,
             'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Amendment']
         ]);
         $application = $this->Applications->get($amendment->application_id, [
@@ -248,11 +247,19 @@ class ApplicationsController extends AppController
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $amendment = $this->Applications->patchEntity($amendment, $this->request->getData());
+            $amendment = $this->Applications->patchEntity($amendment, $this->request->getData(), 
+                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                         'associated' => [
+                            'InvestigatorContacts' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                            'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                            'Attachments' => ['validate' => true],
+                            'Receipts' => ['validate' => true],
+                        ]
+                     ]);
             //
             if ($amendment->submitted == 1) {
               //save changes button
-              if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
+              if ($this->Applications->Amendments->save($amendment)) {
                 $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'amendment', $amendment->id]);
               } else {
@@ -262,7 +269,7 @@ class ApplicationsController extends AppController
               //submit to mcaz button
               $amendment->date_submitted = date("Y-m-d H:i:s");
               $amendment->status = 'Submitted';
-              if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
+              if ($this->Applications->Amendments->save($amendment)) {
                 $this->Flash->success(__('Amendment '.$amendment->created.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    

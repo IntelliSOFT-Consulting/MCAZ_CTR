@@ -1162,7 +1162,6 @@
         </table>
 
         <?php
-
           foreach($application['amendments'] as $key => $amendment) {
             if($amendment['submitted'] == 2 && !empty($amendment['participants'])) {
         ?>
@@ -1203,10 +1202,10 @@
               </td>
             </tr>
             <?php } } } ; ?>
-
           </tbody>
-        </table>
+        </table>        
           <?php } } ?>
+
             <?= $this->fetch('application_participants') ?>
        </div>
 
@@ -2995,7 +2994,18 @@ Names and Addresses of owners of animals</small></h5> </td>
                   } 
               ?>
              </td>
-           </tr>
+          </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['cover_letters'])){
+                for ($i = 0; $i <= count($amendment['cover_letters'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['cover_letters'][$i]->file, substr($amendment['cover_letters'][$i]->dir, 8) . '/' . $amendment['cover_letters'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3011,7 +3021,18 @@ Names and Addresses of owners of animals</small></h5> </td>
                   } 
               ?>
              </td>
-           </tr>
+          </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['fees'])){
+                for ($i = 0; $i <= count($amendment['fees'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['fees'][$i]->file, substr($amendment['fees'][$i]->dir, 8) . '/' . $amendment['fees'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3027,7 +3048,19 @@ Names and Addresses of owners of animals</small></h5> </td>
                   } 
               ?>
              </td>
-           </tr>
+          </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['legal_forms'])){
+                for ($i = 0; $i <= count($amendment['legal_forms'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['legal_forms'][$i]->file, substr($amendment['legal_forms'][$i]->dir, 8) . '/' . $amendment['legal_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
+
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3043,7 +3076,18 @@ Names and Addresses of owners of animals</small></h5> </td>
                   } 
               ?>
              </td>
-           </tr>
+          </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['protocols'])){
+                for ($i = 0; $i <= count($amendment['protocols'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['protocols'][$i]->file, substr($amendment['protocols'][$i]->dir, 8) . '/' . $amendment['protocols'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3060,6 +3104,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['leaflets'])){
+                for ($i = 0; $i <= count($amendment['leaflets'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['leaflets'][$i]->file, substr($amendment['leaflets'][$i]->dir, 8) . '/' . $amendment['leaflets'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3076,6 +3131,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['brochures'])){
+                for ($i = 0; $i <= count($amendment['brochures'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['brochures'][$i]->file, substr($amendment['brochures'][$i]->dir, 8) . '/' . $amendment['brochures'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3092,6 +3158,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['investigator_cvs'])){
+                for ($i = 0; $i <= count($amendment['investigator_cvs'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['investigator_cvs'][$i]->file, substr($amendment['investigator_cvs'][$i]->dir, 8) . '/' . $amendment['investigator_cvs'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3108,6 +3185,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['declarations'])){
+                for ($i = 0; $i <= count($amendment['declarations'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['declarations'][$i]->file, substr($amendment['declarations'][$i]->dir, 8) . '/' . $amendment['declarations'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3124,6 +3212,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['study_monitors'])){
+                for ($i = 0; $i <= count($amendment['study_monitors'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['study_monitors'][$i]->file, substr($amendment['study_monitors'][$i]->dir, 8) . '/' . $amendment['study_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3140,6 +3239,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['monitoring_plans'])){
+                for ($i = 0; $i <= count($amendment['monitoring_plans'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['monitoring_plans'][$i]->file, substr($amendment['monitoring_plans'][$i]->dir, 8) . '/' . $amendment['monitoring_plans'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3156,6 +3266,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['pi_declarations'])){
+                for ($i = 0; $i <= count($amendment['pi_declarations'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['pi_declarations'][$i]->file, substr($amendment['pi_declarations'][$i]->dir, 8) . '/' . $amendment['pi_declarations'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3172,6 +3293,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['study_sponsorships'])){
+                for ($i = 0; $i <= count($amendment['study_sponsorships'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['study_sponsorships'][$i]->file, substr($amendment['study_sponsorships'][$i]->dir, 8) . '/' . $amendment['study_sponsorships'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3188,6 +3320,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['pharmacy_plans'])){
+                for ($i = 0; $i <= count($amendment['pharmacy_plans'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['pharmacy_plans'][$i]->file, substr($amendment['pharmacy_plans'][$i]->dir, 8) . '/' . $amendment['pharmacy_plans'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3204,6 +3347,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['pharmacy_licenses'])){
+                for ($i = 0; $i <= count($amendment['pharmacy_licenses'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['pharmacy_licenses'][$i]->file, substr($amendment['pharmacy_licenses'][$i]->dir, 8) . '/' . $amendment['pharmacy_licenses'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3220,6 +3374,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['study_medicines'])){
+                for ($i = 0; $i <= count($amendment['study_medicines'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['study_medicines'][$i]->file, substr($amendment['study_medicines'][$i]->dir, 8) . '/' . $amendment['study_medicines'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3236,6 +3401,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['insurance_certificates'])){
+                for ($i = 0; $i <= count($amendment['insurance_certificates'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['insurance_certificates'][$i]->file, substr($amendment['insurance_certificates'][$i]->dir, 8) . '/' . $amendment['insurance_certificates'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3252,6 +3428,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['generic_insurances'])){
+                for ($i = 0; $i <= count($amendment['generic_insurances'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['generic_insurances'][$i]->file, substr($amendment['generic_insurances'][$i]->dir, 8) . '/' . $amendment['generic_insurances'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3268,6 +3455,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['ethics_approvals'])){
+                for ($i = 0; $i <= count($amendment['ethics_approvals'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['ethics_approvals'][$i]->file, substr($amendment['ethics_approvals'][$i]->dir, 8) . '/' . $amendment['ethics_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3284,6 +3482,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['ethics_letters'])){
+                for ($i = 0; $i <= count($amendment['ethics_letters'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['ethics_letters'][$i]->file, substr($amendment['ethics_letters'][$i]->dir, 8) . '/' . $amendment['ethics_letters'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3300,6 +3509,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['country_approvals'])){
+                for ($i = 0; $i <= count($amendment['country_approvals'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['country_approvals'][$i]->file, substr($amendment['country_approvals'][$i]->dir, 8) . '/' . $amendment['country_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3316,6 +3536,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['advertisments'])){
+                for ($i = 0; $i <= count($amendment['advertisments'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['advertisments'][$i]->file, substr($amendment['advertisments'][$i]->dir, 8) . '/' . $amendment['advertisments'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3332,6 +3563,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['electronic_versions'])){
+                for ($i = 0; $i <= count($amendment['electronic_versions'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['electronic_versions'][$i]->file, substr($amendment['electronic_versions'][$i]->dir, 8) . '/' . $amendment['electronic_versions'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3348,6 +3590,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['safety_monitors'])){
+                for ($i = 0; $i <= count($amendment['safety_monitors'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['safety_monitors'][$i]->file, substr($amendment['safety_monitors'][$i]->dir, 8) . '/' . $amendment['safety_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3364,6 +3617,17 @@ Names and Addresses of owners of animals</small></h5> </td>
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['biological_products'])){
+                for ($i = 0; $i <= count($amendment['biological_products'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['biological_products'][$i]->file, substr($amendment['biological_products'][$i]->dir, 8) . '/' . $amendment['biological_products'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
           <tr>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
@@ -3383,6 +3647,17 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
               ?>
              </td>
            </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['dossiers'])){
+                for ($i = 0; $i <= count($amendment['dossiers'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['dossiers'][$i]->file, substr($amendment['dossiers'][$i]->dir, 8) . '/' . $amendment['dossiers'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
         </table>
 
             <?= $this->fetch('application_checklist') ?>
@@ -3403,7 +3678,18 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
                   } 
               ?>
             </td>
-          </tr>
+          </tr> 
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['mc10_forms'])){
+                for ($i = 0; $i <= count($amendment['mc10_forms'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['mc10_forms'][$i]->file, substr($amendment['mc10_forms'][$i]->dir, 8) . '/' . $amendment['mc10_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
         </table>
 
             <?= $this->fetch('application_mc10') ?>
@@ -3453,6 +3739,53 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
 
           </tbody>
         </table>
+
+
+
+        <?php
+          foreach($application['amendments'] as $key => $amendment) {
+            if($amendment['submitted'] == 2 && !empty($amendment['receipts'])) {
+        ?>
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr class="amender">
+              <th colspan="4"><?php echo $key+1; ?></th>
+            </tr>
+            <tr>
+              <th> # </th>
+              <th> RECEIPT </th>
+              <th> DESCRIPTION OF CONTENTS</th>
+              <th>  </th>
+            </tr>
+          </thead>
+          <tbody>                  
+          <?php 
+          //Dynamic fields
+
+          for ($i = 0; $i <= count($amendment['receipts'])-1; $i++) {
+            if (!empty($amendment['receipts'])) {
+              for ($i = 0; $i <= count($amendment['receipts'])-1; $i++) { 
+          ?>
+
+            <tr>
+              <td><?= $i+1; ?></td>
+              <td><p class="text-info text-left"><?php
+                       echo $this->Html->link($amendment['receipts'][$i]->file, substr($amendment['receipts'][$i]->dir, 8) . '/' . $amendment['receipts'][$i]->file, ['fullBase' => true]);
+                  ?></p>
+              </td>
+              <td>
+                  <?php
+                      echo $amendment->receipts[$i]['description'];
+                  ?>
+              </td>                    
+              <td>
+
+              </td>
+            </tr>
+            <?php } } } ; ?>
+          </tbody>
+        </table>        
+          <?php } } ?>
 
             <?= $this->fetch('application_receipts') ?>
       </div>
@@ -3507,9 +3840,54 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
           </tbody>
         </table>
 
-          <?php
-            //echo $this->element('multi/notifications');
+
+
+        <?php
+          foreach($application['amendments'] as $key => $amendment) {
+            if($amendment['submitted'] == 2 && !empty($amendment['attachments'])) {
+        ?>
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr class="amender">
+              <th colspan="4"><?php echo $key+1; ?></th>
+            </tr>
+            <tr>
+              <th> # </th>
+              <th> File </th>
+              <th> Text Description</th>
+              <th>  </th>
+            </tr>
+          </thead>
+          <tbody>                  
+          <?php 
+          //Dynamic fields
+
+          for ($i = 0; $i <= count($amendment['attachments'])-1; $i++) {
+            if (!empty($amendment['attachments'])) {
+              for ($i = 0; $i <= count($amendment['attachments'])-1; $i++) { 
           ?>
+
+            <tr>
+              <td><?= $i+1; ?></td>
+              <td><p class="text-info text-left"><?php
+                       echo $this->Html->link($amendment['attachments'][$i]->file, substr($amendment['attachments'][$i]->dir, 8) . '/' . $amendment['attachments'][$i]->file, ['fullBase' => true]);
+                  ?></p>
+              </td>
+              <td>
+                  <?php
+                      echo $amendment->attachments[$i]['description'];
+                  ?>
+              </td>                    
+              <td>
+                  <?php
+                      echo $amendment->attachments[$i]['created'];
+                  ?>
+              </td>
+            </tr>
+            <?php } } } ; ?>
+          </tbody>
+        </table>        
+          <?php } } ?>
 
             <?= $this->fetch('application_notifications') ?>
       </div>

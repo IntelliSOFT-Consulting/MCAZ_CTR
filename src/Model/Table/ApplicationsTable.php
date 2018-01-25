@@ -108,12 +108,6 @@ class ApplicationsTable extends Table
         $this->hasMany('GcpInspections', [
             'foreignKey' => 'application_id'
         ]); 
-        $this->hasMany('Amendments', [
-            'className' => 'Applications',
-            'foreignKey' => 'application_id',
-            'dependent' => true,
-            'conditions' => array('Amendments.report_type' => 'Amendment'),
-        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',
@@ -299,6 +293,12 @@ class ApplicationsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('LegalForms.model' => 'Applications', 'LegalForms.category' => 'legal_forms'),
+        ]);
+        $this->hasMany('Amendments', [
+            'className' => 'Applications',
+            'foreignKey' => 'application_id',
+            'dependent' => true,
+            'conditions' => array('Amendments.report_type' => 'Amendment'),
         ]);
     }
 
