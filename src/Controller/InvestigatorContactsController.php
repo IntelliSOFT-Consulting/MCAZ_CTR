@@ -111,6 +111,6 @@ class InvestigatorContactsController extends AppController
             $this->Flash->error(__('The investigator contact could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        // return $this->redirect(['action' => 'index']);
     }
 }

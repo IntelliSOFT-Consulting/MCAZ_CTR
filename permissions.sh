@@ -25,6 +25,13 @@ bin/cake acl grant Groups.4 controllers/Applications/view
 bin/cake acl grant Groups.4 controllers/Applications/delete
 bin/cake acl grant Groups.4 controllers/Attachments/download
 bin/cake acl grant Groups.4 controllers/Attachments/delete
+bin/cake acl grant Groups.4 controllers/Sponsors/delete
+bin/cake acl grant Groups.4 controllers/InvestigatorContacts/delete
+bin/cake acl grant Groups.4 controllers/Participants/delete
+bin/cake acl grant Groups.4 controllers/SiteDetails/delete
+bin/cake acl grant Groups.4 controllers/Medicines/delete
+bin/cake acl grant Groups.4 controllers/Committees/delete
+bin/cake acl grant Groups.4 controllers/Organizations/delete
 #Finance permissions
 bin/cake acl grant Groups.5 controllers/Finance/Users
 bin/cake acl grant Groups.5 controllers/Finance/Applications

@@ -228,9 +228,9 @@ class ApplicationsController extends AppController
 
     public function amendment($id = null)
     {
-        $contains = $this->_contain;
+
         $amendment = $this->Applications->Amendments->get($id, [
-            'contain' => $this->a_contains,
+            'contain' => $this->a_contain,
             'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Amendment']
         ]);
         $application = $this->Applications->get($amendment->application_id, [
@@ -257,10 +257,13 @@ class ApplicationsController extends AppController
                         ]
                      ]);
             //
+            // debug($this->request->getData());
+            // debug($amendment->errors());
+            // return;
             if ($amendment->submitted == 1) {
               //save changes button
               if ($this->Applications->Amendments->save($amendment)) {
-                $this->Flash->success(__('The changes to the Report  have been saved.'));
+                $this->Flash->success(__('The changes to the amendment  have been saved.'));
                 return $this->redirect(['action' => 'amendment', $amendment->id]);
               } else {
                 $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
