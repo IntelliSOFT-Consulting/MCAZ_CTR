@@ -120,6 +120,11 @@ class ApplicationsController extends AppController
                             'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
                             'Attachments' => ['validate' => true],
                             'Receipts' => ['validate' => true],
+                            'Participants' => ['validate' => false],
+                            'SiteDetails' => ['validate' => false],
+                            'Medicines' => ['validate' => false],
+                            'Committees' => ['validate' => false],
+                            'Organizations' => ['validate' => false],
                         ]
                      ]);
             //
@@ -254,6 +259,11 @@ class ApplicationsController extends AppController
                             'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
                             'Attachments' => ['validate' => true],
                             'Receipts' => ['validate' => true],
+                            'Participants' => ['validate' => false],
+                            'SiteDetails' => ['validate' => false],
+                            'Medicines' => ['validate' => false],
+                            'Committees' => ['validate' => false],
+                            'Organizations' => ['validate' => false],
                         ]
                      ]);
             //
