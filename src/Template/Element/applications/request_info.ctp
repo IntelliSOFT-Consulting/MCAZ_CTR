@@ -8,6 +8,9 @@
     <div class="col-xs-12">
       <h4 class="text-center"><label class="text-success">Request for Info</label></h4>
       <hr>
+    <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'communication', '_ext' => 'pdf', $application->id, 'All', 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+              ?>
     </div>
   </div>
 
@@ -16,6 +19,9 @@
           <?php foreach ($application->request_infos as $request_info) {  ?>
           <div class="ctr-groups">
             <p class="topper"><small><em class="text-success"><?= $request_info['created'] ?> by <?= $request_info->user->name ?>, email <?= $request_info->user->email ?></em></small></p>
+        <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'communication', '_ext' => 'pdf', $request_info->id, 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+        ?>
               <div class="amend-form">
                 <form>
                   <div class="form-group">

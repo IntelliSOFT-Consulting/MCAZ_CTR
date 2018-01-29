@@ -170,7 +170,11 @@ section {  padding-top: 15px; }
   position: absolute;
   top: -1px;
 }
-
+.topright {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .ctr-groups  hr {
     border-color: #96D765 -moz-use-text-color #FFFFFF;
     border-style: solid none;
@@ -348,6 +352,9 @@ table.vertical-table th {
 }
 table.vertical-table th > label {
   color: #007000;
+}
+table.evaluation-table th {
+  width: 27.33%;
 }
 .muted {
     color: #999999;

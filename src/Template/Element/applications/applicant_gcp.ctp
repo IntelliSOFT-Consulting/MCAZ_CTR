@@ -7,7 +7,6 @@
 <div class="row">
   <div class="col-xs-12">
     <h4 class="text-center">GCP Inspections</h4>
-    <h6 class="text-center muted">GCP Declaration form(s)</h6>
     <?php foreach ($application->gcp_inspections as $gcp_inspection) { 
       ?>
     <div class="ctr-groups  <?php if($gcp_inspection->user->group_id != 4) echo 'amend-form'; ?>">

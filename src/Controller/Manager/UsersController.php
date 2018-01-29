@@ -19,6 +19,7 @@ class UsersController extends AppController
     public $paginate = [
             // 'limit' => 2,
             'Applications' => ['scope' => 'application'],
+            'Amendments' => ['scope' => 'amendment'],
         ];
 
     public function initialize() {
@@ -36,21 +37,22 @@ class UsersController extends AppController
     
     public function dashboard() {
         $this->loadModel('Applications');
-        $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => []
-        ]);
-
         $this->paginate = [
-            'limit' => 5,
-            // 'Applications' => ['scope' => 'application'],
+            'limit' => 15,
         ];
-
-        // pr($user);
 
         $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
 
-        $this->set(compact('applications'));
+        $amendments = $this->paginate($this->Users->Amendments->find('all', array(
+            //'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
+            'order' => array('Amendments.created' => 'desc'),
+            'contain' => ['ParentApplications'],
+            'conditions' => ['Amendments.submitted' => 2, 'Amendments.report_type' => 'Amendment'],
+        )), 
+            ['scope' => 'amendment']);
+
+        $this->set(compact('applications', 'amendments'));
     }
 
     /**

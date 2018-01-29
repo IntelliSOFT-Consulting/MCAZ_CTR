@@ -124,7 +124,6 @@ class ApplicationsController extends AppController
                             'SiteDetails' => ['validate' => false],
                             'Medicines' => ['validate' => false],
                             'Committees' => ['validate' => false],
-                            'Organizations' => ['validate' => false],
                         ]
                      ]);
             //
@@ -139,11 +138,11 @@ class ApplicationsController extends AppController
             } elseif ($application->submitted == 2) {
               //submit to mcaz button
               if (empty($application->mc10_forms)) {                  
-                $this->Flash->error(__('14. MC10 Form: Kindly download sign and upload the MC10 form.'));
+                $this->Flash->error(__('13. MC10 Form: Kindly download sign and upload the MC10 form.'));
                 return $this->redirect(['action' => 'edit', $application->id]);
               }
               if (empty($application->receipts)) {                  
-                $this->Flash->error(__('15. Financials: Kindly upload receipts.'));
+                $this->Flash->error(__('14. Financials: Kindly upload receipts.'));
                 return $this->redirect(['action' => 'edit', $application->id]);
               }
               $application->date_submitted = date("Y-m-d H:i:s");
@@ -253,17 +252,16 @@ class ApplicationsController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $amendment = $this->Applications->patchEntity($amendment, $this->request->getData(), 
-                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                        ['validate' => false, 
                          'associated' => [
-                            'InvestigatorContacts' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
-                            'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
-                            'Attachments' => ['validate' => true],
+                            'InvestigatorContacts' =>  ['validate' => false],
+                            'Sponsors' =>  ['validate' => false],
+                            'Attachments' => ['validate' => false],
                             'Receipts' => ['validate' => true],
                             'Participants' => ['validate' => false],
                             'SiteDetails' => ['validate' => false],
                             'Medicines' => ['validate' => false],
                             'Committees' => ['validate' => false],
-                            'Organizations' => ['validate' => false],
                         ]
                      ]);
             //
@@ -279,6 +277,12 @@ class ApplicationsController extends AppController
                 $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($amendment->submitted == 2) {
+
+              if (empty($amendment->receipts)) {                  
+                $this->Flash->error(__('14. Financials: Kindly upload receipts before submitting amendment.'));
+                return $this->redirect(['action' => 'amendment', $amendment->id]);
+              }
+
               //submit to mcaz button
               $amendment->date_submitted = date("Y-m-d H:i:s");
               $amendment->status = 'Submitted';

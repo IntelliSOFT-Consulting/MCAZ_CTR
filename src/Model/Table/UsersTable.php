@@ -61,6 +61,12 @@ class UsersTable extends Table
         $this->hasMany('Applications', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Amendments', [
+            'className' => 'Applications',
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'conditions' => array('Amendments.report_type' => 'Amendment'),
+        ]);
 
         $this->hasMany('Notifications', [
             'foreignKey' => 'user_id'

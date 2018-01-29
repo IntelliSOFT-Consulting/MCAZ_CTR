@@ -16,6 +16,11 @@ use Cake\Auth\DefaultPasswordHasher;
  */
 class UsersController extends AppController
 {
+    public $paginate = [
+        'Applications' => ['scope' => 'application'],
+        'Amendments' => ['scope' => 'amendment'],
+    ];
+
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
@@ -23,28 +28,21 @@ class UsersController extends AppController
 
 
     public function dashboard() {
-        // $this->paginate = [
-        //     'contain' => [ 'Groups']
-        // ];
-        // $users = $this->paginate($this->Users);
+        $this->paginate = ['limit' => 5];
+        $applications = $this->paginate($this->Users->Applications->find('all', array(
+            'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
+            'order' => array('Applications.created' => 'desc'),
+            'conditions' => ['Applications.user_id' => $this->Auth->User('id'), 'Applications.report_type' => 'Initial'],
+        )), 
+            ['scope' => 'application']);
 
-        // $this->set(compact('users'));
-        // $this->set('_serialize', ['users']);
-
-        //
-        $applications = $this->Users->Applications->find('all', array(
-            'limit' => 10,
-            'fields' => array('id','user_id', 'created', 'protocol_no',
-                'study_drug', 'submitted', 'trial_status_id'),
-            'order' => array('created' => 'desc'),
-            'contain' => array(),
-            'conditions' => ['user_id' => $this->Auth->User('id'), 'report_type' => 'Initial'],
-        ));
-
-        $trial_statuses = $this->Users->Applications->TrialStatuses->find('list');
-        $notifications = $this->Users->Notifications->find('all', array(
-            'conditions' => array('user_id' => $this->Auth->User('id')), 'order' => 'created DESC'
-            ));
+        $amendments = $this->paginate($this->Users->Amendments->find('all', array(
+            //'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
+            'order' => array('Amendments.created' => 'desc'),
+            'contain' => ['ParentApplications'],
+            'conditions' => ['Amendments.user_id' => $this->Auth->User('id'), 'Amendments.report_type' => 'Amendment'],
+        )), 
+            ['scope' => 'amendment']);
 
         if ($this->request->is('post')) {
             $application = $this->Users->Applications->newEntity();
@@ -60,7 +58,7 @@ class UsersController extends AppController
             }
         }
 
-        $this->set(compact('applications', 'notifications', 'trial_statuses'));
+        $this->set(compact('applications', 'amendments'));
     }
 
     public function profile()

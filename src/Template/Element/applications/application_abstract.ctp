@@ -1,7 +1,7 @@
 <?php
 
             echo $this->Form->control('public_title', array(
-              'label' => 'Public Title',
+              'label' => 'PUBLIC TITLE/ACRONYM',
               'escape' => false
             ));
             echo $this->Form->control('scientific_title', array(
@@ -11,6 +11,14 @@
 
 
             echo '<label>Contact for Public Queries</label><br/>';
+            echo $this->Form->control('public_contact_name', array(
+              'label' => 'Name<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('public_contact_designation', array(
+              'label' => 'Designation<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
             echo $this->Form->control('public_contact_email', array(
               'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
@@ -30,6 +38,14 @@
 
 
             echo '<label>Contact for Scientific Queries</label><br/>';
+            echo $this->Form->control('scientific_contact_name', array(
+              'label' => 'Name<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
+            echo $this->Form->control('scientific_contact_designation', array(
+              'label' => 'Designation<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'escape' => false
+            )); 
             echo $this->Form->control('scientific_contact_email', array(
               'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
@@ -144,7 +160,7 @@
               'class' => 'datepickers', 'templates' => [
               'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]
             ));
-            echo $this->Form->control('protocol_version', array(
-              'label' => 'Protocol Version No.', 'placeholder' => ''
+            echo $this->Form->control('protocol_version', array('escape' => false,
+              'label' => 'Protocol Version No. <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'placeholder' => ''
             ));
           ?>

@@ -19,36 +19,9 @@
   <?php    } else { ?>
       <div class="row">
         <div class="col-md-12">
-          <h2>Clinical Trials</h2>
-          <hr>
-          <p>
-
-            Clinical trials are defined as a systematic study in human beings or animals inorder to establish the efficacy of, or to discover or verify the effects or adverse reactions of medicines, and includes a study of the absorption, distribution, metabolism and excretion of medicines.
-         </p><p>
-            All clinical trials that are conducted in Zimbabwe are regulated in terms of Part III of the Medicines and Allied Substances Control Act [Chapter 15:03] and its regulations. In terms of the Act, no person shall conduct a clinical trial of any medicine without the prior written authorisation of the Authority, granted with the approval of the Secretary of the Ministry of Health and Child Welfare.
-        </p><p>
-            The guidelines for Good Clinical Practice have been updated. You will find the new guidelines on the Downloads page. The file is entitled "Guidelines for GCP 2012 Zimbabwe", it replaces "Zimbabwe Guidelines for good clinical trial practice", which has been removed from this website.
-          </p><p>
-            Details of approved, ongoing and previously approved clinical trials will be made available on this site in due course.
-          </p><h3>
-            Medicines Review
-          </h3><p>
-            During the process of medicine registration and post registration the MCAZ is engaged in the process of reviewing the acceptability of certain Active Pharmaceutical Ingredients (API), Combinations of APIs and excipients for use in medicinal products.
-
-            Information on current policies and guidelines will be made available soon.
-          </p>
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <p><a class="btn btn-success" href="/" role="button">Report!</a></p>
-          <?php                  
-              } else {
-          ?>
-          <!-- <p><a class="btn btn-primary" href="/sadrs/add" role="button">Report &raquo;</a></p> -->
-          <!-- <P><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></P> -->
-          <?php
-              }
-          ?>
+          
+  <?= $this->cell('Site::home') ?>
+  
         </div>        
       </div>
 

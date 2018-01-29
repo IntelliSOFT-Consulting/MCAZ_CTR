@@ -8,6 +8,17 @@ bin/cake acl deny Groups.1 controllers/Applicant/Applications
 bin/cake acl deny Groups.1 controllers/Manager/Users
 bin/cake acl deny Groups.1 controllers/Finance/Users
 bin/cake acl deny Groups.1 controllers/Applicant/Users
+# grant mcaz users base
+# bin/cake acl grant Groups.1 controllers/Base/Applications
+# bin/cake acl grant Groups.2 controllers/Base/Applications
+# bin/cake acl grant Groups.3 controllers/Base/Applications
+# bin/cake acl grant Groups.5 controllers/Base/Applications
+# bin/cake acl grant Groups.6 controllers/Base/Applications
+# bin/cake acl grant Groups.1 controllers/Base/Amendments
+bin/cake acl grant Groups.2 controllers/Manager/Amendments
+# bin/cake acl grant Groups.3 controllers/Base/Amendments
+# bin/cake acl grant Groups.5 controllers/Base/Amendments
+# bin/cake acl grant Groups.6 controllers/Base/Amendments
 # bin/cake acl deny Groups.2 controllers #TODO: Remove this global assignment
 bin/cake acl grant Groups.2 controllers/Manager/Users
 bin/cake acl grant Groups.2 controllers/Manager/Applications

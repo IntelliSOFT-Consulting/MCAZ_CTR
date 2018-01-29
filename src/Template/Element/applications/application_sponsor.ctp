@@ -13,7 +13,7 @@
             <div id="sponsor_primary_contact">
             <?php
               echo $this->Form->input('sponsor_name', array(
-                'label' => 'sponsors <span class="sterix">*</span>', 'escape' => false
+                'label' => 'Sponsors <span class="sterix">*</span>', 'escape' => false
               ));
               echo $this->Form->input('sponsor_contact_person', array(
                 'label' => 'Contact Person', 'escape' => false

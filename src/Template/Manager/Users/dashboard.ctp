@@ -7,7 +7,7 @@
     <div class="col-sm-7">
       <h6><em><small>Showing only unprocessed reports</small></em></h6>
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <div class="row">
             <!-- begin -->
             <div class="col-xs-12 col-sm-12">
@@ -23,6 +23,30 @@
                         <?= $this->Paginator->prev('< ' , ['model' => 'Applications']) ?>
                         <?= $this->Paginator->next(' >', ['model' => 'Applications']) ?>
                         <?= $this->Paginator->last(' >>', ['model' => 'Applications']) ?>
+                    </ul>
+                </nav>        
+                
+            </div>
+            <!-- end -->
+          </div>
+               
+        </div>
+        <div class="col-sm-6">
+          <div class="row">
+            <!-- begin -->
+            <div class="col-xs-12 col-sm-12">
+                <h3><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> Amendments', ['controller' => 'Amendments', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Amendments']) ?></small></h3>
+                <ul class="list-unstyled">
+                  <?php foreach ($amendments as $amendment): ?>
+                  <li><?= $this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;', ['controller' => 'Amendments', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);;?> </li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Amendments']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Amendments']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Amendments']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Amendments']) ?>
                     </ul>
                 </nav>        
                 

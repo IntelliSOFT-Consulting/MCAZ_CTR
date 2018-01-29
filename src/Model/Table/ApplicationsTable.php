@@ -13,7 +13,6 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\TrialStatusesTable|\Cake\ORM\Association\BelongsTo $TrialStatuses
  * @property \App\Model\Table\InvestigatorContactsTable|\Cake\ORM\Association\HasMany $InvestigatorContacts
- * @property \App\Model\Table\OrganizationsTable|\Cake\ORM\Association\HasMany $Organizations
  * @property \App\Model\Table\PlacebosTable|\Cake\ORM\Association\HasMany $Placebos
  * @property \App\Model\Table\PreviousDatesTable|\Cake\ORM\Association\HasMany $PreviousDates
  * @property \App\Model\Table\ReviewersTable|\Cake\ORM\Association\HasMany $Reviewers
@@ -54,8 +53,12 @@ class ApplicationsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
-        $this->belongsTo('TrialStatuses', [
-            'foreignKey' => 'trial_status_id'
+
+        $this->belongsTo('ParentApplications', [
+            'className' => 'Applications',
+            'foreignKey' => 'application_id',
+            'dependent' => true,
+            'conditions' => array('ParentApplications.report_type' => 'Initial'),
         ]);
         $this->hasMany('InvestigatorContacts', [
             'foreignKey' => 'application_id'
@@ -64,9 +67,6 @@ class ApplicationsTable extends Table
             'foreignKey' => 'application_id'
         ]);
         $this->hasMany('Medicines', [
-            'foreignKey' => 'application_id'
-        ]);
-        $this->hasMany('Organizations', [
             'foreignKey' => 'application_id'
         ]);
         $this->hasMany('Placebos', [
@@ -78,7 +78,10 @@ class ApplicationsTable extends Table
         $this->hasMany('Reviewers', [
             'foreignKey' => 'application_id'
         ]);
-        $this->hasMany('Reviews', [
+        // $this->hasMany('Reviews', [
+        //     'foreignKey' => 'application_id'
+        // ]);
+        $this->hasMany('Evaluations', [
             'foreignKey' => 'application_id'
         ]);
         $this->hasMany('SiteDetails', [
@@ -349,6 +352,10 @@ class ApplicationsTable extends Table
         $validator
             ->scalar('abstract_of_study')
             ->notEmpty('abstract_of_study');
+
+        $validator
+            ->scalar('protocol_version')
+            ->notEmpty('protocol_version');
 
         $validator
             ->scalar('study_drug')

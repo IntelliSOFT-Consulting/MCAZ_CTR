@@ -15,7 +15,7 @@
       ?>
       <div id="tabs-1">
           <table class="table table-condensed vertical-table">
-            <tr><th><label>Public Title</label></th><td><p><?= $application->public_title ?></p></td></tr>
+            <tr><th><label>PUBLIC TITLE/ACRONYM</label></th><td><p><?= $application->public_title ?></p></td></tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_title'])){      ?>
@@ -34,6 +34,34 @@
                </tr>
              <?php   } } ?>
             <tr><td colspan="2"> <label>Contact for Public Queries</label> </td></tr>
+            <tr>
+              <th>
+                <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td><?= $application->public_contact_name ?></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_contact_name'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public_contact_name ?></td>
+               </tr>
+             <?php   } } ?>
+            <tr>
+              <th>
+                <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td><?= $application->public_contact_designation ?></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['public_contact_designation'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->public_contact_designation ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
@@ -91,6 +119,34 @@
                </tr>
              <?php   } } ?>
             <tr><td colspan="2"> <label>Contact for Scientific Queries</label> </td></tr>
+            <tr>
+              <th>
+                <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td><?= $application->scientific_contact_name ?></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_name'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->scientific_contact_name ?></td>
+               </tr>
+             <?php   } } ?>
+            <tr>
+              <th>
+                <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td><?= $application->scientific_contact_designation ?></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_designation'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->scientific_contact_designation ?></td>
+               </tr>
+             <?php   } } ?>
             <tr>
               <th>
                 <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
@@ -299,7 +355,7 @@
              <?php   } } ?>
             <tr>
               <th>
-                <label>Protocol Version No.</label>
+                <label>Protocol Version No.  <span class="sterix">*</span></label></label>
               </th>
               <td><?= $application->protocol_version ?></td>
             </tr>
@@ -569,7 +625,7 @@
               </td>
             </tr>
             <tr>
-              <th><label>sponsors <span class="sterix">*</span></label></th>
+              <th><label>Sponsors <span class="sterix">*</span></label></th>
               <td><?= $application->sponsor_name ?></td>
             </tr>
             <?php
@@ -666,7 +722,7 @@
              for ($i = 0; $i <= count($application['sponsors'])-1; $i++) {
             ?>
             <tr>
-              <th><label>sponsors <span class="sterix">*</span></label></th>
+              <th><label>Sponsors <span class="sterix">*</span></label></th>
               <td><?= $application->sponsors[$i]['sponsor'] ?></td>
             </tr>
             <tr>
@@ -1359,14 +1415,14 @@
              <?php   } } ?>
           <tr>
             <th><label>Province</label></th>
-            <td><?= $provinces->toArray()[$application->single_site_province_id] ?></td>
+            <td><?= ($application->single_site_province_id) ? $provinces->toArray()[$application->single_site_province_id] : '' ?></td>
           </tr> 
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_province_id'])){      ?>
                <tr class="amender">
                   <th><?php echo $key+1; ?></th>
-                  <td><?= $provinces->toArray()[$amendment->single_site_province_id] ?></td>
+                  <td><?= ($amendment->single_site_province_id) ? $provinces->toArray()[$amendment->single_site_province_id] : '' ?></td>
                </tr>
              <?php   } } ?>
           <tr><td colspan="2"></td></tr>
@@ -1393,7 +1449,7 @@
             </tr>
             <tr>
               <th><label>Province</label></th>
-              <td><?= $provinces->toArray()[$application->site_details[$i]['province_id']]  ?></td>
+              <td><?= ($application->site_details[$i]['province_id']) ? $provinces->toArray()[$application->site_details[$i]['province_id']] : '' ?></td>
             </tr>
             <tr><td colspan="2"></td></tr>
             <?php 
@@ -1403,7 +1459,10 @@
 
 
           <?php
+
             foreach($application['amendments'] as $key => $amendment) {
+              //echo "im here?? :(";
+              //pr($amendment->site_details);
               if($amendment['submitted'] == 2 && !empty($amendment['site_details'])){
                 for ($i = 0; $i <= count($amendment['site_details'])-1; $i++) {
             ?>
@@ -1425,7 +1484,7 @@
             </tr>
             <tr class="amender">
               <th><?php echo $key+1; ?> <label>Province</label></th>
-              <td><?= $provinces->toArray()[$amendment->site_details[$i]['province_id']]  ?></td>
+              <td><?= ($amendment->site_details[$i]['province_id']) ? $provinces->toArray()[$amendment->site_details[$i]['province_id']] : '' ?></td>
             </tr>
             <tr><td colspan="2"></td></tr>
             <?php 
@@ -2546,191 +2605,7 @@
             <?= $this->fetch('application_ethics') ?>
       </div>
 
-
       <div id="tabs-11">
-        <table class="table table-condensed vertical-table">
-          <tr>
-            <td colspan="2">
-              <h5>10.0 ORGANISATIONS TO WHOM THE SPONSOR HAS TRANSFERRED TRIAL RELATED DUTIES AND FUNCTIONS (<small>repeat as needed for multiple organisations
-                    - </small>) </h5>
-            </td>
-          </tr>
-          <tr>
-            <th><label>Has the sponsor transferred any major or all the sponsor&rsquo;s trial related duties and functions to another organisation or third party? <span class="sterix">*</span></label></th>
-            <td><?= $application->organisations_transferred_ ?></td>
-          </tr>
-          <tr>
-            <td colspan="2"><small><em>Repeat as necessary for multiple organizations</em></small></td>
-          </tr>
-          
-          <?php
-            if (!empty($application['organizations'])) {
-             for ($i = 0; $i <= count($application['organizations'])-1; $i++) {
-            ?>
-            <tr>
-              <th><label> Organization </label></th>
-              <td><?= $application->organizations[$i]['organization'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Name of contact person </label></th>
-              <td><?= $application->organizations[$i]['contact_person'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Address </label></th>
-              <td><?= $application->organizations[$i]['address'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Telephone Number </label></th>
-              <td><?= $application->organizations[$i]['telephone_number'] ?></td>
-            </tr>
-            <tr>
-              <th><label> All tasks of the sponsor </label></th>
-              <td><?= $application->organizations[$i]['all_tasks'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Monitoring </label></th>
-              <td><?= $application->organizations[$i]['monitoring'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Regulatory (e.g. preparation of applications to CA and ethics committee) </label></th>
-              <td><?= $application->organizations[$i]['regulatory'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Investigator Recruitment </label></th>
-              <td><?= $application->organizations[$i]['investigator_recruitment'] ?></td>
-            </tr>
-            <tr>
-              <th><label> IVRS &mdash; treatment randomisation </label></th>
-              <td><?= $application->organizations[$i]['ivrs_treatment_randomisation'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Data management </label></th>
-              <td><?= $application->organizations[$i]['data_management'] ?></td>
-            </tr>
-            <tr>
-              <th><label> E-data capture </label></th>
-              <td><?= $application->organizations[$i]['e_data_capture'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Quality assurance auditing </label></th>
-              <td><?= $application->organizations[$i]['quality_assurance_auditing'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Statistical analysis </label></th>
-              <td><?= $application->organizations[$i]['statistical_analysis'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Medical Writing </label></th>
-              <td><?= $application->organizations[$i]['medical_writing'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Other duties subcontracted </label></th>
-              <td><?= $application->organizations[$i]['other_duties'] ?></td>
-            </tr>
-            <tr>
-              <th><label> If yes to other, please specify </label></th>
-              <td><?= $application->organizations[$i]['other_duties_specify'] ?></td>
-            </tr>
-            <tr><td colspan="2"></td></tr>
-            <?php 
-              }
-            }
-           ?>
-        </table>
-
-        <?php
-          foreach($application['amendments'] as $key => $amendment) {
-            if($amendment['submitted'] == 2 && !empty($amendment['organizations'])) {
-              for ($i = 0; $i <= count($amendment['organizations'])-1; $i++) {
-          ?>
-        <table class="table table-condensed vertical-table">
-          <tr class="amender">
-            <th colspan="2">
-              <?php echo $key+1; ?> <h5></h5>
-            </th>
-          </tr>
-          <tr>
-            <th><label>Has the sponsor transferred any major or all the sponsor&rsquo;s trial related duties and functions to another organisation or third party? <span class="sterix">*</span></label></th>
-            <td><?= $amendment->organisations_transferred_ ?></td>
-          </tr>
-
-          <tr>
-            <td colspan="2"><small><em>Repeat as necessary for multiple organizations</em></small></td>
-          </tr>
-            <tr>
-              <th><label> Organization </label></th>
-              <td><?= $amendment->organizations[$i]['organization'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Name of contact person </label></th>
-              <td><?= $amendment->organizations[$i]['contact_person'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Address </label></th>
-              <td><?= $amendment->organizations[$i]['address'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Telephone Number </label></th>
-              <td><?= $amendment->organizations[$i]['telephone_number'] ?></td>
-            </tr>
-            <tr>
-              <th><label> All tasks of the sponsor </label></th>
-              <td><?= $amendment->organizations[$i]['all_tasks'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Monitoring </label></th>
-              <td><?= $amendment->organizations[$i]['monitoring'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Regulatory (e.g. preparation of applications to CA and ethics committee) </label></th>
-              <td><?= $amendment->organizations[$i]['regulatory'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Investigator Recruitment </label></th>
-              <td><?= $amendment->organizations[$i]['investigator_recruitment'] ?></td>
-            </tr>
-            <tr>
-              <th><label> IVRS &mdash; treatment randomisation </label></th>
-              <td><?= $amendment->organizations[$i]['ivrs_treatment_randomisation'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Data management </label></th>
-              <td><?= $amendment->organizations[$i]['data_management'] ?></td>
-            </tr>
-            <tr>
-              <th><label> E-data capture </label></th>
-              <td><?= $amendment->organizations[$i]['e_data_capture'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Quality assurance auditing </label></th>
-              <td><?= $amendment->organizations[$i]['quality_assurance_auditing'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Statistical analysis </label></th>
-              <td><?= $amendment->organizations[$i]['statistical_analysis'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Medical Writing </label></th>
-              <td><?= $amendment->organizations[$i]['medical_writing'] ?></td>
-            </tr>
-            <tr>
-              <th><label> Other duties subcontracted </label></th>
-              <td><?= $amendment->organizations[$i]['other_duties'] ?></td>
-            </tr>
-            <tr>
-              <th><label> If yes to other, please specify </label></th>
-              <td><?= $amendment->organizations[$i]['other_duties_specify'] ?></td>
-            </tr>
-            <tr><td colspan="2"></td></tr>
-        </table>
-           <?php     
-                } } }
-            ?>
-
-            <?= $this->fetch('application_organizations') ?>
-      </div>
-
-      <div id="tabs-12">
         <table class="table table-condensed vertical-table">
           <tr>
             <td colspan="2">
@@ -2970,7 +2845,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <?= $this->fetch('application_other') ?>
       </div>
 
-      <div id="tabs-13">
+      <div id="tabs-12">
         <table class="table table-condensed vertical-table">
           <tr>
             <td colspan="2">
@@ -3663,7 +3538,7 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             <?= $this->fetch('application_checklist') ?>
       </div>
 
-      <div id="tabs-14">
+      <div id="tabs-13">
         <table class="table table-condensed vertical-table">
           <tr>
             <td>
@@ -3695,7 +3570,7 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             <?= $this->fetch('application_mc10') ?>
       </div>
 
-      <div id="tabs-15">
+      <div id="tabs-14">
         <table class="table table-condensed vertical-table">
           <tr>
             <td colspan="4">
@@ -3788,108 +3663,6 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
           <?php } } ?>
 
             <?= $this->fetch('application_receipts') ?>
-      </div>
-
-      <div id="tabs-16">
-        <table class="table table-condensed vertical-table">
-          <tr>
-            <td colspan="4">
-            <h3 class="text-center text-success"><u>Notification(s) to MCAZ</u></h3>
-            <h4 class="text-center">Protocol deviations, Clarification memos, DSMB reports, Safety Updates, Progress updates etc.</h4>
-            <h6 class="text-center muted">(Notifications my be submitted at any stage of the application process)</h6>
-            <hr>
-            </td>
-          </tr>
-        </table>
-
-        <table class="table table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th> # </th>
-              <th> File </th>
-              <th> Text Description</th>
-              <th>  </th>
-            </tr>
-          </thead>
-          <tbody>                  
-          <?php 
-          //Dynamic fields
-          if (!empty($application['attachments'])) {
-            for ($i = 0; $i <= count($application['attachments'])-1; $i++) { 
-          ?>
-
-            <tr>
-              <td><?= $i+1; ?></td>
-              <td><p class="text-info text-left"><?php
-                       echo $this->Html->link($application['attachments'][$i]->file, substr($application['attachments'][$i]->dir, 8) . '/' . $application['attachments'][$i]->file, ['fullBase' => true]);
-                  ?></p>
-              </td>
-              <td>
-                  <?php
-                      echo $application->attachments[$i]['description'];
-                  ?>
-              </td>                    
-              <td>
-                  <?php
-                      echo $application->attachments[$i]['created'];
-                  ?>
-              </td>
-            </tr>
-            <?php } } ; ?>
-
-          </tbody>
-        </table>
-
-
-
-        <?php
-          foreach($application['amendments'] as $key => $amendment) {
-            if($amendment['submitted'] == 2 && !empty($amendment['attachments'])) {
-        ?>
-        <table class="table table-bordered table-condensed">
-          <thead>
-            <tr class="amender">
-              <th colspan="4"><?php echo $key+1; ?></th>
-            </tr>
-            <tr>
-              <th> # </th>
-              <th> File </th>
-              <th> Text Description</th>
-              <th>  </th>
-            </tr>
-          </thead>
-          <tbody>                  
-          <?php 
-          //Dynamic fields
-
-          for ($i = 0; $i <= count($amendment['attachments'])-1; $i++) {
-            if (!empty($amendment['attachments'])) {
-              for ($i = 0; $i <= count($amendment['attachments'])-1; $i++) { 
-          ?>
-
-            <tr>
-              <td><?= $i+1; ?></td>
-              <td><p class="text-info text-left"><?php
-                       echo $this->Html->link($amendment['attachments'][$i]->file, substr($amendment['attachments'][$i]->dir, 8) . '/' . $amendment['attachments'][$i]->file, ['fullBase' => true]);
-                  ?></p>
-              </td>
-              <td>
-                  <?php
-                      echo $amendment->attachments[$i]['description'];
-                  ?>
-              </td>                    
-              <td>
-                  <?php
-                      echo $amendment->attachments[$i]['created'];
-                  ?>
-              </td>
-            </tr>
-            <?php } } } ; ?>
-          </tbody>
-        </table>        
-          <?php } } ?>
-
-            <?= $this->fetch('application_notifications') ?>
       </div>
 
 

@@ -8,7 +8,7 @@
 	<?php
 		echo $this->Form->control('sponsors.0.id', ['templates' => 'table_form']);
 		echo $this->Form->control('sponsors.0.sponsor', array(
-			'label' => 'Organization <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Sponsor <span class="sterix">*</span>', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.contact_person', array(
 			'label' => 'Contact Person', 'escape' => false

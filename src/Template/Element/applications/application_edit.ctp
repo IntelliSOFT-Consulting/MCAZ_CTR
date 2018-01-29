@@ -24,24 +24,8 @@
   <?php echo $this->Form->control('id', ['id' => 'applications-id']); ?>
     <div class="col-md-10">
       <div id="tabs">
-        <ul>
-          <li><a href="#tabs-1">1. Abstract</a></li>
-          <li><a href="#tabs-2">2. Investigator</a></li>
-          <li><a href="#tabs-3">3. Sponsor</a></li>
-          <li><a href="#tabs-4">4. Participants</a></li>
-          <li><a href="#tabs-5">5. Sites</a></li>
-          <li><a href="#tabs-6">6. Interventions</a></li>
-          <li><a href="#tabs-7">7. Criteria</a></li>
-          <li><a href="#tabs-8">8. Scope</a></li>
-          <li><a href="#tabs-9">9. Design</a></li>
-          <li><a href="#tabs-10">10. Ethical Considerations</a></li>
-          <li><a href="#tabs-11">11. Organizations</a></li>
-          <li><a href="#tabs-12">12. Other details</a></li>
-          <li><a href="#tabs-13">13. Checklist </a></li>
-          <li><a href="#tabs-14">14. MC10 Form</a></li>
-          <li><a href="#tabs-15">15. Financials</a></li>
-          <li><a href="#tabs-16">16. Notifications</a></li>
-        </ul>
+        <?= $this->element('menus/tabs_menu') ?>
+
         <div id="tabs-1">
           <?php echo $this->element('applications/application_abstract'); ?>
         </div>
@@ -73,25 +57,19 @@
           <?php echo $this->element('applications/application_ethics', ['add_fileinput' => $add_fileinput]); ?> 
         </div>
         <div id="tabs-11">
-          <?php echo $this->element('multi/organizations');?>
-        </div>
-        <div id="tabs-12">
           <?php echo $this->element('applications/application_other'); ?> 
         </div>
 
-        <div id="tabs-13">
+        <div id="tabs-12">
           <?php echo $this->element('multi/checklist'); ?>
         </div>
-        <div id="tabs-14">
+        <div id="tabs-13">
           <?php echo $this->element('applications/application_mc10', ['add_fileinput' => $add_fileinput]); ?> 
         </div>
-        <div id="tabs-15">
+        <div id="tabs-14">
           <?php
             echo $this->element('multi/receipts');
           ?>
-        </div>
-        <div id="tabs-16">
-          <?php echo $this->element('applications/application_notifications'); ?> 
         </div>
       </div>
 

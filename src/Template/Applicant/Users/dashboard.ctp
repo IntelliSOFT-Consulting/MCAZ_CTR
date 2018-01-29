@@ -41,15 +41,58 @@
         <img alt="" src="/img/authenticated/preferences_composer.png">
         <div class="caption">
         <h4>Recent Protocols</h4>
-        <ol><?php
-           foreach($applications as $application) {            
-              $ndata = (!empty($application['study_drug'])   ? $application['study_drug'] : date('d-m-Y h:i a', strtotime($application['created'])) );
-              echo $this->Html->link('<li>'.$ndata.'</li>', array('controller' => 'applications', 'action' => ($application['submitted'] == 2) ? 'view' : 'edit', $application['id']),
-                array('escape' => false));            
-            }
-           ?>
-        </ol>
-        <br>
+        <ul class="list-unstyled">
+          <?php 
+            $i = 1;
+            foreach ($applications as $application): ?>
+          <li><?php 
+                      if($application->submitted == 2) {
+                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$application->protocol_no.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
+                      } else {
+                        echo $i++.'. '.$this->Html->link(
+                          (!empty($application['public_title'])   ? $application['public_title'] : date('d-m-Y h:i a', strtotime($application['created'])) )
+                          .' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'edit', $application->id], ['escape' => false]);
+                      }
+                      
+                     ?></li>
+          <?php endforeach; ?>
+        </ul>
+        <nav aria-label="Page navigation">
+            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Applications']) ?></small></h6>
+            <ul class="pagination pagination-sm">
+                <?= $this->Paginator->first('<< ', ['model' => 'Applications']) ?>
+                <?= $this->Paginator->prev('< ' , ['model' => 'Applications']) ?>
+                <?= $this->Paginator->next(' >', ['model' => 'Applications']) ?>
+                <?= $this->Paginator->last(' >>', ['model' => 'Applications']) ?>
+            </ul>
+        </nav>  
+        <hr>
+        
+        <h4>Recent Amendments</h4>
+        <ul class="list-unstyled">
+          <?php 
+            $i = 1;
+            foreach ($amendments as $amendment): ?>
+          <li><?php 
+              // pr($amendment);
+                  if($amendment->submitted == 2) {
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
+                  } else {
+                    echo $i++.'. '.$this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
+                  }
+                      
+                     ?></li>
+          <?php endforeach; ?>
+        </ul>
+        <nav aria-label="Page navigation">
+            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Amendments']) ?></small></h6>
+            <ul class="pagination pagination-sm">
+                <?= $this->Paginator->first('<< ', ['model' => 'Amendments']) ?>
+                <?= $this->Paginator->prev('< ' , ['model' => 'Amendments']) ?>
+                <?= $this->Paginator->next(' >', ['model' => 'Amendments']) ?>
+                <?= $this->Paginator->last(' >>', ['model' => 'Amendments']) ?>
+            </ul>
+        </nav>  
         <?php echo $this->Html->link('<i class="fa fa-link"></i> View All Applications', array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix),
             array('escape' => false, 'class' => 'btn btn-default'));?>
         </div>
