@@ -25,22 +25,6 @@
       minDate:"-100Y", maxDate:"-0D", dateFormat:'dd-mm-yy', showButtonPanel:true, changeMonth:true, changeYear:true,
       buttonImageOnly:true, showAnim:'show', showOn:'both', buttonImage:'/img/calendar.gif'
     });
-
-
-    // CKEDITOR.replace( 'data[Application][study_title]' );
-    CKEDITOR.replace( 'drug_details' );
-    CKEDITOR.replace( 'ethic_considerations' );
-    CKEDITOR.replace( 'safety' );
-    CKEDITOR.replace( 'participants_description' );
-    CKEDITOR.replace( 'participants_justification' );
-    CKEDITOR.replace( 'countries_recruitment' );
-    CKEDITOR.replace( 'abstract-of-study');
-    CKEDITOR.replace( 'principal-inclusion-criteria');
-    CKEDITOR.replace( 'principal-exclusion-criteria');
-    CKEDITOR.replace( 'primary-end-points');
-    // CKEDITOR.replace( 'data[Application][staff_numbers]');
-    CKEDITOR.replace( 'other-details-explanation');
-    CKEDITOR.replace( 'notification');
     
     function add_fileinput() {
         if ($(this).closest('div.checkcontrols').find('input:file').length) {
@@ -195,4 +179,19 @@
       //First time loading hide the previous button
       $("#btnMoveLeftTab").hide();
 
+      // CKEDITOR.replace( 'data[Application][study_title]' );
+    CKEDITOR.replace( 'drug_details' );
+    CKEDITOR.replace( 'ethic_considerations' );
+    CKEDITOR.replace( 'safety' );
+    CKEDITOR.replace( 'participants_description' );
+    CKEDITOR.replace( 'participants_justification' );
+    CKEDITOR.replace( 'countries_recruitment' );
+    CKEDITOR.replace( 'abstract-of-study');
+    CKEDITOR.replace( 'principal-inclusion-criteria');
+    CKEDITOR.replace( 'principal-exclusion-criteria');
+    CKEDITOR.replace( 'primary-end-points');
+    // CKEDITOR.replace( 'data[Application][staff_numbers]');
+    CKEDITOR.replace( 'other-details-explanation');
+    // CKEDITOR.replace( 'notification');
+    
     });

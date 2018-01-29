@@ -1,8 +1,8 @@
 $(function() {
-    $(document).on('click', '#tabs-13 .delete_file_link', delete_file);
-    $(document).on('click', '#tabs-13 :input:checkbox', enable_checklist);
-    $(document).on('click', '#tabs-13 .add-checklist', add_checklist);
-    $(document).on('click', '#tabs-13 .remove_file', function() {$(this).closest('div').remove()});
+    $(document).on('click', '#tabs-12 .delete_file_link', delete_file);
+    $(document).on('click', '#tabs-12 :input:checkbox', enable_checklist);
+    $(document).on('click', '#tabs-12 .add-checklist', add_checklist);
+    $(document).on('click', '#tabs-12 .remove_file', function() {$(this).closest('div').remove()});
     var fileOption = '\
         <input type="hidden" id="attachments-{i}-id" class="" name="attachments[{i}][id]" style="display: inline;">\
         <input type="file" id="attachments-{i}-file" name="attachments[{i}][file]" style="display: inline-block;">\
@@ -12,7 +12,7 @@ $(function() {
         <input type="hidden" id="attachments-{i}-category" value="{n}" name="attachments[{i}][category]" style="display: inline;">\
         ';
     //if an input is checked and no input file in its control group, trigger add checklist file
-    $('#tabs-13 :input:checkbox').each(function() {
+    $('#tabs-12 :input:checkbox').each(function() {
         if($(this).is(':checked')) {
             if($(this).closest('div.checkcontrols').next().children().length == 0) {
               $(this).closest('.form-group').find('.add-checklist').click();
@@ -90,7 +90,7 @@ $(function() {
 
     setChecklistUpload();
     function setChecklistUpload() {
-        $('#tabs-13 :input:file').each(function() {
+        $('#tabs-12 :input:file').each(function() {
             $(this).fileupload({
                 url:'/applicant/applications/add-attachments.json',
                 //sequentialUploads: true,

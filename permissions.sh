@@ -1,6 +1,7 @@
 echo "Instead of denying permissions to controllers, check if you can check prefix in controller before filter
 	  and redirect to appropriate action..."
 bin/cake acl_extras aco_sync
+bin/cake cache clear_all
 bin/cake acl grant Groups.1 controllers
 bin/cake acl deny Groups.1 controllers/Manager/Applications
 bin/cake acl deny Groups.1 controllers/Finance/Applications
