@@ -11,7 +11,6 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
  * Applications Model
  *
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\TrialStatusesTable|\Cake\ORM\Association\BelongsTo $TrialStatuses
  * @property \App\Model\Table\InvestigatorContactsTable|\Cake\ORM\Association\HasMany $InvestigatorContacts
  * @property \App\Model\Table\PlacebosTable|\Cake\ORM\Association\HasMany $Placebos
  * @property \App\Model\Table\PreviousDatesTable|\Cake\ORM\Association\HasMany $PreviousDates
@@ -528,7 +527,6 @@ class ApplicationsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['trial_status_id'], 'TrialStatuses'));
 
         return $rules;
     }

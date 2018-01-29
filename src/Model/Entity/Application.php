@@ -157,7 +157,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created
  *
  * @property \App\Model\Entity\User $user
- * @property \App\Model\Entity\TrialStatus $trial_status
  * @property \App\Model\Entity\InvestigatorContact[] $investigator_contacts
  * @property \App\Model\Entity\Organization[] $organizations
  * @property \App\Model\Entity\Placebo[] $placebos

@@ -26,7 +26,7 @@ class ApplicationsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'TrialStatuses']
+            'contain' => ['Users']
         ];
         $applications = $this->paginate($this->Applications);
 
@@ -44,7 +44,7 @@ class ApplicationsController extends AppController
     public function view($id = null)
     {
         $application = $this->Applications->get($id, [
-            'contain' => ['Users', 'TrialStatuses', 'InvestigatorContacts', 'Organizations', 'Placebos', 'PreviousDates', 'Reviewers', 'Reviews', 'SiteDetails', 'Sponsors']
+            'contain' => ['Users', 'InvestigatorContacts', 'Organizations', 'Placebos', 'PreviousDates', 'Reviewers', 'Reviews', 'SiteDetails', 'Sponsors']
         ]);
 
         $this->set('application', $application);
@@ -81,8 +81,7 @@ class ApplicationsController extends AppController
             $this->Flash->error(__('The application could not be saved. Please, try again.'));
         }
         $users = $this->Applications->Users->find('list', ['limit' => 200]);
-        $trialStatuses = $this->Applications->TrialStatuses->find('list', ['limit' => 200]);
-        $this->set(compact('application', 'users', 'trialStatuses'));
+        $this->set(compact('application', 'users'));
         $this->set('_serialize', ['application']);
     }
 
@@ -108,8 +107,7 @@ class ApplicationsController extends AppController
             $this->Flash->error(__('The application could not be saved. Please, try again.'));
         }
         $users = $this->Applications->Users->find('list', ['limit' => 200]);
-        $trialStatuses = $this->Applications->TrialStatuses->find('list', ['limit' => 200]);
-        $this->set(compact('application', 'users', 'trialStatuses'));
+        $this->set(compact('application', 'users'));
         $this->set('_serialize', ['application']);
     }
 

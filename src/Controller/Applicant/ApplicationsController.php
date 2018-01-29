@@ -24,7 +24,7 @@ class ApplicationsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'TrialStatuses']
+            'contain' => ['Users']
         ];
         $applications = $this->paginate($this->Applications);
 
@@ -71,8 +71,7 @@ class ApplicationsController extends AppController
             $this->Flash->error(__('The application could not be saved. Please, try again.'));
         }
         $users = $this->Applications->Users->find('list', ['limit' => 200]);
-        $trialStatuses = $this->Applications->TrialStatuses->find('list', ['limit' => 200]);
-        $this->set(compact('application', 'users', 'trialStatuses'));
+        $this->set(compact('application', 'users'));
         $this->set('_serialize', ['application']);
     }
 
@@ -194,9 +193,8 @@ class ApplicationsController extends AppController
             }
         }
 
-        $trialStatuses = $this->Applications->TrialStatuses->find('list', ['limit' => 200]);
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('application',  'trialStatuses', 'provinces'));
+        $this->set(compact('application', 'provinces'));
         $this->set('_serialize', ['application']);
 
         //start
