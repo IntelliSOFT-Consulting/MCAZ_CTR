@@ -44,7 +44,7 @@ class ApplicationsController extends AppController
     public function view($id = null)
     {
         $application = $this->Applications->get($id, [
-            'contain' => ['Users', 'InvestigatorContacts', 'Organizations', 'Placebos', 'PreviousDates', 'Reviewers', 'Reviews', 'SiteDetails', 'Sponsors']
+            'contain' => ['Users', 'InvestigatorContacts', 'Placebos', 'PreviousDates', 'Reviewers', 'Reviews', 'SiteDetails', 'Sponsors']
         ]);
 
         $this->set('application', $application);
@@ -55,7 +55,7 @@ class ApplicationsController extends AppController
     {
         // $this->viewBuilder()->setLayout('vanilla');
         $application = $this->Applications->get($id, [
-            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Organizations',
+            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',
                           'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
         ]);
 
