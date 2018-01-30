@@ -109,9 +109,18 @@ $cakeDescription = 'MCAZ CTR:';
                     }
                 ?>
         </li>
-        <li><a href="#"><i class="fa fa-bullhorn"></i> News</a></li>
-        <li><a href="#"><i class="fa fa-question-circle"></i> FAQs</a></li>
-        <li><a href="#"><i class="fa fa-envelope-o"></i> Contact us</a></li>
+        <li class="<?php echo $this->fetch('News') ?>">
+            <?= $this->Html->link('<i class="fa fa-bullhorn"></i> News', 
+                ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
+        <li class="<?php echo $this->fetch('Faqs') ?>">
+            <?= $this->Html->link('<i class="fa fa-question-circle"></i> FAQs', 
+                ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
+        <li class="<?php echo $this->fetch('Contactus') ?>">
+            <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Contact us', 
+                ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

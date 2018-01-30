@@ -37,6 +37,7 @@
                     'templates' => 'checkbox_form_user', 'escape' => false]);  
                 echo $this->Form->control('is_admin', ['label' => 'Is Admin? <small class="muted">(for manual data entry)</small>', 
                     'templates' => 'checkbox_form_user', 'escape' => false]);  
+                
                 ?>
         </div><!--/span-->
     </div><!--/row-->

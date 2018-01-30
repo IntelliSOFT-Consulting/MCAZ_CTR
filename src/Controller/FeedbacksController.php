@@ -12,6 +12,10 @@ use App\Controller\AppController;
  */
 class FeedbacksController extends AppController
 {
+    public function initialize() {
+       parent::initialize();
+       $this->Auth->allow('add');       
+    }
 
     /**
      * Index method
@@ -21,7 +25,7 @@ class FeedbacksController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users', 'Sadrs', 'SadrFollowups', 'Pqmps']
         ];
         $feedbacks = $this->paginate($this->Feedbacks);
 
@@ -39,7 +43,7 @@ class FeedbacksController extends AppController
     public function view($id = null)
     {
         $feedback = $this->Feedbacks->get($id, [
-            'contain' => ['Users']
+            'contain' => ['Users', 'Sadrs', 'SadrFollowups', 'Pqmps']
         ]);
 
         $this->set('feedback', $feedback);
@@ -53,18 +57,24 @@ class FeedbacksController extends AppController
      */
     public function add()
     {
+        $this->Feedbacks->addBehavior('Captcha.Captcha');
         $feedback = $this->Feedbacks->newEntity();
         if ($this->request->is('post')) {
             $feedback = $this->Feedbacks->patchEntity($feedback, $this->request->getData());
+            $feedback->user_id = $this->request->session()->read('Auth.User.id');
             if ($this->Feedbacks->save($feedback)) {
-                $this->Flash->success(__('The feedback has been saved.'));
+                $this->Flash->success(__('The feedback has been sent to MCAZ. Thank you..'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect('/');
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
+            //return $this->redirect('/');
         }
-        $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
-        $this->set(compact('feedback', 'users'));
+        // $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
+        // $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
+        // $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
+        // $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
+        $this->set(compact('feedback'));
         $this->set('_serialize', ['feedback']);
     }
 
@@ -90,7 +100,10 @@ class FeedbacksController extends AppController
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
         }
         $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
-        $this->set(compact('feedback', 'users'));
+        $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
+        $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
+        $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
+        $this->set(compact('feedback', 'users', 'sadrs', 'sadrFollowups', 'pqmps'));
         $this->set('_serialize', ['feedback']);
     }
 

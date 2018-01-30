@@ -11,18 +11,18 @@
     <?= $this->Form->create($user) ?>
 
     <div class="row">
-        <h5 class="text-center"><small><em>fields marked with <span class="sterix fa fa-asterisk" aria-hidden="true"></span> are required!!</em></small></h5>
+        <h5 class="text-center"><small><em>fields marked with <i aria-hidden="true" class="sterix fa fa-asterisk"></i> are required!!</em></small></h5>
         <div class="col-md-6">
             <?php
-                echo $this->Form->control('name', ['label' => 'Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                echo $this->Form->control('name', ['label' => 'Name <i aria-hidden="true" class="sterix fa fa-asterisk"></i>', 'escape' => false]);
                 echo $this->Form->control('username');
-                echo $this->Form->control('password', ['label' => 'Password <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
-                echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);   
+                echo $this->Form->control('password', ['label' => 'Password <i aria-hidden="true" class="sterix fa fa-asterisk"></i>', 'escape' => false]);
+                echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password <i aria-hidden="true" class="sterix fa fa-asterisk"></i>', 'escape' => false]);   
                 ?>
         </div><!--/span-->
         <div class="col-md-6">
             <?php
-                echo $this->Form->control('email', ['label' => 'Email <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                echo $this->Form->control('email', ['label' => 'Email <i aria-hidden="true" class="sterix fa fa-asterisk"></i>', 'escape' => false]);
                 echo $this->Form->control('phone_no');
                 echo $this->Captcha->render(['placeholder' => __('Please solve the riddle')]);
                 // echo $this->Form->control('name_of_institution');
