@@ -59,8 +59,8 @@ Router::prefix('manager', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'manager']);
     $routes->fallbacks(DashedRoute::class);
 });
-Router::prefix('InternalEvaluaor', function ($routes) {
-    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'internal_evaluator']);
+Router::prefix('evaluator', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
     $routes->fallbacks(DashedRoute::class);
 });
 Router::prefix('ExternalEvaluator', function ($routes) {

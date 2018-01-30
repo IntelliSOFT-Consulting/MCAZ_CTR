@@ -157,7 +157,7 @@ class AppController extends Controller
         $prefix = null;
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin'; $this->viewBuilder()->setLayout('admin');} 
         elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager';  $this->viewBuilder()->setLayout('admin');}
-        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'internal_evaluator'; $this->viewBuilder()->setLayout('admin'); }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; $this->viewBuilder()->setLayout('admin'); }
         elseif ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'external_evaluator'; $this->viewBuilder()->setLayout('admin'); }
         elseif ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; $this->viewBuilder()->setLayout('admin'); }
         elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }

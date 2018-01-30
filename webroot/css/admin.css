@@ -27,30 +27,30 @@
     background-color: #248f24;
 }
 
-.navbar-internal_evaluator {
+.navbar-evaluator {
     background-color:  #003300;
 }
 
-.nav-internal_evaluator > li > a:focus, .nav-internal_evaluator > li > a:hover {
+.nav-evaluator > li > a:focus, .nav-evaluator > li > a:hover {
     text-decoration: none;
     background-color: #248f24;
 }
-.van-internal_evaluator > li > a:focus, .van-internal_evaluator > li > a:hover {
+.van-evaluator > li > a:focus, .van-evaluator > li > a:hover {
     text-decoration: none;
     background-color: #248f24;
 }
-.van-internal_evaluator > li > a {
+.van-evaluator > li > a {
     padding-left: 27px;
 }
-.nav-internal_evaluator > .active > a:focus, .nav-internal_evaluator a:hover {
+.nav-evaluator > .active > a:focus, .nav-evaluator a:hover {
     color: #fff;
     background-color: #248f24;
 }
-.nav-internal_evaluator > .active > a, .nav-internal_evaluator > .active > a:hover, .nav-internal_evaluator > .active > a:focus {
+.nav-evaluator > .active > a, .nav-evaluator > .active > a:hover, .nav-evaluator > .active > a:focus {
     color: #fff;
     background-color: #006600;
 }
-.van-internal_evaluator > .active > a, .van-internal_evaluator > .active > a:hover, .van-internal_evaluator > .active > a:focus {
+.van-evaluator > .active > a, .van-evaluator > .active > a:hover, .van-evaluator > .active > a:focus {
     color: #fff;
     background-color: #248f24;
 }
@@ -158,6 +158,6 @@
         border-bottom-style: solid;
         border-bottom-color: rgb(231, 231, 231);
 }
-.van-manager li, .van-external_evaluator li,  .van-internal_evaluator li, .van-admin li {
+.van-manager li, .van-external_evaluator li,  .van-evaluator li, .van-admin li {
     background-color: #ededed;
 }

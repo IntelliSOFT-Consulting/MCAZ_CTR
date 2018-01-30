@@ -72,7 +72,6 @@ $cakeDescription = 'MCAZ CTR';
   </head>
 
   <body style="background: url("/img/cream_dust.png") repeat scroll 0% 0% transparent;">
-
     <nav class="navbar navbar-inverse navbar-<?= $prefix ?> navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">

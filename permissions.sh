@@ -45,11 +45,11 @@ bin/cake acl grant Groups.5 controllers/Finance/Amendments
 bin/cake acl grant Groups.5 controllers/Finance/Users
 #Evaluators permissions
 echo "Assigning Evaluators permissions......................"
-bin/cake acl grant Groups.3 controllers/Internalevaluator/Users
+bin/cake acl grant Groups.3 controllers/evaluator/Users
 bin/cake acl grant Groups.3 controllers/Users/profile
 bin/cake acl grant Groups.3 controllers/Users/edit
-bin/cake acl grant Groups.3 controllers/InternalEvaluator/Applications
-bin/cake acl grant Groups.3 controllers/InternalEvaluator/Amendments
+bin/cake acl grant Groups.3 controllers/evaluator/Applications
+bin/cake acl grant Groups.3 controllers/evaluator/Amendments
 bin/cake acl grant Groups.6 controllers/ExternalEvaluator/Users
 bin/cake acl grant Groups.6 controllers/ExternalEvaluator/Applications
 bin/cake acl grant Groups.6 controllers/ExternalEvaluator/Amendments

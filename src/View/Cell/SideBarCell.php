@@ -27,7 +27,7 @@ class SideBarCell extends Cell
         $prefix = null;
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
         if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
-        if ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'internal_evaluator'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; }
         if ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'external_evaluator'; }
         if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
         if ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; }
