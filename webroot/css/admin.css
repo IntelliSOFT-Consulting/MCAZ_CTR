@@ -1,10 +1,163 @@
 
-.nav-tabs {
-  position: fixed;
-  z-index: 9;
-  background-color: white;
-  /*margin-top: 0%;*/
+.navbar-external_evaluator {
+    background-color:  #003300;
 }
-.tab-content   {
-    margin-top: 5%; 
+
+.nav-external_evaluator > li > a:focus, .nav-external_evaluator > li > a:hover {
+    text-decoration: none;
+    background-color: #248f24;
+}
+.van-external_evaluator > li > a:focus, .van-external_evaluator > li > a:hover {
+    text-decoration: none;
+    background-color: #248f24;
+}
+.van-external_evaluator > li > a {
+    padding-left: 27px;
+}
+.nav-external_evaluator > .active > a:focus, .nav-external_evaluator a:hover {
+    color: #fff;
+    background-color: #248f24;
+}
+.nav-external_evaluator > .active > a, .nav-external_evaluator > .active > a:hover, .nav-external_evaluator > .active > a:focus {
+    color: #fff;
+    background-color: #006600;
+}
+.van-external_evaluator > .active > a, .van-external_evaluator > .active > a:hover, .van-external_evaluator > .active > a:focus {
+    color: #fff;
+    background-color: #248f24;
+}
+
+.navbar-internal_evaluator {
+    background-color:  #003300;
+}
+
+.nav-internal_evaluator > li > a:focus, .nav-internal_evaluator > li > a:hover {
+    text-decoration: none;
+    background-color: #248f24;
+}
+.van-internal_evaluator > li > a:focus, .van-internal_evaluator > li > a:hover {
+    text-decoration: none;
+    background-color: #248f24;
+}
+.van-internal_evaluator > li > a {
+    padding-left: 27px;
+}
+.nav-internal_evaluator > .active > a:focus, .nav-internal_evaluator a:hover {
+    color: #fff;
+    background-color: #248f24;
+}
+.nav-internal_evaluator > .active > a, .nav-internal_evaluator > .active > a:hover, .nav-internal_evaluator > .active > a:focus {
+    color: #fff;
+    background-color: #006600;
+}
+.van-internal_evaluator > .active > a, .van-internal_evaluator > .active > a:hover, .van-internal_evaluator > .active > a:focus {
+    color: #fff;
+    background-color: #248f24;
+}
+
+.navbar-manager  {
+    background-color: #2F1F50;
+}
+.navbar-manager .navbar-brand {
+    color: #fff;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.nav-manager > li > a:focus, .nav-manager > li > a:hover {
+    text-decoration: none;
+    background-color: #8f7cb6;
+}
+.van-manager > li > a:focus, .van-manager > li > a:hover {
+    text-decoration: none;
+    background-color: #8f7cb6;
+}
+.van-manager > li > a {
+    padding-left: 27px;
+}
+.nav-manager > .active > a:focus, .nav-manager a:hover {
+    color: #fff;
+    background-color: #8f7cb6;
+}
+.nav-manager > .active > a, .nav-manager > .active > a:hover, .nav-manager > .active > a:focus {
+    color: #fff;
+    background-color: #6a5596;
+}
+.van-manager > .active > a, .van-manager > .active > a:hover, .van-manager > .active > a:focus {
+    color: #fff;
+    background-color: #8f7cb6;
+}
+
+.navbar-admin {
+    background-color: #132639;
+}
+.nav-admin > li > a:focus, .nav-admin > li > a:hover {
+    text-decoration: none;
+    background-color: #4080bf;
+}
+.van-admin > li > a:focus, .van-admin > li > a:hover {
+    text-decoration: none;
+    background-color: #4080bf;
+}
+.van-admin > li > a {
+    padding-left: 27px;
+}
+.nav-admin > .active > a:focus, .nav-admin a:hover {
+    color: #fff;
+    background-color: #4080bf;
+}
+.nav-admin > .active > a, .nav-admin > .active > a:hover, .nav-admin > .active > a:focus {
+    color: #fff;
+    background-color: #204060;
+}
+.van-admin > .active > a, .van-admin > .active > a:hover, .van-admin > .active > a:focus {
+    color: #fff;
+    background-color: #4080bf;
+}
+
+.navbar-finance  {
+    background-color: #4d3319;
+}
+.navbar-finance .navbar-brand {
+    color: #fff;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.nav-finance > li > a:focus, .nav-finance > li > a:hover {
+    text-decoration: none;
+    background-color: #734d26;
+}
+.van-finance > li > a:focus, .van-finance > li > a:hover {
+    text-decoration: none;
+    background-color: #734d26;
+}
+.van-finance > li > a {
+    padding-left: 27px;
+}
+.nav-finance > .active > a:focus, .nav-finance a:hover {
+    color: #fff;
+    background-color: #996633;
+}
+.nav-finance > .active > a, .nav-finance > .active > a:hover, .nav-finance > .active > a:focus {
+    color: #fff;
+    background-color: #734d26;
+}
+.van-finance > .active > a, .van-finance > .active > a:hover, .van-finance > .active > a:focus {
+    color: #fff;
+    background-color: #996633;
+}
+
+.nav-sidebar li {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #e7e7e7;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgb(231, 231, 231);
+}
+.van-manager li, .van-external_evaluator li,  .van-internal_evaluator li, .van-admin li {
+    background-color: #ededed;
 }

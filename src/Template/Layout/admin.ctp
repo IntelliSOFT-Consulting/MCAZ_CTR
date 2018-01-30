@@ -49,10 +49,10 @@ $cakeDescription = 'MCAZ CTR';
     <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
     <?= $this->Html->script('jquery/js.cookie') ?>
     
+    <?= $this->Html->css('ctr-fix') ?>
     <?= $this->Html->css('shared_styles') ?>
     <?= $this->Html->css('admin') ?>
-    <?= $this->Html->css('bootstrap/jumbotron') ?>
-    <?= $this->Html->css('ctr-fix') ?>
+    <?php // $this->Html->css('bootstrap/jumbotron') ?>
     <?= $this->Html->script('jquery/jquery') ?>
     <?= $this->Html->script('jquery/jquery-ui.min') ?>
     <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
@@ -71,7 +71,7 @@ $cakeDescription = 'MCAZ CTR';
     <?= $this->fetch('script') ?>
   </head>
 
-  <body>
+  <body style="background: url("/img/cream_dust.png") repeat scroll 0% 0% transparent;">
 
     <nav class="navbar navbar-inverse navbar-<?= $prefix ?> navbar-fixed-top">
       <div class="container-fluid">

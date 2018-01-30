@@ -1,9 +1,7 @@
 <?php
 namespace App\Controller\Finance;
 
-use App\Controller\AppController;
-use Cake\ORM\Entity;
-use Cake\View\Helper\HtmlHelper; 
+use App\Controller\Base\ApplicationsBaseController;
 
 /**
  * Applications Controller
@@ -12,46 +10,13 @@ use Cake\View\Helper\HtmlHelper;
  *
  * @method \App\Model\Entity\Application[] paginate($object = null, array $settings = [])
  */
-class ApplicationsController extends AppController
+class ApplicationsController extends ApplicationsBaseController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|void
-     */
-    public function index() {
-        $this->paginate = [
-            'contain' => []
-        ];
-
-        // $applications = $this->paginate($this->Applications,['finder' => ['status' => $id]]);
-        if($this->request->getQuery('status')) {$applications = $this->paginate($this->Applications->find('all')->where(['status' => $this->request->getQuery('status'), 'submitted' => 2]), ['order' => ['Applications.id' => 'desc']]); }
-        else {$applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2]), ['order' => ['Applications.id' => 'desc']]);}
-
-        //$applications = $this->paginate($this->Applications);
-
-        $this->set(compact('applications'));
-        $this->set('_serialize', ['applications']);
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Application id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function view($id = null) {
-        // $this->viewBuilder()->setLayout('vanilla');
-        $application = $this->Applications->get($id, [
-            'contain' => $this->_contain
-        ]);
-
-        $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('application', 'provinces'));
-        $this->set('_serialize', ['application']);
+        parent::view($id);
+        $this->render('/Finance/Applications/view');
     }
-    
+
     public function financeApproval($id = null) {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), []);
         

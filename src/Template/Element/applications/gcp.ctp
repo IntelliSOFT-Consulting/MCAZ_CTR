@@ -9,14 +9,14 @@
     <h4 class="text-center">GCP Inspections</h4>
     <hr>
     <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'gcp', '_ext' => 'pdf', $application->id, 'All', 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'gcp', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
               ?>
     <?php foreach ($application->gcp_inspections as $gcp_inspection) { 
       ?>
     <div class="ctr-groups <?php if($gcp_inspection->user->group_id != 4) echo 'amend-form'; ?>">
         <p class="topper"><small><em class="text-success">created: <?= $gcp_inspection['created'] ?> by <?= $gcp_inspection->user->name ?></em></small></p>
         <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'gcp', '_ext' => 'pdf', $gcp_inspection->id, 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'gcp', '_ext' => 'pdf', $gcp_inspection->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
         ?>
       <form class="form-horizontal">
         <div class="form-group">

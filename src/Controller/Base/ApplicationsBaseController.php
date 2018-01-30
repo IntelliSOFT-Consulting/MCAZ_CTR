@@ -35,6 +35,7 @@ class ApplicationsBaseController extends AppController
 
         $this->set(compact('applications'));
         $this->set('_serialize', ['applications']);
+        $this->render('/Base/Applications/index');
     }
 
     /**
@@ -66,6 +67,7 @@ class ApplicationsBaseController extends AppController
         
         $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces'));
         $this->set('_serialize', ['application']);
+        $this->render('/Base/Applications/view');
     }
     
     public function addReview() {
@@ -326,5 +328,168 @@ class ApplicationsBaseController extends AppController
 
         return $this->redirect($this->redirect($this->referer()));
     }
+    
+    public function finance($id = null, $scope = null) {
+        if($scope === 'All') {
+            $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $finance = $this->Applications->FinanceApprovals
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors']]]);            
+            $application = $finance->application;
+            $finance_approvals[] = $finance;
+        }
+        $this->set(compact('finance_approvals', 'application'));
+        $this->set('_serialize', ['finance_approvals', 'application']);
 
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_finance_'.$id.'.pdf' : 'application_finance_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/FinanceApprovals/pdf/view');
+        }
+    }
+    public function section75($id = null, $scope = null) {
+        if($scope === 'All') {
+            $seventy_fives = $this->Applications->SeventyFives->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $section75 = $this->Applications->SeventyFives
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+            $application = $section75->application;
+            $seventy_fives[] = $section75;
+        }
+        $this->set(compact('seventy_fives', 'application'));
+        $this->set('_serialize', ['seventy_fives', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_section75_'.$id.'.pdf' : 'application_section75_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/SeventyFives/pdf/view');
+        }
+    }
+    public function evaluator($id = null, $scope = null) {
+        if($scope === 'All') {
+            $assign_evaluators = $this->Applications->AssignEvaluators->findByApplicationId($id);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $evaluator = $this->Applications->AssignEvaluators
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors']]]);            
+            $application = $evaluator->application;
+            $assign_evaluators[] = $evaluator;
+        }
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('assign_evaluators', 'application', 'all_evaluators'));
+        $this->set('_serialize', ['assign_evaluators', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_evaluator_'.$id.'.pdf' : 'application_evaluator_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/AssignEvaluators/pdf/view');
+        }
+    }
+    public function review($id = null, $scope = null) {
+        if($scope === 'All') {
+            $evaluations = $this->Applications->Evaluations->findByApplicationId($id);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $review = $this->Applications->Evaluations
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors']]]);            
+            $application = $review->application;
+            $evaluations[] = $review;
+        }
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('evaluations', 'application', 'all_evaluators'));
+        $this->set('_serialize', ['evaluations', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_review_'.$id.'.pdf' : 'application_review_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Evaluations/pdf/view');
+        }
+    }
+    public function communication($id = null, $scope = null) {
+        if($scope === 'All') {
+            $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $request_info = $this->Applications->RequestInfos
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+            $application = $request_info->application;
+            $request_infos[] = $request_info;
+        }
+        $this->set(compact('request_infos', 'application'));
+        $this->set('_serialize', ['request_infos', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_communication_'.$id.'.pdf' : 'application_communication_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/RequestInfos/pdf/view');
+        }
+    }
+    public function committee($id = null, $scope = null) {
+        if($scope === 'All') {
+            $committee_reviews = $this->Applications->CommitteeReviews->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $committee = $this->Applications->CommitteeReviews
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+            $application = $committee->application;
+            $committee_reviews[] = $committee;
+        }
+        $this->set(compact('committee_reviews', 'application'));
+        $this->set('_serialize', ['committee_reviews', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_committee_'.$id.'.pdf' : 'application_committee_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/CommitteeReviews/pdf/view');
+        }
+    }
+    public function gcp($id = null, $scope = null) {
+        if($scope === 'All') {
+            $gcp_inspections = $this->Applications->GcpInspections->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $gcp_inspection = $this->Applications->GcpInspections
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+            $application = $gcp_inspection->application;
+            $gcp_inspections[] = $gcp_inspection;
+        }
+        $this->set(compact('gcp_inspections', 'application'));
+        $this->set('_serialize', ['gcp_inspections', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_gcp_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/GcpInspections/pdf/view');
+        }
+    }
 }

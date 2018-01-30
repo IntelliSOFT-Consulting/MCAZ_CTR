@@ -27,9 +27,10 @@ class SideBarCell extends Cell
         $prefix = null;
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
         if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
-        if ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'internalevaluator'; }
-        if ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'externalevaluator'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'internal_evaluator'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'external_evaluator'; }
         if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; }
         
 
         $this->loadModel('Applications');
@@ -40,8 +41,13 @@ class SideBarCell extends Cell
                                                         ])
                                                  ->where(['report_type' => 'Initial'])
                                                  ->group('status');
+        $amendment_stats = $this->Applications->find('all')->select([ 'status',
+                                                          'count' => $this->Applications->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['report_type' => 'Amendment'])
+                                                 ->group('status');
         $ncount = $this->Notifications->find('all')->where(['user_id' => $this->request->session()->read('Auth.User.id')])->count();
-        $this->set(['prefix'=> $prefix, 'application_stats' => $application_stats, 'ncount' => $ncount]);
+        $this->set(['prefix'=> $prefix, 'application_stats' => $application_stats, 'amendment_stats' => $amendment_stats, 'ncount' => $ncount]);
     }
 
 }

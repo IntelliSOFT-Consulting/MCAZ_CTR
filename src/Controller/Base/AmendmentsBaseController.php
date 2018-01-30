@@ -7,9 +7,8 @@ use Cake\View\Helper\HtmlHelper;
 use Cake\Utility\Hash;
 
 /**
- * Applications Controller
+ * Amendments Controller
  *
- * @property \App\Model\Table\ApplicationsTable $Applications
  *
  * @method \App\Model\Entity\Application[] paginate($object = null, array $settings = [])
  */
@@ -19,7 +18,7 @@ class AmendmentsBaseController extends AppController
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
-       $this->loadModel('Applications');     
+       $this->loadModel('Applications');
     }
 
 
@@ -34,14 +33,14 @@ class AmendmentsBaseController extends AppController
             'contain' => ['ParentApplications']
         ];
 
-        // $applications = $this->paginate($this->Applications,['finder' => ['status' => $id]]);
-        if($this->request->getQuery('status')) {$applications = $this->paginate($this->Applications->find('all')->where(['status' => $this->request->getQuery('status'), 'Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']), ['order' => ['Applications.id' => 'desc']]); }
-        else {$applications = $this->paginate($this->Applications->find('all')->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']), ['order' => ['Applications.id' => 'desc']]);}
+        if($this->request->getQuery('status')) {$amendments = $this->paginate($this->Applications->find('all')->where(['Applications.status' => $this->request->getQuery('status'), 'Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']), ['order' => ['Applications.id' => 'desc']]); }
+        else {$amendments = $this->paginate($this->Applications->find('all')->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']), ['order' => ['Applications.id' => 'desc']]);}
 
-        //$applications = $this->paginate($this->Applications);
 
-        $this->set(compact('applications'));
-        $this->set('_serialize', ['applications']);
+        $this->set(compact('amendments'));
+        $this->set('_serialize', ['amendments']);
+
+        $this->render('/Base/Amendments/index');
     }
 
     /**
@@ -52,18 +51,18 @@ class AmendmentsBaseController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
-        // $this->viewBuilder()->setLayout('vanilla');
-        // => function ($q) { return $q->where(['Amendments.submitted' => 2]);        }
-        $contains = $this->a_contain;
-        //unset($contains[array_search('Amendments', $contains)]);
-        $contains[] =  ['ParentApplications'];
-
         $amendment = $this->Applications->get($id, [
-            'contain' => $this->a_contains
+            'contain' => ['ParentApplications']
         ]);
-        $application = $this->Applications->get($id, [
-            'contain' => $this->a_contains
+        //debug($amendment);
+        $contains = $this->_contain;
+        $contains['Amendments'] =  function ($q) { return $q->where(['Amendments.submitted' => 2]); };
+        $application = $this->Applications->get($amendment->parent_application->id, [
+            'contain' => $contains
         ]);
+        // $application = $this->Applications->get($amendment->parent_application->id, [
+        //     'contain' => $this->a_contains
+        // ]);
 
         $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($filt, 1);
@@ -74,8 +73,9 @@ class AmendmentsBaseController extends AppController
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
             'id NOT IN' => $filt]);
         
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces'));
+        $this->set(compact('application', 'amendment', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces'));
         $this->set('_serialize', ['application']);
+        $this->render('/Base/Amendments/view');
     }
     
     public function addReview() {
