@@ -67,7 +67,7 @@ class ApplicationsBaseController extends AppController
         
         $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces'));
         $this->set('_serialize', ['application']);
-        $this->render('/Base/Applications/view');
+        //$this->render('/Base/Applications/view');
     }
     
     public function addReview() {

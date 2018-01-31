@@ -14,7 +14,7 @@
       <h2 class="text-center">Evaluation Report(s)</h2>
       <hr>
     <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All', 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
               ?>
 
         <table class="table table-bordered table-striped table-condensed evaluation-table">

@@ -15,6 +15,7 @@ bin/cake acl deny Groups.1 controllers/Finance
 # bin/cake acl deny Groups.2 controllers #TODO: Remove this global assignment
 echo "Assigning Manager permissions................."
 bin/cake acl grant Groups.2 controllers/Manager
+bin/cake acl grant Groups.2 controllers/Base
 bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
 #Applicants
@@ -42,8 +43,11 @@ echo "Assigning Evaluators permissions......................"
 bin/cake acl grant Groups.3 controllers/Users/profile
 bin/cake acl grant Groups.3 controllers/Users/edit
 bin/cake acl grant Groups.3 controllers/Evaluator
+bin/cake acl grant Groups.3 controllers/Base
 bin/cake acl grant Groups.6 controllers/ExternalEvaluator
 bin/cake acl grant Groups.6 controllers/Users/profile
 bin/cake acl grant Groups.6 controllers/Users/edit
+bin/cake acl grant Groups.6 controllers/Base
+
 
 sudo chmod -R 777 .

@@ -4,7 +4,7 @@
       <h4 class="text-center">Assign Application to Evaluators</h4>
       <hr>
     <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'evaluator', '_ext' => 'pdf', $application->id, 'All', 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'evaluator', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
               ?>
     </div>
   </div>
@@ -20,7 +20,7 @@
           <div class="thumbnail">
             <p class="topper"><small><em class="text-success">assigned on: <?= $evaluator['created'] ?></em></small></p>
         <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'evaluator', '_ext' => 'pdf', $evaluator->id, 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-xs btn-success active']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'evaluator', '_ext' => 'pdf', $evaluator->id, ], ['escape' => false, 'class' => 'btn btn-xs btn-success active']);
         ?>
             <form>
               <div class="form-group">
@@ -82,7 +82,7 @@
           <div class="thumbnail">
             <p class="topper"><small><em class="text-success">assigned on: <?= $evaluator['created'] ?></em></small></p>
         <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'evaluator', '_ext' => 'pdf', $evaluator->id, 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-xs btn-success active']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'evaluator', '_ext' => 'pdf', $evaluator->id, ], ['escape' => false, 'class' => 'btn btn-xs btn-success active']);
         ?>
             <form>
               <div class="form-group">

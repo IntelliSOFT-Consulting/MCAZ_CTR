@@ -181,7 +181,7 @@ class ApplicationsController extends AppController
             } elseif ($application->submitted == -1) {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
-                return $this->redirect(['controller' => 'Users','action' => 'home']);
+                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
 
             } else {
               if ($this->Applications->save($application, ['validate' => false])) {

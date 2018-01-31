@@ -63,9 +63,9 @@ class ApplicationsController extends ApplicationsBaseController
 
                 return $this->redirect($this->referer());
             } else {
-                $this->Flash->error(__('Unable to review report. Please, try again.')); 
-                debug($application->errors());
-                //return $this->redirect($this->referer());
+                $this->Flash->error(__('Unable to submit report.')); 
+                //debug($application->errors());
+                return $this->redirect($this->referer());
             }
         } else {
                $this->Flash->error(__('Unknown Application. Please correct.')); 

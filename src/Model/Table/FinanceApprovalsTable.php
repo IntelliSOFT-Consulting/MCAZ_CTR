@@ -63,7 +63,7 @@ class FinanceApprovalsTable extends Table
 
         $validator
             ->scalar('internal_comments')
-            ->allowEmpty('internal_comments');
+            ->notEmpty('internal_comments');
 
         $validator
             ->scalar('public_comments')
@@ -77,8 +77,8 @@ class FinanceApprovalsTable extends Table
             ->date('outcome_date')
             ->allowEmpty('outcome_date');*/
 
-        /*$validator
-            ->scalar('file')
+        $validator
+            // ->scalar('file')
             ->allowEmpty('file');
 
         $validator
@@ -91,7 +91,7 @@ class FinanceApprovalsTable extends Table
 
         $validator
             ->scalar('type')
-            ->allowEmpty('type');*/
+            ->allowEmpty('type');
 
         $validator
             ->dateTime('deleted')
