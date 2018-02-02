@@ -20,7 +20,8 @@
         "ivanamat/cakephp3-aclmanager": "^1.2",
         "pgbi/cakephp3-soft-delete": "~1.0",
         "friendsofcake/search": "^4.2",
-        "dereuromark/cakephp-captcha": "^0.1.0"
+        "dereuromark/cakephp-captcha": "^0.1.0",
+        "friendsofcake/cakephp-csvview": "~3.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

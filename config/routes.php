@@ -45,7 +45,7 @@ Plugin::routes();
 Router::defaultRouteClass(DashedRoute::class);
 //added
 Router::extensions(['pdf']);
-Router::extensions(['json', 'xml']);
+Router::extensions(['json', 'xml', 'csv']);
 
 Router::prefix('admin', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'admin']);

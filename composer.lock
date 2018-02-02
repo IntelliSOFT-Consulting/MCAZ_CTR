@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1974fb3f0b024a509a44157e06339c1",
+    "content-hash": "edaa02fffd05ebb8dd1c17d019a358ba",
     "packages": [
         {
             "name": "aura/intl",
@@ -656,6 +656,77 @@
             "time": "2017-02-23T13:45:32+00:00"
         },
         {
+            "name": "friendsofcake/cakephp-csvview",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/cakephp-csvview.git",
+                "reference": "f36684fad38a6c274d7e552692c700710e5e8c2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/cakephp-csvview/zipball/f36684fad38a6c274d7e552692c700710e5e8c2c",
+                "reference": "f36684fad38a6c274d7e552692c700710e5e8c2c",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "php": ">=5.4.16"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CsvView\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ADmad",
+                    "homepage": "https://github.com/admad",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "https://github.com/dereuromark",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Joshua Paling",
+                    "homepage": "https://github.com/joshuapaling",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Gaurish Sharma",
+                    "homepage": "https://github.com/gaurish",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Gregory Gaskill",
+                    "homepage": "https://github.com/chronon",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Jose Diaz-Gonzalez",
+                    "email": "email@josediazgonzalez.com",
+                    "homepage": "http://josediazgonzalez.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A CSV View class for CakePHP 3.x",
+            "homepage": "http://github.com/friendsofcake/cakephp-csvview",
+            "keywords": [
+                "cakephp",
+                "csv",
+                "export",
+                "view"
+            ],
+            "time": "2016-11-07T09:30:57+00:00"
+        },
+        {
             "name": "friendsofcake/crud",
             "version": "4.4.4",
             "source": {
@@ -733,22 +804,23 @@
         },
         {
             "name": "friendsofcake/search",
-            "version": "4.2.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/search.git",
-                "reference": "7b3c792511edc51589a40a37bbe0031263a48ef2"
+                "reference": "fdb9a34436f58b83ad4e0287ccc98a7bf8d3815d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/7b3c792511edc51589a40a37bbe0031263a48ef2",
-                "reference": "7b3c792511edc51589a40a37bbe0031263a48ef2",
+                "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/fdb9a34436f58b83ad4e0287ccc98a7bf8d3815d",
+                "reference": "fdb9a34436f58b83ad4e0287ccc98a7bf8d3815d",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "^3.4"
             },
             "require-dev": {
+                "cakephp/cakephp-codesniffer": "^3.0",
                 "friendsofcake/cakephp-test-utilities": "dev-master",
                 "phpunit/phpunit": "<6.0"
             },
@@ -782,7 +854,7 @@
                 "cakephp3",
                 "search"
             ],
-            "time": "2017-11-25T16:58:52+00:00"
+            "time": "2018-01-22T05:24:08+00:00"
         },
         {
             "name": "ivanamat/cakephp3-aclmanager",

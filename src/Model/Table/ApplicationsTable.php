@@ -48,6 +48,7 @@ class ApplicationsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -302,6 +303,22 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('Amendments.report_type' => 'Amendment'),
         ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('protocol_no')
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ;
+
+        return $searchManager;
     }
 
     /**

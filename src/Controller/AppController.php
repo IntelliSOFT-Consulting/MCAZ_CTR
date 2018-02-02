@@ -69,11 +69,10 @@ class AppController extends Controller
         parent::initialize();
         $this->_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'ElectronicVersions', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceApprovals', 'AssignEvaluators', 'Amendments', 'Amendments.InvestigatorContacts', 'Amendments.Participants', 'Amendments.SiteDetails', 'Amendments.Medicines', 'Amendments.Registrations', 'Amendments.Policies',  'Amendments.Proofs', 'Amendments.Committees', 'Amendments.CoverLetters', 'Amendments.Fees', 'Amendments.LegalForms', 'Amendments.Protocols', 'Amendments.Leaflets', 'Amendments.Brochures', 'Amendments.InvestigatorCvs', 'Amendments.Declarations', 'Amendments.StudyMonitors', 'Amendments.MonitoringPlans', 'Amendments.PiDeclarations', 'Amendments.PharmacyPlans', 'Amendments.StudySponsorships', 'Amendments.PharmacyLicenses', 'Amendments.StudyMedicines', 'Amendments.InsuranceCertificates', 'Amendments.GenericInsurances', 'Amendments.EthicsApprovals', 'Amendments.EthicsLetters', 'Amendments.CountryApprovals', 'Amendments.Advertisments', 'Amendments.ElectronicVersions', 'Amendments.SafetyMonitors', 'Amendments.BiologicalProducts', 'Amendments.Dossiers', 'Amendments.Mc10Forms', 'Amendments.Receipts', 'Amendments.Attachments', 'Evaluations', 'CommitteeReviews', 'RequestInfos', 'RequestInfos.Users', 'SeventyFives', 'SeventyFives.Users', 'GcpInspections', 'GcpInspections.Users',];
 
+        $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
+
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-
-        //Custom for XOR implementation
-        $this->loadComponent('Util');
 
         /*
          * Enable the following components for recommended CakePHP security settings.

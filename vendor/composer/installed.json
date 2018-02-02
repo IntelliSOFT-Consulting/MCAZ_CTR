@@ -2858,61 +2858,6 @@
         ]
     },
     {
-        "name": "friendsofcake/search",
-        "version": "4.2.0",
-        "version_normalized": "4.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/FriendsOfCake/search.git",
-            "reference": "7b3c792511edc51589a40a37bbe0031263a48ef2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/7b3c792511edc51589a40a37bbe0031263a48ef2",
-            "reference": "7b3c792511edc51589a40a37bbe0031263a48ef2",
-            "shasum": ""
-        },
-        "require": {
-            "cakephp/cakephp": "^3.4"
-        },
-        "require-dev": {
-            "friendsofcake/cakephp-test-utilities": "dev-master",
-            "phpunit/phpunit": "<6.0"
-        },
-        "time": "2017-11-25T16:58:52+00:00",
-        "type": "cakephp-plugin",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Search\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Christian Winther",
-                "homepage": "http://cakephp.nu/",
-                "role": "Author"
-            },
-            {
-                "name": "ADmad",
-                "homepage": "https://github.com/admad",
-                "role": "Contributor"
-            }
-        ],
-        "description": "CakePHP Search plugin using PRG pattern",
-        "homepage": "https://github.com/FriendsOfCake/search",
-        "keywords": [
-            "cake3",
-            "cakephp",
-            "cakephp3",
-            "search"
-        ]
-    },
-    {
         "name": "paragonie/random_compat",
         "version": "v2.0.11",
         "version_normalized": "2.0.11.0",
@@ -3013,6 +2958,135 @@
             "captchas",
             "plugin",
             "security"
+        ]
+    },
+    {
+        "name": "friendsofcake/cakephp-csvview",
+        "version": "3.2.1",
+        "version_normalized": "3.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FriendsOfCake/cakephp-csvview.git",
+            "reference": "f36684fad38a6c274d7e552692c700710e5e8c2c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FriendsOfCake/cakephp-csvview/zipball/f36684fad38a6c274d7e552692c700710e5e8c2c",
+            "reference": "f36684fad38a6c274d7e552692c700710e5e8c2c",
+            "shasum": ""
+        },
+        "require": {
+            "cakephp/cakephp": "~3.0",
+            "php": ">=5.4.16"
+        },
+        "time": "2016-11-07T09:30:57+00:00",
+        "type": "cakephp-plugin",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "CsvView\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "ADmad",
+                "homepage": "https://github.com/admad",
+                "role": "Contributor"
+            },
+            {
+                "name": "Mark Scherer",
+                "homepage": "https://github.com/dereuromark",
+                "role": "Contributor"
+            },
+            {
+                "name": "Joshua Paling",
+                "homepage": "https://github.com/joshuapaling",
+                "role": "Contributor"
+            },
+            {
+                "name": "Gaurish Sharma",
+                "homepage": "https://github.com/gaurish",
+                "role": "Contributor"
+            },
+            {
+                "name": "Gregory Gaskill",
+                "homepage": "https://github.com/chronon",
+                "role": "Contributor"
+            },
+            {
+                "name": "Jose Diaz-Gonzalez",
+                "email": "email@josediazgonzalez.com",
+                "homepage": "http://josediazgonzalez.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "A CSV View class for CakePHP 3.x",
+        "homepage": "http://github.com/friendsofcake/cakephp-csvview",
+        "keywords": [
+            "cakephp",
+            "csv",
+            "export",
+            "view"
+        ]
+    },
+    {
+        "name": "friendsofcake/search",
+        "version": "4.2.1",
+        "version_normalized": "4.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FriendsOfCake/search.git",
+            "reference": "fdb9a34436f58b83ad4e0287ccc98a7bf8d3815d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/fdb9a34436f58b83ad4e0287ccc98a7bf8d3815d",
+            "reference": "fdb9a34436f58b83ad4e0287ccc98a7bf8d3815d",
+            "shasum": ""
+        },
+        "require": {
+            "cakephp/cakephp": "^3.4"
+        },
+        "require-dev": {
+            "cakephp/cakephp-codesniffer": "^3.0",
+            "friendsofcake/cakephp-test-utilities": "dev-master",
+            "phpunit/phpunit": "<6.0"
+        },
+        "time": "2018-01-22T05:24:08+00:00",
+        "type": "cakephp-plugin",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Search\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christian Winther",
+                "homepage": "http://cakephp.nu/",
+                "role": "Author"
+            },
+            {
+                "name": "ADmad",
+                "homepage": "https://github.com/admad",
+                "role": "Contributor"
+            }
+        ],
+        "description": "CakePHP Search plugin using PRG pattern",
+        "homepage": "https://github.com/FriendsOfCake/search",
+        "keywords": [
+            "cake3",
+            "cakephp",
+            "cakephp3",
+            "search"
         ]
     }
 ]
