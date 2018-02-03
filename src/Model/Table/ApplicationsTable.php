@@ -316,6 +316,16 @@ class ApplicationsTable extends Table
             ->like('protocol_no')
             ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
             ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ->like('public_title') 
+            ->like('scientific_title')
+            ->like('pi', ['field' => ['InvestigatorContacts.given_name', 'InvestigatorContacts.email']])
+            ->like('business_name')
+            ->like('money_source')
+            ->like('sponsor', ['field' => ['Applications.sponsor_name', 'Applications.sponsor_email_address', 'Sponsors.sponsor',
+                                            'Sponsors.email_address']])
+            ->like('site', ['field' => ['Applications.location_of_area', 'Applications.single_site_name', 'SiteDetails.site_name',]])
+            ->like('medicine', ['field' => ['Applications.drug_name', 'Medicines.medicine_name',]])
+            ->like('health', ['field' => ['disease_condition']])
             ;
 
         return $searchManager;

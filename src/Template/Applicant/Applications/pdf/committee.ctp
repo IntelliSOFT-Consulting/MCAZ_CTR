@@ -12,13 +12,7 @@
               <div class="amend-form">
                 <form class="form-horizontal">
                   <div class="form-group">
-                    <label class="col-xs-4 control-label">Internal Review comment</label>
-                    <div class="col-xs-8">
-                      <p class="form-control-static"><?= $committee_review->internal_review_comment ?></p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-xs-4 control-label">Applicant Review comment</label>
+                    <label class="col-xs-4 control-label">Comment</label>
                     <div class="col-xs-8">
                       <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
                     </div>

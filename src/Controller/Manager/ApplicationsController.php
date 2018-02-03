@@ -12,7 +12,7 @@ use App\Controller\Base\ApplicationsBaseController;
  */
 class ApplicationsController extends ApplicationsBaseController
 {
-    
+    //TODO: simply check if a given user has permissions to action before rendering view / displaying action
     public function assignEvaluator() {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), []);
         $evaluator = $this->Applications->Users->get($this->request->getData('assign_evaluators.100.assigned_to'));

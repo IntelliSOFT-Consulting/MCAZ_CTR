@@ -7,14 +7,20 @@
 <div class="row">
   <div class="col-xs-12">
     <h4 class="text-center">IMPORTATION OF UNREGISTERED PRODUCTS</h4>
+    <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'section75', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+              ?>
     <h6 class="text-center muted">Section 75 of the Medicines and Allied Substances Control Act [Chapter 15:03]</h6>
     <?php foreach ($application->seventy_fives as $seventy_five) { 
       ?>
     <div class="ctr-groups  <?php if($seventy_five->user->group_id != 4) echo 'amend-form'; ?>">
         <p class="topper"><small><em class="text-success">created: <?= $seventy_five['created'] ?> by <?= ($seventy_five->user->group_id != 4) ? 'MCAZ' : $seventy_five->user->name; ?></em></small></p>
+        <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'section75', '_ext' => 'pdf', $seventy_five->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+        ?>
       <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-4 control-label">Comments:</label>
+          <label class="col-sm-4 control-label">MCAZ Comments:</label>
           <div class="col-sm-8">
           <p class="form-control-static"><?= $seventy_five['applicant_review_comment'] ?></p>
           </div> 

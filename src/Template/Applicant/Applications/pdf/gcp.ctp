@@ -10,15 +10,9 @@
       ?>
     <div class="ctr-groups <?php if($gcp_inspection->user->group_id != 4) echo 'amend-form'; ?>">
         <p class="topper"><small><em class="text-success">created: <?= $gcp_inspection['created'] ?> by <?= $gcp_inspection->user->name ?></em></small></p>
-      <form class="form-horizontal">
+      <form class="form-horizontal"> 
         <div class="form-group">
-          <label class="col-xs-4 control-label">Internal MCAZ Comments:</label>
-          <div class="col-xs-8">
-          <p class="form-control-static"><?= $gcp_inspection['internal_review_comment'] ?></p>
-          </div> 
-        </div> 
-        <div class="form-group">
-          <label class="col-xs-4 control-label">Applicant Visible Comments:</label>
+          <label class="col-xs-4 control-label">Comments:</label>
           <div class="col-xs-8">
           <p class="form-control-static"><?= $gcp_inspection['applicant_review_comment'] ?></p>
           </div> 

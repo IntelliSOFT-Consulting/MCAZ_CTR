@@ -29,19 +29,29 @@ class ApplicationsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => $this->_contain
+           // 'contain' => $this->_contain
         ];
 
         // $applications = $this->paginate($this->Applications,['finder' => ['status' => $id]]);
         /*if($this->request->getQuery('status')) {$applications = $this->paginate($this->Applications->find('all')->where(['status' => $this->request->getQuery('status'), 'submitted' => 2, 'report_type' => 'Initial']), ['order' => ['Applications.id' => 'desc']]); }
         else {$applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']), ['order' => ['Applications.id' => 'desc']]);}*/
 
+        // $query = $this->Orders->find('search', 
+        //     $this->Orders->filterParams($this->request->query))->contain(['Users', 'PaymentMethods', 'Industries']
+        // )->order(['Orders.created' => 'DESC']);
+        // $this->set('orders', $this->paginate($query));
+
         $query = $this->Applications
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
             ->find('search', ['search' => $this->request->query])
+            ->leftJoinWith('InvestigatorContacts')
+            ->leftJoinWith('Sponsors')
+            ->leftJoinWith('SiteDetails')
+            ->leftJoinWith('Medicines')
             // You can add extra things to the query if you need to
-            ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']]);
+            ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
+            ->distinct();
 
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';

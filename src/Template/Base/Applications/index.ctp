@@ -8,6 +8,8 @@
               <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
 </h1>
 
+<?= $this->element('applications/search') ?>
+
 <div class="paginator">
     <ul class="pagination pagination-sm">
         <?= $this->Paginator->first('<< ' . __('first')) ?>
@@ -28,7 +30,7 @@
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
+                <th scope="col"><?= $this->Paginator->sort('created') ?></th>                
                 <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <?php } ?>
@@ -44,7 +46,7 @@
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
                 <td><?= h($application->status) ?></td>
-                <td><?= h($application->modified) ?></td>         
+                <td><?= h($application->created) ?></td>         
                 <td>
                                
                 </td>

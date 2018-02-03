@@ -23,18 +23,28 @@
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $committee_review->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
         ?>
               <div class="amend-form">
-                <form>
+                <form class="form-horizontal">
                   <div class="form-group">
-                    <label>Internal Review comment</label>
-                    <p class="form-control-static"><?= $committee_review->internal_review_comment ?></p>
+                    <label class="col-xs-4 control-label">Internal Review comment</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static"><?= $committee_review->internal_review_comment ?></p>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label>Applicant Review comment</label>
-                    <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
-                  </div>
+                    <label class="col-xs-4 control-label">Applicant Review comment</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
+                    </div>
+                  </div> 
                   <div class="form-group">
-                    <label class="col-sm-4 control-label">File</label>
-                    <div class="col-sm-7">
+                    <label class="col-xs-4 control-label">Committee Decision:</label>
+                    <div class="col-xs-8">
+                    <p class="form-control-static"><?= $committee_review['decision'] ?></p>
+                    </div> 
+                  </div> 
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label">File</label>
+                    <div class="col-xs-7">
                       <p class="form-control-static text-info text-left"><?php
                            echo $this->Html->link($committee_review->file, substr($committee_review->dir, 8) . '/' . $committee_review->file, ['fullBase' => true]);
                       ?></p>
@@ -82,7 +92,7 @@
                 </div>          
               </div>
               <div class="form-group"> 
-                  <div class="col-sm-12"> 
+                  <div class="col-xs-12"> 
                     <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Review</button>
                   </div> 
               </div>

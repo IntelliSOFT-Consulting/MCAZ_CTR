@@ -2,6 +2,9 @@
   <div class="row">
     <div class="col-xs-12">
       <h4 class="text-center"><label class="text-warning">PVCT Committee Reviews</label></h4>
+      <?php
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+      ?>
       <hr>
     </div>
   </div>
@@ -11,12 +14,23 @@
           <?php foreach ($application->committee_reviews as $committee_review) {  ?>
           <div class="thumbnail">
             <p class="topper"><small><em class="text-success">reviewed on: <?= $committee_review['created'] ?> </em></small></p>
+              <?php
+              echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $committee_review->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+              ?>
               <div class="amend-form">
-                <form>
+                <form class="form-horizontal">
                   <div class="form-group">
-                    <label>Applicant Review comment</label>
-                    <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
-                  </div>
+                    <label class="col-xs-4 control-label">Comment</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
+                    </div>
+                  </div> 
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label">Committee Decision:</label>
+                    <div class="col-xs-8">
+                    <p class="form-control-static"><?= $committee_review['decision'] ?></p>
+                    </div> 
+                  </div> 
                   <div class="form-group">
                     <label class="col-sm-4 control-label">File</label>
                     <div class="col-sm-7">
@@ -41,7 +55,7 @@
               ?>
             
           </div>
-          <?php } ?>
+          <?php }  ?>
 
         </div>
       </div>

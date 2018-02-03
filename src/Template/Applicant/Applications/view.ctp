@@ -13,7 +13,8 @@
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
       <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
-      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>    
+      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>  
+      <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
   </ul>
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="report">
@@ -46,6 +47,9 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="gcp">
         <?= $this->element('applications/applicant_gcp') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="approvals">
+        <?= $this->element('applications/applicant_approvals') ?>
     </div>
   </div>
 

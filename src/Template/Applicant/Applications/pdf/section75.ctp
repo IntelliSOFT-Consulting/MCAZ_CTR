@@ -11,13 +11,7 @@
         <p class="topper"><small><em class="text-success">created: <?= $seventy_five['created'] ?> by <?= $seventy_five->user->name ?></em></small></p>
       <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-xs-4 control-label">Internal MCAZ Comments:</label>
-          <div class="col-xs-8">
-          <p class="form-control-static"><?= $seventy_five['internal_review_comment'] ?></p>
-          </div> 
-        </div> 
-        <div class="form-group">
-          <label class="col-xs-4 control-label">Applicant Visible Comments:</label>
+          <label class="col-xs-4 control-label">MCAZ Comments:</label>
           <div class="col-xs-8">
           <p class="form-control-static"><?= $seventy_five['applicant_review_comment'] ?></p>
           </div> 

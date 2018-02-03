@@ -83,7 +83,9 @@ $cakeDescription = 'MCAZ CTR';
           </button>
           <?php
               if($this->request->session()->read('Auth.User')) {
-                  echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ CTR '.$prefix.' <small>(restricted)</small>',
+                $icon = "ravelry";
+                if($prefix == "finance") $icon = "money";
+                  echo $this->Html->link('<i class="fa fa-'.$icon.'" aria-hidden="true"></i> MCAZ CTR '.$prefix.' <small>(restricted)</small>',
                       array('controller' => 'users', 'action' => 'dashboard', 'prefix' => $prefix,) , array('escape' => false, 'class' => 'navbar-brand'));                    
               } else {
                   echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ CTR '.$prefix.' <small>(restricted)</small>',

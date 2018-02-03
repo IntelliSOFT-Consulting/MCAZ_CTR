@@ -721,8 +721,8 @@
                             <label>File Attachment</label>
 
                             <div class="form-group">
-                              <label class="col-sm-3 control-label text-success">File</label>
-                              <div class="col-sm-7">
+                              <label class="col-xs-3 control-label text-success">File</label>
+                              <div class="col-xs-7">
                                 <p class="form-control-static text-info text-left"><?php
                                      echo $this->Html->link($evaluation->file, substr($evaluation->dir, 8) . '/' . $evaluation->file, ['fullBase' => true]);
                                 ?></p>
