@@ -4,8 +4,8 @@ bin/cake acl_extras aco_sync
 bin/cake cache clear_all
 echo "Assigning Admin permissions....................."
 bin/cake acl grant Groups.1 controllers
-bin/cake acl grant Groups.2 controllers/Admin
-bin/cake acl deny Groups.4 controllers/Applications
+bin/cake acl deny Groups.1 controllers/Admin/Applications
+bin/cake acl deny Groups.1 controllers/Admin/Amendments
 bin/cake acl deny Groups.1 controllers/Manager
 bin/cake acl deny Groups.1 controllers/Finance
 bin/cake acl deny Groups.1 controllers/Applicant
@@ -14,12 +14,14 @@ bin/cake acl deny Groups.1 controllers/Finance
 # bin/cake acl grant Groups.1 controllers/Base/Amendments
 # bin/cake acl deny Groups.2 controllers #TODO: Remove this global assignment
 echo "Assigning Manager permissions................."
+bin/cake acl deny Groups.2 controllers/Admin
 bin/cake acl grant Groups.2 controllers/Manager
 bin/cake acl grant Groups.2 controllers/Base
 bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
 #Applicants
 echo "Assigning Applicant permissions................"
+bin/cake acl deny Groups.4 controllers/Applications
 bin/cake acl grant Groups.4 controllers/Users/profile
 bin/cake acl grant Groups.4 controllers/Users/edit
 bin/cake acl grant Groups.4 controllers/Applicant

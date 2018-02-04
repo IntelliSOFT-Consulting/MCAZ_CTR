@@ -44,6 +44,7 @@
     <li class="<?=  ($this->request->params['action'] == 'dashboard') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> &nbsp; Overview', ['controller' => 'Users', 'action' => 'dashboard'], array('escape' => false)); ?>      
     </li>
 
+    <?php if( $prefix != 'admin') { ?>
     <li class="<?=  ($this->request->params['controller'] == 'Applications') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; PROTOCOLS', ['controller' => 'Applications', 'action' => 'index'], array('escape' => false)); ?>
         <!-- Manager or evaluator -->
@@ -90,20 +91,13 @@
             <li class="<?=  ($this->request->params['controller'] == 'Amendments' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore deleted <small class="badge badge-sadr pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Amendments', 'action' => 'restore'], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
-    </li>    
+    </li> 
+    <?php } ?>   
     <li class="<?=  ($this->request->params['controller'] === 'Reports') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Users', 'action' => 'dashboard'], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false], array('escape' => false)); ?>
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && ($this->request->params['controller'] === 'Reports')) { ?>
           <ul class="nav van-<?= $prefix ?>">
-            <li class="<?= ($this->request->params['action'] == 'sadrsPerProvince') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Sadr Per Province ', ['controller' => 'Reports', 'action' => 'sadrsPerProvince', 'prefix' => false], array('escape' => false)); ?> 
-            </li>
-            <li class="<?= ($this->request->params['action'] == 'sadrsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Sadr Per Year ', ['controller' => 'Reports', 'action' => 'sadrsPerYear', 'prefix' => false], array('escape' => false)); ?> 
-            </li>
-            <li class="<?= ($this->request->params['action'] == 'sadrsPerCausality') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Sadr Per Causality ', ['controller' => 'Reports', 'action' => 'sadrsPerCausality', 'prefix' => false], array('escape' => false)); ?> 
-            </li>
-            <li class="<?= ($this->request->params['action'] == 'aefisPerProvince') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Aefis Per Province ', ['controller' => 'Reports', 'action' => 'aefisPerProvince', 'prefix' => false], array('escape' => false)); ?> 
-            </li>
-            <li class="<?= ($this->request->params['action'] == 'aefisPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Aefis Per Year ', ['controller' => 'Reports', 'action' => 'aefisPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'protocolsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Year ', ['controller' => 'Reports', 'action' => 'protocolsPerYear', 'prefix' => false], array('escape' => false)); ?> 
             </li>
           </ul>
         <?php } ?>
@@ -125,10 +119,10 @@
     <?php }; ?>
     <li class="<?=  ($this->request->params['controller'] == 'Feedbacks') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-comment-o" aria-hidden="true"></i> &nbsp; USER FEEDBACK', ['controller' => 'Users', 'action' => 'dashboard'], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-comment-o" aria-hidden="true"></i> &nbsp; USER FEEDBACK', ['controller' => 'Feedbacks', 'action' => 'index'], array('escape' => false)); 
           ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Notifications') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Users', 'action' => 'dashboard'], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Notifications', 'action' => 'index'], array('escape' => false)); ?>
     </li>
   </ul>

@@ -16,6 +16,13 @@ use Cake\Utility\Hash;
 class ApplicationsController extends AppController
 {
 
+    // public function beforeFilter(Event $event)
+    // {
+        // parent::beforeFilter($event);
+        // if ($this->request->getParam('action') === 'view') {
+            
+        // }
+    // }
     /**
      * Index method
      *

@@ -6,44 +6,7 @@
 <h1 class="page-header">Dashboard</h1>
 
   <div>
-    <div class="col-xs-6 col-sm-4">
-      <h2><img alt="" src="/img/preferences_composer.png" style="width: 35px;">&nbsp;
-        <!-- <i class="fa fa-book" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> Forms</a></h2>
-      <p>View submitted reports</p>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; APPLICATIONS', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
-          ?>
-        </li>
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp; AMENDMENTS', ['controller' => 'Amendments', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
-          ?>
-        </li>
-      </ul>
-    </div>
-    <div class="col-xs-6 col-sm-4 placeholder">
-      <h2><img alt="" src="/img/user_group.ico" style="width: 35px;">&nbsp; 
-        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> Users</a></h2>
-      <p>Manage users</p>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> &nbsp; Users', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
-          ?>
-        </li>
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; Groups', ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
-          ?>
-        </li>
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; Notifications', ['controller' => 'Notifications', 'action' => 'index'], array('escape' => false, 'class' => 'btn-zangu')); 
-          ?>
-        </li>
-      </ul>
+    <div class="col-xs-6 col-sm-4">      
       <h2><img alt="" src="/img/comments.ico" style="width: 35px;">&nbsp; 
         <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#" class="btn-zangu"> User Feedback</a>  -->
         <?php
@@ -66,6 +29,28 @@
                 </ul>
             </nav>  
           </div>
+    </div>
+    <div class="col-xs-6 col-sm-4 placeholder">
+      <h2><img alt="" src="/img/user_group.ico" style="width: 35px;">&nbsp; 
+        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> Users</a></h2>
+      <p>Manage users</p>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> &nbsp; Users', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; Groups', ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; Notifications', ['controller' => 'Notifications', 'action' => 'index'], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
+      </ul>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
       <h2><img alt="" src="/img/box_content.ico" style="width: 35px;">&nbsp;<!-- <i class="fa fa-briefcase" aria-hidden="true"></i>  -->
