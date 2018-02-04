@@ -123,6 +123,6 @@
           ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Notifications') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Notifications', 'action' => 'index'], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Notifications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
     </li>
   </ul>
