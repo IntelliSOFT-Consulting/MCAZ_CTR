@@ -12,8 +12,10 @@
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    
-      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li>    
-      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>    
+      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
+      <?php if($prefix === 'manager') { ?>   
+      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
+      <?php } ?> 
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
@@ -43,9 +45,11 @@
     <div role="tabpanel" class="tab-pane" id="section75">
         <?= $this->element('applications/section75') ?>
     </div>
+    <?php if($prefix === 'manager') { ?> 
     <div role="tabpanel" class="tab-pane" id="assign">
         <?= $this->element('applications/assign_evaluator') ?>
     </div>
+    <?php } ?> 
     <div role="tabpanel" class="tab-pane" id="review">
         <?php // $this->element('applications/reviews') ?>
         <?= $this->element('applications/evaluations') ?>
