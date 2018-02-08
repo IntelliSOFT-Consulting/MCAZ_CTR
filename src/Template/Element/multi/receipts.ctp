@@ -37,7 +37,7 @@
                     <td><?= $i+1; ?></td>
                     <td><p class="text-info text-left"><?php
                              echo $this->Form->input('receipts.'.$i.'.id', ['templates' => 'table_form']);
-                             echo $this->Html->link($application['receipts'][$i]->file, substr($application['receipts'][$i]->dir, 8) . '/' . $application['receipts'][$i]->file, ['fullBase' => true]);
+                             echo $this->Html->link($application['receipts'][$i]->file, substr($application['receipts'][$i]->dir, 8) . '/' . $application['receipts'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
                         ?></p>
                     </td>
                     <td>

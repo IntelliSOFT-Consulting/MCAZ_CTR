@@ -11,15 +11,16 @@
   <ul class="nav nav-tabs" data-offset-top="60"  role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
-      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    
+      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
+      <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php if($prefix === 'manager') { ?>   
-      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
+      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Ev(s)</b></a></li>
       <?php } ?> 
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
-      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>    
+      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>    
   </ul>
 <div class="tab-content">
      <?= $this->Flash->render() ?>
@@ -41,6 +42,9 @@
 
     <div role="tabpanel" class="tab-pane" id="finance">
         <?= $this->element('applications/finance') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="notification">
+        <?= $this->element('applications/notifications') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="section75">
         <?= $this->element('applications/section75') ?>

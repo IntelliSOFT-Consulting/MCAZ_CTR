@@ -8,11 +8,15 @@
   <ul class="nav nav-tabs" data-offset-top="60"  role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
-      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    
-      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li>    
+      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>   
+      <?php if($application->approved === 'Approved') { ?>     
+      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
+      <?php } ?>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
-      <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
+      <?php if($application->approved === 'Approved') { ?>    
+      <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
+      <?php } ?>    
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>  
       <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
   </ul>
@@ -59,13 +63,15 @@
   
   <div class="col-xs-2">
     <div data-spy="affix" class="my-sidebar text-center">
-      <?php
+    <?php
+      if($application->approved === 'Approved') {
         if(!empty($application->amendments) && end($application->amendments)['submitted'] != 2) {
             echo $this->Html->link('<button class="btn btn-success btn-block action"> <i class="fa fa-edit" aria-hidden="true"></i> Edit </button>', ['action' => 'amendment', end($application->amendments)['id']], ['escape' => false]);  
         } else {
             echo $this->Form->postLink('<button class="btn btn-primary btn-block active"> <i class="fa fa-edit" aria-hidden="true"></i> Amendment </button>', ['action' => 'add-amendment', $application->id], ['escape' => false, 'confirm' => 'Are you sure you want to amend application '.$application->protocol_no.'?', 'class' => 'label-link']);  
         }
-      ?>
+      }
+    ?>
       <hr>
       <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info btn-block']);

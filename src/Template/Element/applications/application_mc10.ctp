@@ -8,7 +8,7 @@
 
                 echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-success']);
 
-                echo '<p class="checkbox"> <b>Upload complete MC10 form:</b> '.$add_fileinput.'</p>';
+                echo '<p class="checkbox"> <b>Upload signed MC10 form:</b> '.$add_fileinput.'</p>';
                   // echo $add_fileinput;
                     if (!empty($application['mc10_forms'])) {
                       for ($i = 0; $i <= count($application['mc10_forms'])-1; $i++) { ?>

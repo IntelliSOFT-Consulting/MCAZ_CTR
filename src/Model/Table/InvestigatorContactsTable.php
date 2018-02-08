@@ -60,7 +60,7 @@ class InvestigatorContactsTable extends Table
 
         $validator
             ->scalar('given_name')
-            ->notEmpty('given_name');
+            ->notEmpty('given_name', ['message' => '2. Investigator: Full names required']);
 
         $validator
             ->scalar('middle_name')
@@ -72,19 +72,19 @@ class InvestigatorContactsTable extends Table
 
         $validator
             ->scalar('qualification')
-            ->notEmpty('qualification');
+            ->notEmpty('qualification', ['message' => '2. Investigator: Qualification required']);
 
         $validator
             ->scalar('professional_address')
-            ->notEmpty('professional_address');
+            ->notEmpty('professional_address', ['message' => '2. Investigator: Professional address required']);
 
         $validator
             ->scalar('telephone')
-            ->notEmpty('telephone');
+            ->notEmpty('telephone', ['message' => '2. Investigator: Telephone number required']);
 
         $validator
             //->email('email', ['message' => '2. Investigator: Invalid email format'])
-            ->notEmpty('email')
+            ->notEmpty('email', ['message' => '2. Investigator: Valid email required'])
             ->add('email', 'email', ['rule' => 'email', 'message' => '2. Investigator: Invalid email format']);
 
         return $validator;

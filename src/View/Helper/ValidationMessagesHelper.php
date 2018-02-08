@@ -58,7 +58,7 @@ class ValidationMessagesHelper extends Helper
                             foreach ($myarr as $key => $value) {
                                 $i++;
                                 if ($i <= 3) {
-                                    echo '<i class="fa fa-exclamation-triangle"></i> '.$key.' => '.$value.'<br/>';
+                                    echo '<i class="fa fa-exclamation-triangle"></i> '.$value.'<br/>';
                                 }                                
                             }
                             if (count($myarr ) > 3) {
@@ -70,7 +70,7 @@ class ValidationMessagesHelper extends Helper
                                 foreach ($myarr as $key => $value) {
                                     $i++;
                                     if ($i > 3) {
-                                        echo '<i class="fa fa-exclamation-triangle"></i> '.$key.' => '.$value.'<br/>';
+                                        echo '<i class="fa fa-exclamation-triangle"></i> '.$value.'<br/>';
                                     }                                
                                 }
                                 echo '</div>'; 

@@ -37,7 +37,7 @@
                 //Dynamic fields
                 if (!empty($application['participants'])) {
                   for ($i = 0; $i <= count($application['participants'])-1; $i++) { 
-                    // pr($application);
+                    //pr($application['participants']);
               ?>
 
                   <tr>
@@ -68,7 +68,7 @@
                     </td>
                     <td>
                         <?php
-                        if(empty($application['participants'][$i]->file)) {
+                        if(is_array($application['participants'][$i]['file']) or empty($application['participants'][$i]->file)) {
                             echo $this->Form->control('participants.'.$i.'.file', [
                                 'type' => 'file',
                                 'label' => false, 

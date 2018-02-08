@@ -51,11 +51,14 @@
                     data.context = $(this).closest('div');
                     if (!data.context.find('.progress').length) {
                         data.context.prepend('\
-                            <div class="progress progress-striped active pull-right" style="width: 45%; margin-right: 45px;"> \
-                            <div class="bar" style="width: 0%;"></div> \
-                        </div>');
+                            <div class="progress pull-right" style="width: 45%;margin-right: 45px;">\
+  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">\
+    <span class="sr-only">45% Complete</span>\
+  </div>\
+</div>');
                     }
-                    data.context.find('.progress .bar').css('width', '0%');
+                    data.context.find('.progress .progress-bar').css('width', '0%');
+                    data.context.find('span.help-inline').text('Uploading!');
                     data.submit();
                 },
                 submit: function(e, data) {
@@ -75,7 +78,7 @@
                 },
                 progress: function(e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
-                    data.context.find('.progress').show().find('.bar').css('width', progress + '%');
+                    data.context.find('.progress').show().find('.progress-bar').css('width', progress + '%');
                 },
                 done: function(e, data) {
                     if (/msie/.test(navigator.userAgent.toLowerCase())) {
@@ -98,6 +101,16 @@
                         <p>' + data.result.errors + '</p> </div>');
                         data.context.find('.progress').fadeOut('slow');
                     }
+                },
+                fail: function(e, data) {
+                    data.context.append('<div class="alert alert-danger alert-dismissible" role="alert">\
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+  <strong>The file is not Valid!</strong> If the file is larger that 4.7MB in size, please compress it to below 4.7MB first.\
+  The file may also be split into multiple parts and attached.\
+</div>');
+
+                    data.context.find('.progress').fadeOut('slow');
+                    data.context.find('span.help-inline').text('Upload!');
                 }
             })
 

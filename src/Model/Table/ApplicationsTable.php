@@ -345,179 +345,195 @@ class ApplicationsTable extends Table
 
         $validator
             ->scalar('scientific_title')
-            ->notEmpty('scientific_title');
+            ->notEmpty('scientific_title', ['message' => '1. Abstract: Scientific Title is required']);
 
         $validator
-            ->email('public_contact_email')
-            ->notEmpty('public_contact_email');
+            ->scalar('public_contact_name')
+            ->notEmpty('public_contact_name', ['message' => '1. Abstract: Contact name for public queries required']);
+
+        $validator
+            ->scalar('public_contact_designation')
+            ->notEmpty('public_contact_designation', ['message' => '1. Abstract: Designation for public queries required']);
+
+        $validator
+            ->email('public_contact_email', ['message' => '1. Abstract: Valid contact email for public queries required'])
+            ->notEmpty('public_contact_email', ['message' => '1. Abstract: Contact email for public queries required']);
 
         $validator
             ->scalar('public_contact_phone')
-            ->notEmpty('public_contact_phone');
+            ->notEmpty('public_contact_phone', ['message' => '1. Abstract: Contact phone for public queries required']);
 
         $validator
             ->scalar('public_contact_postal')
-            ->notEmpty('public_contact_postal');
+            ->notEmpty('public_contact_postal', ['message' => '1. Abstract: Contact postal address for public queries required']);
 
         $validator
-            ->email('scientific_contact_email')
-            ->notEmpty('scientific_contact_email');
+            ->scalar('scientific_contact_name')
+            ->notEmpty('public_contact_name', ['message' => '1. Abstract: Contact name for scientific queries required']);
+
+        $validator
+            ->scalar('scientific_contact_designation')
+            ->notEmpty('public_contact_designation', ['message' => '1. Abstract: Designation for scientific queries required']);
+
+        $validator
+            ->email('scientific_contact_email', ['message' => '1. Abstract: Valid contact email for scientific queries required'])
+            ->notEmpty('scientific_contact_email', ['message' => '1. Abstract: Contact email for scientific queries required']);
 
         $validator
             ->scalar('scientific_contact_phone')
-            ->notEmpty('scientific_contact_phone');
+            ->notEmpty('scientific_contact_phone', ['message' => '1. Abstract: Contact phone for scientific queries required']);
 
         $validator
             ->scalar('scientific_contact_postal')
-            ->notEmpty('scientific_contact_postal');
+            ->notEmpty('scientific_contact_postal', ['message' => '1. Abstract: Contact postal address for scientific queries required']);
 
         $validator
             ->scalar('countries_recruitment')
-            ->notEmpty('countries_recruitment');
+            ->notEmpty('countries_recruitment', ['message' => '1. Abstract: Countries of recruitement required']);
 
         $validator
             ->scalar('abstract_of_study')
-            ->notEmpty('abstract_of_study');
+            ->notEmpty('abstract_of_study', ['message' => '1. Abstract: Purpose and reason for trial required']);
 
         $validator
             ->scalar('protocol_version')
-            ->notEmpty('protocol_version');
+            ->notEmpty('protocol_version', ['message' => '1. Abstract: Protocol Version No. Required']);
 
         $validator
             ->scalar('study_drug')
-            ->notEmpty('study_drug');
+            ->notEmpty('study_drug', ['message' => '1. Abstract: Study product required']);
             
         $validator
             ->scalar('sponsor_name')
-            ->notEmpty('sponsor_name');
+            ->notEmpty('sponsor_name', ['message' => '3. Sponsor: Sponsor required']);
             
         $validator
             ->scalar('sponsor_address')
-            ->notEmpty('sponsor_address');
+            ->notEmpty('sponsor_address', ['message' => '3. Sponsor: Address required']);
             
         $validator
             ->scalar('sponsor_telephone_number')
-            ->notEmpty('sponsor_telephone_number');
+            ->notEmpty('sponsor_telephone_number', ['message' => '3. Sponsor: Telephone number required']);
             
         $validator
             ->scalar('sponsor_cell_number')
-            ->notEmpty('sponsor_cell_number');
+            ->notEmpty('sponsor_cell_number', ['message' => '3. Sponsor: Mobile phone number required']);
 
         $validator
             ->email('sponsor_email_address')
-            ->notEmpty('sponsor_email_address');
+            ->notEmpty('sponsor_email_address', ['message' => '3. Sponsor: Email address required']);
 
         $validator
             ->scalar('participants_description')
-            ->notEmpty('participants_description');
+            ->notEmpty('participants_description', ['message' => '4. Participants: Description of participants required']);
 
         $validator
             ->scalar('number_participants')
-            ->notEmpty('number_participants');
+            ->notEmpty('number_participants', ['message' => '4. Participants: Expected number of participants required']);
 
         $validator
             ->scalar('total_enrolment_per_site')
-            ->notEmpty('total_enrolment_per_site');
+            ->notEmpty('total_enrolment_per_site', ['message' => '4. Participants: Total enrolment per site required']);
             
         $validator
             ->scalar('total_participants_worldwide')
-            ->notEmpty('total_participants_worldwide');
+            ->notEmpty('total_participants_worldwide', ['message' => '4. Participants: Total participants woldwide required']);
             
         $validator
             ->scalar('participants_justification')
-            ->notEmpty('participants_justification');
+            ->notEmpty('participants_justification', ['message' => '4. Participants: Justification required']);
             
         $validator
             ->scalar('gender')
-            ->notEmpty('gender');
+            ->notEmpty('gender', ['message' => '4. Participants: Gender required']);
 
         $validator
             ->scalar('single_site_member_state')
-            ->notEmpty('single_site_member_state');
+            ->notEmpty('single_site_member_state', ['message' => '5. Sites: Single site in Zimbabwe required']);
 
         $validator
             ->scalar('drug_name')
-            ->notEmpty('drug_name');
+            ->notEmpty('drug_name', ['message' => '6. Interventions: Medicine name required']);
 
         $validator
             ->scalar('quantity_excemption')
-            ->notEmpty('quantity_excemption');
+            ->notEmpty('quantity_excemption', ['message' => '6. Interventions: Quantity of medicine required']);
 
         $validator
             ->scalar('drug_details')
-            ->notEmpty('drug_details');
+            ->notEmpty('drug_details', ['message' => '6. Interventions: Chemical composition, graphic and empirical formulae etc. required']);
 
         $validator
             ->scalar('principal_inclusion_criteria')
-            ->notEmpty('principal_inclusion_criteria');
+            ->notEmpty('principal_inclusion_criteria', ['message' => '7. Criteria: Principal inclusion criteria required']);
 
         $validator
             ->scalar('principal_exclusion_criteria')
-            ->notEmpty('principal_exclusion_criteria');
+            ->notEmpty('principal_exclusion_criteria', ['message' => '7. Criteria: Principal exclusion criteria required']);
 
         $validator
             ->scalar('primary_end_points')
-            ->notEmpty('primary_end_points');
+            ->notEmpty('primary_end_points', ['message' => '7. Criteria: Primary end points required']);
 
         $validator
             ->scalar('disease_condition')
-            ->notEmpty('disease_condition');
+            ->notEmpty('disease_condition', ['message' => '8. Scope: Health Condition(s) required']);
 
         $validator
             ->scalar('design_controlled')
-            ->notEmpty('design_controlled');
+            ->notEmpty('design_controlled', ['message' => '9. Design: Type of trial required']);
 
         $validator
             ->scalar('ethic_considerations')
-            ->notEmpty('ethic_considerations');
+            ->notEmpty('ethic_considerations', ['message' => '10. Ethical Considerations: Ethical considerations required']);
 
-        $validator
+        /*$validator
             ->scalar('organisations_transferred_')
-            ->notEmpty('organisations_transferred_');
+            ->notEmpty('organisations_transferred_');*/
 
         $validator
             ->scalar('estimated_duration')
-            ->notEmpty('estimated_duration');
+            ->notEmpty('estimated_duration', ['message' => '11. Other details: State the time period for the trial']);
 
         $validator
             ->scalar('other_details_explanation')
-            ->notEmpty('other_details_explanation');
+            ->notEmpty('other_details_explanation', ['message' => '11. Other details: If the trial is to be conducted in Zimbabwe and not in host country, explain']);
 
         $validator
             ->scalar('other_details_regulatory_notapproved')
-            ->notEmpty('other_details_regulatory_notapproved');
+            ->notEmpty('other_details_regulatory_notapproved', ['message' => '11. Other details: Name the other regulatory authorities to which applications have been submitted but approval has not been granted']);
 
         $validator
             ->scalar('other_details_regulatory_approved')
-            ->notEmpty('other_details_regulatory_approved');
+            ->notEmpty('other_details_regulatory_approved', ['message' => '11. Other details: Name other regulatory authorities which have approved this trial']);
 
         $validator
             ->scalar('recording_method')
-            ->notEmpty('recording_method');
+            ->notEmpty('recording_method', ['message' => '11. Other details: State the method of recording adverse reactions']);
 
         $validator
             ->scalar('record_keeping')
-            ->notEmpty('record_keeping');
+            ->notEmpty('record_keeping', ['message' => '11. Other details: State the procedure for keeping participants lists and participants records']);
 
         $validator
             ->scalar('trial_storage')
-            ->notEmpty('trial_storage');
+            ->notEmpty('trial_storage', ['message' => '11. Other details: State where will trial code be kept']);
 
         $validator
             ->scalar('measures_compliance')
-            ->notEmpty('measures_compliance');
+            ->notEmpty('measures_compliance', ['message' => '11. Other details: State measures to be implemented to ensure the safe handling of medicines']);
 
         $validator
             ->scalar('evalution_of_results')
-            ->notEmpty('evalution_of_results');
+            ->notEmpty('evalution_of_results', ['message' => '11. Other details: Evaluation of results required']);
 
         $validator
             ->scalar('inform_persons')
-            ->notEmpty('inform_persons');
+            ->notEmpty('inform_persons', ['message' => '11. Other details: State how the persons or owners of animals are to be informed about the trial']);
 
         $validator
             ->scalar('inform_staff')
-            ->notEmpty('inform_staff');
+            ->notEmpty('inform_staff', ['message' => '11. Other details: State how the staff involved are to be informed']);
 
         $validator
             ->boolean('applicant_covering_letter')
@@ -527,7 +543,7 @@ class ApplicationsTable extends Table
                     if ($data > 0) {
                         return true;
                     }
-                    return 'Please upload the cover letter.';
+                    return '12. Checklist: Please upload the cover letter.';
                 }
             ]);
 
@@ -537,7 +553,27 @@ class ApplicationsTable extends Table
                     if ($data > 0) {
                         return true;
                     }
-                    return 'Please upload the practicising license.';
+                    return '12. Checklist: Please upload the practicising license.';
+                }
+            ]);
+
+        $validator
+            ->add('applicant_protocol', 'checklist-protocol', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return '12. Checklist: Please upload the protocol (including relevant questionnaires, etc.).';
+                }
+            ]);
+
+        $validator
+            ->add('applicant_investigators_cv', 'checklist-investigators-cv', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return '12. Checklist: Please upload the Investigator CV(s) in required format.';
                 }
             ]);
 

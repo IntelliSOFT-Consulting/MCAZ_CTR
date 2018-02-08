@@ -35,15 +35,26 @@ class UsersBaseController extends AppController
             'limit' => 15,
         ];
 
-        $applications = $this->paginate($this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']), ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
+        $app_query = $this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']);
+        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+            $app_query->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            });
+        }
+        $applications = $this->paginate($app_query, ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
-
-        $amendments = $this->paginate($this->Users->Amendments->find('all', array(
+        $amt_query = $this->Users->Amendments->find('all', array(
             //'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
             'order' => array('Amendments.created' => 'desc'),
             'contain' => ['ParentApplications'],
             'conditions' => ['Amendments.submitted' => 2, 'Amendments.report_type' => 'Amendment'],
-        )), 
+        ));
+        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+            $amt_query->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            });
+        }
+        $amendments = $this->paginate($amt_query, 
             ['scope' => 'amendment']);
 
         $this->set(compact('applications', 'amendments'));

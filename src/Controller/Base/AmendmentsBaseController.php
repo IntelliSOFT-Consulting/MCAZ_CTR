@@ -33,8 +33,14 @@ class AmendmentsBaseController extends AppController
             'contain' => ['ParentApplications']
         ];
 
-        if($this->request->getQuery('status')) {$amendments = $this->paginate($this->Applications->find('all')->where(['Applications.status' => $this->request->getQuery('status'), 'Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']), ['order' => ['Applications.id' => 'desc']]); }
-        else {$amendments = $this->paginate($this->Applications->find('all')->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']), ['order' => ['Applications.id' => 'desc']]);}
+        $amt_query = $this->Applications->find('all')->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']);
+        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+            $amt_query->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            });
+        }
+        if($this->request->getQuery('status')) {$amendments = $this->paginate($amt_query->where(['Applications.status' => $this->request->getQuery('status')]), ['order' => ['Applications.id' => 'desc']]); }
+        else {$amendments = $this->paginate($amt_query, ['order' => ['Applications.id' => 'desc']]);}
 
 
         $this->set(compact('amendments'));

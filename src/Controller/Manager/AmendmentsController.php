@@ -2,6 +2,9 @@
 namespace App\Controller\Manager;
 
 use App\Controller\Base\AmendmentsBaseController;
+use Cake\ORM\Entity;
+use Cake\View\Helper\HtmlHelper; 
+use Cake\Utility\Hash;
 
 /**
  * Applications Controller
@@ -81,7 +84,8 @@ class AmendmentsController extends AmendmentsBaseController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Committee';
+            $application->status = 'Committee';            
+            $application->approved = $this->request->getData('committee_reviews.100.decision');
             // debug($this->request->data);
             // debug($application->committee_reviews);
             if ($this->Applications->save($application)) {

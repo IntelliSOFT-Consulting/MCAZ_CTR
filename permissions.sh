@@ -21,13 +21,13 @@ bin/cake acl grant Groups.2 controllers/Manager
 bin/cake acl grant Groups.2 controllers/Base
 bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
+bin/cake acl grant Groups.2 controllers/Attachments/download
 #Applicants
 echo "Assigning Applicant permissions................"
-bin/cake acl deny Groups.4 controllers/Applications
+bin/cake acl grant Groups.4 controllers/Applications
 bin/cake acl grant Groups.4 controllers/Users/profile
 bin/cake acl grant Groups.4 controllers/Users/edit
 bin/cake acl grant Groups.4 controllers/Applicant
-bin/cake acl deny Groups.4 controllers/Applications
 bin/cake acl grant Groups.4 controllers/Attachments/download
 bin/cake acl grant Groups.4 controllers/Attachments/delete
 bin/cake acl grant Groups.4 controllers/Sponsors/delete
@@ -43,6 +43,7 @@ bin/cake acl grant Groups.5 controllers/Reports
 bin/cake acl grant Groups.5 controllers/Users/profile
 bin/cake acl grant Groups.5 controllers/Users/edit
 bin/cake acl grant Groups.5 controllers/Finance
+bin/cake acl grant Groups.5 controllers/Attachments/download
 #Evaluators permissions
 echo "Assigning Evaluators permissions......................"
 bin/cake acl grant Groups.3 controllers/Reports
@@ -55,6 +56,7 @@ bin/cake acl grant Groups.6 controllers/ExternalEvaluator
 bin/cake acl grant Groups.6 controllers/Users/profile
 bin/cake acl grant Groups.6 controllers/Users/edit
 bin/cake acl grant Groups.6 controllers/Base
+bin/cake acl grant Groups.6 controllers/Attachments/download
 
 
 sudo chmod -R 777 .
