@@ -1,26 +1,24 @@
 <?php
-  $numb = 1;
   use Cake\Utility\Hash;
+  $numb = 1;
+  $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+  $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
 ?>
 
 
       <div class="row">
         <div class="col-xs-12">
-          <?php
-            if (!empty($application->evaluations)) {
-              echo "<h3 class='text-center'>Previous Evaluation(s)</h3>";
-            }
-          ?>
-          <?php foreach ($application->evaluations as $evaluation) {  ?>
+          
+          <?php foreach ($evaluations as $evaluation) {  ?>
           <div class="thumbnail amend-form">
             <a class="btn btn-primary" role="button" data-toggle="collapse" href="#<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" aria-controls="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
-               Evaluationed on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?>
+               Evaluated on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?>
             </a>
-            <p class="topper"><small><em class="text-success">evaluationed on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?></em></small></p>
+            <p class="topper"><small><em class="text-success">evaluated on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?></em></small></p>
         <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+         if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
         ?>
-              <div class="collapse" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
+              <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 <table class="table table-bordered table-condensed">
                   <thead>
                     <tr class="active">
@@ -41,9 +39,18 @@
                       <td></td>
                       <td colspan="2">
                         <div class="row">
-                          <div class="col-xs-4"> Pregnant women <br> Adolescents <br> Children </div>
-                          <div class="col-xs-4">Elderly <br>  Refugees <br> Those who cannot give consent (unconscious) </div>
-                          <div class="col-xs-4"> Prisoners <br> Persons with mental or Behavioural  Disorders <br> Others </div>
+                          <div class="col-xs-4">
+                            <?= ($evaluation->vulnerable_pregnant) ? $checked : $nChecked; ?> Pregnant women <br> 
+                            <?= ($evaluation->vulnerable_adolescent) ? $checked : $nChecked; ?> Adolescents <br> 
+                            <?= ($evaluation->vulnerable_children) ? $checked : $nChecked; ?> Children </div>
+                          <div class="col-xs-4">
+                            <?= ($evaluation->vulnerable_elderly) ? $checked : $nChecked; ?> Elderly <br>  
+                            <?= ($evaluation->vulnerable_refugees) ? $checked : $nChecked; ?> Refugees <br> 
+                            <?= ($evaluation->vulnerable_unconscious) ? $checked : $nChecked; ?> Those who cannot give consent (unconscious) </div>
+                          <div class="col-xs-4">
+                            <?= ($evaluation->vulnerable_prisoners) ? $checked : $nChecked; ?> Prisoners <br> 
+                            <?= ($evaluation->vulnerable_mental) ? $checked : $nChecked; ?> Persons with mental or Behavioural  Disorders <br> 
+                            <?= ($evaluation->vulnerable_others) ? $checked : $nChecked; ?> Others </div>
                         </div>
                       </td>
                     </tr>
@@ -74,7 +81,7 @@
                       </td>
                     </tr>
                     <tr class="active">
-                      <td> </td>
+                      <td><?php $numb = 1; ?> </td>
                       <td><strong>Scientific and Technical Issues </strong></td>
                       <td></td>
                     </tr>
@@ -239,7 +246,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><?= $numb++ ?>a.</td>
+                      <td><?= $numb ?>a.</td>
                       <td> Does it outline the possible benefits, if any, to the research participants?</td>
                       <td>
            <?= $evaluation->possible_benefits ?>
@@ -247,7 +254,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><?= $numb ?>b.</td>
+                      <td><?= $numb++ ?>b.</td>
                       <td> Does it outline the possible benefits, if any to the community or to society?</td>
                       <td>
            <?= $evaluation->outline_community ?>
@@ -742,6 +749,7 @@
                 </table>
 
               <?php
+              if($this->request->params['_ext'] != 'pdf') {
               if($prefix == 'manager' or $evaluation->user_id == $this->request->session()->read('Auth.User.id')) {
                   echo    $this->Form->postLink(
                         '<span class="fa fa-trash" aria-hidden="true"></span> Delete',
@@ -749,7 +757,7 @@
                         ['confirm' => 'Are you sure you want to delete this evaluation for '.$application->protocol_no.'?', 'escape' => false,
                           'class' => 'btn btn-warning btn-xs active']
                     );
-              }
+              } }
               ?>
               </div>      
               <hr>

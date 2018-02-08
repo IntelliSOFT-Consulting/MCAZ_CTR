@@ -60,7 +60,12 @@
 
       <div class="row">
         <div class="col-xs-12">          
-          <?= $this->element('applications/evaluation_reports') ?>
+          <?php
+            if (!empty($application->evaluations)) {
+              echo "<h3 class='text-center'>Previous Evaluation(s)</h3>";
+            }
+          ?>
+          <?= $this->element('applications/evaluation_reports', ["evaluations" => $application->evaluations]) ?>
         </div>
       </div>
 
@@ -100,9 +105,27 @@
                       <td></td>
                       <td colspan="2">
                         <div class="row">
-                          <div class="col-xs-4"> Pregnant women <br> Adolescents <br> Children </div>
-                          <div class="col-xs-4">Elderly <br>  Refugees <br> Those who cannot give consent (unconscious) </div>
-                          <div class="col-xs-4"> Prisoners <br> Persons with mental or Behavioural  Disorders <br> Others </div>
+                          <div class="col-xs-4"> 
+                          <?php
+                             echo $this->Form->control('evaluations.100.vulnerable_pregnant', ['type' => 'checkbox', 'label' => 'Pregnant women', 'templates' => 'checkbox_form_ev' ]);
+                             echo $this->Form->control('evaluations.100.vulnerable_adolescent', ['type' => 'checkbox', 'label' => 'Adolescents', 'templates' => 'checkbox_form_ev' ]);
+                             echo $this->Form->control('evaluations.100.vulnerable_children', ['type' => 'checkbox', 'label' => 'Children', 'templates' => 'checkbox_form_ev' ]);
+                          ?>
+                          </div>
+                          <div class="col-xs-4"> 
+                          <?php
+                             echo $this->Form->control('evaluations.100.vulnerable_elderly', ['type' => 'checkbox', 'label' => 'Elderly', 'templates' => 'checkbox_form_ev' ]);
+                             echo $this->Form->control('evaluations.100.vulnerable_refugees', ['type' => 'checkbox', 'label' => 'Refugees', 'templates' => 'checkbox_form_ev' ]);
+                             echo $this->Form->control('evaluations.100.vulnerable_unconscious', ['type' => 'checkbox', 'label' => 'Those who cannot give consent (unconscious)', 'templates' => 'checkbox_form_ev' ]);
+                          ?>
+                          </div>
+                          <div class="col-xs-4"> 
+                          <?php
+                             echo $this->Form->control('evaluations.100.vulnerable_prisoners', ['type' => 'checkbox', 'label' => 'Prisoners', 'templates' => 'checkbox_form_ev' ]);
+                             echo $this->Form->control('evaluations.100.vulnerable_mental', ['type' => 'checkbox', 'label' => 'Persons with mental or Behavioural  Disorders', 'templates' => 'checkbox_form_ev' ]);
+                             echo $this->Form->control('evaluations.100.vulnerable_others', ['type' => 'checkbox', 'label' => 'Others', 'templates' => 'checkbox_form_ev' ]);
+                          ?>
+                          </div>
                         </div>
                       </td>
                     </tr>
@@ -135,7 +158,7 @@
                       </td>
                     </tr>
                     <tr class="active">
-                      <td> </td>
+                      <td> <?php $numb = 1; ?> </td>
                       <td><strong>Scientific and Technical Issues </strong></td>
                       <td></td>
                     </tr>
@@ -302,7 +325,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><?= $numb++ ?>a.</td>
+                      <td><?= $numb ?>a.</td>
                       <td> Does it outline the possible benefits, if any, to the research participants?</td>
                       <td>
                         <?= $this->Form->control('evaluations.100.possible_benefits', ['type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
@@ -310,7 +333,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><?= $numb ?>b.</td>
+                      <td><?= $numb++ ?>b.</td>
                       <td> Does it outline the possible benefits, if any to the community or to society?</td>
                       <td>
                         <?= $this->Form->control('evaluations.100.outline_community', ['type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',

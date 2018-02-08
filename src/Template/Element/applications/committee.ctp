@@ -70,7 +70,7 @@
 
           <hr style="border-width: 1px; border-color: #8a6d3b;">
 
-         <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-committee-review'], 'class' => 'form-horizontal']); ?>
+         <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-committee-review', $application->id], 'class' => 'form-horizontal']); ?>
               <div class="row">
                 <div class="col-xs-12">
                 <?php

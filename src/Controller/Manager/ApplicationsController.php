@@ -79,11 +79,16 @@ class ApplicationsController extends ApplicationsBaseController
         return $this->redirect($this->redirect($this->referer()));
     }
 
-    public function addCommitteeReview() {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+    public function addCommitteeReview($id) {
+        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+                        ['validate' => true,
+                            'associated' => [
+                                'CommitteeReviews' => ['validate' => true],
+                            ]
+                     ]);
             $application->status = 'Committee';
             $application->approved = $this->request->getData('committee_reviews.100.decision');
             // debug($this->request->data);

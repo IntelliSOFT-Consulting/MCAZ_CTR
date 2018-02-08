@@ -62,6 +62,15 @@ class CommitteeReviewsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator->provider('upload', \Josegonzalez\Upload\Validation\UploadValidation::class);
+        $validator->add('file', 'fileUnderPhpSizeLimit', [
+            'rule' => 'isUnderPhpSizeLimit',
+            'message' => 'This file is too large',
+            'provider' => 'upload',
+            'on' => function($context) {
+                return !empty($context['data']['file']) && $context['data']['file']['error'] == UPLOAD_ERR_OK;
+            }
+        ]);
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
