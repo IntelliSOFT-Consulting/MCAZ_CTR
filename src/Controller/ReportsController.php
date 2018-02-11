@@ -47,7 +47,7 @@ class ReportsController extends AppController
         $application_stats = $this->Applications->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Applications->find('all')->func()->count('*')
                                                         ])
-                                                 // ->where(['province_id IS NOT' => null])
+                                                 ->where(['submitted' => 2])
                                                  ->group('year')
                                                  ->hydrate(false);
         foreach ($application_stats->toArray() as $key => $value) {
@@ -69,7 +69,7 @@ class ReportsController extends AppController
         $application_stats = $this->Applications->find('all')->select([ 'mnth' => 'date_format(created,"%b")',
                                                           'count' => $this->Applications->find('all')->func()->count('*')
                                                         ])
-                                                 // ->where(['province_id IS NOT' => null])
+                                                 ->where(['submitted' => 2])
                                                  ->group('mnth')
                                                  ->hydrate(false);
         foreach ($application_stats->toArray() as $key => $value) {
