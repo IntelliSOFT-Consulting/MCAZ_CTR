@@ -45,6 +45,8 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/applicant_committee') ?>
+        <hr style="border-width: 3px; border-color: #1737b5;">
+        <?php echo $this->element('applications/applicant_dg') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="notifications">
         <?= $this->element('applications/applicant_notifications') ?>

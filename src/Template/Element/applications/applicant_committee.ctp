@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-xs-12">
           <?php foreach ($application->committee_reviews as $committee_review) {  ?>
-          <div class="thumbnail">
+          <div class="ctr-groups">
             <p class="topper"><small><em class="text-success">reviewed on: <?= $committee_review['created'] ?> </em></small></p>
               <?php
               echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $committee_review->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
@@ -43,16 +43,6 @@
               </div>      
               <!-- <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Remove</button> -->
               <hr>
-              <?php
-              if($prefix == 'manager' or $committee_review->user_id == $this->request->session()->read('Auth.User.id')) {
-                  echo    $this->Form->postLink(
-                        '<span class="fa fa-trash" aria-hidden="true"></span> Delete',
-                        ['action' => 'remove-committee-review', $committee_review->id],
-                        ['confirm' => 'Are you sure you want to delete this review for '.$application->protocol_no.'?', 'escape' => false,
-                          'class' => 'btn btn-warning btn-xs active']
-                    );
-              }
-              ?>
             
           </div>
           <?php }  ?>

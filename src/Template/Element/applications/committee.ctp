@@ -17,7 +17,7 @@
       <div class="row">
         <div class="col-xs-12">
           <?php foreach ($application->committee_reviews as $committee_review) {  ?>
-          <div class="thumbnail">
+          <div class="ctr-groups">
             <p class="topper"><small><em class="text-success">reviewed on: <?= $committee_review['created'] ?> by <?= $all_evaluators->toArray()[$committee_review->user_id] ?></em></small></p>
         <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $committee_review->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);

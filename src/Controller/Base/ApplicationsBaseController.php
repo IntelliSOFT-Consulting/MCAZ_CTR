@@ -92,6 +92,14 @@ class ApplicationsBaseController extends AppController
         $application = $this->Applications->get($id, [
             'contain' => $contains
         ]);
+        $ekey = 100;
+        if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
+            foreach ($application->evaluations as $key => $value) {
+                if($value['id'] == $this->request->getData('evaluation_id')) {
+                    $ekey = $key;
+                }
+            } 
+        }   
 
         $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($filt, 1);
@@ -102,7 +110,7 @@ class ApplicationsBaseController extends AppController
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
             'id NOT IN' => $filt]);
         
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey'));
         $this->set('_serialize', ['application']);
         $this->render('/Base/Applications/view');
     }
@@ -129,7 +137,7 @@ class ApplicationsBaseController extends AppController
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
                     $data['vars']['evaluator_name'] = $this->Auth->user('name');                
-                    $data['vars']['user_message'] = $this->request->getData('evaluations.100.recommendations');
+                    $data['vars']['user_message'] = $this->request->getData('evaluations.'.$this->request->getData('evaluation_pr_id').'.recommendations');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_create_review_notification';
@@ -504,6 +512,29 @@ class ApplicationsBaseController extends AppController
                 ]
             ]);
             $this->render('/Base/CommitteeReviews/pdf/view');
+        }
+    }
+    public function dg($id = null, $scope = null) {
+        if($scope === 'All') {
+            $dg_reviews = $this->Applications->DgReviews->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $dg = $this->Applications->DgReviews
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+            $application = $dg->application;
+            $dg_reviews[] = $dg;
+        }
+        $this->set(compact('dg_reviews', 'application'));
+        $this->set('_serialize', ['dg_reviews', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_dg_'.$id.'.pdf' : 'application_dg_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/DgReviews/pdf/view');
         }
     }
     public function gcp($id = null, $scope = null) {

@@ -30,10 +30,7 @@
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>                
-                <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
-                <?php } ?>
+                <th scope="col"><?= $this->Paginator->sort('created') ?></th> 
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -42,7 +39,9 @@
             <tr>
                 <td><?= $this->Number->format($application->id) ?></td>
                 <td><?php
-                      echo ($application->submitted == 2) ? $this->Html->link($application->protocol_no, ['action' => 'view', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false, 'class' => 'btn-zangu']) : $application->created ; ?></td>
+                      echo $this->Html->link((($application->submitted == 2) ? $application->protocol_no : $application->created), ['action' => 'view', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false, 'class' => 'btn-zangu']) ; 
+                      ?>
+                  </td>
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
                 <td><?= h($application->status) ?></td>

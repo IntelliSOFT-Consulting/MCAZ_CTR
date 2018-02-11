@@ -240,11 +240,11 @@ class ApplicationsController extends AppController
 
         $amendment = $this->Applications->Amendments->get($id, [
             'contain' => $this->a_contain,
-            'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Amendment']
+            'conditions' => ['Amendments.user_id' => $this->Auth->user('id'), 'Amendments.report_type' => 'Amendment']
         ]);
         $application = $this->Applications->get($amendment->application_id, [
             'contain' => $this->_contain,
-            'conditions' => ['user_id' => $this->Auth->user('id')]
+            'conditions' => ['Applications.user_id' => $this->Auth->user('id')]
         ]);
         if (empty($amendment)) {
             $this->Flash->error(__('The amendment does not exists!!'));

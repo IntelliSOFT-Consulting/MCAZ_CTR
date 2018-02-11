@@ -8,7 +8,7 @@
 
 
 <?php $this->start('form-actions'); ?>
-  <ul class="nav nav-tabs" data-offset-top="60"  role="tablist" id="myTab">
+  <ul class="nav nav-tabs affix" data-spy="affix" data-offset-top="60"  role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    

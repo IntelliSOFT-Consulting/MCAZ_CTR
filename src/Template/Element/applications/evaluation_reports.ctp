@@ -16,7 +16,14 @@
             </a>
             <p class="topper"><small><em class="text-success">evaluated on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?></em></small></p>
         <?php
-         if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+          if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+          if($this->request->params['_ext'] != 'pdf' and $prefix == 'manager') {
+            echo $this->Form->postLink(
+                __('Edit'),
+                [],
+                ['data' => ['evaluation_id' => $evaluation->id], 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
+            );
+          }        
         ?>
               <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 <table class="table table-bordered table-condensed">

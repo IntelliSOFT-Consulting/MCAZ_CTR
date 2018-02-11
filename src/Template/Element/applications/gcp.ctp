@@ -74,9 +74,9 @@
                                'label' => '<b>Decision</b>', 'escape' => false,
                                'templates' => 'radio_form',
                                'options' => [
-                                  'Passed' => 'Passed', 
+                                  'Compliance' => 'Compliance', 
                                   'Pending' => 'Pending', 
-                                  'Failed' => 'Failed', ]]);                     
+                                  'Non-compliance' => 'Non-compliance', ]]);                     
                 echo $this->Form->control('gcp_inspections.100.file', ['label' => 'GCP Attachment', 'type' => 'file', 'escape' => false, 'templates' => 'app_form']);
           ?>
           </div>          

@@ -28,10 +28,7 @@
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
-                <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
-                <?php } ?>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"></th>
             </tr>
         </thead>
