@@ -99,6 +99,18 @@
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= ($this->request->params['action'] == 'protocolsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Year ', ['controller' => 'Reports', 'action' => 'protocolsPerYear', 'prefix' => false], array('escape' => false)); ?> 
             </li>
+            <li class="<?= ($this->request->params['action'] == 'protocolsPerPhase') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Phase ', ['controller' => 'Reports', 'action' => 'protocolsPerPhase', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'researchArea') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Research Area', ['controller' => 'Reports', 'action' => 'researchArea', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'timelinesForReview') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Timelines for Review', ['controller' => 'Reports', 'action' => 'timelinesForReview', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'processingStatus') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Processing Status', ['controller' => 'Reports', 'action' => 'processingStatus', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'amendmentsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Amendments Per Year', ['controller' => 'Reports', 'action' => 'amendmentsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'notificationsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Notifications Per Year', ['controller' => 'Reports', 'action' => 'notificationsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
           </ul>
         <?php } ?>
     </li>

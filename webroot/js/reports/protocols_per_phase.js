@@ -11,10 +11,12 @@ $(function () {
                 title: {
                     text: data.title
                 },
-                series: [{
-                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
-                    name: dname
-                }], 
+                // series: [{
+                //     data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
+                //     name: dname
+                // }], 
+                series: 
+                    data.data, 
                 xAxis: {
                     type: 'category'
                 }
@@ -22,13 +24,14 @@ $(function () {
     }
 
     $.ajax({
-        url: '/reports/protocols-per-year.json',
+        url: '/reports/protocols-per-phase.json',
         type: 'GET',
         async: true,
         dataType: "json",
         success: function (data) {
-            console.info(data);
-            sadrChart(data, 'protocols-year', "Years");
+            console.log("begin display");
+            console.log(data.data);
+            sadrChart(data, 'protocols-phase', "Phase");
         }
     });
 });

@@ -22,13 +22,13 @@ $(function () {
     }
 
     $.ajax({
-        url: '/reports/protocols-per-year.json',
+        url: '/reports/notifications-per-year.json',
         type: 'GET',
         async: true,
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, 'protocols-year', "Years");
+            sadrChart(data, 'notifications-year', "Years");
         }
     });
 });
