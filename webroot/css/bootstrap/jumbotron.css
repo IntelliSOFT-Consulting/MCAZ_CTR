@@ -1,0 +1,121 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.jumbotron {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.sterix {
+    color: #b50909;
+    font-weight: bold;
+    /*font-size: 47%;*/
+    vertical-align: super;
+}
+i.sterix {
+  font-size: 47%;
+}
+span.sterix {
+  /*font-size: 47%;*/
+}
+
+/*change navbar color*/
+
+.jumbotron {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#aa89d6+0,685ba5+50,b38fe0+100 */
+background: rgb(170,137,214); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(170,137,214,1) 0%, rgba(104,91,165,1) 50%, rgba(179,143,224,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(170,137,214,1) 0%,rgba(104,91,165,1) 50%,rgba(179,143,224,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(170,137,214,1) 0%,rgba(104,91,165,1) 50%,rgba(179,143,224,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aa89d6', endColorstr='#b38fe0',GradientType=0 ); /* IE6-9 */
+
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2) inset, 0 -3px 7px rgba(0, 0, 0, 0.2) inset;
+    color: #FFFFFF;
+    padding: 0px 0;
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 0, 0, 0.075);
+}
+
+.jumbotron a {
+  color: #FBFBFB;
+  color: rgba(255,255,255,0.9);
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+
+.jumbotron h1 {
+  color: #FBFBFB;
+  color: rgba(255,255,255,0.9);
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+   font-size: 48px;
+}
+
+.sadr_form {
+  background-color: #71C7A0;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.aefi_form {
+  background-color: #FF92C9;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.adr_form {
+  background-color: #7f7fff;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.saefi_form {
+  background-color: #FF92C9;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+h1.has-warning, h2.has-warning, h3.has-warning, h4.has-warning, h5.has-warning, p.has-warning {
+    color: #aa6708; 
+}
+
+h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-error {
+    color: #a94442;
+}
+
+.footer {
+    background-color: #2F1F50;
+    margin-top: 2px;
+    padding: 30px 0;
+}
+
+.footer p {
+    color: #FFFFFF;
+    margin-bottom: 0;
+}
+/*
+.ui-widget-content a {
+    color: #337ab7;
+}*/
+.my-sidebar {
+  min-height: 20px;
+  padding-top: 19px;
+  padding-left: 8px;
+  padding-right: 8px; 
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}

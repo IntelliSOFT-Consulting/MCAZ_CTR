@@ -1,0 +1,22 @@
+   bin/cake bake template Articles
+   bin/cake bake.bake  template attachments 
+   bin/cake bake.bake template counties 
+   bin/cake bake.bake template countries 
+   bin/cake bake.bake template designations 
+   bin/cake bake.bake template doses 
+   bin/cake bake.bake template drug_dictionaries 
+   bin/cake bake.bake template facility_codes 
+   bin/cake bake.bake template feedbacks 
+   bin/cake bake.bake template frequencies 
+   bin/cake bake.bake template groups 
+   bin/cake bake.bake template help_infos 
+   bin/cake bake.bake template messages 
+   bin/cake bake.bake template pqmps 
+   bin/cake bake.bake template routes 
+   bin/cake bake.bake template sadr_followups 
+   bin/cake bake.bake template sadr_list_of_drugs 
+   bin/cake bake.bake template sadrs 
+   bin/cake bake.bake template sub_counties 
+   bin/cake bake.bake template users 
+   bin/cake bake.bake template who_drugs 
+

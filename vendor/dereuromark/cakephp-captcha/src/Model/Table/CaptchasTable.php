@@ -1,0 +1,156 @@
+<?php
+namespace Captcha\Model\Table;
+
+use BadMethodCallException;
+use Cake\Core\Configure;
+use Cake\Database\Schema\TableSchema;
+use Cake\I18n\Time;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+use Captcha\Model\Rule\MaxRule;
+
+/**
+ * @property \Cake\ORM\Association\BelongsTo $Sessions
+ * @method \Captcha\Model\Entity\Captcha get($primaryKey, $options = [])
+ * @method \Captcha\Model\Entity\Captcha newEntity($data = null, array $options = [])
+ * @method \Captcha\Model\Entity\Captcha[] newEntities(array $data, array $options = [])
+ * @method \Captcha\Model\Entity\Captcha|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \Captcha\Model\Entity\Captcha patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \Captcha\Model\Entity\Captcha[] patchEntities($entities, array $data, array $options = [])
+ * @method \Captcha\Model\Entity\Captcha findOrCreate($search, callable $callback = null, $options = [])
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ */
+class CaptchasTable extends Table {
+
+	/**
+	 * @param \Cake\Database\Schema\TableSchema $schema
+	 *
+	 * @return \Cake\Database\Schema\TableSchema
+	 */
+	protected function _initializeSchema(TableSchema $schema) {
+		$schema->columnType('image', 'image');
+		return $schema;
+	}
+
+	/**
+	 * Initialize method
+	 *
+	 * @param array $config The configuration for the Table.
+	 * @return void
+	 */
+	public function initialize(array $config) {
+		parent::initialize($config);
+
+		$this->table('captchas');
+		$this->displayField('id');
+		$this->primaryKey('id');
+
+		$this->addBehavior('Timestamp');
+	}
+
+	/**
+	 * Default validation rules.
+	 *
+	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 * @return \Cake\Validation\Validator
+	 */
+	public function validationDefault(Validator $validator) {
+		$validator
+			->integer('id')
+			->allowEmpty('id', 'create');
+
+		$validator
+			->requirePresence('ip', 'create')
+			->notEmpty('ip');
+
+		$validator
+			->requirePresence('session_id', 'create')
+			->notEmpty('session_id');
+
+		$validator
+			->allowEmpty('result');
+
+		$validator
+			->dateTime('used')
+			->allowEmpty('used');
+
+		return $validator;
+	}
+
+	/**
+	 * Returns a rules checker object that will be used for validating
+	 * application integrity.
+	 *
+	 * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+	 * @return \Cake\ORM\RulesChecker
+	 */
+	public function buildRules(RulesChecker $rules) {
+		$rules->addCreate(new MaxRule());
+
+		return $rules;
+	}
+
+	/**
+	 * @param string $sessionId
+	 * @param string $ip
+	 *
+	 * @return int
+	 */
+	public function touch($sessionId, $ip) {
+		$probability = (int)Configure::read('Captcha.cleanupProbability');
+		$this->cleanup($probability);
+
+		$captcha = $this->newEntity(
+			[
+				'session_id' => $sessionId,
+				'ip' => $ip,
+			]
+		);
+		if (!$this->save($captcha)) {
+			throw new BadMethodCallException('Sth went wrong: ' . print_r($captcha->errors(), true));
+		}
+
+		return $captcha->id;
+	}
+
+	/**
+	 * @param string $ip
+	 * @param string $sessionId
+	 *
+	 * @return int
+	 */
+	public function getCount($ip, $sessionId) {
+		return $this->find()
+			->where(['or' => ['ip' => $ip, 'session_id' => $sessionId]])
+			->count();
+	}
+
+	/**
+	 * @param int $probability
+	 * @return int
+	 */
+	public function cleanup($probability = 100) {
+		if (!$probability) {
+			return 0;
+		}
+		$randomNumber = mt_rand(1, 100);
+		if ((int)$probability < $randomNumber) {
+			return 0;
+		}
+
+		$maxTime = Configure::read('Captcha.maxTime');
+		return $this->deleteAll(['or' => ['created <' => new Time(time() - $maxTime), 'used IS NOT' => null]]);
+	}
+
+	/**
+	 * @param \Captcha\Model\Entity\Captcha $captcha
+	 *
+	 * @return bool
+	 */
+	public function markUsed($captcha) {
+		$captcha->used = new Time();
+		return (bool)$this->save($captcha);
+	}
+
+}

@@ -1,0 +1,393 @@
+
+body {
+  /* background-image: url("../img/cream_dust.png"); */
+  /*background: url("../img/cream_dust.png") repeat scroll 0% 0% transparent;*/
+  /* background: #e3e7ec url(../img/page.png) repeat-y center */
+   background: url("../img/bgeddie.png") repeat-y scroll center center #FFFFFF; /**/
+  /*background-image: url("/pv/css/images/Bottom_texture.jpg");
+  background-position: left top;
+  background-repeat: repeat-x;*/
+  /*padding-top: 60px;*/
+}
+/* Make Tabs Vertical */
+.ui-tabs-vertical { width: 55em; }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+
+.formback {
+  /*background: url("../img/straws.png") repeat scroll 0% 0% transparent;*/
+}
+
+.sterix {
+	color: red;
+}
+form .required {
+    font-weight: bold;
+}
+form .required label:after {
+    color: #ED1D24;
+    display: inline;
+}
+p.error {
+    color: #B94A48;
+}
+span.error  {
+    color: #B94A48;
+}
+.error  {
+    color: #B94A48;
+}
+p.tablenums {
+    color: #BEBEC5;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.form-horizontal .control-label {
+	color: #007000;
+	/*width: 240px;*/
+}
+.form-horizontal .control-checklabel {	width: 40px; padding-top:0px; float: left; text-align: right;}
+.form-horizontal .control-nolabel { color: #007000; }
+.form-horizontal .control-multilabel { color: #007000; width:10px; float: left; text-align: right;}
+/*.form-horizontal .controls { margin-left: 260px; }*/
+/*.form-horizontal .checkcontrols { margin-left: 60px; }*/
+.form-horizontal .input-prepend {
+    display: inherit;
+}
+
+.form-horizontal .help-inline {
+    color: #C09853;
+    font-weight: normal;
+}
+.form-horizontal .help-inline > a{
+    color: #0088CC;
+	font-size: 0.75em;
+}
+
+/*.jumbotron .container, .navbar-fixed-top .container {
+	 width: 1200px;  Find alternative way
+	border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
+}*/
+
+
+.condend {
+    background: none repeat scroll 0 0 #FFFFFF;
+    background-repeat: repeat-x;
+    /*padding-left: 10px;
+    padding-right: 10px;*/
+    padding-top: 10px;
+    position: relative;
+}
+
+.condender {
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
+
+.navbar .bootsnippbrand {
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-size: 20px;
+    /*font-weight: 400;*/
+    margin-left: -10px;
+    margin-right: 20px;
+    /*padding: 5px 20px;*/
+}
+
+
+.jumbotron a {
+  color: #FBFBFB;
+  color: rgba(255,255,255,0.9);
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+
+.jumbotron h1 {
+  color: #FBFBFB;
+  color: rgba(255,255,255,0.9);
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+   font-size: 48px;
+}
+
+/*
+.navbar .nav.pull-right {
+    margin: 10px 10px 0 0;
+}
+.navbar .nav {
+    margin: 10px 10px 0 0;
+}*/
+/*.navbar .bootsnippbrand {
+    margin-right: 10px;
+    padding: 2px 10px;
+}*/
+.navbar-fixed-top .nav > li {
+    /*line-height: 40px;*/
+}
+
+.nav-list > .active > a, .nav-list > .active > a:hover {
+    background-color: #89D353;
+}
+.bs-docs-sidenav {  width: auto; margin: 0px} /**/
+.my-sidebar {  width: 165px;}
+section {  padding-top: 15px; }
+.download .page-header {
+    margin-top: 10px;
+}
+
+/*Grouping Styles*/
+/* Base class */
+.ctr-groups {
+  position: relative;
+  margin: 7px 0;
+  padding: 25px 0px 0px 0px;
+  /*padding-top: 19px;*/
+  background-color: #fff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.ctr-groups p.topper {
+  background-color: #F5F5F5;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px 0 4px 0;
+  color: #9da0a4;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: bold;
+  left: -1px;
+  padding: 3px 7px;
+  position: absolute;
+  top: -1px;
+}
+.topright {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.ctr-groups  hr {
+    border-color: #96D765 -moz-use-text-color #FFFFFF;
+    border-style: solid none;
+    border-width: 1px 0;
+    margin: 20px 0;
+}
+.my-sidebar hr {
+   margin: 10px 0;
+}
+hr.my-view {
+    border-color: #28054F -moz-use-text-color #FFFFFF;
+    border-style: solid none;
+    border-width: 1px 0;
+    margin: 10px 0;
+}
+
+.my-well {
+    background-color: #F5F5F5;
+    /*border: 1px solid #E3E3E3;*/
+    /*border-radius: 4px 4px 4px 4px;*/
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;*/
+    /*margin-bottom: 20px;*/
+    min-height: 20px;
+    /*padding: 19px;*/
+}
+
+.my-tab-content {
+  border-top: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  padding-left: 19px;
+  padding-right: 19px;
+}
+.tabs-left > .nav-tabs {
+    margin-right: 0px;
+}
+
+.checkbox {
+ color: #007000;
+}
+/* Echo out a label for the example */
+.bs-docs-example:after {
+  content: "Example";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #9da0a4;
+  -webkit-border-radius: 4px 0 4px 0;
+     -moz-border-radius: 4px 0 4px 0;
+          border-radius: 4px 0 4px 0;
+}
+
+th.table-label,
+td.table-label {
+  color: #007000;
+  width: 27.5%;
+  padding-right: 15px;
+}
+
+tr.table-amendlabel {
+  background-color: #F9F9F9;
+}
+th.table-amendlabel,
+td.table-amendlabel {
+  color: #B94A48;
+  font-style: italic;
+  font-size: 88%;
+  border: 0px solid #DDDDDD;
+  text-decoration: underline;
+}
+td.table-amendlabel:before {
+  content: 'amendment field';
+}
+
+tr.table-viewlabel {
+  /*border: 1px solid #DDDDDD;*/
+  background-color: #F9F9F9;
+}
+td.table-viewlabel,
+td.table-viewlabel:before {
+  content: 'amendment ';
+  color: #1F9EDE;
+  font-style: italic;
+  font-size: 88%;
+  border: 0px solid #DDDDDD;
+  text-decoration: underline;
+}
+
+td.table-label > p{
+  float: right;
+  text-align: right;
+}
+
+/*.navbar-inverse .activebrand  {
+    color: #FFFFFF;
+}*/
+
+.table-intable td {
+    border-left: 0px;
+    font-size: 88%;
+}
+
+table td {
+  vertical-align: top;
+}
+
+.read-more a {
+  color: #FC2828;
+  font-style: italic;
+  font-size: 11px;
+}
+.read-less a {
+  color: #FC2828;
+  font-style: italic;
+  font-size: 11px;
+}
+/*#B94A48*/
+
+[class^="icon-"], [class*=" icon-"] {
+  background-image:none;
+  height:auto;
+  line-height:normal;
+  margin-top:0;
+  vertical-align:baseline;
+  width:auto;
+}
+
+.ui-combobox {
+    position: relative;
+    display: inline-block;
+  }
+  .ui-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    /* adjust styles for IE 6/7 */
+    *height: 1.7em;
+    *top: 0.1em;
+  }
+  .ui-combobox-input {
+    margin: 0;
+    padding: 0.3em;
+  }
+.ui-widget {
+    font-size: 12.5px;
+}
+
+/*REMOVE TOP BORDER IN AMENDMENT TABLE*/
+th.table-noline, td.table-noline {
+    border-top: 0px;
+}
+
+/*set the default cursor to be pointer in xeditable */
+.xeditable {
+  cursor: pointer;
+}
+
+#tabs-13 .delete_file_link {
+  margin-left:10px;
+}
+
+hr {
+    border-bottom: 1px solid #ffffff;
+}
+
+table.vertical-table th {
+  width: 27.33%;
+  text-align: right;
+}
+table.vertical-table th > label {
+  color: #007000;
+}
+table.evaluation-table th {
+  width: 27.33%;
+}
+.muted {
+    color: #999999;
+}
+
+.amend-form {
+  background-color: #F9F9F9;
+  position: relative;
+  /*margin: 3px 0;*/
+  padding: 15px 15px 15px 15px;
+  /*padding-top: 19px;*/
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+
+tr.amender {
+  background-color: #F9F9F9;
+}
+tr.amender th, tr.amender th:before  {
+  content: 'amendment ';
+  color: #1F9EDE;
+  font-style: italic;
+  font-size: 88%;
+  font-weight: normal;
+  text-align: left;
+  border: 0px solid #DDDDDD;
+  text-decoration: underline;
+}
+
+.approvals{
+  background-color: #c6ecc6; 
+  border-radius: 4px 4px 0 0;
+}

@@ -1,0 +1,8 @@
+/phpunit.phar
+/vendor/
+/tmp/
+/composer.lock
+/composer.phar
+/.idea/
+/logs/
+/config/Migrations/schema-dump-default.lock
