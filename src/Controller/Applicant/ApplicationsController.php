@@ -735,6 +735,28 @@ class ApplicationsController extends AppController
             ]);
         }
     }
+    public function dg($id = null, $scope = null) {
+        if($scope === 'All') {
+            $dg_reviews = $this->Applications->DgReviews->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+        } else {
+            $dg = $this->Applications->DgReviews
+                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+            $application = $dg->application;
+            $dg_reviews[] = $dg;
+        }
+        $this->set(compact('dg_reviews', 'application'));
+        $this->set('_serialize', ['dg_reviews', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_dg_'.$id.'.pdf' : 'application_dg_'.$id.'.pdf'
+                ]
+            ]);
+        }
+    }
     public function gcp($id = null, $scope = null) {
         if($scope === 'All') {
             $gcp_inspections = $this->Applications->GcpInspections->findByApplicationId($id)->contain(['Users']);

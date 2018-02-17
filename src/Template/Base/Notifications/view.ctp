@@ -6,6 +6,12 @@
 <h1 class="page-header">Notification</h1>
 
 <?= $this->Html->link('<i class="fa fa-list-ul" aria-hidden="true"></i> List Notifications', ['action' => 'index'], array('escape' => false, 'class' => 'btn btn-success')); ?> &nbsp;
+<?= $this->Form->postLink(
+        '<span class="label label-danger">delete</span>',
+        ['action' => 'delete', $notification->id],
+        ['class' => 'btn-zangu', 'escape' => false, 'confirm' => __('Are you sure you want to delete notification {0}?', $notification->id)]
+    )
+?>
 <br><br>
 
 <div class="notifications view large-9 medium-8 columns content">

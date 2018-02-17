@@ -17,7 +17,7 @@
      <dt scope="row"><?= __('Phone No') ?></dt>
         <dd><?= h($user->phone_no) ?></dd>
         <dt scope="row"><?= __('Group') ?></dt>
-        <dd><?= $user->group->name ?></dd>
+        <dd><?= $user['Groups']['name'] ?></dd>
     </dl>
   </div>
   <div class="col-md-6">

@@ -24,7 +24,8 @@ class UsersController extends AppController
 
     public function initialize() {
        parent::initialize();
-       $this->loadComponent('Paginator');
+       $this->loadComponent('Paginator');       
+       $this->loadComponent('Util');
        // $this->Auth->allow('logout', 'activate', 'view');       
     }
 

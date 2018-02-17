@@ -8,26 +8,26 @@
 	<?php
 		echo $this->Form->control('sponsors.0.id', ['templates' => 'table_form']);
 		echo $this->Form->control('sponsors.0.sponsor', array(
-			'label' => 'Sponsor <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Sponsor ', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.contact_person', array(
 			'label' => 'Contact Person', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.address', array(
-			'label' => 'Address <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Address ', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.telephone_number', array(
-			'label' => 'Telephone Number <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Telephone Number ', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.fax_number', array(
 			'label' => 'Fax Number', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.cell_number', array(
-			'label' => 'Mobile Phone Number <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Mobile Phone Number ', 'escape' => false
 		));
 		echo $this->Form->control('sponsors.0.email_address', array(
 			'type' => 'email',
-			'label' => 'Email Address <span class="sterix">*</span>', 'escape' => false
+			'label' => 'Email Address ', 'escape' => false
 		));
 		echo $this->Html->tag('hr', '', array('id' => 'sponsorsHr0'));
 	?>
@@ -43,26 +43,26 @@
 				echo '<p  class="topper" id="sponsorsDetailLabel'.$i.'">'.($i+1).' additional sponsors</p>';
 				echo '<span class="badge badge-info">'.($i+1).'</span>';
 				echo $this->Form->control('sponsors.'.$i.'.sponsor', array(
-					'label' =>  'Organization <span class="sterix">*</span>', 'escape' => false
+					'label' =>  'Organization ', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.contact_person', array(
 					'label' => 'Contact Person', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.address', array(
-					'label' =>  'Address <span class="sterix">*</span>', 'escape' => false
+					'label' =>  'Address ', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.telephone_number', array(
-					'label' =>  'Telephone Number <span class="sterix">*</span>', 'escape' => false
+					'label' =>  'Telephone Number ', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.fax_number', array(
 					'label' => 'Fax Number', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.cell_number', array(
-					'label' =>  'Mobile phone number <span class="sterix">*</span>', 'escape' => false
+					'label' =>  'Mobile phone number ', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.email_address', array(
 					'type' => 'email',
-					'label' =>  'Email Address <span class="sterix">*</span>', 'escape' => false
+					'label' =>  'Email Address ', 'escape' => false
 				));
 				echo $this->Html->tag('div', '<button id="SponsorDetail'.$i.'" class="btn btn-mini btn-danger removeSponsorDetail" type="button">Remove Detail</button>', array(
 							'class' => 'controls', 'escape' => false));

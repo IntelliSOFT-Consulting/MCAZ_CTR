@@ -270,12 +270,6 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('model' => 'Applications', 'category' => 'advertisments'),
         ]);
-        $this->hasMany('ElectronicVersions', [
-            'className' => 'Attachments',
-            'foreignKey' => 'foreign_key',
-            'dependent' => true,
-            'conditions' => array('model' => 'Applications', 'category' => 'electronic_versions'),
-        ]);
         $this->hasMany('SafetyMonitors', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

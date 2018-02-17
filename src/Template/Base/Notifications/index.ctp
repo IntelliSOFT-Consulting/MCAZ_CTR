@@ -38,6 +38,12 @@
                 <td><?= h($notification->created) ?></td>
                 <td class="actions">
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $notification->id], array('escape' => false));  ?>
+                    <?= $this->Form->postLink(
+                            '<span class="label label-danger">delete</span>',
+                            ['action' => 'delete', $notification->id],
+                            ['class' => 'btn-zangu', 'escape' => false, 'confirm' => __('Are you sure you want to delete notification {0}?', $notification->id)]
+                        )
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>

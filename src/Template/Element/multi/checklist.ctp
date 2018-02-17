@@ -656,36 +656,6 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
   <div class="col-sm-11">
     <div class="checkcontrols">
       <?php
-          echo $this->Form->control('applicant_electronic_versions', 
-                      ['type' => 'checkbox', 'label' => 'Electronic versions of the application form + protocol on CD or flash disk'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
-      ?>
-    </div>
-    <div id="electronic_versions" class="checkcontrols" title="electronic_versions">
-    <?php
-        if (!empty($application['electronic_versions'])) {
-          for ($i = 0; $i <= count($application['electronic_versions'])-1; $i++) { ?>
-          <div style="margin-top: 5px; margin-bottom: 5px;">
-          <?php
-            echo $this->Html->link($application['electronic_versions'][$i]->file, substr($application['electronic_versions'][$i]->dir, 8) . '/' . $application['electronic_versions'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
-            echo '&nbsp;<button value="'.$application['electronic_versions'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_link">
-              &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
-          ?>
-        </div>
-        <?php
-          }
-        } 
-    ?>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-1 checkbox">
-    <label><?= $numb++ ?>.</label>
-  </div>
-  <div class="col-sm-11">
-    <div class="checkcontrols">
-      <?php
           echo $this->Form->control('applicant_safety_monitoring', 
                       ['type' => 'checkbox', 'label' => 'Proof of Provision of Data Safety Monitoring Board (DSMB/DMC) Committee'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>

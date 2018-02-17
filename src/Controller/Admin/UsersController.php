@@ -78,7 +78,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => ['groups']
         ]);
 
         //
@@ -177,6 +177,53 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
+
+    public function deactivate($id = null)
+    {
+        $user = $this->Users->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if ($user) {
+                $query = $this->Users->query();
+                $query->update()
+                    ->set(['deactivated' => 1])
+                    ->where(['id' => $user->id])
+                    ->execute();
+                $this->set([
+                        'message' => 'Deactivation successful.', 
+                        '_serialize' => ['message']]);
+            } else {             
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => 'Unable to get user', 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+            }
+        }
+    }
+    public function activate($id = null)
+    {
+        $user = $this->Users->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if ($user) {
+                $query = $this->Users->query();
+                $query->update()
+                    ->set(['deactivated' => 0])
+                    ->where(['id' => $user->id])
+                    ->execute();
+                $this->set([
+                        'message' => 'Reactivation successful.', 
+                        '_serialize' => ['message']]);
+            } else {             
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => 'Unable to get user', 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+            }
+        }
+    }
     /**
      * Delete method
      *

@@ -48,7 +48,7 @@
       $.ajax({
             async:true,
             type: 'POST',
-            url: '/notifications/delete.json',
+            url: '/notifications/delete/'+dataToSend.id+'.json',
             data: dataToSend,
             success: function (data) {
                 // $('#registrationModal').modal('hide')

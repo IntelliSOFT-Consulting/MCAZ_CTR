@@ -722,7 +722,7 @@
              for ($i = 0; $i <= count($application['sponsors'])-1; $i++) {
             ?>
             <tr>
-              <th><label>Sponsors <span class="sterix">*</span></label></th>
+              <th><label>Sponsors </label></th>
               <td><?= $application->sponsors[$i]['sponsor'] ?></td>
             </tr>
             <tr>
@@ -730,11 +730,11 @@
               <td><?= $application->sponsors[$i]['contact_person'] ?></td>
             </tr>
             <tr>
-              <th><label>Address <span class="sterix">*</span></label></th>
+              <th><label>Address </label></th>
               <td><?= $application->sponsors[$i]['address'] ?></td>
             </tr>
             <tr>
-              <th><label>Telephone Number <span class="sterix">*</span></label></th>
+              <th><label>Telephone Number </label></th>
               <td><?= $application->sponsors[$i]['telephone_number'] ?></td>
             </tr>
             <tr>
@@ -742,11 +742,11 @@
               <td><?= $application->sponsors[$i]['fax_number'] ?></td>
             </tr>
             <tr>
-              <th><label>Mobile phone number <span class="sterix">*</span></label></th>
+              <th><label>Mobile phone number </label></th>
               <td><?= $application->sponsors[$i]['cell_number'] ?></td>
             </tr>
             <tr>
-              <th><label>Email Address <span class="sterix">*</span></label></th>
+              <th><label>Email Address </label></th>
               <td><?= $application->sponsors[$i]['email_address'] ?></td>
             </tr>
             <tr><td colspan="2"></td></tr>
@@ -762,7 +762,7 @@
                 for ($i = 0; $i <= count($amendment['sponsors'])-1; $i++) {
             ?>
             <tr>
-              <th><?php echo $key+1; ?> &nbsp; <label>sponsors <span class="sterix">*</span></label></th>
+              <th><?php echo $key+1; ?> &nbsp; <label>sponsors </label></th>
               <td><?= $amendment->sponsors[$i]['sponsor'] ?></td>
             </tr>
             <tr>
@@ -770,11 +770,11 @@
               <td><?= $amendment->sponsors[$i]['contact_person'] ?></td>
             </tr>
             <tr>
-              <th><?php echo $key+1; ?> &nbsp; <label>Address <span class="sterix">*</span></label></th>
+              <th><?php echo $key+1; ?> &nbsp; <label>Address </label></th>
               <td><?= $amendment->sponsors[$i]['address'] ?></td>
             </tr>
             <tr>
-              <th><?php echo $key+1; ?> &nbsp; <label>Telephone Number <span class="sterix">*</span></label></th>
+              <th><?php echo $key+1; ?> &nbsp; <label>Telephone Number </label></th>
               <td><?= $amendment->sponsors[$i]['telephone_number'] ?></td>
             </tr>
             <tr>
@@ -782,11 +782,11 @@
               <td><?= $amendment->sponsors[$i]['fax_number'] ?></td>
             </tr>
             <tr>
-              <th><?php echo $key+1; ?> &nbsp; <label>Mobile phone number <span class="sterix">*</span></label></th>
+              <th><?php echo $key+1; ?> &nbsp; <label>Mobile phone number </label></th>
               <td><?= $amendment->sponsors[$i]['cell_number'] ?></td>
             </tr>
             <tr>
-              <th><?php echo $key+1; ?> &nbsp; <label>Email Address <span class="sterix">*</span></label></th>
+              <th><?php echo $key+1; ?> &nbsp; <label>Email Address </label></th>
               <td><?= $amendment->sponsors[$i]['email_address'] ?></td>
             </tr>
             <tr><td colspan="2"></td></tr>
@@ -3418,33 +3418,6 @@ Names and Addresses of owners of animals</small></h5> </td>
             <tr class="amender">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['advertisments'][$i]->file, substr($amendment['advertisments'][$i]->dir, 8) . '/' . $amendment['advertisments'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
-            </tr>
-           <?php     
-                } } }
-            ?>
-          <tr>
-            <td><label><?= $numb++ ?>.</label></td>
-            <td>
-              <label>
-                <?= ($application->applicant_electronic_versions) ? $checked : $nChecked; ?> Electronic versions of the application form + protocol on CD or flash disk
-              </label>
-              <br>
-               <?php
-               if (!empty($application['electronic_versions'])) {
-                    for ($i = 0; $i <= count($application['electronic_versions'])-1; $i++) { 
-                      echo $this->Html->link($application['electronic_versions'][$i]->file, substr($application['electronic_versions'][$i]->dir, 8) . '/' . $application['electronic_versions'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                    }
-                  } 
-              ?>
-             </td>
-           </tr>
-          <?php
-            foreach($application['amendments'] as $key => $amendment) {
-              if($amendment['submitted'] == 2 && !empty($amendment['electronic_versions'])){
-                for ($i = 0; $i <= count($amendment['electronic_versions'])-1; $i++) { ?>                
-            <tr class="amender">
-              <th><?php echo $key+1; ?> </th>
-              <td><?= $this->Html->link($amendment['electronic_versions'][$i]->file, substr($amendment['electronic_versions'][$i]->dir, 8) . '/' . $amendment['electronic_versions'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
            <?php     
                 } } }
