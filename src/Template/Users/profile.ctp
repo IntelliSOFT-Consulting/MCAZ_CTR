@@ -1,5 +1,7 @@
 <?php
     $this->assign('Login', 'active');
+
+    $this->assign('Profile', 'active');
 ?>
 <?php $this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>

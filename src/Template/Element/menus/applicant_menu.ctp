@@ -27,13 +27,19 @@
          <li class="<?php echo $this->fetch('MyApplications') ?>">
           <?php
             echo $this->Html->link('<i class="fa fa-files-o"></i> My Applications',
-              array('controller' => 'Users', 'action'=>'dashboard', 'prefix' => $prefix ), array('escape' => false ));
+              array('controller' => 'Applications', 'action'=>'index', 'prefix' => $prefix ), array('escape' => false ));
               ?>
          </li>
-         <li class="<?php echo $this->fetch('ContactUs') ?>">
+         <li class="<?php echo $this->fetch('MyMessages') ?>">
           <?php
             echo $this->Html->link('<i class="fa fa-comment-o"></i> My Messages',
-              array('controller' => 'Users', 'action'=>'dashboard', 'prefix' => $prefix ), array('escape' => false ));
+              array('controller' => 'Notifications', 'action'=>'index', 'prefix' => $prefix ), array('escape' => false ));
+              ?>
+         </li>
+         <li class="<?php echo $this->fetch('FeesSchedule') ?>">
+          <?php
+            echo $this->Html->link('<i class="fa fa-money"></i> Fees Schedule',
+              array('controller' => 'Pages', 'action'=>'fees', 'prefix' => false ), array('escape' => false ));
               ?>
          </li>
          <li class="<?php echo $this->fetch('Profile') ?>">

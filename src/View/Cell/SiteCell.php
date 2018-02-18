@@ -49,4 +49,10 @@ class SiteCell extends Cell
         $site = $this->Sites->get(4, [ 'contain' => []]);
         $this->set(compact('site'));
     }
+    public function fees()
+    {
+        $this->loadModel('Sites');
+        $site = $this->Sites->get(5, [ 'contain' => []]);
+        $this->set(compact('site'));
+    }
 }

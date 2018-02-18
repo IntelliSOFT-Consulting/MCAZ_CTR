@@ -10,6 +10,15 @@
 
     <div class="row">
         <div class="col-md-12">
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Fees Schedule
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div class="well">
+              <?= $this->cell('Site::fees'); ?>
+            </div>
+          </div>
+      
             <h4>Kindly upload all the scanned receipts for the required fees: <button type="button" class="btn btn-primary btn-sm" id="addReceipt">
                           Add <i class="fa fa-plus"></i>
                         </button></h4>

@@ -4,7 +4,8 @@
  * @var \App\Model\Entity\Sadr[]|\Cake\Collection\CollectionInterface $sadrs
  */
 // pr($this);
-// pr($sadrs);
+
+  $this->assign('Dashboard', 'active');
 ?>
 
 <div class="row">

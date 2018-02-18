@@ -2,6 +2,10 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+<?php
+    $this->assign('MyMessages', 'active');
+?>
+
 <h1 class="page-header">  <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications</h1>
 
 <?= $this->element('notifications/search') ?>

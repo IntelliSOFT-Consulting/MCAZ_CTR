@@ -1,4 +1,5 @@
 <?php
+  $this->assign('MyApplications', 'active');
   $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
   $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
   $numb = 1;
