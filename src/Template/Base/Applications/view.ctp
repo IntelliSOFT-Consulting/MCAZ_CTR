@@ -16,12 +16,14 @@
       <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php if($prefix === 'manager') { ?>   
-      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Ev(s)</b></a></li>
+      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
       <?php } ?> 
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
-      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
-      <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>DG</b></a></li>   
+      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>
+      <?php if($prefix === 'manager') { ?>     
+      <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>DG</b></a></li> 
+      <?php } ?> 
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   
       <?php } ?> 
   </ul>

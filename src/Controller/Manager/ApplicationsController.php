@@ -153,6 +153,7 @@ class ApplicationsController extends ApplicationsBaseController
                      ]);
             $application->status = 'Committee';
             $application->approved = $this->request->getData('dg_reviews.100.decision');
+            $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('dg_reviews.100.approved_date'))));
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');

@@ -43,6 +43,12 @@
                     </div> 
                   </div> 
                   <div class="form-group">
+                    <label class="col-xs-4 control-label">Approved Date:</label>
+                    <div class="col-xs-8">
+                    <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
+                    </div> 
+                  </div> 
+                  <div class="form-group">
                     <label class="col-xs-4 control-label">File</label>
                     <div class="col-xs-7">
                       <p class="form-control-static text-info text-left"><?php
@@ -87,6 +93,9 @@
                                   'Approved' => 'Approved', 
                                   'Pending' => 'Pending', 
                                   'Declined' => 'Declined', ]]);
+                      echo $this->Form->control('dg_reviews.100.approved_date', ['type' => 'text', 'class' => 'datepickers', 'templates' => [
+              'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
+              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
                       echo $this->Form->control('dg_reviews.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
                 ?>
                 </div>          
@@ -103,4 +112,8 @@
 <script type="text/javascript">
   CKEDITOR.replace('dg-reviews-100-internal-review-comment');
   CKEDITOR.replace('dg-reviews-100-applicant-review-comment');
+  $( "#dg-reviews-100-approved-date" ).datepicker({
+      minDate:"-100Y", maxDate:"-0D", dateFormat:'dd-mm-yy', showButtonPanel:true, changeMonth:true, changeYear:true,
+      buttonImageOnly:true, showAnim:'show', showOn:'both', buttonImage:'/img/calendar.gif'
+    });
 </script>

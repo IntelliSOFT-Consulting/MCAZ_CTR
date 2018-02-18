@@ -1,8 +1,83 @@
 $(function () { 
-    // Get the CSV and create the chart
     
+    //console.info('ready.. steady...');
+    function sadrChart(data, loc, dname) {
+        // console.log(JSON.stringify(data));        
+        /*var myChart = Highcharts.chart(loc, {
+                chart: {
+                        type: 'column'
+                },
+                title: {
+                    text: data.title
+                },
+                series: [{
+                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
+                    name: dname
+                }], 
+                xAxis: {
+                    type: 'category'
+                }
+        });*/
+        var myChart = Highcharts.chart(loc, {
+            chart: {
+                type: 'boxplot'
+            },
 
-Highcharts.chart('timelines-review', {
+            title: {
+                text: 'Timelines for review'
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            xAxis: {
+                categories: data.cats,
+                title: {
+                    text: 'Year.'
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Days'
+                },
+                plotLines: [{
+                    color: 'red',
+                    width: 1,
+                    label: {
+                        text: 'Theoretical mean: ',
+                        align: 'center',
+                        style: {
+                            color: 'gray'
+                        }
+                    }
+                }]
+            },
+
+            series: [{
+                name: 'Days',
+                data: data.data,
+                tooltip: {
+                    headerFormat: '<em>Timeline No. {point.key}</em><br/>'
+                }
+            }]
+
+        });
+    }
+
+    $.ajax({
+        url: '/reports/timelines-for-review.json',
+        type: 'GET',
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, 'timelines-review', "Timelines");
+        }
+    });
+/*
+    Highcharts.chart('timelines-for-review', {
 
     chart: {
         type: 'boxplot'
@@ -42,7 +117,7 @@ Highcharts.chart('timelines-review', {
     },
 
     series: [{
-        name: 'Days',
+        name: 'Dayers',
         data: [
             [76, 81, 84, 89, 96],
             [73, 85, 99, 98, 100],
@@ -73,36 +148,5 @@ Highcharts.chart('timelines-review', {
         }
     }]
 
-});
-
-    /*//console.info('ready.. steady...');
-    function sadrChart(data, loc, dname) {
-        // console.log(JSON.stringify(data));        
-        var myChart = Highcharts.chart(loc, {
-                chart: {
-                        type: 'column'
-                },
-                title: {
-                    text: data.title
-                },
-                series: [{
-                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
-                    name: dname
-                }], 
-                xAxis: {
-                    type: 'category'
-                }
-        });
-    }
-
-    $.ajax({
-        url: '/reports/timelines-for-review.json',
-        type: 'GET',
-        async: true,
-        dataType: "json",
-        success: function (data) {
-            console.info(data);
-            sadrChart(data, 'timelines-for-review', "Timelines");
-        }
-    });*/
+});*/
 });

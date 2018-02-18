@@ -18,6 +18,11 @@ class ReportsController extends AppController
     public function initialize() {
        parent::initialize();
        $this->loadModel('Applications');
+       $this->Auth->allow(['publicReports', 'protocolsPerYear', 'protocolsPerMonth', 'protocolsPerPhase', 'researchArea', 'processingStatus']);  
+    }
+
+    public function publicReports() {
+
     }
 
     /**
@@ -110,27 +115,110 @@ class ReportsController extends AppController
     }
 
     public function timelinesForReview() {
+        // Timelines taken for initial review of protocol by MCAZ
         $application_stats = $this->Applications->find('all')
-                                ->innerJoinWith('Attachments')
-                                ->select([ 'year' => 'date_format(Attachments.created,"%Y")',
-                                                          'count' => $this->Applications->find('all')->func()->count('distinct Attachments.id')
-                                                        ])
-                                                 //->where(['Att.submitted' => 2])
-                                                 ->group('year')
-                                                 ->hydrate(false);
-        foreach ($application_stats->toArray() as $key => $value) {
-            $data[] = ['name' => $value['year'],
-                       'y' => $value['count']];
+                                ->innerJoinWith('Evaluations')
+                                ->select([ 'year' => 'date_format(Applications.date_submitted,"%Y")',
+                                           'protocol' => 'Applications.id',
+                                           'min' => $this->Applications->find('all')->func()->min('datediff(Evaluations.created, Applications.date_submitted)')
+                                        ])
+                                ->where(['Applications.submitted' => 2, 'date_submitted IS NOT' => null])
+                                ->group(['year', 'protocol'])
+                                ->hydrate(false);
+        
+        //Hash::extract($application_stats->toArray(), '{n}.min');
+        foreach ($application_stats->toArray() as $app) {
+            $arr[$app['year']][] = $app['min'];
         }
+
+        //Code to introduce dummy variables when the protocols are too few. MCAZ to confirm default values to use
+        $dummies = (count($application_stats->toArray()) > 5) ? [] : array(10, 10, 10, 10, 10, 10);
+        foreach ($arr as $key => $value) {
+            //pr(Hash::extract($this->box_plot_values(array_merge($value, $dummies)), '{s}'))
+            $cats[] = $key;
+            $data[] = array_values($this->box_plot_values(array_merge($value, $dummies)));
+        }
+
         if($this->request->is('json')) {
                     $this->set([
                         'message' => 'Success',
-                        'title' => 'DSMB, Clarification Memos etc. per year',
+                        'title' => 'Timelines taken for initial review of protocol by MCAZ',
+                        'cats' => $cats,
                         'data' => $data, 
-                        '_serialize' => ['message', 'data', 'title']]);
+                        '_serialize' => ['message', 'data', 'title', 'cats']]);
                     return;
                 }
     }
+
+    private function box_plot_values($array)
+    {
+        $return = array(
+            'lower_outlier'  => 0,
+            'min'            => 0,
+            'q1'             => 0,
+            'median'         => 0,
+            'q3'             => 0,
+            'max'            => 0,
+            'higher_outlier' => 0,
+        );
+
+        $array_count = count($array);
+        sort($array, SORT_NUMERIC);
+
+        $return['min']            = $array[0];
+        $return['lower_outlier']  = $return['min'];
+        $return['max']            = $array[$array_count - 1];
+        $return['higher_outlier'] = $return['max'];
+        $middle_index             = floor($array_count / 2);
+        $return['median']         = $array[$middle_index]; // Assume an odd # of items
+        $lower_values             = array();
+        $higher_values            = array();
+
+        // If we have an even number of values, we need some special rules
+        if ($array_count % 2 == 0)
+        {
+            // Handle the even case by averaging the middle 2 items
+            $return['median'] = round(($return['median'] + $array[$middle_index - 1]) / 2);
+
+            foreach ($array as $idx => $value)
+            {
+                if ($idx < ($middle_index - 1)) $lower_values[]  = $value; // We need to remove both of the values we used for the median from the lower values
+                elseif ($idx > $middle_index)   $higher_values[] = $value;
+            }
+        }
+        else
+        {
+            foreach ($array as $idx => $value)
+            {
+                if ($idx < $middle_index)     $lower_values[]  = $value;
+                elseif ($idx > $middle_index) $higher_values[] = $value;
+            }
+        }
+
+        $lower_values_count = count($lower_values);
+        $lower_middle_index = floor($lower_values_count / 2);
+        $return['q1']       = $lower_values[$lower_middle_index];
+        if ($lower_values_count % 2 == 0)
+            $return['q1'] = round(($return['q1'] + $lower_values[$lower_middle_index - 1]) / 2);
+
+        $higher_values_count = count($higher_values);
+        $higher_middle_index = floor($higher_values_count / 2);
+        $return['q3']        = $higher_values[$higher_middle_index];
+        if ($higher_values_count % 2 == 0)
+            $return['q3'] = round(($return['q3'] + $higher_values[$higher_middle_index - 1]) / 2);
+
+        // Check if min and max should be capped
+        $iqr = $return['q3'] - $return['q1']; // Calculate the Inner Quartile Range (iqr)
+        if ($return['q1'] > $iqr)                  $return['min'] = $return['q1'] - $iqr;
+        if ($return['max'] - $return['q3'] > $iqr) $return['max'] = $return['q3'] + $iqr;
+
+        //modified to fit highcharts
+        unset($return['lower_outlier']);
+        unset($return['higher_outlier']);
+        return $return;
+    }
+
+
 
     public function notificationsPerYear() {
         $application_stats = $this->Applications->find('all')

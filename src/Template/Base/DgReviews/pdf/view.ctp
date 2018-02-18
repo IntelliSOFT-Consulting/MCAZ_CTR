@@ -30,6 +30,12 @@
                     </div> 
                   </div> 
                   <div class="form-group">
+                    <label class="col-xs-4 control-label">Approved Date:</label>
+                    <div class="col-xs-8">
+                    <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
+                    </div> 
+                  </div> 
+                  <div class="form-group">
                     <label class="col-xs-4 control-label">File</label>
                     <div class="col-xs-7">
                       <p class="form-control-static text-info text-left"><?php
