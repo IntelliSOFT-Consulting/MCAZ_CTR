@@ -27,7 +27,8 @@
                 <th scope="col"><?= $this->Paginator->sort('protocol_no') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th> 
+                <th scope="col"><?= $this->Paginator->sort('date_submitted') ?></th> 
+                <th scope="col"><?= $this->Paginator->sort('approved_date', 'Date approved') ?></th> 
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -41,9 +42,13 @@
                   </td>
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
-                <td><?= h($application->created) ?></td>         
+                <td><?= h($application->date_submitted) ?></td>         
+                <td><?= h($application->approved_date) ?></td>         
                 <td>
-                               
+                    <span class="label label-primary">                     
+                     <?= $this->Html->link('View', ['action' => 'view', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'label-link'])
+                     ?>
+                    </span> &nbsp;
                 </td>
             </tr>
             <?php }
