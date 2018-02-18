@@ -5,35 +5,6 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
     use \Crud\Controller\ControllerTrait;
-    /*public $components = [
-        'RequestHandler',
-        'Crud.Crud' => [
-            'actions' => [
-                'Crud.Index',
-                'Crud.View',
-                'Crud.Add',
-                'Crud.Edit',
-                'Crud.Delete'
-            ],
-            'listeners' => [
-                'Crud.Api',
-                'Crud.ApiPagination',
-                'Crud.ApiQueryLog'
-            ]
-        ]
-    ];
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        // $this->loadComponent('RequestHandler');
-        // $this->loadComponent('Flash');
-
-        //Custom for XOR implementation
-        $this->loadComponent('Util');
-        
-    }*/
 
     public function initialize()
     {
@@ -54,7 +25,7 @@ class AppController extends Controller
                 'Crud.ApiQueryLog'
             ]
         ]);
-        /*$this->loadComponent('Auth', [
+        $this->loadComponent('Auth', [
             'storage' => 'Memory',
             'authenticate' => [
                 'Form' => [
@@ -72,6 +43,6 @@ class AppController extends Controller
             ],
             'unauthorizedRedirect' => false,
             'checkAuthIn' => 'Controller.initialize'
-        ]);*/
+        ]);
     }
 }
