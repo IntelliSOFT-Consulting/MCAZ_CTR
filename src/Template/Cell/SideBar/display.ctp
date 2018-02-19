@@ -129,6 +129,12 @@
           ?>
     </li>
     <?php }; ?>
+    <li class="<?=  ($this->request->params['controller'] == 'Pages') ? 'active' : ''; ?>">
+          <?php
+            echo $this->Html->link('<i class="fa fa-calendar"></i> COMMITTEE DATES',
+              array('controller' => 'Pages', 'action'=>'calendar', 'prefix' => false ), array('escape' => false ));
+          ?>
+    </li>
     <li class="<?=  ($this->request->params['controller'] == 'Feedbacks') ? 'active' : ''; ?>">
           <?php
             echo $this->Html->link('<i class="fa fa-comment-o" aria-hidden="true"></i> &nbsp; USER FEEDBACK', ['controller' => 'Feedbacks', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 

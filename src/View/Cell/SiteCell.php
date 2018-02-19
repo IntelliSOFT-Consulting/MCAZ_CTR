@@ -55,4 +55,10 @@ class SiteCell extends Cell
         $site = $this->Sites->get(5, [ 'contain' => []]);
         $this->set(compact('site'));
     }
+    public function calendar()
+    {
+        $this->loadModel('Sites');
+        $site = $this->Sites->get(6, [ 'contain' => []]);
+        $this->set(compact('site'));
+    }
 }
