@@ -22,13 +22,13 @@ $(function () {
     }
 
     $.ajax({
-        url: '/reports/notifications-per-year.json',
+        url: '/reports/amendments-per-year.json',
         type: 'GET',
         async: true,
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, 'notifications-year', "Years");
+            sadrChart(data, 'amendments-year', "Years");
         }
     });
 });
