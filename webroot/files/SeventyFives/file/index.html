@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Test</title>
+
+</head>
+<body>
+	<form id="formInputFile">
+		<input type="file" name="formInputFile2" id="formInputFile2">
+		<button id="btnClick" onclick="">Send</button>
+	</form>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js"></script>
+	<script src="https://media.twiliocdn.com/sdk/js/chat/v1.2/twilio-chat.min.js"></script>
+	<script type="text/javascript">
+	$( "#btnClick" ).on( "click", function( event ) {
+		console.log("button onclick handler registered");
+		//console.log($('#formInputFile')[0].files[0]);
+		var file = $('#formInputFile2').val();
+		        console.log(file);
+		Twilio.Chat.Client.create('54aa55f5a03e016e7b5d8d470ec889cf').then(chatClient => {
+			console.log(chatClient);
+    	 	const formData = new FormData();
+			//formData.append('file', $('#formInputFile')[0].files[0]);
+			formData.append('file', file);
+			// get desired channel (for example, with getChannelBySid promise)
+			chatClient.getChannelBySid('CH813e67d189e34ec785520fda1970bdd5').then(function(channel) {
+				console.log(channel);
+  				// send media with all FormData parsed atrtibutes
+  				channel.sendMessage("Will this be sent though??");
+		});
+	});
+});
+		
+	</script>
+</body>
+</html>
