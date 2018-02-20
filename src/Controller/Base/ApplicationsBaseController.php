@@ -103,7 +103,7 @@ class ApplicationsBaseController extends AppController
         }   
 
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-        if(empty($this->filt)) $this->filt[] = 1;
+        array_push($this->filt, 1);
         
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
@@ -126,7 +126,7 @@ class ApplicationsBaseController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                if(empty($filt)) $filt[] = 1;
+                array_push($filt, 1);
                 (!empty($application->assign_evaluators)) ? 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
@@ -181,7 +181,7 @@ class ApplicationsBaseController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                if(empty($filt)) $filt[] = 1;
+                array_push($filt, 1);
                 (!empty($application->assign_evaluators)) ? 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
@@ -251,7 +251,7 @@ class ApplicationsBaseController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                if(empty($filt)) $filt[] = 1;
+                array_push($filt, 1);
                 (!empty($application->assign_evaluators)) ? 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
@@ -320,7 +320,7 @@ class ApplicationsBaseController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                if(empty($filt)) $filt[] = 1;
+                array_push($filt, 1);
                 (!empty($application->assign_evaluators)) ? 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);

@@ -330,7 +330,7 @@
               <th>
                 <label>Approval date(s) of previous protocol(s)</label>
               </th>
-              <td><?= $application->previous_dates[0]['date_of_previous_protocol'] ?></td>
+              <td><?php ($application->previous_dates[0]['date_of_previous_protocol']) ?? ''; ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {

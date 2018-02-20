@@ -41,7 +41,7 @@ class AppController extends Controller
 
     protected $_contain;
 
-    protected $a_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',    'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceApprovals', 'AssignEvaluators', 'Evaluations', 'CommitteeReviews', 'DgReviews', 'RequestInfos', 'SeventyFives', 'GcpInspections', 'ParentApplications'];
+    protected $a_contain = ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',    'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceApprovals', 'AssignEvaluators', 'Evaluations', 'CommitteeReviews', 'DgReviews', 'RequestInfos', 'RequestInfos.Users', 'SeventyFives', 'GcpInspections', 'ParentApplications'];
 
     public $components = [
         'Acl' => [

@@ -75,7 +75,11 @@ $(function() {
                         <a href="/attachments/download/' + data.result.content[0].id + '" class="btn btn-info"> \
                         ' + data.result.content[0].file + '</a> \
                         <button class="btn btn-xs btn-danger delete_file_input" type="button" value="' + data.result.content[0].id + '">\
-                        &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>');
+                        &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>'+
+                        '<input name="receipts['+parseInt(data.context.closest('tr').find('td:first').attr('id'))+                          
+                          '][id]" id="receipts-'+parseInt(data.context.closest('tr').find('td:first').attr('id'))+'-id" '+
+                          ' value="'+data.result.content[0].id+'"'+
+                          'type="hidden">');
                     } else {
                         data.context.append('<div class="alert alert-error"> \
                         <a class="close" data-dismiss="alert" href="#">&times;</a> \
@@ -102,7 +106,7 @@ $(function() {
         var intId2 = intId + 1;
         var trWrapper = '\
           <tr>\
-            <td>{i2}</td>\
+            <td id="{i}">{i2}</td>\
             <td><div id="receipts" class="checkcontrols" title="receipts"><div style="margin-top: 5px; margin-bottom: 5px;">\
                 <input name="attachments[{i}][id]" id="attachments-{i}-id" type="hidden"> \
                 <input name="attachments[{i}][file]" id="attachments-{i}-file" type="file"> \
