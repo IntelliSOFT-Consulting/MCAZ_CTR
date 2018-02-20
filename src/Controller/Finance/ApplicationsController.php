@@ -28,6 +28,9 @@ class ApplicationsController extends ApplicationsBaseController
             $application = $this->Applications->patchEntity($application, $this->request->getData());
             $application->status = 'Finance';
             $application->finance_approvals[0]->user_id = $this->Auth->user('id');
+            if($application->finance_approvals[0]->outcome == 'Fees Complete') {              
+              $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
+            }
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Applications->save($application)) {
                 //Send email and message (if present!!!) 

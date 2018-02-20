@@ -544,7 +544,7 @@ class ApplicationsTable extends Table
                 }
             ]);
 
-        $validator
+        /*$validator
             ->add('applicant_fees', 'checklist-practicing-license', [
                 'rule' => function ($data, $provider) {
                     if ($data > 0) {
@@ -572,7 +572,7 @@ class ApplicationsTable extends Table
                     }
                     return '12. Checklist: Please upload the Investigator CV(s) in required format.';
                 }
-            ]);
+            ]);*/
 
         return $validator;
     }

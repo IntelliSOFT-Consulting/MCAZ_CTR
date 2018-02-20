@@ -48,7 +48,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_fees', 
-                      ['type' => 'checkbox', 'label' => 'Practicing License for principal investigator or co-investigator <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Practicing License for principal investigator or co-investigator '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="fees" class="checkcontrols" title="fees">
@@ -80,7 +80,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_mc10', 
-                      ['type' => 'checkbox', 'label' => 'Pharmacy License or Certificate  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Pharmacy License or Certificate  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="legal_forms" class="checkcontrols" title="legal_forms">
@@ -112,7 +112,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_protocol', 
-                      ['type' => 'checkbox', 'label' => 'Protocol (including relevant questionnaires, etc.)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Protocol (including relevant questionnaires, etc.)  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="protocols" class="checkcontrols" title="protocols">
@@ -144,7 +144,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_patient_information', 
-                      ['type' => 'checkbox', 'label' => 'Patient information leaflet(s) and informed consent(s) including vernacular versions and English back translations  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Patient information leaflet(s) and informed consent(s) including vernacular versions and English back translations  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="leaflets" class="checkcontrols" title="leaflets">
@@ -175,7 +175,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_investigators_brochure', 
-                      ['type' => 'checkbox', 'label' => 'Investigators brochure and / or all package insert(s) <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Investigators brochure and / or all package insert(s) '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="brochures" class="checkcontrols" title="brochures">
@@ -206,7 +206,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_investigators_cv', 
-                      ['type' => 'checkbox', 'label' => 'Investigator\'s CV(s) in required format  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Investigator\'s CV(s) in required format  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="investigator_cvs" class="checkcontrols" title="investigator_cvs">
@@ -237,7 +237,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_signed_declaration', 
-                      ['type' => 'checkbox', 'label' => 'Signed declaration(s) by investigator(s) to comply with GCP <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Signed declaration(s) by investigator(s) to comply with GCP '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="declarations" class="checkcontrols" title="declarations">
@@ -267,7 +267,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_study_monitors', 
-                      ['type' => 'checkbox', 'label' => 'CV(s) and signed declaration(s) by study coordinator and/or monitor <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'CV(s) and signed declaration(s) by study coordinator and/or monitor '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="study_monitors" class="checkcontrols" title="study_monitors">
@@ -297,7 +297,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_monitoring_plans', 
-                      ['type' => 'checkbox', 'label' => 'Monitoring plan by sponsor/PI/monitor throughout study <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Monitoring plan by sponsor/PI/monitor throughout study '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="monitoring_plans" class="checkcontrols" title="monitoring_plans">
@@ -327,7 +327,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_pi_declaration', 
-                      ['type' => 'checkbox', 'label' => 'Signed Declaration by sponsor and national PI to comply with GCP  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Signed Declaration by sponsor and national PI to comply with GCP  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="pi_declarations" class="checkcontrols" title="pi_declarations">
@@ -357,7 +357,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_study_sponsorship', 
-                      ['type' => 'checkbox', 'label' => 'Signed financial declaration by sponsor and national PI for study sponsorship  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Signed financial declaration by sponsor and national PI for study sponsorship  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="study_sponsorships" class="checkcontrols" title="study_sponsorships">
@@ -387,7 +387,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_pharmacy_plan', 
-                      ['type' => 'checkbox', 'label' => 'Pharmacy plan for local trial site  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Pharmacy plan for local trial site  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="pharmacy_plans" class="checkcontrols" title="pharmacy_plans">
@@ -417,7 +417,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_pharmacy_license', 
-                      ['type' => 'checkbox', 'label' => 'MCAZ Pharmacy license (where applicable)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'MCAZ Pharmacy license (where applicable)  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="pharmacy_licenses" class="checkcontrols" title="pharmacy_licenses">

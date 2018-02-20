@@ -184,7 +184,8 @@ class ApplicationsController extends AppController
               }
               $application->date_submitted = date("Y-m-d H:i:s");
               $application->status = 'Submitted';
-              $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
+              //$application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
+              $application->protocol_no = 'FN'.$application->id.'/'.$application->created->i18nFormat('yyyy');
               if ($this->Applications->save($application)) {
                 $this->Flash->success(__('Report '.$application->protocol_no.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
