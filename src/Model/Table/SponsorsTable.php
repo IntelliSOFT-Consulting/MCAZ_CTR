@@ -86,8 +86,9 @@ class SponsorsTable extends Table
             ->notEmpty('cell_number', ['message' => '3. Sponsor: Mobile phone number required']);
 
         $validator
-            ->email('email_address')
-            ->notEmpty('email_address', ['message' => '3. Sponsor: Email address required']);
+            // ->email('email_address')
+            ->notEmpty('email_address', ['message' => '3. Sponsor: Email address required'])
+            ->add('email_address', 'valid-email', ['rule' => 'email', 'message' => '3. Sponsor: Email address required']);
 
         return $validator;
     }

@@ -22,7 +22,7 @@
               echo $this->Form->control('scope_efficacy', 
                 ['type' => 'checkbox', 'label' => 'Efficacy', 'templates' => 'checkbox_form']);
               echo $this->Form->control('scope_pharmacokinetic', 
-                ['type' => 'checkbox', 'label' => 'Parmacokinetic', 'templates' => 'checkbox_form']);
+                ['type' => 'checkbox', 'label' => 'Pharmacokinetic', 'templates' => 'checkbox_form']);
               echo $this->Form->control('scope_pharmacodynamic', 
                 ['type' => 'checkbox', 'label' => 'Pharmacodynamic', 'templates' => 'checkbox_form']);
 

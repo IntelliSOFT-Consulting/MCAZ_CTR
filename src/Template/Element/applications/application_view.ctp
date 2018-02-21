@@ -1650,7 +1650,7 @@
                </tr>
              <?php   } } ?>
             <tr>
-              <th><label>a)Has the medicine been registered in the country?</label></th>
+              <th><label>a) Has the medicine been registered in Zimbabwe?</label></th>
               <td><?= $application->medicine_registered ?></td>
             </tr> 
             <?php
@@ -1662,7 +1662,7 @@
                </tr>
              <?php   } } ?>
            <tr>
-             <td colspan="2"><label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label></td>
+             <td colspan="2"><label>If NO attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label></td>
            </tr>
            <tr>
              <td colspan="2">
@@ -1705,7 +1705,7 @@
                </tr>
              <?php   } } ?>
             <tr>
-              <th><label>b)Have clinical trials been conducted in the country of origin?</label></th>
+              <th><label>b) Have clinical trials been conducted in the country of origin?</label></th>
               <td><?= $application->trials_origin_country ?></td>
             </tr>
             <?php
@@ -1733,7 +1733,7 @@
                </tr>
              <?php   } } ?>
             <tr>
-              <th><label>c)Has application for registration been made in any other country?</label></th>
+              <th><label>c) Has application for registration been made in any other country?</label></th>
               <td><?= $application->application_other_country ?></td>
             </tr>
             <?php
@@ -1761,7 +1761,7 @@
                </tr>
              <?php   } } ?>
             <tr>
-              <th><label>d)Has the medicine registered in any other country?</label></th>
+              <th><label>d) Has the medicine registered in any other country?</label></th>
               <td><?= $application->registered_other_country ?></td>
             </tr>
             <?php
@@ -2073,14 +2073,14 @@
              <?php   } } ?>
 
           <tr>
-            <td><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Parmacokinetic</label></td>
+            <td><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></td>
             <td> </td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacokinetic'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Parmacokinetic</label></td>  </tr>
+              <tr> <td colspan="2"><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></td>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></td>

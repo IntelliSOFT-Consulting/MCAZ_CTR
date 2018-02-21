@@ -14,7 +14,6 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
  * @property \App\Model\Table\InvestigatorContactsTable|\Cake\ORM\Association\HasMany $InvestigatorContacts
  * @property \App\Model\Table\PlacebosTable|\Cake\ORM\Association\HasMany $Placebos
  * @property \App\Model\Table\PreviousDatesTable|\Cake\ORM\Association\HasMany $PreviousDates
- * @property \App\Model\Table\ReviewersTable|\Cake\ORM\Association\HasMany $Reviewers
  * @property \App\Model\Table\ReviewsTable|\Cake\ORM\Association\HasMany $Reviews
  * @property \App\Model\Table\SiteDetailsTable|\Cake\ORM\Association\HasMany $SiteDetails
  * @property \App\Model\Table\SponsorsTable|\Cake\ORM\Association\HasMany $Sponsors
@@ -75,12 +74,9 @@ class ApplicationsTable extends Table
         $this->hasMany('PreviousDates', [
             'foreignKey' => 'application_id'
         ]);
-        $this->hasMany('Reviewers', [
+        $this->hasOne('EvaluationHeaders', [
             'foreignKey' => 'application_id'
         ]);
-        // $this->hasMany('Reviews', [
-        //     'foreignKey' => 'application_id'
-        // ]);
         $this->hasMany('Evaluations', [
             'foreignKey' => 'application_id'
         ]);
@@ -353,8 +349,9 @@ class ApplicationsTable extends Table
             ->notEmpty('public_contact_designation', ['message' => '1. Abstract: Designation for public queries required']);
 
         $validator
-            ->email('public_contact_email', ['message' => '1. Abstract: Valid contact email for public queries required'])
-            ->notEmpty('public_contact_email', ['message' => '1. Abstract: Contact email for public queries required']);
+            // ->email('public_contact_email', ['message' => '1. Abstract: Valid contact email for public queries required'])
+            ->notEmpty('public_contact_email', ['message' => '1. Abstract: Contact email for public queries required'])
+            ->add('public_contact_email', 'valid-email', ['rule' => 'email', 'message' => '1. Abstract: Valid contact email for public queries required']);
 
         $validator
             ->scalar('public_contact_phone')
@@ -373,7 +370,8 @@ class ApplicationsTable extends Table
             ->notEmpty('public_contact_designation', ['message' => '1. Abstract: Designation for scientific queries required']);
 
         $validator
-            ->email('scientific_contact_email', ['message' => '1. Abstract: Valid contact email for scientific queries required'])
+            // ->email('scientific_contact_email', ['message' => '1. Abstract: Valid contact email for scientific queries required'])
+            ->add('scientific_contact_email', 'valid-email', ['rule' => 'email', 'message' => '1. Abstract: Valid contact email for scientific queries required'])
             ->notEmpty('scientific_contact_email', ['message' => '1. Abstract: Contact email for scientific queries required']);
 
         $validator
@@ -417,7 +415,8 @@ class ApplicationsTable extends Table
             ->notEmpty('sponsor_cell_number', ['message' => '3. Sponsor: Mobile phone number required']);
 
         $validator
-            ->email('sponsor_email_address')
+            // ->email('sponsor_email_address', ['message' => '3. Sponsor: The provided email is invalid'])
+            ->add('sponsor_email_address', 'valid-email', ['rule' => 'email', 'message' => '3. Sponsor: The provided email is invalid'])
             ->notEmpty('sponsor_email_address', ['message' => '3. Sponsor: Email address required']);
 
         $validator

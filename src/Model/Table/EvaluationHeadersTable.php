@@ -5,26 +5,28 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
- * Reviewers Model
+ * EvaluationHeaders Model
  *
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  *
- * @method \App\Model\Entity\Reviewer get($primaryKey, $options = [])
- * @method \App\Model\Entity\Reviewer newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Reviewer[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Reviewer|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Reviewer patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Reviewer[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Reviewer findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\EvaluationHeader get($primaryKey, $options = [])
+ * @method \App\Model\Entity\EvaluationHeader newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\EvaluationHeader[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\EvaluationHeader|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\EvaluationHeader patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\EvaluationHeader[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\EvaluationHeader findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class ReviewersTable extends Table
+class EvaluationHeadersTable extends Table
 {
 
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -35,7 +37,7 @@ class ReviewersTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('reviewers');
+        $this->setTable('evaluation_headers');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -62,16 +64,16 @@ class ReviewersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('description')
-            ->allowEmpty('description');
+            ->scalar('population')
+            ->allowEmpty('population');
 
         $validator
-            ->boolean('notified')
-            ->allowEmpty('notified');
+            ->scalar('study_design')
+            ->allowEmpty('study_design');
 
         $validator
-            ->scalar('accepted')
-            ->allowEmpty('accepted');
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
 
         return $validator;
     }

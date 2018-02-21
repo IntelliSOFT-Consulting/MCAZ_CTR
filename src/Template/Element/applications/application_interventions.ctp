@@ -28,7 +28,7 @@
             ));
 
             echo $this->Form->control('medicine_registered', array(
-              'label' =>  'a)Has the medicine been registered in the country?',
+              'label' =>  'a) Has the medicine been registered in Zimbabwe?',
               'escape' => false, 
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
@@ -44,7 +44,7 @@
                 echo $this->Form->control('registrations.0.file', ['type' => 'file','label' => 'Attach valid certificate of registration']); -->
             <div id="registrations" class="checkcontrols" title="registrations">              
               <?php
-              echo '<label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application '.$add_fileinput.'</label>';
+              echo '<label>If NO attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application '.$add_fileinput.'</label>';
                 // echo $add_fileinput;
                   if (!empty($application['registrations'])) {
                     for ($i = 0; $i <= count($application['registrations'])-1; $i++) { ?>
@@ -69,7 +69,7 @@
                'templates' => 'textarea_form' 
             ));
             echo $this->Form->control('trials_origin_country', array(
-              'label' =>  'b)Have clinical trials been conducted in the country of origin?',
+              'label' =>  'b) Have clinical trials been conducted in the country of origin?',
               'escape' => false,
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
@@ -82,7 +82,7 @@
             ));
 
             echo $this->Form->control('application_other_country', array(
-              'label' =>  'c)Has application for registration been made in any other country?',
+              'label' =>  'c) Has application for registration been made in any other country?',
               'escape' => false,
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
@@ -95,7 +95,7 @@
             ));
 
              echo $this->Form->control('registered_other_country', array(
-              'label' =>  'd)Has the medicine registered in any other country?',
+              'label' =>  'd) Has the medicine registered in any other country?',
               'escape' => false,
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']

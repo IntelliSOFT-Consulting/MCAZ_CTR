@@ -5,58 +5,20 @@
   $numb = 1;
   use Cake\Utility\Hash;
 ?>
-
+  
   <div class="row">
-    <div class="col-xs-12">
-      
-  <?= $this->Flash->render() ?>
-  <?php $this->ValidationMessages->display($application->errors()) ?>
-      <h2 class="text-center">Evaluation Report(s)</h2>
-      <hr>
-    <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
-              ?>
-
-        <table class="table table-bordered table-striped table-condensed evaluation-table">
-          <tbody>
-            <tr>
-              <th>Title of Study:</th>
-              <td>Public Title/Acronym: <?= $application->public_title ?><br>
-                  Scientific Title: <?= $application->scientific_title ?></td>
-            </tr>
-            <tr>
-              <th>Study Ref:</th>
-              <td><?= $application->protocol_no ?></td>
-            </tr>
-            <tr>
-              <th>Study Site(s):</th>
-              <td><?php
-                echo $application->location_of_area.', '.$application->single_site_name.', '.implode(', ', Hash::extract($application['site_details'], '{n}.site_name'))."<br>";
-                echo implode(";<br> ", Hash::format($application['amendments'], ['{n}.location_of_area', '{n}.created'], '<small class="muted">%2$s</small>: %1$s <br>'));
-                echo implode(";<br> ", Hash::format($application['amendments'], ['{n}.single_site_name', '{n}.created'], '<small class="muted">%2$s</small>: %1$s <br>'));
-                echo implode(";<br> ", Hash::format($application['amendments'], ['{n}.site_details.{n}.site_name', '{n}.created'], '<small class="muted">%2$s</small>: %1$s <br>'));
-                ?></td>
-            </tr>
-            <tr>
-              <th>Population:</th>
-              <td><?= $application->participants_description ?></td>
-            </tr>
-            <tr>
-              <th>Study Objectives:</th>
-              <td><?= $application->abstract_of_study ?></td>
-            </tr>
-            <tr>
-              <th>Applicant:</th>
-              <td><?= implode(', ', Hash::extract($application['investigator_contacts'], '{n}.given_name')) ?></td>
-            </tr>
-            <tr>
-              <th>Sponsor:</th>
-              <td><?= $application->sponsor_name.', '.implode(', ', Hash::extract($application['sponsors'], '{n}.sponsor')) ?></td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="col-xs-12">      
+      <?= $this->Flash->render() ?>
+      <?php $this->ValidationMessages->display($application->errors()) ?>
+          <h2 class="text-center">Evaluation Report(s)</h2>
+          <hr>
+        <?php
+            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+                  ?>
     </div>
   </div>
+
+  <?= $this->element('pdf/common_header')?>
 
       <div class="row">
         <div class="col-xs-12">          

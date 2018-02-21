@@ -137,7 +137,7 @@ class ApplicationsController extends AppController
     {
         $application = $this->Applications->get($id, [
             'contain' => $this->_contain,
-            'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
+            'conditions' => ['Applications.user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
         ]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
@@ -154,7 +154,7 @@ class ApplicationsController extends AppController
                         ['validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                          'associated' => [
                             'InvestigatorContacts' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
-                            'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                            'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2 && count($application->sponsors) > 0) ? true : false],
                             'Attachments' => ['validate' => true],
                             'Receipts' => ['validate' => true],
                             'Participants' => ['validate' => false],

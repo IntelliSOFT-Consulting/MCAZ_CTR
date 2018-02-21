@@ -4,9 +4,9 @@
 <h5>3.2 Secondary Sponsor Details <br>(<small>Additional individuals, organizations or other legal persons, if any, that have agreed with the primary sponsor to take on responsibilities of sponsorship. where necessary, Click button to add more -
 <button type="button" class="btn btn-primary btn-xs" id="addSponsorDetail" title="add ponsor">Add Sponsor</button></small>) </h5>
 <div class="ctr-groups">
-	<div id="sponsor_primary_contact">
+	<!-- <div id="sponsor_primary_contact"> -->
 	<?php
-		echo $this->Form->control('sponsors.0.id', ['templates' => 'table_form']);
+		/*echo $this->Form->control('sponsors.0.id', ['templates' => 'table_form']);
 		echo $this->Form->control('sponsors.0.sponsor', array(
 			'label' => 'Sponsor ', 'escape' => false
 		));
@@ -29,9 +29,9 @@
 			'type' => 'email',
 			'label' => 'Email Address ', 'escape' => false
 		));
-		echo $this->Html->tag('hr', '', array('id' => 'sponsorsHr0'));
+		echo $this->Html->tag('hr', '', array('id' => 'sponsorsHr0'));*/
 	?>
-	</div>
+	<!-- </div> -->
 	<div id="sponsor_details">
 	<?php
 		if (!empty($application['sponsors'])) {
@@ -43,26 +43,26 @@
 				echo '<p  class="topper" id="sponsorsDetailLabel'.$i.'">'.($i+1).' additional sponsors</p>';
 				echo '<span class="badge badge-info">'.($i+1).'</span>';
 				echo $this->Form->control('sponsors.'.$i.'.sponsor', array(
-					'label' =>  'Organization ', 'escape' => false
+					'label' =>  'Sponsor  <span class="sterix">*</span>', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.contact_person', array(
 					'label' => 'Contact Person', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.address', array(
-					'label' =>  'Address ', 'escape' => false
+					'label' =>  'Address  <span class="sterix">*</span>', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.telephone_number', array(
-					'label' =>  'Telephone Number ', 'escape' => false
+					'label' =>  'Telephone Number  <span class="sterix">*</span>', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.fax_number', array(
 					'label' => 'Fax Number', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.cell_number', array(
-					'label' =>  'Mobile phone number ', 'escape' => false
+					'label' =>  'Mobile phone number  <span class="sterix">*</span>', 'escape' => false
 				));
 				echo $this->Form->control('sponsors.'.$i.'.email_address', array(
 					'type' => 'email',
-					'label' =>  'Email Address ', 'escape' => false
+					'label' =>  'Email Address  <span class="sterix">*</span>', 'escape' => false
 				));
 				echo $this->Html->tag('div', '<button id="SponsorDetail'.$i.'" class="btn btn-mini btn-danger removeSponsorDetail" type="button">Remove Detail</button>', array(
 							'class' => 'controls', 'escape' => false));

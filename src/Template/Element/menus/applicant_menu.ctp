@@ -42,6 +42,12 @@
               array('controller' => 'Pages', 'action'=>'fees', 'prefix' => false ), array('escape' => false ));
               ?>
          </li>
+         <li class="<?php echo $this->fetch('Calendar') ?>">
+          <?php
+            echo $this->Html->link('<i class="fa fa-calendar"></i> Committee Dates',
+              array('controller' => 'Pages', 'action'=>'calendar', 'prefix' => false ), array('escape' => false ));
+              ?>
+         </li>
          <li class="<?php echo $this->fetch('Profile') ?>">
           <?php
             echo $this->Html->link('<i class="fa fa-user"></i> My Profile',

@@ -4,21 +4,21 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Reviewer Entity
+ * EvaluationHeader Entity
  *
  * @property int $id
  * @property int $user_id
  * @property int $application_id
- * @property string $description
- * @property bool $notified
- * @property string $accepted
+ * @property string $population
+ * @property string $study_design
+ * @property \Cake\I18n\FrozenTime $deleted
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Application $application
  */
-class Reviewer extends Entity
+class EvaluationHeader extends Entity
 {
 
     /**
@@ -31,14 +31,6 @@ class Reviewer extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
-        'application_id' => true,
-        'description' => true,
-        'notified' => true,
-        'accepted' => true,
-        'created' => true,
-        'modified' => true,
-        'user' => true,
-        'application' => true
+        '*' => true,
     ];
 }
