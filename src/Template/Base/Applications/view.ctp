@@ -3,31 +3,14 @@
 <?php $this->end(); ?>
 
 <?php
+  $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);
   $this->extend('/Element/applications/application_view');
 ?>
 
 
 <?php $this->start('form-actions'); ?>
-  <ul class="nav nav-tabs" data-offset-top="60"  role="tablist" id="myTab">
-      <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
-        <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
-      <?php if($application->submitted == 2) { ?>
-      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
-      <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
-      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
-      <?php if($prefix === 'manager') { ?>   
-      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
-      <?php } ?> 
-      <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
-      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
-      <?php if($prefix === 'manager') { ?> 
-      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
-      <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>DG</b></a></li> 
-      <?php } ?> 
-      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   
-      <?php } ?> 
-  </ul>
-<div class="tab-content">
+<div class="col-xs-10">
+  <div class="tab-content">
      <?= $this->Flash->render() ?>
   <div role="tabpanel" class="tab-pane active" id="report">
     <?php
@@ -79,6 +62,29 @@
         <?= $this->element('applications/gcp') ?>
     </div>
   </div>
+</div>
+
+<div class="col-xs-2"> <!-- required for floating -->
+  <ul class="nav nav-tabs tabs-right" data-spy="affix" data-offset-top="60" role="tablist" id="myTab">
+      <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
+        <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
+      <?php if($application->submitted == 2) { ?>
+      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
+      <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
+      <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
+      <?php if($prefix === 'manager') { ?>   
+      <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
+      <?php } ?> 
+      <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
+      <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
+      <?php if($prefix === 'manager') { ?> 
+      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
+      <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Director General</b></a></li> 
+      <?php } ?> 
+      <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   
+      <?php } ?> 
+  </ul>
+</div>
 
 <?php $this->end(); ?>
 
