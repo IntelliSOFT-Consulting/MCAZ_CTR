@@ -82,7 +82,7 @@ class ApplicationsController extends AppController
         // $this->viewBuilder()->setLayout('vanilla');
         $application = $this->Applications->get($id, [
             'contain' => $this->_contain,
-            'conditions' => ['user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
+            'conditions' => ['Applications.user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
         ]);
 
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
