@@ -6,7 +6,7 @@
 ?>
 
 <div class="row">
-  <div class="<?= ($this->request->session()->read('Auth.User.group_id')==4) ? 'col-xs-10' : 'col-xs-12' ?>">
+  <div class="col-xs-12">
        <?php
            echo $this->fetch('form-actions');
        ?>

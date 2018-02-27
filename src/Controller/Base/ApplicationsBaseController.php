@@ -100,7 +100,7 @@ class ApplicationsBaseController extends AppController
                     $ekey = $key;
                 }
             } 
-        }   
+        }
 
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
