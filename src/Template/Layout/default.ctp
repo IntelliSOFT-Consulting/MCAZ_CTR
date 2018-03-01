@@ -121,6 +121,10 @@ $cakeDescription = 'MCAZ CTR:';
             <?= $this->Html->link('<i class="fa fa-question-circle"></i> FAQs', 
                 ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false] , ['escape' => false]); ?>
         </li>
+        <li class="<?php echo $this->fetch('Reports') ?>">
+            <?= $this->Html->link('<i class="fa fa-bar-chart"></i> Reports', 
+                ['controller' => 'Reports', 'action' =>  'publicReports', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
         <li class="<?php echo $this->fetch('Contactus') ?>">
             <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Contact us', 
                 ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false] , ['escape' => false]); ?>
