@@ -18,11 +18,20 @@ class ApplicationsController extends ApplicationsBaseController
 
     //TODO: simply check if a given user has permissions to action before rendering view / displaying action
     public function assignEvaluator() {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), []);
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => 'ApplicationStages']);
         $evaluator = $this->Applications->Users->get($this->request->getData('assign_evaluators.100.assigned_to'));
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Assigned';
+            
+            //new stage only once
+            if(!in_array("Assigned", Hash::extract($application->application_stages, '{n}.stage'))) {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage = 'Assigned';
+                $stage1->description = 'Stage 3';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $application->application_stages = [$stage1];
+                $application->status = 'Assigned';
+            }
 
             if ($this->Applications->save($application)) {
 
@@ -81,7 +90,7 @@ class ApplicationsController extends ApplicationsBaseController
     }
 
     public function addCommitteeReview($id) {
-        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData(), 
@@ -90,7 +99,17 @@ class ApplicationsController extends ApplicationsBaseController
                                 'CommitteeReviews' => ['validate' => true],
                             ]
                      ]);
-            $application->status = 'Committee';
+            //new stage only once
+            if(!in_array("Committee", Hash::extract($application->application_stages, '{n}.stage'))) {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage = 'Committee';
+                $stage1->description = 'Stage 5';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+                $application->application_stages = [$stage1];
+                $application->status = 'Committee';
+            }
+
             // $application->approved = $this->request->getData('committee_reviews.100.decision');
             // debug($this->request->data);
             // debug($application->committee_reviews);
@@ -151,7 +170,8 @@ class ApplicationsController extends ApplicationsBaseController
                                 'DgReviews' => ['validate' => true],
                             ]
                      ]);
-            $application->status = 'Committee';
+            //$application->status = 'Committee';
+
             $application->approved = $this->request->getData('dg_reviews.100.decision');
             $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('dg_reviews.100.approved_date'))));
             if ($this->Applications->save($application)) {

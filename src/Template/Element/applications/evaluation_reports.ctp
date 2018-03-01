@@ -19,9 +19,9 @@
           if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
           if($this->request->params['_ext'] != 'pdf' and $evaluation->user_id == $this->request->session()->read('Auth.User.id')) {
             echo $this->Form->postLink(
-                __('Edit'),
+                '<span class="label label-info">Edit</span>',
                 [],
-                ['data' => ['evaluation_id' => $evaluation->id], 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
+                ['data' => ['evaluation_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
             );
           }        
         ?>
@@ -749,6 +749,21 @@
 
                           </div>
                         </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4 class="text-center"><?= ($evaluation->signature) ? $checked : $nChecked; ?> Signature</h4>
+                          </div>
+                          <div class="col-xs-12">
+                            <h4 class="text-center"><?php          
+                              echo ($evaluation->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : '';
+                            ?></h4>
+                          </div>
+                        </div>
+                        <br>
                       </td>
                     </tr>
 

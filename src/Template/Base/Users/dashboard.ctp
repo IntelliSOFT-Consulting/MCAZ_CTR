@@ -34,6 +34,7 @@
         <div class="col-sm-6">
           <div class="row">
             <!-- begin -->
+            <?php if($this->request->session()->read('Auth.User.group_id') != 6) { ?>
             <div class="col-xs-12 col-sm-12">
                 <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> Amendments', ['controller' => 'Amendments', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Amendments']) ?></small></h3>
                 <ul class="list-unstyled">
@@ -48,9 +49,9 @@
                         <?= $this->Paginator->next(' >', ['model' => 'Amendments']) ?>
                         <?= $this->Paginator->last(' >>', ['model' => 'Amendments']) ?>
                     </ul>
-                </nav>        
-                
+                </nav>                        
             </div>
+            <?php } ?>
             <!-- end -->
           </div>
                

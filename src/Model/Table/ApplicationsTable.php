@@ -59,6 +59,9 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('ParentApplications.report_type' => 'Initial'),
         ]);
+        $this->hasMany('ApplicationStages', [
+            'foreignKey' => 'application_id'
+        ]);
         $this->hasMany('InvestigatorContacts', [
             'foreignKey' => 'application_id'
         ]);

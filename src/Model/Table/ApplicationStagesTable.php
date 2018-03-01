@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * ApplicationStages Model
@@ -24,6 +25,7 @@ use Cake\Validation\Validator;
 class ApplicationStagesTable extends Table
 {
 
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -58,36 +60,16 @@ class ApplicationStagesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->dateTime('submission')
-            ->allowEmpty('submission');
+            ->scalar('stage')
+            ->allowEmpty('stage');
 
         $validator
-            ->dateTime('receipt')
-            ->allowEmpty('receipt');
+            ->scalar('description')
+            ->allowEmpty('description');
 
         $validator
-            ->dateTime('evaluation')
-            ->allowEmpty('evaluation');
-
-        $validator
-            ->dateTime('committee_review')
-            ->allowEmpty('committee_review');
-
-        $validator
-            ->dateTime('correspondence')
-            ->allowEmpty('correspondence');
-
-        $validator
-            ->dateTime('response')
-            ->allowEmpty('response');
-
-        $validator
-            ->dateTime('recommendation')
-            ->allowEmpty('recommendation');
-
-        $validator
-            ->dateTime('authorization')
-            ->allowEmpty('authorization');
+            ->dateTime('stage_date')
+            ->allowEmpty('stage_date');
 
         $validator
             ->dateTime('deleted')

@@ -1,9 +1,7 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
+<?php $this->start('sidebar'); ?>
+  <?= $this->cell('SideBar'); ?>
+<?php $this->end(); ?>
+
 <?php
     $this->assign('Login', 'active');
 ?>
@@ -16,23 +14,8 @@
             <div class="styled_title"><h1>Update Details </h1></div>
         </div>
         <?= $this->Flash->render() ?>
-    <?php
 
-        // echo $this->Form->create('User', array(
-        //     'class' => 'form-horizontal',
-        //      'inputDefaults' => array(
-        //         'div' => array('class' => 'form-group'),
-        //         'label' => array('class' => 'control-label'),
-        //         'between' => '<div class="controls">',
-        //         'after' => '</div>',
-        //         'class' => '',
-        //         'format' => array('before', 'label', 'between', 'input', 'after','error'),
-        //         'error' => array('attributes' => array('class' => 'controls help-block')),
-        //      ),
-        // ));
-    ?>
-
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['type' => 'file']) ?>
 
     <div class="row">
         <h5 class="text-center"><small><em>fields marked with <span class="sterix fa fa-asterisk" aria-hidden="true"></span> are required!!</em></small></h5>
@@ -40,10 +23,14 @@
             <?php
                 echo $this->Form->control('name', ['label' => 'Name', 'escape' => false]);
                 echo $this->Form->control('email', ['label' => 'Email', 'escape' => false]);
-                //echo $this->Form->control('password', ['label' => 'Password', 'escape' => false, 'value' => '', 'required' => false]);
-                //echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password', 'escape' => false, 'value' => '', 'required' => false]);   
-                //echo $this->Form->control('name_of_institution');
-                ?>
+                  
+                if($this->request->session()->read('Auth.User.group_id') != 4) {
+                    echo "<label>Kindly attach digital signature</label>";
+                    echo $this->Form->control('file', ['type' => 'file', 'label' => 'Signature!']);
+                    //echo $this->Html->image(substr($user->dir, 8) . '/' . $user->file);
+                    echo "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>";
+                } 
+            ?>
         </div><!--/span-->
         <div class="col-md-6">
             <?php
@@ -62,52 +49,3 @@
     </div>
 </div>
 
-<script>
-    $(function() {
-        var cache2 = {},    lastXhr;
-        $( "#name-of-institution" ).autocomplete({
-            source: function( request, response ) {
-                var term = request.term;
-                if ( term in cache2 ) {
-                    response( cache2[ term ] );
-                    return;
-                }
-
-                lastXhr = $.getJSON( "/facilities/facility-name.json", request, function( data, status, xhr ) {
-                    cache2[ term ] = data;
-                    if ( xhr === lastXhr ) {
-                        response( data );
-                    }
-                });
-            },
-            select: function( event, ui ) {
-                $( "#institution-code" ).val( ui.item.value );
-                $( "#name-of-institution" ).val( ui.item.label );
-                return false;
-            }
-        });
-
-        var cache3 = {},    lastXhr;
-        $( "#institution-code" ).autocomplete({
-            source: function( request, response ) {
-                var term = request.term;
-                if ( term in cache3 ) {
-                    response( cache3[ term ] );
-                    return;
-                }
-
-                lastXhr = $.getJSON( "/facilities/facility-code.json", request, function( data, status, xhr ) {
-                    cache3[ term ] = data;
-                    if ( xhr === lastXhr ) {
-                        response( data );
-                    }
-                });
-            },
-            select: function( event, ui ) {
-                $( "#institution-code" ).val( ui.item.label );
-                $( "#name-of-institution" ).val( ui.item.value );
-                return false;
-            }
-        });
-    });
-</script>

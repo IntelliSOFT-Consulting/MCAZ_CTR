@@ -8,14 +8,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $application_id
- * @property \Cake\I18n\FrozenTime $submission
- * @property \Cake\I18n\FrozenTime $receipt
- * @property \Cake\I18n\FrozenTime $evaluation
- * @property \Cake\I18n\FrozenTime $committee_review
- * @property \Cake\I18n\FrozenTime $correspondence
- * @property \Cake\I18n\FrozenTime $response
- * @property \Cake\I18n\FrozenTime $recommendation
- * @property \Cake\I18n\FrozenTime $authorization
+ * @property string $stage
+ * @property string $description
+ * @property \Cake\I18n\FrozenTime $stage_date
  * @property \Cake\I18n\FrozenTime $deleted
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
@@ -35,18 +30,6 @@ class ApplicationStage extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'submission' => true,
-        'receipt' => true,
-        'evaluation' => true,
-        'committee_review' => true,
-        'correspondence' => true,
-        'response' => true,
-        'recommendation' => true,
-        'authorization' => true,
-        'deleted' => true,
-        'created' => true,
-        'modified' => true,
-        'application' => true
+        '*' => true,
     ];
 }

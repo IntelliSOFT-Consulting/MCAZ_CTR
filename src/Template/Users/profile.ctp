@@ -26,8 +26,14 @@
         <dd><?= h($user->username) ?></dd>
      <dt scope="row"><?= __('Phone No') ?></dt>
         <dd><?= h($user->phone_no) ?></dd>
-        <dt scope="row"><?= __('Group') ?></dt>
+      <dt scope="row"><?= __('Group') ?></dt>
         <dd><?= $user->group->name ?></dd>
+      <?php 
+      if($this->request->session()->read('Auth.User.group_id') != 4) {                    
+      ?> 
+     <dt scope="row"><?= __('Signature') ?></dt>
+        <dd><?php echo "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>"; ?></dd>
+        <?php } ?>
     </dl>
     <hr>
     <div class="row">

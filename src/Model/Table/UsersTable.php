@@ -52,6 +52,10 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Acl.Acl', ['type' => 'requester']);
+        $this->addBehavior('Search.Search');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
@@ -85,6 +89,21 @@ class UsersTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
+            
+        $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->allowEmpty('type');
 
         $validator
             ->scalar('username')
@@ -190,8 +209,8 @@ class UsersTable extends Table
         \ArrayObject $options)
     {
         $hasher = new DefaultPasswordHasher;
-        $entity->password = $hasher->hash($entity->password);
-        $entity->confirm_password = $hasher->hash($entity->confirm_password);
+        if(!empty($entity->password)) $entity->password = $hasher->hash($entity->password);
+        if(!empty($entity->confirm_password)) $entity->confirm_password = $hasher->hash($entity->confirm_password);
         return true;
     }  
 }

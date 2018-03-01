@@ -79,6 +79,8 @@
                       echo $this->Form->control('committee_reviews.100.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
                       echo $this->Form->control('committee_reviews.100.internal_review_comment', ['escape' => false, 'templates' => 'textarea_form']);
                       echo $this->Form->control('committee_reviews.100.applicant_review_comment', ['label' => 'Applicant review comment <small class="muted">(sent to applicants)</small>', 'escape' => false, 'templates' => 'textarea_form']);
+                      
+                      echo $this->Form->control('committee_reviews.100.outcome_date', ['type' => 'text', 'escape' => false, 'templates' => 'app_form', 'label' => 'Outcome Date']);
 
                       echo $this->Form->control('committee_reviews.100.decision', ['type' => 'radio', 
                                'label' => '<b>Committee Decision</b>', 'escape' => false,
@@ -104,4 +106,16 @@
 <script type="text/javascript">
   CKEDITOR.replace('committee-reviews-100-internal-review-comment');
   CKEDITOR.replace('committee-reviews-100-applicant-review-comment');
+  $(function() {
+
+    $('#committee-reviews-100-outcome-date').datepicker({
+        minDate:"-100Y", maxDate:"-0D", 
+        dateFormat:'dd-mm-yy', 
+        showButtonPanel:true, 
+        changeMonth:true, 
+        changeYear:true, 
+        showAnim:'show'
+      });
+
+  });
 </script>

@@ -30,6 +30,7 @@
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('stages') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th> 
                 <th scope="col"></th>
             </tr>
@@ -45,6 +46,13 @@
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
                 <td><?= h($application->status) ?></td>
+                <td>
+                    <?php 
+                        foreach ($application->application_stages as $application_stage) {
+                            echo "<p>".$application_stage->stage." - ".$application_stage->description." - ".h($application_stage->created)."</p>";
+                        }
+                    ?>
+                </td>
                 <td><?= h($application->created) ?></td>         
                 <td>
                                

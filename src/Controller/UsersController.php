@@ -421,23 +421,25 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id, [
             'contain' => [],
-            'fields' => ['id'  , 'username' , 'name' , 'email' , 'phone_no', 'group_id' ]
+            'fields' => ['id'  , 'username' , 'name' , 'email' , 'phone_no', 'group_id', 'file', 'dir',
+                                ]
         ]);
+        if ($this->Auth->user('group_id') != 1 && $this->Auth->user('id') != $id) {
+            $this->Flash->error(__('You can only edit your profile.'));
+            return $this->redirect(['action' => 'profile']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             // debug($this->request->getData())
             $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                'fieldList' => ['id'  , 'username' , 'name' , 'email' , 'name_of_institution' ,
-                                'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no' ]
+                'fieldList' => ['id'  , 'username' , 'name' , 'email' ,  'file',  'phone_no' ]
             ]);
-            // debug($this->request->getData());
-            // debug($user);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The details have been updated.'));
                 return $this->redirect(['action' => 'profile']);
             }
             $this->Flash->error(__('The details could not be saved. Please, try again.'));
         }
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
         $this->set(compact('user', 'groups'));
         $this->set('_serialize', ['user']);

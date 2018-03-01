@@ -12,6 +12,8 @@
       <?php $this->ValidationMessages->display($application->errors()) ?>
           <h2 class="text-center">Evaluation Report(s)</h2>
           <hr>
+
+          <?php if(count($application->assign_evaluators) > 0) { ?> 
         <?php
             echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
                   ?>
@@ -803,7 +805,24 @@
                         </div>
                       </td>
                     </tr>
-
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <?php
+                              echo $this->Form->control('evaluations.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+                            ?>
+                          </div>
+                          <div class="col-xs-4">
+                            <?php          
+                              echo "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 70%;' alt=''>";
+                            ?>
+                          </div>
+                          <div class="col-xs-2"> </div>
+                        </div>
+                      </td>
+                    </tr>
+                    
                   </tbody>
                 </table>
 
@@ -815,6 +834,7 @@
                   </div> 
               </div>
            <?php echo $this->Form->end() ?>
+           <?php } else { echo "Assign evaluators first"; }?>
         </div>
       </div>
 

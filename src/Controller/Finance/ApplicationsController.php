@@ -21,14 +21,24 @@ class ApplicationsController extends ApplicationsBaseController
     }
 
     public function financeApproval($id = null) {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), []);
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => 'ApplicationStages']);
         
         // debug($application);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Finance';
+
             $application->finance_approvals[0]->user_id = $this->Auth->user('id');
-            if($application->finance_approvals[0]->outcome == 'Fees Complete') {              
+            if($application->finance_approvals[0]->outcome == 'Fees Complete') {     
+              //new stage only once
+              if(!in_array("Finance", Hash::extract($application->application_stages, '{n}.stage'))) {
+                  $stage1  = $this->Applications->ApplicationStages->newEntity();
+                  $stage1->stage = 'Finance';
+                  $stage1->description = 'Stage 2';
+                  $stage1->stage_date = date("Y-m-d H:i:s");
+                  $stage1->alt_date = $application->finance_approvals[0]->outcome_date;
+                  $application->application_stages = [$stage1];
+                  $application->status = 'Finance';
+              }
               $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
             }
             //Notification should be sent to manager and assigned_to evaluator if exists

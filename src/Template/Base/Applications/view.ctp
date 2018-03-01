@@ -3,6 +3,7 @@
 <?php $this->end(); ?>
 
 <?php
+  use Cake\Utility\Hash;
   $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);
   $this->extend('/Element/applications/application_view');
 ?>
@@ -31,6 +32,7 @@
     <div role="tabpanel" class="tab-pane" id="finance">
         <?= $this->element('applications/finance') ?>
     </div>
+  <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
     <div role="tabpanel" class="tab-pane" id="notification">
         <?= $this->element('applications/notifications') ?>
     </div>
@@ -58,8 +60,12 @@
         <?= $this->element('applications/dg') ?>
     </div>
     <?php } ?> 
+  <?php } ?> 
     <div role="tabpanel" class="tab-pane" id="gcp">
         <?= $this->element('applications/gcp') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="stages">
+        <?= $this->element('applications/stages') ?>
     </div>
   </div>
 </div>
@@ -70,6 +76,7 @@
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <?php if($application->submitted == 2) { ?>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
+    <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
       <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php if($prefix === 'manager') { ?>   
@@ -83,6 +90,8 @@
       <?php } ?> 
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   
       <?php } ?> 
+    <?php } ?>       
+      <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
   </ul>
 </div>
 

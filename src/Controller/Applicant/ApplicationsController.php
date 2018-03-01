@@ -183,6 +183,14 @@ class ApplicationsController extends AppController
                 return $this->redirect(['action' => 'edit', $application->id]);
               }
               $application->date_submitted = date("Y-m-d H:i:s");
+
+              //new stage
+              $stage1  = $this->Applications->ApplicationStages->newEntity();
+              $stage1->stage = 'Submitted';
+              $stage1->description = 'Stage 1';
+              $stage1->stage_date = date("Y-m-d H:i:s");
+              $application->application_stages = [$stage1];
+
               $application->status = 'Submitted';
               //$application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
               $application->protocol_no = 'FN'.$application->id.'/'.$application->created->i18nFormat('yyyy');
@@ -322,6 +330,15 @@ class ApplicationsController extends AppController
 
               //submit to mcaz button
               $amendment->date_submitted = date("Y-m-d H:i:s");
+
+
+              //new stage
+              $stage1  = $this->Applications->ApplicationStages->newEntity();
+              $stage1->stage = 'Submitted';
+              $stage1->description = 'Stage 1';
+              $stage1->stage_date = date("Y-m-d H:i:s");
+              $amendment->application_stages = [$stage1];
+
               $amendment->status = 'Submitted';
               if ($this->Applications->Amendments->save($amendment)) {
                 $this->Flash->success(__('Amendment '.$amendment->created.' has been successfully submitted to MCAZ for review.'));
@@ -427,7 +444,8 @@ class ApplicationsController extends AppController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'ReporterResponse';
+
+            //$application->status = 'ReporterResponse';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -480,7 +498,7 @@ class ApplicationsController extends AppController
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Section75';
+            //$application->status = 'Section75';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -533,7 +551,7 @@ class ApplicationsController extends AppController
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Notification';
+            //$application->status = 'Notification';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -584,7 +602,7 @@ class ApplicationsController extends AppController
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'GCP';
+            //$application->status = 'GCP';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators

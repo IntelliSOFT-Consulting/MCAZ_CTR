@@ -158,20 +158,27 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $fieldList = ['Users.id', 'Users.name', 'Users.email', 'Users.username', 'Users.group_id', 'Users.phone_no',                      
+                      'Users.is_active', 'Users.deactivated', 'Users.is_admin'];
+
         $user = $this->Users->get($id, [
+            'fields' => $fieldList,
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(['patch', 'post', 'put'])) {   
+            if (empty($this->request->data['password'])) {
+                unset($this->request->data['password']);
+                unset($this->request->data['confirm_password']);
+            }         
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__('The user\'s details have been updated.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit', $user->id]);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('The user\'s details could not be saved. Please, try again.'));
         }
 
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
         $this->set(compact('user', 'groups'));
         $this->set('_serialize', ['user']);

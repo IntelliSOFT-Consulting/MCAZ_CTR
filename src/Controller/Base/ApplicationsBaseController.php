@@ -50,6 +50,7 @@ class ApplicationsBaseController extends AppController
             ->leftJoinWith('Sponsors')
             ->leftJoinWith('SiteDetails')
             ->leftJoinWith('Medicines')
+            ->contain(['ApplicationStages'])
             // You can add extra things to the query if you need to
             ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
             ->distinct();
@@ -118,10 +119,19 @@ class ApplicationsBaseController extends AppController
     }
     
     public function addReview() {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Reviewed';
+
+            //new stage only once
+            if(!in_array("Evaluated", Hash::extract($application->application_stages, '{n}.stage'))) {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage = 'Evaluated';
+                $stage1->description = 'Stage 4';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $application->application_stages = [$stage1];
+                $application->status = 'Evaluated';
+            }
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -176,7 +186,7 @@ class ApplicationsBaseController extends AppController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Section75';
+            //$application->status = 'Section75';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -246,7 +256,7 @@ class ApplicationsBaseController extends AppController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'RequestReporter';
+            //$application->status = 'RequestReporter';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -315,7 +325,7 @@ class ApplicationsBaseController extends AppController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'GCP';
+            //$application->status = 'GCP';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators

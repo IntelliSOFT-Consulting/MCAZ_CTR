@@ -43,7 +43,7 @@
                     </div> 
                   </div> 
                   <div class="form-group">
-                    <label class="col-xs-4 control-label">Approved Date:</label>
+                    <label class="col-xs-4 control-label">Authorized Date:</label>
                     <div class="col-xs-8">
                     <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
                     </div> 
@@ -75,7 +75,7 @@
           <?php } ?>
 
           <hr style="border-width: 1px; border-color: #8a6d3b;">
-
+          <?php if(count($application->evaluations) > 0) { ?> 
          <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-dg-review', $application->id], 'class' => 'form-horizontal']); ?>
               <div class="row">
                 <div class="col-xs-12">
@@ -90,7 +90,7 @@
                                'label' => '<b>DG Decision</b>', 'escape' => false,
                                'templates' => 'radio_form',
                                'options' => [
-                                  'Approved' => 'Approved', 
+                                  'Authorize' => 'Authorize', 
                                   'Pending' => 'Pending', 
                                   'Declined' => 'Declined', ]]);
                       echo $this->Form->control('dg_reviews.100.approved_date', ['type' => 'text', 'class' => 'datepickers', 'templates' => [
@@ -106,6 +106,7 @@
                   </div> 
               </div>
            <?php echo $this->Form->end() ?>
+           <?php } ?>
         </div>
       </div>
 

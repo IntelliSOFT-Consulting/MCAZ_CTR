@@ -4,6 +4,47 @@
   <div class="col-xs-12">
     <h2 class="text-center text-success">Approvals</h2>
     <hr>
+    <h4 class="text-warning">Director General</h4>
+      <div class="row">
+        <div class="col-xs-12">
+          <?php foreach ($application->dg_reviews as $dg_review) {
+                  if($dg_review->decision == "Authorized" or $dg_review->decision == "Declined" ) {  ?>
+          <div class="ctr-groups">
+            <p class="topper"><small><em class="text-success">reviewed on: <?= $dg_review['approved_date'] ?> </em></small></p>
+          <?php
+          echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $dg_review->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+          ?>
+              <div class="amend-form">
+                <form class="form-horizontal">                  
+                  <div class="form-group"
+                    <label class="col-sm-4 control-label">DG Decision:</label>
+                    <div class="col-sm-8">
+                    <p class="form-control-static"><?= $dg_review['decision'] ?></p>
+                    </div> 
+                  </div> 
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Applicant Review comment</label>
+                    <div class="col-sm-8">
+                      <p class="form-control-static"><?= $dg_review->applicant_review_comment ?></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">File</label>
+                    <div class="col-sm-7">
+                      <p class="form-control-static text-info text-left"><?php
+                           echo $this->Html->link($dg_review->file, substr($dg_review->dir, 8) . '/' . $dg_review->file, ['fullBase' => true]);
+                      ?></p>
+                    </div>
+                  </div> 
+                </form>  <br>
+              </div>                   
+            
+          </div>
+          <?php } } ?>
+
+        </div>
+      </div>
+    <hr>
     <h4 class="text-warning">PVCT Committee</h4>
       <div class="row">
         <div class="col-xs-12">

@@ -1,4 +1,5 @@
 <?php
+  use Cake\Utility\Hash;
   $this->extend('/Element/applications/application_view');  
   $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);
 ?>
@@ -8,16 +9,18 @@
   <ul class="nav nav-tabs tabs-left" data-offset-top="60"  role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
-      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>   
-      <?php if($application->approved === 'Approved') { ?>     
+      <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
+    <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?>   
+      <?php if($application->approved === 'Authorized') { ?>     
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php } ?>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
-      <?php if($application->approved === 'Approved') { ?>    
+      <?php if($application->approved === 'Authorized') { ?>    
       <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
       <?php } ?>    
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>  
+    <?php } ?>
       <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
   </ul>
 </div>
@@ -27,7 +30,7 @@
   <div role="tabpanel" class="tab-pane active" id="report">
     <div>
       <?php
-        if($application->approved === 'Approved') {
+        if($application->approved === 'Authorized') {
           if(!empty($application->amendments) && end($application->amendments)['submitted'] != 2) {
               echo $this->Html->link('<button class="btn btn-success action"> <i class="fa fa-edit" aria-hidden="true"></i> Edit </button>', ['action' => 'amendment', end($application->amendments)['id']], ['escape' => false]);  
           } else {
@@ -52,9 +55,10 @@
 <?php $this->start('endjs'); ?>
     </div> <!-- Firstly, close the first tab!! IMPORTANT -->
 
-    <div role="tabpanel" class="tab-pane" id="finance">
+    <div role="tabpanel" class="tab-pane" id="finance">      
         <?= $this->element('applications/applicant_finance') ?>
     </div>
+  <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
     <div role="tabpanel" class="tab-pane" id="section75">
         <?= $this->element('applications/applicant_section75') ?>
     </div>
@@ -72,6 +76,7 @@
     <div role="tabpanel" class="tab-pane" id="gcp">
         <?= $this->element('applications/applicant_gcp') ?>
     </div>
+  <?php } ?>
     <div role="tabpanel" class="tab-pane" id="approvals">
         <?= $this->element('applications/applicant_approvals') ?>
     </div>
