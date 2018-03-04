@@ -56,10 +56,10 @@ class CommitteeDatesTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
+/*
         $validator
             ->date('meeting_date')
-            ->allowEmpty('meeting_date');
+            ->allowEmpty('meeting_date');*/
 
         $validator
             ->scalar('start_time')

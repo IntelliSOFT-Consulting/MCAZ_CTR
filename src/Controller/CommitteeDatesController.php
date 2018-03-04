@@ -12,6 +12,10 @@ use App\Controller\AppController;
  */
 class CommitteeDatesController extends AppController
 {
+    public $paginate = [
+        // 'limit' => 2,
+        'CommitteeDates' => ['scope' => 'committeedates'],
+    ];
 
     public function add()
     {
@@ -46,13 +50,11 @@ class CommitteeDatesController extends AppController
                     }
                 }
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The committee date could not be saved. Please, try again.'));
         }
-        $users = $this->CommitteeDates->Users->find('list', ['limit' => 200]);
-        $this->set(compact('committeeDate', 'users'));
-        $this->set('_serialize', ['committeeDate']);
+        return $this->redirect($this->referer());
     }
 
     public function delete($id = null)
@@ -65,6 +67,6 @@ class CommitteeDatesController extends AppController
             $this->Flash->error(__('The committee date could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
     }
 }

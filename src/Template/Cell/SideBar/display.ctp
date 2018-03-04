@@ -144,8 +144,6 @@
         <?php if (($prefix != 'applicant' || $prefix != 'director_general') && ($this->request->params['action'] === 'calendar') or 
                 in_array('calendar', $this->request->getParam('pass'))) { ?>
             <ul class="nav van-<?= $prefix ?>">
-              <li class="<?= ($this->request->params['controller'] == 'MeetingDates') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Meeting Dates ', ['controller' => 'MeetingDates', 'action' => 'calendar', 'prefix' => false], array('escape' => false)); ?> 
-              </li>
               <li class="<?= ($this->request->params['controller'] == 'Sites') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Edit page ', ['controller' => 'Sites', 'action' => 'calendar', 'prefix' => $prefix], array('escape' => false)); ?> 
               </li>
             </ul>

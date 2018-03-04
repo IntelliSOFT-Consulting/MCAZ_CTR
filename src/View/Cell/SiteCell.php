@@ -2,12 +2,16 @@
 namespace App\View\Cell;
 
 use Cake\View\Cell;
+use Cake\Datasource\Paginator;
 
 /**
  * Site cell
  */
 class SiteCell extends Cell
 {
+    public $paginate = [
+        'CommitteeDates' => ['scope' => 'committeedate'],
+    ];
 
     /**
      * List of valid options that can be passed into this
@@ -57,9 +61,20 @@ class SiteCell extends Cell
     }
     public function calendar()
     {
-        $this->loadModel('Sites');
         $this->loadModel('CommitteeDates');
-        $committee_dates = $this->paginate($this->CommitteeDates->find('all', ['order' => ['CommitteeDates.created' => 'desc']]));
+        $this->loadModel('Sites');
+        $paginator = new Paginator();
+        $committee_dates = $paginator->paginate(
+            $this->CommitteeDates->find('all', ['order' => ['CommitteeDates.meeting_date' => 'desc']]),            
+            $this->request->getQueryParams(),
+            [
+                // Use scoped query string parameters.
+                'scope' => 'committeedate',
+            ]
+        );
+
+        $paging = $paginator->getPagingParams() + (array)$this->request->getParam('paging');
+        $this->request = $this->request->withParam('paging', $paging);
 
         $site = $this->Sites->get(6, [ 'contain' => []]);
 
