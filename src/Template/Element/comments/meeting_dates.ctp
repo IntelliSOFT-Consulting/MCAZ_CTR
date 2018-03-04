@@ -46,7 +46,7 @@
                 <td><?= $committee_date->end_time ?></td>
                 <td>
                     <?php                                        
-                        echo  $this->Form->postLink('<span class="label label-danger"> <i class="fa fa-minus"></i></span>', ['controller' => 'CommitteeDates', 'action' => 'delete', $committee_date->id, 'prefix' => false], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to delete date {0}?', $committee_date->meeting_date)]); 
+                     if($prefix != 'applicant')   echo  $this->Form->postLink('<span class="label label-danger"> <i class="fa fa-minus"></i></span>', ['controller' => 'CommitteeDates', 'action' => 'delete', $committee_date->id, 'prefix' => false], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to delete date {0}?', $committee_date->meeting_date)]); 
                     ?>
                 </td>
             </tr>
