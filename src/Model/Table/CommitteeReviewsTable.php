@@ -52,6 +52,13 @@ class CommitteeReviewsTable extends Table
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
+
+        $this->hasMany('Comments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Comments.model' => 'CommitteeReviews'),
+        ]);
     }
 
     /**
@@ -62,7 +69,7 @@ class CommitteeReviewsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->provider('upload', \Josegonzalez\Upload\Validation\UploadValidation::class);
+        /*$validator->provider('upload', \Josegonzalez\Upload\Validation\UploadValidation::class);
         $validator->add('file', 'fileUnderPhpSizeLimit', [
             'rule' => 'isUnderPhpSizeLimit',
             'message' => 'This file is too large',
@@ -70,14 +77,21 @@ class CommitteeReviewsTable extends Table
             'on' => function($context) {
                 return !empty($context['data']['file']) && $context['data']['file']['error'] == UPLOAD_ERR_OK;
             }
-        ]);
+        ]);*/
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
 
         $validator
             ->scalar('internal_review_comment')
-            ->allowEmpty('internal_review_comment');
+            ->notEmpty('internal_review_comment', ['message' => 'Internal Review Comment mandatory']);
+
+        $validator
+            ->scalar('outcome_date')
+            ->notEmpty('outcome_date', ['message' => 'Kindly enter the date of the committee decision']);
+        
+        $validator
+            ->allowEmpty('file');
 
         /*$validator
             ->scalar('file')

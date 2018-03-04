@@ -30,6 +30,7 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
  */
 class ApplicationsTable extends Table
 {
+    
     use SoftDeleteTrait;
     protected $softDeleteField = 'deleted_date';
     /**
@@ -102,6 +103,9 @@ class ApplicationsTable extends Table
             'foreignKey' => 'application_id'
         ]); 
         $this->hasMany('DgReviews', [
+            'foreignKey' => 'application_id'
+        ]); 
+        $this->hasMany('FinalStages', [
             'foreignKey' => 'application_id'
         ]); 
         $this->hasMany('RequestInfos', [

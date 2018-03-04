@@ -38,6 +38,7 @@
                     </div>
                   </div> 
                 </form>  <br>
+                <?php echo $this->element('comments/list', ['comments' => $committee_review->comments]) ?> 
               </div>      
               <!-- <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Remove</button> -->
               <hr>

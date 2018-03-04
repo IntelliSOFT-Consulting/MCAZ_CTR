@@ -32,7 +32,7 @@
          </li>
          <li class="<?php echo $this->fetch('MyMessages') ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-comment-o"></i> My Messages',
+            echo $this->Html->link('<i class="fa fa-comment-o"></i> My Notifications',
               array('controller' => 'Notifications', 'action'=>'index', 'prefix' => $prefix ), array('escape' => false ));
               ?>
          </li>

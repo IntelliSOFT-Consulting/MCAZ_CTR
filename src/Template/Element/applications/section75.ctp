@@ -9,8 +9,10 @@
     <h4 class="text-center">IMPORTATION OF UNREGISTERED PRODUCTS</h4>
     <h6 class="text-center muted">Section 75 of the Medicines and Allied Substances Control Act [Chapter 15:03]</h6>    
     <?php
+      if(!empty($application->seventy_fives)) {
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'section75', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
-              ?>
+      }          
+    ?>
     <?php foreach ($application->seventy_fives as $seventy_five) { 
       ?>
     <div class="ctr-groups <?php if($seventy_five->user->group_id != 4) echo 'amend-form'; ?>">
@@ -61,7 +63,10 @@
     </div>
     <?php }  ?>
     <br> <hr> <br>
-    <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-section75-review']]); ?>
+    <?php 
+      if(!in_array($prefix, ['director_general', 'admin'])) {
+      echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-section75-review']]); 
+    ?>
         <div class="row">
           <div class="col-xs-12">
           <?php
@@ -86,7 +91,10 @@
               <button type="submit" class="btn btn-primary active" id="sendRequest"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
             </div> 
         </div>
-    <?php echo $this->Form->end() ?>
+    <?php 
+      echo $this->Form->end();
+      }
+    ?>
 
   </div>
 </div>

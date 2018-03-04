@@ -1,5 +1,9 @@
-echo "Instead of denying permissions to controllers, check if you can check prefix in controller before filter
-      and redirect to appropriate action..."
+echo "
+	Tasks:
+	1. Clear cache
+	2. Assign permissions to users based on Groups
+	3. Grant permissions to folders
+"
 bin/cake acl_extras aco_sync
 bin/cake cache clear_all
 echo "Assigning Admin permissions....................."
@@ -16,9 +20,9 @@ bin/cake acl deny Groups.1 controllers/Finance
 # bin/cake acl deny Groups.2 controllers #TODO: Remove this global assignment
 echo "Assigning Manager permissions................."
 bin/cake acl grant Groups.2 controllers/Reports
+bin/cake acl grant Groups.2 controllers/CommitteeDates
 bin/cake acl deny Groups.2 controllers/Admin
 bin/cake acl grant Groups.2 controllers/Manager
-bin/cake acl grant Groups.2 controllers/Base
 bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
 bin/cake acl grant Groups.2 controllers/Attachments/download
@@ -50,17 +54,27 @@ bin/cake acl grant Groups.5 controllers/Notifications/delete
 #Evaluators permissions
 echo "Assigning Evaluators permissions......................"
 bin/cake acl grant Groups.3 controllers/Reports
+bin/cake acl grant Groups.2 controllers/CommitteeDates
 bin/cake acl grant Groups.3 controllers/Users/profile
 bin/cake acl grant Groups.3 controllers/Users/edit
 bin/cake acl grant Groups.3 controllers/Evaluator
-bin/cake acl grant Groups.3 controllers/Base
+# bin/cake acl grant Groups.3 controllers/Base
 bin/cake acl grant Groups.3 controllers/Notifications/delete
+bin/cake acl grant Groups.6 controllers/Attachments/download
 bin/cake acl grant Groups.6 controllers/Reports
 bin/cake acl grant Groups.6 controllers/ExternalEvaluator
 bin/cake acl grant Groups.6 controllers/Users/profile
 bin/cake acl grant Groups.6 controllers/Users/edit
-bin/cake acl grant Groups.6 controllers/Base
+# bin/cake acl grant Groups.6 controllers/Base
 bin/cake acl grant Groups.6 controllers/Attachments/download
 bin/cake acl grant Groups.6 controllers/Notifications/delete
+#Secretary General permissions
+echo "Assigning Secretary General permissions......................"
+bin/cake acl grant Groups.7 controllers/Reports
+bin/cake acl grant Groups.7 controllers/DirectorGeneral
+bin/cake acl grant Groups.7 controllers/Users/profile
+bin/cake acl grant Groups.7 controllers/Users/edit
+bin/cake acl grant Groups.7 controllers/Attachments/download
+bin/cake acl grant Groups.7 controllers/Notifications/delete
 
 sudo chmod -R 777 .

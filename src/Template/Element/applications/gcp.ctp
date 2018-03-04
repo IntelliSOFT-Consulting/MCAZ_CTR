@@ -9,8 +9,10 @@
     <h4 class="text-center">GCP Inspections</h4>
     <hr>
     <?php
+      if(!empty($application->gcp_inspections)) {
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'gcp', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
-              ?>
+      }          
+    ?>
     <?php foreach ($application->gcp_inspections as $gcp_inspection) { 
       ?>
     <div class="ctr-groups <?php if($gcp_inspection->user->group_id != 4) echo 'amend-form'; ?>">
@@ -61,6 +63,7 @@
     </div>
     <?php }  ?>
     <hr> <br>
+    <?php if($prefix != 'director_general') { ?> 
     <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-gcp-inspection']]); ?>
         <div class="row">
           <div class="col-xs-12">
@@ -86,7 +89,7 @@
               <button type="submit" class="btn btn-primary active" id="sendRequest"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
             </div> 
         </div>
-    <?php echo $this->Form->end() ?>
+    <?php echo $this->Form->end(); } ?>
 
   </div>
 </div>

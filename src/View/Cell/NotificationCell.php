@@ -36,8 +36,13 @@ class NotificationCell extends Cell
 
         $prefix = null;
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
-        if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
-        if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator';  }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'external_evaluator'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 7) { $prefix = 'director_general'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
+        $this->set(['prefix'=> $prefix]);
         
         
         // $notifications = $this->Notifications->find('all');

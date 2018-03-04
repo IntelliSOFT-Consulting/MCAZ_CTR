@@ -67,6 +67,10 @@ Router::prefix('ExternalEvaluator', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'external_evaluator']);
     $routes->fallbacks(DashedRoute::class);
 });
+Router::prefix('DirectorGeneral', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'director_general']);
+    $routes->fallbacks(DashedRoute::class);
+});
 Router::prefix('applicant', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'applicant']);
     $routes->fallbacks(DashedRoute::class);

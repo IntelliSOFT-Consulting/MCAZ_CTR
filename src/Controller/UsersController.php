@@ -48,6 +48,8 @@ class UsersController extends AppController
             return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'finance']);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 6) {
             return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'external_evaluator']);
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 7) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'director_general']);
         }
     }
 

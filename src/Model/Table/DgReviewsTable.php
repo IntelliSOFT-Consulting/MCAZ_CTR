@@ -42,15 +42,19 @@ class DgReviewsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-        $this->addBehavior('Josegonzalez/Upload.Upload', [
-            'file' => [],
-        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
+        ]);
+
+        $this->hasMany('Attachments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'DgReviews'),
         ]);
     }
 
@@ -62,15 +66,6 @@ class DgReviewsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->provider('upload', \Josegonzalez\Upload\Validation\UploadValidation::class);
-        $validator->add('file', 'fileUnderPhpSizeLimit', [
-            'rule' => 'isUnderPhpSizeLimit',
-            'message' => 'This file is too large',
-            'provider' => 'upload',
-            'on' => function($context) {
-                return !empty($context['data']['file']) && $context['data']['file']['error'] == UPLOAD_ERR_OK;
-            }
-        ]);
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
@@ -86,22 +81,6 @@ class DgReviewsTable extends Table
         $validator
             ->scalar('applicant_review_comment')
             ->allowEmpty('applicant_review_comment');
-
-        /*$validator
-            ->scalar('file')
-            ->allowEmpty('file');
-
-        $validator
-            ->scalar('dir')
-            ->allowEmpty('dir');
-
-        $validator
-            ->scalar('size')
-            ->allowEmpty('size');
-
-        $validator
-            ->scalar('type')
-            ->allowEmpty('type');*/
 
         $validator
             ->dateTime('deleted')

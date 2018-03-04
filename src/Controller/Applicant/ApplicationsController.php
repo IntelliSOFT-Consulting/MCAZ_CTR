@@ -677,10 +677,10 @@ class ApplicationsController extends AppController
     public function finance($id = null, $scope = null) {
         if($scope === 'All') {
             $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $finance = $this->Applications->FinanceApprovals
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors']]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
             $application = $finance->application;
             $finance_approvals[] = $finance;
         }
@@ -699,10 +699,10 @@ class ApplicationsController extends AppController
     public function section75($id = null, $scope = null) {
         if($scope === 'All') {
             $seventy_fives = $this->Applications->SeventyFives->findByApplicationId($id)->contain(['Users']);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $section75 = $this->Applications->SeventyFives
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
             $application = $section75->application;
             $seventy_fives[] = $section75;
         }
@@ -721,10 +721,10 @@ class ApplicationsController extends AppController
     public function evaluator($id = null, $scope = null) {
         if($scope === 'All') {
             $assign_evaluators = $this->Applications->AssignEvaluators->findByApplicationId($id);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $evaluator = $this->Applications->AssignEvaluators
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors']]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
             $application = $evaluator->application;
             $assign_evaluators[] = $evaluator;
         }
@@ -744,10 +744,10 @@ class ApplicationsController extends AppController
     public function communication($id = null, $scope = null) {
         if($scope === 'All') {
             $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users']);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $request_info = $this->Applications->RequestInfos
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
             $application = $request_info->application;
             $request_infos[] = $request_info;
         }
@@ -766,10 +766,10 @@ class ApplicationsController extends AppController
     public function committee($id = null, $scope = null) {
         if($scope === 'All') {
             $committee_reviews = $this->Applications->CommitteeReviews->findByApplicationId($id)->contain(['Users']);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $committee = $this->Applications->CommitteeReviews
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
             $application = $committee->application;
             $committee_reviews[] = $committee;
         }
@@ -787,11 +787,11 @@ class ApplicationsController extends AppController
     }
     public function dg($id = null, $scope = null) {
         if($scope === 'All') {
-            $dg_reviews = $this->Applications->DgReviews->findByApplicationId($id)->contain(['Users']);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $dg_reviews = $this->Applications->DgReviews->findByApplicationId($id)->contain(['Users', 'Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $dg = $this->Applications->DgReviews
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
             $application = $dg->application;
             $dg_reviews[] = $dg;
         }
@@ -810,10 +810,10 @@ class ApplicationsController extends AppController
     public function gcp($id = null, $scope = null) {
         if($scope === 'All') {
             $gcp_inspections = $this->Applications->GcpInspections->findByApplicationId($id)->contain(['Users']);
-            $application = $this->Applications->get($id, ['contain' =>  ['InvestigatorContacts', 'Sponsors']]);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $gcp_inspection = $this->Applications->GcpInspections
-                ->get($id, ['contain' => ['Applications' => ['InvestigatorContacts', 'Sponsors'], 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
             $application = $gcp_inspection->application;
             $gcp_inspections[] = $gcp_inspection;
         }

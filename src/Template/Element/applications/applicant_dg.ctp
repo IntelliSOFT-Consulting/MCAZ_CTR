@@ -31,12 +31,20 @@
                     </div> 
                   </div> 
                   <div class="form-group">
-                    <label class="col-sm-4 control-label">File</label>
-                    <div class="col-sm-7">
-                      <p class="form-control-static text-info text-left"><?php
-                           echo $this->Html->link($dg_review->file, substr($dg_review->dir, 8) . '/' . $dg_review->file, ['fullBase' => true]);
-                      ?></p>
-                    </div>
+                    <label class="col-xs-4 control-label">Decision Date:</label>
+                    <div class="col-xs-8">
+                    <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
+                    </div> 
+                  </div> 
+
+                  <div class="form-group">
+                    <label class="control-label">File(s)</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } ?>
                   </div> 
                 </form>  <br>
               </div>      

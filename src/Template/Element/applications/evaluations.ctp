@@ -41,11 +41,7 @@
         <div class="col-xs-12">
 
          <?php 
-         // pr($application->evaluations);
-         //$application['evaluations'][] = [100 => $application->evaluations[0]];
-         //$application->evaluations[100] = $application->evaluations[0];
-         //pr($application->evaluations);
-         //$ekey = 100;
+         if(!in_array($prefix, ['director_general', 'admin'])) {
          echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-review']]); ?>
               <div class="row">
                 <div class="col-xs-12">
@@ -833,7 +829,10 @@
                     <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Review</button>
                   </div> 
               </div>
-           <?php echo $this->Form->end() ?>
+           <?php 
+             echo $this->Form->end();
+           }
+         ?>
            <?php } else { echo "Assign evaluators first"; }?>
         </div>
       </div>

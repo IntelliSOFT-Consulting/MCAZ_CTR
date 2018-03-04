@@ -36,11 +36,19 @@ class UsersBaseController extends AppController
         ];
 
         $app_query = $this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial']);
+        //Evaluators and External evaluators only to view if assigned
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $app_query->matching('AssignEvaluators', function ($q) {
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
             });
         }
+        // Secretary General only able to view once it has been approved
+        if ($this->Auth->user('group_id') == 7) {
+            $app_query->matching('ApplicationStages', function ($q) {
+                return $q->where(['ApplicationStages.stage' => 'DirectorGeneral']);
+            });
+        }
+
         $applications = $this->paginate($app_query, ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
         $amt_query = $this->Users->Amendments->find('all', array(
@@ -54,6 +62,13 @@ class UsersBaseController extends AppController
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
             });
         }
+        // Secretary General only able to view once it has been approved
+        if ($this->Auth->user('group_id') == 7) {
+            $amt_query->matching('ApplicationStages', function ($q) {
+                return $q->where(['ApplicationStages.stage' => 'DirectorGeneral']);
+            });
+        }
+        
         $amendments = $this->paginate($amt_query, 
             ['scope' => 'amendment']);
 

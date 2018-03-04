@@ -30,13 +30,14 @@
                     </div> 
                   </div> 
                   <div class="form-group">
-                    <label class="col-xs-4 control-label">File</label>
-                    <div class="col-xs-7">
-                      <p class="form-control-static text-info text-left"><?php
-                           echo $this->Html->link($dg_review->file, substr($dg_review->dir, 8) . '/' . $dg_review->file, ['fullBase' => true]);
-                      ?></p>
-                    </div>
-                  </div> 
+                    <label class="control-label">File(s)</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } ?>
+                  </div>  
                 </form>  <br>
               </div>      
               <!-- <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Remove</button> -->

@@ -55,9 +55,16 @@ class ApplicationsBaseController extends AppController
             ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
             ->distinct();
 
+        //Evaluators and External evaluators only to view if assigned
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $query->matching('AssignEvaluators', function ($q) {
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            });
+        }
+        // Secretary General only able to view once it has been approved
+        if ($this->Auth->user('group_id') == 7) {
+            $query->matching('ApplicationStages', function ($q) {
+                return $q->where(['ApplicationStages.stage' => 'DirectorGeneral']);
             });
         }
 
@@ -509,11 +516,11 @@ class ApplicationsBaseController extends AppController
     }
     public function committee($id = null, $scope = null) {
         if($scope === 'All') {
-            $committee_reviews = $this->Applications->CommitteeReviews->findByApplicationId($id)->contain(['Users']);
+            $committee_reviews = $this->Applications->CommitteeReviews->findByApplicationId($id)->contain(['Users', 'Comments', 'Comments.Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $committee = $this->Applications->CommitteeReviews
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Comments', 'Comments.Attachments']]);            
             $application = $committee->application;
             $committee_reviews[] = $committee;
         }

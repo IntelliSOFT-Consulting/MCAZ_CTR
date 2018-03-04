@@ -58,7 +58,21 @@ class SiteCell extends Cell
     public function calendar()
     {
         $this->loadModel('Sites');
+        $this->loadModel('CommitteeDates');
+        $committee_dates = $this->paginate($this->CommitteeDates->find('all', ['order' => ['CommitteeDates.created' => 'desc']]));
+
         $site = $this->Sites->get(6, [ 'contain' => []]);
-        $this->set(compact('site'));
+
+
+        $prefix = null;
+        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
+        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator';  }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'external_evaluator'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 7) { $prefix = 'director_general'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
+
+        $this->set(compact('site', 'prefix', 'committee_dates'));
     }
 }

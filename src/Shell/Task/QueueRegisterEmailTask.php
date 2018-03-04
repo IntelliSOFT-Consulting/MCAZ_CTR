@@ -20,7 +20,7 @@ class QueueRegisterEmailTask extends QueueTask {
     public $timeout = 10;
 
     /* Number of times a failed instance of this task should be restarted before giving up. */
-    public $retries = 1;
+    public $retries = 3;
 
     /**
      * @param array $data The array passed to QueuedJobsTable::createJob()

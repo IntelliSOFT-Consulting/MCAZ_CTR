@@ -27,7 +27,7 @@ class QueueTestEmailTask extends QueueTask {
 	 *
 	 * @var int
 	 */
-	public $retries = 1;
+	public $retries = 3;
 
 	/**
 	 * Example add functionality.

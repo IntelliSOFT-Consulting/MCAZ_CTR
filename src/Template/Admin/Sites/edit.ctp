@@ -34,7 +34,16 @@
     <div id="myGrid">
         <?php //echo $site->content ?>    
     </div>
-    <?= $this->Form->button(__('Submit')) ?>
+    
+    <div class="row">
+      <div class="form-group"> 
+        <div class="col-xs-12"> 
+          <p class="text-center">
+            <button type="submit" class="btn btn-success btn-lg active text-center" id="registerUser" onclick="return confirm('Save changes?');"><i class="fa fa-save" aria-hidden="true"></i> Save </button>
+          </p>
+        </div> 
+      </div>
+    </div>
     <?= $this->Form->end() ?>
 
 </div>

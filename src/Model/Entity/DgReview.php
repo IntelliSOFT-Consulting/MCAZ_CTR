@@ -36,19 +36,6 @@ class DgReview extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
-        'application_id' => true,
-        'decision' => true,
-        'internal_review_comment' => true,
-        'applicant_review_comment' => true,
-        'file' => true,
-        'dir' => true,
-        'size' => true,
-        'type' => true,
-        'deleted' => true,
-        'created' => true,
-        'modified' => true,
-        'user' => true,
-        'application' => true
+        '*' => true,
     ];
 }

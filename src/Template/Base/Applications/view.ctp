@@ -39,7 +39,7 @@
     <div role="tabpanel" class="tab-pane" id="section75">
         <?= $this->element('applications/section75') ?>
     </div>
-    <?php if($prefix === 'manager') { ?> 
+    <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
     <div role="tabpanel" class="tab-pane" id="assign">
         <?= $this->element('applications/assign_evaluator') ?>
     </div>
@@ -50,20 +50,24 @@
     <div role="tabpanel" class="tab-pane" id="request">
         <?= $this->element('applications/request_info') ?>
     </div>
-    <?php if($prefix === 'manager') { ?> 
+    <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/committee') ?>
-        <hr style="border-width: 3px; border-color: #1737b5;">
-        <?php //echo $this->element('applications/dg') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="dg">
         <?= $this->element('applications/dg') ?>
     </div>
     <?php } ?> 
-  <?php } ?> 
     <div role="tabpanel" class="tab-pane" id="gcp">
         <?= $this->element('applications/gcp') ?>
     </div>
+    <!-- only visible in final stage 11   -->
+      <?php if(in_array("Authorize", Hash::extract($application->dg_reviews, '{n}.decision'))) { ?>    
+        <div role="tabpanel" class="tab-pane" id="final">
+            <?= $this->element('applications/final') ?>
+        </div> 
+      <?php } ?>
+    <?php } ?>  
     <div role="tabpanel" class="tab-pane" id="stages">
         <?= $this->element('applications/stages') ?>
     </div>
@@ -79,17 +83,21 @@
     <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
       <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
-      <?php if($prefix === 'manager') { ?>   
+      <?php if($prefix === 'manager' or $prefix === 'director_general') { ?>   
       <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
       <?php } ?> 
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
-      <?php if($prefix === 'manager') { ?> 
+      <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
       <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Director General</b></a></li> 
       <?php } ?> 
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   
       <?php } ?> 
+
+      <?php if(in_array("Authorize", Hash::extract($application->dg_reviews, '{n}.decision'))) { ?>
+      <li role="presentation"><a href="#final" aria-controls="final" role="tab" data-toggle="tab"><b>Final Stage</b></a></li> 
+      <?php } ?>       
     <?php } ?>       
       <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
   </ul>
