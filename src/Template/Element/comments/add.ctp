@@ -1,7 +1,5 @@
 <?php
   $this->Html->css('bootstrap/comments.css', ['block' => true]);
-  $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.2/tinymce.min.js', ['block' => true]);
-  $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.2/jquery.tinymce.min.js', ['block' => true]);
   $this->Html->script('comments/comments', ['block' => true]);
 ?>
 
@@ -15,7 +13,11 @@
                         echo $this->Form->control('model', ['type' => 'hidden', 'value' => $model['model'], 'templates' => 'table_form']);
                         echo $this->Form->control('category', ['type' => 'hidden', 'value' => $model['category'], 'templates' => 'table_form']);
                         echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
-                        echo $this->Form->control('sender', ['escape' => false, 'templates' => 'comment_form']);
+                        if(strpos($model['url'], 'committee') !== false) {
+                          echo $this->Form->control('sender', ['escape' => false, 'templates' => 'comment_form']);
+                        } else {                          
+                          echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
+                        }
                         echo $this->Form->control('subject', ['label' => 'Subject', 'templates' => 'comment_form']);
                         echo $this->Form->control('content', ['label' => 'Content', 'type' => 'textarea', 'templates' => 
                               [
@@ -24,13 +26,12 @@
                   ?>
                   <div class="row">
                       <div class="col-xs-12">
+                        <div class="uploadsTable">
                           <h6 class="muted"><b>Attach File(s) </b>
-                              <button type="button" class="btn btn-primary btn-xs" id="addUpload">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
+                              <button type="button" class="btn btn-primary btn-xs addUpload">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
                           </h6>
-                        <hr>
-                      <div id="uploadsTable">
-
-                      </div>
+                          <hr>
+                        </div>
                       </div>
                   </div>
             <div class="form-group"> 

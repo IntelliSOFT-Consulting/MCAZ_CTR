@@ -155,7 +155,7 @@ class UsersController extends AppController
                 ]; 
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
-                $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+                $data['vars']['ctr_site'] = $html->link('MCAZ CTR website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
                 $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
                                           '_full' => true]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);

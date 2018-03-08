@@ -30,7 +30,7 @@
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('stages') ?></th>
+                <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th> 
                 <th scope="col"></th>
             </tr>

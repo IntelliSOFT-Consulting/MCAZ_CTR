@@ -5,7 +5,7 @@
         ?>
             <p><a href="#" class="btn btn-primary btn-lg">
                 <?= $application_stage->description ?> - <?= $application_stage->stage ?> 
-                <br><small class="muted"><?= $application_stage->created ?></small>
+                <br><small><?= $application_stage->created ?></small>
                 </a>
             </p>
             <p>

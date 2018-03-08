@@ -15,15 +15,15 @@ $(function() {
             </div>\
           </div><hr>\ ';
     // incremental development
-    $("#addUpload").click(function() {
+    $(".addUpload").click(function() {
       intId = intId + 1;
       //console.log($(this).closest('form').find('input[name="model"]').val());
       //console.log($(this).closest('form').find('#model').val());
       name = $(this).closest('form').find('input[name="model"]').val();
 
-      if ($('#uploadsTable .attacho').length < 10) {            
+      if ($(this).closest('div.uploadsTable').children('div.attacho').length < 7) {            
           trVar = $.parseHTML(trWrapper.replace(/{i}/g, intId).replace(/{n}/g, name));
-          $("#uploadsTable").append(trVar);
+          $(this).closest("div.uploadsTable").append(trVar);
       } else {
           alert("Sorry, can't add more than "+intId+" Attachments at a time!");
       }

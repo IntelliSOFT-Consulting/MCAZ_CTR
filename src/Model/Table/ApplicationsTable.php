@@ -60,6 +60,14 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('ParentApplications.report_type' => 'Initial'),
         ]);
+
+        $this->hasMany('EvaluationComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('EvaluationComments.model' => 'Applications', 'EvaluationComments.category' => 'evaluation' ),
+        ]);
+
         $this->hasMany('ApplicationStages', [
             'foreignKey' => 'application_id'
         ]);

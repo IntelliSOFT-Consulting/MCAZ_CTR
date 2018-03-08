@@ -6,6 +6,27 @@
   use Cake\Utility\Hash;
 ?>
   
+  <br>
+  <?php if($this->request->params['_ext'] != 'pdf') { ?>
+    <div class="amend-form">
+      <h5 class="text-center"><u>INTERNAL COMMENTS/QUERIES</u></h5>
+      <div class="row">
+        <div class="col-xs-8">    
+          <?php echo $this->element('comments/list', ['comments' => $application->evaluation_comments]) ?> 
+        </div>
+        <div class="col-xs-4 lefty">
+          <?php if(!in_array("DirectorGeneral", Hash::extract($application->application_stages, '{n}.stage'))) { ?>
+          <?php  
+                echo $this->element('comments/add', [
+                          'model' => ['model_id' => $application->id, 'foreign_key' => $application->id, 
+                                      'model' => 'Applications', 'category' => 'evaluation', 'url' => 'add-from-evaluations']]) 
+          ?>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+  <?php } ?>
+
   <div class="row">
     <div class="col-xs-12">      
       <?= $this->Flash->render() ?>
