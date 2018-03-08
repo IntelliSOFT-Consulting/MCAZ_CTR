@@ -25,7 +25,8 @@ class ApplicationsController extends ApplicationsBaseController
         
         // debug($application);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+              ['associated' => ['FinanceApprovals.Attachments']]);
 
             $application->finance_approvals[0]->user_id = $this->Auth->user('id');
             if($application->finance_approvals[0]->outcome == 'Fees Complete') {     
@@ -38,10 +39,12 @@ class ApplicationsController extends ApplicationsBaseController
                   $stage1->alt_date = $application->finance_approvals[0]->outcome_date;
                   $application->application_stages = [$stage1];
                   $application->status = 'Finance';
+                  $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
               }
-              $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
             }
             //Notification should be sent to manager and assigned_to evaluator if exists
+            // debug($application);
+            // return;
             if ($this->Applications->save($application)) {
                 //Send email and message (if present!!!) 
                 $this->loadModel('Queue.QueuedJobs');    

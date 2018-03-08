@@ -1,5 +1,5 @@
 <?php
-    //$this->Html->script('finance_view', ['block' => true]);
+    $this->Html->script('finance_view', ['block' => true]);
 ?>
 <div class="row">
   <div class="col-xs-12">
@@ -63,7 +63,7 @@
           echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'finance-approval']]);
            ?>
             <div class="row">
-              <div class="col-xs-12"><h5 class="text-center">Finance Report</h5></div>
+              <div class="col-xs-12"><h4 class="text-center text-warning">Finance Report</h4></div>
               <div class="col-xs-12">
               <?php
                     echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
@@ -79,11 +79,29 @@
                                   'Incomplete Fees' => 'Incomplete Fees', 
                                   'Request info' => 'Request info', 
                                   'Declined' => 'Declined']]);
-                    echo $this->Form->control('finance_approvals.100.outcome_date', ['type' => 'text', 'escape' => false, 'templates' => 'app_form', 'label' => 'Outcome Date']);
+                    echo $this->Form->control('finance_approvals.100.outcome_date', ['type' => 'text', 'escape' => false, 
+                      'templates' => [
+                      'label' => '<div class="col-xs-4 control-label"><label {{attrs}}>{{text}}</label></div>',
+                      'input' => '<div class="col-xs-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',], 
+                      'label' => 'Outcome Date']);
 
-                    echo $this->Form->control('finance_approvals.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
+                    // echo $this->Form->control('finance_approvals.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
               ?>
               </div>          
+            </div>
+
+            <div class="row">
+              <div class="col-xs-4 control-label">
+                <label>Attach report(s) (if available)</label>
+              </div>
+              <div class="col-xs-7">
+                <div class="uploadsTable">
+                  <h6>
+                      <button type="button" class="btn btn-primary btn-xs addFReceipt" value="100">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
+                  </h6>
+                  <hr>
+                </div>
+              </div>
             </div>
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 

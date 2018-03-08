@@ -8,15 +8,6 @@
       }
     });
 
-    $('#finance-approvals-100-outcome-date').datepicker({
-        minDate:"-100Y", maxDate:"-0D", 
-        dateFormat:'dd-mm-yy', 
-        showButtonPanel:true, 
-        changeMonth:true, 
-        changeYear:true, 
-        showAnim:'show'
-      });
-
     //https://stackoverflow.com/questions/18999501/bootstrap-3-keep-selected-tab-on-page-refresh
     $('a[data-toggle="tab"]').click(function (e) {
         e.preventDefault();

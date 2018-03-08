@@ -5,7 +5,7 @@
       ?>
       <a class="btn btn-link" role="button" data-toggle="collapse" href="#comment<?= $key ?>" aria-expanded="false" 
             aria-controls="comment<?= $key ?>">
-        <?= ($key+1).'.  '.$comment->created.' <small class="muted">'.$comment->category.'</small>' ?>
+        <?= ($key+1).'.  '.$comment->sender.' <small><em>'.$comment->created.'</em></small> <small class="muted">'.$comment->category.'</small>' ?>
       </a>
         <div id="comment<?= $key ?>" class="bs-example <?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>">
               <form>

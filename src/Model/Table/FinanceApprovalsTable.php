@@ -47,6 +47,13 @@ class FinanceApprovalsTable extends Table
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
+
+        $this->hasMany('Attachments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'FinanceApprovals', 'Attachments.category' => 'finances'),
+        ]);
     }
 
     /**
