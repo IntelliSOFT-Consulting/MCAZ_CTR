@@ -33,13 +33,16 @@
           <div class="col-xs-8">
           <p class="form-control-static"><?= $finance_approval['outcome_date'] ?></p>
           </div> 
-        </div> 
+        </div>         
         <div class="form-group">
-          <label class="col-xs-4 control-label">Attachment</label>
-          <div class="col-xs-8">
-          <p class="form-control-static"><?php if (!empty($finance_approval['file'])) {
-                          echo $this->Html->link($finance_approval->file, substr($finance_approval->dir, 8) . '/' . $finance_approval->file, ['fullBase' => true]);
-                      }  ?></p>
+          <label class="col-sm-4 control-label">Attachment(s)</label>
+          <div class="col-sm-8">
+          <?php foreach ($finance_approval->attachments as $attachment) { ?>                  
+                      <p class="form-control-static text-info text-left"><?php
+                           echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                      ?></p>
+                      <p><?= $attachment['description'] ?></p>
+                      <?php } ?>
           </div> 
         </div>      
       </form>              

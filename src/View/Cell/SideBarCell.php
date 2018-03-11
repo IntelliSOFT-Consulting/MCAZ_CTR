@@ -41,11 +41,20 @@ class SideBarCell extends Cell
                                                         ])
                                                  ->where(['report_type' => 'Initial'])
                                                  ->group('status');
-        $amendment_stats = $this->Applications->find('all')->select([ 'status',
-                                                          'count' => $this->Applications->find('all')->func()->count('*')
-                                                        ])
-                                                 ->where(['report_type' => 'Amendment'])
-                                                 ->group('status');
+
+        $amendment_stats = $this->Applications->find('all')
+                                    ->select(['status',
+                                              'count' => $this->Applications->find('all')->func()->count('distinct Applications.id')
+                                             ])
+                                            ->where(['Applications.report_type' => 'Amendment'])
+                                            ->group(['status']);
+        /*$amendment_stats = $this->Applications->find('all')
+                                    ->innerJoinWith('ApplicationStages.Stages')
+                                    ->select(['status' => 'Stages.name',
+                                              'count' => $this->Applications->find('all')->func()->count('distinct Applications.id')
+                                             ])
+                                            ->where(['Applications.report_type' => 'Amendment'])
+                                            ->group(['Stages.name']);*/
         $ncount = $this->Notifications->find('all')->where(['user_id' => $this->request->session()->read('Auth.User.id')])->count();
         $this->set(['prefix'=> $prefix, 'application_stats' => $application_stats, 'amendment_stats' => $amendment_stats, 'ncount' => $ncount]);
     }

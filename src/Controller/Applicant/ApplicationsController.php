@@ -186,8 +186,7 @@ class ApplicationsController extends AppController
 
               //new stage
               $stage1  = $this->Applications->ApplicationStages->newEntity();
-              $stage1->stage = 'Submitted';
-              $stage1->description = 'Stage 1';
+              $stage1->stage_id = 1;
               $stage1->stage_date = date("Y-m-d H:i:s");
               $application->application_stages = [$stage1];
 
@@ -200,7 +199,7 @@ class ApplicationsController extends AppController
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_amendment_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'type' => 'applicant_submit_application_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                     'vars' =>  $application->toArray()
                 ]; 
                 $html = new HtmlHelper(new \Cake\View\View());
@@ -210,8 +209,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_submit_application_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-                //notify managers
-                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3]]);
+                //notify managers and finance
+                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3, 5]]);
                 foreach ($managers as $manager) {
                   $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
                     'vars' =>  $application->toArray()];
@@ -253,7 +252,6 @@ class ApplicationsController extends AppController
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
         } 
-        //$this->_isApplicant($application);  
 
         if (!empty($application->amendments)) {            
             $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
@@ -265,8 +263,46 @@ class ApplicationsController extends AppController
             $amendment->report_type = 'Amendment';
             $amendment->application_id = $application->id;
             $amendment->user_id = $this->Auth->user('id');
+            //New amendment to have finance temporary protocol no
+            $amendment->protocol_no = $application->protocol_no.' - FN'.(count($application->amendments)+1).'/'.date('Y');
+
+            //new stage
+            /*$stage1  = $this->Applications->Amendments->ApplicationStages->newEntity();
+            $stage1->stage_id = 1;
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $amendment->application_stages = [$stage1];
+            $amendment->status = 'Submitted';*/
+
             if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
-                $this->Flash->success(__('The amendment has been created.'));
+
+                $this->Flash->success(__('Amendment '.$amendment->protocol_no.' for '.$application->protocol_no.' has been successfully submitted to MCAZ for review.'));
+                //send email and notification
+                /*$this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_amendment_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'vars' =>  $application->toArray()
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, 
+                    '_ext' => 'pdf', '_full' => true]);
+                $data['vars']['amend_no'] = $amendment->protocol_no;
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_amendment_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers and finance
+                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3, 5]]);
+                foreach ($managers as $manager) {
+                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 
+                            'foreign_key' => $application->id, 'vars' =>  $application->toArray()];
+                  $data['vars']['amend_no'] = $amendment->protocol_no;
+                  $data['type'] = 'manager_submit_amendment_email';
+                  $this->QueuedJobs->createJob('GenericEmail', $data);
+                  $data['type'] = 'manager_submit_amendment_notification';
+                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                }*/
+                
                 return $this->redirect(['action' => 'amendment', $amendment->id]);
             }
             $this->Flash->error(__('The amendment could not be created. Please, try again.'));
@@ -334,36 +370,37 @@ class ApplicationsController extends AppController
 
               //new stage
               $stage1  = $this->Applications->ApplicationStages->newEntity();
-              $stage1->stage = 'Submitted';
-              $stage1->description = 'Stage 1';
+              $stage1->stage_id = 1;
               $stage1->stage_date = date("Y-m-d H:i:s");
               $amendment->application_stages = [$stage1];
-
               $amendment->status = 'Submitted';
+              
               if ($this->Applications->Amendments->save($amendment)) {
                 $this->Flash->success(__('Amendment '.$amendment->created.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_amendment_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'type' => 'applicant_submit_amendment_email', 'model' => 'Amendments', 'foreign_key' => $amendment->id,
                 ]; 
                 $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['amend_no'] = $amendment->protocol_no;
                 $data['vars']['applicant_name'] = $this->Auth->user('name');
                 $data['vars']['date_submitted'] = $amendment->date_submitted;
                 $data['vars']['email_address'] = $application->email_address;
                 $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, '_ext' => 'pdf',  
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $amendment->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_submit_amendment_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-                //notify managers 
-                $managers = $this->Applications->Users->find('all')->where(['Users.group_id' => 2]);
+                //notify managers and finance
+                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5]]);
                 foreach ($managers as $manager) {
-                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id];
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
                     $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['amend_no'] = $amendment->protocol_no;
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['date_submitted'] = $amendment->date_submitted;
                     $data['type'] = 'manager_submit_amendment_email';
@@ -374,8 +411,9 @@ class ApplicationsController extends AppController
                 //notify assigned evaluators
                 foreach ($application->assign_evaluators as $evaluator) {
                     $manager = $this->Applications->Users->get($evaluator->assigned_to, []);
-                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id];
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
                     $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['amend_no'] = $amendment->protocol_no;
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['date_submitted'] = $amendment->date_submitted;
                     $data['type'] = 'manager_submit_amendment_email';
@@ -388,7 +426,7 @@ class ApplicationsController extends AppController
               } else {
                 $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
-            } elseif ($application->submitted == -1) {
+            } elseif ($amendment->submitted == "-1") {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
@@ -663,10 +701,12 @@ class ApplicationsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $application = $this->Applications->get($id);
-        if ($this->Applications->delete($application)) {
-            $this->Flash->success(__('The application has been deleted.'));
-        } else {
-            $this->Flash->error(__('The application could not be deleted. Please, try again.'));
+        if($application->submitted != 2) {
+            if ($this->Applications->delete($application)) {
+                $this->Flash->success(__('The application has been deleted.'));
+            } else {
+                $this->Flash->error(__('The application could not be deleted. Please, try again.'));
+            }
         }
 
         return $this->redirect(['action' => 'index']);
@@ -827,6 +867,21 @@ class ApplicationsController extends AppController
                     'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_gcp_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
                 ]
             ]);
+        }
+    }
+    public function stages($id = null) {
+        $application = $this->Applications->get($id, ['contain' => $this->_contain]);
+        $this->set(compact( 'application'));
+        $this->set('_serialize', ['application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_stages_'.$id.'.pdf' : 'application_stages_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Stages/pdf/application_view');
         }
     }
 }

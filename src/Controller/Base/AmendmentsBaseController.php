@@ -33,12 +33,16 @@ class AmendmentsBaseController extends AppController
             'contain' => ['ParentApplications']
         ];
 
-        $amt_query = $this->Applications->find('all')->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']);
+        $amt_query = $this->Applications->find('all')
+                        ->contain(['ApplicationStages', 'ApplicationStages.Stages'])
+                        ->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']);
+
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $amt_query->matching('AssignEvaluators', function ($q) {
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
             });
         }
+
         if($this->request->getQuery('status')) {$amendments = $this->paginate($amt_query->where(['Applications.status' => $this->request->getQuery('status')]), ['order' => ['Applications.id' => 'desc']]); }
         else {$amendments = $this->paginate($amt_query, ['order' => ['Applications.id' => 'desc']]);}
 
@@ -58,13 +62,14 @@ class AmendmentsBaseController extends AppController
      */
     public function view($id = null) {
         $amendment = $this->Applications->get($id, [
-            'contain' => $this->a_contain //['ParentApplications', 'FinanceApprovals']
+            'contain' => $this->a_contain,
+            'conditions' => ['Applications.report_type' => 'Amendment'] 
         ]);
         //debug($amendment);
         $contains = $this->_contain;
         $contains['Amendments'] =  function ($q) { return $q->where(['Amendments.submitted' => 2]); };
         $application = $this->Applications->get($amendment->parent_application->id, [
-            'contain' => $contains
+            'contain' => $contains,
         ]);
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
@@ -78,7 +83,7 @@ class AmendmentsBaseController extends AppController
         //     'contain' => $this->a_contains
         // ]);
 
-        $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+        $filt = Hash::extract($amendment, 'assign_evaluators.{n}.assigned_to');
         array_push($filt, 1);
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
@@ -87,34 +92,41 @@ class AmendmentsBaseController extends AppController
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
             'id NOT IN' => $filt]);
         
-        $this->set(compact('application', 'amendment', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey'));
+        $this->set(compact('application', 'amendment', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey', 'filt'));
         $this->set('_serialize', ['application']);
         $this->render('/Base/Amendments/view');
     }
     
     public function addReview() {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->status = 'Reviewed';
+
+            //new stage only once
+            if(!in_array("4", Hash::extract($application->application_stages, '{n}.stage_id'))) {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 4;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $application->application_stages = [$stage1];
+                $application->status = 'Evaluated';
+            }
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                array_push($filt, 1);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
                 $this->loadModel('Queue.QueuedJobs');    
                 foreach ($managers as $manager) {
                     //Notify managers
                     $data = [
                         'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'manager_create_review_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
                     $data['vars']['evaluator_name'] = $this->Auth->user('name');                
-                    $data['vars']['user_message'] = $this->request->getData('evaluations.100.recommendations');
+                    $data['vars']['user_message'] = $this->request->getData('evaluations.'.$this->request->getData('evaluation_pr_id').'.recommendations');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_create_review_notification';
@@ -145,6 +157,108 @@ class AmendmentsBaseController extends AppController
         return $this->redirect($this->redirect($this->referer()));
     }
     
+
+    public function addCommitteeReview() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages', 'ParentApplications']]);
+
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+                     
+            // $application->approved = $this->request->getData('committee_reviews.100.decision');
+            /**
+             * Committee decision 
+             * If decision is Approved, the status is set to DirectorGeneral or Stage 9
+             * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
+             * 
+             */
+            if($this->request->getData('committee_reviews.100.decision') === 'Approved') {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 12;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+                $application->application_stages = [$stage1];
+                $application->status = 'FinalStage';
+            } else {
+                //If Coming from Stage 7 then stage 5
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+                if(in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) {                    
+                    $stage1->stage_id = 8;
+                    $application->status = 'Presented';
+                    $application->application_stages = [$stage1];
+                } else {                 
+                    $stage1->stage_id = 5;
+                    $application->status = 'Committee';                    
+                    $application->application_stages = [$stage1];
+                }
+            }
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                array_push($filt, 1);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+
+                $this->loadModel('Queue.QueuedJobs');  
+
+                foreach ($managers as $manager) {
+                    //Notify managers  
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_create_committee_review_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['evaluator_name'] = $this->Auth->user('name');                
+                    $data['vars']['decision'] = $this->request->getData('committee_reviews.100.decision');
+                    $data['vars']['outcome_date'] = $this->request->getData('committee_reviews.100.outcome_date');
+                    $data['vars']['internal_message'] = $this->request->getData('committee_reviews.100.internal_review_comment');
+                    $data['vars']['user_message'] = $this->request->getData('committee_reviews.100.applicant_review_comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_create_committee_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                
+                //Notify Applicant 
+                $applicant = $this->Applications->Users->get($application->parent_application->user_id);
+                $data = [
+                        'email_address' => $application->parent_application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_committee_review_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $applicant->name;                
+                $data['vars']['decision'] = $this->request->getData('committee_reviews.100.decision');
+                $data['vars']['outcome_date'] = $this->request->getData('committee_reviews.100.outcome_date');
+                $data['vars']['user_message'] = $this->request->getData('committee_reviews.100.applicant_review_comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_committee_review_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                $this->Flash->success('Successful committee review of Application '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create review. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
+    public function removeCommitteeReview($id = null) {
+        $this->request->allowMethod(['post', 'delete']);
+        $review = $this->Applications->CommitteeReviews->get($id);
+        if ($this->Auth->user('group_id') == $review->user_id && $this->Applications->CommitteeReviews->delete($review)) {
+            $this->Flash->success(__('The review has been removed.'));
+        } else {
+            $this->Flash->error(__('The review could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect($this->redirect($this->referer()));
+    }
+
     public function addSection75Review() {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
 
@@ -163,7 +277,7 @@ class AmendmentsBaseController extends AppController
                     //Notify managers  
                     $data = [
                         'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_create_section75_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'manager_create_section75_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
@@ -179,7 +293,7 @@ class AmendmentsBaseController extends AppController
                 $applicant = $this->Applications->Users->get($application->user_id);
                 $data = [
                         'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'manager_applicant_section75_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'manager_applicant_section75_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
                 $data['vars']['name'] = $applicant->name;                
@@ -232,7 +346,7 @@ class AmendmentsBaseController extends AppController
                     //Notify managers    
                     $data = [
                         'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_create_reporter_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'manager_create_reporter_request_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
@@ -247,7 +361,7 @@ class AmendmentsBaseController extends AppController
                 // $applicant = $this->Applications->Users->get($application);
                 $data = [
                         'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_get_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'applicant_get_request_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['name'] = $manager->name;
                 $data['vars']['protocol_no'] = $application->protocol_no;
@@ -300,7 +414,7 @@ class AmendmentsBaseController extends AppController
                     //Notify managers  
                     $data = [
                         'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_create_gcp_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'manager_create_gcp_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
@@ -316,7 +430,7 @@ class AmendmentsBaseController extends AppController
                 $applicant = $this->Applications->Users->get($application->user_id);
                 $data = [
                         'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'manager_applicant_gcp_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'type' => 'manager_applicant_gcp_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
                 $data['vars']['name'] = $applicant->name;                
@@ -353,7 +467,7 @@ class AmendmentsBaseController extends AppController
 
     public function finance($id = null, $scope = null) {
         if($scope === 'All') {
-            $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id);
+            $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id)->contain('Attachments');
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $finance = $this->Applications->FinanceApprovals
@@ -535,6 +649,21 @@ class AmendmentsBaseController extends AppController
                 ]
             ]);
             $this->render('/Base/GcpInspections/pdf/view');
+        }
+    }
+    public function stages($id = null) {
+        $amendment = $this->Applications->get($id, ['contain' => ['ApplicationStages', 'ApplicationStages.Stages']]);
+        $this->set(compact( 'amendment'));
+        $this->set('_serialize', ['amendment']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($amendment->protocol_no)) ? $amendment->protocol_no.'_stages_'.$id.'.pdf' : 'amendment_stages_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Stages/pdf/amendment_view');
         }
     }
 }

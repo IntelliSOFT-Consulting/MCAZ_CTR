@@ -2,6 +2,7 @@
   $this->Html->script('ckeditor/ckeditor', ['block' => true]);
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
+  use Cake\Utility\Hash;
 ?>
 
 <div class="row">
@@ -9,7 +10,7 @@
     <h4 class="text-center">IMPORTATION OF UNREGISTERED PRODUCTS</h4>
     <h6 class="text-center muted">Section 75 of the Medicines and Allied Substances Control Act [Chapter 15:03]</h6>    
     <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Amendments', 'action' => 'section75', '_ext' => 'pdf', $amendment->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+      if(count($amendment->seventy_fives)>0)  echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Amendments', 'action' => 'section75', '_ext' => 'pdf', $amendment->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
               ?>
     <?php foreach ($amendment->seventy_fives as $seventy_five) { 
       ?>
@@ -61,7 +62,9 @@
     </div>
     <?php }  ?>
     <br> <hr> <br>
-    <?php echo $this->Form->create($amendment, ['type' => 'file','url' => ['action' => 'add-section75-review']]); ?>
+    <?php 
+    if(in_array("2", Hash::extract($application->application_stages, '{n}.stage_id'))) {
+      echo $this->Form->create($amendment, ['type' => 'file','url' => ['action' => 'add-section75-review']]); ?>
         <div class="row">
           <div class="col-xs-12">
           <?php
@@ -86,7 +89,10 @@
               <button type="submit" class="btn btn-primary active" id="sendRequest"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
             </div> 
         </div>
-    <?php echo $this->Form->end() ?>
+      <?php
+        }
+        echo $this->Form->end();
+      ?>
 
   </div>
 </div>

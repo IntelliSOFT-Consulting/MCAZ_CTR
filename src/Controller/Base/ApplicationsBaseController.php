@@ -50,7 +50,7 @@ class ApplicationsBaseController extends AppController
             ->leftJoinWith('Sponsors')
             ->leftJoinWith('SiteDetails')
             ->leftJoinWith('Medicines')
-            ->contain(['ApplicationStages'])
+            ->contain(['ApplicationStages', 'ApplicationStages.Stages'])
             // You can add extra things to the query if you need to
             ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
             ->distinct();
@@ -99,7 +99,8 @@ class ApplicationsBaseController extends AppController
         $contains['Amendments'] =  function ($q) { return $q->where(['Amendments.submitted' => 2]); };
 
         $application = $this->Applications->get($id, [
-            'contain' => $contains
+            'contain' => $contains,
+            'conditions' => ['report_type' => 'Initial']
         ]);
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
@@ -131,10 +132,9 @@ class ApplicationsBaseController extends AppController
             $application = $this->Applications->patchEntity($application, $this->request->getData());
 
             //new stage only once
-            if(!in_array("Evaluated", Hash::extract($application->application_stages, '{n}.stage'))) {
+            if(!in_array("4", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
-                $stage1->stage = 'Evaluated';
-                $stage1->description = 'Stage 4';
+                $stage1->stage_id = 4;
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $application->application_stages = [$stage1];
                 $application->status = 'Evaluated';
@@ -144,9 +144,7 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
                 $this->loadModel('Queue.QueuedJobs');    
                 foreach ($managers as $manager) {
                     //Notify managers
@@ -183,6 +181,131 @@ class ApplicationsBaseController extends AppController
             $this->Flash->success(__('The review has been removed.'));
         } else {
             $this->Flash->error(__('The review could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect($this->redirect($this->referer()));
+    }
+    
+
+    public function addCommitteeReview($id) {
+        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
+
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+                        ['validate' => true,
+                            'associated' => [
+                                'CommitteeReviews' => ['validate' => true],
+                            ]
+                     ]);
+            /**
+             * Committee decision 
+             * If decision is Approved, the status is set to DirectorGeneral or Stage 9
+             * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
+             * 
+             */
+            if($this->request->getData('committee_reviews.100.decision') === 'Approved') {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 9;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+                $application->application_stages = [$stage1];
+                $application->status = 'DirectorGeneral';
+            } else {
+                //If Coming from Stage 7 then stage 5
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+                if(in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) {                    
+                    $stage1->stage_id = 8;
+                    $application->status = 'Presented';
+                    $application->application_stages = [$stage1];
+                } else {                 
+                    $stage1->stage_id = 5;
+                    $application->status = 'Committee';                    
+                    $application->application_stages = [$stage1];
+                }
+            }
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                array_push($filt, 1);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+
+                $this->loadModel('Queue.QueuedJobs'); 
+
+                //If Approved, notify director general
+                if($this->request->getData('committee_reviews.100.decision') === 'Approved') {
+                    $secgs = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 7]);
+                    foreach ($secgs as $secg) {
+                        $data = [
+                                'email_address' => $secg->email, 'user_id' => $secg->id,
+                                'type' => 'director_general_committee_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['name'] = $secg->name;                
+                        $data['vars']['decision'] = $this->request->getData('committee_reviews.100.decision');
+                        $data['vars']['outcome_date'] = $this->request->getData('committee_reviews.100.outcome_date');
+                        $data['vars']['user_message'] = $this->request->getData('committee_reviews.100.applicant_review_comment');
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'director_general_committee_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                }
+
+                foreach ($managers as $manager) {
+                    //Notify managers  
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_create_committee_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['evaluator_name'] = $this->Auth->user('name');                
+                    $data['vars']['decision'] = $this->request->getData('committee_reviews.100.decision');
+                    $data['vars']['outcome_date'] = $this->request->getData('committee_reviews.100.outcome_date');
+                    $data['vars']['internal_message'] = $this->request->getData('committee_reviews.100.internal_review_comment');
+                    $data['vars']['user_message'] = $this->request->getData('committee_reviews.100.applicant_review_comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_create_committee_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                
+                //Notify Applicant 
+                $applicant = $this->Applications->Users->get($application->user_id);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_committee_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $applicant->name;                
+                $data['vars']['decision'] = $this->request->getData('committee_reviews.100.decision');
+                $data['vars']['outcome_date'] = $this->request->getData('committee_reviews.100.outcome_date');
+                $data['vars']['user_message'] = $this->request->getData('committee_reviews.100.applicant_review_comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_committee_review_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('Successful committee review of Application '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create committee review. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
+    public function removeCommitteeReview($id = null) {
+        $this->request->allowMethod(['post', 'delete']);
+        $review = $this->Applications->CommitteeReviews->get($id);
+        if ($this->Auth->user('group_id') == $review->user_id && $this->Applications->CommitteeReviews->delete($review)) {
+            $this->Flash->success(__('The committee review has been removed.'));
+        } else {
+            $this->Flash->error(__('The committee review could not be removed. Please, try again.'));
         }
 
         return $this->redirect($this->redirect($this->referer()));
@@ -581,6 +704,21 @@ class ApplicationsBaseController extends AppController
                 ]
             ]);
             $this->render('/Base/GcpInspections/pdf/view');
+        }
+    }
+    public function stages($id = null) {
+        $application = $this->Applications->get($id, ['contain' => $this->_contain]);
+        $this->set(compact( 'application'));
+        $this->set('_serialize', ['application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_stages_'.$id.'.pdf' : 'application_stages_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Stages/pdf/application_view');
         }
     }
 }

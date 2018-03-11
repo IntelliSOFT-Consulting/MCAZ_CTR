@@ -79,6 +79,21 @@ class UsersTable extends Table
 
 
     /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('group_id')
+            ->like('name', ['field' => ['name', 'username', 'email', 'phone_no']])
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']]);
+
+        return $searchManager;
+    }
+
+    /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator Validator instance.

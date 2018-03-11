@@ -81,11 +81,11 @@
           </div>
           <?php } ?>
 
-          <!-- TODO: Check if no previous decision is either approved or declied -->
+          <!-- TODO: Check if no previous decision is either authorize or declined -->
           <?php if($prefix === 'manager') { ?> 
           <hr style="border-width: 1px; border-color: #8a6d3b;">
-          <?php if(count($application->evaluations) > 0) { ?> 
-         <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-final-stage', $application->id], 'class' => 'form-horizontal']); ?>
+          <?php if(count($application->evaluations) > 0 && $application->approved === 'Authorize') { ?> 
+          <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-final-stage', $application->id], 'class' => 'form-horizontal']); ?>
               <div class="row">
                 <div class="col-xs-12">
                 <?php

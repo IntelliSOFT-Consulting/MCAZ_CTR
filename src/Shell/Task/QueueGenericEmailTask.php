@@ -11,6 +11,7 @@ use Queue\Shell\Task\QueueTask;
 use Cake\Log\Log;
 use Cake\Utility\Text;
 use Cake\Filesystem\File;
+use Exception;
 
 /**
  * Send registration emails.
@@ -35,27 +36,31 @@ class QueueGenericEmailTask extends QueueTask {
      * @return bool Success
      */
     public function run(array $data, $jobId) {
-        Log::write('debug', 'Mail to ::: '.$data['email_address']);
-        // Log::write('debug', $data['vars']['user']);
-        $message = $this->Messages->findByName($data['type'])->first();
-        //$this->out(print_r($message, true));
 
-        $this->Email = new Email();
-        $this->Email
-            ->emailFormat('html')
-            ->to($data['email_address'])
-            ->subject(Text::insert($message['subject'], $data['vars']));
-            // ->message(Text::insert('Are we to honestly believe that content is not showing :reference_number', $data['vars']));
-            // ->message(Text::insert($message['content'], $data['vars']));
-        // ...
-        // if (!empty($data['vars'])) {
-        //     $this->Email->viewVars($data['vars']);
-        // }
+            Log::write('debug', 'Mail to ::: '.$data['email_address']);
+            // Log::write('debug', $data['vars']);
+            $message = $this->Messages->findByName($data['type'])->first();
+            //$this->out(print_r($message, true));
 
-        $file = new File(WWW_ROOT. 'img' . DS . 'html' . DS . 'mcaz_logo3.html');
-        $data['vars']['mcaz_logo'] = $file->read();
+            $this->Email = new Email();
+            if(!empty($data['email_address'])) {
+            $this->Email
+                ->emailFormat('html')
+                ->to($data['email_address'])
+                ->subject(Text::insert($message['subject'], $data['vars']));
+            // ...
+            // if (!empty($data['vars'])) {
+            //     $this->Email->viewVars($data['vars']);
+            // }
 
-        return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
+            $file = new File(WWW_ROOT. 'img' . DS . 'html' . DS . 'mcaz_logo3.html');
+            $data['vars']['mcaz_logo'] = $file->read();
+
+            return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
+            } else {
+                Log::write('debug', "Null email");
+                return;
+            }
     }
 
 }

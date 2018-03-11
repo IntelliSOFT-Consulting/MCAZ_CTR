@@ -6,7 +6,7 @@
 
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-xs-6">
     <dl class="dl-horizontal">
       <dt>Name</dt>
       <dd><?= h($user->name) ?></dd>
@@ -20,7 +20,7 @@
         <dd><?= $user['Groups']['name'] ?></dd>
     </dl>
   </div>
-  <div class="col-md-6">
+  <div class="col-xs-6">
     <dl class="dl-horizontal">
       <dt>Designation</dt>
       <dd><?= $user->has('designation') ? $this->Html->link($user->designation->name, ['controller' => 'Designations', 'action' => 'view', $user->designation->id]) : '' ?></dd>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-offset-1 col-md-11">
+  <div class="col-xs-offset-1 col-xs-11">
     <?= $this->Html->link('<i class="fa fa-edit" aria-hidden="true"></i> Edit', ['controller' => 'Users', 'action' => 'edit', $user->id], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
   </div>
 </div>

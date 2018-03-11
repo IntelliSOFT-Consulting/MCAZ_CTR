@@ -27,12 +27,11 @@ class UsersController extends AppController
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
-       // $this->Auth->allow('logout', 'activate', 'view');       
+       $this->loadComponent('Search.Prg', ['actions' => ['index']]);       
     }
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        // $this->Auth->allow();
         $this->Auth->allow(['register', 'login', 'logout', 'activate']);
     }
 
@@ -57,17 +56,31 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+
     public function index()
     {
         $this->paginate = [
             'contain' => ['Groups']
         ];
-        $users = $this->paginate($this->Users);
 
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
+        $query = $this->Users
+            ->find('search', ['search' => $this->request->query]);
+
+        $groups = $this->Users->Groups->find('list', ['limit' => 200]);
+        $this->set(compact('groups'));
+        $this->set('users', $this->paginate($query));
+
+        $_groups = $groups->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['id', 'name', 'username', 'email', 'Group'];
+            $_extract = ['id', 'name', 'username', 'email', 
+                    function ($row) use ($_groups) { return $_groups[$row['group_id']] ?? ''; } //'Group'
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
     }
-
     /**
      * View method
      *

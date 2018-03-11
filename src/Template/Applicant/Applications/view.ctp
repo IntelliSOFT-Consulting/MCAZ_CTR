@@ -11,17 +11,18 @@
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
     <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?>   
-      <?php if($application->approved === 'Authorized') { ?>     
+      <?php if($application->approved === 'Authorize') { ?>     
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php } ?>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>   
       <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Director General</b></a></li>  
-      <?php if($application->approved === 'Authorized') { ?>    
+      <?php if($application->approved === 'Authorize') { ?>    
       <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
       <?php } ?>    
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>  
     <?php } ?>
+      <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
       <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
   </ul>
 </div>
@@ -31,11 +32,11 @@
   <div role="tabpanel" class="tab-pane active" id="report">
     <div>
       <?php
-        if($application->approved === 'Authorized') {
+        if($application->approved === 'Authorize') {
           if(!empty($application->amendments) && end($application->amendments)['submitted'] != 2) {
-              echo $this->Html->link('<button class="btn btn-success action"> <i class="fa fa-edit" aria-hidden="true"></i> Edit </button>', ['action' => 'amendment', end($application->amendments)['id']], ['escape' => false]);  
+              echo $this->Html->link('<button class="btn btn-success action"> <i class="fa fa-edit" aria-hidden="true"></i> Edit Amendment </button>', ['action' => 'amendment', end($application->amendments)['id']], ['escape' => false]);  
           } else {
-              echo $this->Form->postLink('<button class="btn btn-primary active"> <i class="fa fa-edit" aria-hidden="true"></i> Amendment </button>', ['action' => 'add-amendment', $application->id], ['escape' => false, 'confirm' => 'Are you sure you want to amend application '.$application->protocol_no.'?', 'class' => 'label-link']);  
+              echo $this->Form->postLink('<button class="btn btn-primary active"> <i class="fa fa-edit" aria-hidden="true"></i> New Amendment </button>', ['action' => 'add-amendment', $application->id], ['escape' => false, 'confirm' => 'Are you sure you want to amend application '.$application->protocol_no.'? Kindly refer to fees schedule and attach relevant receipts with amendment.', 'class' => 'label-link']);  
           }
         }
       ?>
@@ -79,6 +80,9 @@
         <?= $this->element('applications/applicant_gcp') ?>
     </div>
   <?php } ?>
+    <div role="tabpanel" class="tab-pane" id="stages">
+        <?= $this->element('applications/stages') ?>
+    </div>
     <div role="tabpanel" class="tab-pane" id="approvals">
         <?= $this->element('applications/applicant_approvals') ?>
     </div>

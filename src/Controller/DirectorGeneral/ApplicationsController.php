@@ -31,28 +31,26 @@ class ApplicationsController extends ApplicationsBaseController
 
             /**
              * Director General decision 
-             * If decision is Authorize, the status is set to DirectorDecision and description Stage 10: Authorized or Stage 10
-             * Elseif decision is Declined, the status is set to DirectorDecision and description Stage 10: Declined or Stage 10
+             * If decision is Authorize, the status is set to DirectorAuthorize and description Stage 10: Authorized or Stage 10
+             * Elseif decision is Declined, the status is set to DirectorDeclined and description Stage 10: Declined or Stage 10
              * 
              */
             $application->approved = $this->request->getData('dg_reviews.100.decision');
             $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('dg_reviews.100.approved_date'))));
             if($this->request->getData('dg_reviews.100.decision') === 'Authorize') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
-                $stage1->stage = 'DirectorDecision';
-                $stage1->description = 'Stage 10: Approved';
+                $stage1->stage_id = 10;
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $stage1->alt_date = $application->dg_reviews[0]->approved_date;
                 $application->application_stages = [$stage1];
-                $application->status = 'DirectorDecision';
+                $application->status = 'DirectorAuthorize';
             } elseif($this->request->getData('dg_reviews.100.decision') === 'Declined') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
-                $stage1->stage = 'DirectorDecision';
-                $stage1->description = 'Stage 10: Declined';
+                $stage1->stage_id = 11;
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $stage1->alt_date = $application->dg_reviews[0]->approved_date;
                 $application->application_stages = [$stage1];
-                $application->status = 'DirectorDecision';
+                $application->status = 'DirectorDeclined';
             } 
 
             // debug($application);

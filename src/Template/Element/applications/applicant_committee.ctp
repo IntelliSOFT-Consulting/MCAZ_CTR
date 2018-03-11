@@ -57,8 +57,8 @@
                 <div class="col-xs-4 lefty">
                   <?php //pr($committee_review->comments) ?>
                   <?php echo $this->element('comments/list', ['comments' => $committee_review->comments]) ?> 
-                  <?php if(!in_array("DirectorGeneral", Hash::extract($application->application_stages, '{n}.stage'))) { ?>
-                  <?php if(in_array("Correspondence", Hash::extract($application->application_stages, '{n}.stage'))) { ?>
+                  <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
+                  <?php if(in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
                   <?php  
                         echo $this->element('comments/add', [
                           'model' => ['model_id' => $application->id, 'foreign_key' => $committee_review->id, 

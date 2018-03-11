@@ -80,7 +80,7 @@
                 <div class="col-xs-4 lefty">
                   <?php //pr($committee_review->comments) ?>
                   <?php echo $this->element('comments/list', ['comments' => $committee_review->comments]) ?> 
-                  <?php if(!in_array("DirectorGeneral", Hash::extract($application->application_stages, '{n}.stage'))) { ?>
+                  <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
                   <?php  
                         echo $this->element('comments/add', [
                           'model' => ['model_id' => $application->id, 'foreign_key' => $committee_review->id, 
@@ -96,7 +96,7 @@
     <?php } ?>
 
       <hr style="border-width: 1px; border-color: #8a6d3b;">
-      <?php if(!in_array("DirectorGeneral", Hash::extract($application->application_stages, '{n}.stage'))) { ?>
+      <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
       <?php if($prefix === 'manager') { ?> 
       <h3 class='text-center'><u>Committee Decision Form</u><br><small style="font-size: 10px;">NB: Queries can only be raised after submitting this form</small></h3>       
        <?php if(!empty($application->evaluations)) { ?> 

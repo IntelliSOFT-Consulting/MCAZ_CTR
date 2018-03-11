@@ -30,7 +30,7 @@ class UsersController extends AppController
     public function dashboard() {
         $this->paginate = ['limit' => 5];
         $applications = $this->paginate($this->Users->Applications->find('all', array(
-            'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
+            'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted', 'status'),
             'order' => array('Applications.created' => 'desc'),
             'conditions' => ['Applications.user_id' => $this->Auth->User('id'), 'Applications.report_type' => 'Initial'],
         )), 

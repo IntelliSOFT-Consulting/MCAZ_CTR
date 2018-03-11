@@ -45,6 +45,10 @@ class ApplicationStagesTable extends Table
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
+
+        $this->belongsTo('Stages', [
+            'foreignKey' => 'stage_id'
+        ]);
     }
 
     /**
@@ -58,10 +62,6 @@ class ApplicationStagesTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
-        $validator
-            ->scalar('stage')
-            ->allowEmpty('stage');
 
         $validator
             ->scalar('description')

@@ -3,7 +3,7 @@
   <div class="col-xs-12">
     <h4 class="text-center">Finance Approvals</h4>
     <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Amendments', 'action' => 'finance', '_ext' => 'pdf', $amendment->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+      if(count($amendment->finance_approvals)>0)  echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Amendments', 'action' => 'finance', '_ext' => 'pdf', $amendment->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
               ?>
     <?php foreach ($amendment->finance_approvals as $finance_approval) { 
       ?>
@@ -38,13 +38,16 @@
           </div> 
         </div> 
         <div class="form-group">
-          <label class="col-sm-4 control-label">Attachment</label>
+          <label class="col-sm-4 control-label">Attachment(s)</label>
           <div class="col-sm-8">
-          <p class="form-control-static"><?php if (!empty($finance_approval['file'])) {
-                          echo $this->Html->link($finance_approval->file, substr($finance_approval->dir, 8) . '/' . $finance_approval->file, ['fullBase' => true]);
-                      }  ?></p>
+          <?php foreach ($finance_approval->attachments as $attachment) { ?>                  
+                      <p class="form-control-static text-info text-left"><?php
+                           echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                      ?></p>
+                      <p><?= $attachment['description'] ?></p>
+                      <?php } ?>
           </div> 
-        </div>      
+        </div>       
       </form>              
     </div>
     <?php }   ?>

@@ -3643,8 +3643,6 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
     </div>
     <?php echo $this->fetch('endjs') ?>
   </div>
-
-    <?= $this->fetch('submit_buttons') ?>
-
 </div>
  
+<?= $this->fetch('submit_buttons') ?>

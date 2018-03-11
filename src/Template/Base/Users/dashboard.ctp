@@ -39,7 +39,7 @@
                 <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> Amendments', ['controller' => 'Amendments', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Amendments']) ?></small></h3>
                 <ul class="list-unstyled">
                   <?php foreach ($amendments as $amendment): ?>
-                  <li><?= $this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;', ['controller' => 'Amendments', 'action' => 'view', $amendment->id], ['escape' => false]);;?> </li>
+                  <li><?= $this->Html->link($amendment->protocol_no, ['controller' => 'Amendments', 'action' => 'view', $amendment->id], ['escape' => false]);;?> </li>
                   <?php endforeach; ?>
                 </ul>
                 <nav aria-label="Page navigation">

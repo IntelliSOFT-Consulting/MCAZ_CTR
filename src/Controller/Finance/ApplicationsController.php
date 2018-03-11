@@ -21,7 +21,7 @@ class ApplicationsController extends ApplicationsBaseController
     }
 
     public function financeApproval($id = null) {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => 'ApplicationStages']);
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['ApplicationStages', 'ParentApplications']]);
         
         // debug($application);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
@@ -31,10 +31,9 @@ class ApplicationsController extends ApplicationsBaseController
             $application->finance_approvals[0]->user_id = $this->Auth->user('id');
             if($application->finance_approvals[0]->outcome == 'Fees Complete') {     
               //new stage only once
-              if(!in_array("Finance", Hash::extract($application->application_stages, '{n}.stage'))) {
+              if(!in_array("2", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                   $stage1  = $this->Applications->ApplicationStages->newEntity();
-                  $stage1->stage = 'Finance';
-                  $stage1->description = 'Stage 2';
+                  $stage1->stage_id = 2;
                   $stage1->stage_date = date("Y-m-d H:i:s");
                   $stage1->alt_date = $application->finance_approvals[0]->outcome_date;
                   $application->application_stages = [$stage1];
@@ -51,7 +50,7 @@ class ApplicationsController extends ApplicationsBaseController
                 //notify managers and finance
                 $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5]]);
                 foreach ($managers as $manager) {
-                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'applications', 'foreign_key' => $application->id,
+                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
                     'vars' =>  $application->toArray()];
                   $data['type'] = 'finance_submit_approval_email';
                   $data['vars']['public_comments'] = $application->finance_approvals[0]->public_comments;
@@ -78,7 +77,7 @@ class ApplicationsController extends ApplicationsBaseController
                 }
                 //end 
                 
-               $this->Flash->success('Review successfully done for Application '.$application->protocol_no);
+               $this->Flash->success('Finance Review successfully done for Application '.$application->protocol_no);
 
                 return $this->redirect($this->referer());
             } else {

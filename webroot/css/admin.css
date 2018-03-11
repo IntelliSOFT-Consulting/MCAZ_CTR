@@ -128,11 +128,11 @@
 
 .nav-finance > li > a:focus, .nav-finance > li > a:hover {
     text-decoration: none;
-    background-color: #734d26;
+    background-color: #996633;
 }
 .van-finance > li > a:focus, .van-finance > li > a:hover {
     text-decoration: none;
-    background-color: #734d26;
+    background-color: #996633;
 }
 .van-finance > li > a {
     padding-left: 27px;
@@ -163,8 +163,8 @@
 }
 
 
-.nav > li > a:hover,
+/*.nav > li > a:hover,
 .nav > li > a:focus {
   text-decoration: none;
   background-color: #8f7cb6;
-}
+}*/

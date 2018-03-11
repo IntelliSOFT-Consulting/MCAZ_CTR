@@ -28,6 +28,7 @@
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th> 
                 <th scope="col"></th>
             </tr>
@@ -38,10 +39,16 @@
                 <td><?= $this->Number->format($amendment->id) ?></td>
                 <td><?php
                 //pr($amendment->parent_application);
-                   echo   $this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy'), ['action' => 'view', $amendment->id, 'prefix' => $prefix, 'status' => $amendment->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
+                   echo   $this->Html->link($amendment->protocol_no, ['action' => 'view', $amendment->id, 'prefix' => $prefix, 'status' => $amendment->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($amendment->public_title) ?></td>
                 <td><?= h($amendment->scientific_title) ?></td>
                 <td><?= h($amendment->status) ?></td>
+                <td><?php 
+                        foreach ($amendment->application_stages as $application_stage) {
+                            $nvar = (($application_stage->alt_date)) ?? $application_stage->stage_date->i18nFormat('dd-MM-yyyy');
+                            echo "<p>".$application_stage->stage->name." - ".$nvar."</p>";
+                        }
+                    ?></td>
                 <td><?= h($amendment->modified) ?></td>         
                 <td>
                                

@@ -20,7 +20,7 @@ class CommentsBaseController extends AppController
         if ($this->request->is('post')) {
             $this->loadModel('Applications');
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
-            $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators']]);
+            $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);
 
             /**
              * Committee raises query to applicant after decision
@@ -28,8 +28,7 @@ class CommentsBaseController extends AppController
              * 
              */
             $stage1  = $this->Applications->ApplicationStages->newEntity();
-            $stage1->stage = 'Correspondence';
-            $stage1->description = 'Stage 6: Correspondence to Applicant';
+            $stage1->stage_id = 6;
             $stage1->stage_date = date("Y-m-d H:i:s");
             $application->application_stages = [$stage1];
             $application->status = 'Correspondence';
@@ -60,8 +59,9 @@ class CommentsBaseController extends AppController
 
                 //Notify Applicant 
                 $applicant = $this->Applications->Users->get($application->user_id);
+                $email_address = ($application->report_type == 'Amendment') ? $application->parent_application->email_address : $application->email_address ;
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'email_address' => $email_address, 'user_id' => $application->user_id,
                         'type' => 'applicant_pvct_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;

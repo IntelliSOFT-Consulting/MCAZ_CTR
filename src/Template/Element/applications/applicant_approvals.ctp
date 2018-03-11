@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-xs-12">
           <?php foreach ($application->dg_reviews as $dg_review) {
-                  if($dg_review->decision == "Authorized" or $dg_review->decision == "Declined" ) {  ?>
+                  if($dg_review->decision == "Authorize" or $dg_review->decision == "Declined" ) {  ?>
           <div class="ctr-groups">
             <p class="topper"><small><em class="text-success">reviewed on: <?= $dg_review['approved_date'] ?> </em></small></p>
           <?php

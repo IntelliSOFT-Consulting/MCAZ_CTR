@@ -3,11 +3,11 @@
       <?php 
         foreach ($comments as $key => $comment) {
       ?>
-      <a class="btn btn-link" role="button" data-toggle="collapse" href="#comment<?= $key ?>" aria-expanded="false" 
-            aria-controls="comment<?= $key ?>">
-        <?= ($key+1).'.  '.$comment->sender.' <small><em>'.$comment->created.'</em></small> <small class="muted">'.$comment->category.'</small>' ?>
+      <a class="btn btn-link" role="button" data-toggle="collapse" href="#comment<?= $comment->id ?>" aria-expanded="false" 
+            aria-controls="comment<?= $comment->id ?>">
+        <?= ($key+1).'.  '.$comment->sender.' <small><em>'.$comment->created.'</em></small> <br><small class="muted">'.$comment->category.'</small>' ?>
       </a>
-        <div id="comment<?= $key ?>" class="bs-example <?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>">
+        <div id="comment<?= $comment->id ?>" class="bs-example <?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>">
               <form>
                 <div class="form-group">
                   <label class="control-label">Sender</label>

@@ -20,7 +20,7 @@ class CommentsController extends AppController
         if ($this->request->is('post')) {
             $this->loadModel('Applications');
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
-            $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators']]);
+            $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);
 
             /**
              * Applicant responds to query raised by committee. They can also use this to send a query
@@ -28,8 +28,7 @@ class CommentsController extends AppController
              * 
              */
             $stage1  = $this->Applications->ApplicationStages->newEntity();
-            $stage1->stage = 'ApplicantResponse';
-            $stage1->description = 'Stage 7: Applicant Responds';
+            $stage1->stage_id = 7;
             $stage1->stage_date = date("Y-m-d H:i:s");
             $application->application_stages = [$stage1];
             $application->status = 'ApplicantResponse';
@@ -61,7 +60,7 @@ class CommentsController extends AppController
                 //Notify Applicant 
                 $applicant = $this->Applications->Users->get($application->user_id);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'email_address' => $application->parent_application->email_address, 'user_id' => $application->user_id,
                         'type' => 'applicant_response_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;

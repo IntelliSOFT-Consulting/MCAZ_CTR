@@ -48,7 +48,7 @@
             foreach ($applications as $application): ?>
           <li><?php 
                       if($application->submitted == 2) {
-                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$application->protocol_no.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
+                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$application->protocol_no.' <small class="muted">'.$application->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
                       } else {
                         echo $i++.'. '.$this->Html->link(
                           (!empty($application['public_title'])   ? $application['public_title'] : date('d-m-Y h:i a', strtotime($application['created'])) )
@@ -77,7 +77,7 @@
           <li><?php 
               // pr($amendment);
                   if($amendment->submitted == 2) {
-                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$amendment->protocol_no.' <small class="muted">'.$amendment->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
                   } else {
                     echo $i++.'. '.$this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
                   }

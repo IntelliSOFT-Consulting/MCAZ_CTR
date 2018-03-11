@@ -49,7 +49,8 @@
                 <td>
                     <?php 
                         foreach ($application->application_stages as $application_stage) {
-                            echo "<p>".$application_stage->stage." - ".$application_stage->description." - ".h($application_stage->created)."</p>";
+                            $nvar = (($application_stage->alt_date)) ?? $application_stage->stage_date->i18nFormat('dd-MM-yyyy');
+                            echo "<p>".$application_stage->stage->name." - ".$nvar."</p>";
                         }
                     ?>
                 </td>

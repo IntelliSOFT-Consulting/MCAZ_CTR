@@ -3,7 +3,7 @@
 <?php $this->end(); ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
         <?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Users', ['controller' => 'Users', 'action' => 'index'], array('escape' => false, 'class' => 'btn btn-primary')); ?> &nbsp;
 
         <div class="page-header">
@@ -14,7 +14,7 @@
     <?= $this->Form->create($user) ?>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xs-6">
             <?php
                 echo $this->Form->control('name', ['label' => 'Name', 'escape' => false]);
                 echo $this->Form->control('email', ['label' => 'Email', 'escape' => false]);
@@ -24,7 +24,7 @@
                 //echo $this->Form->control('name_of_institution');
                 ?>
         </div><!--/span-->
-        <div class="col-md-6">
+        <div class="col-xs-6">
             <?php
                 echo $this->Form->control('phone_no');
 

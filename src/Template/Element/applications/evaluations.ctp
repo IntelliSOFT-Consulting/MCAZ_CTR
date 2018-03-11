@@ -15,7 +15,7 @@
           <?php echo $this->element('comments/list', ['comments' => $application->evaluation_comments]) ?> 
         </div>
         <div class="col-xs-4 lefty">
-          <?php if(!in_array("DirectorGeneral", Hash::extract($application->application_stages, '{n}.stage'))) { ?>
+          <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
           <?php  
                 echo $this->element('comments/add', [
                           'model' => ['model_id' => $application->id, 'foreign_key' => $application->id, 
@@ -34,7 +34,7 @@
           <h2 class="text-center">Evaluation Report(s)</h2>
           <hr>
 
-          <?php if(count($application->assign_evaluators) > 0) { ?> 
+          <?php if(count($application->assign_evaluators) > 0 && in_array("3", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?> 
         <?php
             echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
                   ?>
