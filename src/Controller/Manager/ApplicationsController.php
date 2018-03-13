@@ -92,7 +92,7 @@ class ApplicationsController extends ApplicationsBaseController
      *   Adious
     */
     public function addFinalStage($id) {
-        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData(), 
