@@ -64,7 +64,7 @@ class ApplicationsBaseController extends AppController
         // Secretary General only able to view once it has been approved
         if ($this->Auth->user('group_id') == 7) {
             $query->matching('ApplicationStages', function ($q) {
-                return $q->where(['ApplicationStages.stage' => 'DirectorGeneral']);
+                return $q->where(['ApplicationStages.stage_id' => 9]);
             });
         }
 

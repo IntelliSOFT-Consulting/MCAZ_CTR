@@ -45,7 +45,7 @@ class UsersBaseController extends AppController
         // Secretary General only able to view once it has been approved
         if ($this->Auth->user('group_id') == 7) {
             $app_query->matching('ApplicationStages', function ($q) {
-                return $q->where(['ApplicationStages.stage' => 'DirectorGeneral']);
+                return $q->where(['ApplicationStages.stage_id' => 9]);
             });
         }
 
@@ -65,7 +65,7 @@ class UsersBaseController extends AppController
         // Secretary General only able to view once it has been approved
         if ($this->Auth->user('group_id') == 7) {
             $amt_query->matching('ApplicationStages', function ($q) {
-                return $q->where(['ApplicationStages.stage' => 'DirectorGeneral']);
+                return $q->where(['ApplicationStages.stage_id' => 9]);
             });
         }
         
