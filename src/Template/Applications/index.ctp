@@ -34,7 +34,7 @@
         </thead>
         <tbody>
             <?php foreach ($applications as $application):
-                    if($application->submitted == 2 and $application->approved == 'Approved') { ?>
+                    if($application->submitted == 2 and $application->approved == 'Authorize') { ?>
             <tr>
                 <td><?php                    
                       echo $this->Html->link(( $application->protocol_no), ['action' => 'view', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn-zangu']) ; 

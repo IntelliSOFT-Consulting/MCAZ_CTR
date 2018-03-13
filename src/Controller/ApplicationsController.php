@@ -20,7 +20,7 @@ class ApplicationsController extends AppController
 
     public function protocols($query = null) {
         $applications = $this->Applications->find('all')
-                ->where(['protocol_no LIKE' => '%'.$this->request->getQuery('term').'%', 'report_type' => 'Initial', 'approved' => 'Authorized', 
+                ->where(['protocol_no LIKE' => '%'.$this->request->getQuery('term').'%', 'report_type' => 'Initial', 'approved' => 'Authorize', 
                          'submitted' => 2])
                 ->contain(['InvestigatorContacts'])
                 ->limit(10); 
@@ -53,7 +53,7 @@ class ApplicationsController extends AppController
             ->leftJoinWith('SiteDetails')
             ->leftJoinWith('Medicines')
             // You can add extra things to the query if you need to
-            ->where([['report_type' => 'Initial', 'approved' => 'Authorized', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
+            ->where([['report_type' => 'Initial', 'approved' => 'Authorize', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
             ->distinct();
 
         //$this->set(compact('applications'));
@@ -70,7 +70,7 @@ class ApplicationsController extends AppController
 
         $application = $this->Applications->get($id, [
             'contain' => $contains,
-            'conditions' => (['report_type' => 'Initial', 'submitted' => 2, 'approved' => 'Authorized'])
+            'conditions' => (['report_type' => 'Initial', 'submitted' => 2, 'approved' => 'Authorize'])
         ]);
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
