@@ -77,12 +77,12 @@
           <li><?php 
               // pr($amendment);
                   if($amendment->submitted == 2) {
-                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$amendment->protocol_no.' <small class="muted">'.$amendment->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$amendment->protocol_no.' <small class="muted">'.$amendment->status.'</small>', ['controller' => 'Amendments', 'action' => 'view', $amendment->id], ['escape' => false]);
                   } else {
-                    echo $i++.'. '.$this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'view', $amendment->parent_application->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'amendment', $amendment->id], ['escape' => false]);
                   }
                       
-                     ?></li>
+                  ?></li>
           <?php endforeach; ?>
         </ul>
         <nav aria-label="Page navigation">

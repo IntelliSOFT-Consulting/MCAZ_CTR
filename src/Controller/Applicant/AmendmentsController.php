@@ -82,7 +82,7 @@ class AmendmentsController extends AppController
     public function view($id = null)
     {
         // $this->viewBuilder()->setLayout('vanilla');
-        $application = $this->Applications->get($id, [
+        /*$application = $this->Applications->get($id, [
             'contain' => $this->_contain,
             'conditions' => ['Applications.user_id' => $this->Auth->user('id'), 'report_type' => 'Amendment']
         ]);
@@ -90,7 +90,23 @@ class AmendmentsController extends AppController
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('application', 'provinces'));
         $this->set('_serialize', ['application']);
-        $this->render('/Applicant/Applications/view');
+        $this->render('/Applicant/Applications/view');*/
+
+        $amendment = $this->Applications->get($id, [
+            'contain' => $this->a_contain,
+            'conditions' => ['Applications.report_type' => 'Amendment'] 
+        ]);
+        //debug($amendment);
+        $contains = $this->_contain;
+        // $contains['Amendments'] =  function ($q) { return $q->where(['Amendments.submitted' => 2]); };
+        $application = $this->Applications->get($amendment->parent_application->id, [
+            'contain' => $contains,
+        ]);
+       
+        $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
+        
+        $this->set(compact('application', 'amendment', 'provinces'));
+        $this->set('_serialize', ['application']);
     }
     
 
@@ -411,8 +427,8 @@ class AmendmentsController extends AppController
                     $data['type'] = 'manager_submit_amendment_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-                //notify assigned evaluators
-                foreach ($application->assign_evaluators as $evaluator) {
+                //not required below since amendment is assigned afresh
+                /*foreach ($application->assign_evaluators as $evaluator) {
                     $manager = $this->Applications->Users->get($evaluator->assigned_to, []);
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
                     $data['vars']['protocol_no'] = $application->protocol_no;
@@ -423,7 +439,7 @@ class AmendmentsController extends AppController
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_submit_amendment_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
+                }*/
                 //
                 return $this->redirect(['action' => 'view', $application->id]);
               } else {

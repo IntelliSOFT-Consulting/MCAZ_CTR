@@ -16,6 +16,7 @@
     </div>
   </div>
   <br>
+  <?= $this->element('pdf/common_header')?>
 
 <div class="row">
     <div class="col-xs-3"></div>
