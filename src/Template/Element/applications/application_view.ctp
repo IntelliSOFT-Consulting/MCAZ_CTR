@@ -1003,7 +1003,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-              <td colspan="2"><h5>4.2 GROUP OF TRIAL SUBJECTS</h5></td>
+              <td colspan="2"><h5>4.2 GROUP OF TRIAL PARTICIPANTS</h5></td>
           </tr>
           <tr>
             <th><label>Healty volunteers</label></th>
@@ -1106,7 +1106,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <th><label>Subjects incapable of giving consent personally?</label></th>
+            <th><label>Participants incapable of giving consent personally?</label></th>
             <td><?= $application->subjects_incapable_consent ?></td>
           </tr>
             <?php

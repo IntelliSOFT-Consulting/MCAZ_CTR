@@ -6,6 +6,8 @@
   $this->Html->script('jquery/jUpload/js/vendor/jquery.ui.widget.js', ['block' => true]);
   $this->Html->script('jquery/jUpload/js/jquery.iframe-transport.js', ['block' => true]);
   $this->Html->script('jquery/jUpload/js/jquery.fileupload.js', ['block' => true]);
+  $this->Html->script('jquery/validate/jquery.validate', ['block' => true]);
+  $this->Html->script('jquery/validate/validate', ['block' => true]);
   $this->Html->script('application_edit', ['block' => true]);
 
 
@@ -20,7 +22,7 @@
 </div>
 <div class="row">
   <?php //pr($application->mc10_forms) ?>
-  <?= $this->Form->create($application, ['type' => 'file']); ?>
+  <?= $this->Form->create($application, ['type' => 'file', 'id' => 'application_form']); ?>
   <?php echo $this->Form->control('id', ['id' => 'applications-id']); ?>
     <div class="col-md-10">
       <div id="tabs">

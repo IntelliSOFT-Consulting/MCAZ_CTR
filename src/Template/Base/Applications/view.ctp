@@ -50,10 +50,10 @@
     <div role="tabpanel" class="tab-pane" id="request">
         <?= $this->element('applications/request_info') ?>
     </div>
-    <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/committee') ?>
     </div>
+    <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
     <div role="tabpanel" class="tab-pane" id="dg">
         <?= $this->element('applications/dg') ?>
     </div>
@@ -88,8 +88,8 @@
       <?php } ?> 
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
-      <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
-      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
+      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>  
+      <?php if($prefix === 'manager' or $prefix === 'director_general') { ?>   
       <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Director General</b></a></li> 
       <?php } ?> 
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   

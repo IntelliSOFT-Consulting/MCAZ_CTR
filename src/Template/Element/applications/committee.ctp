@@ -97,7 +97,7 @@
 
       <hr style="border-width: 1px; border-color: #8a6d3b;">
       <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
-      <?php if($prefix === 'manager') { ?> 
+      <?php //if($prefix === 'manager') { ?> 
       <h3 class='text-center'><u>Committee Decision Form</u><br><small style="font-size: 10px;">NB: Queries can only be raised after submitting this form</small></h3>       
        <?php if(!empty($application->evaluations)) { ?> 
        <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-committee-review', $application->id], 'class' => 'form-horizontal']); ?>
@@ -133,7 +133,7 @@
                 </div> 
             </div>
          <?php echo $this->Form->end() ?>
-         <?php } ?>
+         <?php //} ?>
          <?php } ?>
          <?php } ?>
 

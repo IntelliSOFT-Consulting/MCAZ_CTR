@@ -85,7 +85,7 @@
           ?>
           </div>
           <hr>
-          <h5>4.2 GROUP OF TRIAL SUBJECTS</h5>
+          <h5>4.2 GROUP OF TRIAL PARTICIPANTS</h5>
           <hr>
           <?php
             echo $this->Form->control('subjects_healthy', array(
@@ -126,7 +126,7 @@
             ));
             echo $this->Form->control('subjects_incapable_consent', array(
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No'],
-              'label' => 'Subjects incapable of giving consent personally?'
+              'label' => 'Pariticipants incapable of giving consent personally?'
             ));
             echo $this->Form->control('subjects_specify', array(
               'label' =>  'If yes, specify'

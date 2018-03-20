@@ -17,7 +17,8 @@
             <p class="topper"><small><em class="text-success">evaluated on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?></em></small></p>
         <?php
           if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
-          if($this->request->params['_ext'] != 'pdf' and $evaluation->user_id == $this->request->session()->read('Auth.User.id')) {
+          if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id == $this->request->session()->read('Auth.User.id')
+                                                          or $this->request->session()->read('Auth.User.group_id') == 2)) {
             echo $this->Form->postLink(
                 '<span class="label label-info">Edit</span>',
                 [],

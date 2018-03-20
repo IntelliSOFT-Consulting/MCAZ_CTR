@@ -29,12 +29,12 @@
                       <p class="form-control-static"><?= $committee_review->applicant_review_comment ?></p>
                     </div>
                   </div> 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label class="col-xs-4 control-label">Committee Decision:</label>
                     <div class="col-xs-8">
-                    <p class="form-control-static"><?= $committee_review['decision'] ?></p>
+                    <p class="form-control-static"><?php // $committee_review['decision'] ?></p>
                     </div> 
-                  </div> 
+                  </div>  -->
                   <div class="form-group">
                     <label class="col-xs-4 control-label">Outcome Date:</label>
                     <div class="col-xs-8">

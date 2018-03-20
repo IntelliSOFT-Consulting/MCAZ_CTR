@@ -203,6 +203,7 @@ class ApplicationsController extends AppController
                     'vars' =>  $application->toArray()
                 ]; 
                 $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['name'] = $this->Auth->user('name');
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant

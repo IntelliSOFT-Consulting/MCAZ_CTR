@@ -6,7 +6,7 @@
               <div id="mc10_forms" class="checkcontrols" title="mc10_forms">              
                 <?php
 
-                echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-success']);
+                echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download MC10', ['action' => 'mc10', '_ext' => 'pdf', $application->id, 'prefix' => false], ['escape' => false, 'class' => 'btn btn-success', 'id' => 'download_mc10']);
 
                 echo '<p class="checkbox"> <b>Upload signed MC10 form:</b> '.$add_fileinput.'</p>';
                   // echo $add_fileinput;
