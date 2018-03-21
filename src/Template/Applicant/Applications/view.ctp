@@ -2,6 +2,15 @@
   use Cake\Utility\Hash;
   $this->extend('/Element/applications/application_view');  
   $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);
+
+  $this->Html->css('bootstrap/common_header', ['block' => true]);
+  $this->Html->script('bootstrap/bootstrap-editable', ['block' => true]);
+  $this->Html->script('bootstrap/approval_edit', ['block' => true]);
+  //--wysiwyg editor    
+  $this->Html->css('bootstrap/bootstrap-wysihtml5', ['block' => true]);
+  $this->Html->script('bootstrap/wysihtml5-0.3.0', ['block' => true]);
+  $this->Html->script('bootstrap/bootstrap-wysihtml5', ['block' => true]);
+  $this->Html->script('bootstrap/wysihtml5', ['block' => true]);
 ?>
 
 <?php $this->start('form-actions'); ?>

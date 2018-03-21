@@ -247,6 +247,43 @@ class ApplicationsController extends AppController
         //start
     }
 
+    public function approvalEdit($id = null) {
+
+        $application = $this->Applications->get($this->request->getData('id'));
+
+        if ($this->request->is('post') and $application->approved == 'Authorize') {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+
+            if ($this->Applications->save($application)) {
+                $this->response->body('Success');
+                $this->response->statusCode(200);
+                $this->set([
+                    'error' => '', 
+                    'message' => $this->request->getData(), 
+                    'application' => $application,
+                    '_serialize' => ['error', 'message', 'application']]);
+                return;
+
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'Unable to save application!!', 
+                    '_serialize' => ['message']]);
+                return; 
+            }
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode(404);
+            $this->set([
+                'error' => 'Only approved protocols', 
+                'message' => 'Only approved protocols', 
+                '_serialize' => ['error', 'message']]);
+            return;
+        }
+    }
+
+
     public function addAmendment($id) {
         $application = $this->Applications->get($id, ['contain' => ['Amendments' => ['conditions' => ['submitted !=' => 2]]]]);
         if (empty($application)) {

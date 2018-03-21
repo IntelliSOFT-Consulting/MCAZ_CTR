@@ -201,50 +201,6 @@ class ApplicationsController extends ApplicationsBaseController
         return $this->redirect($this->redirect($this->referer()));
     }
 
-    public function commonHeader($id = null) {
-        //
-        // debug($this->Applications->get($id, [
-        //     'contain' => ['EvaluationHeaders'],
-        //     'fields' => ['id', 'protocol_no', 'EvaluationHeaders.id', 'EvaluationHeaders.population']
-        // ]));
-        // return;
-
-        $application = $this->Applications->get($this->request->getData('id'), [
-            'contain' => ['EvaluationHeaders'],
-            'fields' => ['id', 'protocol_no', 'EvaluationHeaders.id', 'EvaluationHeaders.population', 'EvaluationHeaders.study_design']
-        ]);
-        if ($this->request->is('post')) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData());
-            $application->evaluation_header->user_id = $this->Auth->user('id');         
-            if ($this->Applications->save($application)) {
-                $this->response->body('Success');
-                $this->response->statusCode(200);
-                $this->set([
-                    'error' => '', 
-                    'message' => $this->request->getData(), 
-                    'application' => $application,
-                    '_serialize' => ['error', 'message', 'application']]);
-                return;
-
-            } else {
-                $this->response->body('Failure');
-                $this->response->statusCode(401);
-                $this->set([
-                    'message' => 'Unable to save user!!', 
-                    '_serialize' => ['message']]);
-                return; 
-            }
-        } else {
-            $this->response->body('Failure');
-            $this->response->statusCode(404);
-            $this->set([
-                'error' => 'Only post method allowed', 
-                'message' => 'Only post method allowed', 
-                '_serialize' => ['error', 'message']]);
-            return;
-        }
-    }
-
     /**
      * Delete method
      *

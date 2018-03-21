@@ -16,7 +16,13 @@
       ?>
       <div id="tabs-1">
           <table class="table table-condensed vertical-table">
-            <tr><th><label>PUBLIC TITLE/ACRONYM</label></th><td><p><?= $application->public_title ?></p></td></tr>
+            <tr><th><label>PUBLIC TITLE/ACRONYM</label></th>
+                <td <?php if($prefix == 'applicant') { ?> id="public-title" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_title"
+                    data-title="Update public title" <?php } ?>><p><?= $application->public_title ?></p></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_title'])){      ?>
@@ -25,7 +31,12 @@
                   <td><?= $amendment->public_title ?></td>
                </tr>
              <?php   } } ?>
-            <tr><th><label>Scientific Title</label></th><td><?= $application->scientific_title ?></td></tr>
+            <tr><th><label>Scientific Title</label></th>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-title" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_title"
+                    data-title="Update scientific title" <?php } ?>><span><?= $application->scientific_title ?></span></td></tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_title'])){      ?>
@@ -39,7 +50,11 @@
               <th>
                 <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->public_contact_name ?></td>
+              <td  <?php if($prefix == 'applicant') { ?> id="public-contact-name" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_name"
+                    data-title="Update public name" <?php } ?>><span><?= $application->public_contact_name ?></span></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -53,7 +68,11 @@
               <th>
                 <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->public_contact_designation ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="public-contact-designation" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_designation"
+                    data-title="Update public designation" <?php } ?>><span><?= $application->public_contact_designation ?></span></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -67,7 +86,11 @@
               <th>
                 <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->public_contact_email ?></td>
+              <td  <?php if($prefix == 'applicant') { ?> id="public-contact-email" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_email"
+                    data-title="Update public email" <?php } ?>><span><?= $application->public_contact_email ?></span></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -81,21 +104,29 @@
               <th>
                 <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->public_contact_phone ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="public-contact-phone" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_phone"
+                    data-title="Update public phone" <?php } ?>><?= $application->public_contact_phone ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_phone'])){      ?>
                <tr class="amender">
                   <th><?php echo $key+1; ?></th>
-                  <td><?= $amendment->public ?></td>
+                  <td><?= $amendment->public_contact_phone ?></td>
                </tr>
              <?php   } } ?>
             <tr>
               <th>
                 <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->public_contact_postal ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="public-contact-postal" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_postal"
+                    data-title="Update public postal" <?php } ?>><?= $application->public_contact_postal ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -109,7 +140,11 @@
               <th>
                 <label>Affiliation</label>
               </th>
-              <td><?= $application->public_contact_affiliation ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="public-contact-affiliation" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_affiliation"
+                    data-title="Update public title" <?php } ?>><?= $application->public_contact_affiliation ?></td>
             </tr>            
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -124,7 +159,11 @@
               <th>
                 <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->scientific_contact_name ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-name" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_name"
+                    data-title="Update scientific contact name" <?php } ?>><?= $application->scientific_contact_name ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -138,7 +177,11 @@
               <th>
                 <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->scientific_contact_designation ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-designation" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_designation"
+                    data-title="Update scientific designation" <?php } ?>><?= $application->scientific_contact_designation ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -152,7 +195,11 @@
               <th>
                 <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->scientific_contact_email ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-email" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_email"
+                    data-title="Update scientific contact email" <?php } ?>><?= $application->scientific_contact_email ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -166,7 +213,11 @@
               <th>
                 <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->scientific_contact_phone ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-phone" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_phone"
+                    data-title="Update scientific contact phone" <?php } ?>><?= $application->scientific_contact_phone ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -180,7 +231,11 @@
               <th>
                 <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
-              <td><?= $application->scientific_contact_postal ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-postal" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_postal"
+                    data-title="Update scientific_contact_postal" <?php } ?>><?= $application->scientific_contact_postal ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -194,7 +249,11 @@
               <th>
                 <label>Affiliation</label>
               </th>
-              <td><?= $application->scientific_contact_affiliation ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-affiliation" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_affiliation"
+                    data-title="Update scientific_contact_affiliation" <?php } ?>><?= $application->scientific_contact_affiliation ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -208,7 +267,11 @@
               <td colspan="2"><label>Countries of Recruitment <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
             </tr>
             <tr>              
-              <td colspan="2">
+              <td colspan="2"  <?php if($prefix == 'applicant') { ?> id="countries-recruitment" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="countries_recruitment"
+                    data-title="Update countries of recruitment" <?php } ?>>
                 <?= $application->countries_recruitment ?>
               </td>
             </tr>
@@ -609,7 +672,11 @@
             </tr>
             <tr>
               <th><label>Source of Funds</label></th>
-              <td><?= $application->money_source ?></td>
+              <td <?php if($prefix == 'applicant') { ?> id="money-source" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="money_source"
+                    data-title="Update money source" <?php } ?>><?= $application->money_source ?></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -1544,7 +1611,11 @@
           </tr>  
           <tr>
             <th><label>Medicine Name  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></th>
-            <td><?= $application->drug_name ?></td>
+            <td <?php if($prefix == 'applicant') { ?> id="drug-name" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="drug_name"
+                    data-title="Update medicine name" <?php } ?>><?= $application->drug_name ?></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -1556,7 +1627,11 @@
              <?php   } } ?>
           <tr>
             <th><label>Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></th>
-            <td><?= $application->quantity_excemption ?></td>
+            <td <?php if($prefix == 'applicant') { ?> id="quantity-excemption" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="quantity_excemption"
+                    data-title="Update quantity of medicine" <?php } ?>><?= $application->quantity_excemption ?></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -1930,7 +2005,11 @@
              <td colspan="2"><label>7.0 PRINCIPAL INCLUSION CRITERIA <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
            </tr>
            <tr>
-             <td colspan="2">
+             <td colspan="2" <?php if($prefix == 'applicant') { ?> id="principal-inclusion-criteria" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="principal_inclusion_criteria"
+                    data-title="Update principal_inclusion_criteria" <?php } ?>>
                <?= $application->principal_inclusion_criteria ?>
              </td>
            </tr>
@@ -1946,7 +2025,11 @@
              <td colspan="2"><label>7.1 PRINCIPAL EXCLUSION CRITERIA <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
            </tr>
            <tr>
-             <td colspan="2">
+             <td colspan="2" <?php if($prefix == 'applicant') { ?> id="principal-exclusion-criteria" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="principal_exclusion_criteria"
+                    data-title="Update principal_exclusion_criteria" <?php } ?>>
                <?= $application->principal_exclusion_criteria ?>
              </td>
            </tr>
@@ -1962,7 +2045,11 @@
              <td colspan="2"><label>7.2 PRIMARY END POINTS <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
            </tr>
            <tr>
-             <td colspan="2">
+             <td colspan="2" <?php if($prefix == 'applicant') { ?> id="primary-end-points" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="primary_end_points"
+                    data-title="Update primary_end_points" <?php } ?>>
                <?= $application->primary_end_points ?>
              </td>
            </tr>
@@ -1989,7 +2076,11 @@
           
           <tr>
             <th><label>Health Condition(s) or Problem(s) Studied <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></th>
-            <td><?= $application->disease_condition ?></td>
+            <td <?php if($prefix == 'applicant') { ?> id="disease-condition" 
+                    data-type="wysihtml5" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="disease_condition"
+                    data-title="Update health condition" <?php } ?>><?= $application->disease_condition ?></td>
           </tr>
           <tr>
             <td><label><?= ($application->scope_diagnosis) ? $checked : $nChecked; ?> Diagnosis</label></td>
