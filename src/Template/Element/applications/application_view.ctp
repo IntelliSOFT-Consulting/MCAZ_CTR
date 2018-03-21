@@ -274,6 +274,9 @@
 
         <table class="table table-condensed vertical-table">  
              <tr>
+               <td colspan="2"><label>7.0 PRINCIPAL INCLUSION CRITERIA <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
+             </tr>
+             <tr>
                <td colspan="2">
                  <?= $application->principal_inclusion_criteria ?>
                </td>
