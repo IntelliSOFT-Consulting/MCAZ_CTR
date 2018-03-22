@@ -53,7 +53,7 @@ class QueueGenericEmailTask extends QueueTask {
             //     $this->Email->viewVars($data['vars']);
             // }
 
-            $file = new File(WWW_ROOT. 'img' . DS . 'html' . DS . 'mcaz_logo3.html');
+            $file = new File(WWW_ROOT. 'img' . DS . 'html' . DS . 'mcaz_logo.html');
             $data['vars']['mcaz_logo'] = $file->read();
 
             return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
