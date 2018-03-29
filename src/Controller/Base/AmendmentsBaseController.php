@@ -471,7 +471,7 @@ class AmendmentsBaseController extends AppController
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $finance = $this->Applications->FinanceApprovals
-                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Attachments']]);            
             $application = $finance->application;
             $finance_approvals[] = $finance;
         }

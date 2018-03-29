@@ -760,11 +760,11 @@ class ApplicationsController extends AppController
     //PDF views
     public function finance($id = null, $scope = null) {
         if($scope === 'All') {
-            $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id);
+            $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id)->contain(['Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $finance = $this->Applications->FinanceApprovals
-                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Attachments']]);            
             $application = $finance->application;
             $finance_approvals[] = $finance;
         }
