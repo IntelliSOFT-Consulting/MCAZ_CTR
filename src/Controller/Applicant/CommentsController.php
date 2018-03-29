@@ -60,7 +60,7 @@ class CommentsController extends AppController
                 //Notify Applicant 
                 $applicant = $this->Applications->Users->get($application->user_id);
                 $data = [
-                        'email_address' => $application->parent_application->email_address, 'user_id' => $application->user_id,
+                        'email_address' => $applicant->email, 'user_id' => $application->user_id,
                         'type' => 'applicant_response_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;

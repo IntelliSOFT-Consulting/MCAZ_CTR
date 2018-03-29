@@ -5,6 +5,11 @@
   $this->Html->script('comments/finals', ['block' => true]);
 ?>
 
+<div class="row">
+  <?= $this->Flash->render() ?>
+  <?php $this->ValidationMessages->display($application->errors()) ?>
+</div>
+
   <div class="row">
     <div class="col-xs-12">
       <h4 class="text-center"><label class="text-success">FINAL STAGE</label></h4>

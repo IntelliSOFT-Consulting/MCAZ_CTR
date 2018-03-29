@@ -802,11 +802,11 @@ class AmendmentsController extends AppController
     }
     public function communication($id = null, $scope = null) {
         if($scope === 'All') {
-            $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users']);
+            $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users', 'Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $request_info = $this->Applications->RequestInfos
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
             $application = $request_info->application;
             $request_infos[] = $request_info;
         }

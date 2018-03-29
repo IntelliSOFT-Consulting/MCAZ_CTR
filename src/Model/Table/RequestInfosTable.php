@@ -46,6 +46,13 @@ class RequestInfosTable extends Table
             'file' => [],
         ]);
 
+        $this->hasMany('Attachments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'RequestInfos'),
+        ]);
+
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);

@@ -17,6 +17,8 @@ $(function() {
     // incremental development
     $(".addFinal").click(function() {
       intId = intId + 1;
+      $('#final-stages-100-authorization-letter').prop('checked', true);
+      $('#final-stages-100-indemnity-forms').prop('checked', true);
       //console.log($(this).closest('form').find('input[name="model"]').val());
       //console.log($(this).closest('form').find('#model').val());
       name = 'FinalStages';

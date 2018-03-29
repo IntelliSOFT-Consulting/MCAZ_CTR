@@ -73,7 +73,7 @@ class FinalStagesTable extends Table
 
         $validator
             ->scalar('internal_review_comment')
-            ->notEmpty('internal_review_comment');
+            ->notEmpty('internal_review_comment', ['message' => 'Internal Review Comment required!']);
 
         $validator
             ->scalar('applicant_review_comment')

@@ -2255,13 +2255,13 @@
               <tr> <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>  </tr>
              <?php   } } ?>
             <tr>
-              <td colspan="2"><label><?= ($application->trial_other_specify) ? $checked : $nChecked; ?> If other, please specify</label></td>
+              <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?></label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other_specify'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_other_specify) ? $checked : $nChecked; ?> If other, please specify</label></td>  </tr>
+              <tr> <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?> </label></td>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></td>
@@ -2701,11 +2701,11 @@
         <table class="table table-condensed vertical-table">
           <tr>
             <td colspan="2">
-              <h5>12.0 OTHER DETAILS</h5>
+              <h5>11.0 OTHER DETAILS</h5>
             </td>
           </tr>
           <tr>
-            <th><label>12.1 State the time period for the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i> </label></th>
+            <th><label>11.1 State the time period for the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i> </label></th>
             <td><?= $application->estimated_duration ?></td>
           </tr>
             <?php
@@ -2717,7 +2717,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"><h5> 12.2 If the trial is to be conducted in Zimbabwe and not in the host country of the applicant / sponsor, provide an explanation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5></td>
+            <td colspan="2"><h5> 11.2 If the trial is to be conducted in Zimbabwe and not in the host country of the applicant / sponsor, provide an explanation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5></td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_explanation ?></td>
@@ -2731,7 +2731,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.3 Name other Regulatory Authorities to
+            <td colspan="2"> <h5> 11.3 Name other Regulatory Authorities to
                 which applications to do this trial have been submitted, but approval has not yet been granted. Include date(s)
                 of application: <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
@@ -2747,7 +2747,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.4 Name other Regulatory Authorities
+            <td colspan="2"> <h5> 11.4 Name other Regulatory Authorities
                 which have approved this trial, date(s) of approval and number of sites per country. <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
@@ -2762,7 +2762,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.5 if applicable, name other Regulatory Authorities or Ethics Committees which have rejected this trial and give reasons for rejection:</h5> </td>
+            <td colspan="2"> <h5> 11.5 if applicable, name other Regulatory Authorities or Ethics Committees which have rejected this trial and give reasons for rejection:</h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_rejected ?></td>
@@ -2776,7 +2776,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.6 If applicable, details of and reasons for this trial having been halted at any stage by other Regulatory Authorities:</h5> </td>
+            <td colspan="2"> <h5> 11.6 If applicable, details of and reasons for this trial having been halted at any stage by other Regulatory Authorities:</h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_halted ?></td>
@@ -2790,7 +2790,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.7 Recording of effects, give a description of the methods of recordings and times of recordings</h5> </td>
+            <td colspan="2"> <h5> 11.7 Recording of effects, give a description of the methods of recordings and times of recordings</h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->recording_effects ?></td>
@@ -2804,7 +2804,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.8 State the Clinical and laboratory tests, pharmacokinetic analysis etc that are to be carried out</h5> </td>
+            <td colspan="2"> <h5> 11.8 State the Clinical and laboratory tests, pharmacokinetic analysis etc that are to be carried out</h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->tests_done ?></td>
@@ -2818,7 +2818,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.9 State the method of recording adverse reactions and provisions for dealing with the same and other complications <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+            <td colspan="2"> <h5> 11.9 State the method of recording adverse reactions and provisions for dealing with the same and other complications <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->recording_method ?></td>
@@ -2832,7 +2832,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.10 State the procedure for keeping participants lists and participant records for each participant taking part in the trial.
+            <td colspan="2"> <h5> 11.10 State the procedure for keeping participants lists and participant records for each participant taking part in the trial.
 (Attachment or records for identification of persons) <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
@@ -2847,7 +2847,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5><b> 12.11 State where will trial code will be kept and how it can it be broken in case of an emergency <i class="sterix fa fa-asterisk" aria-hidden="true"></i></b></h5> </td>
+            <td colspan="2"> <h5><b> 11.11 State where will trial code will be kept and how it can it be broken in case of an emergency <i class="sterix fa fa-asterisk" aria-hidden="true"></i></b></h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->trial_storage ?></td>
@@ -2861,7 +2861,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.12 State measures to be implemented to ensure the safe handling of medicines and promote and control compliances with prescribed instructions <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+            <td colspan="2"> <h5> 11.12 State measures to be implemented to ensure the safe handling of medicines and promote and control compliances with prescribed instructions <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->measures_compliance ?></td>
@@ -2875,7 +2875,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.13 Evaluation of results, state the description of methodology (eg statistical methods) <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+            <td colspan="2"> <h5> 11.13 Evaluation of results, state the description of methodology (eg statistical methods) <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->evalution_of_results ?></td>
@@ -2889,7 +2889,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.14 State how the persons or owners of animals are to be informed about the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+            <td colspan="2"> <h5> 11.14 State how the persons or owners of animals are to be informed about the trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->inform_persons ?></td>
@@ -2903,7 +2903,7 @@
                </tr>
              <?php   } } ?>
           <tr>
-            <td colspan="2"> <h5> 12.15  State how the staff involved are to be informed about the way the trial is to be conducted and about the procedures for medicine usage and administration and what to do in an emergency <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+            <td colspan="2"> <h5> 11.15  State how the staff involved are to be informed about the way the trial is to be conducted and about the procedures for medicine usage and administration and what to do in an emergency <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->inform_staff ?></td>

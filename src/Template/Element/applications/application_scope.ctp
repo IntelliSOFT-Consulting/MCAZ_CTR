@@ -69,7 +69,7 @@
             ['type' => 'checkbox', 'label' => 'Other ', 'templates' => 'checkbox_form']);
 
           echo $this->Form->control('trial_other_specify', 
-            ['type' => 'checkbox', 'label' => 'If other, please specify', 'templates' => 'checkbox_form']);
+            ['label' => 'If other, please specify']);
           echo $this->Form->control('trial_therapeutic_exploratory', 
             ['type' => 'checkbox', 'label' => 'Therapeutic exploratory (Phase II)', 'templates' => 'checkbox_form']);
           echo $this->Form->control('trial_therapeutic_confirmatory', 

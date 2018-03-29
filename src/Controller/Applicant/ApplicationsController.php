@@ -519,7 +519,13 @@ class ApplicationsController extends AppController
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+                        ['validate' => true,
+                            'associated' => [
+                                'RequestInfos' => ['validate' => true],
+                                'RequestInfos.Attachments'
+                            ]
+                        ]);
 
             //$application->status = 'ReporterResponse';
 
@@ -821,11 +827,11 @@ class ApplicationsController extends AppController
     }
     public function communication($id = null, $scope = null) {
         if($scope === 'All') {
-            $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users']);
+            $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users', 'Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $request_info = $this->Applications->RequestInfos
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
             $application = $request_info->application;
             $request_infos[] = $request_info;
         }

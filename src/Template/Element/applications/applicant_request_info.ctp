@@ -2,6 +2,7 @@
   $this->Html->script('ckeditor/ckeditor', ['block' => true]);
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
+  $this->Html->script('multi/info_files', ['block' => true]);
 ?>
 
   <div class="row">
@@ -32,13 +33,15 @@
                     <label>Applicant comment</label>
                     <p class="form-control-static"><?= $request_info->applicant_comment ?></p>
                   </div>
+
                   <div class="form-group">
-                    <label class="col-sm-4 control-label">File</label>
-                    <div class="col-sm-7">
-                      <p class="form-control-static text-info text-left"><?php
-                           echo $this->Html->link($request_info->file, substr($request_info->dir, 8) . '/' . $request_info->file, ['fullBase' => true]);
-                      ?></p>
-                    </div>
+                    <label class="control-label">File(s)</label>
+                    <?php foreach ($request_info->attachments as $attachment) { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } ?>
                   </div> 
                 </form>  <br>
               </div>      
@@ -57,8 +60,20 @@
                       echo $this->Form->control('request_infos.100.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
                       // echo $this->Form->control('request_infos.100.mcaz_comment', ['label' => 'MCAZ Comment' ,'escape' => false, 'templates' => 'textarea_form']);
                       echo $this->Form->control('request_infos.100.applicant_comment', ['label' => 'Applicant comment <small class="muted">(sent to mcaz)</small>', 'escape' => false, 'templates' => 'textarea_form']);
-                      echo $this->Form->control('request_infos.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
+                      // echo $this->Form->control('request_infos.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
                 ?>
+
+                  <div class="row">
+                      <div class="col-xs-12">
+                        <div class="infoFilesTable">
+                          <h6 class="muted"><b>Attach File(s) </b>
+                              <button type="button" class="btn btn-primary btn-xs addInfoFile">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
+                          </h6>
+                          <hr>
+                        </div>
+                      </div>
+                  </div>
+
                 </div>          
               </div>
               <div class="form-group"> 
