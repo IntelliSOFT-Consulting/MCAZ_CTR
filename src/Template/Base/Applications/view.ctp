@@ -16,7 +16,78 @@
   <div role="tabpanel" class="tab-pane active" id="report">
     <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, ], ['escape' => false, 'class' => 'btn btn-info active']);
-              ?>
+    ?>
+    <?php
+    if($prefix == 'manager') {
+      if($application->approved === 'Declined') {
+    ?>
+        <a href="#" data-target="#reinstateModal" data-toggle="modal" class="btn btn-success active"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Reinstate Study </a>
+    <?php
+      } else {        
+        // echo $this->Html->link('<i class="fa fa-hand-paper-o" aria-hidden="true"></i> Suspend Study', ['controller' => 'Applications', 'action' => 'suspend', $application->id, ], ['escape' => false, 'class' => 'btn btn-warning ']);
+        ?>
+        <a href="#" data-target="#suspendModal" data-toggle="modal" class="btn btn-warning"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Suspend Study </a>
+        <?php
+      }
+    }
+    ?>
+
+    <div class="modal fade" id="suspendModal" tabindex="-1" role="dialog" aria-labelledby="suspendModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Suspend Study?</h4>               
+          </div>
+    
+          <form method="post" accept-charset="utf-8" action="/base/applications-base/suspend/<?= $application->id ?>">     
+          <div class="modal-body">
+           
+              <div class="form-group">
+                  <label for="message" class="control-label">Message:</label>
+                  <textarea class="form-control" id="message"></textarea>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+
+          </form>
+        
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="reinstateModal" tabindex="-1" role="dialog" aria-labelledby="reinstateModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Reinstate Study?</h4>               
+          </div>
+    
+          <form method="post" accept-charset="utf-8" action="/base/applications-base/reinstate/<?= $application->id ?>">     
+          <div class="modal-body">
+           
+              <div class="form-group">
+                  <label for="message" class="control-label">Message:</label>
+                  <textarea class="form-control" id="message"></textarea>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+
+          </form>
+        
+        </div>
+      </div>
+    </div>
+
 <?php $this->end(); ?>
 
 <?php $this->start('tabs'); ?>
@@ -71,6 +142,11 @@
     <div role="tabpanel" class="tab-pane" id="stages">
         <?= $this->element('applications/stages') ?>
     </div>
+    <?php if($application->approved === 'Declined') { ?>    
+    <div role="tabpanel" class="tab-pane" id="appeals">
+        <?= $this->element('applications/applicant_appeals') ?>
+    </div>
+    <?php } ?>  
   </div>
 </div>
 
@@ -100,6 +176,9 @@
       <?php } ?>       
     <?php } ?>       
       <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
+      <?php if($application->approved === 'Declined') { ?>    
+      <li role="presentation"><a href="#appeals" aria-controls="appeals" role="tab" data-toggle="tab"><b>Appeals</b></a></li> 
+      <?php } ?>  
   </ul>
 </div>
 

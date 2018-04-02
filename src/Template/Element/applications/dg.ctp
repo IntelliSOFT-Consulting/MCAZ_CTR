@@ -2,7 +2,8 @@
   $this->Html->script('ckeditor/ckeditor', ['block' => true]);
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
-  $this->Html->script('comments/attachos', ['block' => true]);
+  // $this->Html->script('comments/attachos', ['block' => true]);
+  $this->Html->script('comments/dg', ['block' => true]);
 ?>
 
   <div class="row">

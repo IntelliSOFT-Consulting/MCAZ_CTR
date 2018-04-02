@@ -254,6 +254,15 @@ class ApplicationsBaseController extends AppController
                 $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
                 $application->application_stages = [$stage1];
                 $application->status = 'DirectorGeneral';
+            } elseif ($this->request->getData('committee_reviews.100.decision') === 'Declined') {    
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 13;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+                $application->approved = $this->request->getData('committee_reviews.100.decision');
+                $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('committee_reviews.100.outcome_date'))));
+                $application->application_stages = [$stage1];
+                $application->status = 'CommitteeDeclined';
             } else {
                 //If Coming from Stage 7 then stage 5
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
@@ -565,6 +574,65 @@ class ApplicationsBaseController extends AppController
     }
     
 
+    public function raiseAppeal() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+                        ['validate' => true,
+                            'associated' => [
+                                'Appeals' => ['validate' => true],
+                                'Appeals.Attachments'
+                            ]
+                        ]);
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                (!empty($application->assign_evaluators)) ? 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $this->loadModel('Queue.QueuedJobs');
+                foreach ($managers as $manager) {
+                    //Notify managers    
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_appeal_respond_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_message'] = $this->request->getData('appeals.100.comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_appeal_respond_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //Notify applicant 
+                // $applicant = $this->Applications->Users->get($application);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_appeal_respond_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['applicant_message'] = $this->request->getData('appeals.100.comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_appeal_respond_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('Response to appeal for '.$application->protocol_no.' sent to applicant');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create response to appeal. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
     /*   Add the final Review for the protocol
      *   Adious
     */
@@ -867,6 +935,28 @@ class ApplicationsBaseController extends AppController
             $this->render('/Base/GcpInspections/pdf/view');
         }
     }
+    public function appeal($id = null, $scope = null) {
+        if($scope === 'All') {
+            $appeals = $this->Applications->Appeals->findByApplicationId($id)->contain(['Users', 'Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $appeal = $this->Applications->Appeals
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+            $application = $appeal->application;
+            $appeals[] = $appeal;
+        }
+        $this->set(compact('appeals', 'application'));
+        $this->set('_serialize', ['appeals', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_appeal_'.$id.'.pdf' : 'application_appeal_'.$id.'.pdf'
+                ]
+            ]);
+        }
+    }
     public function stages($id = null) {
         $application = $this->Applications->get($id, ['contain' => $this->_contain]);
         $this->set(compact( 'application'));
@@ -881,5 +971,70 @@ class ApplicationsBaseController extends AppController
             ]);
             $this->render('/Base/Stages/pdf/application_view');
         }
+    }
+    public function suspend($id = null) {
+        $this->loadModel('Applications');
+        $application = $this->Applications->get($id, ['contain' => ['AssignEvaluators']]);
+        $this->request->allowMethod(['post', 'delete']);
+        $query = $this->Applications->query();
+        $query->update()
+                    ->set(['approved' => 'Declined', 'approved_date' => date("Y-m-d")])
+                    ->where(['id' => $application->id])
+                    ->execute();
+
+        //send message to applicant and managers upon successful suspend
+        $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+        $filt[] = $application->user_id; //Add applicant
+        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        $this->loadModel('Queue.QueuedJobs');    
+        foreach ($managers as $manager) {
+            //Notify managers    
+            $data = [
+                'email_address' => $manager->email, 'user_id' => $manager->id,
+                'type' => 'suspend_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+            ];
+            $data['vars']['name'] = $manager->name;
+            $data['vars']['protocol_no'] = $application->protocol_no;
+            $data['vars']['message'] = $this->request->getData('message');
+            //notify applicant
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $data['type'] = 'suspend_notification';
+            $this->QueuedJobs->createJob('GenericNotification', $data);
+        }
+        $this->Flash->success('Suspended '.$application->protocol_no.'. ');
+        return $this->redirect($this->referer());
+    }
+    public function reinstate($id = null) {
+        //TODO: Application must have been previously approved by DG
+        $this->loadModel('Applications');
+        $application = $this->Applications->get($id, ['contain' => ['AssignEvaluators']]);
+        $this->request->allowMethod(['post', 'delete']);
+        $query = $this->Applications->query();
+        $query->update()
+                    ->set(['approved' => 'Approved', 'approved_date' => date("Y-m-d")])
+                    ->where(['id' => $application->id])
+                    ->execute();
+
+        //send message to applicant and managers upon successful suspend
+        $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+        $filt[] = $application->user_id; //Add applicant
+        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        $this->loadModel('Queue.QueuedJobs');    
+        foreach ($managers as $manager) {
+            //Notify managers    
+            $data = [
+                'email_address' => $manager->email, 'user_id' => $manager->id,
+                'type' => 'reinstate_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+            ];
+            $data['vars']['name'] = $manager->name;
+            $data['vars']['protocol_no'] = $application->protocol_no;
+            $data['vars']['message'] = $this->request->getData('message');
+            //notify applicant
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $data['type'] = 'reinstate_notification';
+            $this->QueuedJobs->createJob('GenericNotification', $data);
+        }
+        $this->Flash->success('Reinstated '.$application->protocol_no.'. ');
+        return $this->redirect($this->referer());
     }
 }

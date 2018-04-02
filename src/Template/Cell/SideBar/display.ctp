@@ -13,6 +13,7 @@
      $Assigned = isset($stats['Assigned']) ? '<small class="badge badge-sadr pull-right">'. $stats['Assigned'] .'</small>' : '' ;
      $Evaluated = isset($stats['Evaluated']) ? '<small class="badge badge-sadr pull-right">'. $stats['Evaluated'] .'</small>' : '' ;
      $Committee = isset($stats['Committee']) ? '<small class="badge badge-sadr pull-right">'. $stats['Committee'] .'</small>' : '' ;
+     $CommitteeDeclined = isset($stats['CommitteeDeclined']) ? '<small class="badge badge-sadr pull-right">'. $stats['CommitteeDeclined'] .'</small>' : '' ;
      $DirectorGeneral = isset($stats['DirectorGeneral']) ? '<small class="badge badge-sadr pull-right">'. $stats['DirectorGeneral'] .'</small>' : '' ;
      $Notification = isset($stats['Notification']) ? '<small class="badge badge-sadr pull-right">'. $stats['Notification'] .'</small>' : '' ;
      $ApplicantResponse = isset($stats['ApplicantResponse']) ? '<small class="badge badge-sadr pull-right">'. $stats['ApplicantResponse'] .'</small>' : '' ;
@@ -59,6 +60,7 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorAuthorize') ? 'active' : ''; ?>"><?= $this->Html->link('<b>10.</b> Authorize'. $DirectorAuthorize , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorAuthorize', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b>11.</b> Declined'. $DirectorDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorDeclined', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalStage') ? 'active' : ''; ?>"><?= $this->Html->link('<b>12.</b> Final Stage'. $FinalStage , ['controller' => 'Applications', 'action' => 'index', 'status' => 'FinalStage', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'CommitteeDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b>13.</b> Comm Declined'. $CommitteeDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'CommitteeDeclined', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             
 
             <li><a href="#" class="text-warning" style="text-decoration: underline; padding-left: 15px;">OTHERS</a></li>

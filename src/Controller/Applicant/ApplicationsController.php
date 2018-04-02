@@ -576,6 +576,69 @@ class ApplicationsController extends AppController
         return $this->redirect($this->referer());
     }
 
+    public function raiseAppeal() {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
+
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+                        ['validate' => true,
+                            'associated' => [
+                                'Appeals' => ['validate' => true],
+                                'Appeals.Attachments'
+                            ]
+                        ]);
+
+            /*debug($this->request->getData());
+            debug($application);
+            return;*/
+
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                (!empty($application->assign_evaluators)) ? 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $this->loadModel('Queue.QueuedJobs');
+                foreach ($managers as $manager) {
+                    //Notify managers    
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_appeal_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_message'] = $this->request->getData('appeals.100.comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_appeal_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //Notify applicant 
+                // $applicant = $this->Applications->Users->get($application);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_raise_appeal_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['applicant_message'] = $this->request->getData('appeals.100.comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_raise_appeal_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success('Appeal for '.$application->protocol_no.' sent to MCAZ for review');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error(__('Unable to create appeal. Please, try again.')); 
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
     public function addSection75() {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
@@ -909,6 +972,28 @@ class ApplicationsController extends AppController
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_gcp_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                ]
+            ]);
+        }
+    }
+    public function appeal($id = null, $scope = null) {
+        if($scope === 'All') {
+            $appeals = $this->Applications->Appeals->findByApplicationId($id)->contain(['Users', 'Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $appeal = $this->Applications->Appeals
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+            $application = $appeal->application;
+            $appeals[] = $appeal;
+        }
+        $this->set(compact('appeals', 'application'));
+        $this->set('_serialize', ['appeals', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_appeal_'.$id.'.pdf' : 'application_appeal_'.$id.'.pdf'
                 ]
             ]);
         }
