@@ -76,15 +76,36 @@ class DgReviewsTable extends Table
 
         $validator
             ->scalar('internal_review_comment')
-            ->allowEmpty('internal_review_comment');
+            ->notEmpty('internal_review_comment', ['message' => 'Internal Review Comment required!']);
 
         $validator
             ->scalar('applicant_review_comment')
             ->allowEmpty('applicant_review_comment');
 
+
         $validator
-            ->dateTime('deleted')
-            ->allowEmpty('deleted');
+            ->boolean('authorization_letter')
+            ->notEmpty('authorization_letter')
+            ->add('authorization_letter', 'final-authorization', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return 'Please upload the authorization letter.';
+                }
+            ]);
+
+        /*$validator
+            ->boolean('indemnity_forms')
+            ->notEmpty('indemnity_forms')
+            ->add('indemnity_forms', 'indemnity-forms', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return 'Please upload the indemnity forms.';
+                }
+            ]);*/
 
         return $validator;
     }

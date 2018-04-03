@@ -112,7 +112,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_protocol', 
-                      ['type' => 'checkbox', 'label' => 'Protocol (including relevant questionnaires, etc.)  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Protocol (including relevant questionnaires, etc.) <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="protocols" class="checkcontrols" title="protocols">
@@ -206,7 +206,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_investigators_cv', 
-                      ['type' => 'checkbox', 'label' => 'Investigator\'s CV(s) in required format  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Investigator\'s CV(s) in required format <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="investigator_cvs" class="checkcontrols" title="investigator_cvs">

@@ -35,8 +35,7 @@ class ApplicationsController extends ApplicationsBaseController
              * Elseif decision is Declined, the status is set to DirectorDeclined and description Stage 10: Declined or Stage 10
              * 
              */
-            $application->approved = $this->request->getData('dg_reviews.100.decision');
-            $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('dg_reviews.100.approved_date'))));
+
             if($this->request->getData('dg_reviews.100.decision') === 'Authorize') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 10;
@@ -44,6 +43,8 @@ class ApplicationsController extends ApplicationsBaseController
                 $stage1->alt_date = $application->dg_reviews[0]->approved_date;
                 $application->application_stages = [$stage1];
                 $application->status = 'DirectorAuthorize';
+                $application->approved = 'DirectorAuthorize';
+                $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('dg_reviews.100.approved_date'))));
             } elseif($this->request->getData('dg_reviews.100.decision') === 'Declined') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 11;
@@ -51,6 +52,8 @@ class ApplicationsController extends ApplicationsBaseController
                 $stage1->alt_date = $application->dg_reviews[0]->approved_date;
                 $application->application_stages = [$stage1];
                 $application->status = 'DirectorDeclined';
+                $application->approved = 'DirectorDeclined';
+                $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('dg_reviews.100.approved_date'))));
             } 
 
             // debug($application);
@@ -119,7 +122,9 @@ class ApplicationsController extends ApplicationsBaseController
 
                 return $this->redirect($this->referer());
             } 
-            $this->Flash->error(__('Unable to create dg review. Please, try again.')); 
+            // $this->Flash->error(__('Unable to create dg review. Please, try again.')); 
+            $this->Flash->error('Unable to create dg review. Please, try again. <br>'.implode('<br>', Hash::flatten($application->errors())),
+                                ['escape' => false]); 
             return $this->redirect($this->referer());
         } 
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 

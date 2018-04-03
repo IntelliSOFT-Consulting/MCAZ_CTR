@@ -54,13 +54,25 @@
                   </div> 
 
                   <div class="form-group">
-                    <label class="control-label">File(s)</label>
-                    <?php foreach ($dg_review->attachments as $attachment) { ?>                  
+                    <label class="control-label">Authorization Letter</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { 
+                            if($attachment->category === 'authorization_letter') { ?>                  
                         <p class="form-control-static text-info text-left"><?php
                              echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
                         ?></p>
                         <p><?= $attachment['description'] ?></p>
-                        <?php } ?>
+                        <?php } } ?>
+                  </div> 
+
+                  <div class="form-group">
+                    <label class="control-label">Indemnity Forms</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { 
+                            if($attachment->category === 'indemnity_forms') { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } } ?>
                   </div> 
 
                 </form>  <br>
@@ -109,10 +121,22 @@
               'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
                       // echo $this->Form->control('dg_reviews.100.attachments.100.file', ['escape' => false, 'templates' => 'app_form']);
                       // dg_reviews[100][attachments][100][file]
-                ?>                
+                ?> 
+
                   <div class="row">
                       <div class="col-xs-12">
-                          <h6 class="muted text-center"><b>Attach File(s) </b>
+                      <div class="checkcontrols">
+                        <?php
+                            echo $this->Form->control('dg_reviews.100.authorization_letter', 
+                                        ['type' => 'checkbox', 'label' => 'Authorization Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addAuthLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
+                        ?>
+                        <div class="uploadsTable">   </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="row">
+                      <div class="col-xs-12">
+                          <h6 class="muted text-center"><b>Authorization Letter </b>
                               <button type="button" class="btn btn-primary btn-xs addUpload">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
                           </h6>
                         <hr>
@@ -120,7 +144,7 @@
 
                       </div>
                       </div>
-                  </div>
+                  </div> -->
                 </div>          
               </div>
               <div class="form-group"> 

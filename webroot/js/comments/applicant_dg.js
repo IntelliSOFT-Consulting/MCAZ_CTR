@@ -3,11 +3,11 @@ $(function() {
     var intId = 0;
     var trWrapper = '\
           <div class="row attacho">\
-            <div class="col-xs-10"><input name="final_stages[100][attachments][{i}][id]" id="final_stages[100]-attachments-{i}-id" type="hidden"> \
-                <input name="final_stages[100][attachments][{i}][file]" id="final_stages[100]-attachments-{i}-file" type="file" class="firo"> \
-                <input type="hidden" id="final_stages[100]-attachments-{i}-model" value="{n}" name="final_stages[100][attachments][{i}][model]" style="display: inline;">\
-                <input type="hidden" id="final_stages[100]-attachments-{i}-category" value="{p}" name="final_stages[100][attachments][{i}][category]" style="display: inline;">\
-                <textarea name="final_stages[100][attachments][{i}][description]" id="final_stages[100]-attachments-{i}-description" class="flow"\
+            <div class="col-xs-10"><input name="attachments[{i}][id]" id="attachments-{i}-id" type="hidden"> \
+                <input name="attachments[{i}][file]" id="attachments-{i}-file" type="file" class="firo"> \
+                <input type="hidden" id="attachments-{i}-model" value="{n}" name="attachments[{i}][model]" style="display: inline;">\
+                <input type="hidden" id="attachments-{i}-category" value="{p}" name="attachments[{i}][category]" style="display: inline;">\
+                <textarea name="attachments[{i}][description]" id="attachments-{i}-description" class="flow"\
                           placeholder="descripton" cols="16" rows="1"></textarea> \
             </div>\
             <div class="col-xs-2">\
@@ -15,9 +15,10 @@ $(function() {
             </div>\
           </div><hr>\ ';
     // incremental development
-    $(".addFinal").click(function() {
+    $(".addIndemnityForm").click(function() {
       intId = intId + 1;
-      name = 'FinalStages';
+      $('#dg-reviews-100-authorization-letter').prop('checked', true);
+      name = 'DgReviews';
       pi = $(this).attr('id');
 
       if ($(this).closest('div.checkcontrols').find('.uploadsTable .attacho').length < 7) {            

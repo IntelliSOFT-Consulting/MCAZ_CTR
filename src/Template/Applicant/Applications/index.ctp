@@ -47,7 +47,7 @@
                   </td>
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
-                <td><?= h($application->status) ?></td>
+                <td><?php echo ($application->approved) ? '<b>'.$application->approved.'</b><br>'.$application->status : $application->status ; ?></td>
                 <td><?= h($application->created) ?></td>         
                 <td>
                                

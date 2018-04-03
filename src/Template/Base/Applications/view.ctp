@@ -19,11 +19,11 @@
     ?>
     <?php
     if($prefix == 'manager') {
-      if($application->approved === 'Declined') {
+      if($application->approved === 'Suspended') {
     ?>
         <a href="#" data-target="#reinstateModal" data-toggle="modal" class="btn btn-success active"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Reinstate Study </a>
     <?php
-      } else {        
+      } elseif($application->approved === 'Authorize') {        
         // echo $this->Html->link('<i class="fa fa-hand-paper-o" aria-hidden="true"></i> Suspend Study', ['controller' => 'Applications', 'action' => 'suspend', $application->id, ], ['escape' => false, 'class' => 'btn btn-warning ']);
         ?>
         <a href="#" data-target="#suspendModal" data-toggle="modal" class="btn btn-warning"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Suspend Study </a>
@@ -45,7 +45,7 @@
            
               <div class="form-group">
                   <label for="message" class="control-label">Message:</label>
-                  <textarea class="form-control" id="message"></textarea>
+                  <textarea class="form-control" name="message" id="message"></textarea>
               </div>
 
           </div>
@@ -73,7 +73,7 @@
            
               <div class="form-group">
                   <label for="message" class="control-label">Message:</label>
-                  <textarea class="form-control" id="message"></textarea>
+                  <textarea class="form-control" name="message" id="message"></textarea>
               </div>
 
           </div>
@@ -133,7 +133,7 @@
         <?= $this->element('applications/gcp') ?>
     </div>
     <!-- only visible in final stage 11   -->
-      <?php if(in_array("Authorize", Hash::extract($application->dg_reviews, '{n}.decision'))) { ?>    
+      <?php if($application->approved === 'Authorize') { ?>    
         <div role="tabpanel" class="tab-pane" id="final">
             <?= $this->element('applications/final') ?>
         </div> 
@@ -151,7 +151,7 @@
 </div>
 
 <div class="col-xs-2"> <!-- required for floating -->
-  <ul class="nav nav-tabs tabs-right" data-spy="affix" data-offset-top="60" role="tablist" id="myTab">
+  <ul class="nav nav-tabs nav-<?= $prefix ?> tabs-right" data-spy="affix" data-offset-top="60" role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <?php if($application->submitted == 2) { ?>
@@ -171,7 +171,7 @@
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP</b></a></li>   
       <?php } ?> 
 
-      <?php if(in_array("Authorize", Hash::extract($application->dg_reviews, '{n}.decision'))) { ?>
+      <?php if($application->approved === 'Authorize') { ?>
       <li role="presentation"><a href="#final" aria-controls="final" role="tab" data-toggle="tab"><b>Final Stage</b></a></li> 
       <?php } ?>       
     <?php } ?>       

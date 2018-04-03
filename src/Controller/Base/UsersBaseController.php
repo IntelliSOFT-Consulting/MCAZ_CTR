@@ -43,11 +43,11 @@ class UsersBaseController extends AppController
             });
         }
         // Secretary General only able to view once it has been approved
-        if ($this->Auth->user('group_id') == 7) {
+        /*if ($this->Auth->user('group_id') == 7) {
             $app_query->matching('ApplicationStages', function ($q) {
                 return $q->where(['ApplicationStages.stage_id' => 9]);
             });
-        }
+        }*/
 
         $applications = $this->paginate($app_query, ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted']]);
@@ -63,11 +63,11 @@ class UsersBaseController extends AppController
             });
         }
         // Secretary General only able to view once it has been approved
-        if ($this->Auth->user('group_id') == 7) {
+        /*if ($this->Auth->user('group_id') == 7) {
             $amt_query->matching('ApplicationStages', function ($q) {
                 return $q->where(['ApplicationStages.stage_id' => 9]);
             });
-        }
+        }*/
         
         $amendments = $this->paginate($amt_query, 
             ['scope' => 'amendment']);

@@ -59,7 +59,7 @@
 </div>
 
 <div class="col-xs-2"> <!-- required for floating -->
-  <ul class="nav nav-tabs tabs-right" data-offset-top="60"  role="tablist" id="myTab">
+  <ul class="nav nav-tabs nav-<?= $prefix ?> tabs-right" data-offset-top="60"  role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= $amendment->protocol_no ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>    

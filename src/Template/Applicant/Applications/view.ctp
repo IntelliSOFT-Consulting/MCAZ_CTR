@@ -15,7 +15,7 @@
 
 <?php $this->start('form-actions'); ?>
 <div class="col-xs-3"> <!-- required for floating -->
-  <ul class="nav nav-tabs tabs-left" data-offset-top="60"  role="tablist" id="myTab">
+  <ul class="nav nav-tabs nav-manager tabs-left" data-offset-top="60"  role="tablist" id="myTab">
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
@@ -35,6 +35,9 @@
       <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
       <?php if($application->approved === 'Declined') { ?>    
       <li role="presentation"><a href="#appeals" aria-controls="appeals" role="tab" data-toggle="tab"><b>Appeals</b></a></li> 
+      <?php } ?> 
+      <?php if($application->approved === 'Authorize') { ?>    
+      <li role="presentation"><a href="#finals" aria-controls="finals" role="tab" data-toggle="tab"><b>Final Reports</b></a></li> 
       <?php } ?>  
   </ul>
 </div>
@@ -101,6 +104,11 @@
     <?php if($application->approved === 'Declined') { ?>    
     <div role="tabpanel" class="tab-pane" id="appeals">
         <?= $this->element('applications/applicant_appeals') ?>
+    </div>
+    <?php } ?>  
+    <?php if($application->approved === 'Authorize') { ?>    
+    <div role="tabpanel" class="tab-pane" id="finals">
+        <?= $this->element('applications/applicant_final') ?>
     </div>
     <?php } ?>  
   </div>

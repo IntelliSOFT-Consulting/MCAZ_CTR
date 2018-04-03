@@ -955,6 +955,30 @@ class ApplicationsBaseController extends AppController
                     'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_appeal_'.$id.'.pdf' : 'application_appeal_'.$id.'.pdf'
                 ]
             ]);
+            $this->render('/Base/Applications/pdf/appeal');
+        }
+    }
+    public function finals($id = null, $scope = null) {
+        if($scope === 'All') {
+            $final_stages = $this->Applications->FinalStages->findByApplicationId($id)->contain(['Users', 'Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $final_stage = $this->Applications->FinalStages
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+            $application = $final_stage->application;
+            $final_stages[] = $final_stage;
+        }
+        $this->set(compact('final_stages', 'application'));
+        $this->set('_serialize', ['final_stages', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_final_report_'.$id.'.pdf' : 'application_final_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Applications/pdf/finals');
         }
     }
     public function stages($id = null) {
@@ -978,7 +1002,7 @@ class ApplicationsBaseController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $query = $this->Applications->query();
         $query->update()
-                    ->set(['approved' => 'Declined', 'approved_date' => date("Y-m-d")])
+                    ->set(['approved' => 'Suspended', 'Status' => 'Suspended', 'approved_date' => date("Y-m-d")])
                     ->where(['id' => $application->id])
                     ->execute();
 
@@ -1011,7 +1035,7 @@ class ApplicationsBaseController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $query = $this->Applications->query();
         $query->update()
-                    ->set(['approved' => 'Approved', 'approved_date' => date("Y-m-d")])
+                    ->set(['approved' => 'Approved', 'Status' => 'DirectorAuthorize', 'approved_date' => date("Y-m-d")])
                     ->where(['id' => $application->id])
                     ->execute();
 

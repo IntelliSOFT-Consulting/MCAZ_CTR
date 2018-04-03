@@ -73,17 +73,17 @@ class FinalStagesTable extends Table
 
         $validator
             ->scalar('internal_review_comment')
-            ->notEmpty('internal_review_comment', ['message' => 'Internal Review Comment required!']);
+            ->allowEmpty('internal_review_comment');
 
         $validator
             ->scalar('applicant_review_comment')
-            ->allowEmpty('applicant_review_comment');
+            ->notEmpty('applicant_review_comment', ['message' => 'Internal Review Comment required!']);
 
         // $validator
         //     ->date('approved_date')
         //     ->notEmpty('approved_date');
 
-        $validator
+        /*$validator
             ->boolean('authorization_letter')
             ->notEmpty('authorization_letter')
             ->add('authorization_letter', 'final-authorization', [
@@ -93,9 +93,9 @@ class FinalStagesTable extends Table
                     }
                     return 'Please upload the authorization letter.';
                 }
-            ]);
+            ]);*/
 
-        $validator
+        /*$validator
             ->boolean('indemnity_forms')
             ->notEmpty('indemnity_forms')
             ->add('indemnity_forms', 'indemnity-forms', [
@@ -105,7 +105,7 @@ class FinalStagesTable extends Table
                     }
                     return 'Please upload the indemnity forms.';
                 }
-            ]);
+            ]);*/
 
         return $validator;
     }

@@ -9,6 +9,8 @@
      $UnSubmitted = isset($stats['UnSubmitted']) ? '<small class="badge badge-sadr pull-right">'. $stats['UnSubmitted'] .'</small>' : '' ;
      $Archived = isset($stats['Archived']) ? '<small class="badge badge-sadr pull-right">'. $stats['Archived'] .'</small>' : '' ;
      $FinalStage = isset($stats['FinalStage']) ? '<small class="badge badge-sadr pull-right">'. $stats['FinalStage'] .'</small>' : '' ;
+     $Suspended = isset($stats['Suspended']) ? '<small class="badge badge-sadr pull-right">'. $stats['Suspended'] .'</small>' : '' ;
+     // $Reinstated = isset($stats['Reinstated']) ? '<small class="badge badge-sadr pull-right">'. $stats['Reinstated'] .'</small>' : '' ;
      $Correspondence = isset($stats['Correspondence']) ? '<small class="badge badge-sadr pull-right">'. $stats['Correspondence'] .'</small>' : '' ;
      $Assigned = isset($stats['Assigned']) ? '<small class="badge badge-sadr pull-right">'. $stats['Assigned'] .'</small>' : '' ;
      $Evaluated = isset($stats['Evaluated']) ? '<small class="badge badge-sadr pull-right">'. $stats['Evaluated'] .'</small>' : '' ;
@@ -19,6 +21,7 @@
      $ApplicantResponse = isset($stats['ApplicantResponse']) ? '<small class="badge badge-sadr pull-right">'. $stats['ApplicantResponse'] .'</small>' : '' ;
      $Presented = isset($stats['Presented']) ? '<small class="badge badge-sadr pull-right">'. $stats['Presented'] .'</small>' : '' ;
      $DirectorAuthorize = isset($stats['DirectorAuthorize']) ? '<small class="badge badge-sadr pull-right">'. $stats['DirectorAuthorize'] .'</small>' : '' ;
+     $Authorize = isset($stats['Authorize']) ? '<small class="badge badge-sadr pull-right">'. $stats['Authorize'] .'</small>' : '' ;
      $DirectorDeclined = isset($stats['DirectorDeclined']) ? '<small class="badge badge-sadr pull-right">'. $stats['DirectorDeclined'] .'</small>' : '' ;
 
      foreach ($amendment_stats as $key => $value) {
@@ -57,16 +60,17 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'ApplicantResponse') ? 'active' : ''; ?>"><?= $this->Html->link('<b>7.</b> Response '. $ApplicantResponse , ['controller' => 'Applications', 'action' => 'index', 'status' => 'ApplicantResponse', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Presented') ? 'active' : ''; ?>"><?= $this->Html->link('<b>8.</b> Presented '. $Presented , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Presented', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorGeneral') ? 'active' : ''; ?>"><?= $this->Html->link('<b>9.</b> Health Secretary'. $DirectorGeneral , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorGeneral', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorAuthorize') ? 'active' : ''; ?>"><?= $this->Html->link('<b>10.</b> Authorize'. $DirectorAuthorize , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorAuthorize', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b>11.</b> Declined'. $DirectorDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorDeclined', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalStage') ? 'active' : ''; ?>"><?= $this->Html->link('<b>12.</b> Final Stage'. $FinalStage , ['controller' => 'Applications', 'action' => 'index', 'status' => 'FinalStage', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'CommitteeDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b>13.</b> Comm Declined'. $CommitteeDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'CommitteeDeclined', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorAuthorize') ? 'active' : ''; ?>"><?= $this->Html->link('<b>10.</b> Authorized <small class="muted">Director</small>'. $DirectorAuthorize , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorAuthorize', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Authorize') ? 'active' : ''; ?>"><?= $this->Html->link('<b style="padding-left: 25px;"></b> Authorized <small class="muted">Indemnity</small>'. $Authorize , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Authorize', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b>11.</b> Declined <small class="muted">Director</small>'. $DirectorDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorDeclined', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'CommitteeDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b style="padding-left: 25px;"></b> Declined <small class="muted">Committee</small>'. $CommitteeDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'CommitteeDeclined', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalStage') ? 'active' : ''; ?>"><?= $this->Html->link('<b>12.</b> Final Report'. $FinalStage , ['controller' => 'Applications', 'action' => 'index', 'status' => 'FinalStage', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             
 
             <li><a href="#" class="text-warning" style="text-decoration: underline; padding-left: 15px;">OTHERS</a></li>
 
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted '. $UnSubmitted , ['controller' => 'Applications', 'action' => 'index', 'status' => 'UnSubmitted', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Archived') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Archived '. $Archived , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Archived', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Suspended') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Suspended'. $Suspended , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Suspended', 'prefix' => $prefix], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
     </li>    

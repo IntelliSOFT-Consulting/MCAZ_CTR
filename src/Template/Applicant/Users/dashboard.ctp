@@ -48,7 +48,7 @@
             foreach ($applications as $application): ?>
           <li><?php 
                       if($application->submitted == 2) {
-                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$application->protocol_no.' <small class="muted">'.$application->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
+                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$application->protocol_no.' <small class="muted">'.$application->approved.'-'.$application->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
                       } else {
                         echo $i++.'. '.$this->Html->link(
                           (!empty($application['public_title'])   ? $application['public_title'] : date('d-m-Y h:i a', strtotime($application['created'])) )
