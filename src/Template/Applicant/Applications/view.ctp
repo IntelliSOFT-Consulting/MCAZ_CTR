@@ -33,7 +33,7 @@
     <?php } ?>
       <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
       <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
-      <?php if($application->approved === 'Declined') { ?>    
+      <?php if($application->approved === 'Declined' || $application->approved === 'Suspended') { ?>    
       <li role="presentation"><a href="#appeals" aria-controls="appeals" role="tab" data-toggle="tab"><b>Appeals</b></a></li> 
       <?php } ?> 
       <?php if($application->approved === 'Authorize') { ?>    
@@ -101,7 +101,7 @@
     <div role="tabpanel" class="tab-pane" id="approvals">
         <?= $this->element('applications/applicant_approvals') ?>
     </div>
-    <?php if($application->approved === 'Declined') { ?>    
+    <?php if($application->approved === 'Declined' || $application->approved === 'Suspended') { ?>    
     <div role="tabpanel" class="tab-pane" id="appeals">
         <?= $this->element('applications/applicant_appeals') ?>
     </div>
