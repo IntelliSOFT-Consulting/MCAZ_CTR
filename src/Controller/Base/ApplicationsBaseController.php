@@ -1035,7 +1035,7 @@ class ApplicationsBaseController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $query = $this->Applications->query();
         $query->update()
-                    ->set(['approved' => 'Approved', 'Status' => 'DirectorAuthorize', 'approved_date' => date("Y-m-d")])
+                    ->set(['approved' => 'Authorize', 'Status' => 'DirectorAuthorize', 'approved_date' => date("Y-m-d")])
                     ->where(['id' => $application->id])
                     ->execute();
 
