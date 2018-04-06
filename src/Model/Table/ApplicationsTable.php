@@ -591,6 +591,36 @@ class ApplicationsTable extends Table
                 }
             ]);
 
+        $validator
+            ->add('applicant_signed_declaration', 'checklist-signed-declaration', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return '12. Checklist: Please upload the Signed declaration(s) by investigator(s) to comply with GCP.';
+                }
+            ]);
+
+        $validator
+            ->add('applicant_monitoring_plans', 'checklist-monitoring-plans', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return '12. Checklist: Please upload the Monitoring plan by sponsor/PI/monitor throughout study.';
+                }
+            ]);
+
+        $validator
+            ->add('applicant_pi_declaration', 'checklist-pi-declaration', [
+                'rule' => function ($data, $provider) {
+                    if ($data > 0) {
+                        return true;
+                    }
+                    return '12. Checklist: Please upload the Signed Declaration by sponsor and national PI to comply with GCP.';
+                }
+            ]);
+
         return $validator;
     }
 

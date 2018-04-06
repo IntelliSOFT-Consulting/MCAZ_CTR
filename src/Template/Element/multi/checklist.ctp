@@ -237,7 +237,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_signed_declaration', 
-                      ['type' => 'checkbox', 'label' => 'Signed declaration(s) by investigator(s) to comply with GCP '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Signed declaration(s) by investigator(s) to comply with GCP <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="declarations" class="checkcontrols" title="declarations">
@@ -297,7 +297,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_monitoring_plans', 
-                      ['type' => 'checkbox', 'label' => 'Monitoring plan by sponsor/PI/monitor throughout study '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Monitoring plan by sponsor/PI/monitor throughout study <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="monitoring_plans" class="checkcontrols" title="monitoring_plans">
@@ -327,7 +327,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
     <div class="checkcontrols">
       <?php
           echo $this->Form->control('applicant_pi_declaration', 
-                      ['type' => 'checkbox', 'label' => 'Signed Declaration by sponsor and national PI to comply with GCP  '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Signed Declaration by sponsor and national PI to comply with GCP <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="pi_declarations" class="checkcontrols" title="pi_declarations">

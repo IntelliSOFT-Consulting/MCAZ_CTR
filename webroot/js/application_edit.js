@@ -23,6 +23,7 @@
 
     $( ".datepickers" ).datepicker({
       minDate:"-100Y", maxDate:"-0D", dateFormat:'dd-mm-yy', showButtonPanel:true, changeMonth:true, changeYear:true,
+            yearRange: "-100Y:+0",
       buttonImageOnly:true, showAnim:'show', showOn:'both', buttonImage:'/img/calendar.gif'
     });
     

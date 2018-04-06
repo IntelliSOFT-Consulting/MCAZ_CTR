@@ -53,7 +53,7 @@
                         <?php } } ?>
                   </div> 
 
-
+              <?php if($application->approved === 'DirectorAuthorize' || $application->approved === 'Authorize') { ?>
                   <div class="form-group">
                     <label class="control-label">Indemnity Forms</label>
                     <?php 
@@ -99,6 +99,7 @@
                   <?php 
                     } 
                   ?>
+              <?php } ?>
                 <!-- </form>   -->                
                 <?php echo $this->Form->end() ?>
                 <br>
