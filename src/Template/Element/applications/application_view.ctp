@@ -1737,7 +1737,7 @@
                </tr>
              <?php   } } ?>
            <tr>
-             <td colspan="2"><label>If NO attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label></td>
+             <td colspan="2"><label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label></td>
            </tr>
            <tr>
              <td colspan="2">
