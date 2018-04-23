@@ -71,6 +71,15 @@ class SitesController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+    public function calendar()
+    {
+        $site = $this->Sites->find('all', [
+            'conditions' => ['Sites.description LIKE' => '%calendar%'],
+            'fields' => ['id']
+        ])->first();
+        
+        return $this->redirect(['action' => 'edit', $site->id]);
+    }
     public function edit($id = null)
     {
         $site = $this->Sites->get($id, [
