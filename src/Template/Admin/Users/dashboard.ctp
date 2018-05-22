@@ -51,6 +51,16 @@
           ?>
         </li>
       </ul>
+      <h2><img alt="" src="/img/logs.png" style="width: 35px;">&nbsp; 
+        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> Logs</a></h2>
+      <p>Manage logs</p>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp; System Logs', ['controller' => 'Logs', 'action' => 'index', 'prefix' => $prefix, 'plugin' => 'DatabaseLog'], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
+      </ul>  
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
       <h2><img alt="" src="/img/box_content.ico" style="width: 35px;">&nbsp;<!-- <i class="fa fa-briefcase" aria-hidden="true"></i>  -->

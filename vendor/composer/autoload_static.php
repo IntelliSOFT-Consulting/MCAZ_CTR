@@ -76,6 +76,8 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             'DebugKit\\Test\\Fixture\\' => 22,
             'DebugKit\\' => 9,
+            'DatabaseLog\\Test\\Fixture\\' => 25,
+            'DatabaseLog\\' => 12,
         ),
         'C' => 
         array (
@@ -234,6 +236,14 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'DebugKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/src',
+        ),
+        'DatabaseLog\\Test\\Fixture\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dereuromark/cakephp-databaselog/tests/Fixture',
+        ),
+        'DatabaseLog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dereuromark/cakephp-databaselog/src',
         ),
         'CsvView\\' => 
         array (

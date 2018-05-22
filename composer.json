@@ -21,7 +21,8 @@
         "pgbi/cakephp3-soft-delete": "~1.0",
         "friendsofcake/search": "^4.2",
         "dereuromark/cakephp-captcha": "^0.1.0",
-        "friendsofcake/cakephp-csvview": "~3.0"
+        "friendsofcake/cakephp-csvview": "~3.0",
+        "dereuromark/cakephp-databaselog": "^2.4"
     },
     "require-dev": {
         "psy/psysh": "@stable",

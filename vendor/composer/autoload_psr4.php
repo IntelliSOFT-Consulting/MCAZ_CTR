@@ -37,6 +37,8 @@ return array(
     'Josegonzalez\\Upload\\' => array($vendorDir . '/josegonzalez/cakephp-upload/src'),
     'DebugKit\\Test\\Fixture\\' => array($vendorDir . '/cakephp/debug_kit/tests/Fixture'),
     'DebugKit\\' => array($vendorDir . '/cakephp/debug_kit/src'),
+    'DatabaseLog\\Test\\Fixture\\' => array($vendorDir . '/dereuromark/cakephp-databaselog/tests/Fixture'),
+    'DatabaseLog\\' => array($vendorDir . '/dereuromark/cakephp-databaselog/src'),
     'CsvView\\' => array($vendorDir . '/friendsofcake/cakephp-csvview/src'),
     'Crud\\' => array($vendorDir . '/friendsofcake/crud/src'),
     'Composer\\Spdx\\' => array($vendorDir . '/composer/spdx-licenses/src'),

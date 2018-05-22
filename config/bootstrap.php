@@ -261,3 +261,5 @@ Plugin::load('Search');
 Plugin::load('CsvView');
 
 Plugin::load('Captcha', ['bootstrap' => true, 'routes' => true]);
+
+Plugin::load('DatabaseLog', ['bootstrap' => true, 'routes' => true]);

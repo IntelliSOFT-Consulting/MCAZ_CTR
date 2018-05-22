@@ -3088,5 +3088,67 @@
             "cakephp3",
             "search"
         ]
+    },
+    {
+        "name": "dereuromark/cakephp-databaselog",
+        "version": "2.4.0",
+        "version_normalized": "2.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dereuromark/CakePHP-DatabaseLog.git",
+            "reference": "1e408a96dadda6d9a1a7c45f229b7274d43b38ec"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dereuromark/CakePHP-DatabaseLog/zipball/1e408a96dadda6d9a1a7c45f229b7274d43b38ec",
+            "reference": "1e408a96dadda6d9a1a7c45f229b7274d43b38ec",
+            "shasum": ""
+        },
+        "require": {
+            "cakephp/cakephp": "^3.5",
+            "php": ">=5.6"
+        },
+        "require-dev": {
+            "dereuromark/cakephp-tools": "dev-master",
+            "fig-r/psr2r-sniffer": "dev-master"
+        },
+        "time": "2018-04-19T16:07:49+00:00",
+        "type": "cakephp-plugin",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "DatabaseLog\\": "src/",
+                "DatabaseLog\\Test\\Fixture\\": "tests/Fixture/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mark Scherer",
+                "homepage": "http://www.dereuromark.de",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Nick Baker",
+                "homepage": "http://www.webtechnick.com",
+                "role": "Original author"
+            },
+            {
+                "name": "Other contributors",
+                "homepage": "https://github.com/dereuromark/CakePHP-DatabaseLog/graphs/contributors"
+            }
+        ],
+        "description": "CakePHP DatabaseLog Plugin",
+        "homepage": "https://github.com/dereuromark/CakePHP-DatabaseLog/",
+        "keywords": [
+            "cakephp",
+            "database",
+            "logging",
+            "logs",
+            "plugin"
+        ]
     }
 ]

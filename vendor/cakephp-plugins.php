@@ -10,6 +10,7 @@ return [
         'Captcha' => $baseDir . '/vendor/dereuromark/cakephp-captcha/',
         'Crud' => $baseDir . '/vendor/friendsofcake/crud/',
         'CsvView' => $baseDir . '/vendor/friendsofcake/cakephp-csvview/',
+        'DatabaseLog' => $baseDir . '/vendor/dereuromark/cakephp-databaselog/',
         'DebugKit' => $baseDir . '/vendor/cakephp/debug_kit/',
         'Josegonzalez/Upload' => $baseDir . '/vendor/josegonzalez/cakephp-upload/',
         'Migrations' => $baseDir . '/vendor/cakephp/migrations/',

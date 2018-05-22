@@ -98,22 +98,22 @@
 
     <?php } ?>   
     <li class="<?=  ($this->request->params['controller'] === 'Reports') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?>
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && ($this->request->params['controller'] === 'Reports')) { ?>
           <ul class="nav van-<?= $prefix ?>">
-            <li class="<?= ($this->request->params['action'] == 'protocolsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Year ', ['controller' => 'Reports', 'action' => 'protocolsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'protocolsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Year ', ['controller' => 'Reports', 'action' => 'protocolsPerYear', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
-            <li class="<?= ($this->request->params['action'] == 'protocolsPerPhase') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Phase ', ['controller' => 'Reports', 'action' => 'protocolsPerPhase', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'protocolsPerPhase') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Protocols Per Phase ', ['controller' => 'Reports', 'action' => 'protocolsPerPhase', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
-            <li class="<?= ($this->request->params['action'] == 'researchArea') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Research Area', ['controller' => 'Reports', 'action' => 'researchArea', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'researchArea') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Research Area', ['controller' => 'Reports', 'action' => 'researchArea', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
-            <li class="<?= ($this->request->params['action'] == 'timelinesForReview') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Timelines for Review', ['controller' => 'Reports', 'action' => 'timelinesForReview', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'timelinesForReview') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Timelines for Review', ['controller' => 'Reports', 'action' => 'timelinesForReview', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
-            <li class="<?= ($this->request->params['action'] == 'processingStatus') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Processing Status', ['controller' => 'Reports', 'action' => 'processingStatus', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'processingStatus') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Processing Status', ['controller' => 'Reports', 'action' => 'processingStatus', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
-            <li class="<?= ($this->request->params['action'] == 'amendmentsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Amendments Per Year', ['controller' => 'Reports', 'action' => 'amendmentsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'amendmentsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Amendments Per Year', ['controller' => 'Reports', 'action' => 'amendmentsPerYear', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
-            <li class="<?= ($this->request->params['action'] == 'notificationsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Notifications Per Year', ['controller' => 'Reports', 'action' => 'notificationsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'notificationsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Notifications Per Year', ['controller' => 'Reports', 'action' => 'notificationsPerYear', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
           </ul>
         <?php } ?>
@@ -137,11 +137,16 @@
             echo $this->Html->link('<i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp; STAGES', ['controller' => 'Stages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
     </li>
+    <li class="<?=  ($this->request->params['controller'] == 'Logs') ? 'active' : ''; ?>">
+      <?php
+        echo $this->Html->link('<i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp; SYSTEM LOGS', ['controller' => 'Logs', 'action' => 'index', 'prefix' => $prefix, 'plugin' => 'DatabaseLog'], array('escape' => false, 'class' => 'btn-zangu')); 
+      ?>
+    </li>
     <?php }; ?>
     <li class="<?=  ($this->request->params['controller'] == 'Pages') ? 'active' : ''; ?>">
         <?php
           echo $this->Html->link('<i class="fa fa-calendar"></i> COMMITTEE DATES',
-            array('controller' => 'Pages', 'action'=>'calendar', 'prefix' => false ), array('escape' => false ));
+            array('controller' => 'Pages', 'action'=>'calendar', 'prefix' => false, 'plugin' => false  ), array('escape' => false ));
         ?>
         <?php if (($prefix != 'applicant' || $prefix != 'director_general') && ($this->request->params['action'] === 'calendar') or 
                 in_array('calendar', $this->request->getParam('pass'))) { ?>
