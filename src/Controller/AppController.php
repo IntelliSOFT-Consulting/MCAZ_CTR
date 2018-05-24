@@ -116,7 +116,8 @@ class AppController extends Controller
             'unauthorizedRedirect' => [
                 'controller' => 'pages',
                 'action' => 'home',
-                'prefix' => false
+                'prefix' => false,
+                'plugin' => false
             ],
             'authError' => 'You are not authorized to access that location.',
             'loginError' => 'You are not authorized to access that location.',

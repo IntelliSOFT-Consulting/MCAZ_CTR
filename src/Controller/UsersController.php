@@ -38,19 +38,19 @@ class UsersController extends AppController
 
     public function dashboard() {
         if ($this->request->session()->read('Auth.User.group_id') == 1) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 2) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 3) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 4) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 5) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'finance']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'finance', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 6) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'external_evaluator']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'external_evaluator', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 7) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'director_general']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'director_general', 'plugin' => false]);
         }
     }
 
@@ -93,19 +93,19 @@ class UsersController extends AppController
                     return $this->redirect($this->Auth->redirectUrl());           
                 } else {
                     if ($user['group_id'] == 1) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin', 'plugin' => false]);
                     } elseif ($user['group_id'] == 2) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager', 'plugin' => false]);
                     } elseif ($user['group_id'] == 3) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
                     } elseif ($user['group_id'] == 4) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant', 'plugin' => false]);
                     } elseif ($user['group_id'] == 5) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'finance']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'finance', 'plugin' => false]);
                     } elseif ($user['group_id'] == 6) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'external_evaluator']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'external_evaluator', 'plugin' => false]);
                     } elseif ($user['group_id'] == 7) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'director_general']);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'director_general', 'plugin' => false]);
                     } 
                 }  
                 return $this->redirect($this->Auth->redirectUrl());            
