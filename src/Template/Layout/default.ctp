@@ -85,7 +85,7 @@ $cakeDescription = 'MCAZ CTR:';
           <?php if($this->request->session()->read('Auth.User')) { 
               echo $this->Html->link(
                   $this->Html->image("mcaz_logo.png", ["alt" => "Medicines Control Authourity of Zimbabwe"]),
-                   ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix],
+                   ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix, 'plugin' => false],
                    ['escape' => false, 'class' => "navbar-brand"]
               );
             ?>
@@ -101,29 +101,29 @@ $cakeDescription = 'MCAZ CTR:';
         <li class="<?php echo $this->fetch('Login') ?>">
                 <?php
                     if($this->request->session()->read('Auth.User')) {
-                        echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix) , 
+                        echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix, 'plugin' => false) , 
                           array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-home"></i> Home',
-                            array('controller' => 'Pages', 'action' =>  'home', 'prefix' => $prefix) , array('escape' => false));
+                            array('controller' => 'Pages', 'action' =>  'home', 'prefix' => $prefix, 'plugin' => false) , array('escape' => false));
                     }
                 ?>
         </li>
         <li class="<?php echo $this->fetch('News') ?>">
             <?= $this->Html->link('<i class="fa fa-bullhorn"></i> News', 
-                ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false, 'plugin' => false] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Faqs') ?>">
             <?= $this->Html->link('<i class="fa fa-question-circle"></i> FAQs', 
-                ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false, 'plugin' => false] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Reports') ?>">
             <?= $this->Html->link('<i class="fa fa-bar-chart"></i> Reports', 
-                ['controller' => 'Reports', 'action' =>  'publicReports', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Reports', 'action' =>  'publicReports', 'prefix' => false, 'plugin' => false] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Contactus') ?>">
             <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Feedback', 
-                ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false, 'plugin' => false] , ['escape' => false]); ?>
         </li>
       </ul>
 
@@ -133,10 +133,10 @@ $cakeDescription = 'MCAZ CTR:';
                     //if($this->Session->read('Auth.User')) {
                     if($this->request->session()->read('Auth.User')) {
                         echo $this->Html->link('<i class="fa fa-user-circle"></i> '.$this->request->session()->read('Auth.User.email'),
-                            array('controller' => 'users', 'action' => 'profile', 'prefix' => false) , array('escape' => false));                    
+                            array('controller' => 'users', 'action' => 'profile', 'prefix' => false, 'plugin' => false) , array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-sign-in"></i> Login',
-                            array('controller' => 'users', 'action' =>  'login', 'prefix' => false) , array('escape' => false));
+                            array('controller' => 'users', 'action' =>  'login', 'prefix' => false, 'plugin' => false) , array('escape' => false));
                     }
                 ?>
             </li>
@@ -144,14 +144,14 @@ $cakeDescription = 'MCAZ CTR:';
                 <li role="presentation">
                 <?php
                         echo $this->Html->link('<i class="fa fa-sign-out"></i> Logout',
-                        array('controller' => 'users', 'action' => 'logout',  'prefix' => false) , array('escape' => false));
+                        array('controller' => 'users', 'action' => 'logout',  'prefix' => false, 'plugin' => false) , array('escape' => false));
                 ?>
                 </li>
             <?php } else { ?>
                 <li class="<?php echo $this->fetch('Register') ?>">
                 <?php
                         echo $this->Html->link('<i class="fa fa-edit"></i> Register',
-                        array('controller' => 'users', 'action' => 'register', 'prefix' => false) , array('escape' => false));
+                        array('controller' => 'users', 'action' => 'register', 'prefix' => false, 'plugin' => false) , array('escape' => false));
                 ?>
                 </li>
             <?php } ?>
