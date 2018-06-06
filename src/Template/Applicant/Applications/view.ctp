@@ -38,6 +38,7 @@
       <?php } ?> 
       <?php if($application->approved === 'Authorize') { ?>    
       <li role="presentation"><a href="#finals" aria-controls="finals" role="tab" data-toggle="tab"><b>Final Reports</b></a></li> 
+      <li role="presentation"><a href="#annual_approvals" aria-controls="annual_approvals" role="tab" data-toggle="tab"><b>Annual Approvals</b></a></li> 
       <?php } ?>  
   </ul>
 </div>
@@ -109,6 +110,9 @@
     <?php if($application->approved === 'Authorize') { ?>    
     <div role="tabpanel" class="tab-pane" id="finals">
         <?= $this->element('applications/applicant_final') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="annual_approvals">
+        <?= $this->element('applications/applicant_annual_approval') ?>
     </div>
     <?php } ?>  
   </div>

@@ -12,5 +12,6 @@
     <ul>
       <li><a href="#tabs-16">14. Financials</a></li>
       <li><a href="#tabs-17">15. Finance Approvals</a></li>
+      <li><a href="#tabs-18">16. Finance Annual Approvals</a></li>
     </ul>
 <?php $this->end(); ?>

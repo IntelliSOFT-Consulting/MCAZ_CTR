@@ -954,6 +954,100 @@ class ApplicationsController extends AppController
         return $this->redirect($this->referer());
     }
 
+    /*   Add the final Report for the protocol
+     *   Adious
+    */
+
+    public function addAnnualApproval($id = null) {
+        $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
+
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
+                        ['validate' => true,
+                            'associated' => [
+                                'AnnualApprovals' => ['validate' => true],
+                                'AnnualApprovals.Attachments'
+                            ]
+                     ]);
+
+
+            /**
+             * Annual Approvals 
+             * Ensure receipts are attached before submit
+             * 
+             */
+            // debug($application);
+            // return;
+            
+            if ($this->Applications->save($application)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                array_push($filt, 1);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+
+                $this->loadModel('Queue.QueuedJobs'); 
+
+                //Notify finance user(s)
+                $fins = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 5]);
+                foreach ($fins as $fin) {
+                    $data = [
+                            'email_address' => $fin->email, 'user_id' => $fin->id,
+                            'type' => 'finance_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['name'] = $fin->name;                
+                    $data['vars']['approved_date'] = $this->request->getData('annual_approvals.100.approved_date');
+                    $data['vars']['user_message'] = $this->request->getData('annual_approvals.100.applicant_review_comment');
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'finance_annual_approval_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+ 
+                foreach ($managers as $manager) {
+                    //Notify managers  
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');  
+                    $data['vars']['user_message'] = $this->request->getData('annual_approvals.100.applicant_review_comment');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_annual_approval_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+
+                //Notify Applicant 
+                $applicant = $this->Applications->Users->get($application->user_id);
+                $data = [
+                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $applicant->name;                
+                $data['vars']['approved_date'] = $this->request->getData('annual_approvals.100.approved_date');
+                $data['vars']['user_message'] = $this->request->getData('annual_approvals.100.applicant_review_comment');
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_annual_approval_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                
+                $this->Flash->success('Successful submit annual approval for '.$application->protocol_no.'.');
+
+                return $this->redirect($this->referer());
+            } 
+            $this->Flash->error('Unable to submit annual approval. Please, try again. <br>'.implode('<br>', Hash::flatten($application->errors())),
+                                ['escape' => false]); 
+            // debug($application->errors());
+            // return;
+            return $this->redirect($this->referer());
+        } 
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        return $this->redirect($this->referer());
+    }
+
     /**
      * Delete method
      *
@@ -1151,6 +1245,50 @@ class ApplicationsController extends AppController
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_appeal_'.$id.'.pdf' : 'application_appeal_'.$id.'.pdf'
+                ]
+            ]);
+        }
+    }
+    public function finals($id = null, $scope = null) {
+        if($scope === 'All') {
+            $final_stages = $this->Applications->FinalStages->findByApplicationId($id)->contain(['Users', 'Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $final_stage = $this->Applications->FinalStages
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+            $application = $final_stage->application;
+            $final_stages[] = $final_stage;
+        }
+        $this->set(compact('final_stages', 'application'));
+        $this->set('_serialize', ['final_stages', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_final_stage_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                ]
+            ]);
+        }
+    }
+    public function annualApprovals($id = null, $scope = null) {
+        if($scope === 'All') {
+            $annual_approvals = $this->Applications->AnnualApprovals->findByApplicationId($id)->contain(['Users']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $annual_approval = $this->Applications->AnnualApprovals
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+            $application = $annual_approval->application;
+            $annual_approvals[] = $annual_approval;
+        }
+        $this->set(compact('annual_approvals', 'application'));
+        $this->set('_serialize', ['annual_approvals', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_gcp_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
                 ]
             ]);
         }

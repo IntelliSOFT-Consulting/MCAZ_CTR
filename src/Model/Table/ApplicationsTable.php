@@ -116,6 +116,9 @@ class ApplicationsTable extends Table
         $this->hasMany('FinalStages', [
             'foreignKey' => 'application_id'
         ]); 
+        $this->hasMany('AnnualApprovals', [
+            'foreignKey' => 'application_id'
+        ]); 
         $this->hasMany('Appeals', [
             'foreignKey' => 'application_id'
         ]); 
