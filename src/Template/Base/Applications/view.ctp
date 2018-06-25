@@ -133,7 +133,10 @@
         <?= $this->element('applications/gcp') ?>
     </div>
     <!-- only visible in final stage 11   -->
-      <?php if($application->approved === 'Authorize') { ?>    
+      <?php if($application->approved === 'Authorize') { ?> 
+        <div role="tabpanel" class="tab-pane" id="sites">
+            <?= $this->element('applications/sites') ?>
+        </div> 
         <div role="tabpanel" class="tab-pane" id="final">
             <?= $this->element('applications/final') ?>
         </div> 
@@ -172,6 +175,7 @@
       <?php } ?> 
 
       <?php if($application->approved === 'Authorize') { ?>
+      <li role="presentation"><a href="#sites" aria-controls="sites" role="tab" data-toggle="tab"><b>Sites Management</b></a></li> 
       <li role="presentation"><a href="#final" aria-controls="final" role="tab" data-toggle="tab"><b>Final Stage</b></a></li> 
       <?php } ?>       
     <?php } ?>       
