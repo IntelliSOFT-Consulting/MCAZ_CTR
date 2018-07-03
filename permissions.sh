@@ -2,7 +2,7 @@ echo "
 	Tasks:
 	1. Clear cache
 	2. Assign permissions to users based on Groups
-	3. Grant permissions to folders
+	#3. Grant permissions to folders
 "
 bin/cake acl_extras aco_sync
 bin/cake cache clear_all
@@ -77,4 +77,4 @@ bin/cake acl grant Groups.7 controllers/Users/edit
 bin/cake acl grant Groups.7 controllers/Attachments/download
 bin/cake acl grant Groups.7 controllers/Notifications/delete
 
-sudo chmod -R 777 .
+#sudo chmod -R 777 .

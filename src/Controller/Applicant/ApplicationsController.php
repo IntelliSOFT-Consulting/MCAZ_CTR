@@ -1288,7 +1288,7 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_gcp_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_annual_approval_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
                 ]
             ]);
         }

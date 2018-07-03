@@ -1,5 +1,6 @@
-
-<?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> Edit content', ['controller' => 'Sites', 'action' => 'calendar', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn btn-success')); ?> &nbsp;
+<?php
+	if($this->request->session()->read('Auth.User.group_id') != 4) echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> Edit content', ['controller' => 'Sites', 'action' => 'calendar', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn btn-success')); 
+?> &nbsp;
 <hr>
 
 <?php

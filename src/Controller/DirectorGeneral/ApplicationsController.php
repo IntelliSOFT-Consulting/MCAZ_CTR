@@ -134,7 +134,7 @@ class ApplicationsController extends ApplicationsBaseController
     public function removeDgReview($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->DgReviews->get($id);
-        if ($this->Auth->user('group_id') == $review->user_id && $this->Applications->DgReviews->delete($review)) {
+        if ($this->Applications->DgReviews->delete($review)) {
             $this->Flash->success(__('The dg review has been removed.'));
         } else {
             $this->Flash->error(__('The dg review could not be removed. Please, try again.'));

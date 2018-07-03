@@ -749,6 +749,14 @@ class ApplicationsBaseController extends AppController
         return $this->redirect($this->redirect($this->referer()));
     }
 
+    public function removeDgReview($id = null) {
+
+        $this->Flash->warning(__('Kindly log in as DG to remove this decision.'));
+
+
+        return $this->redirect($this->redirect($this->referer()));
+    }
+
     public function finance($id = null, $scope = null) {
         if($scope === 'All') {
             $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id)->contain(['Attachments']);
@@ -981,6 +989,30 @@ class ApplicationsBaseController extends AppController
             $this->render('/Base/Applications/pdf/finals');
         }
     }
+    public function annualApprovals($id = null, $scope = null) {
+        if($scope === 'All') {
+            $annual_approvals = $this->Applications->AnnualApprovals->findByApplicationId($id)->contain(['Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $annualApprovals = $this->Applications->AnnualApprovals
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Attachments']]);            
+            $application = $annualApprovals->application;
+            $annual_approvals[] = $annualApprovals;
+        }
+        $this->set(compact('annual_approvals', 'application'));
+        $this->set('_serialize', ['annual_approvals', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_annual_approval_'.$id.'.pdf' : 'application_finance_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/AnnualApprovals/pdf/view');
+        }
+    }
+
     public function stages($id = null) {
         $application = $this->Applications->get($id, ['contain' => $this->_contain]);
         $this->set(compact( 'application'));
