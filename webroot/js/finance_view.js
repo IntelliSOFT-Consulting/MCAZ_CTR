@@ -38,7 +38,7 @@
       }
     });
 
-    $('#finance-approvals-100-outcome-date').datepicker({
+    $('#finance-approvals-100-outcome-date, #finance-annual-approvals-100-outcome-date').datepicker({
         minDate:"-100Y", maxDate:"-0D", 
         dateFormat:'dd-mm-yy', 
         showButtonPanel:true, 

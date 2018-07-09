@@ -155,6 +155,48 @@
               
             </div>
             <?php } ?>
+
+            <?php echo $this->element('applications/finance_annual'); ?>
+
+         <?php 
+          echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'finance-annual-approval']]);
+           ?>
+            <div class="row">
+              <div class="col-xs-12"><h4 class="text-center text-warning">Finance Report</h4></div>
+              <div class="col-xs-12">
+              <?php
+                    echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('finance_annual_approvals.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('finance_annual_approvals.100.internal_comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Internal MCAZ Comments']);
+                    echo $this->Form->control('finance_annual_approvals.100.public_comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Applicant Visible Comments']);
+                    
+                    echo $this->Form->control('finance_annual_approvals.100.outcome', ['type' => 'radio', 
+                               'label' => '<b>Decision/Outcome</b>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Fees Complete' => 'Fees Complete', 
+                                  'Incomplete Fees' => 'Incomplete Fees', 
+                                  'Request info' => 'Request info', 
+                                  'Declined' => 'Declined']]);
+                    echo $this->Form->control('finance_annual_approvals.100.outcome_date', ['type' => 'text', 'escape' => false, 
+                      'templates' => [
+                      'label' => '<div class="col-xs-4 control-label"><label {{attrs}}>{{text}}</label></div>',
+                      'input' => '<div class="col-xs-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',], 
+                      'label' => 'Outcome Date']);
+
+              ?>
+              </div>          
+            </div>
+
+            <div class="form-group"> 
+                  <div class="col-sm-offset-4 col-sm-8"> 
+                    <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
+                  </div> 
+            </div>
+            <?php          
+            echo $this->Form->end(); 
+            ?>
+
           </div>
         </div>
       </div>
