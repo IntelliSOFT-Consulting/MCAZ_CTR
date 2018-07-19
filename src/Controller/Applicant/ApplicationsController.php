@@ -53,7 +53,8 @@ class ApplicationsController extends AppController
             ->leftJoinWith('Medicines')
             // You can add extra things to the query if you need to
             ->where([['report_type' => 'Initial', 'user_id' => $this->Auth->user('id'),
-                      'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
+                      //'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not'
+                     ]])
             ->distinct();
 
         if ($this->request->params['_ext'] === 'csv') {

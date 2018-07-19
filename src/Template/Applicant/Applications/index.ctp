@@ -42,8 +42,16 @@
             <tr>
                 <td><?= $this->Number->format($application->id) ?></td>
                 <td><?php
-                      echo $this->Html->link((($application->submitted == 2) ? $application->protocol_no : $application->created), ['action' => 'view', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false, 'class' => 'btn-zangu']) ; 
+                     // echo $this->Html->link((($application->submitted == 2) ? $application->protocol_no : $application->created), ['action' => 'view', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false, 'class' => 'btn-zangu']) ; 
+                      if($application->submitted == 2) {
+                        echo $this->Html->link('<span class="text-success">'.$application->protocol_no.' <small class="muted">'.$application->approved.'-'.$application->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
+                      } else {
+                        echo $this->Html->link(
+                          (!empty($application['public_title'])   ? $application['public_title'] : date('d-m-Y h:i a', strtotime($application['created'])) )
+                          .' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'edit', $application->id], ['escape' => false]);
+                      }
                       ?>
+
                   </td>
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>

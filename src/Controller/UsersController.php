@@ -79,7 +79,7 @@ class UsersController extends AppController
             if ($user) {
                 $this->Auth->setUser($user);
 
-                $this->log($user['email'].' logged in at '.date('d-m-Y H:i:s'), 'info');
+                $this->log($user['email'].' logged in at '.date('d-m-Y H:i:s'), 'info', 'dblog');
 
                 if($user['is_active'] == 0) {
                 $this->Flash->error('Your account is not activated! If you have just registered, please click the activation link sent to your email. Remember to check you spam folder too!');
@@ -119,7 +119,7 @@ class UsersController extends AppController
     public function logout() {
         //Leave empty for now.
         $this->Flash->success(__('Good-Bye'));
-        $this->log($this->Auth->user('username').' logged in at '.date('d-m-Y H:i:s'), 'info');
+        $this->log($this->Auth->user('username').' logged out at '.date('d-m-Y H:i:s'), 'info', 'dblog');
         $this->redirect($this->Auth->logout());
     }
 
