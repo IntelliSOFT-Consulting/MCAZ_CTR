@@ -15,12 +15,12 @@
             echo $this->Form->control('other_details_regulatory_notapproved', array(
               'label' => '<h5> 11.3 Name other Regulatory Authorities to
                 which applications to do this trial have been submitted, but approval has not yet been granted. Include date(s)
-                of application: <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 
+                of application: </h5>', 
               'escape' => false, 'templates' => 'textarea_form'
             ));
             echo $this->Form->control('other_details_regulatory_approved', array(
               'label' => '<h5> 11.4 Name other Regulatory Authorities
-                which have approved this trial, date(s) of approval and number of sites per country. <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>', 'escape' => false, 'templates' => 'textarea_form'
+                which have approved this trial, date(s) of approval and number of sites per country. </h5>', 'escape' => false, 'templates' => 'textarea_form'
             ));
             echo $this->Form->control('other_details_regulatory_rejected', array(
               'label' => '<h5> 11.5 if applicable, name other Regulatory Authorities or Ethics Committees which have rejected this trial and give reasons for rejection:</h5>', 'escape' => false , 'templates' => 'textarea_form'

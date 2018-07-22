@@ -134,6 +134,23 @@
               'placeholder' => 'generic name'
             ));
 
+            echo $this->Form->control('product_type_biologicals', 
+                ['type' => 'checkbox', 'label' => 'Biological', 'escape' => false,
+                 'templates' => [
+                  'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                  'inputContainer' => '<div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 control-label"></div>
+                            <div class="col-sm-8 {{required}}">
+                                <div class="checkbox">{{content}}</div>
+                              </div>
+                          </div>
+                      </div>']]
+               );
+            echo $this->Form->control('product_type_biologicals_name', array(
+              'label' => ' ', 'placeholder' => ' '
+            ));
+
             echo $this->Form->control('product_type_medical_device', 
                 ['type' => 'checkbox', 'label' => 'Medical Device', 'escape' => false,
                  'templates' => [
@@ -151,15 +168,7 @@
               'label' => ' ', 'placeholder' => ''
             ));
 
-            echo $this->element('multi/previous_dates'); 
 
-            echo $this->Form->control('approval_date', array(
-              'type' => 'text', 
-              'label' => 'Approval Date of Protocol <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
-              'escape'=> false,
-              'class' => 'datepickers', 'templates' => [
-              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]
-            ));
             echo $this->Form->control('protocol_version', array('escape' => false,
               'label' => 'Protocol Version No. <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'placeholder' => ''
             ));

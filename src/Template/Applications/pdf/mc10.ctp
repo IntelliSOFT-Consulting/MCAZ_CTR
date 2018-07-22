@@ -115,6 +115,20 @@
             <p class="answer"><?= $application['product_type_medical_device_name']?></p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-2 col-xs-offset-1">
+            <p><strong>Biological</strong></p>
+        </div>
+        <div class="col-xs-3">
+            <p class="answer"><?= $application['product_type_biologicals_name']?></p>
+        </div>
+        <div class="col-xs-2">
+            
+        </div>
+        <div class="col-xs-4">
+            
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-xs-1">

@@ -144,7 +144,6 @@ use Cake\ORM\Entity;
  * @property string $organisations_transferred_
  * @property string $number_participants
  * @property string $notification
- * @property \Cake\I18n\FrozenDate $approval_date
  * @property bool $submitted
  * @property bool $deleted
  * @property \Cake\I18n\FrozenTime $deleted_date
@@ -160,7 +159,6 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\InvestigatorContact[] $investigator_contacts
  * @property \App\Model\Entity\Organization[] $organizations
  * @property \App\Model\Entity\Placebo[] $placebos
- * @property \App\Model\Entity\PreviousDate[] $previous_dates
  * @property \App\Model\Entity\Review[] $reviews
  * @property \App\Model\Entity\SiteDetail[] $site_details
  * @property \App\Model\Entity\Sponsor[] $sponsors

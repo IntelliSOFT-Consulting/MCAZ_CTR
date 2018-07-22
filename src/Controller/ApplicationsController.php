@@ -17,8 +17,8 @@ class ApplicationsController extends AppController
     {
         // $this->viewBuilder()->setLayout('vanilla');
         $application = $this->Applications->get($id, [
-            'contain' => ['PreviousDates', 'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',
-                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
+            'contain' => ['InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',
+                          'CoverLetters', 'Protocols', 'Attachments', 'Registrations', 'Policies', 'Details', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms']
         ]);
 
         $this->set('application', $application);

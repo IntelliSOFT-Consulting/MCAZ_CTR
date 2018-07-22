@@ -13,7 +13,6 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\InvestigatorContactsTable|\Cake\ORM\Association\HasMany $InvestigatorContacts
  * @property \App\Model\Table\PlacebosTable|\Cake\ORM\Association\HasMany $Placebos
- * @property \App\Model\Table\PreviousDatesTable|\Cake\ORM\Association\HasMany $PreviousDates
  * @property \App\Model\Table\ReviewsTable|\Cake\ORM\Association\HasMany $Reviews
  * @property \App\Model\Table\SiteDetailsTable|\Cake\ORM\Association\HasMany $SiteDetails
  * @property \App\Model\Table\SponsorsTable|\Cake\ORM\Association\HasMany $Sponsors
@@ -83,9 +82,6 @@ class ApplicationsTable extends Table
         $this->hasMany('Placebos', [
             'foreignKey' => 'application_id'
         ]);
-        $this->hasMany('PreviousDates', [
-            'foreignKey' => 'application_id'
-        ]);
         $this->hasOne('EvaluationHeaders', [
             'foreignKey' => 'application_id'
         ]);
@@ -151,6 +147,12 @@ class ApplicationsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Policies.model' => 'Applications', 'Policies.category' => 'policies'),
+        ]);
+        $this->hasMany('Details', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Details.model' => 'Applications', 'Details.category' => 'details'),
         ]);
         $this->hasMany('Proofs', [
             'className' => 'Attachments',
@@ -505,6 +507,7 @@ class ApplicationsTable extends Table
 
         $validator
             ->scalar('ethic_considerations')
+            ->minLength('ethic_considerations', 7)
             ->notEmpty('ethic_considerations', ['message' => '10. Ethical Considerations: Ethical considerations required']);
 
         /*$validator
@@ -521,11 +524,13 @@ class ApplicationsTable extends Table
 
         $validator
             ->scalar('other_details_regulatory_notapproved')
-            ->notEmpty('other_details_regulatory_notapproved', ['message' => '11. Other details: Name the other regulatory authorities to which applications have been submitted but approval has not been granted']);
+            // ->notEmpty('other_details_regulatory_notapproved', ['message' => '11. Other details: Name the other regulatory authorities to which applications have been submitted but approval has not been granted']);
+            ->allowEmpty('other_details_regulatory_notapproved');
 
         $validator
             ->scalar('other_details_regulatory_approved')
-            ->notEmpty('other_details_regulatory_approved', ['message' => '11. Other details: Name other regulatory authorities which have approved this trial']);
+            // ->notEmpty('other_details_regulatory_approved', ['message' => '11. Other details: Name other regulatory authorities which have approved this trial']);
+            ->allowEmpty('other_details_regulatory_approved');
 
         $validator
             ->scalar('recording_method')
@@ -554,6 +559,16 @@ class ApplicationsTable extends Table
         $validator
             ->scalar('inform_staff')
             ->notEmpty('inform_staff', ['message' => '11. Other details: State how the staff involved are to be informed']);
+
+        $validator
+            ->allowEmpty('insurance_company')
+            ->add('insurance_company', 'ic-or-other', [
+                'rule' => function ($value, $context) {                    
+                    if(!$value && empty($context['data']['other_insurance'])) return false;
+                    if($value && !empty($context['data']['other_insurance'])) return false;
+                    return true;
+            }, 'message' => '10. Provide the company who will insure the participants OR if no insurance company, provide details'
+            ]);
 
         $validator
             ->boolean('applicant_covering_letter')

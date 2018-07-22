@@ -364,6 +364,30 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_chemical_name ?></td>
                </tr>
+             <?php   } } ?>             
+            <tr>
+              <th>           </th>
+              <td><label><?= ($application->product_type_biologicals) ? $checked : $nChecked; ?> Biological</label></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['product_type_biologicals'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->product_type_biologicals ?></td>
+               </tr>
+             <?php   } } ?>
+            <tr>
+              <th>           </th>
+              <td><?= $application->product_type_biologicals_name ?></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['product_type_biologicals_name'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->product_type_biologicals_name ?></td>
+               </tr>
              <?php   } } ?>
             <tr>
               <th>           </th>
@@ -389,34 +413,7 @@
                   <td><?= $amendment->product_type_medical_device_name ?></td>
                </tr>
              <?php   } } ?>
-            <tr>
-              <th>
-                <label>Approval date(s) of previous protocol(s)</label>
-              </th>
-              <td><?php ($application->previous_dates[0]['date_of_previous_protocol']) ?? ''; ?></td>
-            </tr>
-            <?php
-              foreach($application['amendments'] as $key => $amendment) {
-                if($amendment['submitted'] == 2 && !empty($amendment['date_of_previous_protocol'])){      ?>
-               <tr class="amender">
-                  <th><?php echo $key+1; ?></th>
-                  <td><?= $amendment->date_of_previous_protocol ?></td>
-               </tr>
-             <?php   } } ?>
-            <tr>
-              <th>
-                <label>Approval Date of Protocol <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-              </th>
-              <td><?= $application->approval_date ?></td>
-            </tr>
-            <?php
-              foreach($application['amendments'] as $key => $amendment) {
-                if($amendment['submitted'] == 2 && !empty($amendment['approval_date'])){      ?>
-               <tr class="amender">
-                  <th><?php echo $key+1; ?></th>
-                  <td><?= $amendment->approval_date ?></td>
-               </tr>
-             <?php   } } ?>
+            
             <tr>
               <th>
                 <label>Protocol Version No.  <span class="sterix">*</span></label></label>
@@ -1573,7 +1570,7 @@
                </tr>
              <?php   } } ?>
             <tr>
-              <th><label>Number of states anticipated in the trial</label></th>
+              <th><label>Number of countries anticipated in the trial</label></th>
               <td><?= $application->multiple_member_states ?></td>
             </tr> 
             <?php
@@ -1724,8 +1721,12 @@
                   <td><?= $amendment->medicine_therapeutic_effects ?></td>
                </tr>
              <?php   } } ?>
+
+           <tr>
+             <td colspan="2"><label>6.2</label></td>
+           </tr>
             <tr>
-              <th><label>a) Has the medicine been registered in Zimbabwe?</label></th>
+              <th><label>a) Has the medicine been registered in the country of origin?</label></th>
               <td><?= $application->medicine_registered ?></td>
             </tr> 
             <?php
@@ -1836,7 +1837,7 @@
                </tr>
              <?php   } } ?>
             <tr>
-              <th><label>d) Has the medicine registered in any other country?</label></th>
+              <th><label>d) Has the medicine been registered in any other country?</label></th>
               <td><?= $application->registered_other_country ?></td>
             </tr>
             <?php
@@ -2578,6 +2579,28 @@
                </tr>
              <?php   } } ?>
           <tr>
+             <td colspan="2">
+               <?php
+               if (!empty($application['details'])) {
+                    for ($i = 0; $i <= count($application['details'])-1; $i++) { 
+                      echo $this->Html->link($application['details'][$i]->file, substr($application['details'][$i]->dir, 8) . '/' . $application['details'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
+          <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['details'])){
+                for ($i = 0; $i <= count($amendment['details'])-1; $i++) { ?>                
+            <tr class="amender">
+              <th><?php echo $key+1; ?> </th>
+              <td><?= $this->Html->link($amendment['details'][$i]->file, substr($amendment['details'][$i]->dir, 8) . '/' . $amendment['details'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
+            </tr>
+           <?php     
+                } } }
+            ?>
+          <tr>
             <td colspan="2">
               <label>10.2 Ethical Reviews</label>
               <br/>The Ethics review process of the trial record in the primary register database comprises of:<br>              
@@ -2733,7 +2756,7 @@
           <tr>
             <td colspan="2"> <h5> 11.3 Name other Regulatory Authorities to
                 which applications to do this trial have been submitted, but approval has not yet been granted. Include date(s)
-                of application: <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+                of application: </h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_notapproved ?></td>
@@ -2748,7 +2771,7 @@
              <?php   } } ?>
           <tr>
             <td colspan="2"> <h5> 11.4 Name other Regulatory Authorities
-                which have approved this trial, date(s) of approval and number of sites per country. <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5> </td>
+                which have approved this trial, date(s) of approval and number of sites per country. </h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_approved ?></td>

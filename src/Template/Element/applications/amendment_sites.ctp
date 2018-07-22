@@ -26,7 +26,7 @@
               'type' => 'radio',  'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
             ));
             echo $this->Form->control('multiple_member_states', array(
-              'label' => 'Number of states anticipated in the trial'
+              'label' => 'Number of countries anticipated in the trial'
             ));
             echo $this->Form->control('multi_country_list', array(
               'label' => 'If yes above, list the countries'

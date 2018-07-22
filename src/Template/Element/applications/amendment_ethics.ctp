@@ -1,6 +1,4 @@
-
-
-          <?php 
+<?php 
             echo '<label>10.1 Ethical Considerations</label>';
             echo $this->Form->control('ethic_considerations', array(
               'label' => 'State any ethical or moral considerations relating to the trial giving details <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
@@ -55,7 +53,28 @@
               'label' => 'If no insurance company, provide details',
               'escape' => false
             ));
+            ?>
+            <div id="details" class="checkcontrols" title="details"  style="padding-left: 20%;">              
+                <?php
+                echo '<label class="control-label">File Attachments? '.$add_fileinput.'</label>';
+                  // echo $add_fileinput;
+                    if (!empty($application['details'])) {
+                      for ($i = 0; $i <= count($application['details'])-1; $i++) { ?>
+                      <div style="margin-top: 5px; margin-bottom: 5px;">
+                      <?php
+                        echo $this->Html->link($application['details'][$i]->file, substr($application['details'][$i]->dir, 8) . '/' . $application['details'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info']);
+                        echo '&nbsp;<button value="'.$application['details'][$i]->id.'" type="button" class="btn btn-xs btn-danger delete_file_input">
+                          &nbsp;<i class="fa fa-trash"></i>&nbsp;</button>';
+                      ?>
+                    </div>
+                    <?php
+                      }
+                    } 
+                ?>
+              </div>
+              <hr>
 
+            <?php
             echo '<label>10.2 Ethical Reviews</label>
             <br/>The Ethics review process of the trial record in the primary register database comprises of:<br>';
             echo '<label>10.2.1 Status</label>';

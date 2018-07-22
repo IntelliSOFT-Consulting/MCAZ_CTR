@@ -246,7 +246,7 @@
          </tr>
        <?php   } } ?>
       <tr>
-        <th><label>Number of states anticipated in the trial</label></th>
+        <th><label>Number of countries anticipated in the trial</label></th>
         <td><?= $application->multiple_member_states ?></td>
       </tr> 
       <?php

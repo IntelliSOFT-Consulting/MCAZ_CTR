@@ -27,8 +27,9 @@
                'escape' => false 
             ));
 
+            echo '<label>6.2</label>';
             echo $this->Form->control('medicine_registered', array(
-              'label' =>  'a) Has the medicine been registered in Zimbabwe?',
+              'label' =>  'a) Has the medicine been registered in the country of origin?',
               'escape' => false, 
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
@@ -95,7 +96,7 @@
             ));
 
              echo $this->Form->control('registered_other_country', array(
-              'label' =>  'd) Has the medicine registered in any other country?',
+              'label' =>  'd) Has the medicine been registered in any other country?',
               'escape' => false,
               'type' => 'radio',  
               'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
