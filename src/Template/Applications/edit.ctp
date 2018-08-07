@@ -24,8 +24,6 @@
         <li><?= $this->Html->link(__('New Organization'), ['controller' => 'Organizations', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Placebos'), ['controller' => 'Placebos', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Placebo'), ['controller' => 'Placebos', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Previous Dates'), ['controller' => 'PreviousDates', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Previous Date'), ['controller' => 'PreviousDates', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Reviewers'), ['controller' => 'Reviewers', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Reviewer'), ['controller' => 'Reviewers', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Reviews'), ['controller' => 'Reviews', 'action' => 'index']) ?></li>

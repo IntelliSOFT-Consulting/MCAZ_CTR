@@ -160,7 +160,6 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\InvestigatorContact[] $investigator_contacts
  * @property \App\Model\Entity\Organization[] $organizations
  * @property \App\Model\Entity\Placebo[] $placebos
- * @property \App\Model\Entity\PreviousDate[] $previous_dates
  * @property \App\Model\Entity\Reviewer[] $reviewers
  * @property \App\Model\Entity\Review[] $reviews
  * @property \App\Model\Entity\SiteDetail[] $site_details

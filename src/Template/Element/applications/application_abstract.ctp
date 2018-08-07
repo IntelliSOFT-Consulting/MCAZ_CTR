@@ -151,15 +151,7 @@
               'label' => ' ', 'placeholder' => ''
             ));
 
-            echo $this->element('multi/previous_dates'); 
 
-            echo $this->Form->control('approval_date', array(
-              'type' => 'text', 
-              'label' => 'Approval Date of Protocol <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
-              'escape'=> false,
-              'class' => 'datepickers', 'templates' => [
-              'input' => '<div class="col-sm-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]
-            ));
             echo $this->Form->control('protocol_version', array('escape' => false,
               'label' => 'Protocol Version No. <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'placeholder' => ''
             ));

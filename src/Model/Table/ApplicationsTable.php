@@ -13,7 +13,6 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\InvestigatorContactsTable|\Cake\ORM\Association\HasMany $InvestigatorContacts
  * @property \App\Model\Table\PlacebosTable|\Cake\ORM\Association\HasMany $Placebos
- * @property \App\Model\Table\PreviousDatesTable|\Cake\ORM\Association\HasMany $PreviousDates
  * @property \App\Model\Table\ReviewersTable|\Cake\ORM\Association\HasMany $Reviewers
  * @property \App\Model\Table\ReviewsTable|\Cake\ORM\Association\HasMany $Reviews
  * @property \App\Model\Table\SiteDetailsTable|\Cake\ORM\Association\HasMany $SiteDetails
@@ -72,9 +71,7 @@ class ApplicationsTable extends Table
         $this->hasMany('Placebos', [
             'foreignKey' => 'application_id'
         ]);
-        $this->hasMany('PreviousDates', [
-            'foreignKey' => 'application_id'
-        ]);
+        
         $this->hasMany('Reviewers', [
             'foreignKey' => 'application_id'
         ]);
