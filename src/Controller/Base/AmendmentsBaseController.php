@@ -171,12 +171,16 @@ class AmendmentsBaseController extends AppController
              * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
              * 
              */
+            $stage  = $this->Applications->ApplicationStages->newEntity();
+            $stage->stage_id = 5;
+            $stage->stage_date = date("Y-m-d H:i:s");
+            $application->application_stages[] = $stage;
             if($this->request->getData('committee_reviews.100.decision') === 'Approved') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 12;
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
-                $application->application_stages = [$stage1];
+                $application->application_stages[] = $stage1;
                 $application->status = 'FinalStage';
             } else {
                 //If Coming from Stage 7 then stage 5
@@ -186,11 +190,11 @@ class AmendmentsBaseController extends AppController
                 if(in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) {                    
                     $stage1->stage_id = 8;
                     $application->status = 'Presented';
-                    $application->application_stages = [$stage1];
+                    $application->application_stages[] = $stage1;
                 } else {                 
-                    $stage1->stage_id = 5;
+                    // $stage1->stage_id = 5;
                     $application->status = 'Committee';                    
-                    $application->application_stages = [$stage1];
+                    // $application->application_stages = [$stage1];
                 }
             }
 

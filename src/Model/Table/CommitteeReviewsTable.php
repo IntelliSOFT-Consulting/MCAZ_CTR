@@ -59,6 +59,13 @@ class CommitteeReviewsTable extends Table
             'dependent' => true,
             'conditions' => array('Comments.model' => 'CommitteeReviews'),
         ]);
+
+        $this->hasMany('Attachments', [
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'CommitteeReviews'),
+        ]);
     }
 
     /**
