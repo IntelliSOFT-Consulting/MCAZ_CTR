@@ -3,8 +3,19 @@
   $numb = 1;
   $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
   $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
-?>
 
+  if($prefix === 'manager') {
+    $this->Html->css('bootstrap-editable', ['block' => true]);
+    $this->Html->css('bootstrap/common_header', ['block' => true]);
+    $this->Html->script('bootstrap/bootstrap-editable', ['block' => true]);
+    $this->Html->script('bootstrap/evaluation_report', ['block' => true]);
+    //--wysiwyg editor    
+    $this->Html->css('bootstrap/bootstrap-wysihtml5', ['block' => true]);
+    $this->Html->script('bootstrap/wysihtml5-0.3.0', ['block' => true]);
+    $this->Html->script('bootstrap/bootstrap-wysihtml5', ['block' => true]);
+    $this->Html->script('bootstrap/wysihtml5', ['block' => true]);
+  }
+?>
 
       <div class="row">
         <div class="col-xs-12">
@@ -14,7 +25,7 @@
             <a class="btn btn-primary" role="button" data-toggle="collapse" href="#<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" aria-controls="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                Evaluated on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?>
             </a>
-            <p class="topper"><small><em class="text-success">evaluated on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?></em></small></p>
+            <p class="topper"><small><em class="text-success">evaluate on: <?= $evaluation['created'] ?> by <?= $all_evaluators->toArray()[$evaluation->user_id] ?></em></small></p>
         <?php
           if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
           if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id == $this->request->session()->read('Auth.User.id')
@@ -88,6 +99,44 @@
                         </div>
                       </td>
                     </tr>
+                    <!-- comments -->
+
+                    <!-- comments -->
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_recommendations"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_human_biological)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
+                    
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_vulnerable_population"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
                     <tr class="active">
                       <td><?php $numb = 1; ?> </td>
                       <td><strong>Scientific and Technical Issues </strong></td>
@@ -199,6 +248,25 @@
                         </div>
                       </td>
                     </tr>
+
+                    <!-- comments -->
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_scientific_issues"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
 
                     <tr class="active">
                       <td> <?php $numb = 1; ?></td>
@@ -368,6 +436,26 @@
                       </td>
                     </tr>
 
+
+                    <!-- comments -->
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_informed_consent"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
+
                     <tr class="active">
                       <td> <?php $numb = 1; ?> </td>
                       <td><strong>Other materials, documents and study instruments (Patient recruitment materials, Questionnaires) </strong></td>
@@ -496,6 +584,25 @@
                       </td>
                     </tr>
 
+                    <!-- comments -->
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_other_materials"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
+
                     <tr class="active">
                       <td> <?php $numb = 1?> </td>
                       <td><strong>CLINICAL TRIALS/STUDY MEDICINES  </strong></td>
@@ -590,6 +697,25 @@
                         </div>
                       </td>
                     </tr>
+
+                    <!-- comments -->
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_clinical_trials"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
 
                     <tr class="active">
                       <td> <?php $numb = 1?> </td>
@@ -719,6 +845,26 @@
                         </div>
                       </td>
                     </tr>
+
+                    <!-- comments -->
+                    <tr>
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_clinical_trials"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_human_biological)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
+
                     <tr class="active">
                       <td> <?php $numb = 1?> </td>
                       <td><strong>Recommendations </strong></td>

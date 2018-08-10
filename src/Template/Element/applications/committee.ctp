@@ -83,7 +83,7 @@
                                 <p><?= $attachment['description'] ?></p>
                                 <?php } } ?>
                             <?php 
-                              if ($this->request->session()->read('Auth.User.id')) {                                
+                              if ($this->request->session()->read('Auth.User.group_id') == 7) {                                
                                 echo $this->Form->create($committee_review, ['type' => 'file','url' => ['controller' => 'attachments', 'action' => 'add-approval-letter', $committee_review->id], 'class' => 'form-horizontal']); 
                                 echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'secretary', 'escape' => false, 'templates' => 'table_form']);
                                 echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'CommitteeReviews', 'escape' => false, 'templates' => 'table_form']);
