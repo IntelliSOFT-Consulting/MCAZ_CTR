@@ -255,7 +255,8 @@ class ApplicationsBaseController extends AppController
     public function removeReview($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->Evaluations->get($id);
-        if ($this->Auth->user('group_id') == 2 && $this->Applications->Evaluations->delete($review)) {
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
+                 && $this->Applications->Evaluations->delete($review)) {
             $this->Flash->success(__('The review has been removed.'));
         } else {
             $this->Flash->error(__('The review could not be removed. Please, try again.'));
@@ -398,7 +399,7 @@ class ApplicationsBaseController extends AppController
     public function removeCommitteeReview($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->CommitteeReviews->get($id);
-        if ($this->Auth->user('group_id') == 2 //$review->user_id 
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
                 && $this->Applications->CommitteeReviews->delete($review)) {
             $this->Flash->success(__('The committee review has been removed.'));
         } else {
@@ -468,7 +469,7 @@ class ApplicationsBaseController extends AppController
     public function removeSection75Review($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->SeventyFives->get($id);
-        if ($this->Auth->user('group_id') == 2 //$review->user_id 
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
                 && $this->Applications->SeventyFives->delete($review)) {
             $this->Flash->success(__('The section 75 review has been removed.'));
         } else {
@@ -538,7 +539,8 @@ class ApplicationsBaseController extends AppController
     public function removeRequest($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->RequestInfos->get($id);
-        if ($this->Auth->user('group_id') == 2 && $this->Applications->RequestInfos->delete($review)) {
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
+                 && $this->Applications->RequestInfos->delete($review)) {
             $this->Flash->success(__('The request has been removed.'));
         } else {
             $this->Flash->error(__('The request could not be removed. Please, try again.'));
@@ -609,7 +611,8 @@ class ApplicationsBaseController extends AppController
     public function removeGcpInspection($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->GcpInspections->get($id);
-        if ($this->Auth->user('group_id') == 2 && $this->Applications->GcpInspections->delete($review)) {
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
+                 && $this->Applications->GcpInspections->delete($review)) {
             $this->Flash->success(__('The GCP inspection review has been removed.'));
         } else {
             $this->Flash->error(__('The GCP inspection review could not be removed. Please, try again.'));
@@ -785,7 +788,8 @@ class ApplicationsBaseController extends AppController
     public function removeFinalStage($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $review = $this->Applications->FinalStages->get($id);
-        if ($this->Auth->user('group_id') == 2 && $this->Applications->FinalStages->delete($review)) {
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
+                 && $this->Applications->FinalStages->delete($review)) {
             $this->Flash->success(__('The final stage review has been removed.'));
         } else {
             $this->Flash->error(__('The final stage review could not be removed. Please, try again.'));
