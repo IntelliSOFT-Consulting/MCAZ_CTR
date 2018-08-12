@@ -115,7 +115,7 @@ class ApplicationsBaseController extends AppController
         array_push($this->filt, 1);
         
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['OR' => [['group_id IN' => [2, 3, 6]], ['id IN' => $this->filt]]]);
         $internal_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3,
             'id NOT IN' => $this->filt]);
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
