@@ -862,7 +862,7 @@ class ApplicationsBaseController extends AppController
             $application = $evaluator->application;
             $assign_evaluators[] = $evaluator;
         }
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['OR' => [['group_id IN' => [2, 3, 6]], ['id IN' => $this->filt]]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('assign_evaluators', 'application', 'all_evaluators'));
         $this->set('_serialize', ['assign_evaluators', 'application']);
 
@@ -886,7 +886,7 @@ class ApplicationsBaseController extends AppController
             $application = $review->application;
             $evaluations[] = $review;
         }
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['OR' => [['group_id IN' => [2, 3, 6]], ['id IN' => $this->filt]]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('evaluations', 'application', 'all_evaluators'));
         $this->set('_serialize', ['evaluations', 'application']);
 
