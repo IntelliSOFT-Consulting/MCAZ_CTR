@@ -179,17 +179,17 @@ class ApplicationsBaseController extends AppController
                 $this->response->body('Success');
                 $this->response->statusCode(200);
                 $this->set([
-                    'error' => '', 
+                    'success' => 'saved successful', 
                     'message' => $this->request->getData(), 
                     'cReview' => $cReview,
-                    '_serialize' => ['error', 'message', 'cReview']]);
+                    '_serialize' => ['success', 'message', 'cReview']]);
                 return;
 
             } else {
                 $this->response->body('Failure');
                 $this->response->statusCode(401);
                 $this->set([
-                    'message' => 'Unable to save user!!', 
+                    'message' => 'Unable to save comment!!', 
                     '_serialize' => ['message']]);
                 return; 
             }

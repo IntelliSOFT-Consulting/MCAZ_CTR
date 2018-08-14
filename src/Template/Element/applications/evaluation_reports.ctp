@@ -99,28 +99,9 @@
                         </div>
                       </td>
                     </tr>
-                    <!-- comments -->
 
-                    <!-- comments -->
-                    <tr>
-                      <td colspan="3">
-                        <div class="row">
-                          <div class="col-xs-12"> 
-           <div class="evaluation-comments"
-                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
-                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
-                  data-name="comment_recommendations"
-                  data-title="Comments">
-                  <p>
-                  <?php echo (empty($evaluation->comment_human_biological)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
-              </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <!-- end comment -->
-                    
-                    <tr>
+                    <!-- comments -->                    
+                    <tr class="info">
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12"> 
@@ -137,6 +118,7 @@
                       </td>
                     </tr>
                     <!-- end comment -->
+
                     <tr class="active">
                       <td><?php $numb = 1; ?> </td>
                       <td><strong>Scientific and Technical Issues </strong></td>
@@ -250,7 +232,7 @@
                     </tr>
 
                     <!-- comments -->
-                    <tr>
+                    <tr class="info">
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12"> 
@@ -260,7 +242,7 @@
                   data-name="comment_scientific_issues"
                   data-title="Comments">
                   <p>
-                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+                  <?php echo (empty($evaluation->comment_scientific_issues)) ? '<i>manager comments</i>' : $evaluation->comment_scientific_issues ?></p>                    
               </div>
                           </div>
                         </div>
@@ -438,7 +420,7 @@
 
 
                     <!-- comments -->
-                    <tr>
+                    <tr class="info">
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12"> 
@@ -448,7 +430,7 @@
                   data-name="comment_informed_consent"
                   data-title="Comments">
                   <p>
-                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+                  <?php echo (empty($evaluation->comment_informed_consent)) ? '<i>manager comments</i>' : $evaluation->comment_informed_consent ?></p>                    
               </div>
                           </div>
                         </div>
@@ -585,7 +567,7 @@
                     </tr>
 
                     <!-- comments -->
-                    <tr>
+                    <tr class="info">
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12"> 
@@ -595,7 +577,7 @@
                   data-name="comment_other_materials"
                   data-title="Comments">
                   <p>
-                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+                  <?php echo (empty($evaluation->comment_other_materials)) ? '<i>manager comments</i>' : $evaluation->comment_other_materials ?></p>                    
               </div>
                           </div>
                         </div>
@@ -699,7 +681,7 @@
                     </tr>
 
                     <!-- comments -->
-                    <tr>
+                    <tr class="info">
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12"> 
@@ -709,7 +691,7 @@
                   data-name="comment_clinical_trials"
                   data-title="Comments">
                   <p>
-                  <?php echo (empty($evaluation->comment_vulnerable_population)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+                  <?php echo (empty($evaluation->comment_clinical_trials)) ? '<i>manager comments</i>' : $evaluation->comment_clinical_trials ?></p>                    
               </div>
                           </div>
                         </div>
@@ -847,17 +829,17 @@
                     </tr>
 
                     <!-- comments -->
-                    <tr>
+                    <tr class="info">
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12"> 
            <div class="evaluation-comments"
                   data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
                   data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
-                  data-name="comment_clinical_trials"
+                  data-name="comment_human_biological"
                   data-title="Comments">
                   <p>
-                  <?php echo (empty($evaluation->comment_human_biological)) ? '<i>manager comments</i>' : $evaluation->comment_vulnerable_population ?></p>                    
+                  <?php echo (empty($evaluation->comment_human_biological)) ? '<i>manager comments</i>' : $evaluation->comment_human_biological ?></p>                    
               </div>
                           </div>
                         </div>
@@ -898,6 +880,26 @@
                         </div>
                       </td>
                     </tr>
+
+                    <!-- comments -->
+                    <tr class="info">
+                      <td colspan="3">
+                        <div class="row">
+                          <div class="col-xs-12"> 
+           <div class="evaluation-comments"
+                  data-type="wysihtml5" data-pk="<?= $evaluation->id ?>" 
+                  data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluationComment',  'prefix' => 'manager', $evaluation->id, '_ext' => 'json']); ?>" 
+                  data-name="comment_recommendations"
+                  data-title="Comments">
+                  <p>
+                  <?php echo (empty($evaluation->comment_recommendations)) ? '<i>manager comments</i>' : $evaluation->comment_recommendations ?></p>                    
+              </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- end comment -->
+                    
                     <tr>
                       <td colspan="3">
                         <div class="row">
