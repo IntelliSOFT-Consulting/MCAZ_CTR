@@ -316,21 +316,22 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
+        return $this->redirect(['action' => 'profile']);
+        // $user = $this->Users->get($id, [
+        //     'contain' => []
+        // ]);
 
-        //Send registration confirm email
-        $this->loadModel('Queue.QueuedJobs'); 
-        $data = [
-            'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
-            'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
-        ]; 
-        $html = new HtmlHelper(new \Cake\View\View());
-        $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
-        $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
-                                  '_full' => true]);
-        $this->QueuedJobs->createJob('GenericEmail', $data);
+        // //Send registration confirm email
+        // $this->loadModel('Queue.QueuedJobs'); 
+        // $data = [
+        //     'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
+        //     'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
+        // ]; 
+        // $html = new HtmlHelper(new \Cake\View\View());
+        // $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+        // $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
+        //                           '_full' => true]);
+        // $this->QueuedJobs->createJob('GenericEmail', $data);
 
         //
                 // $this->loadModel('Queue.QueuedJobs');
@@ -361,8 +362,8 @@ class UsersController extends AppController
         // Log::write('debug', 'End queue manenos');
         //end
 
-        $this->set('user', $user);
-        $this->set('_serialize', ['user']);
+        // $this->set('user', $user);
+        // $this->set('_serialize', ['user']);
     }
 
     public function profile()
