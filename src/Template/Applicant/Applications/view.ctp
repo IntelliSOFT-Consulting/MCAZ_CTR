@@ -23,16 +23,20 @@
       <?php if($application->approved === 'Authorize') { ?>     
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php } ?>    
+
+      <li role="presentation"><a href="#feedback" aria-controls="feedback" role="tab" data-toggle="tab"><b class="text-success">Feedback</b></a></li>    
+    <?php /* 
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>   
       <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Director General</b></a></li>  
+     */ ?>
       <?php if($application->approved === 'Authorize') { ?>    
       <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
       <?php } ?>    
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>  
     <?php } ?>
       <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
-      <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>  
+      <!-- <li role="presentation"><a href="#approvals" aria-controls="approvals" role="tab" data-toggle="tab"><b class="text-success">Approvals</b></a></li>   -->
       <?php if($application->approved === 'Declined' || $application->approved === 'Suspended') { ?>    
       <li role="presentation"><a href="#appeals" aria-controls="appeals" role="tab" data-toggle="tab"><b>Appeals</b></a></li> 
       <?php } ?> 
@@ -80,6 +84,7 @@
     <div role="tabpanel" class="tab-pane" id="section75">
         <?= $this->element('applications/applicant_section75') ?>
     </div>
+    <?php /* 
     <div role="tabpanel" class="tab-pane" id="request">
         <?= $this->element('applications/applicant_request_info') ?>
     </div>
@@ -88,6 +93,10 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="dg">        
         <?php echo $this->element('applications/applicant_dg') ?>
+    </div>
+     */ ?>
+    <div role="tabpanel" class="tab-pane" id="feedback">
+        <?= $this->element('applications/applicant_feedback') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="notifications">
         <?= $this->element('applications/applicant_notifications') ?>
@@ -99,9 +108,11 @@
     <div role="tabpanel" class="tab-pane" id="stages">
         <?= $this->element('applications/stages') ?>
     </div>
+    <?php /*
     <div role="tabpanel" class="tab-pane" id="approvals">
         <?= $this->element('applications/applicant_approvals') ?>
     </div>
+    */ ?>
     <?php if($application->approved === 'Declined' || $application->approved === 'Suspended') { ?>    
     <div role="tabpanel" class="tab-pane" id="appeals">
         <?= $this->element('applications/applicant_appeals') ?>

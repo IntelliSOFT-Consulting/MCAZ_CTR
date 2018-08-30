@@ -5,6 +5,9 @@
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
   $this->Html->script('committee_view', ['block' => true]);
 ?>
+<style type="text/css">
+    .desc { display: none; }
+</style>
 
   <div class="row">
     <div class="col-xs-12">
@@ -165,7 +168,7 @@
                     echo $this->Form->control('committee_reviews.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
               ?>
 
-              <div class="row">
+              <div class="row desc" id="Approved">
                 <div class="col-xs-4 control-label">
                   <label>Letter recommending approval</label>
                 </div>

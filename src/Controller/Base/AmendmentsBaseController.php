@@ -541,11 +541,11 @@ class AmendmentsBaseController extends AppController
     }
     public function review($id = null, $scope = null) {
         if($scope === 'All') {
-            $evaluations = $this->Applications->Evaluations->findByApplicationId($id);
+            $evaluations = $this->Applications->Evaluations->findByApplicationId($id)->contain(['Users']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $review = $this->Applications->Evaluations
-                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
             $application = $review->application;
             $evaluations[] = $review;
         }

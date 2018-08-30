@@ -38,4 +38,10 @@
       }
     });
 
+    $("input[name=committee_reviews\\[100\\]\\[decision\\]]").on( "change", function() {
+         var test = $(this).val();
+         $(".desc").hide();
+         $("#"+test).show();
+    } );
+
   })(jQuery);

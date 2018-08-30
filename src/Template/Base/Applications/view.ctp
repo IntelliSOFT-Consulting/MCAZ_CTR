@@ -100,24 +100,31 @@
 <?php $this->start('endjs'); ?>
     </div> <!-- Firstly, close the first tab!! IMPORTANT -->
 
+    <?php if($prefix != 'external_evaluator') { ?> 
     <div role="tabpanel" class="tab-pane" id="finance">
         <?= $this->element('applications/finance') ?>
     </div>
+    <?php } ?> 
   <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
+    <?php if($prefix != 'external_evaluator') { ?> 
     <div role="tabpanel" class="tab-pane" id="notification">
         <?= $this->element('applications/notifications') ?>
     </div>
+    <?php } ?> 
     <div role="tabpanel" class="tab-pane" id="section75">
         <?= $this->element('applications/section75') ?>
     </div>
+    <?php if($prefix != 'external_evaluator') { ?> 
     <?php if($prefix === 'manager' or $prefix === 'director_general') { ?> 
     <div role="tabpanel" class="tab-pane" id="assign">
         <?= $this->element('applications/assign_evaluator') ?>
     </div>
     <?php } ?> 
+    <?php } ?> 
     <div role="tabpanel" class="tab-pane" id="review">
         <?= $this->element('applications/evaluations') ?>
     </div>
+    <?php if($prefix != 'external_evaluator') { ?> 
     <div role="tabpanel" class="tab-pane" id="request">
         <?= $this->element('applications/request_info') ?>
     </div>
@@ -141,6 +148,7 @@
             <?= $this->element('applications/final') ?>
         </div> 
       <?php } ?>
+    <?php } ?> 
     <?php } ?>  
     <div role="tabpanel" class="tab-pane" id="stages">
         <?= $this->element('applications/stages') ?>
@@ -158,14 +166,21 @@
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($application->submitted == 2) ? $application->protocol_no : $application->created ?></b></a></li>
       <?php if($application->submitted == 2) { ?>
+    <?php if($prefix != 'external_evaluator') { ?> 
       <li role="presentation"><a href="#finance" aria-controls="finance" role="tab" data-toggle="tab"><b>Finance</b></a></li>
+    <?php } ?>
     <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
-      <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li>    
+    <?php if($prefix != 'external_evaluator') { ?> 
+      <li role="presentation"><a href="#notification" aria-controls="notification" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
+    <?php } ?>   
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php if($prefix === 'manager' or $prefix === 'director_general') { ?>   
+    <?php if($prefix != 'external_evaluator') { ?> 
       <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab"><b>Assign Evaluator(s)</b></a></li>
+    <?php } ?>   
       <?php } ?> 
       <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><b>Reviews</b></a></li>    
+    <?php if($prefix != 'external_evaluator') { ?> 
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>  
       <?php if($prefix === 'manager' or $prefix === 'director_general') { ?>   
@@ -178,6 +193,7 @@
       <li role="presentation"><a href="#sites" aria-controls="sites" role="tab" data-toggle="tab"><b>Sites Management</b></a></li> 
       <li role="presentation"><a href="#final" aria-controls="final" role="tab" data-toggle="tab"><b>Final Stage</b></a></li> 
       <?php } ?>       
+    <?php } ?>   
     <?php } ?>       
       <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
       <?php if($application->approved === 'Declined' || $application->approved === 'Suspended') { ?>    

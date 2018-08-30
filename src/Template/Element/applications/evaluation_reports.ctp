@@ -904,11 +904,12 @@
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12">
-                            <h4 class="text-center"><?= ($evaluation->signature) ? $checked : $nChecked; ?> Signature</h4>
+                            <h4 class="text-center"> Signature</h4>
                           </div>
                           <div class="col-xs-12">
                             <h4 class="text-center"><?php          
-                              echo ($evaluation->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : '';
+                              // echo ($evaluation->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : '';
+                              echo ($evaluation->user->dir) ? "<img src='".$this->Url->build(substr($evaluation->user->dir, 8) . '/' . $evaluation->user->file, true)."' style='width: 30%;' alt=''>" : '';
                             ?></h4>
                           </div>
                         </div>

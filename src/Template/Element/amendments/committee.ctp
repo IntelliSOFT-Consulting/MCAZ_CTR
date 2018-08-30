@@ -3,7 +3,11 @@
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
   use Cake\Utility\Hash;
+  $this->Html->script('committee_view', ['block' => true]);
 ?>
+<style type="text/css">
+    .desc { display: none; }
+</style>
 
   <div class="row">
     <div class="col-xs-12">
@@ -116,6 +120,22 @@
                                   'Declined' => 'Declined', ]]);
                       echo $this->Form->control('committee_reviews.100.file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
                 ?>
+
+
+              <div class="row desc" id="Approved">
+                <div class="col-xs-4 control-label">
+                  <label>Letter recommending approval</label>
+                </div>
+                <div class="col-xs-7">
+                  <div class="commsTable">
+                    <h6>
+                        <button type="button" class="btn btn-primary btn-xs addCLetter" value="100">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
+                    </h6>
+                    <hr>
+                  </div>
+                </div>
+              </div>
+              
                 </div>          
               </div>
               <div class="form-group"> 

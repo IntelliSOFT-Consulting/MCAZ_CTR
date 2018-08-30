@@ -186,10 +186,10 @@ class AmendmentsController extends AppController
             if ($application->submitted == 1) {
               //save changes button
               if ($this->Applications->save($application)) {
-                $this->Flash->success(__('The changes to the Report  have been saved.'));
+                $this->Flash->success(__('The changes to the Amendment  have been saved.'));
                 return $this->redirect(['action' => 'edit', $application->id]);
               } else {
-                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Amendment  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($application->submitted == 2) {
               //submit to mcaz button
@@ -250,10 +250,10 @@ class AmendmentsController extends AppController
 
             } else {
               if ($this->Applications->save($application, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report have been saved.'));
+                $this->Flash->success(__('The changes to the Amendment have been saved.'));
                 return $this->redirect(['action' => 'edit', $application->id]);
               } else {
-                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Amendment could not be saved. Kindly correct the errors and try again.'));
               }
             }
         }

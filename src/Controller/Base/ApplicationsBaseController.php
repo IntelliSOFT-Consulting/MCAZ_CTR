@@ -102,6 +102,23 @@ class ApplicationsBaseController extends AppController
             'contain' => $contains,
             'conditions' => ['report_type' => 'Initial']
         ]);
+
+        // //Evaluators and External evaluators only to view if assigned
+        // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+        //     if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+        //         $this->Flash->error(__('You have not been assigned this application.'));
+        //         return $this->redirect(['action' => 'index']);
+        //     }
+                    
+        // }
+        // // Secretary General only able to view once it has been approved
+        // if ($this->Auth->user('group_id') == 7) {
+        //     if(!in_array(9, Hash::extract($application->application_stages, '{n}.stage_id'))) {                
+        //         $this->Flash->error(__('You have not been assigned this application.'));
+        //         return $this->redirect(['action' => 'index']);
+        //     }
+        // }
+
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
             foreach ($application->evaluations as $key => $value) {
@@ -878,11 +895,11 @@ class ApplicationsBaseController extends AppController
     }
     public function review($id = null, $scope = null) {
         if($scope === 'All') {
-            $evaluations = $this->Applications->Evaluations->findByApplicationId($id);
+            $evaluations = $this->Applications->Evaluations->findByApplicationId($id)->contain(['Users']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $review = $this->Applications->Evaluations
-                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
             $application = $review->application;
             $evaluations[] = $review;
         }

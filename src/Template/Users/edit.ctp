@@ -28,7 +28,7 @@
                     echo "<label>Kindly attach digital signature</label>";
                     echo $this->Form->control('file', ['type' => 'file', 'label' => 'Signature!']);
                     //echo $this->Html->image(substr($user->dir, 8) . '/' . $user->file);
-                    echo "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>";
+                    echo ($user->dir) ? "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>" : '';
                 } 
             ?>
         </div><!--/span-->

@@ -86,7 +86,7 @@
         ?>
             <form>
               <div class="form-group">
-                <label>Internal Evaluator</label>
+                <label>External Evaluator</label>
                 <p class="form-control-static"><?= $all_evaluators->toArray()[$evaluator->assigned_to] ?></p>
               </div>
               <div class="form-group">

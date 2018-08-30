@@ -42,6 +42,9 @@
                         ?></p>
                         <p><?= $attachment['description'] ?></p>
                         <?php } ?>
+                      <p class="form-control-static text-info text-left"><?php
+                           echo $this->Html->link($request_info->file, substr($request_info->dir, 8) . '/' . $request_info->file, ['fullBase' => true]);
+                      ?></p>
                   </div> 
                 </form>  <br>
               </div>      

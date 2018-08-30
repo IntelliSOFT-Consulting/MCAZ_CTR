@@ -834,7 +834,7 @@
                           </div>
                           <div class="col-xs-4">
                             <?php          
-                              echo "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 70%;' alt=''>";
+                              echo ($this->request->session()->read('Auth.User.dir')) ?  "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 70%;' alt=''>"  : '';
                             ?>
                           </div>
                           <div class="col-xs-2"> </div>
@@ -849,7 +849,7 @@
               </div>
               <div class="form-group"> 
                   <div class="col-sm-12"> 
-                    <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Review</button>
+                    <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
                   </div> 
               </div>
            <?php echo $this->Form->end() ?>

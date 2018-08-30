@@ -35,7 +35,7 @@ class UsersBaseController extends AppController
             'limit' => 15,
         ];
 
-        $app_query = $this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial', 'Applications.status' => 'Submitted']);
+        $app_query = $this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial'], ['order' => ['Applications.id' => 'desc']]);
         //Evaluators and External evaluators only to view if assigned
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $app_query->matching('AssignEvaluators', function ($q) {
@@ -55,7 +55,7 @@ class UsersBaseController extends AppController
             //'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
             'order' => array('Amendments.created' => 'desc'),
             'contain' => ['ParentApplications'],
-            'conditions' => ['Amendments.submitted' => 2, 'Amendments.report_type' => 'Amendment', 'Amendments.status' => 'Submitted'],
+            'conditions' => ['Amendments.submitted' => 2, 'Amendments.report_type' => 'Amendment'],
         ));
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $amt_query->matching('AssignEvaluators', function ($q) {
