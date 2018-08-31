@@ -1,7 +1,5 @@
 <?php
   $this->extend('/Element/applications/application_view');
-  // $this->assign('editable', false);
-  // $this->assign('baseClass', 'sadr_form');  
 ?>
 
 <?php $this->start('tabs'); ?>

@@ -860,11 +860,20 @@
       </div>
 
 <script type="text/javascript">
-  CKEDITOR.replace('evaluations-100-vulnerable-population-comments');
-  CKEDITOR.replace('evaluations-100-scientific-issues-comments');
-  CKEDITOR.replace('evaluations-100-informed-consent-text');
-  CKEDITOR.replace('evaluations-100-other-materials-comments');
-  CKEDITOR.replace('evaluations-100-clinical-trials-text');
-  CKEDITOR.replace('evaluations-100-biological-materials-comments');
-  CKEDITOR.replace('evaluations-100-recommendations');
+  $(function(){
+    // console.log('waa gwan');
+    $("#collapseReview textarea").each(function(){
+        // this.value = this.value.replace("AFFURL",producturl);
+        // console.log('woi gwan');
+        // console.log($(this).attr('id'));
+        CKEDITOR.replace($(this).attr('id'));
+    });
+  });
+  // CKEDITOR.replace('evaluations-100-vulnerable-population-comments');
+  // CKEDITOR.replace('evaluations-100-scientific-issues-comments');
+  // CKEDITOR.replace('evaluations-100-informed-consent-text');
+  // CKEDITOR.replace('evaluations-100-other-materials-comments');
+  // CKEDITOR.replace('evaluations-100-clinical-trials-text');
+  // CKEDITOR.replace('evaluations-100-biological-materials-comments');
+  // CKEDITOR.replace('evaluations-100-recommendations');
 </script>

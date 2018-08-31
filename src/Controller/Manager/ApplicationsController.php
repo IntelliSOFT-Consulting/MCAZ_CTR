@@ -60,9 +60,11 @@ class ApplicationsController extends ApplicationsBaseController
                 $data['type'] = 'manager_assign_evaluator_message';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //email evaluator_assigned_manager_notification
+                //remove double notification
+                /*
                 $data['type'] = 'evaluator_assigned_manager_email';
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'evaluator_assigned_manager_notification';
+                $data['type'] = 'evaluator_assigned_manager_notification';*/
                 $this->QueuedJobs->createJob('GenericNotification', $data);                
                 
                 $this->Flash->success('Evaluator '.$evaluator->name.' assigned Application '.$application->protocol_no.' for review.');

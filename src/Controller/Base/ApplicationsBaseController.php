@@ -140,7 +140,14 @@ class ApplicationsBaseController extends AppController
         
         $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey'));
         $this->set('_serialize', ['application']);
-        $this->render('/Base/Applications/view');
+        // $this->render('/Base/Applications/view');
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->render('/Base/Applications/pdf/view');
+        } else {
+            $this->render('/Base/Applications/view');
+        }
     }
     
     public function commonHeader($id = null) {

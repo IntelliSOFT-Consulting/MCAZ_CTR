@@ -11,12 +11,23 @@
           <div class="row">
             <!-- begin -->
             <div class="col-xs-12 col-sm-12">
-                <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> Applications', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Applications']) ?></small></h3>
-                <ul class="list-unstyled">
-                  <?php foreach ($applications as $application): ?>
-                  <li><?= $this->Html->link($application->protocol_no, ['controller' => 'Applications', 'action' => 'view', $application->id]);?> </li>
-                  <?php endforeach; ?>
-                </ul>
+                <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> Applications', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Applications']) ?></small></h3>                
+                  <ul class="list-unstyled">
+                    <?php 
+                      $i = 1;
+                      foreach ($applications as $application): ?>
+                    <li><?php 
+                                if($application->submitted == 2) {
+                                  echo $i++.'. '.$this->Html->link('<span class="text-success">'.$application->protocol_no.' <small class="muted">'.$application->approved.'-'.$application->status.'</small>', ['controller' => 'Applications', 'action' => 'view', $application->id], ['escape' => false]);
+                                } else {
+                                  echo $i++.'. '.$this->Html->link(
+                                    (!empty($application['public_title'])   ? $application['public_title'] : date('d-m-Y h:i a', strtotime($application['created'])) )
+                                    .' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'edit', $application->id], ['escape' => false]);
+                                }
+                                
+                               ?></li>
+                    <?php endforeach; ?>
+                  </ul>
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-sm">
                         <?= $this->Paginator->first('<< ', ['model' => 'Applications']) ?>
@@ -37,9 +48,20 @@
             <?php if($this->request->session()->read('Auth.User.group_id') != 6) { ?>
             <div class="col-xs-12 col-sm-12">
                 <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> Amendments', ['controller' => 'Amendments', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Amendments']) ?></small></h3>
+                
                 <ul class="list-unstyled">
-                  <?php foreach ($amendments as $amendment): ?>
-                  <li><?= $this->Html->link($amendment->protocol_no, ['controller' => 'Amendments', 'action' => 'view', $amendment->id], ['escape' => false]);;?> </li>
+                  <?php 
+                    $i = 1;
+                    foreach ($amendments as $amendment): ?>
+                  <li><?php 
+                      // pr($amendment);
+                          if($amendment->submitted == 2) {
+                            echo $i++.'. '.$this->Html->link('<span class="text-success">'.$amendment->protocol_no.' <small class="muted">'.$amendment->status.'</small>', ['controller' => 'Amendments', 'action' => 'view', $amendment->id], ['escape' => false]);
+                          } else {
+                            echo $i++.'. '.$this->Html->link($amendment->parent_application->protocol_no.'&nbsp; amendment '.$amendment->created->i18nFormat('dd-MM-yyyy').' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Applications', 'action' => 'amendment', $amendment->id], ['escape' => false]);
+                          }
+                              
+                          ?></li>
                   <?php endforeach; ?>
                 </ul>
                 <nav aria-label="Page navigation">

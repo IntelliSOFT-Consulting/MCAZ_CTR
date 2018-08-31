@@ -1,4 +1,4 @@
-  $(function() {
+$(function() {
     $(document).on('click', '.remove-attachment', remove_attachment);
     var intId = 0;
     var trWrapper = '\
@@ -44,4 +44,4 @@
          $("#"+test).show();
     } );
 
-  })(jQuery);
+});
