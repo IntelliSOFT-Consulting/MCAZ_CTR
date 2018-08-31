@@ -54,17 +54,18 @@ class ApplicationsController extends ApplicationsBaseController
                 //Send email, notification and message to evaluator
                 $data['user_id'] = $evaluator->id;                
                 $data['email_address'] = $evaluator->email;
+                $data['vars']['evaluator_name'] = $evaluator->name;        
                 $data['user_message'] = $this->request->getData('user_message');
 
-                $data['name'] = $this->Auth->user('name');
-                $data['type'] = 'manager_assign_evaluator_message';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //email evaluator_assigned_manager_notification
                 //remove double notification
+                $data['name'] = $this->Auth->user('name');
                 /*
+                $data['type'] = 'manager_assign_evaluator_message';
+                $this->QueuedJobs->createJob('GenericNotification', $data);*/
+                //email evaluator_assigned_manager_notification
                 $data['type'] = 'evaluator_assigned_manager_email';
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'evaluator_assigned_manager_notification';*/
+                $data['type'] = 'evaluator_assigned_manager_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);                
                 
                 $this->Flash->success('Evaluator '.$evaluator->name.' assigned Application '.$application->protocol_no.' for review.');

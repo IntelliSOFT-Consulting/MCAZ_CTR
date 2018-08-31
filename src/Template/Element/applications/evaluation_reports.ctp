@@ -29,13 +29,25 @@
         <?php
           if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
           if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id == $this->request->session()->read('Auth.User.id')
-                                                          or $this->request->session()->read('Auth.User.group_id') == 2)) {
+                                                          or $this->request->session()->read('Auth.User.group_id') == 2)
+              and  empty(Hash::extract($evaluations, '{n}.chosen'))  ) {
             echo $this->Form->postLink(
                 '<span class="label label-info">Edit</span>',
                 [],
                 ['data' => ['evaluation_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
             );
-          }        
+          }
+          echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
+          if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id != $this->request->session()->read('Auth.User.id')) 
+               and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
+               and empty(Hash::extract($evaluations, '{n}.chosen'))) {            
+            echo $this->Form->postLink('<span class="label label-success active">Approve the evaluation?</span>', 
+                ['action' => 'attachSignature', $evaluation->id, 'prefix' => $prefix], 
+                ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to evaluation?', 'class' => 'label-link']);
+          } elseif ($this->request->params['_ext'] != 'pdf' and !empty($evaluation->chosen)
+                   and in_array($evaluation->chosen, Hash::extract($evaluations, '{n}.chosen'))) {
+            echo '<span class="label label-success">Approved</span>';
+          }       
         ?>
               <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 <table class="table table-bordered table-condensed">
@@ -904,13 +916,14 @@
                       <td colspan="3">
                         <div class="row">
                           <div class="col-xs-12">
-                            <h4 class="text-center"> Signature</h4>
+                            <h4 class="text-center"> Signature(s)</h4>
                           </div>
                           <div class="col-xs-12">
                             <h4 class="text-center"><?php          
                               // echo ($evaluation->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : '';
-                              echo ($evaluation->user->dir) ? "<img src='".$this->Url->build(substr($evaluation->user->dir, 8) . '/' . $evaluation->user->file, true)."' style='width: 30%;' alt=''>" : '';
+                              echo ($evaluation->user->dir) ? "<span>".$evaluation->user->name.": </span><img src='".$this->Url->build(substr($evaluation->user->dir, 8) . '/' . $evaluation->user->file, true)."' style='width: 30%;' alt=''>" : '';
                             ?></h4>
+                            <?= ($evaluation->chosen) ? $this->cell('Signature', [$evaluation->chosen]) : ''; ?>
                           </div>
                         </div>
                         <br>

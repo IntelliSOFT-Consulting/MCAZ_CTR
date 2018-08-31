@@ -20,7 +20,7 @@
               if($evaluator->category === 'internal') {
             ?>
           <div class="thumbnail">
-            <p class="topper"><small><em class="text-success">assigned on: <?= $evaluator['created'] ?></em></small></p>
+            <p class="topper"><small><em class="text-success">assigned on: <?= $evaluator['created'] ?> by <?= $evaluator->user->name ?></em></small></p>
         <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Amendments', 'action' => 'evaluator', '_ext' => 'pdf', $evaluator->id, ], ['escape' => false, 'class' => 'btn btn-xs btn-success active']);
         ?>

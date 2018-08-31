@@ -54,15 +54,17 @@
         </div>
       </div>
 
+      <?php if(!in_array($prefix, ['director_general', 'admin']) and empty(Hash::extract($application->evaluations, '{n}.chosen'))) {  ?>
       <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false" aria-controls="collapseReview">
         Evaluation Form. Click to review
       </button>
+      <?php } ?>
 
       <div class="row collapse" id="collapseReview" >
         <div class="col-xs-12">
 
          <?php 
-         if(!in_array($prefix, ['director_general', 'admin'])) {
+         if(!in_array($prefix, ['director_general', 'admin']) and empty(Hash::extract($application->evaluations, '{n}.chosen'))) {
          echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-review']]); ?>
               <div class="row">
                 <div class="col-xs-12">

@@ -34,7 +34,7 @@ class AmendmentsBaseController extends AppController
         ];
 
         $amt_query = $this->Applications->find('all')
-                        ->contain(['ApplicationStages', 'ApplicationStages.Stages'])
+                        ->contain(['ApplicationStages', 'ApplicationStages.Stages', 'AssignEvaluators', 'AssignEvaluators.Users'])
                         ->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']);
 
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {

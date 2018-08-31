@@ -45,7 +45,15 @@
                   </td>
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
-                <td><?php echo ($application->approved) ? '<b>'.$application->approved.'</b><br>'.$application->status : $application->status ; ?></td>
+                <td><?php 
+                      echo ($application->approved) ? '<b>'.$application->approved.'</b>
+                               <br>'.$application->status : $application->status ; 
+                      echo '<br><b>Assigned to:</b><br>';
+                      foreach ($application->assign_evaluators as $evaluator) {
+                          echo $all_evaluators->toArray()[$evaluator->user_id].' <i class="fa fa-arrow-right" aria-hidden="true"></i> '.$all_evaluators->toArray()[$evaluator->assigned_to].'<br>';
+                      }
+                    ?>
+                </td>
                 <td>
                     <?php 
                         foreach ($application->application_stages as $application_stage) {

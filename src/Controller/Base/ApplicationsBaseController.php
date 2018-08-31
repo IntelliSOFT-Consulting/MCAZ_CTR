@@ -50,7 +50,7 @@ class ApplicationsBaseController extends AppController
             ->leftJoinWith('Sponsors')
             ->leftJoinWith('SiteDetails')
             ->leftJoinWith('Medicines')
-            ->contain(['ApplicationStages', 'ApplicationStages.Stages'])
+            ->contain(['ApplicationStages', 'ApplicationStages.Stages', 'AssignEvaluators', 'AssignEvaluators.Users'])
             // You can add extra things to the query if you need to
             ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
             ->distinct();
@@ -79,6 +79,9 @@ class ApplicationsBaseController extends AppController
 
         //$this->set(compact('applications'));
         //$this->set('_serialize', ['applications']);
+
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('all_evaluators'));
         $this->set('applications', $this->paginate($query));
         $this->render('/Base/Applications/index');
     }
@@ -289,6 +292,20 @@ class ApplicationsBaseController extends AppController
         return $this->redirect($this->redirect($this->referer()));
     }
     
+
+    public function attachSignature($id = null) {
+        $evaluation = $this->Applications->Evaluations->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $evaluation = $this->Applications->Evaluations->patchEntity($evaluation, ['chosen' => $this->Auth->user('id')]);
+            if ($this->Applications->Evaluations->save($evaluation)) {
+                $this->Flash->success('Signature successfully attached to evaluation');
+                return $this->redirect($this->referer());
+            } else {             
+                $this->Flash->error(__('Unable to attach signature. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        }
+    }
 
     public function addCommitteeReview($id) {
         $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
