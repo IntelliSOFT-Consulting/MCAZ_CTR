@@ -29,6 +29,20 @@ $(function() {
       }
     });
 
+    $(".addApprovalLetter").click(function() {
+      intId = intId + 1;
+      $('#dg-reviews-100-approval-letter').prop('checked', true);
+      name = 'DgReviews';
+      pi = $(this).attr('id');
+
+      if ($(this).closest('div.checkcontrols').find('.uploadsTable .attacho').length < 7) {            
+          trVar = $.parseHTML(trWrapper.replace(/{i}/g, intId).replace(/{n}/g, name).replace(/{p}/g, pi));
+          $(this).closest('div.checkcontrols').find(".uploadsTable").append(trVar);
+      } else {
+          alert("Sorry, can't add more than "+intId+" attachments at a time!");
+      }
+    });
+
     function remove_attachment() {
       $(this).closest('.attacho').remove();        
     }

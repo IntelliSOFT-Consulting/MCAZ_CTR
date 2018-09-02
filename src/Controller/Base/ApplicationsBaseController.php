@@ -197,6 +197,39 @@ class ApplicationsBaseController extends AppController
         }
     }
 
+    public function evaluatorComment($id = null) {
+        $comment = $this->Applications->Comments->get($this->request->getData('id'));
+        if ($this->request->is('post')) {
+            $comment = $this->Applications->Comments->patchEntity($comment, $this->request->getData());
+            if ($this->Applications->Comments->save($comment)) {
+                $this->response->body('Success');
+                $this->response->statusCode(200);
+                $this->set([
+                    'error' => '', 
+                    'message' => $this->request->getData(), 
+                    'comment' => $comment,
+                    '_serialize' => ['error', 'message', 'comment']]);
+                return;
+
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'Unable to save comment!!', 
+                    '_serialize' => ['message']]);
+                return; 
+            }
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode(404);
+            $this->set([
+                'error' => 'Only post method allowed', 
+                'message' => 'Only post method allowed', 
+                '_serialize' => ['error', 'message']]);
+            return;
+        }
+    }
+
     public function evaluationComment($id = null) {
 
         $cReview = $this->Applications->Evaluations->get($this->request->getData('id'));
@@ -534,7 +567,7 @@ class ApplicationsBaseController extends AppController
                 array_push($filt, 1);
                 (!empty($application->assign_evaluators)) ? 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -557,6 +590,9 @@ class ApplicationsBaseController extends AppController
                         'email_address' => $application->email_address, 'user_id' => $application->user_id,
                         'type' => 'applicant_get_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['respond'] = $html->link('RESPOND', ['controller' => 'Applications', 'action' => 'view', $user->activation_key, 
+                    '_full' => true, 'prefix' => 'applicant']);
                 $data['vars']['name'] = $manager->name;
                 $data['vars']['protocol_no'] = $application->protocol_no;
                 $data['vars']['evaluator_name'] = $this->Auth->user('name');                
@@ -985,6 +1021,24 @@ class ApplicationsBaseController extends AppController
                 ]
             ]);
             $this->render('/Base/CommitteeReviews/pdf/view');
+        }
+    }
+    public function committeeFeedback($id = null, $scope = null) {
+        if($scope === 'All') {
+            $comments = $this->Applications->Comments->findByApplicationId($id)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } 
+        $this->set(compact('comments', 'application'));
+        $this->set('_serialize', ['comments', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_committee_feedback_'.$id.'.pdf' : 'application_committee_feedback_'.$id.'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Comments/pdf/view');
         }
     }
     public function dg($id = null, $scope = null) {

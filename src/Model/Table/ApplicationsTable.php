@@ -321,6 +321,12 @@ class ApplicationsTable extends Table
             'foreignKey' => 'application_id',
             'dependent' => true,
             'conditions' => array('Amendments.report_type' => 'Amendment'),
+        ]);        
+        $this->hasMany('Comments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Comments.model' => 'Applications'),
         ]);
     }
 

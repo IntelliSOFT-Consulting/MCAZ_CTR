@@ -9,6 +9,7 @@
     .desc { display: none; }
 </style>
 
+
   <div class="row">
     <div class="col-xs-12">
       <h4 class="text-center"><label class="text-warning"><u>PVCT Committee Reviews</u></label></h4>
@@ -73,32 +74,6 @@
                                 <?php } } ?>
                           </div> 
 
-                          <div class="row">
-                            <div class="col-xs-4 control-label">
-                              <label><i class="fa fa-id-card-o" aria-hidden="true"></i> Approval Letter</label>
-                            </div>
-                            <div class="col-xs-7">
-                            <?php foreach ($committee_review->attachments as $attachment) { 
-                                   if($attachment->category == 'secretary') { ?>                  
-                                <p class="form-control-static text-info text-left"><?php
-                                     echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
-                                ?></p>
-                                <p><?= $attachment['description'] ?></p>
-                                <?php } } ?>
-                            <?php 
-                              if ($this->request->session()->read('Auth.User.group_id') == 7) {                                
-                                echo $this->Form->create($committee_review, ['type' => 'file','url' => ['controller' => 'attachments', 'action' => 'add-approval-letter', $committee_review->id], 'class' => 'form-horizontal']); 
-                                echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'secretary', 'escape' => false, 'templates' => 'table_form']);
-                                echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'CommitteeReviews', 'escape' => false, 'templates' => 'table_form']);
-                                echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $committee_review->id, 'escape' => false, 'templates' => 'table_form']);
-                                echo $this->Form->control('file', ['type' => 'file', 'escape' => false, 'templates' => 'app_form']);
-                                echo $this->Form->control('description', ['type' => 'text', 'escape' => false, 'templates' => 'app_form']);
-                                echo $this->Form->submit('Submit');
-                                echo $this->Form->end();
-                              }
-                            ?>
-                            </div>
-                          </div>
                          <br>
                           
                       <!-- <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Remove</button> -->
@@ -120,7 +95,7 @@
 
                 <!-- include comments -->
                 <div class="col-xs-4 lefty">
-                  <?php //pr($committee_review->comments) ?>
+                  <?php /*/pr($committee_review->comments) ?>
                   <?php echo $this->element('comments/list', ['comments' => $committee_review->comments]) ?> 
                   <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
                   <?php  
@@ -128,7 +103,7 @@
                           'model' => ['model_id' => $application->id, 'foreign_key' => $committee_review->id, 
                                       'model' => 'CommitteeReviews', 'category' => 'committee', 'url' => 'add-from-committee']]) 
                   ?>
-                  <?php } ?>
+                  <?php } */?>
                 </div>
             </div>  
           </div>

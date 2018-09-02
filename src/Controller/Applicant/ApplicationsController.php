@@ -1184,6 +1184,23 @@ class ApplicationsController extends AppController
             ]);
         }
     }
+    public function committeeFeedback($id = null, $scope = null) {
+        if($scope === 'All') {
+            $comments = $this->Applications->Comments->findByApplicationId($id)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } 
+        $this->set(compact('comments', 'application'));
+        $this->set('_serialize', ['comments', 'application']);
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_committee_feedback_'.$id.'.pdf' : 'application_committee_feedback_'.$id.'.pdf'
+                ]
+            ]);
+        }
+    }
     public function dg($id = null, $scope = null) {
         if($scope === 'All') {
             $dg_reviews = $this->Applications->DgReviews->findByApplicationId($id)->contain(['Users', 'Attachments']);

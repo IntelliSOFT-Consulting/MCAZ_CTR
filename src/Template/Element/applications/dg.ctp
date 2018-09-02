@@ -54,6 +54,17 @@
                   </div> 
 
                   <div class="form-group">
+                    <label class="control-label">Approval Letter</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { 
+                            if($attachment->category === 'approval_letter') { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } } ?>
+                  </div> 
+
+                  <div class="form-group">
                     <label class="control-label">Authorization Letter</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
                             if($attachment->category === 'authorization_letter') { ?>                  
@@ -127,6 +138,18 @@
                       <div class="col-xs-12">
                       <div class="checkcontrols">
                         <?php
+                            echo $this->Form->control('dg_reviews.100.approval_letter', 
+                                        ['type' => 'checkbox', 'label' => 'Approval Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="approval_letter" class="btn btn-primary btn-xs addApprovalLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
+                        ?>
+                        <div class="uploadsTable">   </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-xs-12">
+                      <div class="checkcontrols">
+                        <?php
                             echo $this->Form->control('dg_reviews.100.authorization_letter', 
                                         ['type' => 'checkbox', 'label' => 'Authorization Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addAuthLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
                         ?>
@@ -134,6 +157,7 @@
                       </div>
                     </div>
                   </div>
+
                   <!-- <div class="row">
                       <div class="col-xs-12">
                           <h6 class="muted text-center"><b>Authorization Letter </b>

@@ -4,7 +4,7 @@
   <div class="col-xs-12">
     <h2 class="text-center text-success">Approvals</h2>
     <hr>
-    <h4 class="text-warning">Director General</h4>
+    <h4 class="text-warning">Director General Authorization</h4>
       <div class="row">
         <div class="col-xs-12">
           <?php foreach ($amendment->dg_reviews as $dg_review) {
@@ -28,13 +28,34 @@
                       <p class="form-control-static"><?= $dg_review->applicant_review_comment ?></p>
                     </div>
                   </div>
+
                   <div class="form-group">
-                    <label class="col-sm-4 control-label">File</label>
-                    <div class="col-sm-7">
-                      <p class="form-control-static text-info text-left"><?php
-                           echo $this->Html->link($dg_review->file, substr($dg_review->dir, 8) . '/' . $dg_review->file, ['fullBase' => true]);
-                      ?></p>
-                    </div>
+                    <label class="col-xs-4 control-label">Decision Date:</label>
+                    <div class="col-xs-8">
+                    <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
+                    </div> 
+                  </div> 
+                  
+                  <div class="form-group">
+                    <label class="control-label">Approval Letter</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { 
+                            if($attachment->category === 'approval_letter') { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } } ?>
+                  </div> 
+
+                  <div class="form-group">
+                    <label class="control-label">Authorization Letter</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { 
+                            if($attachment->category === 'authorization_letter') { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } } ?>
                   </div> 
                 </form>  <br>
               </div>                   

@@ -49,10 +49,19 @@
     </li>
 
     <?php if( $prefix != 'admin') { ?>
-    <li class="<?=  ($this->request->params['controller'] == 'Applications') ? 'active' : ''; ?>">
+    <li class="<?php  if($this->request->params['controller'] == 'Applications') { 
+            if((isset($this->request->query['status']) && $this->request->query['status'] == 'FinalStage')) {
+                echo '';
+            } else {
+                echo 'active';
+            }             
+        }; ?>">
       <?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; PROTOCOLS', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?>      
         <!-- Manager or evaluator -->
-        <?php if (($prefix == 'manager' || strpos($prefix, 'evaluator') !== false) && $this->request->params['controller'] == 'Applications' ) { ?>
+        <?php 
+          if (($prefix == 'manager' || strpos($prefix, 'evaluator') !== false) && $this->request->params['controller'] == 'Applications' ) {   
+            if((isset($this->request->query['status']) && $this->request->query['status'] != 'FinalStage') || !isset($this->request->query['status'])) {
+        ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" class="text-warning" style="text-decoration: underline; padding-left: 15px;">APPLICATION STAGES</a></li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '.$Submitted, ['controller' => 'Applications', 'action' => 'index', 'status' => 'Submitted', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
@@ -69,7 +78,6 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Authorize') ? 'active' : ''; ?>"><?= $this->Html->link('<b style="padding-left: 25px;"></b> Indemnity'. $Authorize , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Authorize', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'DirectorDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b>11.</b> Declined <small class="muted">Dir</small>'. $DirectorDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'DirectorDeclined', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'CommitteeDeclined') ? 'active' : ''; ?>"><?= $this->Html->link('<b style="padding-left: 25px;"></b> Declined <small class="muted">Comm</small>'. $CommitteeDeclined , ['controller' => 'Applications', 'action' => 'index', 'status' => 'CommitteeDeclined', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalStage') ? 'active' : ''; ?>"><?= $this->Html->link('<b>12.</b> Final Report'. $FinalStage , ['controller' => 'Applications', 'action' => 'index', 'status' => 'FinalStage', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
             
 
             <li><a href="#" class="text-warning" style="text-decoration: underline; padding-left: 15px;">OTHERS</a></li>
@@ -77,8 +85,15 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted '. $UnSubmitted , ['controller' => 'Applications', 'action' => 'index', 'status' => 'UnSubmitted', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Suspended') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Suspended'. $Suspended , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Suspended', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?> </li>
           </ul>
-        <?php } ?>
+        <?php } } ?>
     </li>    
+
+
+    <li class="<?=  ($this->request->params['controller'] == 'Applications' && 
+        (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalStage')) ? 'active' : ''; ?>">
+       <?= $this->Html->link('<i class="fa fa-flag-checkered" aria-hidden="true"></i> &nbsp; FINAL STAGE'. $FinalStage , ['controller' => 'Applications', 'action' => 'index', 'status' => 'FinalStage', 'prefix' => $prefix, 'plugin' => false ], array('escape' => false)); ?>
+    </li>
+
 
     <?php if($this->request->session()->read('Auth.User.group_id') != 6) { ?>
     <li class="<?=  ($this->request->params['controller'] == 'Amendments') ? 'active' : ''; ?>">

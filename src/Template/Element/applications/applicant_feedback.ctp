@@ -7,20 +7,16 @@
   	<div id="tabers">
   		<ul>
 	      <li><a href="#tabers-1">1. Communications</a></li>
-	      <li><a href="#tabers-2">2. Committee</a></li>
-	      <li><a href="#tabers-3">3. Director General</a></li>
-	      <li><a href="#tabers-4">4. Approvals</a></li>
+	      <li><a href="#tabers-2">2. Committee Feedback</a></li>
+	      <li><a href="#tabers-3">3. Approvals</a></li>
 	    </ul>  
 	    <div id="tabers-1">
 		   <?= $this->element('applications/applicant_request_info') ?>
 		</div>
 	  	<div id="tabers-2">
-		   <?= $this->element('applications/applicant_committee') ?>
+		   <?= $this->element('applications/applicant_committee_feedback') ?>
 		</div>
 		<div id="tabers-3">
-		   <?php echo $this->element('applications/applicant_dg') ?>
-		</div>
-		<div id="tabers-4">
 		   <?= $this->element('applications/applicant_approvals') ?>
 		</div>
 	 </div>

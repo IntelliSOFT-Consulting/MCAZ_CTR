@@ -43,6 +43,17 @@
                   </div> 
 
                   <div class="form-group">
+                    <label class="control-label">Approval Letter</label>
+                    <?php foreach ($dg_review->attachments as $attachment) { 
+                            if($attachment->category === 'approval_letter') { ?>                  
+                        <p class="form-control-static text-info text-left"><?php
+                             echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                        ?></p>
+                        <p><?= $attachment['description'] ?></p>
+                        <?php } } ?>
+                  </div> 
+                  
+                  <div class="form-group">
                     <label class="control-label">Authorization Letter</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
                             if($attachment->category === 'authorization_letter') { ?>                  

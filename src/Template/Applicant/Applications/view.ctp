@@ -24,7 +24,8 @@
       <li role="presentation"><a href="#section75" aria-controls="section75" role="tab" data-toggle="tab"><b>Section 75</b></a></li> 
       <?php } ?>    
 
-      <li role="presentation"><a href="#feedback" aria-controls="feedback" role="tab" data-toggle="tab"><b class="text-success">Feedback</b></a></li>    
+      <li role="presentation"><a href="#feedback" aria-controls="feedback" role="tab" data-toggle="tab"><b class="text-success">Feedback</b></a></li>       
+      <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>    
     <?php /* 
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>   
@@ -97,6 +98,9 @@
      */ ?>
     <div role="tabpanel" class="tab-pane" id="feedback">
         <?= $this->element('applications/applicant_feedback') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="committee">
+        <?= $this->element('applications/applicant_committee') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="notifications">
         <?= $this->element('applications/applicant_notifications') ?>

@@ -52,6 +52,13 @@ class CommentsTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Comments'),
         ]);
+
+        $this->hasMany('Responses', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Responses.model' => 'Comments'),
+        ]);   
     }
 
     /**

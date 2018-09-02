@@ -96,6 +96,10 @@ class CommitteeReviewsTable extends Table
         $validator
             ->scalar('outcome_date')
             ->notEmpty('outcome_date', ['message' => 'Kindly enter the date of the committee decision']);
+
+        $validator
+            ->scalar('decision')
+            ->notEmpty('decision', ['message' => 'Kindly enter the committee decision']);
         
         $validator
             ->allowEmpty('file');

@@ -75,7 +75,7 @@
           <?php } ?>
 
           <!-- TODO: Check if no previous decision is either authorize or declined -->
-          <?php if($prefix === 'managerooo') { ?> 
+          <?php if($prefix === 'manageroo') { ?> 
           <hr style="border-width: 1px; border-color: #8a6d3b;">
           <?php if(count($application->evaluations) > 0 && $application->approved === 'Authorize') { ?> 
           <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-final-stage', $application->id], 'class' => 'form-horizontal']); ?>
