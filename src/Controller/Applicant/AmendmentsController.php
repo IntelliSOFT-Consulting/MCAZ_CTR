@@ -266,15 +266,17 @@ class AmendmentsController extends AppController
     }
 
     public function addAmendment($id) {
-        $application = $this->Applications->get($id, ['contain' => ['Amendments' => ['conditions' => ['submitted !=' => 2]]]]);
+        $application = $this->Applications->get($id, ['contain' => ['Amendments']]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
         } 
 
-        if (!empty($application->amendments)) {            
-            $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
-            return $this->redirect(['action' => 'amendment', end($application->amendments)['id']]);
+        if (!empty($application->amendments)) { 
+            if (end($application->amendments)['submitted'] != 2) {
+                $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
+                return $this->redirect(['action' => 'amendment', end($application->amendments)['id']]);
+            }
         }
         $amendment = $this->Applications->Amendments->newEntity();
         if ($this->request->is('post')) {

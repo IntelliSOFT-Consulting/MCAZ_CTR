@@ -286,15 +286,17 @@ class ApplicationsController extends AppController
 
 
     public function addAmendment($id) {
-        $application = $this->Applications->get($id, ['contain' => ['Amendments' => ['conditions' => ['submitted !=' => 2]]]]);
+        $application = $this->Applications->get($id, ['contain' => ['Amendments']]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
         } 
 
-        if (!empty($application->amendments)) {            
-            $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
-            return $this->redirect(['action' => 'amendment', end($application->amendments)['id']]);
+        if (!empty($application->amendments)) { 
+            if (end($application->amendments)['submitted'] != 2) {
+                $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
+                return $this->redirect(['action' => 'amendment', end($application->amendments)['id']]);
+            }
         }
         $amendment = $this->Applications->Amendments->newEntity();
         if ($this->request->is('post')) {
@@ -314,7 +316,7 @@ class ApplicationsController extends AppController
 
             if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
 
-                $this->Flash->success(__('Amendment '.$amendment->protocol_no.' for '.$application->protocol_no.' has been successfully submitted to MCAZ for review.'));
+                $this->Flash->success(__('Amendment '.$amendment->protocol_no.' for '.$application->protocol_no.' has been successfully created. Kindly complete and submit to MCAZ for review.'));
                 //send email and notification
                 /*$this->loadModel('Queue.QueuedJobs');    
                 $data = [
@@ -352,7 +354,6 @@ class ApplicationsController extends AppController
 
     public function amendment($id = null)
     {
-
         $amendment = $this->Applications->Amendments->get($id, [
             'contain' => $this->a_contain,
             'conditions' => ['Amendments.user_id' => $this->Auth->user('id'), 'Amendments.report_type' => 'Amendment']
@@ -533,9 +534,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                array_push($filt, 1);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -596,9 +604,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                array_push($filt, 1);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -649,9 +664,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                array_push($filt, 1);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');    
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -702,9 +724,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                array_push($filt, 1);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');    
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -753,9 +782,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                array_push($filt, 1);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');    
                 foreach ($managers as $manager) {
                     //Notify managers    

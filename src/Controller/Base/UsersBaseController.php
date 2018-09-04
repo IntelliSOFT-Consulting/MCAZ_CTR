@@ -49,11 +49,11 @@ class UsersBaseController extends AppController
             });
         }*/
 
-        $applications = $this->paginate($app_query, ['scope' => 'application', 'order' => ['Applications.status' => 'asc', 'Applications.id' => 'desc'],
+        $applications = $this->paginate($app_query, ['scope' => 'application', 'order' => ['Applications.protocol_no' => 'desc', 'Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted', 'Applications.status']]);
         $amt_query = $this->Users->Amendments->find('all', array(
             //'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
-            'order' => array('Amendments.created' => 'desc'),
+            'order' => array('Amendments.protocol_no' => 'desc', 'Amendments.created' => 'desc'),
             'contain' => ['ParentApplications'],
             'conditions' => ['Amendments.submitted' => 2, 'Amendments.report_type' => 'Amendment'],
         ));

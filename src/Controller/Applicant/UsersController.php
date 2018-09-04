@@ -31,14 +31,14 @@ class UsersController extends AppController
         $this->paginate = ['limit' => 5];
         $applications = $this->paginate($this->Users->Applications->find('all', array(
             'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted', 'status', 'approved'),
-            'order' => array('Applications.created' => 'desc'),
+            'order' => array('Applications.protocol_no' => 'desc', 'Applications.created' => 'desc'),
             'conditions' => ['Applications.user_id' => $this->Auth->User('id'), 'Applications.report_type' => 'Initial'],
         )), 
             ['scope' => 'application']);
 
         $amendments = $this->paginate($this->Users->Amendments->find('all', array(
             //'fields' => array('id','user_id', 'created', 'protocol_no', 'public_title', 'submitted'),
-            'order' => array('Amendments.created' => 'desc'),
+            'order' => array('Amendments.protocol_no' => 'desc', 'Amendments.created' => 'desc'),
             'contain' => ['ParentApplications'],
             'conditions' => ['Amendments.user_id' => $this->Auth->User('id'), 'Amendments.report_type' => 'Amendment'],
         )), 

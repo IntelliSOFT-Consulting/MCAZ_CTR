@@ -282,7 +282,16 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');    
                 foreach ($managers as $manager) {
                     //Notify managers
@@ -401,7 +410,14 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
 
                 $this->loadModel('Queue.QueuedJobs'); 
 
@@ -494,9 +510,16 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
+
                 $this->loadModel('Queue.QueuedJobs');  
                 foreach ($managers as $manager) {
                     //Notify managers  
@@ -565,9 +588,17 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
+
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -638,9 +669,15 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');  
                 foreach ($managers as $manager) {
                     //Notify managers  
@@ -713,10 +750,17 @@ class ApplicationsBaseController extends AppController
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
-                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                (!empty($application->assign_evaluators)) ? 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');                
+                array_push($filt, 1);
+                // (!empty($application->assign_evaluators)) ? 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -794,7 +838,14 @@ class ApplicationsBaseController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
 
                 $this->loadModel('Queue.QueuedJobs'); 
 
