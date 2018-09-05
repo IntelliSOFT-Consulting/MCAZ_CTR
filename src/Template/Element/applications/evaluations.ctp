@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <?php if(!in_array($prefix, ['director_general', 'admin']) and empty(Hash::extract($application->evaluations, '{n}.chosen'))) {  ?>
+      <?php if(!in_array($prefix, ['director_general', 'admin']) and (count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric' )) < 1)) {  ?>
       <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false" aria-controls="collapseReview">
         Evaluation Form. Click to review
       </button>
@@ -64,15 +64,19 @@
         <div class="col-xs-12">
 
          <?php 
-         if(!in_array($prefix, ['director_general', 'admin']) and empty(Hash::extract($application->evaluations, '{n}.chosen'))) {
+         if(!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric' )) < 1) {
          echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-review']]); ?>
               <div class="row">
                 <div class="col-xs-12">
                 <?php
                       echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
                       echo $this->Form->control('evaluation_pr_id', ['type' => 'hidden', 'value' => (($application->evaluations[$ekey]['id']) ?? 100), 'escape' => false, 'templates' => 'table_form']);
-                      echo $this->Form->control('evaluations.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                      // echo $this->Form->control('evaluations.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
                       echo $this->Form->control('evaluations.'.$ekey.'.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
+                      echo $this->Form->control('evaluations.'.$ekey.'.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
+                      echo $this->Form->control('evaluations.'.$ekey.'.evaluation_type', ['type' => 'hidden', 
+                        'value' => ($evaluation_id) ? 'Revision' : 'Initial', 
+                        'templates' => 'table_form']);
                 ?>
 
                 <table class="table table-bordered table-condensed">
@@ -568,8 +572,8 @@
                     </tr>
                     <tr>
                       <td><?= $numb++ ?>.</td>
-                      <td> What are the investigational medicines/devices?</td>
-                      <td>
+                      <td colspan="2"> <label>What are the investigational medicines/devices? </label>
+                      
                         <?php
                         $medicines = $application->drug_name;
                         $medicines .= ', '.$application->quantity_excemption;

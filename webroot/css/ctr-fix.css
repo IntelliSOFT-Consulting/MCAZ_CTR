@@ -387,6 +387,21 @@ tr.amender th, tr.amender th:before  {
   text-decoration: underline;
 }
 
+
+.editer {
+    border-radius: .25em;
+}
+
+tr.editer td  {
+  background-color: #1F9EDE;
+  font-style: italic;
+  font-size: 88%;
+  font-weight: normal;
+  text-align: left;
+  border: 0px solid #DDDDDD;
+  text-decoration: underline;
+}
+
 .approvals{
   background-color: #c6ecc6; 
   border-radius: 4px 4px 0 0;

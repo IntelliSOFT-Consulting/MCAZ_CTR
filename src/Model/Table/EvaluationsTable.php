@@ -52,6 +52,12 @@ class EvaluationsTable extends Table
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
+        $this->hasMany('EvaluationEdits', [
+            'className' => 'Evaluations',
+            'foreignKey' => 'evaluation_id',
+            'dependent' => true,
+            'conditions' => array('EvaluationEdits.evaluation_type' => 'Revision'),
+        ]);  
     }
 
     /**

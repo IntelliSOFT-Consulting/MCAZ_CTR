@@ -100,6 +100,7 @@ class ApplicationsBaseController extends AppController
         $contains = $this->_contain;
         //unset($contains[array_search('Amendments', $contains)]);
         $contains['Amendments'] =  function ($q) { return $q->where(['Amendments.submitted' => 2]); };
+        $contains['Evaluations'] = function ($q) { return $q->where(['Evaluations.evaluation_type' => 'Initial']); };
 
         $application = $this->Applications->get($id, [
             'contain' => $contains,
@@ -123,6 +124,7 @@ class ApplicationsBaseController extends AppController
         // }
 
         $ekey = 100;
+        $evaluation_id = $this->request->getData('evaluation_id');
         if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
             foreach ($application->evaluations as $key => $value) {
                 if($value['id'] == $this->request->getData('evaluation_id')) {
@@ -141,7 +143,7 @@ class ApplicationsBaseController extends AppController
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
             'id NOT IN' => $this->filt]);
         
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey', 'evaluation_id'));
         $this->set('_serialize', ['application']);
         // $this->render('/Base/Applications/view');
 
