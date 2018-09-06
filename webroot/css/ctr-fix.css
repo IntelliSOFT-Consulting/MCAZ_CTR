@@ -390,6 +390,14 @@ tr.amender th, tr.amender th:before  {
 
 .editer {
     border-radius: .25em;
+    text-decoration: line-through;
+    color: #767676;
+  padding-right: 2px;
+  padding-left: 2px;
+}
+.retide {
+  padding-right: 2px;
+  padding-left: 2px;
 }
 
 tr.editer td  {

@@ -1008,11 +1008,12 @@ class ApplicationsBaseController extends AppController
     }
     public function review($id = null, $scope = null) {
         if($scope === 'All') {
-            $evaluations = $this->Applications->Evaluations->findByApplicationId($id)->contain(['Users']);
+            $evaluations = $this->Applications->Evaluations->findByApplicationId($id)->contain(['Users', 'EvaluationEdits'])->where(['Evaluations.evaluation_type' => 'Initial']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $review = $this->Applications->Evaluations
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'EvaluationEdits'],
+                            'conditions' => ['Evaluations.evaluation_type' => 'Initial']]);            
             $application = $review->application;
             $evaluations[] = $review;
         }
