@@ -88,15 +88,11 @@
                         <span class="<?= (isset($evaluation_edit['vulnerable_population'])) ? 'editer' : 'retide'; ?>">
                           <?= $evaluation->vulnerable_population ?>
                         </span>
-                        <?php
-                          for ($i=0; $i < count(($evaluation_edit['vulnerable_population'] ?? null)); $i++) { 
-                            if ($i == count($evaluation_edit['vulnerable_population'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['vulnerable_population'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['vulnerable_population'][$i].'</span>';
+                          <?php
+                            foreach (($evaluation_edit['vulnerable_population'] ?? []) as $key => $value) {
+                              echo '<span class="editer">'.$value.'</span>';
                             }
-                          }
-                        ?>
+                          ?>          
                      </td>
                     </tr>
                     <tr>
@@ -104,144 +100,109 @@
                       <td colspan="2">
                         <div class="row">
                           <div class="col-xs-4">
-                            <span class="<?= (isset($evaluation_edit['vulnerable_pregnant'])) ? 'editer' : 'retide'; ?>">
-                              <?= ($evaluation->vulnerable_pregnant) ? $checked : $nChecked; ?> Pregnant women <br> 
-                            </span>
-                            <?php
-                            // print_r($evaluation_edit);
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_pregnant'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_pregnant'])-1) {
-                                  $a = ($evaluation->vulnerable_pregnant) ? $checked : $nChecked; $a.=' Pregnant women <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_pregnant) ? $checked : $nChecked; $a.=' Pregnant women <br>';
+                            <div class="entry">
+                              <span class="editer">
+                                <?= ($evaluation->vulnerable_pregnant) ? $checked : $nChecked; ?> Pregnant women <br> 
+                              </span>
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_pregnant']) ? $checked : $nChecked; $a.=' Pregnant women <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
-                            <span class="<?= (isset($evaluation_edit['vulnerable_adolescent'])) ? 'editer' : 'retide'; ?>">
-                              <?= ($evaluation->vulnerable_adolescent) ? $checked : $nChecked; ?> Adolescents <br> 
-                            </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_adolescent'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_adolescent'])-1) {
-                                  $a = ($evaluation->vulnerable_adolescent) ? $checked : $nChecked; $a.=' Adolescents <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_adolescent) ? $checked : $nChecked; $a.=' Adolescents <br>';
+                              ?>
+                            </div>
+                            <div class="entry">
+                              <span class="editer">
+                                <?= ($evaluation->vulnerable_adolescent) ? $checked : $nChecked; ?> Adolescents <br> 
+                              </span>
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_adolescent']) ? $checked : $nChecked; $a.=' Adolescents <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
-                            <span class="<?= (isset($evaluation_edit['vulnerable_children'])) ? 'editer' : 'retide'; ?>">
-                              <?= ($evaluation->vulnerable_children) ? $checked : $nChecked; ?> Children <br> 
-                            </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_children'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_children'])-1) {
-                                  $a = ($evaluation->vulnerable_children) ? $checked : $nChecked; $a.=' Children <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_children) ? $checked : $nChecked; $a.=' Children <br>';
+                              ?>
+                            </div>
+                            <div class="entry">
+                              <span class="editer">
+                                <?= ($evaluation->vulnerable_children) ? $checked : $nChecked; ?> Children <br> 
+                              </span>
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_children']) ? $checked : $nChecked; $a.=' Children <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
+                              ?>
+                            </div>
                           </div>
                           <div class="col-xs-4">
-                            <span class="<?= (isset($evaluation_edit['vulnerable_elderly'])) ? 'editer' : 'retide'; ?>">
+                            <div class="entry">
+                            <span class="editer">
                               <?= ($evaluation->vulnerable_elderly) ? $checked : $nChecked; ?> Elderly <br> 
                             </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_elderly'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_elderly'])-1) {
-                                  $a = ($evaluation->vulnerable_elderly) ? $checked : $nChecked; $a.=' Elderly <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_elderly) ? $checked : $nChecked; $a.=' Elderly <br>';
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_elderly']) ? $checked : $nChecked; $a.=' Elderly <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
-                            <span class="<?= (isset($evaluation_edit['vulnerable_refugees'])) ? 'editer' : 'retide'; ?>">
+                              ?>
+                            </div>
+                            <div class="entry">
+                            <span class="editer">
                               <?= ($evaluation->vulnerable_refugees) ? $checked : $nChecked; ?> Refugees <br> 
                             </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_refugees'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_refugees'])-1) {
-                                  $a = ($evaluation->vulnerable_refugees) ? $checked : $nChecked; $a.=' Refugees <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_refugees) ? $checked : $nChecked; $a.=' Refugees <br>';
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_refugees']) ? $checked : $nChecked; $a.=' Refugees <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
-                            <span class="<?= (isset($evaluation_edit['vulnerable_unconscious'])) ? 'editer' : 'retide'; ?>">
+                              ?>
+                            </div>
+                            <div class="entry">
+                            <span class="editer">
                               <?= ($evaluation->vulnerable_unconscious) ? $checked : $nChecked; ?> Those who cannot give consent (unconscious) <br> 
                             </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_unconscious'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_unconscious'])-1) {
-                                  $a = ($evaluation->vulnerable_unconscious) ? $checked : $nChecked; $a.=' Those who cannot give consent (unconscious) <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_unconscious) ? $checked : $nChecked; $a.=' Those who cannot give consent (unconscious) <br>';
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_unconscious']) ? $checked : $nChecked; $a.=' Those who cannot give consent (unconscious) <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
+                              ?>
+                            </div>
                           </div>
                           <div class="col-xs-4">
-                            <span class="<?= (isset($evaluation_edit['vulnerable_prisoners'])) ? 'editer' : 'retide'; ?>">
+                            <div class="entry">
+                            <span class="editer">
                               <?= ($evaluation->vulnerable_prisoners) ? $checked : $nChecked; ?> Prisoners <br> 
                             </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_prisoners'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_prisoners'])-1) {
-                                  $a = ($evaluation->vulnerable_prisoners) ? $checked : $nChecked; $a.=' Prisoners <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_prisoners) ? $checked : $nChecked; $a.=' Prisoners <br>';
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_prisoners']) ? $checked : $nChecked; $a.=' Prisoners <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
-                            <span class="<?= (isset($evaluation_edit['vulnerable_mental'])) ? 'editer' : 'retide'; ?>">
+                              ?>
+                            </div>
+                            <div class="entry">
+                            <span class="editer">
                               <?= ($evaluation->vulnerable_mental) ? $checked : $nChecked; ?> Persons with mental or Behavioural  Disorders <br> 
                             </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_mental'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_mental'])-1) {
-                                  $a = ($evaluation->vulnerable_mental) ? $checked : $nChecked; $a.=' Persons with mental or Behavioural  Disorders <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_mental) ? $checked : $nChecked; $a.=' Persons with mental or Behavioural  Disorders <br>';
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_mental']) ? $checked : $nChecked; $a.=' Persons with mental or Behavioural  Disorders <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
-
-                            <span class="<?= (isset($evaluation_edit['vulnerable_others'])) ? 'editer' : 'retide'; ?>">
+                              ?>
+                            </div>
+                            <div class="entry">
+                            <span class="editer">
                               <?= ($evaluation->vulnerable_others) ? $checked : $nChecked; ?> Others <br> 
                             </span>
-                            <?php
-                              for ($i=0; $i < count(($evaluation_edit['vulnerable_others'] ?? null)); $i++) { 
-                                if ($i == count($evaluation_edit['vulnerable_others'])-1) {
-                                  $a = ($evaluation->vulnerable_others) ? $checked : $nChecked; $a.=' Others <br>';
-                                  echo "<span class='retide'>$a</span>";
-                                } else {
-                                  $a = ($evaluation->vulnerable_others) ? $checked : $nChecked; $a.=' Others <br>';
+                              <?php
+                                foreach ($evaluation->evaluation_edits as $nvalue) {
+                                  $a = ($nvalue['vulnerable_others']) ? $checked : $nChecked; $a.=' Others <br>';
                                   echo "<span class='editer'>$a</span>";
                                 }
-                              }
-                            ?>
+                              ?>
+                            </div>
                           </div>
                         </div>
                       </td>

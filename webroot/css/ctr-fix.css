@@ -399,6 +399,14 @@ tr.amender th, tr.amender th:before  {
   padding-right: 2px;
   padding-left: 2px;
 }
+/*.span:not(:last-child) { text-decoration: line-through; color: #767676; }*/
+ /*.span:not(:last-child) { text-decoration: line-through; color: #767676; }*/
+td span.editer:last-child {
+  text-decoration: none; color: #333;
+}
+.entry > span.editer:last-child {
+  text-decoration: none; color: #333;
+}
 
 tr.editer td  {
   background-color: #1F9EDE;

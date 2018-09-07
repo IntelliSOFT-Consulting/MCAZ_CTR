@@ -63,6 +63,7 @@
                             </div>
                           </div>                           
                           <div class="form-group">
+                            <?php if($committee_review['decision'] == 'Approved') { ?>
                             <label class="control-label"><u>Secretary for health</u></label><br>
                             <label class="control-label">Letter recommending approval</label>
                             <?php foreach ($committee_review->attachments as $attachment) { 
@@ -71,7 +72,7 @@
                                      echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
                                 ?></p>
                                 <p><?= $attachment['description'] ?></p>
-                                <?php } } ?>
+                                <?php } } } ?>
                           </div> 
 
                          <br>
