@@ -63,7 +63,7 @@
           if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id != $this->request->session()->read('Auth.User.id')) 
                and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
                and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1) {            
-            echo $this->Form->postLink('<span class="editer active">Approve the evaluation?</span>', 
+            echo $this->Form->postLink('<span class="label label-success active">Approve the evaluation?</span>', 
                 ['action' => 'attachSignature', $evaluation->id, 'prefix' => $prefix], 
                 ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to evaluation?', 'class' => 'label-link']);
           } elseif ($this->request->params['_ext'] != 'pdf' and !empty($evaluation->chosen)
