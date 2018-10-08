@@ -20,7 +20,7 @@
   <div class="row">
     <div class="col-xs-12">
       <h4>Preamble</h4>
-      <p>The application was initially tabled at the PVCT Committee Meeting and the applicant was requested to address the following issues:</p>
+      <p>The application was tabled at the PVCT Committee Meeting and the applicant was requested to address the following issues:</p>
     </div>  
   </div>
   

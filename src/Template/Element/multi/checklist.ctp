@@ -48,7 +48,7 @@ In-house CHECKLIST for Completeness of an application to conduct a clinical tria
       <?php
 
           echo $this->Form->control('applicant_fees', 
-                      ['type' => 'checkbox', 'label' => 'Practicing License for principal investigator or co-investigator '.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
+                      ['type' => 'checkbox', 'label' => 'Practicing License for principal investigator or co-investigator <i class="sterix fa fa-asterisk" aria-hidden="true"></i>'.$add_checklist, 'escape' => false, 'templates' => 'checklist_form']);
       ?>
     </div>
     <div id="fees" class="checkcontrols" title="fees">

@@ -53,9 +53,9 @@ class AmendmentsController extends AmendmentsBaseController
                 //Send email, notification and message to evaluator
                 $data['user_id'] = $evaluator->id;                
                 $data['email_address'] = $evaluator->email;
-                $data['user_message'] = $this->request->getData('user_message');
+                $data['vars']['user_message'] = $this->request->getData('user_message');
 
-                $data['name'] = $this->Auth->user('name');
+                $data['vars']['name'] = $this->Auth->user('name');
                 $data['type'] = 'manager_assign_evaluator_message';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //email evaluator_assigned_manager_notification

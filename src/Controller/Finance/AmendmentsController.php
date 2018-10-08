@@ -52,6 +52,7 @@ class AmendmentsController extends AmendmentsBaseController
                   $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $application->id,
                     'vars' =>  $application->toArray()];
                   $data['type'] = 'finance_submit_approval_email';
+                  $data['vars']['name'] = $manager->name;
                   $data['vars']['public_comments'] = $application->finance_approvals[0]->public_comments;
                   $data['vars']['internal_comments'] = $application->finance_approvals[0]->internal_comments;
                   $this->QueuedJobs->createJob('GenericEmail', $data);

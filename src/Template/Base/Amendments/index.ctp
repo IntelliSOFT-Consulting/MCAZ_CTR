@@ -42,7 +42,17 @@
                    echo   $this->Html->link($amendment->protocol_no, ['action' => 'view', $amendment->id, 'prefix' => $prefix, 'status' => $amendment->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($amendment->public_title) ?></td>
                 <td><?= h($amendment->scientific_title) ?></td>
-                <td><?= h($amendment->status) ?></td>
+                <td><?= h($amendment->status) ?>
+                    <?php 
+                      echo ($amendment->approved) ? '<b>'.$amendment->approved.'</b>
+                               <br>'.$amendment->status : $amendment->status ; 
+                      echo '<br><b>Assigned to:</b><br>';
+                      foreach ($amendment->assign_evaluators as $evaluator) {
+                          // echo $all_evaluators->toArray()[$evaluator->user_id].' <i class="fa fa-arrow-right" aria-hidden="true"></i> '.$all_evaluators->toArray()[$evaluator->assigned_to].'<br>';
+                          echo $this->cell('Signature::index', [$evaluator->assigned_to]).' <span class="muted">by '.$this->cell('Signature::index', [$evaluator->user_id]).'</span><br>';
+                      }
+                    ?>                
+                </td>
                 <td><?php 
                         foreach ($amendment->application_stages as $application_stage) {
                             $nvar = (($application_stage->alt_date)) ?? $application_stage->stage_date->i18nFormat('dd-MM-yyyy');

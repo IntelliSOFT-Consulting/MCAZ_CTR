@@ -1239,7 +1239,14 @@ class ApplicationsBaseController extends AppController
         //send message to applicant and managers upon successful suspend
         $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         $filt[] = $application->user_id; //Add applicant
-        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
         $this->loadModel('Queue.QueuedJobs');    
         foreach ($managers as $manager) {
             //Notify managers    
@@ -1272,7 +1279,14 @@ class ApplicationsBaseController extends AppController
         //send message to applicant and managers upon successful suspend
         $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         $filt[] = $application->user_id; //Add applicant
-        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
         $this->loadModel('Queue.QueuedJobs');    
         foreach ($managers as $manager) {
             //Notify managers    

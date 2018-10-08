@@ -29,9 +29,9 @@
     <?php /* 
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>   
-      <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Director General</b></a></li>  
      */ ?>
       <?php if($application->approved === 'Authorize') { ?>    
+      <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Indemnity Forms</b></a></li>  
       <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
       <?php } ?>    
       <li role="presentation"><a href="#gcp" aria-controls="gcp" role="tab" data-toggle="tab"><b>GCP Inspections</b></a></li>  
@@ -92,10 +92,10 @@
     <div role="tabpanel" class="tab-pane" id="committee">
         <?= $this->element('applications/applicant_committee') ?>
     </div>
+     */ ?>
     <div role="tabpanel" class="tab-pane" id="dg">        
         <?php echo $this->element('applications/applicant_dg') ?>
     </div>
-     */ ?>
     <div role="tabpanel" class="tab-pane" id="feedback">
         <?= $this->element('applications/applicant_feedback') ?>
     </div>

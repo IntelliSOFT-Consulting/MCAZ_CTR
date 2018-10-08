@@ -15,6 +15,7 @@ use Cake\Utility\Hash;
 class AmendmentsBaseController extends AppController
 {
 
+    public $filt = [1];
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
@@ -83,14 +84,15 @@ class AmendmentsBaseController extends AppController
         //     'contain' => $this->a_contains
         // ]);
 
-        $filt = Hash::extract($amendment, 'assign_evaluators.{n}.assigned_to');
-        array_push($filt, 1);
+        $this->filt = Hash::extract($amendment, 'assign_evaluators.{n}.assigned_to');
+        array_push($this->filt, 1);
+        $filt = $this->filt;
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $internal_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3,
-            'id NOT IN' => $filt]);
+            'id NOT IN' => $this->filt]);
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
-            'id NOT IN' => $filt]);
+            'id NOT IN' => $this->filt]);
         
         $this->set(compact('application', 'amendment', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey', 'filt'));
         $this->set('_serialize', ['application']);

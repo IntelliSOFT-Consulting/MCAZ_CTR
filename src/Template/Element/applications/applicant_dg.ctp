@@ -4,7 +4,7 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <h4 class="text-center"><label class="text-success">Director General Reviews</label></h4>
+      <h4 class="text-center"><label class="text-success">Indemnity Forms</label></h4>
       <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'dg', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
       ?>
@@ -29,6 +29,7 @@
                       <p class="form-control-static"><?= $dg_review->applicant_review_comment ?></p>
                     </div>
                   </div> 
+                  <?php /*
                   <div class="form-group">
                     <label class="col-xs-4 control-label">Director General Decision:</label>
                     <div class="col-xs-8">
@@ -41,7 +42,7 @@
                     <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
                     </div> 
                   </div> 
-
+                  */ ?>
                   <div class="form-group">
                     <label class="control-label">Approval Letter</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
