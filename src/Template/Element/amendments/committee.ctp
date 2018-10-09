@@ -122,19 +122,7 @@
                 ?>
 
 
-              <div class="row desc" id="Approved">
-                <div class="col-xs-4 control-label">
-                  <label>Letter recommending approval</label>
-                </div>
-                <div class="col-xs-7">
-                  <div class="commsTable">
-                    <h6>
-                        <button type="button" class="btn btn-primary btn-xs addCLetter" value="100">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
-                    </h6>
-                    <hr>
-                  </div>
-                </div>
-              </div>
+             
               
                 </div>          
               </div>
