@@ -14,6 +14,8 @@
               ?>
 
     <h2 class="page-header"><?= $application->protocol_no ?></h2>
+    <h5><?= $application->version_no ?></h5>
+    <h5><?= $application->date_of_protocol ?></h5>
 
 <?php $this->end(); ?>
 

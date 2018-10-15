@@ -33,6 +33,88 @@
                   <td><?= $amendment->scientific_title ?></td>
                </tr>
              <?php   } } ?>
+
+             <tr>
+              <td colspan="2">
+              <br/>
+              <h5>Primary Sponsor Details</h5>
+              </td>
+            </tr>
+            <tr>
+              <th><label>Sponsors <span class="sterix">*</span></label></th>
+              <td><?= $application->sponsor_name ?></td>
+            </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['sponsor_name'])){      ?>
+               <tr class="amender">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->sponsor_name ?></td>
+               </tr>
+             <?php   } } ?>
+
+
+            <tr>
+              <td colspan="2">
+              <br/>
+              <h5>Secondary Sponsor Details </h5>
+              </td>
+            </tr>
+
+            <?php
+            if (!empty($application['sponsors'])) {
+             for ($i = 0; $i <= count($application['sponsors'])-1; $i++) {
+            ?>
+            <tr>
+              <th><label>Sponsors </label></th>
+              <td><?= $application->sponsors[$i]['sponsor'] ?></td>
+            </tr>
+            <?php 
+              }
+            }
+           ?>
+
+            <?php
+
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['sponsors'])){
+                for ($i = 0; $i <= count($amendment['sponsors'])-1; $i++) {
+            ?>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>sponsors </label></th>
+              <td><?= $amendment->sponsors[$i]['sponsor'] ?></td>
+            </tr>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>Contact Person</label></th>
+              <td><?= $amendment->sponsors[$i]['contact_person'] ?></td>
+            </tr>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>Address </label></th>
+              <td><?= $amendment->sponsors[$i]['address'] ?></td>
+            </tr>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>Telephone Number </label></th>
+              <td><?= $amendment->sponsors[$i]['telephone_number'] ?></td>
+            </tr>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>Fax Number</label></th>
+              <td><?= $amendment->sponsors[$i]['fax_number'] ?></td>
+            </tr>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>Mobile phone number </label></th>
+              <td><?= $amendment->sponsors[$i]['cell_number'] ?></td>
+            </tr>
+            <tr>
+              <th><?php echo $key+1; ?> &nbsp; <label>Email Address </label></th>
+              <td><?= $amendment->sponsors[$i]['email_address'] ?></td>
+            </tr>
+            <tr><td colspan="2"></td></tr>
+            <?php 
+              }
+            } }
+           ?>
+
+
             <tr><td colspan="2"> <label>Contact for Public Queries</label> </td></tr>
             <tr>
               <th>

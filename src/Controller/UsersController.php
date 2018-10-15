@@ -49,7 +49,7 @@ class UsersController extends AppController
             return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'external_evaluator']);
         }
     }
-
+/*
     //Login with username or password
     public function login()
     {   
@@ -109,7 +109,7 @@ class UsersController extends AppController
 
             $this->Flash->error(__('Invalid username or password, try again'));
         }
-    }
+    }*/
  
     public function logout() {
         //Leave empty for now.
