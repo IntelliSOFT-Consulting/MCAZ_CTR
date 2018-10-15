@@ -36,11 +36,12 @@ class SideBarCell extends Cell
         $this->loadModel('Applications');
         $this->loadModel('Notifications');
 
-        $application_stats = $this->Applications->find('all')->select([ 'status',
+        $application_stats = $this->Applications->find('all')->select([ 
+            'status' => 'case when approved in ("Authorize", "DirectorAuthorize") then approved else status end',
                                                           'count' => $this->Applications->find('all')->func()->count('*')
                                                         ])
                                                  ->where(['report_type' => 'Initial'])
-                                                 ->group('status');
+                             ->group('case when approved in ("Authorize", "DirectorAuthorize") then approved else status end');
 
         $amendment_stats = $this->Applications->find('all')
                                     ->select(['status',

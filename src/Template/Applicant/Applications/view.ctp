@@ -30,7 +30,7 @@
       <li role="presentation"><a href="#request" aria-controls="request" role="tab" data-toggle="tab"><b>Communications</b></a></li>    
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee</b></a></li>   
      */ ?>
-      <?php if($application->approved === 'Authorize') { ?>    
+      <?php if($application->approved === 'Authorize' or $application->approved === 'DirectorAuthorize') { ?>    
       <li role="presentation"><a href="#dg" aria-controls="dg" role="tab" data-toggle="tab"><b>Indemnity Forms</b></a></li>  
       <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab"><b>Notifications</b></a></li> 
       <?php } ?>    

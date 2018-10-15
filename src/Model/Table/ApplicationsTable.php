@@ -338,6 +338,7 @@ class ApplicationsTable extends Table
         $searchManager = $this->behaviors()->Search->searchManager();
         $searchManager
             ->value('status')
+            ->value('approved')
             ->like('protocol_no')
             ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
             ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
