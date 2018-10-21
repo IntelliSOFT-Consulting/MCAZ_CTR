@@ -15,6 +15,11 @@ use Cake\Utility\Hash;
  */
 class ApplicationsController extends ApplicationsBaseController
 {
+    public function index($id = null) {
+        parent::index($id);
+        $this->render('/Finance/Applications/index');
+    }
+
     public function view($id = null) {
         parent::view($id);
         $this->render('/Finance/Applications/view');
@@ -70,6 +75,7 @@ class ApplicationsController extends ApplicationsBaseController
                       'type' => 'applicant_finance_comments_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                         'vars' =>  $application->toArray()
                     ];
+                    $data['vars']['name'] = $reporter['name'];
                     $data['vars']['public_comments'] = $application->finance_approvals[0]->public_comments;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -128,6 +134,7 @@ class ApplicationsController extends ApplicationsBaseController
                       'type' => 'applicant_finance_comments_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                         'vars' =>  $application->toArray()
                     ];
+                    $data['vars']['name'] = $reporter['name'];
                     $data['vars']['public_comments'] = $application->finance_annual_approvals[0]->public_comments;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);

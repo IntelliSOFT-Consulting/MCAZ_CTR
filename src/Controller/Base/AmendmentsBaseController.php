@@ -35,8 +35,9 @@ class AmendmentsBaseController extends AppController
         ];
 
         $amt_query = $this->Applications->find('all')
-                        ->contain(['ApplicationStages', 'ApplicationStages.Stages', 'AssignEvaluators', 'AssignEvaluators.Users'])
-                        ->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment']);
+                        ->contain(['ApplicationStages', 'ApplicationStages.Stages', 'AssignEvaluators', 'AssignEvaluators.Users', 'FinanceApprovals', 'FinanceApprovals.Users'])
+                        ->where(['Applications.submitted' => 2, 'Applications.report_type' => 'Amendment'])
+                        ->order(['Applications.id' => 'desc']);
 
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $amt_query->matching('AssignEvaluators', function ($q) {
@@ -74,7 +75,7 @@ class AmendmentsBaseController extends AppController
         ]);
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
-            foreach ($application->evaluations as $key => $value) {
+            foreach ($amendment->evaluations as $key => $value) {
                 if($value['id'] == $this->request->getData('evaluation_id')) {
                     $ekey = $key;
                 }
@@ -159,6 +160,19 @@ class AmendmentsBaseController extends AppController
         return $this->redirect($this->redirect($this->referer()));
     }
     
+    public function attachSignature($id = null) {
+        $evaluation = $this->Applications->Evaluations->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $evaluation = $this->Applications->Evaluations->patchEntity($evaluation, ['chosen' => $this->Auth->user('id')]);
+            if ($this->Applications->Evaluations->save($evaluation)) {
+                $this->Flash->success('Signature successfully attached to evaluation');
+                return $this->redirect($this->referer());
+            } else {             
+                $this->Flash->error(__('Unable to attach signature. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        }
+    }
 
     public function addCommitteeReview() {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages', 'ParentApplications']]);
@@ -543,11 +557,12 @@ class AmendmentsBaseController extends AppController
     }
     public function review($id = null, $scope = null) {
         if($scope === 'All') {
-            $evaluations = $this->Applications->Evaluations->findByApplicationId($id)->contain(['Users']);
+            $evaluations = $this->Applications->Evaluations->findByApplicationId($id)->contain(['Users', 'EvaluationEdits'])->where(['Evaluations.evaluation_type' => 'Initial']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $review = $this->Applications->Evaluations
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'EvaluationEdits'],
+                            'conditions' => ['Evaluations.evaluation_type' => 'Initial']]);            
             $application = $review->application;
             $evaluations[] = $review;
         }
@@ -562,7 +577,7 @@ class AmendmentsBaseController extends AppController
                     'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_review_'.$id.'.pdf' : 'application_review_'.$id.'.pdf'
                 ]
             ]);
-            $this->render('/Base/Evaluations/pdf/view');
+            $this->render('/Base/Evaluations/pdf/amendment_view');
         }
     }
     public function communication($id = null, $scope = null) {

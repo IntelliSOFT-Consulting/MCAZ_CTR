@@ -855,7 +855,14 @@ class ApplicationsController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, $application->user_id);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 7]])->orWhere(['id IN' => $filt]);
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 7]])->orWhere(['id IN' => $filt]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->in('group_id', [2, 7]);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
 
                 //Notify managers, evaluators, director generals and users that indemnity forms have been uploaded
                 $this->loadModel('Queue.QueuedJobs');  

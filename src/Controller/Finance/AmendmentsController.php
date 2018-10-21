@@ -17,6 +17,11 @@ use Cake\Utility\Hash;
 class AmendmentsController extends AmendmentsBaseController
 {
     
+    public function index($id = null) {
+        parent::index($id);
+        $this->render('/Finance/Amendments/index');
+    }
+
     public function view($id = null) {
         parent::view($id);
         $this->render('/Finance/Amendments/view');
@@ -69,6 +74,7 @@ class AmendmentsController extends AmendmentsBaseController
                       'type' => 'applicant_finance_comments_email', 'model' => 'Amendments', 'foreign_key' => $application->id,
                         'vars' =>  $application->toArray()
                     ];
+                    $data['vars']['name'] = $reporter['name'];
                     $data['vars']['public_comments'] = $application->finance_approvals[0]->public_comments;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);

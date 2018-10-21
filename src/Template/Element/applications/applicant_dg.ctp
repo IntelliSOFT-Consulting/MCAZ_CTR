@@ -42,7 +42,6 @@
                     <p class="form-control-static"><?= $dg_review['approved_date'] ?></p>
                     </div> 
                   </div> 
-                  */ ?>
                   <div class="form-group">
                     <label class="control-label">Approval Letter</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
@@ -52,8 +51,9 @@
                         ?></p>
                         <p><?= $attachment['description'] ?></p>
                         <?php } } ?>
-                  </div> 
-                  
+                  </div>                   
+                  */ ?>
+
                   <div class="form-group">
                     <label class="control-label">Authorization Letter</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 

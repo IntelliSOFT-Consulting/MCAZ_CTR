@@ -39,6 +39,30 @@
                 
             </div>
             <!-- end -->
+            <!-- begin -->
+            <div class="col-xs-12 col-sm-12">
+                <h3><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> Section 75', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'SeventyFives']) ?></small></h3>                
+                  <ul class="list-unstyled">
+                    <?php 
+                      $i = 1;
+                      foreach ($seventy_fives as $seventy_five): ?>
+                    <li><?php 
+                          echo $i++.'. '.$this->Text->truncate($seventy_five->applicant_review_comment, 37).$this->Html->link('<span class="text-info">view</view>', ['controller' => 'Applications', 'action' => 'view', $seventy_five->application->id], ['escape' => false]);
+                                
+                               ?></li>
+                    <?php endforeach; ?>
+                  </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'SeventyFives']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'SeventyFives']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'SeventyFives']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'SeventyFives']) ?>
+                    </ul>
+                </nav>        
+                
+            </div>
+            <!-- end -->
           </div>
                
         </div>

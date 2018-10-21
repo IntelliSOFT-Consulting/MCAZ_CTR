@@ -31,16 +31,23 @@ class UsersBaseController extends AppController
     
     public function dashboard() {
         $this->loadModel('Applications');
+        $this->loadModel('SeventyFives');
         $this->paginate = [
-            'limit' => 15,
+            'limit' => 10,
         ];
 
-        $app_query = $this->Applications->find('all')->where(['submitted' => 2, 'report_type' => 'Initial'], ['order' => ['Applications.id' => 'desc']]);
+        $app_query = $this->Applications->find('all')->where(
+            ['submitted' => 2, 'report_type' => 'Initial', 'approved NOT IN' => ['Authorize', 'DirectorAuthorize', 'Declined']], 
+            ['order' => ['Applications.id' => 'desc']]);
         //Evaluators and External evaluators only to view if assigned
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $app_query->matching('AssignEvaluators', function ($q) {
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
             });
+        }
+        //Finance only able to see FN
+        if ($this->Auth->user('group_id') == 5) {
+            $app_query->andWhere(['Applications.protocol_no LIKE' => '%FN%']);
         }
         // Secretary General only able to view once it has been approved
         /*if ($this->Auth->user('group_id') == 7) {
@@ -57,6 +64,14 @@ class UsersBaseController extends AppController
             'contain' => ['ParentApplications'],
             'conditions' => ['Amendments.submitted' => 2, 'Amendments.report_type' => 'Amendment'],
         ));
+        $s75_query = $this->SeventyFives->find('all', array(
+            'order' => array('SeventyFives.created' => 'desc'),
+            'contain' => ['Applications']
+        ));
+        //Finance only able to see FN
+        if ($this->Auth->user('group_id') == 5) {
+            $amt_query->andWhere(['Amendments.protocol_no LIKE' => '%FN%']);
+        }
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $amt_query->matching('AssignEvaluators', function ($q) {
                 return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
@@ -71,8 +86,10 @@ class UsersBaseController extends AppController
         
         $amendments = $this->paginate($amt_query, 
             ['scope' => 'amendment']);
+        $seventy_fives = $this->paginate($s75_query, 
+            ['scope' => 'seventy']);
 
-        $this->set(compact('applications', 'amendments'));
+        $this->set(compact('applications', 'amendments', 'seventy_fives'));
         $this->render('/Base/Users/dashboard');
     }
 }

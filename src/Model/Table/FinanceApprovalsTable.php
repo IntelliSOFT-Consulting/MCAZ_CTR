@@ -47,6 +47,9 @@ class FinanceApprovalsTable extends Table
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id'
+        ]);
 
         $this->hasMany('Attachments', [
             'className' => 'Attachments',

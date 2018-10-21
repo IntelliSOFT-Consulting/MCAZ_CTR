@@ -2,13 +2,11 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<h2 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> Applications
+<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> Applications
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
               <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
               <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
-</h2>
-
-<?= $this->element('applications/search') ?>
+</h1>
 
 <div class="paginator">
     <ul class="pagination pagination-sm">
@@ -31,40 +29,40 @@
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Finance Approvals</th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th> 
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th> 
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($applications as $application): ?>
+            <?php foreach ($amendments as $amendment): ?>
             <tr>
-                <td><?= $this->Number->format($application->id) ?></td>
+                <td><?= $this->Number->format($amendment->id) ?></td>
                 <td><?php
-                      echo $this->Html->link((($application->submitted == 2) ? $application->protocol_no : $application->created), ['action' => 'view', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false, 'class' => 'btn-zangu']) ; 
-                      ?>
-                  </td>
-                <td><?= h($application->public_title) ?></td>
-                <td><?= h($application->scientific_title) ?></td>
-                <td><?php 
-                      echo ($application->approved) ? '<b>'.$application->approved.'</b>
-                               <br>'.$application->status : $application->status ; 
-                      echo '<hr class="finance"><br><b>Assigned to:</b><br>';
-                      foreach ($application->assign_evaluators as $evaluator) {
-                          // echo $all_evaluators->toArray()[$evaluator->user_id].' <i class="fa fa-arrow-right" aria-hidden="true"></i> '.$all_evaluators->toArray()[$evaluator->assigned_to].'<br>';
-                          echo $this->cell('Signature::index', [$evaluator->assigned_to]).' <span class="muted">by '.$this->cell('Signature::index', [$evaluator->user_id]).'</span><hr class="finance">';
-                      }
-                    ?>
-                </td>
-                <td>
+                //pr($amendment->parent_application);
+                   echo   $this->Html->link($amendment->protocol_no, ['action' => 'view', $amendment->id, 'prefix' => $prefix, 'status' => $amendment->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
+                <td><?= h($amendment->public_title) ?></td>
+                <td><?= h($amendment->scientific_title) ?></td>
+                <td><?= h($amendment->status) ?>
                     <?php 
-                      foreach ($application->finance_approvals as $finance_approval) {
+                      echo ($amendment->approved) ? '<b>'.$amendment->approved.'</b>
+                               <br>'.$amendment->status : $amendment->status ; 
+                      echo '<br><b>Assigned to:</b><br>';
+                      foreach ($amendment->assign_evaluators as $evaluator) {
+                          // echo $all_evaluators->toArray()[$evaluator->user_id].' <i class="fa fa-arrow-right" aria-hidden="true"></i> '.$all_evaluators->toArray()[$evaluator->assigned_to].'<br>';
+                          echo $this->cell('Signature::index', [$evaluator->assigned_to]).' <span class="muted">by '.$this->cell('Signature::index', [$evaluator->user_id]).'</span><br>';
+                      }
+                    ?>                
+                </td>
+                <td>                    
+                    <?php 
+                      foreach ($amendment->finance_approvals as $finance_approval) {
                         echo '<b>Outcome: </b>'.$finance_approval->outcome.' <span class="muted">'.$finance_approval->outcome_date.' by '.$finance_approval->user->name.'</span><br>';
                         echo "<p>".$finance_approval->internal_comments."</p>";
                         echo "<p>".$finance_approval->public_comments."</p><hr class='finance'>";
                       }
                     ?>
                 </td>
-                <td><?= h($application->created) ?></td>         
+                <td><?= h($amendment->modified) ?></td>         
                 <td>
                                
                 </td>

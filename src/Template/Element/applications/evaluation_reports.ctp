@@ -62,13 +62,16 @@
           echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
           if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id != $this->request->session()->read('Auth.User.id')) 
                and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
-               and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1) {            
+               //and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
+               and is_null($evaluation->chosen)
+             ) {            
             echo $this->Form->postLink('<span class="label label-success active">Approve the evaluation?</span>', 
                 ['action' => 'attachSignature', $evaluation->id, 'prefix' => $prefix], 
                 ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to evaluation?', 'class' => 'label-link']);
-          } elseif ($this->request->params['_ext'] != 'pdf' and !empty($evaluation->chosen)
+          } 
+          if ($this->request->params['_ext'] != 'pdf' and !empty($evaluation->chosen)
                    and in_array($evaluation->chosen, Hash::extract($evaluations, '{n}.chosen'))) {
-            echo '<span class="editer">Approved</span>';
+            echo '&nbsp;<span class="label label-success">Approved</span>';
           }       
         ?>
               <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">

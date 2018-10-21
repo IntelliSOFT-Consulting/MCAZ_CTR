@@ -48,10 +48,10 @@
                 <td><?php 
                       echo ($application->approved) ? '<b>'.$application->approved.'</b>
                                <br>'.$application->status : $application->status ; 
-                      echo '<br><b>Assigned to:</b><br>';
+                      echo '<br><hr class="finance"><b>Assigned to:</b><br>';
                       foreach ($application->assign_evaluators as $evaluator) {
                           // echo $all_evaluators->toArray()[$evaluator->user_id].' <i class="fa fa-arrow-right" aria-hidden="true"></i> '.$all_evaluators->toArray()[$evaluator->assigned_to].'<br>';
-                          echo $this->cell('Signature::index', [$evaluator->assigned_to]).' <span class="muted">by '.$this->cell('Signature::index', [$evaluator->user_id]).'</span><br>';
+                          echo $this->cell('Signature::index', [$evaluator->assigned_to]).' <span class="muted">by '.$this->cell('Signature::index', [$evaluator->user_id]).'</span><hr class="finance">';
                       }
                     ?>
                 </td>

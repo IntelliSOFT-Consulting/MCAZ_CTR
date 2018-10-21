@@ -43,12 +43,25 @@ class SideBarCell extends Cell
                                                  ->where(['report_type' => 'Initial'])
                              ->group('case when approved in ("Authorize", "DirectorAuthorize") then approved else status end');
 
+        //Evaluators and External evaluators only to view if assigned
+        if ($this->request->session()->read('Auth.User.group_id') == 3 or $this->request->session()->read('Auth.User.group_id') == '6') {
+            $application_stats->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->request->session()->read('Auth.User.group_id')]);
+            });
+        }
+        
         $amendment_stats = $this->Applications->find('all')
                                     ->select(['status',
                                               'count' => $this->Applications->find('all')->func()->count('distinct Applications.id')
                                              ])
                                             ->where(['Applications.report_type' => 'Amendment'])
                                             ->group(['status']);
+        //Evaluators and External evaluators only to view if assigned
+        if ($this->request->session()->read('Auth.User.group_id') == 3 or $this->request->session()->read('Auth.User.group_id') == '6') {
+            $amendment_stats->matching('AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->request->session()->read('Auth.User.group_id')]);
+            });
+        }
         /*$amendment_stats = $this->Applications->find('all')
                                     ->innerJoinWith('ApplicationStages.Stages')
                                     ->select(['status' => 'Stages.name',

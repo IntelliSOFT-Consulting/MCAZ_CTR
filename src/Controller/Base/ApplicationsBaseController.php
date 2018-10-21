@@ -50,9 +50,10 @@ class ApplicationsBaseController extends AppController
             ->leftJoinWith('Sponsors')
             ->leftJoinWith('SiteDetails')
             ->leftJoinWith('Medicines')
-            ->contain(['ApplicationStages', 'ApplicationStages.Stages', 'AssignEvaluators', 'AssignEvaluators.Users'])
+            ->contain(['ApplicationStages', 'ApplicationStages.Stages', 'AssignEvaluators', 'AssignEvaluators.Users', 'FinanceApprovals', 'FinanceApprovals.Users'])
             // You can add extra things to the query if you need to
             ->where([['report_type' => 'Initial', 'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
+            ->order(['Applications.id' => 'desc'])
             ->distinct();
 
         //Evaluators and External evaluators only to view if assigned

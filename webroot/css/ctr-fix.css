@@ -184,6 +184,10 @@ section {  padding-top: 15px; }
 .my-sidebar hr {
    margin: 10px 0;
 }
+hr.finance {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 hr.my-view {
     border-color: #28054F -moz-use-text-color #FFFFFF;
     border-style: solid none;
