@@ -115,7 +115,7 @@
 
       <hr style="border-width: 1px; border-color: #8a6d3b;">
       <?php if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id')) and
-               !in_array($application->approved, ['Authorize', 'DirectorAuthorize', 'Declined'])) { ?>
+               !in_array($application->approved, ['Authorize', 'DirectorAuthorize', 'Declined', 'DirectorGeneral'])) { ?>
       <?php //if($prefix === 'manager') { ?> 
       <h3 class='text-center'><u>Committee Decision Form</u><br><small style="font-size: 10px;">NB: Queries can be raised in the committee feedback tab!</small></h3>       
        <?php if(!empty($application->evaluations)) { ?> 
