@@ -108,7 +108,9 @@
           <!-- TODO: Check if no previous decision is either approved or declied -->
           <?php if($prefix === 'director_general') { ?> 
           <hr style="border-width: 1px; border-color: #8a6d3b;">
-          <?php if(count($application->evaluations) > 0) { ?> 
+         <?php if(!in_array("10", Hash::extract($application->application_stages, '{n}.stage_id')) and
+                  !in_array($application->approved, ['DirectorAuthorize', 'DirectorDeclined'])) { ?>
+         <?php if(count($application->evaluations) > 0) { ?> 
          <?php echo $this->Form->create($application, ['type' => 'file','url' => ['action' => 'add-dg-review', $application->id], 'class' => 'form-horizontal']); ?>
               <div class="row">
                 <div class="col-xs-12">
@@ -177,6 +179,7 @@
                   </div> 
               </div>
            <?php echo $this->Form->end() ?>
+           <?php } ?>
            <?php } ?>
            <?php } ?>
         </div>

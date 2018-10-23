@@ -50,11 +50,11 @@ class UsersBaseController extends AppController
             $app_query->andWhere(['Applications.protocol_no LIKE' => '%FN%']);
         }
         // Secretary General only able to view once it has been approved
-        /*if ($this->Auth->user('group_id') == 7) {
+        if ($this->Auth->user('group_id') == 7) {
             $app_query->matching('ApplicationStages', function ($q) {
                 return $q->where(['ApplicationStages.stage_id' => 9]);
             });
-        }*/
+        }
 
         $applications = $this->paginate($app_query, ['scope' => 'application', 'order' => ['Applications.protocol_no' => 'desc', 'Applications.status' => 'asc', 'Applications.id' => 'desc'],
                                     'fields' => ['Applications.id', 'Applications.created', 'Applications.protocol_no', 'Applications.submitted', 'Applications.status']]);
