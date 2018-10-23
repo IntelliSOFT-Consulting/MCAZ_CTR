@@ -89,6 +89,11 @@
     background-color: #8f7cb6;
 }
 
+.tabbs > .active > a {
+    /*color: #fff;*/
+    background-color: #ffccff;
+}
+
 .navbar-admin {
     background-color: #132639;
 }

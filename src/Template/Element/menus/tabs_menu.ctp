@@ -1,4 +1,4 @@
-<ul>
+<ul class="tabbs">
       <li><a href="#tabs-1">1. Abstract</a></li>
       <li><a href="#tabs-2">2. Investigator</a></li>
       <li><a href="#tabs-3">3. Sponsor</a></li>

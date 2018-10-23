@@ -56,6 +56,13 @@ class ApplicationsBaseController extends AppController
             ->order(['Applications.id' => 'desc'])
             ->distinct();
 
+        // Secretary General only able to view once it has been approved
+        if ($this->Auth->user('group_id') == 7) {
+            $query->matching('ApplicationStages', function ($q) {
+                return $q->where(['ApplicationStages.stage_id' => 9]);
+            });
+        }
+
         //Evaluators and External evaluators only to view if assigned
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
             $query->matching('AssignEvaluators', function ($q) {

@@ -5,6 +5,8 @@
   $numb = 1;
 ?>
 
+<span id="amendment_cnt" style="display: none;"> <?= count($application['amendments'])?></span>
+
 <div class="row">
   <div class="col-xs-12">
        <?php
