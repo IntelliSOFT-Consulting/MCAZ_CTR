@@ -37,7 +37,8 @@ class UsersBaseController extends AppController
         ];
 
         $app_query = $this->Applications->find('all')->where(
-            ['submitted' => 2, 'report_type' => 'Initial', 'approved NOT IN' => ['Authorize', 'DirectorAuthorize', 'Declined']], 
+            ['submitted' => 2, 'report_type' => 'Initial', //'ifnull(approved, "N") NOT IN' => ['Authorize', 'DirectorAuthorize', 'Declined']
+        ], 
             ['order' => ['Applications.id' => 'desc']]);
         //Evaluators and External evaluators only to view if assigned
         if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
@@ -51,7 +52,7 @@ class UsersBaseController extends AppController
         }
         // Secretary General only able to view once it has been approved
         if ($this->Auth->user('group_id') == 7) {
-            $app_query->andWhere(['Applications.status LIKE' => '%DirectorGeneral%']);
+            $app_query->andWhere(['Applications.status IN' => ['DirectorGeneral', 'DirectorAuthorize']]);
             // $app_query->matching('ApplicationStages', function ($q) {
             //     return $q->where(['ApplicationStages.stage_id' => 9]);
             // });

@@ -40,8 +40,10 @@
                 <td><?php
                 //pr($amendment->parent_application);
                    echo   $this->Html->link($amendment->protocol_no, ['action' => 'view', $amendment->id, 'prefix' => $prefix, 'status' => $amendment->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
-                <td><?= h($amendment->public_title) ?></td>
-                <td><?= h($amendment->scientific_title) ?></td>
+                <td><?= 
+                        $this->Html->link(h($amendment->parent_application->public_title), ['action' => 'view', $amendment->id, 'prefix' => $prefix, 'status' => $amendment->status], ['escape' => false, 'class' => 'btn-zangu']) ;
+                 ?></td>
+                <td><?= h($amendment->parent_application->scientific_title) ?></td>
                 <td><?= h($amendment->status) ?>
                     <?php 
                       echo ($amendment->approved) ? '<b>'.$amendment->approved.'</b>
