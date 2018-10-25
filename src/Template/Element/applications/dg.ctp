@@ -1,4 +1,5 @@
 <?php
+  use Cake\Utility\Hash;
   $this->Html->script('ckeditor/ckeditor', ['block' => true]);
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
