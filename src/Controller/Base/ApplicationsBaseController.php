@@ -133,7 +133,7 @@ class ApplicationsBaseController extends AppController
 
         $ekey = 100;
         $evaluation_id = $this->request->getData('evaluation_id');
-        if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
+        if ($this->request->is(['patch', 'post', 'put']) ) {
             foreach ($application->evaluations as $key => $value) {
                 if($value['id'] == $this->request->getData('evaluation_id')) {
                     $ekey = $key;

@@ -74,7 +74,7 @@ class AmendmentsBaseController extends AppController
             'contain' => $contains,
         ]);
         $ekey = 100;
-        if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($amendment->evaluations as $key => $value) {
                 if($value['id'] == $this->request->getData('evaluation_id')) {
                     $ekey = $key;
