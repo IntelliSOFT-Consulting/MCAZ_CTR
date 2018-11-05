@@ -16,7 +16,7 @@
     <div class="col-md-12">
         <h3 class="text-center text-success"><u>Notification(s) to MCAZ</u></h3>
         <h4 class="text-center">Site Activation Report, Protocol deviations, Clarification memos, DSMB reports, Safety Updates, Progress updates, Site Closure Report etc.</h4>
-      	<h6 class="text-center muted">(Notifications my be submitted at any stage of the application process)</h6>
+      	<h6 class="text-center muted">(Notifications may be submitted at any stage of the application process)</h6>
       <hr>
       <h5><i class="icon-file"></i> Do you have attachments that you would like to send to MCAZ? click on the button to add them:
         <button type="button" class="btn btn-primary btn-xs" id="addAttachment">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>

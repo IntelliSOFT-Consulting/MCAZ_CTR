@@ -136,7 +136,7 @@ class ReportsController extends AppController
         foreach ($arr as $key => $value) {
             //pr(Hash::extract($this->box_plot_values(array_merge($value, $dummies)), '{s}'))
             $cats[] = $key;
-            $data[] = array_values($this->box_plot_values(array_merge($value, $dummies)));
+            $data[] = array_map('intval', array_values($this->box_plot_values(array_merge($value, $dummies))));
         }
 
         if($this->request->is('json')) {

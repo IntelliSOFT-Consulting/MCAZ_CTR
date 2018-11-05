@@ -22,6 +22,7 @@
 <?php $this->start('tabs'); ?>
     <!-- Nav tabs -->    
     <?= $this->Html->script('application_view', ['block' => true]); ?>
+    <?= $this->Html->script('amendment_view', ['block' => true]); ?>
     <?= $this->element('menus/tabs_menu') ?>
 <?php $this->end(); ?>
 

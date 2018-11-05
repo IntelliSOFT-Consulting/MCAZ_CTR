@@ -97,6 +97,29 @@
                     </ul>
                 </nav>                        
             </div>
+
+            <div class="col-xs-12 col-sm-12">
+                <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> Notifications', ['controller' => 'Applications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Attachments']) ?></small></h3>
+                
+                <ul class="list-unstyled">
+                  <?php 
+                    $i = 1;
+                    foreach ($attachments as $attachment): ?>
+                    <li><?php 
+                          echo $i++.'. '.$this->Text->truncate($attachment->file.': '.$attachment->description, 37).$this->Html->link('<span class="text-info">view</view>', ['controller' => 'Applications', 'action' => 'view', $attachment->foreign_key], ['escape' => false]);
+                                
+                               ?></li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Attachments']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Attachments']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Attachments']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Attachments']) ?>
+                    </ul>
+                </nav>                        
+            </div>
             <?php } ?>
             <!-- end -->
           </div>

@@ -32,6 +32,7 @@ class UsersBaseController extends AppController
     public function dashboard() {
         $this->loadModel('Applications');
         $this->loadModel('SeventyFives');
+        $this->loadModel('Attachments');
         $this->paginate = [
             'limit' => 10,
         ];
@@ -70,6 +71,11 @@ class UsersBaseController extends AppController
             'order' => array('SeventyFives.created' => 'desc'),
             'contain' => ['Applications']
         ));
+        $attachment_query = $this->Attachments->find('all', array(
+            'order' => array('Attachments.created' => 'desc'),
+        ))
+        ->where(['model' => 'Applications', 'category' => 'attachments'])
+        ;
         //Finance only able to see FN
         if ($this->Auth->user('group_id') == 5) {
             $amt_query->andWhere(['Amendments.protocol_no LIKE' => '%FN%']);
@@ -90,8 +96,10 @@ class UsersBaseController extends AppController
             ['scope' => 'amendment']);
         $seventy_fives = $this->paginate($s75_query, 
             ['scope' => 'seventy']);
+        $attachments = $this->paginate($attachment_query, 
+            ['scope' => 'attachment']);
 
-        $this->set(compact('applications', 'amendments', 'seventy_fives'));
+        $this->set(compact('applications', 'amendments', 'seventy_fives', 'attachments'));
         $this->render('/Base/Users/dashboard');
     }
 }

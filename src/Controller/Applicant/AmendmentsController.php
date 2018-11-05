@@ -422,7 +422,7 @@ class AmendmentsController extends AppController
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
                     $data['vars']['protocol_no'] = $application->protocol_no;
                     $data['vars']['amend_no'] = $amendment->protocol_no;
-                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['manager_name'] = $manager->name;
                     $data['vars']['date_submitted'] = $amendment->date_submitted;
                     $data['type'] = 'manager_submit_amendment_email';
                     $this->QueuedJobs->createJob('GenericEmail', $data);
