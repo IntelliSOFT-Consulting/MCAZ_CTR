@@ -8,6 +8,8 @@
               <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
 </h1>
 
+<?= $this->element('applications/search') ?>
+
 <div class="paginator">
     <ul class="pagination pagination-sm">
         <?= $this->Paginator->first('<< ' . __('first')) ?>
