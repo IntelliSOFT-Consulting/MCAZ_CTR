@@ -2093,13 +2093,13 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_diagnosis'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($amendment->scope_diagnosis) ? $checked : $nChecked; ?> Diagnosis</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($amendment->scope_diagnosis) ? $checked : $nChecked; ?> Diagnosis</label></th>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_bioequivalence'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_bioequivalence) ? $checked : $nChecked; ?> Bioequivalence</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_bioequivalence) ? $checked : $nChecked; ?> Bioequivalence</label></th>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_prophylaxis) ? $checked : $nChecked; ?> Prophylaxis</label></td>
@@ -2109,13 +2109,13 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_prophylaxis'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_prophylaxis) ? $checked : $nChecked; ?> Prophylaxis</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_prophylaxis) ? $checked : $nChecked; ?> Prophylaxis</label></th>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_dose_response'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_dose_response) ? $checked : $nChecked; ?> Dose Response</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_dose_response) ? $checked : $nChecked; ?> Dose Response</label></th>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_therapy) ? $checked : $nChecked; ?> Therapy</label></td>
@@ -2125,13 +2125,13 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_therapy'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_therapy) ? $checked : $nChecked; ?> Therapy</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_therapy) ? $checked : $nChecked; ?> Therapy</label></th>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacogenetic'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenetic) ? $checked : $nChecked; ?> Pharmacogenetic</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_pharmacogenetic) ? $checked : $nChecked; ?> Pharmacogenetic</label></th>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_safety) ? $checked : $nChecked; ?> Safety</label></td>
@@ -2141,13 +2141,13 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_safety'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_safety) ? $checked : $nChecked; ?> Safety</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_safety) ? $checked : $nChecked; ?> Safety</label></th>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacogenomic'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenomic) ? $checked : $nChecked; ?> Pharmacogenomic</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_pharmacogenomic) ? $checked : $nChecked; ?> Pharmacogenomic</label></th>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_efficacy) ? $checked : $nChecked; ?> Efficacy</label></td>
@@ -2157,13 +2157,13 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_efficacy'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_efficacy) ? $checked : $nChecked; ?> Efficacy</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_efficacy) ? $checked : $nChecked; ?> Efficacy</label></th>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacoecomomic'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacoecomomic) ? $checked : $nChecked; ?> Pharmacoecomomic</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_pharmacoecomomic) ? $checked : $nChecked; ?> Pharmacoecomomic</label></th>  </tr>
              <?php   } } ?>
 
           <tr>
@@ -2174,7 +2174,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacokinetic'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></th>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></td>
@@ -2184,7 +2184,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacodynamic'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></th>  </tr>
              <?php   } } ?>
           <tr>
             <td><label><?= ($application->scope_others) ? $checked : $nChecked; ?> Others</label></td>
@@ -2194,7 +2194,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_others'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_others) ? $checked : $nChecked; ?> Others</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->scope_others) ? $checked : $nChecked; ?> Others</label></th>  </tr>
              <?php   } } ?>
 
 
@@ -2224,7 +2224,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_human_pharmacology'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_human_pharmacology) ? $checked : $nChecked; ?> Human pharmacology (Phase I)</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_human_pharmacology) ? $checked : $nChecked; ?> Human pharmacology (Phase I)</label></th>  </tr>
              <?php   } } ?>
 
             <tr>
@@ -2237,7 +2237,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_administration_humans'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></th>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>
@@ -2246,7 +2246,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_bioequivalence_study'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></th>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>
@@ -2255,7 +2255,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></th>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?></label></td>
@@ -2264,7 +2264,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other_specify'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?> </label></td>  </tr>
+              <tr> <th colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?> </label></th>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></td>
@@ -2273,7 +2273,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_therapeutic_exploratory'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></th>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked : $nChecked; ?> Therapeutic confirmatory (Phase III)</label></td>
@@ -2282,7 +2282,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_therapeutic_confirmatory'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked : $nChecked; ?> Therapeutic confirmatory (Phase III)</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked : $nChecked; ?> Therapeutic confirmatory (Phase III)</label></th>  </tr>
              <?php   } } ?>
             <tr>
               <td colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked : $nChecked; ?> Therapeutic use (Phase IV)</label></td>
@@ -2291,7 +2291,7 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_therapeutic_use'])){      ?>
               <tr class="amender"><td colspan="2"><?php echo $key+1; ?></td></tr>
-              <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked : $nChecked; ?> Therapeutic use (Phase IV)</label></td>  </tr>
+              <tr> <th colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked : $nChecked; ?> Therapeutic use (Phase IV)</label></th>  </tr>
              <?php   } } ?>
         </table>
 
