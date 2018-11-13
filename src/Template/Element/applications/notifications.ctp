@@ -1,3 +1,7 @@
+<?php
+  use Cake\Utility\Hash;
+?>
+
 
 <div class="row">
     <div class="col-md-12">
@@ -12,7 +16,7 @@
 
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
         <table id="attachmentsTable"  class="table table-bordered table-condensed">
             <thead>
               <tr>
@@ -51,3 +55,25 @@
 </div><!--/row-->
 
 <hr>
+<div class="row">
+    <div class="col-xs-12">
+    <br>
+    <?php if($this->request->params['_ext'] != 'pdf') { ?>
+      <div class="amend-form">
+        <h5 class="text-center"><u>COMMENTS/QUERIES</u></h5>
+        <div class="row">
+          <div class="col-xs-8">    
+            <?php echo $this->element('comments/list', ['comments' => $application->notification_comments]) ?> 
+          </div>
+          <div class="col-xs-4 lefty">
+            <?php  
+                  echo $this->element('comments/add', [
+                            'model' => ['model_id' => $application->id, 'foreign_key' => $application->id, 
+                                        'model' => 'Applications', 'category' => 'notification', 'url' => 'add-from-notifications']]) 
+            ?>
+          </div>
+        </div>
+      </div>
+    <?php } ?>
+    </div><!--/span-->
+</div><!--/row-->

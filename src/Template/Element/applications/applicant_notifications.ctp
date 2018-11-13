@@ -73,3 +73,27 @@
 </div><!--/row-->
     <?php echo $this->Form->end() ?>
 <hr>
+
+
+<div class="row">
+    <div class="col-xs-12">
+    <br>
+    <?php if(count($application->notification_comments) > 0) { ?>
+      <div class="amend-form">
+        <h5 class="text-center"><u>COMMENTS/QUERIES</u></h5>
+        <div class="row">
+          <div class="col-xs-8">    
+            <?php echo $this->element('comments/list', ['comments' => $application->notification_comments]) ?> 
+          </div>
+          <div class="col-xs-4 lefty">
+            <?php  
+                  echo $this->element('comments/add', [
+                            'model' => ['model_id' => $application->id, 'foreign_key' => $application->id, 'prefix' => 'applicant',
+                                        'model' => 'Applications', 'category' => 'notification', 'url' => 'add-from-notification']]) 
+            ?>
+          </div>
+        </div>
+      </div>
+    <?php } ?>
+    </div><!--/span-->
+</div><!--/row-->

@@ -47,7 +47,7 @@
                       $i = 1;
                       foreach ($seventy_fives as $seventy_five): ?>
                     <li><?php 
-                          echo $i++.'. '.$this->Text->truncate($seventy_five->applicant_review_comment, 37).$this->Html->link('<span class="text-info">view</view>', ['controller' => 'Applications', 'action' => 'view', $seventy_five->application->id], ['escape' => false]);
+                          echo $i++.'. '.$this->Text->truncate($seventy_five->applicant_review_comment, 37).$this->Html->link('<span class="text-info">view</view>', ['controller' => 'Applications', 'action' => 'view', $seventy_five->application->id,  '#' => 'section75'], ['escape' => false]);
                                 
                                ?></li>
                     <?php endforeach; ?>
@@ -106,7 +106,8 @@
                     $i = 1;
                     foreach ($attachments as $attachment): ?>
                     <li><?php 
-                          echo $i++.'. '.$this->Text->truncate($attachment->file.': '.$attachment->description, 37).$this->Html->link('<span class="text-info">view</view>', ['controller' => 'Applications', 'action' => 'view', $attachment->foreign_key], ['escape' => false]);
+                          echo $i++.'. '.$this->Text->truncate($attachment->file.': '.$attachment->description, 37).$this->Html->link('<span class="text-info">view</view>', ['controller' => 'Applications', 'action' => 'view', $attachment->foreign_key, '#' => 'notification'],
+                             ['escape' => false]);
                                 
                                ?></li>
                   <?php endforeach; ?>

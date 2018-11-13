@@ -24,4 +24,7 @@
         $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
     }
 
+    var hashTab = $('a[data-toggle="tab"][href="' + location.hash + '"]');
+    hashTab && hashTab.tab('show');
+
   });

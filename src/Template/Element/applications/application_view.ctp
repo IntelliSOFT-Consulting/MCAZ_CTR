@@ -5,7 +5,14 @@
   $numb = 1;
 ?>
 
-<span id="amendment_cnt" style="display: none;"> <?= count($application['amendments'])?></span>
+<span id="amendment_cnt" style="display: none;"> <?php
+  if(isset($amendment)) {
+    preg_match_all('!\d+!', $amendment->protocol_no, $matches);
+    echo $matches[0][2];
+  }
+  
+  //count($application['amendments'])
+ ?></span>
 
 <div class="row">
   <div class="col-xs-12">
@@ -28,7 +35,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_title'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_title ?></td>
                </tr>
@@ -42,7 +49,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_title'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_title ?></td>
                </tr>
@@ -61,7 +68,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_contact_name ?></td>
                </tr>
@@ -79,7 +86,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_designation'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_contact_designation ?></td>
                </tr>
@@ -97,7 +104,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_email'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_contact_email ?></td>
                </tr>
@@ -115,7 +122,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_phone'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_contact_phone ?></td>
                </tr>
@@ -133,7 +140,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_postal'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_contact_postal ?></td>
                </tr>
@@ -151,7 +158,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_affiliation'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->public_contact_affiliation ?></td>
                </tr>
@@ -170,7 +177,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_contact_name ?></td>
                </tr>
@@ -188,7 +195,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_designation'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_contact_designation ?></td>
                </tr>
@@ -206,7 +213,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_email'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_contact_email ?></td>
                </tr>
@@ -224,7 +231,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_phone'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_contact_phone ?></td>
                </tr>
@@ -242,7 +249,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_postal'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_contact_postal ?></td>
                </tr>
@@ -260,7 +267,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_affiliation'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scientific_contact_affiliation ?></td>
                </tr>
@@ -280,7 +287,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['countries_recruitment'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->countries_recruitment ?></td>
                </tr>
@@ -296,7 +303,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['abstract_of_study'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->abstract_of_study ?></td>
                </tr>
@@ -310,7 +317,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['version_no'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->version_no ?></td>
                </tr>
@@ -324,7 +331,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['date_of_protocol'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->date_of_protocol ?></td>
                </tr>
@@ -338,7 +345,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['study_drug'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->study_drug ?></td>
                </tr>
@@ -350,7 +357,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_chemical'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_chemical ?></td>
                </tr>
@@ -362,7 +369,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_chemical_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_chemical_name ?></td>
                </tr>
@@ -374,7 +381,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_biologicals'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_biologicals ?></td>
                </tr>
@@ -386,7 +393,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_biologicals_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_biologicals_name ?></td>
                </tr>
@@ -398,7 +405,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_medical_device'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_medical_device ?></td>
                </tr>
@@ -410,7 +417,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_medical_device_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->product_type_medical_device_name ?></td>
                </tr>
@@ -425,7 +432,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['protocol_version'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->protocol_version ?></td>
                </tr>
@@ -542,37 +549,37 @@
             <tr>
               <td colspan="2"><label>INVESTIGATOR </label></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th>
                 <?php echo $key+1; ?> &nbsp; <label>Full names <span class="sterix">*</span></label>
               </th>
               <td><?= $amendment->investigator_contacts[$i]['given_name'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th>
                 <?php echo $key+1; ?> &nbsp; <label>Date Of Birth</label>
               </th>
               <td><?= $amendment->investigator_contacts[$i]['date_of_birth'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th>
                 <?php echo $key+1; ?> &nbsp; <label>Qualification <span class="sterix">*</span></label>
               </th>
               <td><?= $amendment->investigator_contacts[$i]['qualification'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th>
                 <?php echo $key+1; ?> &nbsp; <label>Professional address <span class="sterix">*</span></label>
               </th>
               <td><?= $amendment->investigator_contacts[$i]['professional_address'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th>
                 <?php echo $key+1; ?> &nbsp; <label>Telephone number <span class="sterix">*</span></label>
               </th>
               <td><?= $amendment->investigator_contacts[$i]['telephone'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th>
                 <?php echo $key+1; ?> &nbsp; <label>email address <span class="sterix">*</span></label>
               </th>
@@ -595,7 +602,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->business_name ?></td>
                </tr>
@@ -609,7 +616,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_office'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->business_office ?></td>
                </tr>
@@ -623,7 +630,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_physical_address'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->business_physical_address ?></td>
                </tr>
@@ -637,7 +644,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_telephone'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->business_telephone ?></td>
                </tr>
@@ -651,7 +658,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_position'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->business_position ?></td>
                </tr>
@@ -680,7 +687,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['money_source'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->money_source ?></td>
                </tr>
@@ -698,7 +705,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_name ?></td>
                </tr>
@@ -710,7 +717,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_contact_person'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_contact_person ?></td>
                </tr>
@@ -722,7 +729,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_address'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_address ?></td>
                </tr>
@@ -734,7 +741,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_telephone_number'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_telephone_number ?></td>
                </tr>
@@ -746,7 +753,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_fax_number'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_fax_number ?></td>
                </tr>
@@ -758,7 +765,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_cell_number'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_cell_number ?></td>
                </tr>
@@ -770,7 +777,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_email_address'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->sponsor_email_address ?></td>
                </tr>
@@ -885,7 +892,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['participants_description'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->participants_description ?></td>
                </tr>
@@ -897,7 +904,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['number_participants'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->number_participants ?></td>
                </tr>
@@ -909,7 +916,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['total_enrolment_per_site'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->total_enrolment_per_site ?></td>
                </tr>
@@ -921,7 +928,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['total_participants_worldwide'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->total_participants_worldwide ?></td>
                </tr>
@@ -937,7 +944,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['participants_justification'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->participants_justification ?></td>
                </tr>
@@ -952,7 +959,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_less_than_18_years'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_less_than_18_years ?></td>
                </tr>
@@ -967,7 +974,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_utero'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_utero ?></td>
                </tr>
@@ -979,7 +986,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_preterm_newborn'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_preterm_newborn ?></td>
                </tr>
@@ -991,7 +998,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_newborn'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_newborn ?></td>
                </tr>
@@ -1003,7 +1010,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_infant_and_toddler'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_infant_and_toddler ?></td>
                </tr>
@@ -1015,7 +1022,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_children'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_children ?></td>
                </tr>
@@ -1027,7 +1034,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_adolescent'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_adolescent ?></td>
                </tr>
@@ -1039,7 +1046,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_above_18'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_above_18 ?></td>
                </tr>
@@ -1051,7 +1058,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_adult'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_adult ?></td>
                </tr>
@@ -1063,7 +1070,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_elderly'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_elderly ?></td>
                </tr>
@@ -1078,7 +1085,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_healthy'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_healthy ?></td>
                </tr>
@@ -1090,7 +1097,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_vulnerable_populations'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_vulnerable_populations ?></td>
                </tr>
@@ -1106,7 +1113,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_patients'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_patients ?></td>
                </tr>
@@ -1118,7 +1125,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_women_child_bearing'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_women_child_bearing ?></td>
                </tr>
@@ -1130,7 +1137,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_women_using_contraception'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_women_using_contraception ?></td>
                </tr>
@@ -1142,7 +1149,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_pregnant_women'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_pregnant_women ?></td>
                </tr>
@@ -1154,7 +1161,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_nursing_women'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_nursing_women ?></td>
                </tr>
@@ -1166,7 +1173,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_emergency_situation'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_emergency_situation ?></td>
                </tr>
@@ -1178,7 +1185,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_incapable_consent'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_incapable_consent ?></td>
                </tr>
@@ -1190,7 +1197,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_specify'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_specify ?></td>
                </tr>
@@ -1202,7 +1209,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_others'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_others ?></td>
                </tr>
@@ -1214,7 +1221,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_others_specify'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->subjects_others_specify ?></td>
                </tr>
@@ -1229,7 +1236,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['gender_female'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= ($amendment->gender_female) ? $checked : $nChecked; ?></td>
                </tr>
@@ -1241,7 +1248,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['gender_male'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= ($amendment->gender_male) ? $checked : $nChecked; ?></td>
                </tr>
@@ -1290,7 +1297,7 @@
         ?>
         <table class="table table-bordered table-condensed">
           <thead>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th colspan="7"><?php echo $key+1; ?></th>
             </tr>
             <tr>
@@ -1349,7 +1356,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_member_state'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_member_state ?></td>
                </tr>
@@ -1361,7 +1368,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['location_of_area'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->location_of_area ?></td>
                </tr>
@@ -1373,7 +1380,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_physical_address'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_physical_address ?></td>
                </tr>
@@ -1385,7 +1392,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_person'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_contact_person ?></td>
                </tr>
@@ -1397,7 +1404,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_telephone'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_telephone ?></td>
                </tr>
@@ -1409,7 +1416,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multiple_sites_member_state'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->multiple_sites_member_state ?></td>
                </tr>
@@ -1421,7 +1428,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['number_of_sites'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->number_of_sites ?></td>
                </tr>
@@ -1439,7 +1446,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_name ?></td>
                </tr>
@@ -1451,7 +1458,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_physical_address'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_physical_address ?></td>
                </tr>
@@ -1463,7 +1470,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_contact_details ?></td>
                </tr>
@@ -1475,7 +1482,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_person'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->single_site_contact_person ?></td>
                </tr>
@@ -1487,7 +1494,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_province_id'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= ($amendment->single_site_province_id) ? $provinces->toArray()[$amendment->single_site_province_id] : '' ?></td>
                </tr>
@@ -1533,23 +1540,23 @@
               if($amendment['submitted'] == 2 && !empty($amendment['site_details'])){
                 for ($i = 0; $i <= count($amendment['site_details'])-1; $i++) {
             ?>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Name of site <span class="sterix">*</span></label></th>
               <td><?= $amendment->site_details[$i]['site_name'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Physical address</label></th>
               <td><?= $amendment->site_details[$i]['physical_address'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Contact details <span class="sterix">*</span></label></th>
               <td><?= $amendment->site_details[$i]['contact_details'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Contact person <span class="sterix">*</span></label></th>
               <td><?= $amendment->site_details[$i]['contact_person'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Province</label></th>
               <td><?= ($amendment->site_details[$i]['province_id']) ? $provinces->toArray()[$amendment->site_details[$i]['province_id']] : '' ?></td>
             </tr>
@@ -1566,7 +1573,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multiple_countries'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->multiple_countries ?></td>
                </tr>
@@ -1578,7 +1585,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multiple_member_states'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->multiple_member_states ?></td>
                </tr>
@@ -1590,7 +1597,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multi_country_list'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->multi_country_list ?></td>
                </tr>
@@ -1619,7 +1626,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['drug_name'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->drug_name ?></td>
                </tr>
@@ -1635,7 +1642,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['quantity_excemption'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->quantity_excemption ?></td>
                </tr>
@@ -1670,11 +1677,11 @@
               if($amendment['submitted'] == 2 && !empty($amendment['medicines'])){
                 for ($i = 0; $i <= count($amendment['medicines'])-1; $i++) {
             ?>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Medicine Name <span class="sterix">*</span></label></th>
               <td><?= $amendment->medicines[$i]['medicine_name'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Quantity of medicine required</label></th>
               <td><?= $amendment->medicines[$i]['quantity_required'] ?></td>
             </tr>
@@ -1694,7 +1701,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['drug_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->drug_details ?></td>
                </tr>
@@ -1706,7 +1713,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_reaction'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->medicine_reaction ?></td>
                </tr>
@@ -1718,7 +1725,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_therapeutic_effects'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->medicine_therapeutic_effects ?></td>
                </tr>
@@ -1734,7 +1741,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_registered'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->medicine_registered ?></td>
                </tr>
@@ -1758,7 +1765,7 @@
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['registrations'])){
                 for ($i = 0; $i <= count($amendment['registrations'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['registrations'][$i]->file, substr($amendment['registrations'][$i]->dir, 8) . '/' . $amendment['registrations'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -1777,7 +1784,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_registered_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->medicine_registered_details ?></td>
                </tr>
@@ -1789,7 +1796,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trials_origin_country'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->trials_origin_country ?></td>
                </tr>
@@ -1805,7 +1812,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_origin_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->trial_origin_details ?></td>
                </tr>
@@ -1817,7 +1824,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['application_other_country'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->application_other_country ?></td>
                </tr>
@@ -1833,7 +1840,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['application_other_country_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->application_other_country_details ?></td>
                </tr>
@@ -1845,7 +1852,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['registered_other_country'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->registered_other_country ?></td>
                </tr>
@@ -1861,7 +1868,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['registered_other_country_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->registered_other_country_details ?></td>
                </tr>
@@ -1873,7 +1880,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['rejected_other_country'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->rejected_other_country ?></td>
                </tr>
@@ -1889,7 +1896,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['rejected_other_country_details'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->rejected_other_country_details ?></td>
                </tr>
@@ -1905,7 +1912,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['administration_route'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->administration_route ?></td>
                </tr>
@@ -1917,7 +1924,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['status_medicine'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->status_medicine ?></td>
                </tr>
@@ -1933,7 +1940,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['state_antidote'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->state_antidote ?></td>
                </tr>
@@ -1949,7 +1956,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['exemption_required'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->exemption_required ?></td>
                </tr>
@@ -1964,7 +1971,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['given_concomitantly'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->given_concomitantly ?></td>
                </tr>
@@ -1976,7 +1983,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['concurrent_medicine'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->concurrent_medicine ?></td>
                </tr>
@@ -1992,7 +1999,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['safety'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->safety ?></td>
                </tr>
@@ -2019,7 +2026,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['principal_inclusion_criteria'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->principal_inclusion_criteria ?></td>
                </tr>
@@ -2039,7 +2046,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['principal_exclusion_criteria'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->principal_exclusion_criteria ?></td>
                </tr>
@@ -2059,7 +2066,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['primary_end_points'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->primary_end_points ?></td>
                </tr>
@@ -2092,13 +2099,13 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_diagnosis'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($amendment->scope_diagnosis) ? $checked : $nChecked; ?> Diagnosis</label></td>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_bioequivalence'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_bioequivalence) ? $checked : $nChecked; ?> Bioequivalence</label></td>  </tr>
              <?php   } } ?>
           <tr>
@@ -2108,13 +2115,13 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_prophylaxis'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_prophylaxis) ? $checked : $nChecked; ?> Prophylaxis</label></td>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_dose_response'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_dose_response) ? $checked : $nChecked; ?> Dose Response</label></td>  </tr>
              <?php   } } ?>
           <tr>
@@ -2124,13 +2131,13 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_therapy'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_therapy) ? $checked : $nChecked; ?> Therapy</label></td>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacogenetic'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenetic) ? $checked : $nChecked; ?> Pharmacogenetic</label></td>  </tr>
              <?php   } } ?>
           <tr>
@@ -2140,13 +2147,13 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_safety'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_safety) ? $checked : $nChecked; ?> Safety</label></td>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacogenomic'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenomic) ? $checked : $nChecked; ?> Pharmacogenomic</label></td>  </tr>
              <?php   } } ?>
           <tr>
@@ -2156,13 +2163,13 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_efficacy'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_efficacy) ? $checked : $nChecked; ?> Efficacy</label></td>  </tr>
              <?php   } } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacoecomomic'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacoecomomic) ? $checked : $nChecked; ?> Pharmacoecomomic</label></td>  </tr>
              <?php   } } ?>
 
@@ -2173,7 +2180,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacokinetic'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></td>  </tr>
              <?php   } } ?>
           <tr>
@@ -2183,7 +2190,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacodynamic'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></td>  </tr>
              <?php   } } ?>
           <tr>
@@ -2193,7 +2200,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_others'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->scope_others) ? $checked : $nChecked; ?> Others</label></td>  </tr>
              <?php   } } ?>
 
@@ -2205,7 +2212,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_others_specify'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->scope_others_specify ?></td>
                </tr>
@@ -2223,7 +2230,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_human_pharmacology'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_human_pharmacology) ? $checked : $nChecked; ?> Human pharmacology (Phase I)</label></td>  </tr>
              <?php   } } ?>
 
@@ -2236,7 +2243,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_administration_humans'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></td>  </tr>
              <?php   } } ?>
             <tr>
@@ -2245,7 +2252,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_bioequivalence_study'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>  </tr>
              <?php   } } ?>
             <tr>
@@ -2254,7 +2261,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>  </tr>
              <?php   } } ?>
             <tr>
@@ -2263,7 +2270,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other_specify'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?> </label></td>  </tr>
              <?php   } } ?>
             <tr>
@@ -2272,7 +2279,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_therapeutic_exploratory'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></td>  </tr>
              <?php   } } ?>
             <tr>
@@ -2281,7 +2288,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_therapeutic_confirmatory'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked : $nChecked; ?> Therapeutic confirmatory (Phase III)</label></td>  </tr>
              <?php   } } ?>
             <tr>
@@ -2290,7 +2297,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_therapeutic_use'])){      ?>
-              <tr class="amender"><th colspan="2"><?php echo $key+1; ?></th></tr>
+              <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked : $nChecked; ?> Therapeutic use (Phase IV)</label></td>  </tr>
              <?php   } } ?>
         </table>
@@ -2310,7 +2317,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled ?></td>
                </tr>
@@ -2325,7 +2332,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_randomised'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_randomised ?></td>
                </tr>
@@ -2337,7 +2344,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_single_blind'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_single_blind ?></td>
                </tr>
@@ -2349,7 +2356,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_double_blind'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_double_blind ?></td>
                </tr>
@@ -2361,7 +2368,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_parallel_group'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_parallel_group ?></td>
                </tr>
@@ -2373,7 +2380,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_cross_over'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_cross_over ?></td>
                </tr>
@@ -2385,7 +2392,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_other'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_other ?></td>
                </tr>
@@ -2397,7 +2404,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_specify'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_specify ?></td>
                </tr>
@@ -2409,7 +2416,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_comparator'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_comparator ?></td>
                </tr>
@@ -2421,7 +2428,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_other_medicinal'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_other_medicinal ?></td>
                </tr>
@@ -2433,7 +2440,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_placebo'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_placebo ?></td>
                </tr>
@@ -2445,7 +2452,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_medicinal_other'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_medicinal_other ?></td>
                </tr>
@@ -2457,7 +2464,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_medicinal_specify'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_medicinal_specify ?></td>
                </tr>
@@ -2469,7 +2476,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_other'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_other ?></td>
                </tr>
@@ -2494,7 +2501,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['ethic_considerations'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->ethic_considerations ?></td>
                </tr>
@@ -2509,7 +2516,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['insurance_company'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->insurance_company ?></td>
                </tr>
@@ -2521,7 +2528,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['insurance_address'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->insurance_address ?></td>
                </tr>
@@ -2546,7 +2553,7 @@
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['policies'])){
                 for ($i = 0; $i <= count($amendment['policies'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['policies'][$i]->file, substr($amendment['policies'][$i]->dir, 8) . '/' . $amendment['policies'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -2560,7 +2567,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['insurance_amount'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->insurance_amount ?></td>
                </tr>
@@ -2575,7 +2582,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_insurance'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->other_insurance ?></td>
                </tr>
@@ -2595,7 +2602,7 @@
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['details'])){
                 for ($i = 0; $i <= count($amendment['details'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['details'][$i]->file, substr($amendment['details'][$i]->dir, 8) . '/' . $amendment['details'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -2615,7 +2622,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['ethical_review_status'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->ethical_review_status ?></td>
                </tr>
@@ -2640,7 +2647,7 @@
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['proofs'])){
                 for ($i = 0; $i <= count($amendment['proofs'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['proofs'][$i]->file, substr($amendment['proofs'][$i]->dir, 8) . '/' . $amendment['proofs'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -2655,7 +2662,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['date_of_approval_ethics'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->date_of_approval_ethics ?></td>
                </tr>
@@ -2695,19 +2702,19 @@
               if($amendment['submitted'] == 2 && !empty($amendment['committees'])){
                 for ($i = 0; $i <= count($amendment['committees'])-1; $i++) {
             ?>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Ethics Committee Name <span class="sterix">*</span></label></th>
               <td><?= $amendment->committees[$i]['name'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Postal Address <span class="sterix">*</span></label></th>
               <td><?= $amendment->committees[$i]['address'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Telephone Number <span class="sterix">*</span></label></th>
               <td><?= $amendment->committees[$i]['telephone_number'] ?></td>
             </tr>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> <label>Email Address <span class="sterix">*</span></label></th>
               <td><?= $amendment->committees[$i]['email_address'] ?></td>
             </tr>
@@ -2736,7 +2743,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['estimated_duration'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->estimated_duration ?></td>
                </tr>
@@ -2750,7 +2757,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_explanation'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->other_details_explanation ?></td>
                </tr>
@@ -2766,7 +2773,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_notapproved'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->other_details_regulatory_notapproved ?></td>
                </tr>
@@ -2781,7 +2788,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_approved'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->other_details_regulatory_approved ?></td>
                </tr>
@@ -2795,7 +2802,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_rejected'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->other_details_regulatory_rejected ?></td>
                </tr>
@@ -2809,7 +2816,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_halted'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->other_details_regulatory_halted ?></td>
                </tr>
@@ -2823,7 +2830,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['recording_effects'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->recording_effects ?></td>
                </tr>
@@ -2837,7 +2844,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['tests_done'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->tests_done ?></td>
                </tr>
@@ -2851,7 +2858,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['recording_method'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->recording_method ?></td>
                </tr>
@@ -2866,7 +2873,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['record_keeping'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->record_keeping ?></td>
                </tr>
@@ -2880,7 +2887,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_storage'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->trial_storage ?></td>
                </tr>
@@ -2894,7 +2901,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['measures_compliance'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->measures_compliance ?></td>
                </tr>
@@ -2908,7 +2915,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['evalution_of_results'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->evalution_of_results ?></td>
                </tr>
@@ -2922,7 +2929,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['inform_persons'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->inform_persons ?></td>
                </tr>
@@ -2936,7 +2943,7 @@
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['inform_staff'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->inform_staff ?></td>
                </tr>
@@ -2952,7 +2959,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['animal_particulars'])){      ?>
-               <tr class="amender">
+               <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->animal_particulars ?></td>
                </tr>
@@ -2991,7 +2998,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['cover_letters'])){
                 for ($i = 0; $i <= count($amendment['cover_letters'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['cover_letters'][$i]->file, substr($amendment['cover_letters'][$i]->dir, 8) . '/' . $amendment['cover_letters'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3018,7 +3025,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['fees'])){
                 for ($i = 0; $i <= count($amendment['fees'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['fees'][$i]->file, substr($amendment['fees'][$i]->dir, 8) . '/' . $amendment['fees'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3045,7 +3052,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['legal_forms'])){
                 for ($i = 0; $i <= count($amendment['legal_forms'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['legal_forms'][$i]->file, substr($amendment['legal_forms'][$i]->dir, 8) . '/' . $amendment['legal_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3073,7 +3080,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['protocols'])){
                 for ($i = 0; $i <= count($amendment['protocols'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['protocols'][$i]->file, substr($amendment['protocols'][$i]->dir, 8) . '/' . $amendment['protocols'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3100,7 +3107,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['leaflets'])){
                 for ($i = 0; $i <= count($amendment['leaflets'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['leaflets'][$i]->file, substr($amendment['leaflets'][$i]->dir, 8) . '/' . $amendment['leaflets'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3127,7 +3134,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['brochures'])){
                 for ($i = 0; $i <= count($amendment['brochures'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['brochures'][$i]->file, substr($amendment['brochures'][$i]->dir, 8) . '/' . $amendment['brochures'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3154,7 +3161,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['investigator_cvs'])){
                 for ($i = 0; $i <= count($amendment['investigator_cvs'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['investigator_cvs'][$i]->file, substr($amendment['investigator_cvs'][$i]->dir, 8) . '/' . $amendment['investigator_cvs'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3181,7 +3188,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['declarations'])){
                 for ($i = 0; $i <= count($amendment['declarations'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['declarations'][$i]->file, substr($amendment['declarations'][$i]->dir, 8) . '/' . $amendment['declarations'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3208,7 +3215,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['study_monitors'])){
                 for ($i = 0; $i <= count($amendment['study_monitors'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['study_monitors'][$i]->file, substr($amendment['study_monitors'][$i]->dir, 8) . '/' . $amendment['study_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3235,7 +3242,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['monitoring_plans'])){
                 for ($i = 0; $i <= count($amendment['monitoring_plans'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['monitoring_plans'][$i]->file, substr($amendment['monitoring_plans'][$i]->dir, 8) . '/' . $amendment['monitoring_plans'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3262,7 +3269,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['pi_declarations'])){
                 for ($i = 0; $i <= count($amendment['pi_declarations'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['pi_declarations'][$i]->file, substr($amendment['pi_declarations'][$i]->dir, 8) . '/' . $amendment['pi_declarations'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3289,7 +3296,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['study_sponsorships'])){
                 for ($i = 0; $i <= count($amendment['study_sponsorships'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['study_sponsorships'][$i]->file, substr($amendment['study_sponsorships'][$i]->dir, 8) . '/' . $amendment['study_sponsorships'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3316,7 +3323,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['pharmacy_plans'])){
                 for ($i = 0; $i <= count($amendment['pharmacy_plans'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['pharmacy_plans'][$i]->file, substr($amendment['pharmacy_plans'][$i]->dir, 8) . '/' . $amendment['pharmacy_plans'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3343,7 +3350,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['pharmacy_licenses'])){
                 for ($i = 0; $i <= count($amendment['pharmacy_licenses'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['pharmacy_licenses'][$i]->file, substr($amendment['pharmacy_licenses'][$i]->dir, 8) . '/' . $amendment['pharmacy_licenses'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3370,7 +3377,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['study_medicines'])){
                 for ($i = 0; $i <= count($amendment['study_medicines'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['study_medicines'][$i]->file, substr($amendment['study_medicines'][$i]->dir, 8) . '/' . $amendment['study_medicines'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3397,7 +3404,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['insurance_certificates'])){
                 for ($i = 0; $i <= count($amendment['insurance_certificates'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['insurance_certificates'][$i]->file, substr($amendment['insurance_certificates'][$i]->dir, 8) . '/' . $amendment['insurance_certificates'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3424,7 +3431,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['generic_insurances'])){
                 for ($i = 0; $i <= count($amendment['generic_insurances'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['generic_insurances'][$i]->file, substr($amendment['generic_insurances'][$i]->dir, 8) . '/' . $amendment['generic_insurances'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3451,7 +3458,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['ethics_approvals'])){
                 for ($i = 0; $i <= count($amendment['ethics_approvals'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['ethics_approvals'][$i]->file, substr($amendment['ethics_approvals'][$i]->dir, 8) . '/' . $amendment['ethics_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3478,7 +3485,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['ethics_letters'])){
                 for ($i = 0; $i <= count($amendment['ethics_letters'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['ethics_letters'][$i]->file, substr($amendment['ethics_letters'][$i]->dir, 8) . '/' . $amendment['ethics_letters'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3505,7 +3512,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['country_approvals'])){
                 for ($i = 0; $i <= count($amendment['country_approvals'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['country_approvals'][$i]->file, substr($amendment['country_approvals'][$i]->dir, 8) . '/' . $amendment['country_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3532,7 +3539,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['advertisments'])){
                 for ($i = 0; $i <= count($amendment['advertisments'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['advertisments'][$i]->file, substr($amendment['advertisments'][$i]->dir, 8) . '/' . $amendment['advertisments'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3559,7 +3566,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['safety_monitors'])){
                 for ($i = 0; $i <= count($amendment['safety_monitors'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['safety_monitors'][$i]->file, substr($amendment['safety_monitors'][$i]->dir, 8) . '/' . $amendment['safety_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3586,7 +3593,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['biological_products'])){
                 for ($i = 0; $i <= count($amendment['biological_products'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['biological_products'][$i]->file, substr($amendment['biological_products'][$i]->dir, 8) . '/' . $amendment['biological_products'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3616,7 +3623,7 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['dossiers'])){
                 for ($i = 0; $i <= count($amendment['dossiers'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['dossiers'][$i]->file, substr($amendment['dossiers'][$i]->dir, 8) . '/' . $amendment['dossiers'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3648,7 +3655,7 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['mc10_forms'])){
                 for ($i = 0; $i <= count($amendment['mc10_forms'])-1; $i++) { ?>                
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th><?php echo $key+1; ?> </th>
               <td><?= $this->Html->link($amendment['mc10_forms'][$i]->file, substr($amendment['mc10_forms'][$i]->dir, 8) . '/' . $amendment['mc10_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;" ?></td>
             </tr>
@@ -3713,7 +3720,7 @@ manufactured as \'trial batches\' for the study then a pharmaceutical dossier is
         ?>
         <table class="table table-bordered table-condensed">
           <thead>
-            <tr class="amender">
+            <tr class="amender amender<?= $key+1 ?>">
               <th colspan="4"><?php echo $key+1; ?></th>
             </tr>
             <tr>

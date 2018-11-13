@@ -146,4 +146,76 @@ class CommentsBaseController extends AppController
         
     }
 
+    public function addFromNotifications()
+    {
+        $comment = $this->Comments->newEntity();
+        if ($this->request->is('post')) {
+            $this->loadModel('Applications');
+            $comment = $this->Comments->patchEntity($comment, $this->request->getData());
+            $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators']]);
+
+            /**
+             * Evaluator or Manager raises query on evaluation
+             * If decision is Approved comments/queries should not appear
+             * 
+             */
+
+            if ($this->Comments->save($comment)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                array_push($filt, 1);
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
+                
+                $this->loadModel('Queue.QueuedJobs'); 
+
+                foreach ($managers as $manager) {
+                    //Notify managers  
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_notification_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['sender'] = $comment->sender;
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['subject'] = $comment->subject;  
+                    $data['vars']['content'] = $comment->content;              
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_evaluation_query_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+
+                //Notify Applicant 
+                $applicant = $this->Applications->Users->get($application->user_id);
+                $email_address = ($application->report_type == 'Amendment') ? $application->parent_application->email_address : $application->email_address ;
+                $data = [
+                        'email_address' => $email_address, 'user_id' => $application->user_id,
+                        'type' => 'applicant_notification_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['name'] = $applicant->name;
+                $data['vars']['subject'] = $comment->subject;  
+                $data['vars']['content'] = $comment->content;    
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_notification_query_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $this->Flash->success(__('The notification query/comment has been successfully submitted.'));
+
+                return $this->redirect($this->referer());
+            }
+            $this->Flash->error(__('The comment could not be saved. Please, try again.'));
+        }
+        
+    }
+
 }
