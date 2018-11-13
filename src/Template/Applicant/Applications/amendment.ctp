@@ -56,7 +56,7 @@
 <?php $this->start('application_investigator'); ?>
   <div class="amend-form">
     <h3 class="text-center"><u>Amendment form</u></h3><br>
-  <?php echo $this->element('applications/application_investigator'); ?>
+  <?php echo $this->element('applications/amendment_investigator'); ?>
   </div>
 <?php $this->end(); ?>
 

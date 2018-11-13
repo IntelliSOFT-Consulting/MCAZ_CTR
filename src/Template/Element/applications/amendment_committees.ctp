@@ -7,20 +7,20 @@
 <div class="ctr-groups">
     <div id="committee_primary_contact">
     <?php
-        echo $this->Form->control('committees.0.id', ['templates' => 'table_form']);
-        echo $this->Form->control('committees.0.name', array(
-            'label' => 'Ethics Committee Name <span class="sterix">*</span>', 'escape' => false
-        ));
-        echo $this->Form->control('committees.0.address', array(
-            'label' => 'Postal Address <span class="sterix">*</span>', 'escape' => false
-        ));
-        echo $this->Form->control('committees.0.telephone_number', array(
-            'label' => 'Telephone Number <span class="sterix">*</span>', 'escape' => false
-        ));
-        echo $this->Form->control('committees.0.email_address', array(
-            'type' => 'email',
-            'label' => 'Email Address <span class="sterix">*</span>', 'escape' => false
-        ));
+        // echo $this->Form->control('committees.0.id', ['templates' => 'table_form']);
+        // echo $this->Form->control('committees.0.name', array(
+        //     'label' => 'Ethics Committee Name <span class="sterix">*</span>', 'escape' => false
+        // ));
+        // echo $this->Form->control('committees.0.address', array(
+        //     'label' => 'Postal Address <span class="sterix">*</span>', 'escape' => false
+        // ));
+        // echo $this->Form->control('committees.0.telephone_number', array(
+        //     'label' => 'Telephone Number <span class="sterix">*</span>', 'escape' => false
+        // ));
+        // echo $this->Form->control('committees.0.email_address', array(
+        //     'type' => 'email',
+        //     'label' => 'Email Address <span class="sterix">*</span>', 'escape' => false
+        // ));
         echo $this->Html->tag('hr', '', array('id' => 'committeesHr0'));
     ?>
     </div>
