@@ -3,7 +3,7 @@
 ?>
 
 <label>10.2.3 Name and contact details of Ethics committee(s) <small>where necessary, Click button to add more -
-<button type="button" class="btn btn-primary btn-xs" id="addCommitteeDetail" title="add ponsor">Add Committee</button></small></label><br>
+<button type="button" class="btn btn-primary btn-xs" id="addCommitteeDetail" title="add committees">Add Committee</button></small></label><br>
 <div class="ctr-groups">
     <div id="committee_primary_contact">
     <?php

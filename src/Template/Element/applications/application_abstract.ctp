@@ -12,15 +12,15 @@
 
             echo '<label>Contact for Public Queries</label><br/>';
             echo $this->Form->control('public_contact_name', array(
-              'label' => 'Name<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('public_contact_designation', array(
-              'label' => 'Designation<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('public_contact_email', array(
-              'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('public_contact_phone', array(
@@ -28,7 +28,7 @@
               'escape' => false
             )); 
             echo $this->Form->control('public_contact_postal', array(
-              'label' => 'Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Postal Address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('public_contact_affiliation', array(
@@ -39,15 +39,15 @@
 
             echo '<label>Contact for Scientific Queries</label><br/>';
             echo $this->Form->control('scientific_contact_name', array(
-              'label' => 'Name<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('scientific_contact_designation', array(
-              'label' => 'Designation<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('scientific_contact_email', array(
-              'label' => 'Email<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('scientific_contact_phone', array(
@@ -55,7 +55,7 @@
               'escape' => false
             )); 
             echo $this->Form->control('scientific_contact_postal', array(
-              'label' => 'Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
+              'label' => 'Postal Address <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
               'escape' => false
             )); 
             echo $this->Form->control('scientific_contact_affiliation', array(
