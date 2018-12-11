@@ -69,13 +69,34 @@ class UsersBaseController extends AppController
         ));
         $s75_query = $this->SeventyFives->find('all', array(
             'order' => array('SeventyFives.created' => 'desc'),
-            'contain' => ['Applications']
+            'contain' => ['Applications' => ['AssignEvaluators']]
         ));
+        //Evaluators and External evaluators only to view if assigned
+        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+            $s75_query->matching('Applications.AssignEvaluators', function ($q) {
+                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+            });
+        }
         $attachment_query = $this->Attachments->find('all', array(
             'order' => array('Attachments.created' => 'desc'),
         ))
-        ->where(['model' => 'Applications', 'category' => 'attachments'])
+        ->where(['model' => 'Applications', 'Attachments.category' => 'attachments'])
         ;
+        //Evaluators and External evaluators only to view if assigned
+        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+            $attachment_query->join([
+                    'c' => [
+                        'table' => 'applications',
+                        'type' => 'INNER',
+                        'conditions' => 'c.id = Attachments.foreign_key',
+                    ],
+                    'u' => [
+                        'table' => 'assign_evaluators',
+                        'type' => 'INNER',
+                        'conditions' => 'u.application_id = c.id',
+                    ]
+                ]);
+        }
         //Finance only able to see FN
         if ($this->Auth->user('group_id') == 5) {
             $amt_query->andWhere(['Amendments.protocol_no LIKE' => '%FN%']);

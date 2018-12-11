@@ -15,7 +15,7 @@
      <?= $this->Flash->render() ?>
     <div role="tabpanel" class="tab-pane active" id="report">
     <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => 'base'], ['escape' => false, 'class' => 'btn btn-info active']);
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-info active']);
               ?>
 <?php $this->end(); ?>
 
