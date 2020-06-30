@@ -81,8 +81,10 @@ class ApplicationsController extends AppController
     public function view($id = null)
     {
         // $this->viewBuilder()->setLayout('vanilla');
+        $contains = $this->_contain;
+        $contains['Comments'] = ['conditions' => ['Comments.category !=' => 'evaluation']];
         $application = $this->Applications->get($id, [
-            'contain' => $this->_contain,
+            'contain' => $contains,
             'conditions' => ['Applications.user_id' => $this->Auth->user('id'), 'report_type' => 'Initial']
         ]);
 

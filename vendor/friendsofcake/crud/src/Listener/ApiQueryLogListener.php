@@ -51,8 +51,15 @@ class ApiQueryLogListener extends BaseListener
     {
         foreach ($this->_getSources() as $connectionName) {
             try {
-                $this->_getSource($connectionName)->logQueries(true);
-                $this->_getSource($connectionName)->logger(new QueryLogger());
+                $connection = $this->_getSource($connectionName);
+
+                if (method_exists($connection, 'enableQueryLogging')) {
+                    $connection->enableQueryLogging(true);
+                } else {
+                    $connection->logQueries(true);
+                }
+
+                $connection->setLogger(new QueryLogger());
             } catch (MissingDatasourceConfigException $e) {
                 //Safe to ignore this :-)
             }
@@ -71,7 +78,7 @@ class ApiQueryLogListener extends BaseListener
             return;
         }
 
-        $this->_action()->config('serialize.queryLog', 'queryLog');
+        $this->_action()->setConfig('serialize.queryLog', 'queryLog');
         $this->_controller()->set('queryLog', $this->_getQueryLogs());
     }
 
@@ -86,7 +93,7 @@ class ApiQueryLogListener extends BaseListener
 
         $queryLog = [];
         foreach ($sources as $source) {
-            $logger = $this->_getSource($source)->logger();
+            $logger = $this->_getSource($source)->getLogger();
             if (method_exists($logger, 'getLogs')) {
                 $queryLog[$source] = $logger->getLogs();
             }

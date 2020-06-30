@@ -52,23 +52,19 @@ class RedirectListener extends BaseListener
         $this->reader('request.key', function (Subject $subject, $key = null) {
             $request = $this->_request();
 
-            if (!isset($request->{$key})) {
-                return null;
-            }
-
-            return $request->{$key};
+            return $request->getParam($key, null);
         });
 
         $this->reader('request.data', function (Subject $subject, $key = null) {
             $request = $this->_request();
 
-            return $request->data($key);
+            return $request->getData($key);
         });
 
         $this->reader('request.query', function (Subject $subject, $key = null) {
             $request = $this->_request();
 
-            return $request->query($key);
+            return $request->getQuery($key);
         });
 
         $this->reader('entity.field', function (Subject $subject, $key = null) {
@@ -94,10 +90,10 @@ class RedirectListener extends BaseListener
     public function reader($key, $reader = null)
     {
         if ($reader === null) {
-            return $this->config('readers.' . $key);
+            return $this->getConfig('readers.' . $key);
         }
 
-        return $this->config('readers.' . $key, $reader);
+        return $this->setConfig('readers.' . $key, $reader);
     }
 
     /**
@@ -108,10 +104,11 @@ class RedirectListener extends BaseListener
      *
      * @param Event $event Event
      * @return void
+     * @throws \Exception
      */
     public function beforeRedirect(Event $event)
     {
-        $subject = $event->subject;
+        $subject = $event->getSubject();
 
         $redirects = $this->_action()->redirectConfig();
         if (empty($redirects)) {
@@ -137,6 +134,7 @@ class RedirectListener extends BaseListener
      * @param \Crud\Event\Subject $subject Subject
      * @param array $url URL
      * @return array
+     * @throws \Exception
      */
     protected function _getUrl(Subject $subject, array $url)
     {

@@ -14,6 +14,7 @@ trait ViewVarTrait
      *
      * @param Event $event Event
      * @return false|null
+     * @throws \Exception
      */
     public function publishViewVar(Event $event)
     {
@@ -34,14 +35,15 @@ trait ViewVarTrait
      *
      * @param mixed $name Var name
      * @return mixed
+     * @throws \Exception
      */
     public function viewVar($name = null)
     {
         if (empty($name)) {
-            return $this->config('viewVar') ?: $this->_deriveViewVar();
+            return $this->getConfig('viewVar') ?: $this->_deriveViewVar();
         }
 
-        return $this->config('viewVar', $name);
+        return $this->setConfig('viewVar', $name);
     }
 
     /**
@@ -56,11 +58,11 @@ trait ViewVarTrait
     protected function _deriveViewVar()
     {
         if ($this->scope() === 'table') {
-            return Inflector::variable($this->_controller()->name);
+            return Inflector::variable($this->_controller()->getName());
         }
 
         if ($this->scope() === 'entity') {
-            return Inflector::variable(Inflector::singularize($this->_controller()->name));
+            return Inflector::variable(Inflector::singularize($this->_controller()->getName()));
         }
 
         throw new Exception('Unknown action scope: ' . $this->scope());
@@ -78,6 +80,6 @@ trait ViewVarTrait
     {
         $key = $this->_action()->subjectEntityKey();
 
-        return $event->subject->{$key};
+        return $event->getSubject()->{$key};
     }
 }

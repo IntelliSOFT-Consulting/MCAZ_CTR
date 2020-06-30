@@ -34,18 +34,18 @@ trait CrudTestTrait
      * @param \Cake\Controller\Controller|null $controller Controller
      * @return void
      */
-    public function _subscribeToEvents(Controller $controller = null)
+    protected function _subscribeToEvents(Controller $controller = null)
     {
         if ($controller === null) {
             $controller = $this->controller;
         }
 
         $controller->Crud->on('beforeRender', function ($event) {
-            $this->_subject = $event->subject;
+            $this->_subject = $event->getSubject();
         });
 
         $controller->Crud->on('beforeRedirect', function ($event) {
-            $this->_subject = $event->subject;
+            $this->_subject = $event->getSubject();
         });
     }
 
@@ -87,7 +87,7 @@ trait CrudTestTrait
         }
 
         if ($actual instanceof Event) {
-            $actual = $actual->subject->getEvents();
+            $actual = $actual->getSubject()->getEvents();
         }
 
         if ($actual instanceof Subject) {

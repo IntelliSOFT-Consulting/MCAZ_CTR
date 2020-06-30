@@ -2,11 +2,11 @@
 namespace Crud\Action;
 
 use Cake\Event\Event;
-use Cake\Network\Exception\NotImplementedException;
+use Cake\Http\Exception\NotImplementedException;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
-use Crud\Core\Object;
+use Crud\Core\BaseObject;
 use Crud\Event\Subject;
 
 /**
@@ -15,7 +15,7 @@ use Crud\Event\Subject;
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  */
-abstract class BaseAction extends Object
+abstract class BaseAction extends BaseObject
 {
 
     /**
@@ -43,7 +43,7 @@ abstract class BaseAction extends Object
      *
      * @param array $args Arguments
      * @return mixed
-     * @throws \Cake\Network\Exception\NotImplementedException if the action can't handle the request
+     * @throws \Cake\Http\Exception\NotImplementedException if the action can't handle the request
      */
     public function handle($args = [])
     {
@@ -55,18 +55,18 @@ abstract class BaseAction extends Object
             $args = (array)$args;
         }
 
-        $method = '_' . strtolower($this->_request()->method());
+        $method = '_' . strtolower($this->_request()->getMethod());
 
         if (method_exists($this, $method)) {
             $this->_responding = true;
-            $this->_controller()->eventManager()->on($this);
+            $this->_controller()->getEventManager()->on($this);
 
             return call_user_func_array([$this, $method], $args);
         }
 
         if (method_exists($this, '_handle')) {
             $this->_responding = true;
-            $this->_controller()->eventManager()->on($this);
+            $this->_controller()->getEventManager()->on($this);
 
             return call_user_func_array([$this, '_handle'], $args);
         }
@@ -85,7 +85,7 @@ abstract class BaseAction extends Object
      */
     public function responding()
     {
-        return (bool)$this->_responding;
+        return $this->_responding;
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class BaseAction extends Object
      */
     public function enable()
     {
-        $this->config('enabled', true);
+        $this->setConfig('enabled', true);
     }
 
     /**
@@ -105,7 +105,7 @@ abstract class BaseAction extends Object
      */
     public function enabled()
     {
-        return $this->config('enabled');
+        return $this->getConfig('enabled');
     }
 
     /**
@@ -115,7 +115,7 @@ abstract class BaseAction extends Object
      */
     public function disable()
     {
-        $this->config('enabled', false);
+        $this->setConfig('enabled', false);
     }
 
     /**
@@ -134,9 +134,9 @@ abstract class BaseAction extends Object
 
         $crud = $this->_crud();
 
-        $config = $this->config('messages.' . $type);
+        $config = $this->getConfig('messages.' . $type);
         if (empty($config)) {
-            $config = $crud->config('messages.' . $type);
+            $config = $crud->getConfig('messages.' . $type);
             if (empty($config)) {
                 throw new \Exception(sprintf('Invalid message type "%s"', $type));
             }
@@ -150,7 +150,7 @@ abstract class BaseAction extends Object
             'element' => 'default',
             'params' => ['class' => 'message'],
             'key' => 'flash',
-            'type' => $this->config('action') . '.' . $type,
+            'type' => $this->getConfig('action') . '.' . $type,
             'name' => $this->resourceName()
         ], $config);
 
@@ -160,9 +160,9 @@ abstract class BaseAction extends Object
 
         $config['params']['original'] = ucfirst(str_replace('{name}', $config['name'], $config['text']));
 
-        $domain = $this->config('messages.domain');
+        $domain = $this->getConfig('messages.domain');
         if (!$domain) {
-            $domain = $crud->config('messages.domain') ?: 'crud';
+            $domain = $crud->getConfig('messages.domain') ?: 'crud';
         }
 
         $config['text'] = __d($domain, $config['params']['original']);
@@ -184,6 +184,7 @@ abstract class BaseAction extends Object
      * @param string $type Message type
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
+     * @throws \Exception
      */
     public function setFlash($type, Subject $subject)
     {
@@ -224,15 +225,15 @@ abstract class BaseAction extends Object
     public function redirectConfig($name = null, $config = null)
     {
         if ($name === null && $config === null) {
-            return $this->config('redirect');
+            return $this->getConfig('redirect');
         }
 
         $path = sprintf('redirect.%s', $name);
         if ($config === null) {
-            return $this->config($path);
+            return $this->getConfig($path);
         }
 
-        return $this->config($path, $config);
+        return $this->setConfig($path, $config);
     }
 
     /**
@@ -244,7 +245,7 @@ abstract class BaseAction extends Object
      */
     public function scope()
     {
-        return $this->config('scope');
+        return $this->getConfig('scope');
     }
 
     /**
@@ -255,11 +256,11 @@ abstract class BaseAction extends Object
      */
     public function publishSuccess(Event $event)
     {
-        if (!isset($event->subject->success)) {
+        if (!isset($event->getSubject()->success)) {
             return false;
         }
 
-        $this->_controller()->set('success', $event->subject->success);
+        $this->_controller()->set('success', $event->getSubject()->success);
     }
 
     /**
@@ -274,14 +275,14 @@ abstract class BaseAction extends Object
     public function resourceName($value = null)
     {
         if ($value !== null) {
-            return $this->config('name', $value);
+            return $this->setConfig('name', $value);
         }
 
         if (empty($this->_config['name'])) {
-            $this->config('name', $this->_deriveResourceName());
+            $this->setConfig('name', $this->_deriveResourceName());
         }
 
-        return $this->config('name');
+        return $this->getConfig('name');
     }
 
     /**
@@ -291,7 +292,7 @@ abstract class BaseAction extends Object
      */
     protected function _deriveResourceName()
     {
-        $inflectionType = $this->config('inflection');
+        $inflectionType = $this->getConfig('inflection');
 
         if ($inflectionType === null) {
             $inflectionType = $this->scope() === 'entity' ? 'singular' : 'plural';
@@ -299,11 +300,11 @@ abstract class BaseAction extends Object
 
         if ($inflectionType === 'singular') {
             return strtolower(Inflector::humanize(
-                Inflector::singularize(Inflector::underscore($this->_table()->alias()))
+                Inflector::singularize(Inflector::underscore($this->_table()->getAlias()))
             ));
         }
 
-        return strtolower(Inflector::humanize(Inflector::underscore($this->_table()->alias())));
+        return strtolower(Inflector::humanize(Inflector::underscore($this->_table()->getAlias())));
     }
 
     /**
@@ -331,7 +332,7 @@ abstract class BaseAction extends Object
      */
     public function subjectEntityKey()
     {
-        $key = $this->config('entityKey');
+        $key = $this->getConfig('entityKey');
         if ($key !== null) {
             return $key;
         }

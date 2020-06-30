@@ -77,7 +77,10 @@
                 </thead>
                 <tbody>
                   <?php $i = 0; ?>
-                  <?php foreach ($application->comments as $comment): ?>
+                  <?php 
+                      foreach ($application->comments as $comment): 
+                          if($comment->category == 'committee') {
+                    ?>
                   <?php $i++ ?>
                     <tr>
                       <td><?= $i ?></td>
@@ -121,7 +124,9 @@
                           </p>                    
                       </td>
                     </tr>
-                  <?php endforeach; ?>
+                  <?php 
+                    }
+                    endforeach; ?>
                 </tbody>
             </table>
         </div>

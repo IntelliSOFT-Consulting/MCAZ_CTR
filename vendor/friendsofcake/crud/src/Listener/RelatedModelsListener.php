@@ -37,7 +37,12 @@ class RelatedModelsListener extends BaseListener
      */
     public function beforePaginate(Event $event)
     {
-        $contained = $event->subject()->query->contain();
+        $method = 'contain';
+        if (method_exists($event->getSubject()->query, 'getContain')) {
+            $method = 'getContain';
+        }
+        $contained = $event->getSubject()->query->$method();
+
         if (!empty($contained)) {
             return;
         }
@@ -47,7 +52,7 @@ class RelatedModelsListener extends BaseListener
             return;
         }
 
-        $event->subject()->query->contain(array_keys($models));
+        $event->getSubject()->query->contain(array_keys($models));
     }
 
     /**
@@ -60,8 +65,8 @@ class RelatedModelsListener extends BaseListener
     public function beforeRender(Event $event)
     {
         $entity = null;
-        if (isset($event->subject->entity)) {
-            $entity = $event->subject->entity;
+        if (isset($event->getSubject()->entity)) {
+            $entity = $event->getSubject()->entity;
         }
         $this->publishRelatedModels(null, $entity);
     }
@@ -85,7 +90,7 @@ class RelatedModelsListener extends BaseListener
         $controller = $this->_controller();
 
         foreach ($models as $name => $association) {
-            list(, $associationName) = pluginSplit($association->name());
+            list(, $associationName) = pluginSplit($association->getName());
             $viewVar = Inflector::variable($associationName);
             if (array_key_exists($viewVar, $controller->viewVars)) {
                 continue;
@@ -96,7 +101,7 @@ class RelatedModelsListener extends BaseListener
             $subject = $this->_subject(compact('name', 'viewVar', 'query', 'association', 'entity'));
             $event = $this->_trigger('relatedModel', $subject);
 
-            $controller->set($event->subject->viewVar, $event->subject->query->toArray());
+            $controller->set($event->getSubject()->viewVar, $event->getSubject()->query->toArray());
         }
     }
 
@@ -112,7 +117,7 @@ class RelatedModelsListener extends BaseListener
     protected function _findOptions(Association $association)
     {
         return [
-            'keyField' => $association->bindingKey()
+            'keyField' => $association->getBindingKey()
         ];
     }
 
@@ -124,7 +129,7 @@ class RelatedModelsListener extends BaseListener
      */
     public function finder(Association $association)
     {
-        if ($association->target()->behaviors()->has('Tree')) {
+        if ($association->getTarget()->behaviors()->has('Tree')) {
             return 'treeList';
         }
 
@@ -167,10 +172,10 @@ class RelatedModelsListener extends BaseListener
     public function relatedModels($related = null, $action = null)
     {
         if ($related === null) {
-            return $this->_action($action)->config('relatedModels');
+            return $this->_action($action)->getConfig('relatedModels');
         }
 
-        return $this->_action($action)->config('relatedModels', $related, false);
+        return $this->_action($action)->setConfig('relatedModels', $related, false);
     }
 
     /**
@@ -191,7 +196,7 @@ class RelatedModelsListener extends BaseListener
                 continue;
             }
 
-            $return[$associationClass->name()] = $associationClass;
+            $return[$associationClass->getName()] = $associationClass;
         }
 
         return $return;
@@ -219,7 +224,7 @@ class RelatedModelsListener extends BaseListener
                     $association
                 ));
             }
-            $return[$associationClass->name()] = $associationClass;
+            $return[$associationClass->getName()] = $associationClass;
         }
 
         return $return;

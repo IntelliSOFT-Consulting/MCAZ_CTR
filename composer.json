@@ -14,7 +14,7 @@
         "cakephp/acl": "^0.2.5",
         "friendsofcake/bootstrap-ui": "^1.2",
         "josegonzalez/cakephp-upload": "^3.7",
-        "friendsofcake/crud": "^4.3",
+        "friendsofcake/crud": "^5.0",
         "friendsofcake/cakepdf": "^3.2",
         "dereuromark/cakephp-queue": "^3.5",
         "ivanamat/cakephp3-aclmanager": "^1.2",

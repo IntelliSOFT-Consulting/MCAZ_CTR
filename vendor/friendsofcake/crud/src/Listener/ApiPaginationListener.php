@@ -2,7 +2,6 @@
 namespace Crud\Listener;
 
 use Cake\Event\Event;
-use Cake\Routing\Router;
 
 /**
  * When loaded Crud API Pagination Listener will include
@@ -24,7 +23,7 @@ class ApiPaginationListener extends BaseListener
      */
     public function implementedEvents()
     {
-        if (!$this->_checkRequestType('api') && !$this->_checkRequestType('jsonapi')) {
+        if (!$this->_checkRequestType('api')) {
             return null;
         }
 
@@ -43,26 +42,19 @@ class ApiPaginationListener extends BaseListener
     {
         $request = $this->_request();
 
-        if (empty($request->paging)) {
+        if (empty($request->getParam('paging'))) {
             return;
         }
 
         $controller = $this->_controller();
-
         list(, $modelClass) = pluginSplit($controller->modelClass);
 
-        if (!array_key_exists($modelClass, $request->paging)) {
+        if (!array_key_exists($modelClass, $request->getParam('paging'))) {
             return;
         }
 
-        $pagination = $request->paging[$modelClass];
+        $pagination = $request->getParam('paging')[$modelClass];
         if (empty($pagination)) {
-            return;
-        }
-
-        if ($this->_checkRequestType('jsonapi')) {
-            $controller->set('_pagination', $this->_getJsonApiPaginationResponse($pagination));
-
             return;
         }
 
@@ -76,68 +68,6 @@ class ApiPaginationListener extends BaseListener
         ];
 
         $controller->set('pagination', $paginationResponse);
-        $this->_action()->config('serialize.pagination', 'pagination');
-    }
-
-    /**
-     * Generates pagination viewVars with JSON API compatible hyperlinks.
-     *
-     * @param array $pagination CakePHP pagination result
-     * @return array
-     */
-    protected function _getJsonApiPaginationResponse(array $pagination)
-    {
-        $routerMethod = 'normalize'; // produce relative links
-
-        if ($this->_controller()->Crud->config('listeners.jsonApi.absoluteLinks') === true) {
-            $routerMethod = 'url'; // produce absolute links
-        }
-
-        $self = Router::$routerMethod([
-            'controller' => $this->_controller()->name,
-            'action' => 'index',
-            'page' => $pagination['page']
-        ], true);
-
-        $first = Router::$routerMethod([
-            'controller' => $this->_controller()->name,
-            'action' => 'index',
-            'page' => 1,
-        ], true);
-
-        $last = Router::$routerMethod([
-            'controller' => $this->_controller()->name,
-            'action' => 'index',
-            'page' => $pagination['pageCount']
-        ], true);
-
-        $prev = null;
-        if ($pagination['prevPage']) {
-            $prev = Router::$routerMethod([
-                'controller' => $this->_controller()->name,
-                'action' => 'index',
-                'page' => $pagination['page'] - 1
-            ], true);
-        }
-
-        $next = null;
-        if ($pagination['nextPage']) {
-            $next = Router::$routerMethod([
-                'controller' => $this->_controller()->name,
-                'action' => 'index',
-                'page' => $pagination['page'] + 1
-            ], true);
-        }
-
-        return [
-            'self' => $self,
-            'first' => $first,
-            'last' => $last,
-            'prev' => $prev,
-            'next' => $next,
-            'record_count' => $pagination['count'],
-            'page_count' => $pagination['pageCount'],
-            'page_limit' => $pagination['limit'],
-        ];
+        $this->_action()->setConfig('serialize.pagination', 'pagination');
     }
 }
