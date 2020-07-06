@@ -8,6 +8,10 @@ p.answer {
 	min-height: 21px;
 }
 
+p {
+    font-size: 17px;
+}
+
 .answer p, .answer h1, .answer h2, .answer h3, .answer h4, .answer h5, .answer h6 {
 	border-bottom: 1px dotted;
 	min-height: 21px;
