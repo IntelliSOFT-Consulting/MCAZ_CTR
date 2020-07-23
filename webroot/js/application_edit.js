@@ -195,6 +195,10 @@
 
       // CKEDITOR.replace( 'data[Application][study_title]' );
     CKEDITOR.replace( 'drug_details' );
+    CKEDITOR.replace( 'medicine_reaction' );
+    CKEDITOR.replace( 'exemption_required' );
+    CKEDITOR.replace( 'evalution_of_results' );
+    CKEDITOR.replace( 'administration_route' );
     CKEDITOR.replace( 'ethic_considerations' );
     CKEDITOR.replace( 'safety' );
     CKEDITOR.replace( 'participants_description' );

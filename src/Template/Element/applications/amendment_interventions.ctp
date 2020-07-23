@@ -19,7 +19,7 @@
 
             echo $this->Form->control('medicine_reaction', array(
               'label' =>  'Adverse/ possible reactions to the medicine ', 
-               'escape' => false 
+               'escape' => false , 'templates' => 'textarea_form'
             ));
 
             echo $this->Form->control('medicine_therapeutic_effects', array(

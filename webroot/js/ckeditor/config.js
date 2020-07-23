@@ -35,4 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+
+	// config.specialChars = [ '&quot;', '&rsquo;', [ '&custom;', 'Custom label' ] ];
+	config.specialChars = config.specialChars.concat( [ [ '&leq;', 'Less than or equal to' ], [ '&ge;', 'Greater than or equal to' ], [ '&mu;', 'mu' ] ] );
 };
