@@ -13,7 +13,7 @@
       <dt>Name</dt>
       <dd><?= h($stage->name) ?></dd>
      <dt scope="row"><?= __('Description') ?></dt>
-        <dd><?= h($user->description) ?></dd>
+        <dd><?= h($stage->description) ?></dd>
     </dl>
   </div>
 </div>

@@ -702,7 +702,7 @@ class ApplicationsBaseController extends AppController
                         'type' => 'applicant_get_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['respond'] = $html->link('RESPOND', ['controller' => 'Applications', 'action' => 'view', $user->activation_key, 
+                $data['vars']['respond'] = $html->link('RESPOND', ['controller' => 'Applications', 'action' => 'view', $application->id, //$user->activation_key, 
                     '_full' => true, 'prefix' => 'applicant']);
                 $data['vars']['name'] = $manager->name;
                 $data['vars']['protocol_no'] = $application->protocol_no;
