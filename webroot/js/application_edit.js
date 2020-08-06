@@ -195,6 +195,7 @@
 
       // CKEDITOR.replace( 'data[Application][study_title]' );
     CKEDITOR.replace( 'drug_details' );
+    CKEDITOR.replace( 'study_drug' );
     CKEDITOR.replace( 'medicine_reaction' );
     CKEDITOR.replace( 'exemption_required' );
     CKEDITOR.replace( 'evalution_of_results' );
