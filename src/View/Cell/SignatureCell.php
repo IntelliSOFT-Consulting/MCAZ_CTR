@@ -22,6 +22,14 @@ class SignatureCell extends Cell
      *
      * @return void
      */
+    public function render($template = null)
+    {
+        if ($this->viewBuilder()->className() == 'CakePdf\View\PdfView') {
+            $this->viewBuilder()->className('Cake\View\View');
+        }
+        return parent::render($template);
+    }
+
     public function display($id)
     {        
         $this->loadModel('Users');
