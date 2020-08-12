@@ -28,11 +28,6 @@ class Medicine extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'medicine_name' => true,
-        'quantity_required' => true,
-        'created' => true,
-        'modified' => true,
-        'application' => true
+        '*' => true
     ];
 }

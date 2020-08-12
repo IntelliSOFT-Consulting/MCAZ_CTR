@@ -13,30 +13,42 @@ $(function() {
 		}
 		if ($("#medicines .medicine-group").length < 9) {
 			var new_medicinedetail = $('<div class="medicine-group"> \
-                <p  class="topper" id="MedicineDetailLabel{i}">{i} additional medicines</p> \
-                        <input class="form-control" name="medicines[{i}][id]" id="medicines-{i}-id" type="hidden"> \
-                        <div class="input text"> \
-                            <div class="form-group"> \
-                                <div class="col-sm-4 control-label"> \
-                                    <label for="medicines-{i}-medicine-name">Name of medicine</label> \
-                                </div> \
-                                <div class="col-sm-6"> \
-                                    <input class="form-control" name="medicines[{i}][medicine_name]" maxlength="255" id="medicines-{i}-medicine-name" value="" type="text"> \
-                                </div> \
-                            </div> \
+        <p  class="topper" id="MedicineDetailLabel{i}">{i} additional medicines</p> \
+                <input class="form-control" name="medicines[{i}][id]" id="medicines-{i}-id" type="hidden"> \
+                <div class="input text"> \
+                    <div class="form-group"> \
+                        <div class="col-sm-4 control-label"> \
+                            <label for="medicines-{i}-medicine-name">Name of medicine</label> \
                         </div> \
-                        <div class="input text"> \
-                            <div class="form-group"> \
-                                <div class="col-sm-4 control-label"> \
-                                    <label for="medicines-{i}-quantity-required">Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label> \
-                                </div> \
-                                <div class="col-sm-6"> \
-                                    <input class="form-control" name="medicines[{i}][quantity_required]" maxlength="255" id="medicines-{i}-quantity-required" value="" type="text"> \
-                                </div> \
-                            </div> \
+                        <div class="col-sm-6"> \
+                            <input class="form-control" name="medicines[{i}][medicine_name]" maxlength="255" id="medicines-{i}-medicine-name" value="" type="text"> \
                         </div> \
-                      <div class="controls"><button type="button" id="medicinesButton{i}" class="btn btn-xs btn-danger removemedicines"><i class="fa fa-trash-o"></i> Remove Medicine</button></div> \
-                  <hr id="MedicineDetailHr{i}"> </div>'.replace(/{i}/g, intId));
+                    </div> \
+                </div> \
+                <div class="input text"> \
+                    <div class="form-group"> \
+                        <div class="col-sm-4 control-label"> \
+                            <label for="medicines-{i}-quantity-required">Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label> \
+                        </div> \
+                        <div class="col-sm-6"> \
+                            <input class="form-control" name="medicines[{i}][quantity_required]" maxlength="255" id="medicines-{i}-quantity-required" value="" type="text"> \
+                        </div> \
+                    </div> \
+                </div> \
+                <div class="input radio">\
+                	<div class="form-group"> \
+                		<div class="col-sm-4 control-label">\
+                			<label>Has the medicine been registered in the country of origin?</label>\
+                		</div>\
+                		<input class="form-control" type="hidden" name="medicines[{i}][medicine_registered]" value="">\
+                		<label class="radio-inline" for="medicines-{i}-medicine-registered-yes">\
+                			<input type="radio" class="radio-inline" name="medicines[{i}][medicine_registered]" value="Yes" id="medicines-{i}-medicine-registered-yes">Yes</label>\
+                		<label class="radio-inline" for="medicines-{i}-medicine-registered-no">\
+                			<input type="radio" class="radio-inline" name="medicines[{i}][medicine_registered]" value="No" id="medicines-{i}-medicine-registered-no">No</label> \
+                	</div>\
+                </div>\
+              <div class="controls"><button type="button" id="medicinesButton{i}" class="btn btn-xs btn-danger removemedicines"><i class="fa fa-trash-o"></i> Remove Medicine</button></div> \
+          <hr id="MedicineDetailHr{i}"> </div>'.replace(/{i}/g, intId));
 			$("#medicines").append(new_medicinedetail);
 		} else {
 			alert("Sorry, cant add more than "+$("#medicines .medicine-group").length+" Medicines!");

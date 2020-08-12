@@ -25,6 +25,12 @@
                     'label' =>  'Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
                     'escape' => false
                 ));
+                echo $this->Form->control('medicines.'.$i.'.medicine_registered', array(
+                    'label' =>  'Has the medicine been registered in the country of origin?',
+                    'escape' => false, 
+                    'type' => 'radio',  
+                    'templates' => 'radio_form', 'options' => ['Yes' => 'Yes', 'No' => 'No']
+                ));
                 echo $this->Html->tag('div', '<button id="medicinesButton'.$i.'" class="btn btn-xs btn-danger removemedicines" type="button"><i class="fa fa-trash-o"></i> Remove Medicine</button>', array(
                             'class' => 'controls', 'escape' => false));
                 echo $this->Html->tag('hr', '', array('id' => 'medicinesHr'.$i));
