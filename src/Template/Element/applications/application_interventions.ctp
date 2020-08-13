@@ -1,5 +1,6 @@
 <?php  //echo $this->element('multi/placebos');
             echo '<label>6.1 Interventions</label>';
+            echo '<h6>6.1.1</h6>';
               echo $this->Form->control('drug_name', array(
               'label' =>  'Medicine Name  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
                'escape' => false 
@@ -8,8 +9,6 @@
               'label' =>  'Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
                'escape' => false 
             ));
-
-            echo $this->element('multi/medicines');
 
             echo $this->Form->control('drug_details', array(
               'label' =>  '<hr> State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
@@ -25,7 +24,6 @@
                'escape' => false 
             ));
 
-            echo '<label>6.2</label>';
             echo $this->Form->control('medicine_registered', array(
               'label' =>  'a) Has the medicine been registered in the country of origin?',
               'escape' => false, 
@@ -119,12 +117,6 @@
                'templates' => 'textarea_form' 
             ));
 
-            echo $this->Form->control('administration_route', array(
-              'label' =>  'Administration route, dosage, dosage interval and period for the medicine being tested and the medicine being used as a control', 
-               'escape' => false,
-               'templates' => 'textarea_form' 
-            ));
-
             echo $this->Form->control('status_medicine', array(
               'label' =>  'f) What is the status of medicine in Zimbabwe?',
               'escape' => false,
@@ -144,8 +136,16 @@
                'templates' => 'textarea_form' 
             ));
 
-            //echo $this->element('multi/list_of_medicine');
-
+            //echo $this->element('multi/list_of_medicine');            
+            echo $this->element('multi/medicines');
+            
+            echo '<label>6.2</label>';
+            echo $this->Form->control('administration_route', array(
+              'label' =>  'Administration route, dosage, dosage interval and period for the medicine being tested and the medicine being used as a control', 
+               'escape' => false,
+               'templates' => 'textarea_form' 
+            ));
+            
           echo '<label>6.3</label>';
             echo $this->Form->control('given_concomitantly', array(
               'label' =>  'Will medicine be given concomitantly?',
