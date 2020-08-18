@@ -854,7 +854,8 @@
               </div>
               <div class="form-group"> 
                   <div class="col-sm-12"> 
-                    <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
+                    <button type="submit" class="btn btn-info active" id="ev-save-changes"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
+                    <button type="submit" class="btn btn-primary active" id="ev-submit" name="submitted" value="2"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
                   </div> 
               </div>
            <?php 

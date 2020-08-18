@@ -55,7 +55,8 @@
       </div>
       <div class="form-group"> 
           <div class="col-xs-12"> 
-            <button type="submit" class="btn btn-success active"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
+            <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+            <button type="submit" class="btn btn-warning btn-sm" name="saveChanges"><i class="fa fa-save" aria-hidden="true"></i> Save <small>(without notifications)</small> </button>
           </div> 
       </div>
     <?php echo $this->Form->end() ?>

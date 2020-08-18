@@ -3,8 +3,9 @@ $(function() {
 	$("#addMedicineDetail").on("click", addMedicineDetail);
 	$(document).on('click', '.removemedicines', removeMedicineDetail);
 	// Multi medicines Handling
+	$("#medicines").find('.rteditor').ckeditor();
 	function addMedicineDetail() {
-		console.log('clicked');
+		// console.log('clicked');
 		var se = $("#medicines .medicine-group").last().find('button').attr('id');
 		if ( typeof se !== 'undefined' && se !== false && se !== "") {
 			intId = parseFloat(se.replace('medicinesButton', '')) + 1;
@@ -13,16 +14,16 @@ $(function() {
 		}
 		if ($("#medicines .medicine-group").length < 9) {
 			var new_medicinedetail = $('<div class="medicine-group"> \
-				<h6>6.1.{i2}</h6>\
         <p  class="topper" id="medicines-{i}-MedicineDetailLabel{i}">{i} additional medicines</p> \
-                <input class="form-control" name="medicines[{i}][id]" id="medicines-{i}-medicines-{i}-id" type="hidden"> \
+				<h6>6.1.{i2}</h6>\
+                <input class="form-control" name="medicines[{i}][id]" id="medicines-{i}-id" type="hidden"> \
                 <div class="input text"> \
                     <div class="form-group"> \
                         <div class="col-sm-4 control-label"> \
                             <label for="medicines-{i}-medicine-name">Name of medicine</label> \
                         </div> \
                         <div class="col-sm-6"> \
-                            <input class="form-control" name="medicines[{i}][medicine_name]" maxlength="255" id="medicines-{i}-medicines-{i}-medicine-name" value="" type="text"> \
+                            <input class="form-control" name="medicines[{i}][medicine_name]" maxlength="255" id="medicines-{i}-medicine-name" value="" type="text"> \
                         </div> \
                     </div> \
                 </div> \
@@ -32,7 +33,7 @@ $(function() {
                             <label for="medicines-{i}-quantity-required">Quantity of medicine required  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label> \
                         </div> \
                         <div class="col-sm-6"> \
-                            <input class="form-control" name="medicines[{i}][quantity_required]" maxlength="255" id="medicines-{i}-medicines-{i}-quantity-required" value="" type="text"> \
+                            <input class="form-control" name="medicines[{i}][quantity_required]" maxlength="255" id="medicines-{i}-quantity-required" value="" type="text"> \
                         </div> \
                     </div> \
                 </div> \
@@ -44,13 +45,13 @@ $(function() {
                State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i>\
             </label>\
          </div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][drug_details]" required="required" id="medicines-{i}-drug-details"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control rteditor" name="medicines[{i}][drug_details]" required="required" id="medicines-{i}-drug-details"></textarea></div>\
       </div>\
    </div>\
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-medicine-reaction">Adverse/ possible reactions to the medicine </label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][medicine_reaction]" id="medicines-{i}-medicine-reaction">\
+         <div class="col-sm-12"><textarea class="form-control rteditor" name="medicines[{i}][medicine_reaction]" id="medicines-{i}-medicine-reaction">\
             </textarea>\
          </div>\
       </div>\
@@ -73,7 +74,7 @@ $(function() {
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-medicine-registered-details">State details/reason</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][medicine_registered_details]" id="medicines-{i}-medicine-registered-details"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control" name="medicines[{i}][medicine_registered_details]" id="medicines-{i}-medicine-registered-details"></textarea></div>\
       </div>\
    </div>\
    <div class="input radio">\
@@ -85,7 +86,7 @@ $(function() {
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-trial-origin-details">State details/reason</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][trial_origin_details]" id="medicines-{i}-trial-origin-details"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control" name="medicines[{i}][trial_origin_details]" id="medicines-{i}-trial-origin-details"></textarea></div>\
       </div>\
    </div>\
    <div class="input radio">\
@@ -97,7 +98,7 @@ $(function() {
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-application-other-country-details">If Yes,State details/reason including the date on which the application was lodged</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][application_other_country_details]" id="medicines-{i}-application-other-country-details"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control" name="medicines[{i}][application_other_country_details]" id="medicines-{i}-application-other-country-details"></textarea></div>\
       </div>\
    </div>\
    <div class="input radio">\
@@ -109,7 +110,7 @@ $(function() {
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-registered-other-country-details">If Yes, State details/reason</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][registered_other_country_details]" id="medicines-{i}-registered-other-country-details"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control" name="medicines[{i}][registered_other_country_details]" id="medicines-{i}-registered-other-country-details"></textarea></div>\
       </div>\
    </div>\
    <div class="input radio">\
@@ -121,7 +122,7 @@ $(function() {
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-rejected-other-country-details">If Yes,State details/reason</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][rejected_other_country_details]" id="medicines-{i}-rejected-other-country-details"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control" name="medicines[{i}][rejected_other_country_details]" id="medicines-{i}-rejected-other-country-details"></textarea></div>\
       </div>\
    </div>\
    <div class="input radio">\
@@ -133,18 +134,18 @@ $(function() {
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-state-antidote">State Antidote</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][state_antidote]" id="medicines-{i}-state-antidote"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control" name="medicines[{i}][state_antidote]" id="medicines-{i}-state-antidote"></textarea></div>\
       </div>\
    </div>\
    <div class="input textarea">\
       <div class="form-group">\
          <div class="col-sm-12"><label for="medicines-{i}-exemption-required">State the quantity of the medicine for which exemption is required if the medicine is not registered</label></div>\
-         <div class="col-sm-12"><textarea class="form-control" rows="7" name="medicines[{i}][exemption_required]" id="medicines-{i}-exemption-required"></textarea></div>\
+         <div class="col-sm-12"><textarea class="form-control rteditor" name="medicines[{i}][exemption_required]" id="medicines-{i}-exemption-required"></textarea></div>\
       </div>\
    </div>\
               <div class="controls"><button type="button" id="medicines-{i}-medicinesButton{i}" class="btn btn-xs btn-danger removemedicines"><i class="fa fa-trash-o"></i> Remove Medicine</button></div> \
-          <hr id="medicines-{i}-MedicineDetailHr{i}"> </div>'.replace(/{i}/g, intId).replace(/{i2}/g, intId+1));
-			$("#medicines").append(new_medicinedetail);
+          <hr id="medicines-{i}-MedicineDetailHr{i}"> </div>'.replace(/{i}/g, intId).replace(/{i2}/g, intId+2));
+			$("#medicines").append(new_medicinedetail).find('.rteditor').ckeditor();
 		} else {
 			alert("Sorry, cant add more than "+$("#medicines .medicine-group").length+" Medicines!");
 		}

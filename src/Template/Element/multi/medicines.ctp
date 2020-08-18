@@ -16,6 +16,7 @@
             <div class="medicine-group">
             <?php
                 echo $this->Html->tag('p', ($i+1).' additional medicines', array('class' => 'topper'));
+                echo "<h6>6.1.".($i+2)."</h6>";
                 echo $this->Form->input('medicines.'.$i.'.id', ['templates' => 'table_form']);
                 echo $this->Form->input('medicines.'.$i.'.medicine_name', array(
                     'label' => 'Medicine Name  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>',
@@ -28,11 +29,11 @@
                 
             echo $this->Form->control('medicines.'.$i.'.drug_details', array(
               'label' =>  '<hr> State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 'escape' => false,
-              'templates' => 'textarea_form'));
+              'templates' => 'textarea_form', 'templateVars' => ['rteditor' => 'rteditor']));
 
             echo $this->Form->control('medicines.'.$i.'.medicine_reaction', array(
               'label' =>  'Adverse/ possible reactions to the medicine ', 
-               'escape' => false, 'templates' => 'textarea_form'
+               'escape' => false, 'templates' => 'textarea_form', 'templateVars' => ['rteditor' => 'rteditor']
             ));
 
             echo $this->Form->control('medicines.'.$i.'.medicine_therapeutic_effects', array(
@@ -120,7 +121,7 @@
             echo $this->Form->control('medicines.'.$i.'.exemption_required', array(
               'label' =>  'State the quantity of the medicine for which exemption is required if the medicine is not registered', 
                'escape' => false,
-               'templates' => 'textarea_form' 
+               'templates' => 'textarea_form' , 'templateVars' => ['rteditor' => 'rteditor']
             ));
                 echo $this->Html->tag('div', '<button id="medicinesButton'.$i.'" class="btn btn-xs btn-danger removemedicines" type="button"><i class="fa fa-trash-o"></i> Remove Medicine</button>', array(
                             'class' => 'controls', 'escape' => false));
