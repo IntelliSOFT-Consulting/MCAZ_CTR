@@ -1614,7 +1614,11 @@
             <td colspan="2">
               <h5>6.1 Interventions</h5>
             </td>
-          </tr>  
+          </tr>
+
+           <tr>
+             <td colspan="2">6.1.1</td>
+           </tr>
           <tr>
             <th><label>Medicine Name  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></th>
             <td <?php if($prefix == 'applicant') { ?> id="drug-name" 
@@ -1647,48 +1651,7 @@
                   <td><?= $amendment->quantity_excemption ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <td colspan="2">
-              <h5 class="controls">Other Medicines (<small>Repeat as necessary
-              </small>)</h5>
-            </td>
-          </tr> 
-
-          <?php
-            if (!empty($application['medicines'])) {
-             for ($i = 0; $i <= count($application['medicines'])-1; $i++) {
-            ?>
-            <tr>
-              <th><label>Medicine Name <span class="sterix">*</span></label></th>
-              <td><?= $application->medicines[$i]['medicine_name'] ?></td>
-            </tr>
-            <tr>
-              <th><label>Quantity of medicine required</label></th>
-              <td><?= $application->medicines[$i]['quantity_required'] ?></td>
-            </tr>
-            <tr><td colspan="2"></td></tr>
-            <?php 
-              }
-            }
-           ?>
-            
-            <?php
-            foreach($application['amendments'] as $key => $amendment) {
-              if($amendment['submitted'] == 2 && !empty($amendment['medicines'])){
-                for ($i = 0; $i <= count($amendment['medicines'])-1; $i++) {
-            ?>
-            <tr class="amender amender<?= $key+1 ?>">
-              <th><?php echo $key+1; ?> <label>Medicine Name <span class="sterix">*</span></label></th>
-              <td><?= $amendment->medicines[$i]['medicine_name'] ?></td>
-            </tr>
-            <tr class="amender amender<?= $key+1 ?>">
-              <th><?php echo $key+1; ?> <label>Quantity of medicine required</label></th>
-              <td><?= $amendment->medicines[$i]['quantity_required'] ?></td>
-            </tr>
-            <tr><td colspan="2"></td></tr>
-            <?php 
-              } } }
-           ?>
+          
 
            <tr>
              <td colspan="2"><label>State the chemical composition, graphic and empirical formulae, animal pharmacology, toxicity and teratology as well as any clinical or field trials in humans or animals or any other relevant information or supply reports if available <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
@@ -1731,9 +1694,6 @@
                </tr>
              <?php   } } ?>
 
-           <tr>
-             <td colspan="2"><label>6.2</label></td>
-           </tr>
             <tr>
               <th><label>a) Has the medicine been registered in the country of origin?</label></th>
               <td><?= $application->medicine_registered ?></td>
@@ -1901,22 +1861,6 @@
                   <td><?= $amendment->rejected_other_country_details ?></td>
                </tr>
              <?php   } } ?>
-           <tr>
-             <td colspan="2"><label>Administration route, dosage, dosage interval and period for the medicine being tested and the medicine being used as a control</label></td>
-           </tr>
-           <tr>
-             <td colspan="2">
-               <?= $application->administration_route ?>
-             </td>
-           </tr>
-            <?php
-              foreach($application['amendments'] as $key => $amendment) {
-                if($amendment['submitted'] == 2 && !empty($amendment['administration_route'])){      ?>
-               <tr class="amender amender<?= $key+1 ?>">
-                  <th><?php echo $key+1; ?></th>
-                  <td><?= $amendment->administration_route ?></td>
-               </tr>
-             <?php   } } ?>
             <tr>
               <th><label>f) What is the status of medicine in Zimbabwe?</label></th>
               <td><?= $application->status_medicine ?></td>
@@ -1961,6 +1905,274 @@
                   <td><?= $amendment->exemption_required ?></td>
                </tr>
              <?php   } } ?>
+            <tr>
+
+            <td colspan="2">
+              <h5 class="controls"><label>Other Medicines (<small>Repeat as necessary </small>)</label></h5>
+            </td>
+          </tr> 
+          <?php
+            if (!empty($application['medicines'])) {
+             for ($i = 0; $i <= count($application['medicines'])-1; $i++) {
+            ?>
+            <tr>
+             <td colspan="2">6.1.<?= ($i+2) ?></td>
+            </tr>
+            <tr>
+              <th><label>Medicine Name <span class="sterix">*</span></label></th>
+              <td><?= $application->medicines[$i]['medicine_name'] ?></td>
+            </tr>
+            <tr>
+              <th><label>Quantity of medicine required</label></th>
+              <td><?= $application->medicines[$i]['quantity_required'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State the quantity of the medicine for which exemption is required if the medicine is not registered</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['drug_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>Adverse/ possible reactions to the medicine</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['medicine_reaction'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>Therapeutic effects of medicine</label></th>
+              <td><?= $application->medicines[$i]['medicine_therapeutic_effects'] ?></td>
+            </tr>
+            <tr>
+              <th><label>a) Has the medicine been registered in the country of origin?</label></th>
+              <td><?= $application->medicines[$i]['medicine_registered'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['medicine_registered_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>b) Have clinical trials been conducted in the country of origin?</label></th>
+              <td><?= $application->medicines[$i]['trials_origin_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['trial_origin_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>c) Has application for registration been made in any other country?</label></th>
+              <td><?= $application->medicines[$i]['application_other_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>If Yes,State details/reason including the date on which the application was lodged</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['application_other_country_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>d) Has the medicine been registered in any other country?</label></th>
+              <td><?= $application->medicines[$i]['registered_other_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>If Yes, State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['registered_other_country_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>e) Has the registration of the medicine been rejected/deferred /cancelled in any country?</label></th>
+              <td><?= $application->medicines[$i]['rejected_other_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['rejected_other_country_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>f) What is the status of medicine in Zimbabwe?</label></th>
+              <td><?= $application->medicines[$i]['status_medicine'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State Antidote</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['state_antidote'] ?>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State the quantity of the medicine for which exemption is required if the medicine is not registered</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $application->medicines[$i]['exemption_required'] ?>
+              </td>
+            </tr>
+            <tr><td colspan="2"></td></tr>
+            <?php 
+              }
+            }
+           ?>
+            
+            <?php
+            foreach($application['amendments'] as $key => $amendment) {
+              if($amendment['submitted'] == 2 && !empty($amendment['medicines'])){
+                for ($i = 0; $i <= count($amendment['medicines'])-1; $i++) {
+            ?>
+            <tr>
+             <td colspan="2">6.1.<?= ($i+2) ?></td>
+            </tr>
+            <tr class="amender amender<?= $key+1 ?>">
+              <th><?php echo $key+1; ?> <label>Medicine Name <span class="sterix">*</span></label></th>
+              <td><?= $amendment->medicines[$i]['medicine_name'] ?></td>
+            </tr>
+            <tr class="amender amender<?= $key+1 ?>">
+              <th><?php echo $key+1; ?> <label>Quantity of medicine required</label></th>
+              <td><?= $amendment->medicines[$i]['quantity_required'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State the quantity of the medicine for which exemption is required if the medicine is not registered</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['drug_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>Adverse/ possible reactions to the medicine</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['medicine_reaction'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>Therapeutic effects of medicine</label></th>
+              <td><?= $amendment->medicines[$i]['medicine_therapeutic_effects'] ?></td>
+            </tr>
+            <tr>
+              <th><label>a) Has the medicine been registered in the country of origin?</label></th>
+              <td><?= $amendment->medicines[$i]['medicine_registered'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['medicine_registered_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>b) Have clinical trials been conducted in the country of origin?</label></th>
+              <td><?= $amendment->medicines[$i]['trials_origin_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['trial_origin_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>c) Has application for registration been made in any other country?</label></th>
+              <td><?= $amendment->medicines[$i]['application_other_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>If Yes,State details/reason including the date on which the application was lodged</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['application_other_country_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>d) Has the medicine been registered in any other country?</label></th>
+              <td><?= $amendment->medicines[$i]['registered_other_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>If Yes, State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['registered_other_country_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>e) Has the registration of the medicine been rejected/deferred /cancelled in any country?</label></th>
+              <td><?= $amendment->medicines[$i]['rejected_other_country'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State details/reason</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['rejected_other_country_details'] ?>
+              </td>
+            </tr>
+            <tr>
+              <th><label>f) What is the status of medicine in Zimbabwe?</label></th>
+              <td><?= $amendment->medicines[$i]['status_medicine'] ?></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State Antidote</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['state_antidote'] ?>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><label>State the quantity of the medicine for which exemption is required if the medicine is not registered</label></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <?= $amendment->medicines[$i]['exemption_required'] ?>
+              </td>
+            </tr>
+            <tr><td colspan="2"></td></tr>
+            <?php 
+              } } }
+           ?>
+
+           <tr>
+             <td colspan="2"><label>6.2</label></td>
+           </tr>
+           <tr>
+             <td colspan="2"><label>Administration route, dosage, dosage interval and period for the medicine being tested and the medicine being used as a control</label></td>
+           </tr>
+           <tr>
+             <td colspan="2">
+               <?= $application->administration_route ?>
+             </td>
+           </tr>
+            <?php
+              foreach($application['amendments'] as $key => $amendment) {
+                if($amendment['submitted'] == 2 && !empty($amendment['administration_route'])){      ?>
+               <tr class="amender amender<?= $key+1 ?>">
+                  <th><?php echo $key+1; ?></th>
+                  <td><?= $amendment->administration_route ?></td>
+               </tr>
+             <?php   } } ?>
+
            <tr>
              <td colspan="2"><label>6.3</label></td>
            </tr>

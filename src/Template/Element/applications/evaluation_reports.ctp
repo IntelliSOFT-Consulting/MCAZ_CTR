@@ -218,6 +218,7 @@
                           <?= $evaluation->justification_adequate ?>
                         </span>
                         <?php
+                          debug($evaluation_edit);
                           for ($i=0; $i < count(($evaluation_edit['justification_adequate'] ?? null)); $i++) { 
                             if ($i == count($evaluation_edit['justification_adequate'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['justification_adequate'][$i].'</span>';

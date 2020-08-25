@@ -46,39 +46,41 @@ class CommentsController extends AppController
                                     ->add(['group_id !=' => 6]);
                             });
                 
-                $this->loadModel('Queue.QueuedJobs'); 
+                if ($this->request->getData('submitChanges')) { 
+                    $this->loadModel('Queue.QueuedJobs'); 
 
-                foreach ($managers as $manager) {
-                    //Notify managers  
+                    foreach ($managers as $manager) {
+                        //Notify managers  
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id,
+                            'type' => 'manager_applicant_response_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['subject'] = $comment->subject;  
+                        $data['vars']['content'] = $comment->content;              
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_applicant_response_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+
+                    //Notify Applicant 
+                    $applicant = $this->Applications->Users->get($application->user_id);
                     $data = [
-                        'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_applicant_response_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                            'email_address' => $applicant->email, 'user_id' => $application->user_id,
+                            'type' => 'applicant_response_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                     ];
-                    $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['name'] = $applicant->name;
                     $data['vars']['subject'] = $comment->subject;  
-                    $data['vars']['content'] = $comment->content;              
+                    $data['vars']['content'] = $comment->content;    
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_applicant_response_notification';
+                    $data['type'] = 'applicant_response_query_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-
-                //Notify Applicant 
-                $applicant = $this->Applications->Users->get($application->user_id);
-                $data = [
-                        'email_address' => $applicant->email, 'user_id' => $application->user_id,
-                        'type' => 'applicant_response_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
-                ];
-                $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $applicant->name;
-                $data['vars']['subject'] = $comment->subject;  
-                $data['vars']['content'] = $comment->content;    
-                //notify applicant
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_response_query_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                
                 $this->Flash->success(__('The comment has been submitted for review.'));
 
                 return $this->redirect($this->referer());
