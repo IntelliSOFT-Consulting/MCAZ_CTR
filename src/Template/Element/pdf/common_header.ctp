@@ -1,6 +1,6 @@
 <?php
   use Cake\Utility\Hash;
-  if($prefix === 'manager') {
+  if($prefix === 'manager' || $prefix === 'evaluator') {
     $this->Html->css('bootstrap-editable', ['block' => true]);
     $this->Html->css('bootstrap/common_header', ['block' => true]);
     $this->Html->script('bootstrap/bootstrap-editable', ['block' => true]);

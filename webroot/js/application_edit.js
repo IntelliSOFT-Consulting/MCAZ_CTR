@@ -42,7 +42,7 @@
     }
     setFileUpload();
     function setFileUpload() {
-        $('.container :input:file').each(function() {
+        $('.checkcontrols :input:file').each(function() {
             $(this).fileupload({
                 url:'/applicant/applications/add-attachments.json',
                 //sequentialUploads: true,
