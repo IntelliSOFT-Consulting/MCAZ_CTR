@@ -49,6 +49,7 @@
             if (!empty($application->evaluations)) {
               echo "<h3 class='text-center'>Previous Evaluation(s)</h3>";
             }
+            // echo $this->Html->link('uone', ['action' => 'view', 1, '?' => ['ev_id' => 2,]]);
           ?>
           <?= $this->element('applications/evaluation_reports', ["evaluations" => $application->evaluations]) ?>
         </div>
@@ -69,14 +70,19 @@
               <div class="row">
                 <div class="col-xs-12">
                 <?php
+                    // debug($this->request->query('ev_id'));
                       echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
                       echo $this->Form->control('evaluation_pr_id', ['type' => 'hidden', 'value' => (($application->evaluations[$ekey]['id']) ?? 100), 'escape' => false, 'templates' => 'table_form']);
-                      // echo $this->Form->control('evaluations.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                      if($this->request->query('ev_id')) {
+                        echo $this->Form->control('evaluations.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                      } else {
+                        echo $this->Form->control('evaluations.'.$ekey.'.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
+                        echo $this->Form->control('evaluations.'.$ekey.'.evaluation_type', ['type' => 'hidden', 
+                          'value' => ($evaluation_id) ? 'Revision' : 'Initial', 
+                          'templates' => 'table_form']);
+                      }                      
                       echo $this->Form->control('evaluations.'.$ekey.'.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
-                      echo $this->Form->control('evaluations.'.$ekey.'.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
-                      echo $this->Form->control('evaluations.'.$ekey.'.evaluation_type', ['type' => 'hidden', 
-                        'value' => ($evaluation_id) ? 'Revision' : 'Initial', 
-                        'templates' => 'table_form']);
+                      
                 ?>
 
                 <table class="table table-bordered table-condensed">
@@ -854,8 +860,8 @@
               </div>
               <div class="form-group"> 
                   <div class="col-sm-12"> 
-                    <button type="submit" class="btn btn-info active" id="ev-save-changes"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
-                    <button type="submit" class="btn btn-primary active" id="ev-submit" name="submitted" value="2"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
+                    <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
+                    <button type="submit" class="btn btn-primary active" id="ev-submit" name="ev_save" value="2"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
                   </div> 
               </div>
            <?php 

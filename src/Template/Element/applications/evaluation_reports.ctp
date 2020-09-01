@@ -36,7 +36,7 @@
                     (end($evaluation_edit[substr($key, strrpos($key, '.')+1)]) != $value) ? $value : null;
               }
             }
-            $evaluation_edit = Hash::filter($evaluation_edit);
+            // $evaluation_edit = Hash::filter($evaluation_edit); //causes missing errors
             // print_r($resa);
         ?>
           <div class="thumbnail amend-form">
@@ -218,8 +218,11 @@
                           <?= $evaluation->justification_adequate ?>
                         </span>
                         <?php
-                          debug($evaluation_edit);
-                          for ($i=0; $i < count(($evaluation_edit['justification_adequate'] ?? null)); $i++) { 
+                          // debug($evaluation_edit);
+                          // $evaluation_edit['justification_adequate'] = null;
+                          // echo '<span class="retide">bo'.$evaluation_edit['justification_adequate'][1].'</span>';
+                          // echo '<span class="editer">bandeko'.$evaluation_edit['justification_adequate'][1].'</span>';
+                          for ($i=0; $i < count(($evaluation_edit['justification_adequate'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['justification_adequate'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['justification_adequate'][$i].'</span>';
                             } else {
@@ -237,7 +240,7 @@
                           <?= $evaluation->adequate_provisions ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['adequate_provisions'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['adequate_provisions'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['adequate_provisions'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['adequate_provisions'][$i].'</span>';
                             } else {
@@ -256,7 +259,7 @@
                           <?= $evaluation->vulnerable_population_comments ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['vulnerable_population_comments'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['vulnerable_population_comments'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['vulnerable_population_comments'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['vulnerable_population_comments'][$i].'</span>';
                             } else {
@@ -301,7 +304,7 @@
                           <?= $evaluation->rationale_stated ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['rationale_stated'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['rationale_stated'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['rationale_stated'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['rationale_stated'][$i].'</span>';
                             } else {
@@ -319,7 +322,7 @@
                           <?= $evaluation->hypothesis_explained ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['hypothesis_explained'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['hypothesis_explained'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['hypothesis_explained'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['hypothesis_explained'][$i].'</span>';
                             } else {
@@ -337,7 +340,7 @@
                           <?= $evaluation->design_sound ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['design_sound'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['design_sound'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['design_sound'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['design_sound'][$i].'</span>';
                             } else {
@@ -355,7 +358,7 @@
                           <?= $evaluation->control_arm ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['control_arm'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['control_arm'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['control_arm'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['control_arm'][$i].'</span>';
                             } else {
@@ -373,7 +376,7 @@
                           <?= $evaluation->criteria_complete ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['criteria_complete'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['criteria_complete'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['criteria_complete'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['criteria_complete'][$i].'</span>';
                             } else {
@@ -391,7 +394,7 @@
                           <?= $evaluation->subject_allocation ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['subject_allocation'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['subject_allocation'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['subject_allocation'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['subject_allocation'][$i].'</span>';
                             } else {
@@ -409,7 +412,7 @@
                           <?= $evaluation->procedures_appropriate ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['procedures_appropriate'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['procedures_appropriate'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['procedures_appropriate'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['procedures_appropriate'][$i].'</span>';
                             } else {
@@ -427,7 +430,7 @@
                           <?= $evaluation->drugs_described ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['drugs_described'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['drugs_described'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['drugs_described'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['drugs_described'][$i].'</span>';
                             } else {
@@ -445,7 +448,7 @@
                           <?= $evaluation->drugs_described ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['drugs_described'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['drugs_described'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['drugs_described'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['drugs_described'][$i].'</span>';
                             } else {
@@ -463,7 +466,7 @@
                           <?= $evaluation->clinical_procedures ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['clinical_procedures'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['clinical_procedures'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['clinical_procedures'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['clinical_procedures'][$i].'</span>';
                             } else {
@@ -481,7 +484,7 @@
                           <?= $evaluation->laboratory_tests ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['laboratory_tests'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['laboratory_tests'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['laboratory_tests'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['laboratory_tests'][$i].'</span>';
                             } else {
@@ -499,7 +502,7 @@
                           <?= $evaluation->statistical_basis ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['statistical_basis'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['statistical_basis'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['statistical_basis'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['statistical_basis'][$i].'</span>';
                             } else {
@@ -518,7 +521,7 @@
                           <?= $evaluation->scientific_issues_comments ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['scientific_issues_comments'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['scientific_issues_comments'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['scientific_issues_comments'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['scientific_issues_comments'][$i].'</span>';
                             } else {
@@ -563,7 +566,7 @@
                           <?= $evaluation->information_sheet ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['information_sheet'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['information_sheet'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['information_sheet'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['information_sheet'][$i].'</span>';
                             } else {
@@ -581,7 +584,7 @@
                           <?= $evaluation->proposed_study ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['proposed_study'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['proposed_study'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['proposed_study'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['proposed_study'][$i].'</span>';
                             } else {
@@ -599,7 +602,7 @@
                           <?= $evaluation->explain_study ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['explain_study'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['explain_study'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['explain_study'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['explain_study'][$i].'</span>';
                             } else {
@@ -617,7 +620,7 @@
                           <?= $evaluation->research_duration ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['research_duration'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['research_duration'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['research_duration'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['research_duration'][$i].'</span>';
                             } else {
@@ -635,7 +638,7 @@
                           <?= $evaluation->full_description ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['full_description'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['full_description'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['full_description'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['full_description'][$i].'</span>';
                             } else {
@@ -653,7 +656,7 @@
                           <?= $evaluation->nature_discomfort ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['nature_discomfort'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['nature_discomfort'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['nature_discomfort'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['nature_discomfort'][$i].'</span>';
                             } else {
@@ -671,7 +674,7 @@
                           <?= $evaluation->possible_benefits ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['possible_benefits'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['possible_benefits'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['possible_benefits'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['possible_benefits'][$i].'</span>';
                             } else {
@@ -689,7 +692,7 @@
                           <?= $evaluation->outline_community ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['outline_community'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['outline_community'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['outline_community'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['outline_community'][$i].'</span>';
                             } else {
@@ -707,7 +710,7 @@
                           <?= $evaluation->outline_procedure ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['outline_procedure'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['outline_procedure'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['outline_procedure'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['outline_procedure'][$i].'</span>';
                             } else {
@@ -725,7 +728,7 @@
                           <?= $evaluation->conveyed_persons ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['conveyed_persons'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['conveyed_persons'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['conveyed_persons'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['conveyed_persons'][$i].'</span>';
                             } else {
@@ -743,7 +746,7 @@
                           <?= $evaluation->participation_voluntary ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['participation_voluntary'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['participation_voluntary'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['participation_voluntary'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['participation_voluntary'][$i].'</span>';
                             } else {
@@ -761,7 +764,7 @@
                           <?= $evaluation->compensation_provided ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['compensation_provided'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['compensation_provided'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['compensation_provided'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['compensation_provided'][$i].'</span>';
                             } else {
@@ -779,7 +782,7 @@
                           <?= $evaluation->alternatives_participation ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['alternatives_participation'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['alternatives_participation'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['alternatives_participation'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['alternatives_participation'][$i].'</span>';
                             } else {
@@ -797,7 +800,7 @@
                           <?= $evaluation->contact_research ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['contact_research'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['contact_research'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['contact_research'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['contact_research'][$i].'</span>';
                             } else {
@@ -815,7 +818,7 @@
                           <?= $evaluation->subjects_illiterate ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['subjects_illiterate'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['subjects_illiterate'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['subjects_illiterate'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['subjects_illiterate'][$i].'</span>';
                             } else {
@@ -833,7 +836,7 @@
                           <?= $evaluation->conclude_statement ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['conclude_statement'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['conclude_statement'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['conclude_statement'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['conclude_statement'][$i].'</span>';
                             } else {
@@ -851,7 +854,7 @@
                           <?= $evaluation->cost_participants ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['cost_participants'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['cost_participants'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['cost_participants'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['cost_participants'][$i].'</span>';
                             } else {
@@ -869,7 +872,7 @@
                           <?= $evaluation->incapable_consent ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['incapable_consent'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['incapable_consent'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['incapable_consent'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['incapable_consent'][$i].'</span>';
                             } else {
@@ -887,7 +890,7 @@
                           <?= $evaluation->research_outcome ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['research_outcome'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['research_outcome'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['research_outcome'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['research_outcome'][$i].'</span>';
                             } else {
@@ -906,7 +909,7 @@
                           <?= $evaluation->informed_consent_text ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['informed_consent_text'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['informed_consent_text'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['informed_consent_text'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['informed_consent_text'][$i].'</span>';
                             } else {
@@ -952,7 +955,7 @@
                           <?= $evaluation->recruitment_material ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['recruitment_material'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['recruitment_material'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['recruitment_material'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['recruitment_material'][$i].'</span>';
                             } else {
@@ -970,7 +973,7 @@
                           <?= $evaluation->material_claims ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['material_claims'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['material_claims'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['material_claims'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['material_claims'][$i].'</span>';
                             } else {
@@ -988,7 +991,7 @@
                           <?= $evaluation->promises_inappropriate ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['promises_inappropriate'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['promises_inappropriate'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['promises_inappropriate'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['promises_inappropriate'][$i].'</span>';
                             } else {
@@ -1006,7 +1009,7 @@
                           <?= $evaluation->study_questionnaires ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['study_questionnaires'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['study_questionnaires'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['study_questionnaires'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['study_questionnaires'][$i].'</span>';
                             } else {
@@ -1024,7 +1027,7 @@
                           <?= $evaluation->attached_proposal ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['attached_proposal'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['attached_proposal'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['attached_proposal'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['attached_proposal'][$i].'</span>';
                             } else {
@@ -1042,7 +1045,7 @@
                           <?= $evaluation->lay_language ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['lay_language'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['lay_language'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['lay_language'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['lay_language'][$i].'</span>';
                             } else {
@@ -1060,7 +1063,7 @@
                           <?= $evaluation->relevant_answer ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['relevant_answer'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['relevant_answer'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['relevant_answer'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['relevant_answer'][$i].'</span>';
                             } else {
@@ -1078,7 +1081,7 @@
                           <?= $evaluation->worded_sensitively ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['worded_sensitively'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['worded_sensitively'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['worded_sensitively'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['worded_sensitively'][$i].'</span>';
                             } else {
@@ -1096,7 +1099,7 @@
                           <?= $evaluation->consent_information ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_information'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_information'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_information'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_information'][$i].'</span>';
                             } else {
@@ -1114,7 +1117,7 @@
                           <?= $evaluation->embarrassing_questions ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['embarrassing_questions'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['embarrassing_questions'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['embarrassing_questions'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['embarrassing_questions'][$i].'</span>';
                             } else {
@@ -1132,7 +1135,7 @@
                           <?= $evaluation->consent_participant ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_participant'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_participant'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_participant'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_participant'][$i].'</span>';
                             } else {
@@ -1150,7 +1153,7 @@
                           <?= $evaluation->describe_confidentiality ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['describe_confidentiality'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['describe_confidentiality'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['describe_confidentiality'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['describe_confidentiality'][$i].'</span>';
                             } else {
@@ -1168,7 +1171,7 @@
                           <?= $evaluation->interview_focus ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['interview_focus'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['interview_focus'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['interview_focus'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['interview_focus'][$i].'</span>';
                             } else {
@@ -1186,7 +1189,7 @@
                           <?= $evaluation->tapes_stored ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['tapes_stored'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['tapes_stored'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['tapes_stored'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['tapes_stored'][$i].'</span>';
                             } else {
@@ -1205,7 +1208,7 @@
                               <?= $evaluation->other_materials_comments ?>
                             </span>
                             <?php
-                              for ($i=0; $i < count(($evaluation_edit['other_materials_comments'] ?? null)); $i++) { 
+                              for ($i=0; $i < count(($evaluation_edit['other_materials_comments'] ?? [])); $i++) { 
                                 if ($i == count($evaluation_edit['other_materials_comments'])-1) {
                                   echo '<span class="retide">'.$evaluation_edit['other_materials_comments'][$i].'</span>';
                                 } else {
@@ -1250,7 +1253,7 @@
                           <?= $evaluation->investigational_medicines ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['investigational_medicines'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['investigational_medicines'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['investigational_medicines'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['investigational_medicines'][$i].'</span>';
                             } else {
@@ -1268,7 +1271,7 @@
                           <?= $evaluation->there_placebo ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['there_placebo'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['there_placebo'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['there_placebo'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['there_placebo'][$i].'</span>';
                             } else {
@@ -1286,7 +1289,7 @@
                           <?= $evaluation->new_drug ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['new_drug'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['new_drug'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['new_drug'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['new_drug'][$i].'</span>';
                             } else {
@@ -1304,7 +1307,7 @@
                           <?= $evaluation->new_medicine ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['new_medicine'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['new_medicine'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['new_medicine'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['new_medicine'][$i].'</span>';
                             } else {
@@ -1322,7 +1325,7 @@
                           <?= $evaluation->certificate_submitted ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['certificate_submitted'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['certificate_submitted'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['certificate_submitted'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['certificate_submitted'][$i].'</span>';
                             } else {
@@ -1340,7 +1343,7 @@
                           <?= $evaluation->medicines_registered ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['medicines_registered'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['medicines_registered'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['medicines_registered'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['medicines_registered'][$i].'</span>';
                             } else {
@@ -1358,7 +1361,7 @@
                           <?= $evaluation->brochure_attached ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['brochure_attached'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['brochure_attached'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['brochure_attached'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['brochure_attached'][$i].'</span>';
                             } else {
@@ -1376,7 +1379,7 @@
                           <?= $evaluation->adr_attached ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['adr_attached'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['adr_attached'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['adr_attached'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['adr_attached'][$i].'</span>';
                             } else {
@@ -1394,7 +1397,7 @@
                           <?= $evaluation->dsmb_established ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['dsmb_established'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['dsmb_established'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['dsmb_established'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['dsmb_established'][$i].'</span>';
                             } else {
@@ -1412,7 +1415,7 @@
                           <?= $evaluation->names_dsmb ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['names_dsmb'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['names_dsmb'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['names_dsmb'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['names_dsmb'][$i].'</span>';
                             } else {
@@ -1431,7 +1434,7 @@
                               <?= $evaluation->clinical_trials_text ?>
                             </span>
                             <?php
-                              for ($i=0; $i < count(($evaluation_edit['clinical_trials_text'] ?? null)); $i++) { 
+                              for ($i=0; $i < count(($evaluation_edit['clinical_trials_text'] ?? [])); $i++) { 
                                 if ($i == count($evaluation_edit['clinical_trials_text'])-1) {
                                   echo '<span class="retide">'.$evaluation_edit['clinical_trials_text'][$i].'</span>';
                                 } else {
@@ -1476,7 +1479,7 @@
                           <?= $evaluation->biological_materials ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['biological_materials'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['biological_materials'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['biological_materials'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['biological_materials'][$i].'</span>';
                             } else {
@@ -1494,7 +1497,7 @@
                           <?= $evaluation->consent_volume ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_volume'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_volume'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_volume'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_volume'][$i].'</span>';
                             } else {
@@ -1512,7 +1515,7 @@
                           <?= $evaluation->consent_procedure ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_procedure'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_procedure'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_procedure'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_procedure'][$i].'</span>';
                             } else {
@@ -1530,7 +1533,7 @@
                           <?= $evaluation->consent_describe ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_describe'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_describe'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_describe'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_describe'][$i].'</span>';
                             } else {
@@ -1549,7 +1552,7 @@
                           <?= $evaluation->consent_provision ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_provision'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_provision'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_provision'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_provision'][$i].'</span>';
                             } else {
@@ -1567,7 +1570,7 @@
                           <?= $evaluation->consent_specimens ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_specimens'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['consent_specimens'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['consent_specimens'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['consent_specimens'][$i].'</span>';
                             } else {
@@ -1585,7 +1588,7 @@
                           <?= $evaluation->proposal_specimens ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['proposal_specimens'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['proposal_specimens'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['proposal_specimens'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['proposal_specimens'][$i].'</span>';
                             } else {
@@ -1603,7 +1606,7 @@
                           <?= $evaluation->genomic_analysis ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['genomic_analysis'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['genomic_analysis'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['genomic_analysis'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['genomic_analysis'][$i].'</span>';
                             } else {
@@ -1621,7 +1624,7 @@
                           <?= $evaluation->insurance_cover ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['insurance_cover'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['insurance_cover'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['insurance_cover'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['insurance_cover'][$i].'</span>';
                             } else {
@@ -1639,7 +1642,7 @@
                           <?= $evaluation->sponsor_sign ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['sponsor_sign'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['sponsor_sign'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['sponsor_sign'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['sponsor_sign'][$i].'</span>';
                             } else {
@@ -1657,7 +1660,7 @@
                           <?= $evaluation->sign_gcp ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['sign_gcp'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['sign_gcp'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['sign_gcp'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['sign_gcp'][$i].'</span>';
                             } else {
@@ -1675,7 +1678,7 @@
                           <?= $evaluation->run_study ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['run_study'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['run_study'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['run_study'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['run_study'][$i].'</span>';
                             } else {
@@ -1693,7 +1696,7 @@
                           <?= $evaluation->cvs_submitted ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['cvs_submitted'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['cvs_submitted'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['cvs_submitted'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['cvs_submitted'][$i].'</span>';
                             } else {
@@ -1711,7 +1714,7 @@
                           <?= $evaluation->ethics_letter ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['ethics_letter'] ?? null)); $i++) { 
+                          for ($i=0; $i < count(($evaluation_edit['ethics_letter'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['ethics_letter'])-1) {
                               echo '<span class="retide">'.$evaluation_edit['ethics_letter'][$i].'</span>';
                             } else {
@@ -1730,7 +1733,7 @@
                               <?= $evaluation->biological_materials_comments ?>
                             </span>
                             <?php
-                              for ($i=0; $i < count(($evaluation_edit['biological_materials_comments'] ?? null)); $i++) { 
+                              for ($i=0; $i < count(($evaluation_edit['biological_materials_comments'] ?? [])); $i++) { 
                                 if ($i == count($evaluation_edit['biological_materials_comments'])-1) {
                                   echo '<span class="retide">'.$evaluation_edit['biological_materials_comments'][$i].'</span>';
                                 } else {
@@ -1775,7 +1778,7 @@
                             <?= $evaluation->recommendations ?>
                           </span>
                           <?php
-                            for ($i=0; $i < count(($evaluation_edit['recommendations'] ?? null)); $i++) { 
+                            for ($i=0; $i < count(($evaluation_edit['recommendations'] ?? [])); $i++) { 
                               if ($i == count($evaluation_edit['recommendations'])-1) {
                                 echo '<span class="retide">'.$evaluation_edit['recommendations'][$i].'</span>';
                               } else {

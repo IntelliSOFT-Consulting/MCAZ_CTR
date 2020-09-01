@@ -211,6 +211,16 @@ class ApplicationsBaseController extends AppController
             } 
         }
 
+        if($this->request->query('ev_id')) {
+            foreach ($application->evaluations as $key => $value) {                
+                $ev_id = $this->request->query('ev_id');
+                if($value['id'] == $ev_id) {
+                    $ekey = $key;
+                    $evaluation_id = $this->request->query('ev_id');
+                }
+            } 
+        }
+
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
         
@@ -359,39 +369,49 @@ class ApplicationsBaseController extends AppController
             }
 
             if ($this->Applications->save($application)) {
-                //Send email, notification and message to managers and assigned evaluators
-                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
+                if($this->request->getData('ev_save') !== '1') {
+                    //Send email, notification and message to managers and assigned evaluators
+                    $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                    array_push($filt, 1);
 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                    // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->eq('group_id', 2);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
-                $this->loadModel('Queue.QueuedJobs');    
-                foreach ($managers as $manager) {
-                    //Notify managers
-                    $data = [
-                        'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
-                    ];
-                    $data['vars']['name'] = $manager->name;
-                    $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['evaluator_name'] = $this->Auth->user('name');                
-                    $data['vars']['user_message'] = $this->request->getData('evaluations.'.$this->request->getData('evaluation_pr_id').'.recommendations');
-                    //notify applicant
-                    $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_create_review_notification';
-                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                    $orConditions = $exp->or_(['id IN' => $filt])
+                                        ->eq('group_id', 2);
+                                    return $exp
+                                        ->add($orConditions)
+                                        ->add(['group_id !=' => 6]);
+                                });
+                    $this->loadModel('Queue.QueuedJobs');    
+                    foreach ($managers as $manager) {
+                        //Notify managers
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id,
+                            'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['evaluator_name'] = $this->Auth->user('name');                
+                        $data['vars']['user_message'] = $this->request->getData('evaluations.'.$this->request->getData('evaluation_pr_id').'.recommendations');
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_create_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                    
+                    $this->Flash->success('Successful submitted review of Application '.$application->protocol_no.'.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->success('Saved changes for review of Application '.$application->protocol_no.'.');
+                    // debug($application);
+                    return $this->redirect([
+                        'action' => 'view', $application->id,
+                        '?' => [
+                            'ev_id' => $application->evaluations[0]->id,
+                        ]
+                    ]);
                 }
-                
-                $this->Flash->success('Successful review of Application '.$application->protocol_no.'.');
-
-                return $this->redirect($this->referer());
             } 
             // debug($application->errors());
             $this->Flash->error(__('Unable to create review. Please, try again.')); 
