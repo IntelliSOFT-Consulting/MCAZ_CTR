@@ -2,6 +2,9 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+<?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/application_index', ['block' => true]); ?>
+
 <h2 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> Applications
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
               <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
@@ -45,7 +48,7 @@
                   </td>
                 <td><?= h($application->public_title) ?></td>
                 <td><?= h($application->scientific_title) ?></td>
-                <td><?php 
+                <td><div class="readmore"><?php 
                       echo ($application->approved) ? '<b>'.$application->approved.'</b>
                                <br>'.$application->status : $application->status ; 
                       echo '<br><hr class="finance"><b>Assigned to:</b><br>';
@@ -53,15 +56,15 @@
                           // echo $all_evaluators->toArray()[$evaluator->user_id].' <i class="fa fa-arrow-right" aria-hidden="true"></i> '.$all_evaluators->toArray()[$evaluator->assigned_to].'<br>';
                           echo $this->cell('Signature::index', [$evaluator->assigned_to]).' <span class="muted">by '.$this->cell('Signature::index', [$evaluator->user_id]).'</span><hr class="finance">';
                       }
-                    ?>
+                    ?></div>
                 </td>
-                <td>
+                <td><div class="readmore">
                     <?php 
                         foreach ($application->application_stages as $application_stage) {
                             $nvar = (($application_stage->alt_date)) ?? $application_stage->stage_date->i18nFormat('dd-MM-yyyy');
                             echo "<p>".$application_stage->stage->name." - ".$nvar."</p>";
                         }
-                    ?>
+                    ?></div>
                 </td>
                 <td><?= h($application->created) ?></td>         
                 <td>

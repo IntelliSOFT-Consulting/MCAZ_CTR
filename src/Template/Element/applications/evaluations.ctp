@@ -74,12 +74,14 @@
                       echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
                       echo $this->Form->control('evaluation_pr_id', ['type' => 'hidden', 'value' => (($application->evaluations[$ekey]['id']) ?? 100), 'escape' => false, 'templates' => 'table_form']);
                       if($this->request->query('ev_id')) {
-                        echo $this->Form->control('evaluations.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                          echo $this->Form->control('evaluations.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                      } elseif ($this->request->query('cp_fn')) {
+                          echo $this->Form->control('evaluations.'.$ekey.'.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
                       } else {
-                        echo $this->Form->control('evaluations.'.$ekey.'.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
-                        echo $this->Form->control('evaluations.'.$ekey.'.evaluation_type', ['type' => 'hidden', 
-                          'value' => ($evaluation_id) ? 'Revision' : 'Initial', 
-                          'templates' => 'table_form']);
+                          echo $this->Form->control('evaluations.'.$ekey.'.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
+                          echo $this->Form->control('evaluations.'.$ekey.'.evaluation_type', ['type' => 'hidden', 
+                            'value' => ($evaluation_id) ? 'Revision' : 'Initial', 
+                            'templates' => 'table_form']);
                       }                      
                       echo $this->Form->control('evaluations.'.$ekey.'.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
                       

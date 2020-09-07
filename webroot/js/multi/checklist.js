@@ -154,7 +154,7 @@ $(function() {
                 fail: function(e, data) {
                     data.context.append('<div class="alert alert-danger alert-dismissible" role="alert">\
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-  <strong>The file is not Valid!</strong> If the file is larger that 4.7MB in size, please compress it to below 4.7MB first.\
+  <strong>The file is not Valid!</strong> If the file is larger that 20 MB in size, please compress it to below 20 MB first.\
   The file may also be split into multiple parts and attached.\
 </div>');
 

@@ -40,7 +40,7 @@
             // print_r($resa);
         ?>
           <div class="thumbnail amend-form">
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" aria-controls="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
+            <a class="btn btn-<?= ($evaluation->submitted == 2) ? 'warning' : 'primary' ?>" role="button" data-toggle="collapse" href="#<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" aria-controls="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                Evaluated on: <?= $evaluation['created'] ?> by <?= $evaluation->user->name ?>
             </a>
             <p class="topper"><small><em class="text-success">evaluate on: <?= $evaluation['created'] ?> by <?= $evaluation->user->name ?></em></small></p>
@@ -48,13 +48,27 @@
           if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
           // print_r(Hash::extract($evaluations, '{n}.chosen'));
           // echo count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' ));
-          if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id == $this->request->session()->read('Auth.User.id')
-                                                          or $this->request->session()->read('Auth.User.group_id') == 2)
-              // and  empty(Hash::extract($evaluations, '{n}.chosen')) 
+          if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id == $this->request->session()->read('Auth.User.id'))
                  and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
                ) {
             echo $this->Form->postLink(
                 '<span class="label label-info">Edit</span>',
+                ['action' => 'view', $application->id, '?' => ['ev_id' => $evaluation->id]],
+                ['data' => ['ev_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
+            );
+            echo "&nbsp;";
+            echo $this->Form->postLink(
+                '<span class="label label-success">Copy & Finalize</span>',
+                ['action' => 'view', $application->id, '?' => ['cp_fn' => $evaluation->id]],
+                ['data' => ['cp_fn' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
+            );
+          }
+
+          if($this->request->params['_ext'] != 'pdf' and ($this->request->session()->read('Auth.User.group_id') == 2)
+                 and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
+               ) {
+            echo $this->Form->postLink(
+                '<span class="label label-success">Edit <small>(tracked changes)</small></span>',
                 [],
                 ['data' => ['evaluation_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
             );

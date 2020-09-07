@@ -221,6 +221,16 @@ class ApplicationsBaseController extends AppController
             } 
         }
 
+        if($this->request->query('cp_fn')) {
+            foreach ($application->evaluations as $key => $value) {                
+                $cp_fn = $this->request->query('cp_fn');
+                if($value['id'] == $cp_fn) {
+                    $ekey = $key;
+                    $evaluation_id = $this->request->query('cp_fn');
+                }
+            } 
+        }
+
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
         
