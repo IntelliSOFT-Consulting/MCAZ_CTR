@@ -44,9 +44,10 @@
                     <tr>
                       <td><?= $i ?></td>
                       <td>
+                        <label class="control-label"><?=  $comment->subject ?></label>
                         <?=  $comment->content ?>
                         <div>
-                          <label class="control-label">File(s)</label>
+                          <p style="text-decoration: underline;">File(s)</p>
                           <?php foreach ($comment->attachments as $attachment) { ?>                  
                               <p class="form-control-static text-info text-left"><?php
                                    echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
@@ -54,18 +55,21 @@
                               <p><?= $attachment['description'] ?></p>
                               <?php } ?>
                         </div> 
+                        <hr>
                       </td>
                       <td>
                         <?php foreach($comment->responses as $response): ?>    
+                          <label class="control-label"><?=  $response->subject ?></label>
                           <p><?= $response->content ?></p>    
                           <div>
-                          <label class="control-label">File(s)</label>
+                          <p style="text-decoration: underline;">File(s)</p>
                           <?php foreach ($response->attachments as $attachment) { ?>                  
                               <p class="form-control-static text-info text-left"><?php
                                    echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
                               ?></p>
                               <p><?= $attachment['description'] ?></p>
-                              <?php } ?>    
+                              <?php } ?> 
+                              <hr>   
                           </div> 
                         <?php endforeach; ?>
 
@@ -82,7 +86,7 @@
                                 echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'committee', 'templates' => 'table_form']);
                                 echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);                
                                 echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
-                                // echo $this->Form->control('subject', ['label' => 'Subject', 'templates' => 'comment_form']);
+                                echo $this->Form->control('subject', ['label' => 'Subject', 'templates' => 'comment_form']);
                                 echo $this->Form->control('content', ['label' => 'Response', 'type' => 'textarea', 'templates' => 
                                       [
                                       'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
@@ -102,7 +106,7 @@
                                 <div class="col-xs-12"> 
                                   <!-- <button type="submit" class="btn btn-success active"><i class="fa fa-save" aria-hidden="true"></i> Submit</button> -->                                  
             <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
-            <button type="submit" class="btn btn-warning btn-sm" name="saveChanges"><i class="fa fa-save" aria-hidden="true"></i> Save <small>(without notifications)</small> </button>
+            <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save <small>(without notifications)</small> </button>
                                 </div> 
                             </div>
                           <?php echo $this->Form->end() ?>

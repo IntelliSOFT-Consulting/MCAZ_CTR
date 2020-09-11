@@ -42,9 +42,10 @@
                     <tr>
                       <td><?= $i ?></td>
                       <td>
+                        <label class="control-label"><?=  $comment->subject ?></label><br>
                         <?=  $comment->content ?>
                         <div>
-                          <label class="control-label">File(s)</label>
+                          <p style="text-decoration: underline;">File(s)</p>
                           <?php foreach ($comment->attachments as $attachment) { ?>                  
                               <p class="form-control-static text-info text-left"><?php
                                    echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
@@ -54,10 +55,11 @@
                         </div> 
                       </td>
                       <td>
-                        <?php foreach($comment->responses as $response): ?>    
+                        <?php foreach($comment->responses as $response): ?>   
+                        <label class="control-label"><?=  $response->subject ?></label><br>
                           <p><?= $response->content ?></p>    
                           <div>
-                          <label class="control-label">File(s)</label>
+                          <p style="text-decoration: underline;">File(s)</p>
                           <?php foreach ($response->attachments as $attachment) { ?>                  
                               <p class="form-control-static text-info text-left"><?php
                                    echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);

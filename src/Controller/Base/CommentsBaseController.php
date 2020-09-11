@@ -27,11 +27,13 @@ class CommentsBaseController extends AppController
              * If decision is Approved comments/queries should not appear
              * 
              */
-            $stage1  = $this->Applications->ApplicationStages->newEntity();
-            $stage1->stage_id = 6;
-            $stage1->stage_date = date("Y-m-d H:i:s");
-            $application->application_stages = [$stage1];
-            $application->status = 'Correspondence';
+            if ($this->request->getData('submitChanges') == '2') {
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 6;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $application->application_stages = [$stage1];
+                $application->status = 'Correspondence';
+            }
 
             if ($this->Comments->save($comment) && $this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -47,7 +49,7 @@ class CommentsBaseController extends AppController
                                     ->add(['group_id !=' => 6]);
                             });
 
-                if ($this->request->getData('submitChanges')) {                
+                if ($this->request->getData('submitChanges') == '2') {            
                     $this->loadModel('Queue.QueuedJobs'); 
 
                     foreach ($managers as $manager) {
