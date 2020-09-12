@@ -862,8 +862,13 @@
               </div>
               <div class="form-group"> 
                   <div class="col-sm-12"> 
-                    <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
+                    <?php if($prefix == 'evaluator') { ?>
+                      <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
+                    <?php } ?>
                     <button type="submit" class="btn btn-primary active" id="ev-submit" name="ev_save" value="2"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
+                    <?php
+                      echo $this->Html->link('<i class="fa fa-remove" aria-hidden="true"></i> Reset', [], ['escape' => false, 'class' => 'btn btn-default']);
+                    ?>
                   </div> 
               </div>
            <?php 

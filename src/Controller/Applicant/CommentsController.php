@@ -27,13 +27,11 @@ class CommentsController extends AppController
              * Condition is there must be a query they are responding to
              * 
              */
-            if ($this->request->getData('submitChanges') == '2') { 
-                $stage1  = $this->Applications->ApplicationStages->newEntity();
-                $stage1->stage_id = 7;
-                $stage1->stage_date = date("Y-m-d H:i:s");
-                $application->application_stages = [$stage1];
-                $application->status = 'ApplicantResponse';
-            }
+            $stage1  = $this->Applications->ApplicationStages->newEntity();
+            $stage1->stage_id = 7;
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $application->application_stages = [$stage1];
+            $application->status = 'ApplicantResponse';
 
             if ($this->Comments->save($comment) && $this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators

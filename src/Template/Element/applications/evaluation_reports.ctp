@@ -57,7 +57,7 @@
                 ['data' => ['ev_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
             );
             echo "&nbsp;";
-            echo $this->Form->postLink(
+            if($prefix == 'evaluator') echo $this->Form->postLink(
                 '<span class="label label-success">Copy & Finalize</span>',
                 ['action' => 'view', $application->id, '?' => ['cp_fn' => $evaluation->id]],
                 ['data' => ['cp_fn' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
