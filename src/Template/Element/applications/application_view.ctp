@@ -145,6 +145,7 @@
                   <td><?= $amendment->public_contact_postal ?></td>
                </tr>
              <?php   } } ?>
+            <?php   if(!empty($application->public_contact_affiliation)) { ?>
             <tr>
               <th>
                 <label>Affiliation</label>
@@ -154,7 +155,8 @@
                     data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
                     data-name="public_contact_affiliation"
                     data-title="Update public title" <?php } ?>><?= $application->public_contact_affiliation ?></td>
-            </tr>            
+            </tr> 
+            <?php  } ?>        
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_affiliation'])){      ?>
@@ -254,6 +256,7 @@
                   <td><?= $amendment->scientific_contact_postal ?></td>
                </tr>
              <?php   } } ?>
+             <?php  if(!empty($application->scientific_contact_affiliation)) { ?>
             <tr>
               <th>
                 <label>Affiliation</label>
@@ -264,6 +267,7 @@
                     data-name="scientific_contact_affiliation"
                     data-title="Update scientific_contact_affiliation" <?php } ?>><?= $application->scientific_contact_affiliation ?></td>
             </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_affiliation'])){      ?>
@@ -592,13 +596,15 @@
           <!-- end -->
 
           <table class="table table-condensed vertical-table">
-            <tr><td colspan="2"> <label>Business</label> </td></tr>
-            <tr>
-              <th>
-                <label>Name of Company <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-              </th>
-              <td><?= $application->business_name ?></td>
-            </tr>
+            <?php   if(!empty($application->business_name)) { ?>
+              <tr><td colspan="2"> <label>Business</label> </td></tr>
+              <tr>
+                <th>
+                  <label>Name of Company <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+                </th>
+                <td><?= $application->business_name ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_name'])){      ?>
@@ -606,13 +612,15 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->business_name ?></td>
                </tr>
-             <?php   } } ?>
-            <tr>
-              <th>
-                <label>Registered Office <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-              </th>
-              <td><?= $application->business_office ?></td>
-            </tr>
+            <?php   } } ?>
+            <?php   if(!empty($application->business_office)) { ?>
+              <tr>
+                <th>
+                  <label>Registered Office <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+                </th>
+                <td><?= $application->business_office ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_office'])){      ?>
@@ -621,12 +629,14 @@
                   <td><?= $amendment->business_office ?></td>
                </tr>
              <?php   } } ?>
-            <tr>
-              <th>
-                <label>Physical address <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-              </th>
-              <td><?= $application->business_physical_address ?></td>
-            </tr>
+             <?php  if(!empty($application->business_physical_address)) { ?>
+              <tr>
+                <th>
+                  <label>Physical address <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+                </th>
+                <td><?= $application->business_physical_address ?></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_physical_address'])){      ?>
@@ -635,12 +645,14 @@
                   <td><?= $amendment->business_physical_address ?></td>
                </tr>
              <?php   } } ?>
-            <tr>
-              <th>
-                <label>Telephone number <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-              </th>
-              <td><?= $application->business_telephone ?></td>
-            </tr>
+             <?php   if(!empty($application->business_telephone)) { ?>
+              <tr>
+                <th>
+                  <label>Telephone number <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+                </th>
+                <td><?= $application->business_telephone ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_telephone'])){      ?>
@@ -649,12 +661,14 @@
                   <td><?= $amendment->business_telephone ?></td>
                </tr>
              <?php   } } ?>
-            <tr>
-              <th>
-                <label>Position of applicant <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-              </th>
-              <td><?= $application->business_position ?></td>
-            </tr>
+             <?php  if(!empty($application->business_position)) { ?>
+              <tr>
+                <th>
+                  <label>Position of applicant <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+                </th>
+                <td><?= $application->business_position ?></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['business_position'])){      ?>
@@ -909,10 +923,12 @@
                   <td><?= $amendment->number_participants ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Total enrolment in each site: (if competitive enrolment, state minimum and maximum number per site.)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></th>
-            <td><?= $application->total_enrolment_per_site ?></td>
-          </tr>
+             <?php   if(!empty($application->total_enrolment_per_site)) { ?>
+              <tr>
+                <th><label>Total enrolment in each site: (if competitive enrolment, state minimum and maximum number per site.)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></th>
+                <td><?= $application->total_enrolment_per_site ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['total_enrolment_per_site'])){      ?>
@@ -1051,10 +1067,12 @@
                   <td><?= $amendment->population_above_18 ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Adult (18-65 years)</label></th>
-            <td><?= $application->population_adult ?></td>
-          </tr>
+             <?php   if(!empty($application->population_adult)) { ?>
+              <tr>
+                <th><label>Adult (18-65 years)</label></th>
+                <td><?= $application->population_adult ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_adult'])){      ?>
@@ -1063,10 +1081,12 @@
                   <td><?= $amendment->population_adult ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Elderly (> 65 years)</label></th>
-            <td><?= $application->population_elderly ?></td>
-          </tr>
+             <?php   if(!empty($application->population_elderly)) { ?>
+              <tr>
+                <th><label>Elderly (> 65 years)</label></th>
+                <td><?= $application->population_elderly ?></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_elderly'])){      ?>
@@ -1118,10 +1138,12 @@
                   <td><?= $amendment->subjects_patients ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Women of child bearing potential</label></th>
-            <td><?= $application->subjects_women_child_bearing ?></td>
-          </tr>
+             <?php  if(!empty($application->subjects_women_child_bearing)) { ?>
+              <tr>
+                <th><label>Women of child bearing potential</label></th>
+                <td><?= $application->subjects_women_child_bearing ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_women_child_bearing'])){      ?>
@@ -1130,10 +1152,12 @@
                   <td><?= $amendment->subjects_women_child_bearing ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Women of child bearing potential using contraception</label></th>
-            <td><?= $application->subjects_women_using_contraception ?></td>
-          </tr>
+             <?php   if(!empty($application->subjects_women_using_contraception)) { ?>
+              <tr>
+                <th><label>Women of child bearing potential using contraception</label></th>
+                <td><?= $application->subjects_women_using_contraception ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_women_using_contraception'])){      ?>
@@ -1142,10 +1166,12 @@
                   <td><?= $amendment->subjects_women_using_contraception ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Pregnant women</label></th>
-            <td><?= $application->subjects_pregnant_women ?></td>
-          </tr>
+             <?php   if(!empty($application->subjects_pregnant_women)) { ?>
+              <tr>
+                <th><label>Pregnant women</label></th>
+                <td><?= $application->subjects_pregnant_women ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_pregnant_women'])){      ?>
@@ -1154,10 +1180,12 @@
                   <td><?= $amendment->subjects_pregnant_women ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Nursing Women</label></th>
-            <td><?= $application->subjects_nursing_women ?></td>
-          </tr>
+             <?php   if(!empty($application->subjects_nursing_women)) { ?>
+              <tr>
+                <th><label>Nursing Women</label></th>
+                <td><?= $application->subjects_nursing_women ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_nursing_women'])){      ?>
@@ -1166,10 +1194,12 @@
                   <td><?= $amendment->subjects_nursing_women ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Emergency situation</label></th>
-            <td><?= $application->subjects_emergency_situation ?></td>
-          </tr>
+             <?php   if(!empty($application->subjects_emergency_situation)) { ?>
+              <tr>
+                <th><label>Emergency situation</label></th>
+                <td><?= $application->subjects_emergency_situation ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_emergency_situation'])){      ?>
@@ -1385,10 +1415,12 @@
                   <td><?= $amendment->single_site_physical_address ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Contact person</label></th>
-            <td><?= $application->single_site_contact_person ?></td>
-          </tr>
+             <?php   if(!empty($application->single_site_contact_person)) { ?>
+            <tr>
+              <th><label>Contact person</label></th>
+              <td><?= $application->single_site_contact_person ?></td>
+            </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_person'])){      ?>
@@ -1397,10 +1429,12 @@
                   <td><?= $amendment->single_site_contact_person ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Telephone</label></th>
-            <td><?= $application->single_site_telephone ?></td>
-          </tr> 
+             <?php   if(!empty($application->single_site_telephone)) { ?>
+              <tr>
+                <th><label>Telephone</label></th>
+                <td><?= $application->single_site_telephone ?></td>
+              </tr> 
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_telephone'])){      ?>
@@ -1463,10 +1497,12 @@
                   <td><?= $amendment->single_site_physical_address ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Contact details</label></th>
-            <td><?= $application->single_site_contact_details ?></td>
-          </tr>
+             <?php   if(!empty($application->single_site_contact_details)) { ?>
+              <tr>
+                <th><label>Contact details</label></th>
+                <td><?= $application->single_site_contact_details ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_details'])){      ?>
@@ -1475,10 +1511,12 @@
                   <td><?= $amendment->single_site_contact_details ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Contact person</label></th>
-            <td><?= $application->single_site_contact_person ?></td>
-          </tr> 
+             <?php   if(!empty($application->single_site_contact_person)) { ?>
+              <tr>
+                <th><label>Contact person</label></th>
+                <td><?= $application->single_site_contact_person ?></td>
+              </tr> 
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_person'])){      ?>
@@ -1487,10 +1525,12 @@
                   <td><?= $amendment->single_site_contact_person ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Province</label></th>
-            <td><?= ($application->single_site_province_id) ? $provinces->toArray()[$application->single_site_province_id] : '' ?></td>
-          </tr> 
+             <?php   if(!empty($application->single_site_province_id)) { ?>
+              <tr>
+                <th><label>Province</label></th>
+                <td><?= ($application->single_site_province_id) ? $provinces->toArray()[$application->single_site_province_id] : '' ?></td>
+              </tr> 
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_province_id'])){      ?>
@@ -1566,10 +1606,12 @@
             } }
            ?>
 
-            <tr>
-              <th><label>Multiple Countries</label></th>
-              <td><?= $application->multiple_countries ?></td>
-            </tr> 
+           <?php   if(!empty($application->multiple_countries)) { ?>
+              <tr>
+                <th><label>Multiple Countries</label></th>
+                <td><?= $application->multiple_countries ?></td>
+              </tr> 
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multiple_countries'])){      ?>
@@ -1578,10 +1620,12 @@
                   <td><?= $amendment->multiple_countries ?></td>
                </tr>
              <?php   } } ?>
-            <tr>
-              <th><label>Number of countries anticipated in the trial</label></th>
-              <td><?= $application->multiple_member_states ?></td>
-            </tr> 
+             <?php   if(!empty($application->multiple_member_states)) { ?>
+              <tr>
+                <th><label>Number of countries anticipated in the trial</label></th>
+                <td><?= $application->multiple_member_states ?></td>
+              </tr> 
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multiple_member_states'])){      ?>
@@ -1590,10 +1634,12 @@
                   <td><?= $amendment->multiple_member_states ?></td>
                </tr>
              <?php   } } ?>
-            <tr>
-              <th><label>If yes above, list the countries</label></th>
-              <td><?= $application->multi_country_list ?></td>
-            </tr> 
+             <?php   if(!empty($application->multi_country_list)) { ?>
+              <tr>
+                <th><label>If yes above, list the countries</label></th>
+                <td><?= $application->multi_country_list ?></td>
+              </tr> 
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multi_country_list'])){      ?>
@@ -2434,11 +2480,13 @@
               <td colspan="2">
                 <h5>8.1 TRIAL TYPE AND PHASE  <i class="sterix fa fa-asterisk" aria-hidden="true"></i></h5>
               </td>
-            </tr>            
-            <tr>
-              <td><label><?= ($application->trial_human_pharmacology) ? $checked : $nChecked; ?> Human pharmacology (Phase I)</label></td>
-              <td> </td>
-            </tr>
+            </tr>    
+            <?php   if(!empty($application->trial_human_pharmacology)) { ?>        
+              <tr>
+                <td><label><?= ($application->trial_human_pharmacology) ? $checked : $nChecked; ?> Human pharmacology (Phase I)</label></td>
+                <td> </td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_human_pharmacology'])){      ?>
@@ -2449,36 +2497,44 @@
             <tr>
               <td colspan="2"><h6>Is it:</h6></td>
             </tr>
-            <tr>
-              <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></td>
-            </tr>
+            <?php   if(!empty($application->trial_administration_humans)) { ?>
+              <tr>
+                <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_administration_humans'])){      ?>
               <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></td>  </tr>
              <?php   } } ?>
-            <tr>
-              <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>
-            </tr>
+             <?php   if(!empty($application->trial_bioequivalence_study)) { ?>
+              <tr>
+                <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_bioequivalence_study'])){      ?>
               <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>  </tr>
              <?php   } } ?>
-            <tr>
-              <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>
-            </tr>
+             <?php   if(!empty($application->trial_other)) { ?>
+              <tr>
+                <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other'])){      ?>
               <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
               <tr> <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>  </tr>
              <?php   } } ?>
-            <tr>
-              <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?></label></td>
-            </tr>
+             <?php   if(!empty($application->trial_other_specify)) { ?>
+              <tr>
+                <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?></label></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_other_specify'])){      ?>
@@ -2549,10 +2605,12 @@
                   <td><?= $amendment->design_controlled_randomised ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Single Blind</label></th>
-            <td><?= $application->design_controlled_single_blind ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_single_blind)) { ?>
+              <tr>
+                <th><label>Single Blind</label></th>
+                <td><?= $application->design_controlled_single_blind ?></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_single_blind'])){      ?>
@@ -2561,10 +2619,12 @@
                   <td><?= $amendment->design_controlled_single_blind ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Double Blind</label></th>
-            <td><?= $application->design_controlled_double_blind ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_double_blind)) { ?>
+              <tr>
+                <th><label>Double Blind</label></th>
+                <td><?= $application->design_controlled_double_blind ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_double_blind'])){      ?>
@@ -2585,10 +2645,12 @@
                   <td><?= $amendment->design_controlled_parallel_group ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Cross over</label></th>
-            <td><?= $application->design_controlled_cross_over ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_cross_over)) { ?>
+              <tr>
+                <th><label>Cross over</label></th>
+                <td><?= $application->design_controlled_cross_over ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_cross_over'])){      ?>
@@ -2597,10 +2659,12 @@
                   <td><?= $amendment->design_controlled_cross_over ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Other</label></th>
-            <td><?= $application->design_controlled_other ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_other)) { ?>
+              <tr>
+                <th><label>Other</label></th>
+                <td><?= $application->design_controlled_other ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_other'])){      ?>
@@ -2609,10 +2673,12 @@
                   <td><?= $amendment->design_controlled_other ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>If yes to other, specify</label></th>
-            <td><?= $application->design_controlled_specify ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_specify)) { ?>
+              <tr>
+                <th><label>If yes to other, specify</label></th>
+                <td><?= $application->design_controlled_specify ?></td>
+              </tr>
+            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_specify'])){      ?>
@@ -2621,10 +2687,12 @@
                   <td><?= $amendment->design_controlled_specify ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>If controlled, specify the comparator</label></th>
-            <td><?= $application->design_controlled_comparator ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_comparator)) { ?>
+              <tr>
+                <th><label>If controlled, specify the comparator</label></th>
+                <td><?= $application->design_controlled_comparator ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_comparator'])){      ?>
@@ -2633,10 +2701,12 @@
                   <td><?= $amendment->design_controlled_comparator ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Other medicinal product(s)</label></th>
-            <td><?= $application->design_controlled_other_medicinal ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_other_medicinal)) { ?>
+              <tr>
+                <th><label>Other medicinal product(s)</label></th>
+                <td><?= $application->design_controlled_other_medicinal ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_other_medicinal'])){      ?>
@@ -2645,10 +2715,12 @@
                   <td><?= $amendment->design_controlled_other_medicinal ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Placebo</label></th>
-            <td><?= $application->design_controlled_placebo ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_placebo)) { ?>
+                <tr>
+                  <th><label>Placebo</label></th>
+                  <td><?= $application->design_controlled_placebo ?></td>
+                </tr>
+              <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_placebo'])){      ?>
@@ -2657,10 +2729,12 @@
                   <td><?= $amendment->design_controlled_placebo ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Other</label></th>
-            <td><?= $application->design_controlled_medicinal_other ?></td>
-          </tr>
+             <?php   if(!empty($application->design_controlled_medicinal_other)) { ?>
+              <tr>
+                <th><label>Other</label></th>
+                <td><?= $application->design_controlled_medicinal_other ?></td>
+              </tr>
+            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['design_controlled_medicinal_other'])){      ?>
@@ -2891,18 +2965,24 @@
               <th><label>Ethics Committee Name <span class="sterix">*</span></label></th>
               <td><?= $application->committees[$i]['name'] ?></td>
             </tr>
+            <?php   if(!empty($application->committees[$i]['address'])) { ?>
             <tr>
               <th><label>Postal Address <span class="sterix">*</span></label></th>
               <td><?= $application->committees[$i]['address'] ?></td>
             </tr>
+            <?php   } ?>
+            <?php   if(!empty($application->committees[$i]['telephone_number'])) { ?>
             <tr>
               <th><label>Telephone Number <span class="sterix">*</span></label></th>
               <td><?= $application->committees[$i]['telephone_number'] ?></td>
             </tr>
+            <?php   } ?>
+            <?php   if(!empty($application->committees[$i]['email_address'])) { ?>
             <tr>
               <th><label>Email Address <span class="sterix">*</span></label></th>
               <td><?= $application->committees[$i]['email_address'] ?></td>
             </tr>
+            <?php  } ?>
             <tr><td colspan="2"></td></tr>
             <?php 
               }
