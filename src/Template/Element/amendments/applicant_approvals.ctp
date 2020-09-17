@@ -37,7 +37,7 @@
                   </div> 
                   
                   <div class="form-group">
-                    <label class="control-label">Approval Letter</label>
+                    <label class="control-label">Approval Certificate</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
                             if($attachment->category === 'approval_letter') { ?>                  
                         <p class="form-control-static text-info text-left"><?php
@@ -48,7 +48,7 @@
                   </div> 
 
                   <div class="form-group">
-                    <label class="control-label">Authorization Letter</label>
+                    <label class="control-label">Authorization Certificate</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
                             if($attachment->category === 'authorization_letter') { ?>                  
                         <p class="form-control-static text-info text-left"><?php

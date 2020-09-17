@@ -1,3 +1,7 @@
+<?php foreach ($dg_reviews as $dg_review) {  ?>
+<?= $dg_review->authorization_certificate ?>
+<?php } ?>
+<?php /*?>
     <h3 class="text-center"><span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
       Clinical Trials Registry</h3> 
       
@@ -50,3 +54,4 @@
             
           </div>
           <?php } ?>
+    <?php */ ?>

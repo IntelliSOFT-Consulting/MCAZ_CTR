@@ -91,7 +91,7 @@ class FinalStagesTable extends Table
                     if ($data > 0) {
                         return true;
                     }
-                    return 'Please upload the authorization letter.';
+                    return 'Please upload the authorization certificate.';
                 }
             ]);*/
 

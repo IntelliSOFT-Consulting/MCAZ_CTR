@@ -105,7 +105,7 @@
                       <div class="checkcontrols">
                         <?php
                             echo $this->Form->control('final_stages.100.authorization_letter', 
-                                        ['type' => 'checkbox', 'label' => 'Authorization Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addFinal">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
+                                        ['type' => 'checkbox', 'label' => 'Authorization Certificate <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addFinal">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
                         ?>
                         <div class="uploadsTable">   </div>
                       </div>

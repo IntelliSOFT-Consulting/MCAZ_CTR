@@ -149,4 +149,17 @@ class ApplicationsController extends ApplicationsBaseController
 
         return $this->redirect($this->redirect($this->referer()));
     }
+
+
+    public function certificate($id = null)
+    {
+        // $this->viewBuilder()->setLayout('vanilla');
+        $application = $this->Applications->get($id, [
+            'contain' => ['InvestigatorContacts']
+        ]);
+
+        $this->set('application', $application);
+        $this->set('_serialize', ['application']);
+        $this->render('/DirectorGeneral/Applications/pdf/certificate');
+    }
 }

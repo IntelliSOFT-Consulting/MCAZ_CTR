@@ -12,6 +12,9 @@
       <h4 class="text-center"><label class="text-success">Director General Reviews</label></h4>
       <hr>
     <?php
+
+      // if($prefix == 'director_general') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download Authorization Certificate', ['action' => 'certificate', '_ext' => 'pdf', $application->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-success', 'id' => 'download_certificate']);
+      echo '<br>';
       if(!empty($application->dg_reviews)) {
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'dg', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
       }          
@@ -42,6 +45,18 @@
                     </div>
                   </div> 
                   <div class="form-group">
+                    <label class="col-xs-4 control-label">Applicant Review comment</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static"><?= $dg_review->authorization_letter ?></p>
+                    </div>
+                  </div> 
+                  <div class="form-group">                    
+                    <div class="col-xs-12">
+                      <label class="control-label">Authorization Certificate</label>
+                      <p class="form-control-static"><?= $dg_review->authorization_certificate ?></p>
+                    </div>
+                  </div> 
+                  <div class="form-group">
                     <label class="col-xs-4 control-label">Director General Decision:</label>
                     <div class="col-xs-8">
                     <p class="form-control-static"><?= $dg_review['decision'] ?></p>
@@ -66,7 +81,7 @@
                   </div> 
 
                   <div class="form-group">
-                    <label class="control-label">Authorization Letter</label>
+                    <label class="control-label">Authorization Certificate</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
                             if($attachment->category === 'authorization_letter') { ?>                  
                         <p class="form-control-static text-info text-left"><?php
@@ -122,6 +137,9 @@
                       echo $this->Form->control('dg_reviews.100.model', ['type' => 'hidden', 'value' => 'DgReviews', 'templates' => 'table_form']);
                       echo $this->Form->control('dg_reviews.100.internal_review_comment', ['escape' => false, 'templates' => 'textarea_form']);
                       echo $this->Form->control('dg_reviews.100.applicant_review_comment', ['label' => 'Applicant review comment <small class="muted">(sent to applicants)</small>', 'escape' => false, 'templates' => 'textarea_form']);
+                      $cell = $this->cell('Certificate', [$application->id]);
+                      echo $this->Form->control('dg_reviews.100.authorization_certificate', ['label' => 'Authorization certificate <i class="sterix fa fa-asterisk" aria-hidden="true"></i>', 
+                        'escape' => false, 'value' => $cell, 'templates' => 'textarea_form']);
 
                       echo $this->Form->control('dg_reviews.100.decision', ['type' => 'radio', 
                                'label' => '<b>DG Decision</b>', 'escape' => false,
@@ -154,7 +172,7 @@
                       <div class="checkcontrols">
                         <?php
                             echo $this->Form->control('dg_reviews.100.authorization_letter', 
-                                        ['type' => 'checkbox', 'label' => 'Authorization Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addAuthLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
+                                        ['type' => 'checkbox', 'label' => 'Authorization Certificate <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addAuthLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
                         ?>
                         <div class="uploadsTable">   </div>
                       </div>
@@ -163,7 +181,7 @@
 
                   <!-- <div class="row">
                       <div class="col-xs-12">
-                          <h6 class="muted text-center"><b>Authorization Letter </b>
+                          <h6 class="muted text-center"><b>Authorization Certificate </b>
                               <button type="button" class="btn btn-primary btn-xs addUpload">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
                           </h6>
                         <hr>
@@ -189,6 +207,7 @@
 <script type="text/javascript">
   CKEDITOR.replace('dg-reviews-100-internal-review-comment');
   CKEDITOR.replace('dg-reviews-100-applicant-review-comment');
+  CKEDITOR.replace('dg-reviews-100-authorization-certificate');
   $( "#dg-reviews-100-approved-date" ).datepicker({
       minDate:"-100Y", maxDate:"-0D", dateFormat:'dd-mm-yy', showButtonPanel:true, changeMonth:true, changeYear:true,
       buttonImageOnly:true, showAnim:'show', showOn:'both', buttonImage:'/img/calendar.gif'
