@@ -80,6 +80,7 @@
                         <?php } } ?>
                   </div> 
 
+                  <?php /* ?>
                   <div class="form-group">
                     <label class="control-label">Authorization Certificate</label>
                     <?php foreach ($dg_review->attachments as $attachment) { 
@@ -90,6 +91,7 @@
                         <p><?= $attachment['description'] ?></p>
                         <?php } } ?>
                   </div> 
+                  <?php */ ?>
 
                   <div class="form-group">
                     <label class="control-label">Indemnity Forms</label>
@@ -167,17 +169,19 @@
                     </div>
                   </div>
 
+                  <?php /* ?>
                   <div class="row">
                       <div class="col-xs-12">
                       <div class="checkcontrols">
                         <?php
                             echo $this->Form->control('dg_reviews.100.authorization_letter', 
-                                        ['type' => 'checkbox', 'label' => 'Authorization Certificate <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addAuthLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
+                                        ['type' => 'checkbox', 'label' => 'Authorization Letter <i class="sterix fa fa-asterisk" aria-hidden="true"></i><button type="button" id="authorization_letter" class="btn btn-primary btn-xs addAuthLetter">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>', 'escape' => false, 'templates' => 'checklist_form']);
                         ?>
                         <div class="uploadsTable">   </div>
                       </div>
                     </div>
                   </div>
+                  <?php */ ?>
 
                   <!-- <div class="row">
                       <div class="col-xs-12">

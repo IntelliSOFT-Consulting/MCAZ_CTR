@@ -143,6 +143,19 @@ class ApplicationsController extends ApplicationsBaseController
         $review = $this->Applications->DgReviews->get($id);
         if ($this->Applications->DgReviews->delete($review)) {
             $this->Flash->success(__('The dg review has been removed.'));
+            $app = $this->Applications->get($review->application_id, ['contain' => ['ApplicationStages']]);
+            $app->approved = 'DirectorGeneral';
+            $this->Applications->save($app);
+            /*$stg = Hash::extract($application->application_stages, '{n}.id[stage_id=10]');
+            if(!empty($stg[0])) {
+                $src = $this->Applications->ApplicationStages->get($stg[0]);
+                $this->Applications->ApplicationStages->delete($src);
+            }*/
+            foreach ($app->application_stages as $stg) {
+                if($stg->stage_id == 10 || $stg->stage_id == 11) {
+                    $this->Applications->ApplicationStages->delete($stg);
+                }
+            }
         } else {
             $this->Flash->error(__('The dg review could not be removed. Please, try again.'));
         }
@@ -160,6 +173,6 @@ class ApplicationsController extends ApplicationsBaseController
 
         $this->set('application', $application);
         $this->set('_serialize', ['application']);
-        $this->render('/DirectorGeneral/Applications/pdf/certificate');
+        // $this->render('/DirectorGeneral/Applications/pdf/certificate');
     }
 }
