@@ -3328,7 +3328,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
               <label>
-                <?= ($application->applicant_mc10) ? $checked : $nChecked; ?> Pharmacy License or Certificate  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
+                <?= ($application->applicant_mc10) ? $checked : $nChecked; ?> Pharmacy License or Certificate </i>
               </label>
               <br>
                <?php
@@ -3410,7 +3410,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
               <label>
-                <?= ($application->applicant_investigators_brochure) ? $checked : $nChecked; ?> Investigators brochure and / or all package insert(s) <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
+                <?= ($application->applicant_investigators_brochure) ? $checked : $nChecked; ?> Investigators brochure and / or all package insert(s) 
               </label>
               <br>
                <?php
@@ -3491,7 +3491,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
               <label>
-                <?= ($application->applicant_study_monitors) ? $checked : $nChecked; ?> CV(s) and signed declaration(s) by study coordinator and/or monitor <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
+                <?= ($application->applicant_study_monitors) ? $checked : $nChecked; ?> CV(s) and signed declaration(s) by study coordinator and/or monitor
               </label>
               <br>
                <?php
@@ -3572,7 +3572,7 @@ Names and Addresses of owners of animals</small></h5> </td>
             <td><label><?= $numb++ ?>.</label></td>
             <td>
               <label>
-                <?= ($application->applicant_study_sponsorship) ? $checked : $nChecked; ?> Signed financial declaration by sponsor and national PI for study sponsorship  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
+                <?= ($application->applicant_study_sponsorship) ? $checked : $nChecked; ?> Signed financial declaration by sponsor and national PI for study sponsorship
               </label>
               <br>
                <?php

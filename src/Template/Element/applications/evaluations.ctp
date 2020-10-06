@@ -862,7 +862,7 @@
               </div>
               <div class="form-group"> 
                   <div class="col-sm-12"> 
-                    <?php if($prefix == 'evaluator') { ?>
+                    <?php if($prefix == 'evaluator' || $prefix == 'manager') { ?>
                       <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
                     <?php } ?>
                     <button type="submit" class="btn btn-primary active" id="ev-submit" name="ev_save" value="2"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
