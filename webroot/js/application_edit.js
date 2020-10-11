@@ -204,7 +204,7 @@
     CKEDITOR.replace( 'safety' );
     CKEDITOR.replace( 'participants_description' );
     CKEDITOR.replace( 'participants_justification' );
-    CKEDITOR.replace( 'countries_recruitment' );
+    CKEDITOR.replace( 'countries_recruitment');
     CKEDITOR.replace( 'abstract-of-study');
     CKEDITOR.replace( 'principal-inclusion-criteria');
     CKEDITOR.replace( 'principal-exclusion-criteria');

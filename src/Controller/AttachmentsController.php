@@ -61,18 +61,45 @@ class AttachmentsController extends AppController
      */
     public function add()
     {
+        $this->viewBuilder()->autoLayout(false);
         $attachment = $this->Attachments->newEntity();
         if ($this->request->is('post')) {
             $attachment = $this->Attachments->patchEntity($attachment, $this->request->getData());
+            if($this->request->getData('upload')) $attachment->file = $this->request->getData('upload');
             if ($this->Attachments->save($attachment)) {
                 /*$this->Flash->success(__('The attachment has been saved.'));
 
                 return $this->redirect(['action' => 'index']);*/
-                $this->set([
-                        'message' => 'Success', 
-                        'content' => $attachment,
-                        '_serialize' => ['message', 'content']]);
-                    return;
+                // $this->set([
+                //         'message' => 'Success', 
+                //         'content' => $attachment,
+                //         '_serialize' => ['message', 'content']]);
+                // Required: anonymous function reference number as explained above.
+                // $funcNum = $_GET['CKEditorFuncNum'] ;        
+                $funcNum = $this->request->query('CKEditorFuncNum') ;
+                // Optional: instance name (might be used to load a specific configuration file or anything else).
+                // $CKEditor = $_GET['CKEditor'] ;
+                $CKEditor = $this->request->query('CKEditor') ;
+                // Optional: might be used to provide localized messages.
+                // $langCode = $_GET['langCode'] ;
+                $langCode = $this->request->query('langCode') ;
+                // Optional: compare it with the value of `ckCsrfToken` sent in a cookie to protect your server-side uploader against CSRF.
+                // Available since CKEditor 4.5.6.
+                // $token = $_POST['ckCsrfToken'] ;
+
+                // Check the $_FILES array and save the file. Assign the correct path to a variable ($url).
+                // $url = '/path/to/uploaded/file.ext';
+                $url = '/files/Attachments/file/' . $attachment->file; //'/files/Attachments/file/4.jpeg';
+                // Usually you will only assign something here if the file could not be uploaded.
+                //for copy paste
+                $uploaded = 1;
+                $fileName = $attachment->file;
+
+                $message = 'The image has been uploaded!';
+                $this->set(compact('funcNum', 'CKEditor', 'langCode', 'url', 'message', 'uploaded', 'fileName'));
+                // $this->set('funcNum', $funcNum);
+                // $this->set('url', $url);
+                return;
             } else {
                 $this->response->body('Failure');
                 $this->response->statusCode(403);
@@ -83,8 +110,9 @@ class AttachmentsController extends AppController
                     return;
             }
         }
-        $this->set(compact('attachment'));
-        $this->set('_serialize', ['attachment']);
+        // $this->set(compact('attachment'));
+        // $this->set('_serialize', ['attachment']);
+        
     }
 
     
