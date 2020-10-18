@@ -64,7 +64,7 @@ class UsersController extends AppController
         ];
 
         $query = $this->Users
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query, 'withDeleted']);
 
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
         $this->set(compact('groups'));
@@ -223,12 +223,12 @@ class UsersController extends AppController
     }
     public function activate($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($id, ['withDeleted']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             if ($user) {
                 $query = $this->Users->query();
                 $query->update()
-                    ->set(['deactivated' => 0])
+                    ->set(['deactivated' => 0, 'deleted' => null])
                     ->where(['id' => $user->id])
                     ->execute();
                 $this->set([
@@ -251,16 +251,23 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete($id = null, $restore = false)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
+        $user = $this->Users->get($id, ['withDeleted']);
+        if (!$restore) {
+            $query = $this->Users->query();
+            $query->update()
+                    ->set(['deleted' => date('Y-m-d H:i:s')])
+                    ->where(['id' => $user->id])
+                    ->execute();
             $this->Flash->success(__('The user has been deleted.'));
+        } elseif ($restore && $this->Users->restore($user)) {
+            $this->Flash->success(__('The user has been restored.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
     }
 }

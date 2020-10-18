@@ -49,6 +49,7 @@
                 <td><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'index']) : '' ?></td>
                 <td><?= h($user->created) ?></td>
                 <td>
+                <?php if(!$user->deleted) { ?>
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['controller' => 'Users', 'action' => 'view', $user->id, 'prefix' => $prefix], array('escape' => false));  ?>
                     <?= $this->Html->link('<span class="label label-success">Edit</span>', ['controller' => 'Users', 'action' => 'edit', $user->id, 'prefix' => $prefix], array('escape' => false));  ?>
                     <?php
@@ -57,8 +58,13 @@
                     } else {
                         echo $this->Html->link('<span class="label label-default">Deactivate</span>', ['controller' => 'Users', 'action' => 'deactivate', $user->id, 'prefix' => $prefix, '_ext' => 'json'], array('escape' => false, 'class' => 'deactivate', 'id' => $user->id));  
                     }
-                    ?>            
-
+                    ?> 
+                    <?= $this->Form->postLink('<span class="label label-danger">Delete</span>', ['action' => 'delete', $user->id, 'prefix' => $prefix], ['confirm' => __('Are you sure you want to delete {0}?', $user->name), 'escape' => false]) ?>
+                <?php 
+                    } else { 
+                        echo $this->Form->postLink('<span class="label label-warning">Restore</span>', ['action' => 'delete', $user->id, 1, 'prefix' => $prefix], ['confirm' => __('Are you sure you want to restore {0}?', $user->name), 'escape' => false]);
+                    } 
+                ?>
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -88,6 +88,12 @@
             echo '&nbsp;<span class="label label-success">Approved</span>';
           }       
         ?>
+          <?php
+            $evec = count($evaluation->evaluation_edits);
+            $eved = $evaluation->evaluation_edits;
+            $hlis = [];
+
+          ?>
               <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 <table class="table table-bordered table-condensed">
                   <thead>
@@ -106,8 +112,8 @@
                           <?= $evaluation->vulnerable_population ?>
                         </span>
                           <?php
-                            foreach (($evaluation_edit['vulnerable_population'] ?? []) as $key => $value) {
-                              echo '<span class="editer">'.$value.'</span>';
+                            for ($i=0; $i < $evec; $i++) { 
+                                echo '<span class="'.(($eved[$i]['user']['group_id'] == 2) ? 'editerh' : 'editer').'">'.$eved[$i]['vulnerable_population'].'</span>';
                             }
                           ?>          
                      </td>
@@ -122,9 +128,9 @@
                                 <?= ($evaluation->vulnerable_pregnant) ? $checked : $nChecked; ?> Pregnant women <br> 
                               </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_pregnant']) ? $checked : $nChecked; $a.=' Pregnant women <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_pregnant']) ? $checked : $nChecked; $a.=' Pregnant women <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_pregnant != $eved[$i]['vulnerable_pregnant']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -133,9 +139,9 @@
                                 <?= ($evaluation->vulnerable_adolescent) ? $checked : $nChecked; ?> Adolescents <br> 
                               </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_adolescent']) ? $checked : $nChecked; $a.=' Adolescents <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_adolescent']) ? $checked : $nChecked; $a.=' Adolescents <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_adolescent != $eved[$i]['vulnerable_adolescent']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -144,9 +150,9 @@
                                 <?= ($evaluation->vulnerable_children) ? $checked : $nChecked; ?> Children <br> 
                               </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_children']) ? $checked : $nChecked; $a.=' Children <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_children']) ? $checked : $nChecked; $a.=' Children <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_children != $eved[$i]['vulnerable_children']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -157,9 +163,9 @@
                               <?= ($evaluation->vulnerable_elderly) ? $checked : $nChecked; ?> Elderly <br> 
                             </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_elderly']) ? $checked : $nChecked; $a.=' Elderly <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_elderly']) ? $checked : $nChecked; $a.=' Elderly <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_elderly != $eved[$i]['vulnerable_elderly']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -168,9 +174,9 @@
                               <?= ($evaluation->vulnerable_refugees) ? $checked : $nChecked; ?> Refugees <br> 
                             </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_refugees']) ? $checked : $nChecked; $a.=' Refugees <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_refugees']) ? $checked : $nChecked; $a.=' Refugees <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_refugees != $eved[$i]['vulnerable_refugees']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -179,9 +185,9 @@
                               <?= ($evaluation->vulnerable_unconscious) ? $checked : $nChecked; ?> Those who cannot give consent (unconscious) <br> 
                             </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_unconscious']) ? $checked : $nChecked; $a.=' Those who cannot give consent (unconscious) <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_unconscious']) ? $checked : $nChecked; $a.=' Those who cannot give consent (unconscious) <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_unconscious != $eved[$i]['vulnerable_unconscious']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -192,9 +198,9 @@
                               <?= ($evaluation->vulnerable_prisoners) ? $checked : $nChecked; ?> Prisoners <br> 
                             </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_prisoners']) ? $checked : $nChecked; $a.=' Prisoners <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_prisoners']) ? $checked : $nChecked; $a.=' Prisoners <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_prisoners != $eved[$i]['vulnerable_prisoners']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -203,9 +209,9 @@
                               <?= ($evaluation->vulnerable_mental) ? $checked : $nChecked; ?> Persons with mental or Behavioural  Disorders <br> 
                             </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_mental']) ? $checked : $nChecked; $a.=' Persons with mental or Behavioural  Disorders <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_mental']) ? $checked : $nChecked; $a.=' Persons with mental or Behavioural  Disorders <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_mental != $eved[$i]['vulnerable_mental']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -214,9 +220,9 @@
                               <?= ($evaluation->vulnerable_others) ? $checked : $nChecked; ?> Others <br> 
                             </span>
                               <?php
-                                foreach ($evaluation->evaluation_edits as $nvalue) {
-                                  $a = ($nvalue['vulnerable_others']) ? $checked : $nChecked; $a.=' Others <br>';
-                                  echo "<span class='editer'>$a</span>";
+                                for ($i=0; $i < $evec; $i++) { 
+                                    $a = ($eved[$i]['vulnerable_others']) ? $checked : $nChecked; $a.=' Others <br>';
+                                    echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_others != $eved[$i]['vulnerable_others']) ? 'editerh' : 'editer').'">'.$a.'</span>';
                                 }
                               ?>
                             </div>
@@ -228,21 +234,23 @@
                       <td><?= $numb++ ?>.</td>
                       <td>Is the justification for studying this vulnerable population adequate?</td>
                       <td>
-                        <span class="<?= (isset($evaluation_edit['justification_adequate'])) ? 'editer' : 'retide'; ?>">
+                        <?php //debug($evaluation_edit['justification_adequate']); ?>
+                        <span class="<?= (isset($evaluation_edit['justification_adequate']) && array_filter($evaluation_edit['justification_adequate']) !== []) ? 'editer' : 'retide'; ?>">
                           <?= $evaluation->justification_adequate ?>
                         </span>
                         <?php
-                          // debug($evaluation_edit);
-                          // $evaluation_edit['justification_adequate'] = null;
-                          // echo '<span class="retide">bo'.$evaluation_edit['justification_adequate'][1].'</span>';
-                          // echo '<span class="editer">bandeko'.$evaluation_edit['justification_adequate'][1].'</span>';
-                          for ($i=0; $i < count(($evaluation_edit['justification_adequate'] ?? [])); $i++) { 
+                          
+                          /*for ($i=0; $i < count(($evaluation_edit['justification_adequate'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['justification_adequate'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['justification_adequate'][$i].'</span>';
+                              echo '<span class="'.(($evaluation->justification_adequate !== $evaluation_edit['justification_adequate'][$i]) ? 'editerh' : 'retide').'">'.$evaluation_edit['justification_adequate'][$i].'</span>';
                             } else {
                               echo '<span class="editer">'.$evaluation_edit['justification_adequate'][$i].'</span>';
                             }
-                          }
+                          }*/
+
+                            for ($i=0; $i < $evec; $i++) { 
+                                echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->justification_adequate != $eved[$i]['justification_adequate']) ? 'editerh' : 'editer').'">'.$eved[$i]['justification_adequate'].'</span>';
+                            }
                         ?>
                       </td>
                     </tr>
@@ -250,16 +258,20 @@
                       <td><?= $numb++ ?>.</td>
                       <td> Have adequate provisions been made to ensure the vulnerable population is not being exploited?</td>
                       <td>
-                        <span class="<?= (isset($evaluation_edit['adequate_provisions'])) ? 'editer' : 'retide'; ?>">
+                        <span class="<?= (isset($evaluation_edit['adequate_provisions']) && array_filter($evaluation_edit['adequate_provisions']) !== []) ? 'editer' : 'retide'; ?>">
                           <?= $evaluation->adequate_provisions ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['adequate_provisions'] ?? [])); $i++) { 
+                          /*for ($i=0; $i < count(($evaluation_edit['adequate_provisions'] ?? [])); $i++) { 
                             if ($i == count($evaluation_edit['adequate_provisions'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['adequate_provisions'][$i].'</span>';
+                              echo '<span class="'.(($evaluation->adequate_provisions !== $evaluation_edit['adequate_provisions'][$i]) ? 'editerh' : 'retide').'">'.$evaluation_edit['adequate_provisions'][$i].'</span>';
                             } else {
                               echo '<span class="editer">'.$evaluation_edit['adequate_provisions'][$i].'</span>';
                             }
+                          }*/
+
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->adequate_provisions != $eved[$i]['adequate_provisions']) ? 'editerh' : 'editer').'">'.$eved[$i]['adequate_provisions'].'</span>';
                           }
                         ?>
                       </td>
@@ -273,12 +285,8 @@
                           <?= $evaluation->vulnerable_population_comments ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['vulnerable_population_comments'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['vulnerable_population_comments'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['vulnerable_population_comments'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['vulnerable_population_comments'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_population_comments != $eved[$i]['vulnerable_population_comments']) ? 'editerh' : 'editer').'">'.$eved[$i]['vulnerable_population_comments'].'</span>';
                           }
                         ?>
                           </div>
@@ -314,16 +322,12 @@
                       <td><?= $numb++ ?>.</td>
                       <td> Is the rationale for the study clearly stated in the context present knowledge?</td>
                       <td>
-                        <span class="<?= (isset($evaluation_edit['rationale_stated'])) ? 'editer' : 'retide'; ?>">
+                        <span class="<?= (isset($evaluation_edit['rationale_stated']) && array_filter($evaluation_edit['rationale_stated']) !== []) ? 'editer' : 'retide'; ?>">
                           <?= $evaluation->rationale_stated ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['rationale_stated'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['rationale_stated'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['rationale_stated'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['rationale_stated'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->rationale_stated != $eved[$i]['rationale_stated']) ? 'editerh' : 'editer').'">'.$eved[$i]['rationale_stated'].'</span>';
                           }
                         ?>
                       </td>
@@ -336,12 +340,8 @@
                           <?= $evaluation->hypothesis_explained ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['hypothesis_explained'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['hypothesis_explained'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['hypothesis_explained'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['hypothesis_explained'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->hypothesis_explained != $eved[$i]['hypothesis_explained']) ? 'editerh' : 'editer').'">'.$eved[$i]['hypothesis_explained'].'</span>';
                           }
                         ?>
                       </td>
@@ -354,12 +354,8 @@
                           <?= $evaluation->design_sound ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['design_sound'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['design_sound'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['design_sound'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['design_sound'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->design_sound != $eved[$i]['design_sound']) ? 'editerh' : 'editer').'">'.$eved[$i]['design_sound'].'</span>';
                           }
                         ?>
                       </td>
@@ -372,12 +368,8 @@
                           <?= $evaluation->control_arm ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['control_arm'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['control_arm'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['control_arm'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['control_arm'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->control_arm != $eved[$i]['control_arm']) ? 'editerh' : 'editer').'">'.$eved[$i]['control_arm'].'</span>';
                           }
                         ?>
                       </td>
@@ -389,13 +381,9 @@
                         <span class="<?= (isset($evaluation_edit['criteria_complete'])) ? 'editer' : 'retide'; ?>">
                           <?= $evaluation->criteria_complete ?>
                         </span>
-                        <?php
-                          for ($i=0; $i < count(($evaluation_edit['criteria_complete'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['criteria_complete'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['criteria_complete'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['criteria_complete'][$i].'</span>';
-                            }
+                        <?php                          
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->criteria_complete != $eved[$i]['criteria_complete']) ? 'editerh' : 'editer').'">'.$eved[$i]['criteria_complete'].'</span>';
                           }
                         ?>
                       </td>
@@ -408,12 +396,8 @@
                           <?= $evaluation->subject_allocation ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['subject_allocation'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['subject_allocation'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['subject_allocation'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['subject_allocation'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->subject_allocation != $eved[$i]['subject_allocation']) ? 'editerh' : 'editer').'">'.$eved[$i]['subject_allocation'].'</span>';
                           }
                         ?>
                       </td>
@@ -426,12 +410,8 @@
                           <?= $evaluation->procedures_appropriate ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['procedures_appropriate'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['procedures_appropriate'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['procedures_appropriate'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['procedures_appropriate'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->procedures_appropriate != $eved[$i]['procedures_appropriate']) ? 'editerh' : 'editer').'">'.$eved[$i]['procedures_appropriate'].'</span>';
                           }
                         ?>
                       </td>
@@ -443,13 +423,9 @@
                         <span class="<?= (isset($evaluation_edit['drugs_described'])) ? 'editer' : 'retide'; ?>">
                           <?= $evaluation->drugs_described ?>
                         </span>
-                        <?php
-                          for ($i=0; $i < count(($evaluation_edit['drugs_described'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['drugs_described'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['drugs_described'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['drugs_described'][$i].'</span>';
-                            }
+                        <?php                          
+                          for ($i=0; $i < $evec; $i++) { 
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->drugs_described != $eved[$i]['drugs_described']) ? 'editerh' : 'editer').'">'.$eved[$i]['drugs_described'].'</span>';
                           }
                         ?>
                       </td>
@@ -458,16 +434,12 @@
                       <td><?= $numb++ ?>.</td>
                       <td> Does the project design include appropriate criteria for stopping and discontinuing the research?</td>
                       <td>
-                        <span class="<?= (isset($evaluation_edit['drugs_described'])) ? 'editer' : 'retide'; ?>">
-                          <?= $evaluation->drugs_described ?>
+                        <span class="<?= (isset($evaluation_edit['appropriate_criteria'])) ? 'editer' : 'retide'; ?>">
+                          <?= $evaluation->appropriate_criteria ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['drugs_described'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['drugs_described'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['drugs_described'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['drugs_described'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->appropriate_criteria != $eved[$i]['appropriate_criteria']) ? 'editerh' : 'editer').'">'.$eved[$i]['appropriate_criteria'].'</span>';
                           }
                         ?>
                       </td>
@@ -480,12 +452,8 @@
                           <?= $evaluation->clinical_procedures ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['clinical_procedures'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['clinical_procedures'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['clinical_procedures'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['clinical_procedures'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->clinical_procedures != $eved[$i]['clinical_procedures']) ? 'editerh' : 'editer').'">'.$eved[$i]['clinical_procedures'].'</span>';
                           }
                         ?>
                       </td>
@@ -498,12 +466,8 @@
                           <?= $evaluation->laboratory_tests ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['laboratory_tests'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['laboratory_tests'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['laboratory_tests'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['laboratory_tests'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->laboratory_tests != $eved[$i]['laboratory_tests']) ? 'editerh' : 'editer').'">'.$eved[$i]['laboratory_tests'].'</span>';
                           }
                         ?>
                       </td>
@@ -516,12 +480,8 @@
                           <?= $evaluation->statistical_basis ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['statistical_basis'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['statistical_basis'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['statistical_basis'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['statistical_basis'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->statistical_basis != $eved[$i]['statistical_basis']) ? 'editerh' : 'editer').'">'.$eved[$i]['statistical_basis'].'</span>';
                           }
                         ?>
                       </td>
@@ -535,12 +495,8 @@
                           <?= $evaluation->scientific_issues_comments ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['scientific_issues_comments'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['scientific_issues_comments'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['scientific_issues_comments'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['scientific_issues_comments'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->scientific_issues_comments != $eved[$i]['scientific_issues_comments']) ? 'editerh' : 'editer').'">'.$eved[$i]['scientific_issues_comments'].'</span>';
                           }
                         ?>
                           </div>
@@ -580,12 +536,8 @@
                           <?= $evaluation->information_sheet ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['information_sheet'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['information_sheet'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['information_sheet'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['information_sheet'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->information_sheet != $eved[$i]['information_sheet']) ? 'editerh' : 'editer').'">'.$eved[$i]['information_sheet'].'</span>';
                           }
                         ?>
                       </td>
@@ -598,12 +550,8 @@
                           <?= $evaluation->proposed_study ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['proposed_study'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['proposed_study'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['proposed_study'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['proposed_study'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->proposed_study != $eved[$i]['proposed_study']) ? 'editerh' : 'editer').'">'.$eved[$i]['proposed_study'].'</span>';
                           }
                         ?>
                       </td>
@@ -616,12 +564,8 @@
                           <?= $evaluation->explain_study ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['explain_study'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['explain_study'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['explain_study'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['explain_study'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->explain_study != $eved[$i]['explain_study']) ? 'editerh' : 'editer').'">'.$eved[$i]['explain_study'].'</span>';
                           }
                         ?>
                       </td>
@@ -634,12 +578,8 @@
                           <?= $evaluation->research_duration ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['research_duration'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['research_duration'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['research_duration'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['research_duration'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->research_duration != $eved[$i]['research_duration']) ? 'editerh' : 'editer').'">'.$eved[$i]['research_duration'].'</span>';
                           }
                         ?>
                       </td>
@@ -652,12 +592,8 @@
                           <?= $evaluation->full_description ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['full_description'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['full_description'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['full_description'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['full_description'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->full_description != $eved[$i]['full_description']) ? 'editerh' : 'editer').'">'.$eved[$i]['full_description'].'</span>';
                           }
                         ?>
                       </td>
@@ -670,12 +606,8 @@
                           <?= $evaluation->nature_discomfort ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['nature_discomfort'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['nature_discomfort'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['nature_discomfort'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['nature_discomfort'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->nature_discomfort != $eved[$i]['nature_discomfort']) ? 'editerh' : 'editer').'">'.$eved[$i]['nature_discomfort'].'</span>';
                           }
                         ?>
                       </td>
@@ -688,12 +620,8 @@
                           <?= $evaluation->possible_benefits ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['possible_benefits'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['possible_benefits'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['possible_benefits'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['possible_benefits'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->possible_benefits != $eved[$i]['possible_benefits']) ? 'editerh' : 'editer').'">'.$eved[$i]['possible_benefits'].'</span>';
                           }
                         ?>
                       </td>
@@ -706,12 +634,8 @@
                           <?= $evaluation->outline_community ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['outline_community'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['outline_community'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['outline_community'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['outline_community'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->outline_community != $eved[$i]['outline_community']) ? 'editerh' : 'editer').'">'.$eved[$i]['outline_community'].'</span>';
                           }
                         ?>
                       </td>
@@ -724,12 +648,8 @@
                           <?= $evaluation->outline_procedure ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['outline_procedure'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['outline_procedure'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['outline_procedure'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['outline_procedure'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->outline_procedure != $eved[$i]['outline_procedure']) ? 'editerh' : 'editer').'">'.$eved[$i]['outline_procedure'].'</span>';
                           }
                         ?>
                       </td>
@@ -742,12 +662,8 @@
                           <?= $evaluation->conveyed_persons ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['conveyed_persons'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['conveyed_persons'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['conveyed_persons'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['conveyed_persons'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->conveyed_persons != $eved[$i]['conveyed_persons']) ? 'editerh' : 'editer').'">'.$eved[$i]['conveyed_persons'].'</span>';
                           }
                         ?>
                       </td>
@@ -760,12 +676,8 @@
                           <?= $evaluation->participation_voluntary ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['participation_voluntary'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['participation_voluntary'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['participation_voluntary'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['participation_voluntary'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->participation_voluntary != $eved[$i]['participation_voluntary']) ? 'editerh' : 'editer').'">'.$eved[$i]['participation_voluntary'].'</span>';
                           }
                         ?>
                       </td>
@@ -778,12 +690,8 @@
                           <?= $evaluation->compensation_provided ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['compensation_provided'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['compensation_provided'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['compensation_provided'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['compensation_provided'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->compensation_provided != $eved[$i]['compensation_provided']) ? 'editerh' : 'editer').'">'.$eved[$i]['compensation_provided'].'</span>';
                           }
                         ?>
                       </td>
@@ -796,12 +704,8 @@
                           <?= $evaluation->alternatives_participation ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['alternatives_participation'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['alternatives_participation'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['alternatives_participation'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['alternatives_participation'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->alternatives_participation != $eved[$i]['alternatives_participation']) ? 'editerh' : 'editer').'">'.$eved[$i]['alternatives_participation'].'</span>';
                           }
                         ?>
                       </td>
@@ -814,12 +718,8 @@
                           <?= $evaluation->contact_research ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['contact_research'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['contact_research'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['contact_research'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['contact_research'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->contact_research != $eved[$i]['contact_research']) ? 'editerh' : 'editer').'">'.$eved[$i]['contact_research'].'</span>';
                           }
                         ?>
                       </td>
@@ -832,12 +732,8 @@
                           <?= $evaluation->subjects_illiterate ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['subjects_illiterate'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['subjects_illiterate'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['subjects_illiterate'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['subjects_illiterate'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->subjects_illiterate != $eved[$i]['subjects_illiterate']) ? 'editerh' : 'editer').'">'.$eved[$i]['subjects_illiterate'].'</span>';
                           }
                         ?>
                       </td>
@@ -850,12 +746,8 @@
                           <?= $evaluation->conclude_statement ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['conclude_statement'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['conclude_statement'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['conclude_statement'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['conclude_statement'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->conclude_statement != $eved[$i]['conclude_statement']) ? 'editerh' : 'editer').'">'.$eved[$i]['conclude_statement'].'</span>';
                           }
                         ?>
                       </td>
@@ -868,12 +760,8 @@
                           <?= $evaluation->cost_participants ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['cost_participants'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['cost_participants'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['cost_participants'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['cost_participants'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->cost_participants != $eved[$i]['cost_participants']) ? 'editerh' : 'editer').'">'.$eved[$i]['cost_participants'].'</span>';
                           }
                         ?>
                       </td>
@@ -886,12 +774,8 @@
                           <?= $evaluation->incapable_consent ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['incapable_consent'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['incapable_consent'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['incapable_consent'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['incapable_consent'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->incapable_consent != $eved[$i]['incapable_consent']) ? 'editerh' : 'editer').'">'.$eved[$i]['incapable_consent'].'</span>';
                           }
                         ?>
                       </td>
@@ -904,12 +788,8 @@
                           <?= $evaluation->research_outcome ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['research_outcome'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['research_outcome'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['research_outcome'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['research_outcome'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->research_outcome != $eved[$i]['research_outcome']) ? 'editerh' : 'editer').'">'.$eved[$i]['research_outcome'].'</span>';
                           }
                         ?>
                       </td>
@@ -923,12 +803,8 @@
                           <?= $evaluation->informed_consent_text ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['informed_consent_text'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['informed_consent_text'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['informed_consent_text'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['informed_consent_text'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->informed_consent_text != $eved[$i]['informed_consent_text']) ? 'editerh' : 'editer').'">'.$eved[$i]['informed_consent_text'].'</span>';
                           }
                         ?>
                           </div>
@@ -969,12 +845,8 @@
                           <?= $evaluation->recruitment_material ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['recruitment_material'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['recruitment_material'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['recruitment_material'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['recruitment_material'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->recruitment_material != $eved[$i]['recruitment_material']) ? 'editerh' : 'editer').'">'.$eved[$i]['recruitment_material'].'</span>';
                           }
                         ?>
                       </td>
@@ -987,12 +859,8 @@
                           <?= $evaluation->material_claims ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['material_claims'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['material_claims'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['material_claims'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['material_claims'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->material_claims != $eved[$i]['material_claims']) ? 'editerh' : 'editer').'">'.$eved[$i]['material_claims'].'</span>';
                           }
                         ?>
                       </td>
@@ -1005,12 +873,8 @@
                           <?= $evaluation->promises_inappropriate ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['promises_inappropriate'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['promises_inappropriate'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['promises_inappropriate'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['promises_inappropriate'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->promises_inappropriate != $eved[$i]['promises_inappropriate']) ? 'editerh' : 'editer').'">'.$eved[$i]['promises_inappropriate'].'</span>';
                           }
                         ?>
                       </td>
@@ -1023,12 +887,8 @@
                           <?= $evaluation->study_questionnaires ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['study_questionnaires'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['study_questionnaires'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['study_questionnaires'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['study_questionnaires'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->study_questionnaires != $eved[$i]['study_questionnaires']) ? 'editerh' : 'editer').'">'.$eved[$i]['study_questionnaires'].'</span>';
                           }
                         ?>
                       </td>
@@ -1041,12 +901,8 @@
                           <?= $evaluation->attached_proposal ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['attached_proposal'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['attached_proposal'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['attached_proposal'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['attached_proposal'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->attached_proposal != $eved[$i]['attached_proposal']) ? 'editerh' : 'editer').'">'.$eved[$i]['attached_proposal'].'</span>';
                           }
                         ?>
                       </td>
@@ -1059,12 +915,8 @@
                           <?= $evaluation->lay_language ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['lay_language'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['lay_language'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['lay_language'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['lay_language'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->lay_language != $eved[$i]['lay_language']) ? 'editerh' : 'editer').'">'.$eved[$i]['lay_language'].'</span>';
                           }
                         ?>
                       </td>
@@ -1077,12 +929,8 @@
                           <?= $evaluation->relevant_answer ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['relevant_answer'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['relevant_answer'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['relevant_answer'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['relevant_answer'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->relevant_answer != $eved[$i]['relevant_answer']) ? 'editerh' : 'editer').'">'.$eved[$i]['relevant_answer'].'</span>';
                           }
                         ?>
                       </td>
@@ -1095,12 +943,8 @@
                           <?= $evaluation->worded_sensitively ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['worded_sensitively'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['worded_sensitively'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['worded_sensitively'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['worded_sensitively'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->worded_sensitively != $eved[$i]['worded_sensitively']) ? 'editerh' : 'editer').'">'.$eved[$i]['worded_sensitively'].'</span>';
                           }
                         ?>
                       </td>
@@ -1113,12 +957,8 @@
                           <?= $evaluation->consent_information ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_information'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_information'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_information'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_information'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_information != $eved[$i]['consent_information']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_information'].'</span>';
                           }
                         ?>
                       </td>
@@ -1131,12 +971,8 @@
                           <?= $evaluation->embarrassing_questions ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['embarrassing_questions'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['embarrassing_questions'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['embarrassing_questions'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['embarrassing_questions'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->embarrassing_questions != $eved[$i]['embarrassing_questions']) ? 'editerh' : 'editer').'">'.$eved[$i]['embarrassing_questions'].'</span>';
                           }
                         ?>
                       </td>
@@ -1149,12 +985,8 @@
                           <?= $evaluation->consent_participant ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_participant'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_participant'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_participant'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_participant'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_participant != $eved[$i]['consent_participant']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_participant'].'</span>';
                           }
                         ?>
                       </td>
@@ -1167,12 +999,8 @@
                           <?= $evaluation->describe_confidentiality ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['describe_confidentiality'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['describe_confidentiality'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['describe_confidentiality'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['describe_confidentiality'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->describe_confidentiality != $eved[$i]['describe_confidentiality']) ? 'editerh' : 'editer').'">'.$eved[$i]['describe_confidentiality'].'</span>';
                           }
                         ?>
                       </td>
@@ -1185,12 +1013,8 @@
                           <?= $evaluation->interview_focus ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['interview_focus'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['interview_focus'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['interview_focus'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['interview_focus'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->interview_focus != $eved[$i]['interview_focus']) ? 'editerh' : 'editer').'">'.$eved[$i]['interview_focus'].'</span>';
                           }
                         ?>
                       </td>
@@ -1203,12 +1027,8 @@
                           <?= $evaluation->tapes_stored ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['tapes_stored'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['tapes_stored'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['tapes_stored'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['tapes_stored'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->tapes_stored != $eved[$i]['tapes_stored']) ? 'editerh' : 'editer').'">'.$eved[$i]['tapes_stored'].'</span>';
                           }
                         ?>
                       </td>
@@ -1222,13 +1042,9 @@
                               <?= $evaluation->other_materials_comments ?>
                             </span>
                             <?php
-                              for ($i=0; $i < count(($evaluation_edit['other_materials_comments'] ?? [])); $i++) { 
-                                if ($i == count($evaluation_edit['other_materials_comments'])-1) {
-                                  echo '<span class="retide">'.$evaluation_edit['other_materials_comments'][$i].'</span>';
-                                } else {
-                                  echo '<span class="editer">'.$evaluation_edit['other_materials_comments'][$i].'</span>';
-                                }
-                              }
+                              for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->other_materials_comments != $eved[$i]['other_materials_comments']) ? 'editerh' : 'editer').'">'.$eved[$i]['other_materials_comments'].'</span>';
+                          }
                             ?>
                           </div>
                         </div>
@@ -1267,12 +1083,8 @@
                           <?= $evaluation->investigational_medicines ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['investigational_medicines'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['investigational_medicines'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['investigational_medicines'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['investigational_medicines'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->investigational_medicines != $eved[$i]['investigational_medicines']) ? 'editerh' : 'editer').'">'.$eved[$i]['investigational_medicines'].'</span>';
                           }
                         ?>
                       </td>
@@ -1285,12 +1097,8 @@
                           <?= $evaluation->there_placebo ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['there_placebo'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['there_placebo'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['there_placebo'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['there_placebo'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->there_placebo != $eved[$i]['there_placebo']) ? 'editerh' : 'editer').'">'.$eved[$i]['there_placebo'].'</span>';
                           }
                         ?>
                       </td>
@@ -1303,12 +1111,8 @@
                           <?= $evaluation->new_drug ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['new_drug'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['new_drug'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['new_drug'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['new_drug'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->new_drug != $eved[$i]['new_drug']) ? 'editerh' : 'editer').'">'.$eved[$i]['new_drug'].'</span>';
                           }
                         ?>
                       </td>
@@ -1321,12 +1125,8 @@
                           <?= $evaluation->new_medicine ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['new_medicine'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['new_medicine'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['new_medicine'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['new_medicine'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->new_medicine != $eved[$i]['new_medicine']) ? 'editerh' : 'editer').'">'.$eved[$i]['new_medicine'].'</span>';
                           }
                         ?>
                       </td>
@@ -1339,12 +1139,8 @@
                           <?= $evaluation->certificate_submitted ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['certificate_submitted'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['certificate_submitted'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['certificate_submitted'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['certificate_submitted'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->certificate_submitted != $eved[$i]['certificate_submitted']) ? 'editerh' : 'editer').'">'.$eved[$i]['certificate_submitted'].'</span>';
                           }
                         ?>
                       </td>
@@ -1357,12 +1153,8 @@
                           <?= $evaluation->medicines_registered ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['medicines_registered'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['medicines_registered'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['medicines_registered'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['medicines_registered'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->medicines_registered != $eved[$i]['medicines_registered']) ? 'editerh' : 'editer').'">'.$eved[$i]['medicines_registered'].'</span>';
                           }
                         ?>
                       </td>
@@ -1375,12 +1167,8 @@
                           <?= $evaluation->brochure_attached ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['brochure_attached'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['brochure_attached'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['brochure_attached'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['brochure_attached'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->brochure_attached != $eved[$i]['brochure_attached']) ? 'editerh' : 'editer').'">'.$eved[$i]['brochure_attached'].'</span>';
                           }
                         ?>
                       </td>
@@ -1393,12 +1181,8 @@
                           <?= $evaluation->adr_attached ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['adr_attached'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['adr_attached'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['adr_attached'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['adr_attached'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->adr_attached != $eved[$i]['adr_attached']) ? 'editerh' : 'editer').'">'.$eved[$i]['adr_attached'].'</span>';
                           }
                         ?>
                       </td>
@@ -1411,12 +1195,8 @@
                           <?= $evaluation->dsmb_established ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['dsmb_established'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['dsmb_established'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['dsmb_established'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['dsmb_established'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->dsmb_established != $eved[$i]['dsmb_established']) ? 'editerh' : 'editer').'">'.$eved[$i]['dsmb_established'].'</span>';
                           }
                         ?>
                       </td>
@@ -1429,12 +1209,8 @@
                           <?= $evaluation->names_dsmb ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['names_dsmb'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['names_dsmb'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['names_dsmb'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['names_dsmb'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->names_dsmb != $eved[$i]['names_dsmb']) ? 'editerh' : 'editer').'">'.$eved[$i]['names_dsmb'].'</span>';
                           }
                         ?>
                       </td>
@@ -1448,12 +1224,8 @@
                               <?= $evaluation->clinical_trials_text ?>
                             </span>
                             <?php
-                              for ($i=0; $i < count(($evaluation_edit['clinical_trials_text'] ?? [])); $i++) { 
-                                if ($i == count($evaluation_edit['clinical_trials_text'])-1) {
-                                  echo '<span class="retide">'.$evaluation_edit['clinical_trials_text'][$i].'</span>';
-                                } else {
-                                  echo '<span class="editer">'.$evaluation_edit['clinical_trials_text'][$i].'</span>';
-                                }
+                              for ($i=0; $i < $evec; $i++) {
+                                echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->clinical_trials_text != $eved[$i]['clinical_trials_text']) ? 'editerh' : 'editer').'">'.$eved[$i]['clinical_trials_text'].'</span>';
                               }
                             ?>
                           </div>
@@ -1493,12 +1265,8 @@
                           <?= $evaluation->biological_materials ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['biological_materials'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['biological_materials'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['biological_materials'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['biological_materials'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->biological_materials != $eved[$i]['biological_materials']) ? 'editerh' : 'editer').'">'.$eved[$i]['biological_materials'].'</span>';
                           }
                         ?>
                       </td>
@@ -1511,12 +1279,8 @@
                           <?= $evaluation->consent_volume ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_volume'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_volume'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_volume'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_volume'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_volume != $eved[$i]['consent_volume']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_volume'].'</span>';
                           }
                         ?>
                       </td>
@@ -1529,12 +1293,8 @@
                           <?= $evaluation->consent_procedure ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_procedure'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_procedure'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_procedure'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_procedure'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_procedure != $eved[$i]['consent_procedure']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_procedure'].'</span>';
                           }
                         ?>
                       </td>
@@ -1547,12 +1307,8 @@
                           <?= $evaluation->consent_describe ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_describe'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_describe'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_describe'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_describe'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_describe != $eved[$i]['consent_describe']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_describe'].'</span>';
                           }
                         ?>
                       </td>
@@ -1566,12 +1322,8 @@
                           <?= $evaluation->consent_provision ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_provision'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_provision'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_provision'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_provision'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_provision != $eved[$i]['consent_provision']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_provision'].'</span>';
                           }
                         ?>
                       </td>
@@ -1584,12 +1336,8 @@
                           <?= $evaluation->consent_specimens ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['consent_specimens'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['consent_specimens'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['consent_specimens'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['consent_specimens'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->consent_specimens != $eved[$i]['consent_specimens']) ? 'editerh' : 'editer').'">'.$eved[$i]['consent_specimens'].'</span>';
                           }
                         ?>
                       </td>
@@ -1602,12 +1350,8 @@
                           <?= $evaluation->proposal_specimens ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['proposal_specimens'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['proposal_specimens'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['proposal_specimens'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['proposal_specimens'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->proposal_specimens != $eved[$i]['proposal_specimens']) ? 'editerh' : 'editer').'">'.$eved[$i]['proposal_specimens'].'</span>';
                           }
                         ?>
                       </td>
@@ -1620,12 +1364,8 @@
                           <?= $evaluation->genomic_analysis ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['genomic_analysis'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['genomic_analysis'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['genomic_analysis'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['genomic_analysis'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->genomic_analysis != $eved[$i]['genomic_analysis']) ? 'editerh' : 'editer').'">'.$eved[$i]['genomic_analysis'].'</span>';
                           }
                         ?>
                       </td>
@@ -1638,12 +1378,8 @@
                           <?= $evaluation->insurance_cover ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['insurance_cover'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['insurance_cover'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['insurance_cover'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['insurance_cover'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->insurance_cover != $eved[$i]['insurance_cover']) ? 'editerh' : 'editer').'">'.$eved[$i]['insurance_cover'].'</span>';
                           }
                         ?>
                       </td>
@@ -1656,12 +1392,8 @@
                           <?= $evaluation->sponsor_sign ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['sponsor_sign'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['sponsor_sign'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['sponsor_sign'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['sponsor_sign'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->sponsor_sign != $eved[$i]['sponsor_sign']) ? 'editerh' : 'editer').'">'.$eved[$i]['sponsor_sign'].'</span>';
                           }
                         ?>
                       </td>
@@ -1674,12 +1406,8 @@
                           <?= $evaluation->sign_gcp ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['sign_gcp'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['sign_gcp'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['sign_gcp'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['sign_gcp'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->sign_gcp != $eved[$i]['sign_gcp']) ? 'editerh' : 'editer').'">'.$eved[$i]['sign_gcp'].'</span>';
                           }
                         ?>
                       </td>
@@ -1692,12 +1420,8 @@
                           <?= $evaluation->run_study ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['run_study'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['run_study'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['run_study'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['run_study'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->run_study != $eved[$i]['run_study']) ? 'editerh' : 'editer').'">'.$eved[$i]['run_study'].'</span>';
                           }
                         ?>
                       </td>
@@ -1710,12 +1434,8 @@
                           <?= $evaluation->cvs_submitted ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['cvs_submitted'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['cvs_submitted'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['cvs_submitted'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['cvs_submitted'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->cvs_submitted != $eved[$i]['cvs_submitted']) ? 'editerh' : 'editer').'">'.$eved[$i]['cvs_submitted'].'</span>';
                           }
                         ?>
                       </td>
@@ -1728,12 +1448,8 @@
                           <?= $evaluation->ethics_letter ?>
                         </span>
                         <?php
-                          for ($i=0; $i < count(($evaluation_edit['ethics_letter'] ?? [])); $i++) { 
-                            if ($i == count($evaluation_edit['ethics_letter'])-1) {
-                              echo '<span class="retide">'.$evaluation_edit['ethics_letter'][$i].'</span>';
-                            } else {
-                              echo '<span class="editer">'.$evaluation_edit['ethics_letter'][$i].'</span>';
-                            }
+                          for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->ethics_letter != $eved[$i]['ethics_letter']) ? 'editerh' : 'editer').'">'.$eved[$i]['ethics_letter'].'</span>';
                           }
                         ?>
                       </td>
@@ -1747,12 +1463,8 @@
                               <?= $evaluation->biological_materials_comments ?>
                             </span>
                             <?php
-                              for ($i=0; $i < count(($evaluation_edit['biological_materials_comments'] ?? [])); $i++) { 
-                                if ($i == count($evaluation_edit['biological_materials_comments'])-1) {
-                                  echo '<span class="retide">'.$evaluation_edit['biological_materials_comments'][$i].'</span>';
-                                } else {
-                                  echo '<span class="editer">'.$evaluation_edit['biological_materials_comments'][$i].'</span>';
-                                }
+                              for ($i=0; $i < $evec; $i++) {
+                                  echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->biological_materials_comments != $eved[$i]['biological_materials_comments']) ? 'editerh' : 'editer').'">'.$eved[$i]['biological_materials_comments'].'</span>';
                               }
                             ?>
                           </div>
@@ -1792,12 +1504,8 @@
                             <?= $evaluation->recommendations ?>
                           </span>
                           <?php
-                            for ($i=0; $i < count(($evaluation_edit['recommendations'] ?? [])); $i++) { 
-                              if ($i == count($evaluation_edit['recommendations'])-1) {
-                                echo '<span class="retide">'.$evaluation_edit['recommendations'][$i].'</span>';
-                              } else {
-                                echo '<span class="editer">'.$evaluation_edit['recommendations'][$i].'</span>';
-                              }
+                            for ($i=0; $i < $evec; $i++) {
+                              echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->recommendations != $eved[$i]['recommendations']) ? 'editerh' : 'editer').'">'.$eved[$i]['recommendations'].'</span>';
                             }
                           ?>
                           </div>

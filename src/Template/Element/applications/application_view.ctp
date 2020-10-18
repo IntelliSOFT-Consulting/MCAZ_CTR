@@ -380,7 +380,7 @@
              <?php   } } ?>             
             <tr>
               <th>           </th>
-              <td><label><?= ($application->product_type_biologicals) ? $checked : $nChecked; ?> Biological</label></td>
+              <td><label><?= ($application->product_type_biologicals) ? $checked.' Biological' : ''; ?> </label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -404,7 +404,7 @@
              <?php   } } ?>
             <tr>
               <th>           </th>
-              <td><label><?= ($application->product_type_medical_device) ? $checked : $nChecked; ?> Medical Device</label></td>
+              <td><label><?= ($application->product_type_medical_device) ? $checked.' Medical Device' : ''; ?></label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -983,10 +983,12 @@
           <tr>
               <td colspan="2"><p class="topper"><em class="text-success">If Yes, Specify</em></p></td>
           </tr>
-          <tr>
-            <th><label>In Utero</label></th>
-            <td><?= $application->population_utero ?></td>
-          </tr>
+          <?php if($application->population_less_than_18_years == 'Yes') { ?>
+            <tr>
+              <th><label>In Utero</label></th>
+              <td><?= $application->population_utero ?></td>
+            </tr>
+          <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_utero'])){      ?>
@@ -995,10 +997,12 @@
                   <td><?= $amendment->population_utero ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Preterm Newborn Infants (up to gestational age < 37 weeks?</label></th>
-            <td><?= $application->population_preterm_newborn ?></td>
-          </tr>
+             <?php if($application->population_less_than_18_years == 'Yes') { ?>
+              <tr>
+                <th><label>Preterm Newborn Infants (up to gestational age < 37 weeks?</label></th>
+                <td><?= $application->population_preterm_newborn ?></td>
+              </tr>
+            <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_preterm_newborn'])){      ?>
@@ -1007,10 +1011,12 @@
                   <td><?= $amendment->population_preterm_newborn ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Newborn (0-28 days)</label></th>
-            <td><?= $application->population_newborn ?></td>
-          </tr>
+             <?php if($application->population_less_than_18_years == 'Yes') { ?>
+              <tr>
+                <th><label>Newborn (0-28 days)</label></th>
+                <td><?= $application->population_newborn ?></td>
+              </tr>
+            <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_newborn'])){      ?>
@@ -1018,11 +1024,13 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_newborn ?></td>
                </tr>
-             <?php   } } ?>
-          <tr>
-            <th><label>Infant and toddler (29 days - 23 months)</label></th>
-            <td><?= $application->population_infant_and_toddler ?></td>
-          </tr>
+              <?php   } } ?>
+              <?php if($application->population_less_than_18_years == 'Yes') { ?>
+                <tr>
+                  <th><label>Infant and toddler (29 days - 23 months)</label></th>
+                  <td><?= $application->population_infant_and_toddler ?></td>
+                </tr>
+              <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_infant_and_toddler'])){      ?>
@@ -1030,11 +1038,13 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_infant_and_toddler ?></td>
                </tr>
-             <?php   } } ?>
-          <tr>
-            <th><label>Children (2-12 years)</label></th>
-            <td><?= $application->population_children ?></td>
-          </tr>
+              <?php   } } ?>
+              <?php if($application->population_less_than_18_years == 'Yes') { ?>
+                <tr>
+                  <th><label>Children (2-12 years)</label></th>
+                  <td><?= $application->population_children ?></td>
+                </tr>
+              <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_children'])){      ?>
@@ -1043,10 +1053,12 @@
                   <td><?= $amendment->population_children ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>Adolescent (13-17 years)</label></th>
-            <td><?= $application->population_adolescent ?></td>
-          </tr>
+              <?php if($application->population_less_than_18_years == 'Yes') { ?>
+                <tr>
+                  <th><label>Adolescent (13-17 years)</label></th>
+                  <td><?= $application->population_adolescent ?></td>
+                </tr>
+              <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_adolescent'])){      ?>
@@ -1055,10 +1067,10 @@
                   <td><?= $amendment->population_adolescent ?></td>
                </tr>
              <?php   } } ?>
-          <tr>
-            <th><label>18 Years and over</label></th>
-            <td><?= $application->population_above_18 ?></td>
-          </tr>
+              <tr>
+                <th><label>18 Years and over</label></th>
+                <td><?= $application->population_above_18 ?></td>
+              </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_above_18'])){      ?>
