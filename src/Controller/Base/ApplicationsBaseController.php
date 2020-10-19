@@ -249,7 +249,7 @@ class ApplicationsBaseController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->render('/Base/Applications/pdf/view');
         } else {
-            $this->render('/Base/Applications/view');
+            $this->render('/Base/Applications/pdf/view');
         }
     }
     

@@ -21,13 +21,13 @@
         echo $this->Form->input('single_site_name', array(
             'label' =>  'Name of site',
         ));
-        echo $this->Form->input('single_site_physical_address', array(
+        echo $this->Form->input('single_site_physical_address1', array(
             'label' =>  'Physical address',
         ));
         echo $this->Form->input('single_site_contact_details', array(
             'label' => 'Contact details ',
         ));
-        echo $this->Form->input('single_site_contact_person', array(
+        echo $this->Form->input('single_site_contact_person1', array(
             'label' => 'Contact person',
         ));
         echo $this->Form->input('single_site_province_id', ['label' => 'Province', 'options' => $provinces, 'empty' => true]);
