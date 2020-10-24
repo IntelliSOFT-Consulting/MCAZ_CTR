@@ -1,3 +1,4 @@
+<h3><?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Alerts', ['controller' => 'Notifications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu text-warning')); ?> <small class="badge badge-application"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Notifications']) ?></small></h3>
 
         <div>
               <?php foreach ($notifications as $notification): ?>

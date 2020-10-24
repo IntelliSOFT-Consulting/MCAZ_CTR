@@ -37,7 +37,7 @@ class AttachmentsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Josegonzalez/Upload.Upload', [
-            'file' => [],
+            'file' => ['path' => 'webroot{DS}files{DS}{model}{DS}{field}{DS}{time}{DS}'],
         ]);
     }
 
