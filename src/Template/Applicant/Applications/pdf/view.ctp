@@ -1,5 +1,9 @@
 <?php
+if ($application->submitted == 2) {
+  $this->extend('/Element/applications/application_pdf_view');
+} else {
   $this->extend('/Element/applications/application_view');
+}
 ?>
 
 <?php $this->start('tabs'); ?>

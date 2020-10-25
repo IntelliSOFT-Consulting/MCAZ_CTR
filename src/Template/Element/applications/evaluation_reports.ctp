@@ -113,7 +113,7 @@
                         </span>
                           <?php
                             for ($i=0; $i < $evec; $i++) { 
-                                echo '<span class="'.(($eved[$i]['user']['group_id'] == 2) ? 'editerh' : 'editer').'">'.$eved[$i]['vulnerable_population'].'</span>';
+                                echo '<span class="'.(($eved[$i]['user']['group_id'] == 2 && $evaluation->vulnerable_population != $eved[$i]['vulnerable_population']) ? 'editerh' : 'editer').'">'.$eved[$i]['vulnerable_population'].'</span>';
                             }
                           ?>          
                      </td>

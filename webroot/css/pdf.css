@@ -1,6 +1,6 @@
 
 /*bootstrap styles start*/
-
+/*
 .control-group {
   margin-bottom: 10px;
 }
@@ -69,7 +69,7 @@ table {
   width: 100%;
   margin-bottom: 20px;
 }
-/*bootstrap styles end*/
+
 
 
 .sterix {
@@ -119,15 +119,14 @@ p.tablenums {
   font-size: 0.75em;
 }
 
-.bs-docs-sidenav {  width: auto; margin: 0px} /**/
+.bs-docs-sidenav {  width: auto; margin: 0px} 
 .my-sidebar {  width: 165px;}
 section {  padding-top: 15px; }
 .download .page-header {
     margin-top: 10px;
 }
 
-/*Grouping Styles*/
-/* Base class */
+
 .ctr-groups {
   position: relative;
   margin: 7px 0;
@@ -237,4 +236,9 @@ table td {
   font-style: italic;
   font-size: 11px;
 }
+*/
 
+body {
+font-size: 12pt;
+line-height: 1.5;
+}

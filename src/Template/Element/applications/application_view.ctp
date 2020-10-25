@@ -55,7 +55,6 @@
                </tr>
              <?php   } } ?>
             <tr><td colspan="2"> <label>Contact for Public Queries</label> </td></tr>
-            <?php if(!empty($application->public_contact_name)) { ?>
             <tr>
               <th>
                 <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
@@ -66,7 +65,6 @@
                     data-name="public_contact_name"
                     data-title="Update public name" <?php } ?>><span><?= $application->public_contact_name ?></span></td>
             </tr>
-            <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_name'])){      ?>
@@ -75,7 +73,6 @@
                   <td><?= $amendment->public_contact_name ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->public_contact_designation)) { ?>
             <tr>
               <th>
                 <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
@@ -86,7 +83,6 @@
                     data-name="public_contact_designation"
                     data-title="Update public designation" <?php } ?>><span><?= $application->public_contact_designation ?></span></td>
             </tr>
-            <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_designation'])){      ?>
@@ -95,18 +91,16 @@
                   <td><?= $amendment->public_contact_designation ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->public_contact_email)) { ?>
-              <tr>
-                <th>
-                  <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-                </th>
-                <td  <?php if($prefix == 'applicant') { ?> id="public-contact-email" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="public_contact_email"
-                      data-title="Update public email" <?php } ?>><span><?= $application->public_contact_email ?></span></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td  <?php if($prefix == 'applicant') { ?> id="public-contact-email" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_email"
+                    data-title="Update public email" <?php } ?>><span><?= $application->public_contact_email ?></span></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_email'])){      ?>
@@ -115,18 +109,16 @@
                   <td><?= $amendment->public_contact_email ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->public_contact_phone)) { ?>
-              <tr>
-                <th>
-                  <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="public-contact-phone" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="public_contact_phone"
-                      data-title="Update public phone" <?php } ?>><?= $application->public_contact_phone ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="public-contact-phone" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_phone"
+                    data-title="Update public phone" <?php } ?>><?= $application->public_contact_phone ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_phone'])){      ?>
@@ -135,18 +127,16 @@
                   <td><?= $amendment->public_contact_phone ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->public_contact_postal)) { ?>
-              <tr>
-                <th>
-                  <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="public-contact-postal" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="public_contact_postal"
-                      data-title="Update public postal" <?php } ?>><?= $application->public_contact_postal ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="public-contact-postal" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="public_contact_postal"
+                    data-title="Update public postal" <?php } ?>><?= $application->public_contact_postal ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['public_contact_postal'])){      ?>
@@ -176,18 +166,16 @@
                </tr>
              <?php   } } ?>
             <tr><td colspan="2"> <label>Contact for Scientific Queries</label> </td></tr>
-            <?php if(!empty($application->scientific_contact_name)) { ?>
-              <tr>
-                <th>
-                  <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-name" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="scientific_contact_name"
-                      data-title="Update scientific contact name" <?php } ?>><?= $application->scientific_contact_name ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Name <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-name" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_name"
+                    data-title="Update scientific contact name" <?php } ?>><?= $application->scientific_contact_name ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_name'])){      ?>
@@ -196,18 +184,16 @@
                   <td><?= $amendment->scientific_contact_name ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->scientific_contact_designation)) { ?>
-              <tr>
-                <th>
-                  <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-designation" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="scientific_contact_designation"
-                      data-title="Update scientific designation" <?php } ?>><?= $application->scientific_contact_designation ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Designation <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-designation" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_designation"
+                    data-title="Update scientific designation" <?php } ?>><?= $application->scientific_contact_designation ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_designation'])){      ?>
@@ -216,18 +202,16 @@
                   <td><?= $amendment->scientific_contact_designation ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->scientific_contact_email)) { ?>
-              <tr>
-                <th>
-                  <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-email" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="scientific_contact_email"
-                      data-title="Update scientific contact email" <?php } ?>><?= $application->scientific_contact_email ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Email <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-email" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_email"
+                    data-title="Update scientific contact email" <?php } ?>><?= $application->scientific_contact_email ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_email'])){      ?>
@@ -236,18 +220,16 @@
                   <td><?= $amendment->scientific_contact_email ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->scientific_contact_phone)) { ?>
-              <tr>
-                <th>
-                  <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-phone" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="scientific_contact_phone"
-                      data-title="Update scientific contact phone" <?php } ?>><?= $application->scientific_contact_phone ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Phone number <i class="sterix fa fa-asterisk aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-phone" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_phone"
+                    data-title="Update scientific contact phone" <?php } ?>><?= $application->scientific_contact_phone ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_phone'])){      ?>
@@ -256,18 +238,16 @@
                   <td><?= $amendment->scientific_contact_phone ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->scientific_contact_postal)) { ?>
-              <tr>
-                <th>
-                  <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
-                </th>
-                <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-postal" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="scientific_contact_postal"
-                      data-title="Update scientific_contact_postal" <?php } ?>><?= $application->scientific_contact_postal ?></td>
-              </tr>
-            <?php } ?>
+            <tr>
+              <th>
+                <label>Postal Address<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
+              </th>
+              <td <?php if($prefix == 'applicant') { ?> id="scientific-contact-postal" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="scientific_contact_postal"
+                    data-title="Update scientific_contact_postal" <?php } ?>><?= $application->scientific_contact_postal ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scientific_contact_postal'])){      ?>
@@ -296,10 +276,9 @@
                   <td><?= $amendment->scientific_contact_affiliation ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->countries_recruitment)) { ?>
-              <tr>
-                <td colspan="2"><label>Countries of Recruitment <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
-              </tr>
+            <tr>
+              <td colspan="2"><label>Countries of Recruitment <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
+            </tr>
             <tr>              
               <td colspan="2"  <?php if($prefix == 'applicant') { ?> id="countries-recruitment" 
                     data-type="wysihtml5" data-pk="<?= $application->id ?>" 
@@ -309,7 +288,6 @@
                 <?= $application->countries_recruitment ?>
               </td>
             </tr>
-            <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['countries_recruitment'])){      ?>
@@ -318,7 +296,6 @@
                   <td><?= $amendment->countries_recruitment ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->abstract_of_study)) { ?>
             <tr>
               <td colspan="2"><label>Purpose and Reason for Trial <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
             </tr>
@@ -327,7 +304,6 @@
                 <?= $application->abstract_of_study ?>
               </td>
             </tr>
-             <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['abstract_of_study'])){      ?>
@@ -336,15 +312,12 @@
                   <td><?= $amendment->abstract_of_study ?></td>
                </tr>
              <?php   } } ?>
-
-             <?php if(!empty($application->version_no)) { ?>
             <tr>
               <th>
                 <label>Trial Indentifying Number</label>
               </th>
               <td><?= $application->version_no ?></td>
             </tr>
-             <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['version_no'])){      ?>
@@ -353,14 +326,12 @@
                   <td><?= $amendment->version_no ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->date_of_protocol)) { ?>
             <tr>
               <th>
                 <label>Date Of Protocol</label>
               </th>
               <td><?= $application->date_of_protocol ?></td>
             </tr>
-             <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['date_of_protocol'])){      ?>
@@ -369,14 +340,12 @@
                   <td><?= $amendment->date_of_protocol ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->study_drug)) { ?>
             <tr>
               <th>
                 <label>Study Product <i class="sterix fa fa-asterisk" aria-hidden="true"></i></label>
               </th>
               <td><?= $application->study_drug ?></td>
             </tr>
-             <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['study_drug'])){      ?>
@@ -385,12 +354,10 @@
                   <td><?= $amendment->study_drug ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(($application->product_type_chemical)) { ?>
             <tr>
               <th>           </th>
               <td><label><?= ($application->product_type_chemical) ? $checked : $nChecked; ?> Chemical</label></td>
             </tr>
-             <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['product_type_chemical'])){      ?>
@@ -413,7 +380,7 @@
              <?php   } } ?>             
             <tr>
               <th>           </th>
-              <td><label><?= ($application->product_type_biologicals) ? $checked.' Biological' : ''; ?> </label></td>
+              <td><label><?= ($application->product_type_biologicals) ? $checked : $nChecked; ?> Biological</label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -437,7 +404,7 @@
              <?php   } } ?>
             <tr>
               <th>           </th>
-              <td><label><?= ($application->product_type_medical_device) ? $checked.' Medical Device' : ''; ?></label></td>
+              <td><label><?= ($application->product_type_medical_device) ? $checked : $nChecked; ?> Medical Device</label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -460,14 +427,12 @@
                </tr>
              <?php   } } ?>
             
-             <?php if(!empty($application->protocol_version)) { ?>
             <tr>
               <th>
                 <label>Protocol Version No.  <span class="sterix">*</span></label></label>
               </th>
               <td><?= $application->protocol_version ?></td>
             </tr>
-             <?php } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['protocol_version'])){      ?>
@@ -493,14 +458,12 @@
               </th>
               <td><?= $application->investigator_contacts[0]['given_name'] ?></td>
             </tr>
-             <?php if(!empty($application->investigator_contacts[0]['date_of_birth'])) { ?>
             <tr>
               <th>
                 <label>Date Of Birth</label>
               </th>
               <td><?= $application->investigator_contacts[0]['date_of_birth'] ?></td>
             </tr>
-             <?php } ?>
             <tr>
               <th>
                 <label>Qualification <span class="sterix">*</span></label>
@@ -727,16 +690,14 @@
               <h4>3.0 Sponsor Details</h4>
               </td>
             </tr>
-            <?php   if(!empty($application->money_source)) { ?>
-              <tr>
-                <th><label>Source of Funds</label></th>
-                <td <?php if($prefix == 'applicant') { ?> id="money-source" 
-                      data-type="text" data-pk="<?= $application->id ?>" 
-                      data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
-                      data-name="money_source"
-                      data-title="Update money source" <?php } ?>><?= $application->money_source ?></td>
-              </tr>
-            <?php  } ?>
+            <tr>
+              <th><label>Source of Funds</label></th>
+              <td <?php if($prefix == 'applicant') { ?> id="money-source" 
+                    data-type="text" data-pk="<?= $application->id ?>" 
+                    data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'approvalEdit',  'prefix' => 'applicant', $application->id, '_ext' => 'json']); ?>" 
+                    data-name="money_source"
+                    data-title="Update money source" <?php } ?>><?= $application->money_source ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['money_source'])){      ?>
@@ -763,12 +724,10 @@
                   <td><?= $amendment->sponsor_name ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->sponsor_contact_person)) { ?>
-              <tr>
-                <th><label>Contact Person</label></th>
-                <td><?= $application->sponsor_contact_person ?></td>
-              </tr>
-            <?php  } ?>
+            <tr>
+              <th><label>Contact Person</label></th>
+              <td><?= $application->sponsor_contact_person ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['sponsor_contact_person'])){      ?>
@@ -1009,12 +968,10 @@
           <tr>
               <td colspan="2"><h5>4.1 AGE SPAN</h5></td>
           </tr>
-          <?php   if(!empty($application->population_less_than_18_years)) { ?>
-            <tr>
-              <th><label>Less than 18 years?</label></th>
-              <td><?= $application->population_less_than_18_years ?></td>
-            </tr>
-          <?php  } ?>
+          <tr>
+            <th><label>Less than 18 years?</label></th>
+            <td><?= $application->population_less_than_18_years ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_less_than_18_years'])){      ?>
@@ -1023,17 +980,13 @@
                   <td><?= $amendment->population_less_than_18_years ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if($application->population_less_than_18_years == 'Yes') { ?>
-              <tr>
-                  <td colspan="2"><p class="topper"><em class="text-success">If Yes, Specify</em></p></td>
-              </tr>
-            <?php  } ?>
-          <?php if($application->population_less_than_18_years == 'Yes') { ?>
-            <tr>
-              <th><label>In Utero</label></th>
-              <td><?= $application->population_utero ?></td>
-            </tr>
-          <?php } ?>
+          <tr>
+              <td colspan="2"><p class="topper"><em class="text-success">If Yes, Specify</em></p></td>
+          </tr>
+          <tr>
+            <th><label>In Utero</label></th>
+            <td><?= $application->population_utero ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_utero'])){      ?>
@@ -1042,12 +995,10 @@
                   <td><?= $amendment->population_utero ?></td>
                </tr>
              <?php   } } ?>
-             <?php if($application->population_less_than_18_years == 'Yes') { ?>
-              <tr>
-                <th><label>Preterm Newborn Infants (up to gestational age < 37 weeks?</label></th>
-                <td><?= $application->population_preterm_newborn ?></td>
-              </tr>
-            <?php } ?>
+          <tr>
+            <th><label>Preterm Newborn Infants (up to gestational age < 37 weeks?</label></th>
+            <td><?= $application->population_preterm_newborn ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_preterm_newborn'])){      ?>
@@ -1056,12 +1007,10 @@
                   <td><?= $amendment->population_preterm_newborn ?></td>
                </tr>
              <?php   } } ?>
-             <?php if($application->population_less_than_18_years == 'Yes') { ?>
-              <tr>
-                <th><label>Newborn (0-28 days)</label></th>
-                <td><?= $application->population_newborn ?></td>
-              </tr>
-            <?php } ?>
+          <tr>
+            <th><label>Newborn (0-28 days)</label></th>
+            <td><?= $application->population_newborn ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_newborn'])){      ?>
@@ -1069,13 +1018,11 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_newborn ?></td>
                </tr>
-              <?php   } } ?>
-              <?php if($application->population_less_than_18_years == 'Yes') { ?>
-                <tr>
-                  <th><label>Infant and toddler (29 days - 23 months)</label></th>
-                  <td><?= $application->population_infant_and_toddler ?></td>
-                </tr>
-              <?php } ?>
+             <?php   } } ?>
+          <tr>
+            <th><label>Infant and toddler (29 days - 23 months)</label></th>
+            <td><?= $application->population_infant_and_toddler ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_infant_and_toddler'])){      ?>
@@ -1083,13 +1030,11 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->population_infant_and_toddler ?></td>
                </tr>
-              <?php   } } ?>
-              <?php if($application->population_less_than_18_years == 'Yes') { ?>
-                <tr>
-                  <th><label>Children (2-12 years)</label></th>
-                  <td><?= $application->population_children ?></td>
-                </tr>
-              <?php } ?>
+             <?php   } } ?>
+          <tr>
+            <th><label>Children (2-12 years)</label></th>
+            <td><?= $application->population_children ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_children'])){      ?>
@@ -1098,12 +1043,10 @@
                   <td><?= $amendment->population_children ?></td>
                </tr>
              <?php   } } ?>
-              <?php if($application->population_less_than_18_years == 'Yes') { ?>
-                <tr>
-                  <th><label>Adolescent (13-17 years)</label></th>
-                  <td><?= $application->population_adolescent ?></td>
-                </tr>
-              <?php } ?>
+          <tr>
+            <th><label>Adolescent (13-17 years)</label></th>
+            <td><?= $application->population_adolescent ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_adolescent'])){      ?>
@@ -1112,12 +1055,10 @@
                   <td><?= $amendment->population_adolescent ?></td>
                </tr>
              <?php   } } ?>
-             <?php if(!empty($application->population_above_18)) { ?>
-                <tr>
-                  <th><label>18 Years and over</label></th>
-                  <td><?= $application->population_above_18 ?></td>
-                </tr>
-              <?php } ?>
+          <tr>
+            <th><label>18 Years and over</label></th>
+            <td><?= $application->population_above_18 ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['population_above_18'])){      ?>
@@ -1157,12 +1098,10 @@
           <tr>
               <td colspan="2"><h5>4.2 GROUP OF TRIAL PARTICIPANTS</h5></td>
           </tr>
-          <?php   if(!empty($application->subjects_healthy)) { ?>
-            <tr>
-              <th><label>Healty volunteers</label></th>
-              <td><?= $application->subjects_healthy ?></td>
-            </tr>
-          <?php   } ?>
+          <tr>
+            <th><label>Healty volunteers</label></th>
+            <td><?= $application->subjects_healthy ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_healthy'])){      ?>
@@ -1171,12 +1110,10 @@
                   <td><?= $amendment->subjects_healthy ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->subjects_vulnerable_populations)) { ?>
-              <tr>
-                <th><label>Specific vulnerable populations</label></th>
-                <td><?= $application->subjects_vulnerable_populations ?></td>
-              </tr>
-            <?php   } ?>
+          <tr>
+            <th><label>Specific vulnerable populations</label></th>
+            <td><?= $application->subjects_vulnerable_populations ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_vulnerable_populations'])){      ?>
@@ -1189,12 +1126,10 @@
             <p class="topper"><em class="text-success">Specific vulnerable populations</em></p>
              </td>
           </tr>
-          <?php   if(!empty($application->subjects_patients)) { ?>
-            <tr>
-              <th><label>Patients</label></th>
-              <td><?= $application->subjects_patients ?></td>
-            </tr>
-          <?php  } ?>
+          <tr>
+            <th><label>Patients</label></th>
+            <td><?= $application->subjects_patients ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_patients'])){      ?>
@@ -1273,12 +1208,10 @@
                   <td><?= $amendment->subjects_emergency_situation ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->subjects_incapable_consent)) { ?>
-              <tr>
-                <th><label>Participants incapable of giving consent personally?</label></th>
-                <td><?= $application->subjects_incapable_consent ?></td>
-              </tr>
-            <?php   } ?>
+          <tr>
+            <th><label>Participants incapable of giving consent personally?</label></th>
+            <td><?= $application->subjects_incapable_consent ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_incapable_consent'])){      ?>
@@ -1287,12 +1220,10 @@
                   <td><?= $amendment->subjects_incapable_consent ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->subjects_specify)) { ?>
-              <tr>
-                <th><label>If yes, specify</label></th>
-                <td><?= $application->subjects_specify ?></td>
-              </tr>
-            <?php   } ?>
+          <tr>
+            <th><label>If yes, specify</label></th>
+            <td><?= $application->subjects_specify ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_specify'])){      ?>
@@ -1301,12 +1232,10 @@
                   <td><?= $amendment->subjects_specify ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->subjects_others)) { ?>
-              <tr>
-                <th><label>Others?</label></th>
-                <td><?= $application->subjects_others ?></td>
-              </tr>
-             <?php  } ?>
+          <tr>
+            <th><label>Others?</label></th>
+            <td><?= $application->subjects_others ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_others'])){      ?>
@@ -1315,12 +1244,10 @@
                   <td><?= $amendment->subjects_others ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->subjects_others_specify)) { ?>
-              <tr>
-                <th><label>If yes, specify</label></th>
-                <td><?= $application->subjects_others_specify ?></td>
-              </tr>
-             <?php   } ?>
+          <tr>
+            <th><label>If yes, specify</label></th>
+            <td><?= $application->subjects_others_specify ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['subjects_others_specify'])){      ?>
@@ -1334,7 +1261,7 @@
           </tr>
           <tr>
             <th>           </th>
-            <td><label><?= ($application->gender_female) ? $checked.' Female' : ''; ?> </label></td>
+            <td><label><?= ($application->gender_female) ? $checked : $nChecked; ?> Female</label></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -1346,7 +1273,7 @@
              <?php   } } ?>
           <tr>
             <th>           </th>
-            <td><label><?= ($application->gender_male) ? $checked.' Male' : ''; ?> </label></td>
+            <td><label><?= ($application->gender_male) ? $checked : $nChecked; ?> Male</label></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -1358,43 +1285,41 @@
              <?php   } } ?>
         </table>
         
-        <?php if(isset($application['participants']) && count($application['participants']) > 0) { ?>
-          <table class="table table-bordered table-condensed">
-            <thead>
-              <tr>
-                <th> # </th>
-                <th> Name </th>
-                <th> Occupation</th>
-                <th> Address</th>
-                <th> Date of Birth</th>
-                <th> Place of Birth</th>
-                <th> Consent Letter </th>
-              </tr>
-            </thead>
-            <tbody>                  
-            <?php 
-            //Dynamic fields
-            if (!empty($application['participants'])) {
-              for ($i = 0; $i <= count($application['participants'])-1; $i++) { 
-            ?>
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th> # </th>
+              <th> Name </th>
+              <th> Occupation</th>
+              <th> Address</th>
+              <th> Date of Birth</th>
+              <th> Place of Birth</th>
+              <th> Consent Letter </th>
+            </tr>
+          </thead>
+          <tbody>                  
+          <?php 
+          //Dynamic fields
+          if (!empty($application['participants'])) {
+            for ($i = 0; $i <= count($application['participants'])-1; $i++) { 
+          ?>
 
-              <tr>
-                <td><?= $i+1; ?></td>
-                <td><?= $application->participants[$i]['name']; ?> </td>   
-                <td><?= $application->participants[$i]['occupation']; ?> </td>   
-                <td><?= $application->participants[$i]['address']; ?> </td>   
-                <td><?= $application->participants[$i]['date_of_birth']; ?> </td>   
-                <td><?= $application->participants[$i]['place_of_birth']; ?> </td>   
-                <td><p class="text-info text-left"><?php
-                         echo $this->Html->link($application['participants'][$i]->file, substr($application['participants'][$i]->dir, 8) . '/' . $application['participants'][$i]->file, ['fullBase' => true]);
-                    ?></p>
-                </td>
-              </tr>
-              <?php } } ; ?>
+            <tr>
+              <td><?= $i+1; ?></td>
+              <td><?= $application->participants[$i]['name']; ?> </td>   
+              <td><?= $application->participants[$i]['occupation']; ?> </td>   
+              <td><?= $application->participants[$i]['address']; ?> </td>   
+              <td><?= $application->participants[$i]['date_of_birth']; ?> </td>   
+              <td><?= $application->participants[$i]['place_of_birth']; ?> </td>   
+              <td><p class="text-info text-left"><?php
+                       echo $this->Html->link($application['participants'][$i]->file, substr($application['participants'][$i]->dir, 8) . '/' . $application['participants'][$i]->file, ['fullBase' => true]);
+                  ?></p>
+              </td>
+            </tr>
+            <?php } } ; ?>
 
-            </tbody>
-          </table>
-        <?php } ?>
+          </tbody>
+        </table>
 
         <?php
           foreach($application['amendments'] as $key => $amendment) {
@@ -1466,13 +1391,10 @@
                   <td><?= $amendment->single_site_member_state ?></td>
                </tr>
              <?php   } } ?>
-
-            <?php   if(!empty($application->location_of_area)) { ?>
-            <tr>
-              <th><label><b>If yes</b>, name of site</label></th>
-              <td><?= $application->location_of_area ?></td>
-            </tr>          
-            <?php   } ?>
+          <tr>
+            <th><label><b>If yes</b>, name of site</label></th>
+            <td><?= $application->location_of_area ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['location_of_area'])){      ?>
@@ -1481,12 +1403,10 @@
                   <td><?= $amendment->location_of_area ?></td>
                </tr>
              <?php   } } ?>
-            <?php   if(!empty($application->single_site_physical_address)) { ?>
           <tr>
             <th><label>Physical address</label></th>
             <td><?= $application->single_site_physical_address ?></td>
           </tr>
-            <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_physical_address'])){      ?>
@@ -1523,12 +1443,10 @@
                   <td><?= $amendment->single_site_telephone ?></td>
                </tr>
              <?php   } } ?>
-            <?php   if(!empty($application->multiple_sites_member_state)) { ?>
-              <tr>
-                <th><label>Multiple sites in Zimbabwe</label></th>
-                <td><?= $application->multiple_sites_member_state ?></td>
-              </tr> 
-            <?php } ?>
+          <tr>
+            <th><label>Multiple sites in Zimbabwe</label></th>
+            <td><?= $application->multiple_sites_member_state ?></td>
+          </tr> 
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['multiple_sites_member_state'])){      ?>
@@ -1537,12 +1455,10 @@
                   <td><?= $amendment->multiple_sites_member_state ?></td>
                </tr>
              <?php   } } ?>
-            <?php   if(!empty($application->number_of_sites)) { ?>
-              <tr>
-                <th><label>Number of sites anticipated in Zimbabwe</label></th>
-                <td><?= $application->number_of_sites ?></td>
-              </tr> 
-            <?php  } ?>
+          <tr>
+            <th><label>Number of sites anticipated in Zimbabwe</label></th>
+            <td><?= $application->number_of_sites ?></td>
+          </tr> 
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['number_of_sites'])){      ?>
@@ -1557,12 +1473,10 @@
               </small>)</h5>
             </td>
           </tr> 
-            <?php   if(!empty($application->single_site_name)) { ?>
-            <tr>
-              <th><label>Name of site</label></th>
-              <td><?= $application->single_site_name ?></td>
-            </tr> 
-            <?php  } ?>
+          <tr>
+            <th><label>Name of site</label></th>
+            <td><?= $application->single_site_name ?></td>
+          </tr> 
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['single_site_name'])){      ?>
@@ -1571,18 +1485,16 @@
                   <td><?= $amendment->single_site_name ?></td>
                </tr>
              <?php   } } ?>
-            <?php   if(!empty($application->single_site_physical_address1)) { ?>
           <tr>
             <th><label>Physical address</label></th>
-            <td><?= $application->single_site_physical_address1 ?></td>
+            <td><?= $application->single_site_physical_address ?></td>
           </tr> 
-            <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
-                if($amendment['submitted'] == 2 && !empty($amendment['single_site_physical_address1'])){      ?>
+                if($amendment['submitted'] == 2 && !empty($amendment['single_site_physical_address'])){      ?>
                <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
-                  <td><?= $amendment->single_site_physical_address1 ?></td>
+                  <td><?= $amendment->single_site_physical_address ?></td>
                </tr>
              <?php   } } ?>
              <?php   if(!empty($application->single_site_contact_details)) { ?>
@@ -1599,18 +1511,18 @@
                   <td><?= $amendment->single_site_contact_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->single_site_contact_person1)) { ?>
+             <?php   if(!empty($application->single_site_contact_person)) { ?>
               <tr>
                 <th><label>Contact person</label></th>
-                <td><?= $application->single_site_contact_person1 ?></td>
+                <td><?= $application->single_site_contact_person ?></td>
               </tr> 
             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
-                if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_person1'])){      ?>
+                if($amendment['submitted'] == 2 && !empty($amendment['single_site_contact_person'])){      ?>
                <tr class="amender amender<?= $key+1 ?>">
                   <th><?php echo $key+1; ?></th>
-                  <td><?= $amendment->single_site_contact_person1 ?></td>
+                  <td><?= $amendment->single_site_contact_person ?></td>
                </tr>
              <?php   } } ?>
              <?php   if(!empty($application->single_site_province_id)) { ?>
@@ -1803,12 +1715,10 @@
                   <td><?= $amendment->drug_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->medicine_reaction)) { ?>
-              <tr>
-                <th><label>Adverse/ possible reactions to the medicine</label></th>
-                <td><?= $application->medicine_reaction ?></td>
-              </tr> 
-             <?php  } ?>
+            <tr>
+              <th><label>Adverse/ possible reactions to the medicine</label></th>
+              <td><?= $application->medicine_reaction ?></td>
+            </tr> 
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_reaction'])){      ?>
@@ -1817,13 +1727,10 @@
                   <td><?= $amendment->medicine_reaction ?></td>
                </tr>
              <?php   } } ?>
-
-             <?php   if(!empty($application->medicine_therapeutic_effects)) { ?>
-              <tr>
-                <th><label>Therapeutic effects of medicine</label></th>
-                <td><?= $application->medicine_therapeutic_effects ?></td>
-              </tr> 
-             <?php  } ?>
+            <tr>
+              <th><label>Therapeutic effects of medicine</label></th>
+              <td><?= $application->medicine_therapeutic_effects ?></td>
+            </tr> 
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_therapeutic_effects'])){      ?>
@@ -1833,12 +1740,10 @@
                </tr>
              <?php   } } ?>
 
-             <?php   if(!empty($application->medicine_registered)) { ?>
             <tr>
               <th><label>a) Has the medicine been registered in the country of origin?</label></th>
               <td><?= $application->medicine_registered ?></td>
             </tr> 
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_registered'])){      ?>
@@ -1847,7 +1752,6 @@
                   <td><?= $amendment->medicine_registered ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if($application->medicine_registered == 'Yes') { ?>
            <tr>
              <td colspan="2"><label>If YES attach a valid certificate of registration in respect of such medicine issued by the appropriate authority established for the registration of medicine in the country of origin shall accompany this application</label></td>
            </tr>
@@ -1862,7 +1766,6 @@
               ?>
              </td>
            </tr>
-             <?php   } ?>
 
            <?php
             foreach($application['amendments'] as $key => $amendment) {
@@ -1876,7 +1779,6 @@
                 } } }
             ?>
 
-           <?php   if(!empty($application->medicine_registered_details)) { ?>
            <tr>
              <td colspan="2"><label>State details/reason</label></td>
            </tr>
@@ -1885,7 +1787,6 @@
                <?= $application->medicine_registered_details ?>
              </td>
            </tr>
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['medicine_registered_details'])){      ?>
@@ -1894,12 +1795,10 @@
                   <td><?= $amendment->medicine_registered_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->trials_origin_country)) { ?>
-              <tr>
-                <th><label>b) Have clinical trials been conducted in the country of origin?</label></th>
-                <td><?= $application->trials_origin_country ?></td>
-              </tr>
-             <?php  } ?>
+            <tr>
+              <th><label>b) Have clinical trials been conducted in the country of origin?</label></th>
+              <td><?= $application->trials_origin_country ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trials_origin_country'])){      ?>
@@ -1908,7 +1807,6 @@
                   <td><?= $amendment->trials_origin_country ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->trial_origin_details)) { ?>
            <tr>
              <td colspan="2"><label>State details/reason</label></td>
            </tr>
@@ -1917,7 +1815,6 @@
                <?= $application->trial_origin_details ?>
              </td>
            </tr>
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['trial_origin_details'])){      ?>
@@ -1926,12 +1823,10 @@
                   <td><?= $amendment->trial_origin_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->application_other_country)) { ?>
             <tr>
               <th><label>c) Has application for registration been made in any other country?</label></th>
               <td><?= $application->application_other_country ?></td>
-            </tr>            
-             <?php   } ?>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['application_other_country'])){      ?>
@@ -1940,7 +1835,6 @@
                   <td><?= $amendment->application_other_country ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->application_other_country_details)) { ?>
            <tr>
              <td colspan="2"><label>If Yes,State details/reason including the date on which the application was lodged</label></td>
            </tr>
@@ -1949,7 +1843,6 @@
                <?= $application->application_other_country_details ?>
              </td>
            </tr>
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['application_other_country_details'])){      ?>
@@ -1958,12 +1851,10 @@
                   <td><?= $amendment->application_other_country_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->registered_other_country)) { ?>
-              <tr>
-                <th><label>d) Has the medicine been registered in any other country?</label></th>
-                <td><?= $application->registered_other_country ?></td>
-              </tr>
-             <?php  } ?>
+            <tr>
+              <th><label>d) Has the medicine been registered in any other country?</label></th>
+              <td><?= $application->registered_other_country ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['registered_other_country'])){      ?>
@@ -1972,16 +1863,14 @@
                   <td><?= $amendment->registered_other_country ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->registered_other_country_details)) { ?>
-             <tr>
-               <td colspan="2"><label>If Yes, State details/reason</label></td>
-             </tr>
-             <tr>
-               <td colspan="2">
-                 <?= $application->registered_other_country_details ?>
-               </td>
-             </tr>
-             <?php  } ?>
+           <tr>
+             <td colspan="2"><label>If Yes, State details/reason</label></td>
+           </tr>
+           <tr>
+             <td colspan="2">
+               <?= $application->registered_other_country_details ?>
+             </td>
+           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['registered_other_country_details'])){      ?>
@@ -1990,12 +1879,10 @@
                   <td><?= $amendment->registered_other_country_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->rejected_other_country)) { ?>
             <tr>
               <th><label>e) Has the registration of the medicine been rejected/deferred /cancelled in any country?</label></th>
               <td><?= $application->rejected_other_country ?></td>
             </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['rejected_other_country'])){      ?>
@@ -2004,16 +1891,14 @@
                   <td><?= $amendment->rejected_other_country ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->rejected_other_country_details)) { ?>
-               <tr>
-                 <td colspan="2"><label>If Yes,State details/reason</label></td>
-               </tr>
-               <tr>
-                 <td colspan="2">
-                   <?= $application->rejected_other_country_details ?>
-                 </td>
-               </tr>
-             <?php   } ?>
+           <tr>
+             <td colspan="2"><label>If Yes,State details/reason</label></td>
+           </tr>
+           <tr>
+             <td colspan="2">
+               <?= $application->rejected_other_country_details ?>
+             </td>
+           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['rejected_other_country_details'])){      ?>
@@ -2022,12 +1907,10 @@
                   <td><?= $amendment->rejected_other_country_details ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->status_medicine)) { ?>
-              <tr>
-                <th><label>f) What is the status of medicine in Zimbabwe?</label></th>
-                <td><?= $application->status_medicine ?></td>
-              </tr>
-             <?php   } ?>
+            <tr>
+              <th><label>f) What is the status of medicine in Zimbabwe?</label></th>
+              <td><?= $application->status_medicine ?></td>
+            </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['status_medicine'])){      ?>
@@ -2036,16 +1919,14 @@
                   <td><?= $amendment->status_medicine ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->state_antidote)) { ?>
-               <tr>
-                 <td colspan="2"><label>State Antidote</label></td>
-               </tr>
-               <tr>
-                 <td colspan="2">
-                   <?= $application->state_antidote ?>
-                 </td>
-               </tr>
-             <?php  } ?>
+           <tr>
+             <td colspan="2"><label>State Antidote</label></td>
+           </tr>
+           <tr>
+             <td colspan="2">
+               <?= $application->state_antidote ?>
+             </td>
+           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['state_antidote'])){      ?>
@@ -2054,16 +1935,14 @@
                   <td><?= $amendment->state_antidote ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->exemption_required)) { ?>
-               <tr>
-                 <td colspan="2"><label>State the quantity of the medicine for which exemption is required if the medicine is not registered</label></td>
-               </tr>
-               <tr>
-                 <td colspan="2">
-                   <?= $application->exemption_required ?>
-                 </td>
-               </tr>
-             <?php  } ?>
+           <tr>
+             <td colspan="2"><label>State the quantity of the medicine for which exemption is required if the medicine is not registered</label></td>
+           </tr>
+           <tr>
+             <td colspan="2">
+               <?= $application->exemption_required ?>
+             </td>
+           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['exemption_required'])){      ?>
@@ -2323,7 +2202,6 @@
            <tr>
              <td colspan="2"><label>6.2</label></td>
            </tr>
-             <?php   if(!empty($application->administration_route)) { ?>
            <tr>
              <td colspan="2"><label>Administration route, dosage, dosage interval and period for the medicine being tested and the medicine being used as a control</label></td>
            </tr>
@@ -2332,7 +2210,6 @@
                <?= $application->administration_route ?>
              </td>
            </tr>
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['administration_route'])){      ?>
@@ -2345,12 +2222,10 @@
            <tr>
              <td colspan="2"><label>6.3</label></td>
            </tr>
-             <?php   if(!empty($application->given_concomitantly)) { ?>
             <tr>
               <th><label>Will medicine be given concomitantly?</label></th>
               <td><?= $application->given_concomitantly ?></td>
             </tr>
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['given_concomitantly'])){      ?>
@@ -2359,12 +2234,10 @@
                   <td><?= $amendment->given_concomitantly ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->concurrent_medicine)) { ?>
             <tr>
               <th><label>State whether the person already on another medicine will be given the experimential medicine at the same time or will be taken off the medicine</label></th>
               <td><?= $application->concurrent_medicine ?></td>
             </tr>
-             <?php  } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['concurrent_medicine'])){      ?>
@@ -2373,7 +2246,6 @@
                   <td><?= $amendment->concurrent_medicine ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->safety)) { ?>
            <tr>
              <td colspan="2"><label>State measures to be implemented to ensure the safe handling of medicines and promote and control compliances with the prescribed instructions<i class="sterix fa fa-asterisk" aria-hidden="true"></i></label></td>
            </tr>
@@ -2382,7 +2254,6 @@
                <?= $application->safety ?>
              </td>
            </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['safety'])){      ?>
@@ -2480,8 +2351,8 @@
                     data-title="Update health condition" <?php } ?>><?= $application->disease_condition ?></td>
           </tr>
           <tr>
-            <td><label><?= ($application->scope_diagnosis) ? $checked.' Diagnosis' : ''; ?> </label></td>
-            <td><label><?= ($application->scope_bioequivalence) ? $checked.' Bioequivalence' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_diagnosis) ? $checked : $nChecked; ?> Diagnosis</label></td>
+            <td><label><?= ($application->scope_bioequivalence) ? $checked : $nChecked; ?> Bioequivalence</label></td>
           </tr>          
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2496,8 +2367,8 @@
               <tr> <td colspan="2"><label><?= ($application->scope_bioequivalence) ? $checked : $nChecked; ?> Bioequivalence</label></td>  </tr>
              <?php   } } ?>
           <tr>
-            <td><label><?= ($application->scope_prophylaxis) ? $checked.' Prophylaxis' : ''; ?> </label></td>
-            <td><label><?= ($application->scope_dose_response) ? $checked.' Dose Response' : ''; ?></label></td>
+            <td><label><?= ($application->scope_prophylaxis) ? $checked : $nChecked; ?> Prophylaxis</label></td>
+            <td><label><?= ($application->scope_dose_response) ? $checked : $nChecked; ?> Dose Response</label></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2512,8 +2383,8 @@
               <tr> <td colspan="2"><label><?= ($application->scope_dose_response) ? $checked : $nChecked; ?> Dose Response</label></td>  </tr>
              <?php   } } ?>
           <tr>
-            <td><label><?= ($application->scope_therapy) ? $checked.' Therapy' : '';?> </label></td>
-            <td><label><?= ($application->scope_pharmacogenetic) ? $checked.' Pharmacogenetic' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_therapy) ? $checked : $nChecked; ?> Therapy</label></td>
+            <td><label><?= ($application->scope_pharmacogenetic) ? $checked : $nChecked; ?> Pharmacogenetic</label></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2528,8 +2399,8 @@
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenetic) ? $checked : $nChecked; ?> Pharmacogenetic</label></td>  </tr>
              <?php   } } ?>
           <tr>
-            <td><label><?= ($application->scope_safety) ? $checked.' Safety' : ''; ?> </label></td>
-            <td><label><?= ($application->scope_pharmacogenomic) ? $checked.' Pharmacogenomic' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_safety) ? $checked : $nChecked; ?> Safety</label></td>
+            <td><label><?= ($application->scope_pharmacogenomic) ? $checked : $nChecked; ?> Pharmacogenomic</label></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2541,11 +2412,11 @@
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_pharmacogenomic'])){      ?>
               <tr class="amender amender<?= $key+1 ?>"><th colspan="2"><?php echo $key+1; ?></th></tr>
-              <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenomic) ? $checked.' Pharmacogenomic' : ''; ?> </label></td>  </tr>
+              <tr> <td colspan="2"><label><?= ($application->scope_pharmacogenomic) ? $checked : $nChecked; ?> Pharmacogenomic</label></td>  </tr>
              <?php   } } ?>
           <tr>
-            <td><label><?= ($application->scope_efficacy) ? $checked.' Efficacy' : ''; ?> </label></td>
-            <td><label><?= ($application->scope_pharmacoecomomic) ? $checked.' Pharmacoecomomic' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_efficacy) ? $checked : $nChecked; ?> Efficacy</label></td>
+            <td><label><?= ($application->scope_pharmacoecomomic) ? $checked : $nChecked; ?> Pharmacoecomomic</label></td>
           </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2561,7 +2432,7 @@
              <?php   } } ?>
 
           <tr>
-            <td><label><?= ($application->scope_pharmacokinetic) ? $checked.' Pharmacokinetic' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></td>
             <td> </td>
           </tr>
             <?php
@@ -2571,7 +2442,7 @@
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacokinetic) ? $checked : $nChecked; ?> Pharmacokinetic</label></td>  </tr>
              <?php   } } ?>
           <tr>
-            <td><label><?= ($application->scope_pharmacodynamic) ? $checked.' Pharmacodynamic' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></td>
             <td> </td>
           </tr>
             <?php
@@ -2581,7 +2452,7 @@
               <tr> <td colspan="2"><label><?= ($application->scope_pharmacodynamic) ? $checked : $nChecked; ?> Pharmacodynamic</label></td>  </tr>
              <?php   } } ?>
           <tr>
-            <td><label><?= ($application->scope_others) ? $checked.' Others' : ''; ?> </label></td>
+            <td><label><?= ($application->scope_others) ? $checked : $nChecked; ?> Others</label></td>
             <td> </td>
           </tr>
             <?php
@@ -2592,12 +2463,10 @@
              <?php   } } ?>
 
 
-             <?php   if(!empty($application->scope_others_specify)) { ?>
             <tr>
               <th><label>If others, specify</label></th>
               <td><?= $application->scope_others_specify ?></td>
             </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['scope_others_specify'])){      ?>
@@ -2614,7 +2483,7 @@
             </tr>    
             <?php   if(!empty($application->trial_human_pharmacology)) { ?>        
               <tr>
-                <td><label><?= ($application->trial_human_pharmacology) ? $checked.' Human pharmacology (Phase I)' : ''; ?> </label></td>
+                <td><label><?= ($application->trial_human_pharmacology) ? $checked : $nChecked; ?> Human pharmacology (Phase I)</label></td>
                 <td> </td>
               </tr>
             <?php  } ?>
@@ -2630,7 +2499,7 @@
             </tr>
             <?php   if(!empty($application->trial_administration_humans)) { ?>
               <tr>
-                <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked.' First administration to humans' : ''; ?> </label></td>
+                <td colspan="2"><label><?= ($application->trial_administration_humans) ? $checked : $nChecked; ?> First administration to humans</label></td>
               </tr>
             <?php   } ?>
             <?php
@@ -2641,7 +2510,7 @@
              <?php   } } ?>
              <?php   if(!empty($application->trial_bioequivalence_study)) { ?>
               <tr>
-                <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked.' Bioequivalence study' : ''; ?> </label></td>
+                <td colspan="2"><label><?= ($application->trial_bioequivalence_study) ? $checked : $nChecked; ?> Bioequivalence study</label></td>
               </tr>
             <?php  } ?>
             <?php
@@ -2652,7 +2521,7 @@
              <?php   } } ?>
              <?php   if(!empty($application->trial_other)) { ?>
               <tr>
-                <td colspan="2"><label><?= ($application->trial_other) ? $checked.' Other' : ''; ?> </label></td>
+                <td colspan="2"><label><?= ($application->trial_other) ? $checked : $nChecked; ?> Other</label></td>
               </tr>
             <?php  } ?>
             <?php
@@ -2673,7 +2542,7 @@
               <tr> <td colspan="2"><label>If other, please specify: <?= $application->trial_other_specify ?> </label></td>  </tr>
              <?php   } } ?>
             <tr>
-              <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked.' Therapeutic exploratory (Phase II)' : ''; ?> </label></td>
+              <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2682,7 +2551,7 @@
               <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_exploratory) ? $checked : $nChecked; ?> Therapeutic exploratory (Phase II)</label></td>  </tr>
              <?php   } } ?>
             <tr>
-              <td colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked.' Therapeutic confirmatory (Phase III)' : ''; ?> </label></td>
+              <td colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked : $nChecked; ?> Therapeutic confirmatory (Phase III)</label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2691,7 +2560,7 @@
               <tr> <td colspan="2"><label><?= ($application->trial_therapeutic_confirmatory) ? $checked : $nChecked; ?> Therapeutic confirmatory (Phase III)</label></td>  </tr>
              <?php   } } ?>
             <tr>
-              <td colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked.' Therapeutic use (Phase IV)' : ''; ?> </label></td>
+              <td colspan="2"><label><?= ($application->trial_therapeutic_use) ? $checked : $nChecked; ?> Therapeutic use (Phase IV)</label></td>
             </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
@@ -2721,7 +2590,6 @@
                   <td><?= $amendment->design_controlled ?></td>
                </tr>
              <?php   } } ?>
-          <?php  if($application->design_controlled == 'Controlled') { ?>
           <tr>
               <td colspan="2"><p class="topper"><em class="text-success">If controlled</em></p></td>
           </tr>
@@ -2898,8 +2766,7 @@
                   <th><?php echo $key+1; ?></th>
                   <td><?= $amendment->design_controlled_other ?></td>
                </tr>
-             <?php   } } ?>             
-            <?php   } ?>
+             <?php   } } ?>
         </table>
 
             <?= $this->fetch('application_design') ?>
@@ -2925,15 +2792,13 @@
                   <td><?= $amendment->ethic_considerations ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->insurance_company)) { ?>
-              <tr>
-                <td colspan="2"><label>Company who will insure the participants in the proposed trial</label></td>
-              </tr> 
-              <tr>
-                <th><label>Company Name</label></th>
-                <td><?= $application->insurance_company ?></td>
-              </tr>
-             <?php   } ?>
+          <tr>
+            <td colspan="2"><label>Company who will insure the participants in the proposed trial</label></td>
+          </tr> 
+          <tr>
+            <th><label>Company Name</label></th>
+            <td><?= $application->insurance_company ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['insurance_company'])){      ?>
@@ -2942,12 +2807,10 @@
                   <td><?= $amendment->insurance_company ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->insurance_address)) { ?>
-              <tr>
-                <th><label>Company Address</label></th>
-                <td><?= $application->insurance_address ?></td>
-              </tr>
-             <?php   } ?>
+          <tr>
+            <th><label>Company Address</label></th>
+            <td><?= $application->insurance_address ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['insurance_address'])){      ?>
@@ -2983,12 +2846,10 @@
            <?php     
                 } } }
             ?>
-             <?php   if(!empty($application->insurance_amount)) { ?>
-              <tr>
-                <th><label>State the amount of insurance in respect of each participant</label></th>
-                <td><?= $application->insurance_amount ?></td>
-              </tr>
-             <?php  } ?>
+          <tr>
+            <th><label>State the amount of insurance in respect of each participant</label></th>
+            <td><?= $application->insurance_amount ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['insurance_amount'])){      ?>
@@ -2997,15 +2858,13 @@
                   <td><?= $amendment->insurance_amount ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->other_insurance)) { ?>
-              <tr>
-                <td colspan="2">Other</td>
-              </tr>
-              <tr>
-                <th><label>If no insurance company, provide details</label></th>
-                <td><?= $application->other_insurance ?></td>
-              </tr>
-             <?php   } ?>
+          <tr>
+            <td colspan="2">Other</td>
+          </tr>
+          <tr>
+            <th><label>If no insurance company, provide details</label></th>
+            <td><?= $application->other_insurance ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_insurance'])){      ?>
@@ -3036,7 +2895,6 @@
            <?php     
                 } } }
             ?>
-             <?php   if(!empty($application->ethical_review_status)) { ?>
           <tr>
             <td colspan="2">
               <label>10.2 Ethical Reviews</label>
@@ -3047,7 +2905,6 @@
             <th><label>10.2.1 Status</label></th>
             <td><?= $application->ethical_review_status ?></td>
           </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['ethical_review_status'])){      ?>
@@ -3084,12 +2941,10 @@
                 } } }
             ?>
 
-             <?php   if(!empty($application->date_of_approval_ethics)) { ?>
           <tr>
             <th><label>10.2.2 Date of Approval</label></th>
             <td><?= $application->date_of_approval_ethics ?></td>
           </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['date_of_approval_ethics'])){      ?>
@@ -3199,16 +3054,14 @@
                   <td><?= $amendment->other_details_explanation ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->other_details_regulatory_notapproved)) { ?>
-              <tr>
-                <td colspan="2"> <h5> 11.3 Name other Regulatory Authorities to
-                    which applications to do this trial have been submitted, but approval has not yet been granted. Include date(s)
-                    of application: </h5> </td>
-              </tr>
-              <tr>            
-                <td colspan="2"><?= $application->other_details_regulatory_notapproved ?></td>
-              </tr>
-             <?php  } ?>
+          <tr>
+            <td colspan="2"> <h5> 11.3 Name other Regulatory Authorities to
+                which applications to do this trial have been submitted, but approval has not yet been granted. Include date(s)
+                of application: </h5> </td>
+          </tr>
+          <tr>            
+            <td colspan="2"><?= $application->other_details_regulatory_notapproved ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_notapproved'])){      ?>
@@ -3217,7 +3070,6 @@
                   <td><?= $amendment->other_details_regulatory_notapproved ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->other_details_regulatory_approved)) { ?>
           <tr>
             <td colspan="2"> <h5> 11.4 Name other Regulatory Authorities
                 which have approved this trial, date(s) of approval and number of sites per country. </h5> </td>
@@ -3225,7 +3077,6 @@
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_approved ?></td>
           </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_approved'])){      ?>
@@ -3234,14 +3085,12 @@
                   <td><?= $amendment->other_details_regulatory_approved ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->other_details_regulatory_rejected)) { ?>
           <tr>
             <td colspan="2"> <h5> 11.5 if applicable, name other Regulatory Authorities or Ethics Committees which have rejected this trial and give reasons for rejection:</h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_rejected ?></td>
           </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_rejected'])){      ?>
@@ -3250,14 +3099,12 @@
                   <td><?= $amendment->other_details_regulatory_rejected ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->other_details_regulatory_halted)) { ?>
           <tr>
             <td colspan="2"> <h5> 11.6 If applicable, details of and reasons for this trial having been halted at any stage by other Regulatory Authorities:</h5> </td>
           </tr>
           <tr>            
             <td colspan="2"><?= $application->other_details_regulatory_halted ?></td>
           </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['other_details_regulatory_halted'])){      ?>
@@ -3266,14 +3113,12 @@
                   <td><?= $amendment->other_details_regulatory_halted ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->recording_effects)) { ?>
-              <tr>
-                <td colspan="2"> <h5> 11.7 Recording of effects, give a description of the methods of recordings and times of recordings</h5> </td>
-              </tr>
-              <tr>            
-                <td colspan="2"><?= $application->recording_effects ?></td>
-              </tr>
-             <?php   } ?>
+          <tr>
+            <td colspan="2"> <h5> 11.7 Recording of effects, give a description of the methods of recordings and times of recordings</h5> </td>
+          </tr>
+          <tr>            
+            <td colspan="2"><?= $application->recording_effects ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['recording_effects'])){      ?>
@@ -3282,14 +3127,12 @@
                   <td><?= $amendment->recording_effects ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->tests_done)) { ?>
-              <tr>
-                <td colspan="2"> <h5> 11.8 State the Clinical and laboratory tests, pharmacokinetic analysis etc that are to be carried out</h5> </td>
-              </tr>
-              <tr>            
-                <td colspan="2"><?= $application->tests_done ?></td>
-              </tr>
-             <?php   } ?>
+          <tr>
+            <td colspan="2"> <h5> 11.8 State the Clinical and laboratory tests, pharmacokinetic analysis etc that are to be carried out</h5> </td>
+          </tr>
+          <tr>            
+            <td colspan="2"><?= $application->tests_done ?></td>
+          </tr>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['tests_done'])){      ?>
@@ -3397,7 +3240,6 @@
                   <td><?= $amendment->inform_staff ?></td>
                </tr>
              <?php   } } ?>
-             <?php   if(!empty($application->animal_particulars)) { ?>
           <tr>
             <td colspan="2"> <h5> Particulars of the animals that will take part in the clinical Trial <small>Kind and breed of animal
 Age of animal if known
@@ -3406,7 +3248,6 @@ Names and Addresses of owners of animals</small></h5> </td>
           <tr>            
             <td colspan="2"><?= $application->animal_particulars ?></td>
           </tr>
-             <?php   } ?>
             <?php
               foreach($application['amendments'] as $key => $amendment) {
                 if($amendment['submitted'] == 2 && !empty($amendment['animal_particulars'])){      ?>
@@ -3483,24 +3324,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-          <?php if($application->applicant_mc10) { ?>
-            <tr>
-              <td><label><?= $numb++ ?>.</label></td>
-              <td>
-                <label>
-                  <?= ($application->applicant_mc10) ? $checked : $nChecked; ?> Pharmacy License or Certificate 
-                </label>
-                <br>
-                 <?php
-                 if (!empty($application['legal_forms'])) {
-                      for ($i = 0; $i <= count($application['legal_forms'])-1; $i++) { 
-                        echo $this->Html->link($application['legal_forms'][$i]->file, substr($application['legal_forms'][$i]->dir, 8) . '/' . $application['legal_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                      }
-                    } 
-                ?>
-               </td>
-            </tr>
-          <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_mc10) ? $checked : $nChecked; ?> Pharmacy License or Certificate </i>
+              </label>
+              <br>
+               <?php
+               if (!empty($application['legal_forms'])) {
+                    for ($i = 0; $i <= count($application['legal_forms'])-1; $i++) { 
+                      echo $this->Html->link($application['legal_forms'][$i]->file, substr($application['legal_forms'][$i]->dir, 8) . '/' . $application['legal_forms'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+          </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['legal_forms'])){
@@ -3540,24 +3379,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_patient_information) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_patient_information) ? $checked : $nChecked; ?> Patient information leaflet(s) and informed consent(s) including vernacular versions and English back translations  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['leaflets'])) {
-                        for ($i = 0; $i <= count($application['leaflets'])-1; $i++) { 
-                          echo $this->Html->link($application['leaflets'][$i]->file, substr($application['leaflets'][$i]->dir, 8) . '/' . $application['leaflets'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_patient_information) ? $checked : $nChecked; ?> Patient information leaflet(s) and informed consent(s) including vernacular versions and English back translations  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
+              </label>
+              <br>
+               <?php
+               if (!empty($application['leaflets'])) {
+                    for ($i = 0; $i <= count($application['leaflets'])-1; $i++) { 
+                      echo $this->Html->link($application['leaflets'][$i]->file, substr($application['leaflets'][$i]->dir, 8) . '/' . $application['leaflets'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['leaflets'])){
@@ -3569,24 +3406,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_investigators_brochure) { ?>
-            <tr>
-              <td><label><?= $numb++ ?>.</label></td>
-              <td>
-                <label>
-                  <?= ($application->applicant_investigators_brochure) ? $checked : $nChecked; ?> Investigators brochure and / or all package insert(s) 
-                </label>
-                <br>
-                 <?php
-                 if (!empty($application['brochures'])) {
-                      for ($i = 0; $i <= count($application['brochures'])-1; $i++) { 
-                        echo $this->Html->link($application['brochures'][$i]->file, substr($application['brochures'][$i]->dir, 8) . '/' . $application['brochures'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                      }
-                    } 
-                ?>
-               </td>
-             </tr>
-           <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_investigators_brochure) ? $checked : $nChecked; ?> Investigators brochure and / or all package insert(s) 
+              </label>
+              <br>
+               <?php
+               if (!empty($application['brochures'])) {
+                    for ($i = 0; $i <= count($application['brochures'])-1; $i++) { 
+                      echo $this->Html->link($application['brochures'][$i]->file, substr($application['brochures'][$i]->dir, 8) . '/' . $application['brochures'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['brochures'])){
@@ -3652,24 +3487,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_study_monitors) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_study_monitors) ? $checked : $nChecked; ?> CV(s) and signed declaration(s) by study coordinator and/or monitor
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['study_monitors'])) {
-                        for ($i = 0; $i <= count($application['study_monitors'])-1; $i++) { 
-                          echo $this->Html->link($application['study_monitors'][$i]->file, substr($application['study_monitors'][$i]->dir, 8) . '/' . $application['study_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_study_monitors) ? $checked : $nChecked; ?> CV(s) and signed declaration(s) by study coordinator and/or monitor
+              </label>
+              <br>
+               <?php
+               if (!empty($application['study_monitors'])) {
+                    for ($i = 0; $i <= count($application['study_monitors'])-1; $i++) { 
+                      echo $this->Html->link($application['study_monitors'][$i]->file, substr($application['study_monitors'][$i]->dir, 8) . '/' . $application['study_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['study_monitors'])){
@@ -3735,24 +3568,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_study_sponsorship) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_study_sponsorship) ? $checked : $nChecked; ?> Signed financial declaration by sponsor and national PI for study sponsorship
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['study_sponsorships'])) {
-                        for ($i = 0; $i <= count($application['study_sponsorships'])-1; $i++) { 
-                          echo $this->Html->link($application['study_sponsorships'][$i]->file, substr($application['study_sponsorships'][$i]->dir, 8) . '/' . $application['study_sponsorships'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_study_sponsorship) ? $checked : $nChecked; ?> Signed financial declaration by sponsor and national PI for study sponsorship
+              </label>
+              <br>
+               <?php
+               if (!empty($application['study_sponsorships'])) {
+                    for ($i = 0; $i <= count($application['study_sponsorships'])-1; $i++) { 
+                      echo $this->Html->link($application['study_sponsorships'][$i]->file, substr($application['study_sponsorships'][$i]->dir, 8) . '/' . $application['study_sponsorships'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['study_sponsorships'])){
@@ -3764,24 +3595,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_pharmacy_plan) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_pharmacy_plan) ? $checked : $nChecked; ?> Pharmacy plan for local trial site  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['pharmacy_plans'])) {
-                        for ($i = 0; $i <= count($application['pharmacy_plans'])-1; $i++) { 
-                          echo $this->Html->link($application['pharmacy_plans'][$i]->file, substr($application['pharmacy_plans'][$i]->dir, 8) . '/' . $application['pharmacy_plans'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_pharmacy_plan) ? $checked : $nChecked; ?> Pharmacy plan for local trial site  
+              </label>
+              <br>
+               <?php
+               if (!empty($application['pharmacy_plans'])) {
+                    for ($i = 0; $i <= count($application['pharmacy_plans'])-1; $i++) { 
+                      echo $this->Html->link($application['pharmacy_plans'][$i]->file, substr($application['pharmacy_plans'][$i]->dir, 8) . '/' . $application['pharmacy_plans'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['pharmacy_plans'])){
@@ -3793,24 +3622,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_pharmacy_license) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_pharmacy_license) ? $checked : $nChecked; ?> MCAZ Pharmacy license (where applicable)  <i class="sterix fa fa-asterisk" aria-hidden="true"></i>
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['pharmacy_licenses'])) {
-                        for ($i = 0; $i <= count($application['pharmacy_licenses'])-1; $i++) { 
-                          echo $this->Html->link($application['pharmacy_licenses'][$i]->file, substr($application['pharmacy_licenses'][$i]->dir, 8) . '/' . $application['pharmacy_licenses'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_pharmacy_license) ? $checked : $nChecked; ?> MCAZ Pharmacy license (where applicable)  
+              </label>
+              <br>
+               <?php
+               if (!empty($application['pharmacy_licenses'])) {
+                    for ($i = 0; $i <= count($application['pharmacy_licenses'])-1; $i++) { 
+                      echo $this->Html->link($application['pharmacy_licenses'][$i]->file, substr($application['pharmacy_licenses'][$i]->dir, 8) . '/' . $application['pharmacy_licenses'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['pharmacy_licenses'])){
@@ -3822,24 +3649,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_study_medicines) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_study_medicines) ? $checked : $nChecked; ?> Details of study medicines and concomitant medicines
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['study_medicines'])) {
-                        for ($i = 0; $i <= count($application['study_medicines'])-1; $i++) { 
-                          echo $this->Html->link($application['study_medicines'][$i]->file, substr($application['study_medicines'][$i]->dir, 8) . '/' . $application['study_medicines'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_study_medicines) ? $checked : $nChecked; ?> Details of study medicines and concomitant medicines
+              </label>
+              <br>
+               <?php
+               if (!empty($application['study_medicines'])) {
+                    for ($i = 0; $i <= count($application['study_medicines'])-1; $i++) { 
+                      echo $this->Html->link($application['study_medicines'][$i]->file, substr($application['study_medicines'][$i]->dir, 8) . '/' . $application['study_medicines'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['study_medicines'])){
@@ -3851,24 +3676,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_insurance_certificate) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_insurance_certificate) ? $checked : $nChecked; ?> Proof of participants' insurance certificate
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['insurance_certificates'])) {
-                        for ($i = 0; $i <= count($application['insurance_certificates'])-1; $i++) { 
-                          echo $this->Html->link($application['insurance_certificates'][$i]->file, substr($application['insurance_certificates'][$i]->dir, 8) . '/' . $application['insurance_certificates'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_insurance_certificate) ? $checked : $nChecked; ?> Proof of participants' insurance certificate
+              </label>
+              <br>
+               <?php
+               if (!empty($application['insurance_certificates'])) {
+                    for ($i = 0; $i <= count($application['insurance_certificates'])-1; $i++) { 
+                      echo $this->Html->link($application['insurance_certificates'][$i]->file, substr($application['insurance_certificates'][$i]->dir, 8) . '/' . $application['insurance_certificates'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['insurance_certificates'])){
@@ -3880,24 +3703,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_generic_insurance) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_generic_insurance) ? $checked : $nChecked; ?> Letter endorsing generic insurance certificate
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['generic_insurances'])) {
-                        for ($i = 0; $i <= count($application['generic_insurances'])-1; $i++) { 
-                          echo $this->Html->link($application['generic_insurances'][$i]->file, substr($application['generic_insurances'][$i]->dir, 8) . '/' . $application['generic_insurances'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_generic_insurance) ? $checked : $nChecked; ?> Letter endorsing generic insurance certificate
+              </label>
+              <br>
+               <?php
+               if (!empty($application['generic_insurances'])) {
+                    for ($i = 0; $i <= count($application['generic_insurances'])-1; $i++) { 
+                      echo $this->Html->link($application['generic_insurances'][$i]->file, substr($application['generic_insurances'][$i]->dir, 8) . '/' . $application['generic_insurances'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['generic_insurances'])){
@@ -3909,24 +3730,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_ethics_approval) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_ethics_approval) ? $checked : $nChecked; ?> Ethics approval, in country of origin and local MRCZ approval
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['ethics_approvals'])) {
-                        for ($i = 0; $i <= count($application['ethics_approvals'])-1; $i++) { 
-                          echo $this->Html->link($application['ethics_approvals'][$i]->file, substr($application['ethics_approvals'][$i]->dir, 8) . '/' . $application['ethics_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_ethics_approval) ? $checked : $nChecked; ?> Ethics approval, in country of origin and local MRCZ approval
+              </label>
+              <br>
+               <?php
+               if (!empty($application['ethics_approvals'])) {
+                    for ($i = 0; $i <= count($application['ethics_approvals'])-1; $i++) { 
+                      echo $this->Html->link($application['ethics_approvals'][$i]->file, substr($application['ethics_approvals'][$i]->dir, 8) . '/' . $application['ethics_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['ethics_approvals'])){
@@ -3938,24 +3757,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_ethics_letter) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_ethics_letter) ? $checked : $nChecked; ?> Copy of letter applying for ethics committee approval
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['ethics_letters'])) {
-                        for ($i = 0; $i <= count($application['ethics_letters'])-1; $i++) { 
-                          echo $this->Html->link($application['ethics_letters'][$i]->file, substr($application['ethics_letters'][$i]->dir, 8) . '/' . $application['ethics_letters'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_ethics_letter) ? $checked : $nChecked; ?> Copy of letter applying for ethics committee approval
+              </label>
+              <br>
+               <?php
+               if (!empty($application['ethics_letters'])) {
+                    for ($i = 0; $i <= count($application['ethics_letters'])-1; $i++) { 
+                      echo $this->Html->link($application['ethics_letters'][$i]->file, substr($application['ethics_letters'][$i]->dir, 8) . '/' . $application['ethics_letters'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['ethics_letters'])){
@@ -3967,24 +3784,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_country_approvals) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_country_approvals) ? $checked : $nChecked; ?> Proof of approval of study by the National Regulatory Authority in country of origin
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['country_approvals'])) {
-                        for ($i = 0; $i <= count($application['country_approvals'])-1; $i++) { 
-                          echo $this->Html->link($application['country_approvals'][$i]->file, substr($application['country_approvals'][$i]->dir, 8) . '/' . $application['country_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_country_approvals) ? $checked : $nChecked; ?> Proof of approval of study by the National Regulatory Authority in country of origin
+              </label>
+              <br>
+               <?php
+               if (!empty($application['country_approvals'])) {
+                    for ($i = 0; $i <= count($application['country_approvals'])-1; $i++) { 
+                      echo $this->Html->link($application['country_approvals'][$i]->file, substr($application['country_approvals'][$i]->dir, 8) . '/' . $application['country_approvals'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['country_approvals'])){
@@ -3996,24 +3811,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_advertisments) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_advertisments) ? $checked : $nChecked; ?> Copy/ies of recruitment advertisement(s)
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['advertisments'])) {
-                        for ($i = 0; $i <= count($application['advertisments'])-1; $i++) { 
-                          echo $this->Html->link($application['advertisments'][$i]->file, substr($application['advertisments'][$i]->dir, 8) . '/' . $application['advertisments'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_advertisments) ? $checked : $nChecked; ?> Copy/ies of recruitment advertisement(s)
+              </label>
+              <br>
+               <?php
+               if (!empty($application['advertisments'])) {
+                    for ($i = 0; $i <= count($application['advertisments'])-1; $i++) { 
+                      echo $this->Html->link($application['advertisments'][$i]->file, substr($application['advertisments'][$i]->dir, 8) . '/' . $application['advertisments'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['advertisments'])){
@@ -4025,24 +3838,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_safety_monitoring) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_safety_monitoring) ? $checked : $nChecked; ?> Proof of Provision of Data Safety Monitoring Board (DSMB/DMC) Committee
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['safety_monitors'])) {
-                        for ($i = 0; $i <= count($application['safety_monitors'])-1; $i++) { 
-                          echo $this->Html->link($application['safety_monitors'][$i]->file, substr($application['safety_monitors'][$i]->dir, 8) . '/' . $application['safety_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_safety_monitoring) ? $checked : $nChecked; ?> Proof of Provision of Data Safety Monitoring Board (DSMB/DMC) Committee
+              </label>
+              <br>
+               <?php
+               if (!empty($application['safety_monitors'])) {
+                    for ($i = 0; $i <= count($application['safety_monitors'])-1; $i++) { 
+                      echo $this->Html->link($application['safety_monitors'][$i]->file, substr($application['safety_monitors'][$i]->dir, 8) . '/' . $application['safety_monitors'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['safety_monitors'])){
@@ -4054,24 +3865,22 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_biological_products) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_biological_products) ? $checked : $nChecked; ?> Proof of application to the local Bio Safety Board for biological products e.g. vaccines
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['biological_products'])) {
-                        for ($i = 0; $i <= count($application['biological_products'])-1; $i++) { 
-                          echo $this->Html->link($application['biological_products'][$i]->file, substr($application['biological_products'][$i]->dir, 8) . '/' . $application['biological_products'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_biological_products) ? $checked : $nChecked; ?> Proof of application to the local Bio Safety Board for biological products e.g. vaccines
+              </label>
+              <br>
+               <?php
+               if (!empty($application['biological_products'])) {
+                    for ($i = 0; $i <= count($application['biological_products'])-1; $i++) { 
+                      echo $this->Html->link($application['biological_products'][$i]->file, substr($application['biological_products'][$i]->dir, 8) . '/' . $application['biological_products'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['biological_products'])){
@@ -4083,27 +3892,25 @@ Names and Addresses of owners of animals</small></h5> </td>
            <?php     
                 } } }
             ?>
-            <?php if($application->applicant_dossier) { ?>
-              <tr>
-                <td><label><?= $numb++ ?>.</label></td>
-                <td>
-                  <label>
-                    <?= ($application->applicant_dossier) ? $checked : $nChecked; ?> Pharmaceutical dossier for a new investigational drug (NID) product including stability data 
-    generated from 3 batches to support the shelf life claim and storage conditions. 
-    (N.B) If study products are generic products not yet registered and specifically 
-    manufactured as \'trial batches\' for the study then a pharmaceutical dossier is also required.
-                  </label>
-                  <br>
-                   <?php
-                   if (!empty($application['dossiers'])) {
-                        for ($i = 0; $i <= count($application['dossiers'])-1; $i++) { 
-                          echo $this->Html->link($application['dossiers'][$i]->file, substr($application['dossiers'][$i]->dir, 8) . '/' . $application['dossiers'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
-                        }
-                      } 
-                  ?>
-                 </td>
-               </tr>
-             <?php } ?>
+          <tr>
+            <td><label><?= $numb++ ?>.</label></td>
+            <td>
+              <label>
+                <?= ($application->applicant_dossier) ? $checked : $nChecked; ?> Pharmaceutical dossier for a new investigational drug (NID) product including stability data 
+generated from 3 batches to support the shelf life claim and storage conditions. 
+(N.B) If study products are generic products not yet registered and specifically 
+manufactured as \'trial batches\' for the study then a pharmaceutical dossier is also required.
+              </label>
+              <br>
+               <?php
+               if (!empty($application['dossiers'])) {
+                    for ($i = 0; $i <= count($application['dossiers'])-1; $i++) { 
+                      echo $this->Html->link($application['dossiers'][$i]->file, substr($application['dossiers'][$i]->dir, 8) . '/' . $application['dossiers'][$i]->file, ['fullBase' => true, 'class' => 'btn btn-info'])." &nbsp;";                    
+                    }
+                  } 
+              ?>
+             </td>
+           </tr>
           <?php
             foreach($application['amendments'] as $key => $amendment) {
               if($amendment['submitted'] == 2 && !empty($amendment['dossiers'])){

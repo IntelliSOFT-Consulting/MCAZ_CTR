@@ -89,7 +89,8 @@ class AttachmentsController extends AppController
 
                 // Check the $_FILES array and save the file. Assign the correct path to a variable ($url).
                 // $url = '/path/to/uploaded/file.ext';
-                $url = '/files/Attachments/file/' . $attachment->file; //'/files/Attachments/file/4.jpeg';
+                // $url = '/files/Attachments/file/' . $attachment->file; 
+                $url = '/'.substr($attachment['dir'], 8). $attachment->file; //'/files/Attachments/file/4.jpeg';
                 // Usually you will only assign something here if the file could not be uploaded.
                 //for copy paste
                 $uploaded = 1;

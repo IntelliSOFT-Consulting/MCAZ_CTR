@@ -1,5 +1,5 @@
 <?php
-  $this->extend('/Element/applications/application_view');
+  $this->extend('/Element/applications/application_pdf_view');
 ?>
 
 <?php $this->start('tabs'); ?>

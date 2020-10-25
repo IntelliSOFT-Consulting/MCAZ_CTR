@@ -31,7 +31,6 @@ $cakeDescription = 'MCAZ CTR: ';
         <?= $this->fetch('title') ?>
     </title>
 
-    <?= $this->Html->css('bootstrap/bootstrap.min', ['fullBase' => true]) ?>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <?= $this->Html->css('bootstrap/ie10-viewport-bug-workaround', ['fullBase' => true]) ?>
@@ -39,13 +38,18 @@ $cakeDescription = 'MCAZ CTR: ';
     <!-- Custom styles for this template -->
     <?= $this->Html->css('bootstrap/font-awesome.min', ['fullBase' => true]); ?>
     <?= $this->Html->css('jquery.datetimepicker', ['fullBase' => true]); ?>
+    <?= $this->Html->css('bootstrap/dashboard', ['fullBase' => true]) ?>
 
     <!-- jquery UI -->
     <?= $this->Html->css('jquery-ui.min', ['fullBase' => true]) ?>
-    <?= $this->Html->css('bootstrap/jumbotron', ['fullBase' => true]) ?>
-    <?= $this->Html->css('vanilla', ['fullBase' => true]) ?>
     
     <?= $this->Html->css('ctr-fix', ['fullBase' => true]) ?>
+    <?= $this->Html->css('shared_styles', ['fullBase' => true]) ?>
+    <?= $this->Html->css('admin', ['fullBase' => true]) ?>  
+    <?= $this->Html->css('pdf', ['fullBase' => true]) ?> 
+    <!-- Bootstrap core CSS -->
+    <?= $this->Html->css('bootstrap/bootstrap.min', ['fullBase' => true]) ?> 
+    <?= $this->fetch('css') ?>
 </head>
 <body>
 

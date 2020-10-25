@@ -6,6 +6,8 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use SoftDelete\Model\Table\SoftDeleteTrait;
+use Cake\Event\Event;
+use ArrayObject;
 
 /**
  * Comments Model
@@ -61,6 +63,21 @@ class CommentsTable extends Table
         ]);   
     }
 
+    /**
+     * Try to convert strings to UTF8 encoding.
+     *
+     */
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                // $data[$key] = trim($value);
+                //Force UTF8 encoding
+                $data[$key] = iconv(mb_detect_encoding($value, mb_detect_order(), true), 'utf-8//IGNORE', $value); 
+            }
+        }
+    }
+    
     /**
      * Default validation rules.
      *
