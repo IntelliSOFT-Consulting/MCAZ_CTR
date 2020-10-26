@@ -20,7 +20,8 @@
       <div class="row">
         <div class="col-xs-12">          
         <?php 
-          foreach ($evaluations as $evaluation) {  
+          foreach ($evaluations as $evaluation) {
+            if($evaluation->evaluation_type == 'Initial'){
             //manipulate edits to one-dimensional array
             $evaluation_edit = []; $resa = []; $res = [];
             foreach ($evaluation->evaluation_edits as $key => $value) {
@@ -39,6 +40,13 @@
             // $evaluation_edit = Hash::filter($evaluation_edit); //causes missing errors
             // print_r($resa);
         ?>
+
+          <?php
+            $evec = count($evaluation->evaluation_edits);
+            $eved = $evaluation->evaluation_edits;
+            $hlis = [];
+          ?>
+
           <div class="thumbnail amend-form">
             <a class="btn btn-<?= ($evaluation->submitted == 2) ? 'warning' : 'primary' ?>" role="button" data-toggle="collapse" href="#<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" aria-controls="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                Evaluated on: <?= $evaluation['created'] ?> by <?= $evaluation->user->name ?>
@@ -68,10 +76,21 @@
                  and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
                ) {
             echo $this->Form->postLink(
-                '<span class="label label-success">Edit <small>(tracked changes)</small></span>',
+                '<span class="label label-primary">New <small>(tracked changes)</small></span>',
                 [],
-                ['data' => ['evaluation_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
+                ['data' => ['evaluation_id' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to create new tracked change for evaluation {0}?', $evaluation->id)]
             );
+            echo '&nbsp;';
+              for ($i=0; $i < count($evaluation->evaluation_edits); $i++) {
+                if($this->request->params['_ext'] != 'pdf' and $evaluation->user_id == $this->request->session()->read('Auth.User.id')) {
+                  echo $this->Form->postLink(
+                      '<span class="label label-success">Edit change # '.($i+1).'</span>',
+                      ['action' => 'view', $application->id, '?' => ['ev_id' => $evaluation->evaluation_edits[$i]['id']]],
+                      ['data' => ['ev_id' => $evaluation->evaluation_edits[$i]['id']], 'escape' => false, 'confirm' => __('Are you sure you want to edit tracked change {0}?', ($i+1))]
+                  );
+                  echo '&nbsp;';
+                }
+              }
           }
           echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
           if($this->request->params['_ext'] != 'pdf' and ($evaluation->user_id != $this->request->session()->read('Auth.User.id')) 
@@ -88,12 +107,6 @@
             echo '&nbsp;<span class="label label-success">Approved</span>';
           }       
         ?>
-          <?php
-            $evec = count($evaluation->evaluation_edits);
-            $eved = $evaluation->evaluation_edits;
-            $hlis = [];
-
-          ?>
               <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 <table class="table table-bordered table-condensed">
                   <thead>
@@ -1587,7 +1600,7 @@
               <hr>
             
           </div>
-          <?php } ?>
+          <?php }} ?>
         </div>
       </div>
 
