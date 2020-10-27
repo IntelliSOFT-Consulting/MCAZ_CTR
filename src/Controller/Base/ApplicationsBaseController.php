@@ -178,7 +178,8 @@ class ApplicationsBaseController extends AppController
         $contains = $this->_contain;
         //unset($contains[array_search('Amendments', $contains)]);
         $contains['Amendments'] =  function ($q) { return $q->where(['Amendments.submitted' => 2]); };
-        $contains['Evaluations'] = function ($q) { return $q->where(['OR' => ['Evaluations.evaluation_type' => 'Initial', 'Evaluations.id' => $this->request->query('ev_id')]]); };
+        $contains['Evaluations'] = function ($q) { return $q->where(['OR' => 
+            ['Evaluations.evaluation_type' => 'Initial', 'Evaluations.id' => $this->request->query('ev_id'), 'Evaluations.id' => $this->request->query('cp_fn')]]); };
 
         $application = $this->Applications->get($id, [
             'contain' => $contains,

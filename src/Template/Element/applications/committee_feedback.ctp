@@ -9,9 +9,9 @@
       <h4 class="text-center"><label class="text-info"><u>PVCT Committee Feedback</u></label></h4>
       <hr>
     <?php
-      if(!empty($application->committee_reviews)) {
+      // if(!empty($application->committee_reviews)) {
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download ', ['controller' => 'Applications', 'action' => 'committee-feedback', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-success btn-sm']);              
-      }
+      // }
     ?>
     </div>
   </div>

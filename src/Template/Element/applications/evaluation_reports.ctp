@@ -51,7 +51,13 @@
             <a class="btn btn-<?= ($evaluation->submitted == 2) ? 'warning' : 'primary' ?>" role="button" data-toggle="collapse" href="#<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" aria-controls="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                Evaluated on: <?= $evaluation['created'] ?> by <?= $evaluation->user->name ?>
             </a>
-            <p class="topper"><small><em class="text-success">evaluate on: <?= $evaluation['created'] ?> by <?= $evaluation->user->name ?></em></small></p>
+            <?php
+              for ($i=0; $i < $evec; $i++) { 
+                echo '<p class="topper">';
+                  echo '<small><em class="muted">Edited on '.$eved[$i]['created'].' by '.$eved[$i]['user']['name'].' </em></small>';
+                echo '</p">';
+              }
+            ?>
         <?php
           if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $evaluation->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
           // print_r(Hash::extract($evaluations, '{n}.chosen'));
@@ -66,10 +72,21 @@
             );
             echo "&nbsp;";
             if($prefix == 'evaluator') echo $this->Form->postLink(
-                '<span class="label label-success">Copy & Finalize</span>',
+                '<span class="label label-success">Copy & Finalize <small>(initial review)</small></span>',
                 ['action' => 'view', $application->id, '?' => ['cp_fn' => $evaluation->id]],
-                ['data' => ['cp_fn' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit evaluation {0}?', $evaluation->id)]
+                ['data' => ['cp_fn' => $evaluation->id], 'escape' => false, 'confirm' => __('Are you sure you want to copy and finalize evaluation {0}?', $evaluation->id)]
             );
+            echo "&nbsp;";
+              for ($i=0; $i < count($evaluation->evaluation_edits); $i++) {
+                if($this->request->params['_ext'] != 'pdf' and $evaluation->evaluation_edits[$i]['user']['group_id'] == 2) {
+                  if($prefix == 'evaluator') echo $this->Form->postLink(
+                      '<span class="label label-default">Copy & Finalize <small>(manager version # '.($i+1).')</small></span>',
+                      ['action' => 'view', $application->id, '?' => ['cp_fn' => $evaluation->evaluation_edits[$i]['id']]],
+                      ['data' => ['cp_fn' => $evaluation->evaluation_edits[$i]['id']], 'escape' => false, 'confirm' => __('Are you sure you want to copy and finalize manager edit {0}?', ($i+1))]
+                  );
+                  echo '&nbsp;';
+                }
+              }
           }
 
           if($this->request->params['_ext'] != 'pdf' and ($this->request->session()->read('Auth.User.group_id') == 2)
@@ -82,7 +99,7 @@
             );
             echo '&nbsp;';
               for ($i=0; $i < count($evaluation->evaluation_edits); $i++) {
-                if($this->request->params['_ext'] != 'pdf' and $evaluation->user_id == $this->request->session()->read('Auth.User.id')) {
+                if($this->request->params['_ext'] != 'pdf' and $evaluation->evaluation_edits[$i]['user_id'] == $this->request->session()->read('Auth.User.id')) {
                   echo $this->Form->postLink(
                       '<span class="label label-success">Edit change # '.($i+1).'</span>',
                       ['action' => 'view', $application->id, '?' => ['ev_id' => $evaluation->evaluation_edits[$i]['id']]],
