@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\View\Helper\UrlHelper; 
 
 /**
  * Attachments Controller
@@ -90,7 +91,8 @@ class AttachmentsController extends AppController
                 // Check the $_FILES array and save the file. Assign the correct path to a variable ($url).
                 // $url = '/path/to/uploaded/file.ext';
                 // $url = '/files/Attachments/file/' . $attachment->file; 
-                $url = '/'.substr($attachment['dir'], 8). $attachment->file; //'/files/Attachments/file/4.jpeg';
+                $urlh = new UrlHelper(new \Cake\View\View());
+                $url = $urlh->build('/'.substr($attachment['dir'], 8). $attachment->file, true); //'/files/Attachments/file/4.jpeg';
                 // Usually you will only assign something here if the file could not be uploaded.
                 //for copy paste
                 $uploaded = 1;

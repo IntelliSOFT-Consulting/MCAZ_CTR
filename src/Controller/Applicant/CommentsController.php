@@ -81,7 +81,7 @@ class CommentsController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 
-                $this->Flash->success(__('The comment has been submitted for review.'));
+                $this->Flash->success(__('The comment has been saved.'));
 
                 return $this->redirect($this->referer());
             }
@@ -150,7 +150,7 @@ class CommentsController extends AppController
                 $data['type'] = 'applicant_response_query_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
-                $this->Flash->success(__('The comment has been submitted for review.'));
+                $this->Flash->success(__('The comment has been saved.'));
 
                 return $this->redirect($this->referer());
             }

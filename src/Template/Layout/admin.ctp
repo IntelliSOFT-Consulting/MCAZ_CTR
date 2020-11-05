@@ -26,6 +26,7 @@ $cakeDescription = 'MCAZ CTR';
     <meta name="author" content="">
     <?= $this->Html->meta('icon', 'img/mcaz_logo.ico', ['type' => 'icon']) ?>
 
+    <base href="http://mcazctrdev">
     <title>
       <?= $cakeDescription ?>:
       <?= $this->fetch('title') ?>

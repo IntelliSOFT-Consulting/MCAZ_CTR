@@ -83,7 +83,7 @@ class CommentsBaseController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
 
-                $this->Flash->success(__('The comment has been sent to the user.'));
+                $this->Flash->success(__('The comment has been successfully saved.'));
 
                 return $this->redirect($this->referer());
             }
