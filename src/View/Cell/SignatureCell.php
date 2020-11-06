@@ -41,6 +41,37 @@ class SignatureCell extends Cell
 
     }
 
+    public function manager($id)
+    {    
+        // In a controller or table method.
+        $this->loadModel('Users');
+        $query = $this->Users->find('all', [
+            'conditions' => ['Users.id' => $id, 'Users.group_id' => 2],
+            'contain' => []
+        ]);
+        $user = $query->first();
+
+        // $user = $this->Users->get($id, [
+        //     'contain' => []
+        // ]);
+
+        $this->set('user', $user);
+
+    }
+
+    public function evaluator($id)
+    {        
+        $this->loadModel('Users');
+        $query = $this->Users->find('all', [
+            'conditions' => ['Users.id' => $id, 'Users.group_id' => 3],
+            'contain' => []
+        ]);
+        $user = $query->first();
+
+        $this->set('user', $user);
+
+    }
+
     public function index($id)
     {        
         $this->loadModel('Users');

@@ -132,6 +132,18 @@
                   <?php 
                     }
                     endforeach; ?>
+
+                  <tr>
+                    <td colspan="3">
+                      <?php
+                        $regs = array_filter(array_unique(Hash::extract($application->comments, '{n}.user_id')));
+                        foreach ($regs as $file => $dir) {
+                            echo $this->cell('Signature::evaluator', [$dir]);
+                            echo $this->cell('Signature::manager', [$dir]);
+                        }
+                      ?>
+                    </td>
+                  </tr>
                 </tbody>
             </table>
         </div>

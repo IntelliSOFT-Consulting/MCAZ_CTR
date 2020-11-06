@@ -94,6 +94,7 @@
     <!-- Nav tabs -->    
     <?= $this->Html->script('application_view', ['block' => true]); ?>
     <?= $this->element('menus/tabs_menu') ?>
+
 <?php $this->end(); ?>
 
 
