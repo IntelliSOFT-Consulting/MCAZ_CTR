@@ -14,13 +14,13 @@ use Cake\Utility\Hash;
 class CommentsBaseController extends AppController
 {
 
-    public function addFromCommittee()
+    public function addFromCommittee($id = null)
     {
-        $comment = $this->Comments->newEntity();
-        if ($this->request->is('post')) {
+        $comment = !empty($this->request->getData('id')) ? $this->Comments->get($this->request->getData('id'), []) : $this->Comments->newEntity();
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $this->loadModel('Applications');
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
-            $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);
+            $application = $this->Applications->get($this->request->getData('foreign_key'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);
 
             /**
              * Committee raises query to applicant after decision
@@ -47,7 +47,7 @@ class CommentsBaseController extends AppController
                                     ->add(['group_id !=' => 6]);
                             });
 
-                if ($this->request->getData('submitChanges') == '2') {            
+                if ($this->request->getData('submitted') == '2') {     
                     $this->loadModel('Queue.QueuedJobs'); 
 
                     foreach ($managers as $manager) {
@@ -83,11 +83,20 @@ class CommentsBaseController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
 
-                $this->Flash->success(__('The comment has been successfully saved.'));
+                if($this->request->getData('submitted') == '1') {
+                     $this->Flash->info(__('The committee feedback has been successfully saved. Please submit to manager for review.'));
+                } elseif ($this->request->getData('submitted') == '2') {
+                    $this->Flash->success(__('The committee feedback has been submitted to the managers for review.'));
+                } else {
+                    $this->Flash->success(__('The comment has been successfully saved.'));
+                } 
 
                 return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
+        } else {
+            $this->Flash->error(__('Invalid method.'));
+            return $this->redirect($this->referer());
         }
         
     }
@@ -220,4 +229,22 @@ class CommentsBaseController extends AppController
         
     }
 
+    public function submit($id = null)
+    {
+        $comment = $this->Comments->get($id, ['contain' => []]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $comment = $this->Comments->patchEntity($comment, $this->request->getData());
+            if ($this->Comments->save($comment)) {
+                if($this->request->query('cf_sm')) $this->Flash->success(__('The feedback has been submitted to the manager for review.'));
+                if($this->request->query('cf_ma')) $this->Flash->success(__('The feedback has been approved.'));
+
+                return $this->redirect($this->referer());
+            }
+            $this->Flash->error(__('The site detail could not be saved. Please, try again.'));
+            return $this->redirect($this->referer());
+        } else {
+            $this->Flash->error(__('Method not allowed. Please, try again.'));
+            return $this->redirect($this->referer());
+        }
+    }
 }

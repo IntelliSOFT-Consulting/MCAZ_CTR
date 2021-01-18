@@ -5,6 +5,7 @@
 <table id="committee-dates" class="table table-condensed table-bordered">
     <thead>
         <tr>
+            <th width="15%">Meeting Number</th>
             <th width="30%">Meeting Date</th>
             <th>Day</th>
             <th width="20%">From</th>
@@ -15,7 +16,16 @@
     <tbody>
       <?php if($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'admin') { ?>
         <tr>
-            <form id="meeting-form" class="form-inline" enctype="multipart/form-data" method="post" action="/committee-dates/add">
+            <!-- <form id="meeting-form" class="form-inline" enctype="multipart/form-data" method="post" action="/committee-dates/add"> -->
+              <?php echo $this->Form->create('CommitteeDates', ['url' => ['controller' => 'CommitteeDates', 'action' => 'add', 'prefix' => false]]); ?>
+                <td>
+                    <!-- <div class="form-group">
+                        <input type="number" class="form-control" id="meeting-number" name="meeting_number">
+                    </div> -->
+                    <?php
+                      echo $this->Form->control('meeting_number', ['templates' => 'comment_form', 'label' => false]);
+                    ?>
+                </td>
                 <td>
                     <div class="form-group">
                         <input type="text" class="datepickers" id="meeting-date" name="meeting_date" placeholder="DD-MM-YYYY">
@@ -40,6 +50,7 @@
         <?php } ?>
         <?php foreach($committee_dates as $committee_date) { ?>
             <tr>
+                <td><?= $committee_date->meeting_number ?></td>
                 <td><?= $committee_date->meeting_date ?></td>
                 <td><?= $committee_date->meeting_date->i18nFormat('eeee') ?></td>
                 <td><?= $committee_date->start_time ?></td>

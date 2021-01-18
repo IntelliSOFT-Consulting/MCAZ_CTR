@@ -3,7 +3,7 @@
 ?>
   <div class="row">
     <div class="col-xs-12">
-      <h4 class="text-center"><label class="text-warning">PVCT Committee Reviews bwana nakupenda</label></h4>
+      <h4 class="text-center"><label class="text-warning">PVCT Committee Reviews</label></h4>
       <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Amendments', 'action' => 'committee', '_ext' => 'pdf', $amendment->id, 'All'], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
       ?>

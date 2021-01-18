@@ -22,6 +22,7 @@ class CommitteeDatesController extends AppController
         $committeeDate = $this->CommitteeDates->newEntity();
         if ($this->request->is('post')) {
             $committeeDate = $this->CommitteeDates->patchEntity($committeeDate, $this->request->getData());
+            $committeeDate->user_id = $this->Auth->user('id');
 
             if($this->request->is('json')) {
                 if($committeeDate->errors()) {
@@ -52,7 +53,8 @@ class CommitteeDatesController extends AppController
 
                 return $this->redirect($this->referer());
             }
-            $this->Flash->error(__('The committee date could not be saved. Please, try again.'));
+            // debug($committeeDate->errors());
+            $this->Flash->error(__("The committee date could not be saved. \n".json_encode($committeeDate->errors())));
         }
         return $this->redirect($this->referer());
     }

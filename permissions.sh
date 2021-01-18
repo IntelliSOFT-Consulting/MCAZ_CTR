@@ -14,14 +14,16 @@ bin/cake acl deny Groups.1 controllers/Admin/Amendments
 bin/cake acl deny Groups.1 controllers/Manager
 bin/cake acl deny Groups.1 controllers/Finance
 bin/cake acl deny Groups.1 controllers/Applicant
-bin/cake acl deny Groups.1 controllers/Finance
 # grant mcaz users base
 # bin/cake acl grant Groups.1 controllers/Base/Amendments
 # bin/cake acl deny Groups.2 controllers #TODO: Remove this global assignment
 echo "Assigning Manager permissions................."
+bin/cake acl deny Groups.2 controllers/Admin
+bin/cake acl deny Groups.2 controllers/Evaluator
+bin/cake acl deny Groups.2 controllers/Applicant
+bin/cake acl deny Groups.2 controllers/Finance
 bin/cake acl grant Groups.2 controllers/Reports
 bin/cake acl grant Groups.2 controllers/CommitteeDates
-bin/cake acl deny Groups.2 controllers/Admin
 bin/cake acl grant Groups.2 controllers/Manager
 bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
@@ -29,6 +31,10 @@ bin/cake acl grant Groups.2 controllers/Attachments/download
 bin/cake acl grant Groups.2 controllers/Notifications/delete
 #Applicants
 echo "Assigning Applicant permissions................"
+bin/cake acl deny Groups.4 controllers/Manager
+bin/cake acl deny Groups.4 controllers/Finance
+bin/cake acl deny Groups.4 controllers/Evaluator
+bin/cake acl deny Groups.4 controllers/Admin
 bin/cake acl grant Groups.4 controllers/Applications
 bin/cake acl grant Groups.4 controllers/Users/profile
 bin/cake acl grant Groups.4 controllers/Users/edit
@@ -54,7 +60,7 @@ bin/cake acl grant Groups.5 controllers/Notifications/delete
 #Evaluators permissions
 echo "Assigning Evaluators permissions......................"
 bin/cake acl grant Groups.3 controllers/Reports
-bin/cake acl grant Groups.2 controllers/CommitteeDates
+bin/cake acl grant Groups.3 controllers/CommitteeDates
 bin/cake acl grant Groups.3 controllers/Users/profile
 bin/cake acl grant Groups.3 controllers/Users/edit
 bin/cake acl grant Groups.3 controllers/Evaluator

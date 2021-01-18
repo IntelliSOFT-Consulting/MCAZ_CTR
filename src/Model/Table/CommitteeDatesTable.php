@@ -5,6 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
+use Cake\ORM\Rule\IsUnique;
 
 /**
  * CommitteeDates Model
@@ -24,6 +26,7 @@ use Cake\Validation\Validator;
 class CommitteeDatesTable extends Table
 {
 
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -61,6 +64,7 @@ class CommitteeDatesTable extends Table
             ->date('meeting_date')
             ->allowEmpty('meeting_date');*/
 
+
         $validator
             ->scalar('start_time')
             ->allowEmpty('start_time');
@@ -82,6 +86,7 @@ class CommitteeDatesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->isUnique(['meeting_number'], 'This meeting number has already been used.'));
 
         return $rules;
     }

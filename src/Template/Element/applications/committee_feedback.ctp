@@ -29,10 +29,19 @@
   <div class="row">    
     <div class="col-xs-12">
     <div class="bs-example">
-    <?php echo $this->Form->create(null, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-committee', 'prefix' => $prefix]]); ?>
+    <?php 
+      $eb =  !empty($this->request->query('cf_id')) ? $this->request->query('cf_id') : 'NA';
+
+      $cmoda = (!empty(Hash::extract($application->committee_comments, "{n}[id=$eb]")[0])) ? Hash::extract($application->committee_comments, "{n}[id=$eb]")[0] : null;
+      // debug($cmoda);
+      echo $this->Form->create($cmoda, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-committee', 'prefix' => $prefix]]); ?>
       <?php
-          echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
+          // echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
+          if($this->request->query('cf_id')) {
+              echo $this->Form->control('id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+          }
           echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $application->id, 'templates' => 'comment_form']);
+          echo $this->Form->control('model_id', ['type' => 'select', 'options' => $committee_dates, 'label' => 'PVCT Committee Meeting Number: ', 'templates' => 'comment_form']);
           echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'Applications', 'templates' => 'table_form']);
           echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'committee', 'templates' => 'table_form']);
           echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);                
@@ -55,8 +64,10 @@
       </div>
       <div class="form-group"> 
           <div class="col-xs-12"> 
-            <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
-            <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button>
+            <!-- <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+            <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button> -->
+            <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
+            <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
           </div> 
       </div>
     <?php echo $this->Form->end() ?>
@@ -65,6 +76,9 @@
   </div>
   <?php } ?>
   
+  <?= $this->element('applications/feedback_reports', ["comments" => $application->committee_comments]) ?>
+
+<?php /*?>
   <div class="row">
     <div class="col-xs-12">   
         <div class="table-responsive">
@@ -165,3 +179,5 @@
 
       });
   </script>
+
+  <?php */ ?>

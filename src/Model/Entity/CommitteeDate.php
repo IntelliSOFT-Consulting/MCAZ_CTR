@@ -30,6 +30,7 @@ class CommitteeDate extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
+        'meeting_number' => true,
         'meeting_date' => true,
         'start_time' => true,
         'end_time' => true,

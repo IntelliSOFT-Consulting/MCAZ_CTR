@@ -76,6 +76,13 @@ class ApplicationsTable extends Table
             'conditions' => array('NotificationComments.model' => 'Applications', 'NotificationComments.category' => 'notification' ),
         ]);
 
+        $this->hasMany('CommitteeComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('CommitteeComments.model' => 'Applications', 'CommitteeComments.category' => 'committee' ),
+        ]);
+
         $this->hasMany('ApplicationStages', [
             'foreignKey' => 'application_id'
         ]);
