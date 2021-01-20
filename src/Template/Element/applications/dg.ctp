@@ -209,9 +209,9 @@
       </div>
 
 <script type="text/javascript">
-  CKEDITOR.replace('dg-reviews-100-internal-review-comment');
-  CKEDITOR.replace('dg-reviews-100-applicant-review-comment');
-  CKEDITOR.replace('dg-reviews-100-authorization-certificate');
+  if( $('#dg-reviews-100-internal-review-comment').length) { CKEDITOR.replace('dg-reviews-100-internal-review-comment'); }
+  if( $('#dg-reviews-100-applicant-review-comment').length) { CKEDITOR.replace('dg-reviews-100-applicant-review-comment'); }
+  if( $('#dg-reviews-100-authorization-certificate').length) { CKEDITOR.replace('dg-reviews-100-authorization-certificate'); }
   $( "#dg-reviews-100-approved-date" ).datepicker({
       minDate:"-100Y", maxDate:"-0D", dateFormat:'dd-mm-yy', showButtonPanel:true, changeMonth:true, changeYear:true,
       buttonImageOnly:true, showAnim:'show', showOn:'both', buttonImage:'/img/calendar.gif'

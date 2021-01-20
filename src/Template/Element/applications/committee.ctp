@@ -172,8 +172,8 @@
          <?php } ?>
 
 <script type="text/javascript">
-  CKEDITOR.replace('committee-reviews-100-internal-review-comment');
-  CKEDITOR.replace('committee-reviews-100-applicant-review-comment');
+  if( $('#committee-reviews-100-internal-review-comment').length) { CKEDITOR.replace('committee-reviews-100-internal-review-comment'); }
+  if( $('#committee-reviews-100-applicant-review-comment').length) {CKEDITOR.replace('committee-reviews-100-applicant-review-comment'); }
   $(function() {
 
     // $('#committee-reviews-100-outcome-date').datepicker({

@@ -80,12 +80,55 @@
                               );
                           }                          
                             echo "&nbsp;";
-                            if($prefix == 'manager' and empty($comment->approver)) echo $this->Form->postLink(
-                                '<span class="label label-warning">Approve </span>',
+                            if($prefix == 'manager' and empty($comment->approver)) {
+                              echo $this->Form->postLink(
+                                '<span class="label label-success">Approve </span>',
                                 ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['cf_ma' => $comment->id]],
                                 ['data' => ['cf_ma' => $comment->id, 'approver' => $this->request->session()->read('Auth.User.id')], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
-                            );
+                            );          
+                            echo "&nbsp;";
                           ?>
+                            <!-- Button trigger modal -->
+                            <a href="#">
+                              <span class="label label-warning" data-toggle="modal" data-target="#revertModal"> Revert </span>
+                            </a>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="revertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Manager feedback</h4>
+                                  </div>
+                                  <?php                                  
+                                    echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix]]);
+                                  ?>
+                                  <div class="modal-body">
+                                    <?php  
+                                      echo $this->Form->control('manager_feedback', ['label' => false, 'type' => 'textarea', 'templates' => [
+                                            'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                            'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                      
+                                    ?>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                  <?php echo $this->Form->end(); ?>
+                                </div>
+                              </div>
+                            </div>
+                          <?php } ?>
+                          <br>
+                          <?php
+                            if(!empty($comment->manager_feedback)) {
+                              echo "<h6><b>Internal feedback</b></h6>";
+                              echo $comment->manager_feedback;
+                            }
+                          ?>
+
                         </td>
                         <td>
                           <?php foreach($comment->responses as $response): ?> 
@@ -106,7 +149,7 @@
                       </tr>
                       <tr>
                         <td></td>      
-                        <td colspan="2" class="evaluator-comment" 
+                        <td colspan="2" class="evaluation-comments" 
                             data-type="wysihtml5" data-pk="<?= $comment->id ?>" 
                             data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluator-comment',  'prefix' => $prefix, $comment->id, '_ext' => 'json']); ?>" 
                             data-name="review"

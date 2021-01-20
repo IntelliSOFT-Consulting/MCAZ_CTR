@@ -106,7 +106,7 @@
         <?= $this->element('applications/finance') ?>
     </div>
     <?php } ?> 
-  <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) {  ?> 
+  <?php if(in_array("Fees Complete", Hash::extract($application->finance_approvals, '{n}.outcome'))) { ?> 
     <?php if($prefix != 'external_evaluator') { ?> 
     <div role="tabpanel" class="tab-pane" id="notification">
         <?= $this->element('applications/notifications') ?>
@@ -121,12 +121,11 @@
         <?= $this->element('applications/assign_evaluator') ?>
     </div>
     <?php } ?> 
-    <?php } ?>  
+    <?php } ?> 
     <div role="tabpanel" class="tab-pane" id="review">
         <?= $this->element('applications/evaluations') ?>
     </div>
     <?php if($prefix != 'external_evaluator') { ?> 
-
     <div role="tabpanel" class="tab-pane" id="request">
         <?= $this->element('applications/request_info') ?>
     </div>
@@ -144,7 +143,6 @@
     <div role="tabpanel" class="tab-pane" id="gcp">
         <?= $this->element('applications/gcp') ?>
     </div>
-
     <!-- only visible in final stage 11   -->
       <?php if($application->approved === 'Authorize') { ?> 
         <div role="tabpanel" class="tab-pane" id="sites">
