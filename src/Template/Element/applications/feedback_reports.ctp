@@ -123,7 +123,7 @@
                           <?php } ?>
                           <br>
                           <?php
-                            if(!empty($comment->manager_feedback)) {
+                            if(!empty($comment->manager_feedback) && $prefix != 'applicant') {
                               echo "<h6><b>Internal feedback</b></h6>";
                               echo $comment->manager_feedback;
                             }
