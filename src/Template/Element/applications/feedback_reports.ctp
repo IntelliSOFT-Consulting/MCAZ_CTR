@@ -102,7 +102,9 @@
                                     <h4 class="modal-title">Manager feedback</h4>
                                   </div>
                                   <?php                                  
-                                    echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix]]);
+                                    echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix,
+                                      '?' => ['cf_rv' => $comment->id]
+                                  ]]);
                                   ?>
                                   <div class="modal-body">
                                     <?php  

@@ -237,6 +237,7 @@ class CommentsBaseController extends AppController
             if ($this->Comments->save($comment)) {
                 if($this->request->query('cf_sm')) $this->Flash->success(__('The feedback has been submitted to the manager for review.'));
                 if($this->request->query('cf_ma')) $this->Flash->success(__('The feedback has been approved.'));
+                if($this->request->query('cf_rv')) $this->Flash->success(__('The internal feedback has been shared with the evaluator.'));
 
                 return $this->redirect($this->referer());
             }
