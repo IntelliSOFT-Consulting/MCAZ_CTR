@@ -14,7 +14,17 @@
       foreach ($v as $cn) {
     ?>
       <div class="thumbnail amend-form">
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
+            <a class="btn btn-<?php
+                if(count(Hash::extract($comments, "{n}[submitted=1]")) > 0) {
+                    echo 'info';
+                } 
+                elseif(count(Hash::extract($comments, "{n}[submitted=2]")) > 0 && count(Hash::extract($comments, "{n}[submitted=2]")) == count(Hash::extract($comments, "{n}[approver>0]"))) {
+                      echo 'success';
+                } else {
+                    echo 'default';
+                }
+                
+            ?>" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
                PVCT Committee Meeting Number: <?= $cn ?>
             </a>
             <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $cn ?>">
@@ -28,7 +38,7 @@
                   </thead>
                   <tbody>
                     <?php $i = 0; ?>
-                    <?php 
+                    <?php                     
                         foreach ($comments as $comment): 
                           if($comment->model_id == $cn) {
                             $disp = false;
