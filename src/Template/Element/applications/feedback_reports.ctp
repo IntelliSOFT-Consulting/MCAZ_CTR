@@ -15,13 +15,27 @@
     ?>
       <div class="thumbnail amend-form">
             <a class="btn btn-<?php
-                if(count(Hash::extract($comments, "{n}[submitted=1]")) > 0) {
-                    echo 'info';
+                $ao = count(Hash::extract(Hash::extract($comments, "{n}[submitted=1]"), "{n}[model_id=$cn]"));
+                $bo = count(Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn]"));
+                $co = count(Hash::extract(Hash::extract($comments, "{n}[approver>0]"), "{n}[model_id=$cn]"));
+                $do = count(Hash::extract(Hash::extract($comments, "{n}[manager_feedback=/[\s\S]/]"), "{n}[model_id=$cn]"));
+                if($bo > 0 && $bo == $co) {
+                      echo $luku = 'success';
+                }
+                elseif($co > 0) {
+                      echo $luku = 'primary';
+                }
+                elseif($bo > 0) {
+                      echo $luku = 'info';
+                }
+                elseif($ao > 0) {
+                    echo $luku = 'default';
                 } 
-                elseif(count(Hash::extract($comments, "{n}[submitted=2]")) > 0 && count(Hash::extract($comments, "{n}[submitted=2]")) == count(Hash::extract($comments, "{n}[approver>0]"))) {
-                      echo 'success';
-                } else {
-                    echo 'default';
+                elseif($do > 0) {
+                    echo $luku = 'warning';
+                } 
+                else {
+                    echo $luku = 'default';
                 }
                 
             ?>" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
@@ -85,8 +99,15 @@
                               echo "&nbsp;";
                               if($prefix == 'evaluator') echo $this->Form->postLink(
                                   '<span class="label label-success">Submit <small>(for manager review)</small></span>',
-                                  ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['cf_sm' => $comment->id]],
-                                  ['data' => ['cf_sm' => $comment->id, 'submitted' => 2], 'escape' => false, 'confirm' => __('Are you sure you want to submit feedback {0} for review?', $comment->id)]
+                                  ['controller' => 'Comments', 'action' => 'add-from-committee', $comment->id, '?' => ['cf_sm' => $comment->id]],
+                                  ['data' => ['id' => $comment->id, 'foreign_key' => $comment->foreign_key, 'submitted' => 2], 
+                                  'escape' => false, 'confirm' => __('Are you sure you want to submit feedback {0} for review?', $comment->id)]
+                              );
+                              echo "&nbsp;";
+                              echo $this->Form->postLink(
+                                  '<span class="label label-danger">Delete</small></span>',
+                                  ['controller' => 'Comments', 'action' => 'delete', $comment->id],
+                                  ['data' => ['id' => $comment->id, 'submitted' => 2], 'escape' => false, 'confirm' => __('Are you sure you want to delete feedback {0}?', $comment->id)]
                               );
                           }                          
                             echo "&nbsp;";
@@ -159,17 +180,108 @@
                           <?php endforeach; ?>
                         </td>
                       </tr>
-                      <tr>
+                      <tr class="<?php
+                         echo ($comment->ef_submitted > '2') ? $luku : 'info'; ?>">
                         <td></td>      
-                        <td colspan="2" class="evaluation-comments" 
+                        <td colspan="2" class="evaluation-commentsa" 
                             data-type="wysihtml5" data-pk="<?= $comment->id ?>" 
                             data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluator-comment',  'prefix' => $prefix, $comment->id, '_ext' => 'json']); ?>" 
                             data-name="review"
                             data-title="Enter evaluator's comment">
-                            <p>
-                            <?php //echo (empty($application->evaluation_header->study_design)) ? $application->design_controlled : $application->evaluation_header->study_design ?>
-                            <?=  ($comment->review) ? $comment->review : 'Evaluator\'s comment' ?>
-                            </p>                    
+                            <?php                               
+                              $odipo = $bodipo = false;
+                              
+                              if($comment->ef_submitted >= '2') $odipo = true;
+
+                              if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id') and $comment->ef_submitted =='1') {
+                                   $odipo = $bodipo = true;
+                              }
+
+                              if($odipo) echo ($comment->review) ? $comment->review : 'Evaluator\'s comment';
+                             ?>
+                             <br>
+                            <?php if($bodipo) { ?>
+                              <!-- Button trigger modal -->
+                              <a href="#">
+                                <span class="label label-warning" data-toggle="modal" data-target="#evalfeedModal"> Evaluator's feedback </span>
+                              </a>
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="evalfeedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title">Evaluator's feedback</h4>
+                                    </div>
+                                    <?php                                  
+                                      echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix,
+                                        '?' => ['cf_ef' => $comment->id]
+                                    ]]);
+                                    ?>
+                                    <div class="modal-body">
+                                      <?php                                        
+                                      echo $this->Form->control('review', ['label' => false, 'type' => 'textarea', 'templates' => [
+                                              'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                              'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                        
+                                      ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-primary btn-sm" name="ef_submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
+                                      <button type="submit" class="btn btn-success btn-sm" name="ef_submitted" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+                                    </div>
+                                    <?php echo $this->Form->end(); ?>
+                                  </div>
+                                </div>
+                              </div>
+                            <?php 
+                              } 
+
+                              if($prefix == 'manager' and $comment->ef_submitted == '2') {
+                                echo $this->Form->postLink(
+                                  '<span class="label label-success">Approve </span>',
+                                  ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['ef_ma' => $comment->id]],
+                                  ['data' => ['ef_ma' => $comment->id, 'ef_submitted' => '3'], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
+                              );          
+                              echo "&nbsp;";
+                            ?>
+                              <!-- Button trigger modal -->
+                              <a href="#">
+                                <span class="label label-warning" data-toggle="modal" data-target="#revertefModal"> Revert </span>
+                              </a>
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="revertefModal" tabindex="-1" role="dialog" aria-labelledby="revertefModalLabel">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title">Manager feedback</h4>
+                                    </div>
+                                    <?php                                  
+                                      echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix,
+                                        '?' => ['ef_rv' => $comment->id]
+                                    ]]);
+                                    ?>
+                                    <div class="modal-body">
+                                      <?php  
+                                        echo $this->Form->control('manager_comment', ['label' => false, 'type' => 'textarea', 'templates' => [
+                                              'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                              'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                        
+                                      ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <?php echo $this->Form->end(); ?>
+                                  </div>
+                                </div>
+                              </div>
+                            <?php } ?>
                         </td>
                       </tr>
                     <?php 

@@ -146,15 +146,14 @@
                       </tr>
                       <tr>
                         <td></td>      
-                        <td colspan="2" class="evaluator-comment" 
-                            data-type="wysihtml5" data-pk="<?= $comment->id ?>" 
-                            data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluator-comment',  'prefix' => $prefix, $comment->id, '_ext' => 'json']); ?>" 
-                            data-name="review"
-                            data-title="Enter evaluator's comment">
-                            <p>
+                        <td colspan="2">
                             <?php //echo (empty($application->evaluation_header->study_design)) ? $application->design_controlled : $application->evaluation_header->study_design ?>
-                            <?=  ($comment->review) ? $comment->review : 'Evaluator\'s comment' ?>
-                            </p>                    
+                            <?php //  ($comment->review) ? $comment->review : 'Evaluator\'s comment' ?>
+                            <?php
+                                if ($comment->ef_submitted == '3') {
+                                  echo $comment->review;
+                                }
+                            ?>
                         </td>
                       </tr>
                     <?php 

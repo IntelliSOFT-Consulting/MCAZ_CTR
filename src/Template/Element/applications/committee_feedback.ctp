@@ -66,8 +66,13 @@
           <div class="col-xs-12"> 
             <!-- <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
             <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button> -->
-            <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
-            <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+            <?php if($prefix == 'evaluator') { ?>
+              <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
+              <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+            <?php } ?>
+            <?php if($prefix == 'manager') { ?>
+              <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="2"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
+            <?php } ?>
           </div> 
       </div>
     <?php echo $this->Form->end() ?>
