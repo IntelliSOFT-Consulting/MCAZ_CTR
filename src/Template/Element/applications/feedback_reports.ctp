@@ -119,7 +119,7 @@
                                 '<span class="label label-success">Approve </span>',
                                 ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['cf_ma' => $comment->id]],
                                 ['data' => ['cf_ma' => $comment->id, 'approver' => $this->request->session()->read('Auth.User.id')], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
-                            );          
+                              );  
                             echo "&nbsp;";
                           ?>
                             <!-- Button trigger modal -->
@@ -297,9 +297,16 @@
                     <tr>
                       <td colspan="3">
                         <?php
-                          $regs = array_filter(array_unique(Hash::extract($comments, '{n}[submitted=2].user_id')));
+                          // Hash::extract(Hash::extract($comments, "{n}[approver>0]"), "{n}[model_id=$cn]")
+                          // $regs = array_filter(array_unique(Hash::extract($comments, '{n}[submitted=2].user_id')));
+                          $regs = array_filter(array_unique(Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn].user_id")));
                           foreach ($regs as $file => $dir) {
                               echo $this->cell('Signature::evaluator', [$dir]);
+                              // echo $this->cell('Signature::manager', [$dir]);
+                          }
+                          $mans = array_filter(array_unique(Hash::extract(Hash::extract($comments, "{n}[approver>0]"), "{n}[model_id=$cn].approver")));
+                          foreach ($mans as $file => $dir) {
+                              // echo $this->cell('Signature::evaluator', [$dir]);
                               echo $this->cell('Signature::manager', [$dir]);
                           }
                         ?>
