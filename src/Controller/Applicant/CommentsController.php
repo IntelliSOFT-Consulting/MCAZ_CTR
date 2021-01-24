@@ -17,7 +17,7 @@ class CommentsController extends AppController
     public function addFromApplicant()
     {
         $comment = $this->Comments->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $this->loadModel('Applications');
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
             $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);
@@ -27,6 +27,7 @@ class CommentsController extends AppController
              * Condition is there must be a query they are responding to
              * 
              */
+
             $stage1  = $this->Applications->ApplicationStages->newEntity();
             $stage1->stage_id = 7;
             $stage1->stage_date = date("Y-m-d H:i:s");
@@ -46,7 +47,7 @@ class CommentsController extends AppController
                                     ->add(['group_id !=' => 6]);
                             });
                 
-                if ($this->request->getData('submitChanges') == '2') { 
+                if ($this->request->getData('submitted') == '2') { 
                     $this->loadModel('Queue.QueuedJobs'); 
 
                     foreach ($managers as $manager) {
@@ -81,7 +82,14 @@ class CommentsController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 
-                $this->Flash->success(__('The feedback has been submitted.'));
+                if($this->request->getData('submitted') == '1') {
+                     $this->Flash->info(__('The response has been successfully saved. Please submit to MCAZ for review.'));
+                } elseif ($this->request->getData('submitted') == '2') {
+                    $this->Flash->success(__('The response has been submitted to MCAZ for review.'));
+                    return $this->redirect(['controller' => 'Applications', 'action' => 'view', $application->id, 'prefix' => 'applicant']);
+                } else {
+                    $this->Flash->success(__('The comment has been successfully saved.'));
+                } 
 
                 return $this->redirect($this->referer());
             }

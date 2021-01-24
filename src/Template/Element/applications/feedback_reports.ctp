@@ -41,7 +41,10 @@
             ?>" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
                PVCT Committee Meeting Number: <?= $cn ?>
             </a>
-            <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $cn ?>">
+            <?php
+              if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee-feedback', '_ext' => 'pdf', $application->id, $cn], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+            ?>
+            <div class="<?= ($this->request->params['_ext'] == 'pdf' || !empty($this->request->query('cf_id'))) ? '' : 'collapse'; ?>" id="<?= $cn ?>">
               <table class="table table-bordered">
                   <thead>
                       <tr>
@@ -164,7 +167,8 @@
 
                         </td>
                         <td>
-                          <?php foreach($comment->responses as $response): ?> 
+                          <?php foreach($comment->responses as $response): 
+                              if($response->submitted == '2') { ?> 
                             <label class="control-label"><?=  $response->subject ?></label><br>
                             <p><?= $response->content ?></p>    
                             <div>
@@ -177,7 +181,8 @@
                                 <?php } ?>    
                             </div> 
                             <hr>
-                          <?php endforeach; ?>
+                          <?php }
+                        endforeach; ?>
                         </td>
                       </tr>
                       <tr class="<?php
@@ -230,7 +235,8 @@
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                       <button type="submit" class="btn btn-primary btn-sm" name="ef_submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
-                                      <button type="submit" class="btn btn-success btn-sm" name="ef_submitted" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+                                      <button type="submit" class="btn btn-success btn-sm" name="ef_submitted" value="2" onclick="return confirm('Are you sure you wish to submit for manager review? You will not be able to edit it later.');">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
                                     </div>
                                     <?php echo $this->Form->end(); ?>
                                   </div>

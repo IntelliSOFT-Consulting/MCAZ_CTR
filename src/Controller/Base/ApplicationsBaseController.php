@@ -1190,9 +1190,12 @@ class ApplicationsBaseController extends AppController
     }
     public function committeeFeedback($id = null, $scope = null) {
         if($scope === 'All') {
-            $comments = $this->Applications->Comments->findByApplicationId($id)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
+            $comments = $this->Applications->Comments->findByForeignKeyAndSubmitted($id, 2)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
-        } 
+        } else {
+            $comments = $this->Applications->Comments->findByForeignKeyAndModelIdAndSubmitted($id, $scope, 2)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        }
         $this->set(compact('comments', 'application'));
         $this->set('_serialize', ['comments', 'application']);
 
@@ -1205,6 +1208,7 @@ class ApplicationsBaseController extends AppController
             ]);
             $this->render('/Base/Comments/pdf/view');
         }
+            $this->render('/Base/Comments/pdf/view');
     }
     public function dg($id = null, $scope = null) {
         if($scope === 'All') {

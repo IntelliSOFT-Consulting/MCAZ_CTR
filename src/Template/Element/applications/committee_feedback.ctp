@@ -10,7 +10,7 @@
       <hr>
     <?php
       // if(!empty($application->committee_reviews)) {
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download ', ['controller' => 'Applications', 'action' => 'committee-feedback', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-success btn-sm']);              
+        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All', ['controller' => 'Applications', 'action' => 'committee-feedback', '_ext' => 'pdf', $application->id, 'All'], ['escape' => false, 'class' => 'btn btn-success btn-sm']);              
       // }
     ?>
     </div>
@@ -68,7 +68,11 @@
             <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button> -->
             <?php if($prefix == 'evaluator') { ?>
               <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
-              <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+              <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" onclick="return confirm('Are you sure you wish to submit for manager review? You will not be able to edit it later.');">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+              <?php
+                echo $this->Html->link('<i class="fa fa-remove" aria-hidden="true"></i> Clear', ['action' => 'view', $application->id], ['escape' => false, 'class' => 'btn btn-default btn-sm']);   
+              ?>
             <?php } ?>
             <?php if($prefix == 'manager') { ?>
               <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="2"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>

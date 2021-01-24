@@ -37,7 +37,7 @@
             <a class="btn btn-primary" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
                PVCT Committee Meeting Number: <?= $cn ?>
             </a>
-            <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $cn ?>">
+            <div class="<?= ($this->request->params['_ext'] == 'pdf' || !empty($this->request->query('rs_id'))) ? '' : 'collapse'; ?>" id="<?= $cn ?>">
               <table class="table table-bordered">
                   <thead>
                       <tr>
@@ -60,15 +60,7 @@
                             if($disp) {
                       ?>
                     <?php $i++ ?>
-                      <tr class="<?php 
-                            if($comment->approver > 0) {
-                                echo 'success';
-                            } elseif ($comment->submitted == '2') {
-                                echo 'info';
-                            } else {
-                                echo 'base';
-                            }
-                         ?>">
+                      <tr>
                         <td><?= $i ?></td>
                         <td>
                           <label class="control-label"><?=  $comment->subject ?></label><br>
@@ -86,17 +78,38 @@
                         </td>
                         <td>
                           <?php foreach($comment->responses as $response): ?>    
-                              <label class="control-label"><?=  $response->subject ?></label>
-                              <p><?= $response->content ?></p>    
-                              <div>
-                              <p style="text-decoration: underline;">File(s)</p>
-                              <?php foreach ($response->attachments as $attachment) { ?>                  
-                                  <p class="form-control-static text-info text-left"><?php
-                                       echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
-                                  ?></p>
-                                  <p><?= $attachment['description'] ?></p>
-                                  <?php } ?> 
-                                  <hr>   
+                            <div style="<?php 
+                                        if ($response->submitted == '2') {
+                                            echo 'background-color: #dff0d8;';
+                                        } elseif ($response->submitted == '1') {
+                                            echo 'background-color: #d9edf7;';
+                                        } else {
+                                            echo 'base';
+                                        }
+                                     ?>">
+                                <label class="control-label"><?=  $response->subject ?></label>
+                                <p><?= $response->content ?></p>    
+                                <div>
+                                <p style="text-decoration: underline;">File(s)</p>
+                                <?php foreach ($response->attachments as $attachment) { ?>                  
+                                    <p class="form-control-static text-info text-left"><?php
+                                         echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                                    ?></p>
+                                    <p><?= $attachment['description'] ?></p>
+                                    <?php } ?>  
+                                    <?php
+                                      if($this->request->params['_ext'] != 'pdf' and ($response->user_id == $this->request->session()->read('Auth.User.id'))
+                                            and $response->submitted != '2'
+                                         ) {
+                                        echo $this->Form->postLink(
+                                            '<span class="label label-info">Edit</span>',
+                                            ['action' => 'view', $application->id, '?' => ['rs_id' => $response->id]],
+                                            ['data' => ['rs_id' => $response->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit feedback {0}? Data will be available in the form below.', $response->id)]
+                                        );
+                                    }
+                                    ?> 
+                                    <hr> 
+                                </div> 
                               </div> 
                             <?php endforeach; ?>
 
@@ -105,8 +118,17 @@
                         <?php if(in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
                               <div class="col-xs-12">
                               <div class="bs-example">
-                              <?php echo $this->Form->create(null, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-applicant', 'prefix' => $prefix]]); ?>
+                              <?php 
+
+                                $eb =  !empty($this->request->query('rs_id')) ? $this->request->query('rs_id') : 'NA';
+
+                                $kimoda = (!empty(Hash::extract($comment->responses, "{n}[id=$eb]")[0])) ? Hash::extract($comment->responses, "{n}[id=$eb]")[0] : null;
+
+                              echo $this->Form->create($kimoda, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-applicant', 'prefix' => $prefix]]); ?>
                                 <?php
+                                    if($this->request->query('rs_id')) {
+                                        echo $this->Form->control('id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                                    }
                                     echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
                                     echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $comment->id, 'templates' => 'comment_form']);
                                     echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'Comments', 'templates' => 'table_form']);
@@ -132,8 +154,15 @@
                                 <div class="form-group"> 
                                     <div class="col-xs-12"> 
                                       <!-- <button type="submit" class="btn btn-success active"><i class="fa fa-save" aria-hidden="true"></i> Submit</button> -->                                  
-                <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
-                <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button>
+                <!-- <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
+                <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button> -->
+                                      <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
+                                      <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" 
+                                              onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit to MCAZ </button>
+                                        <?php
+                                          echo $this->Html->link('<i class="fa fa-remove" aria-hidden="true"></i>', ['action' => 'view', $application->id], ['escape' => false, 'class' => 'btn btn-default btn-sm']);   
+                                        ?>
                                     </div> 
                                 </div>
                               <?php echo $this->Form->end() ?>
