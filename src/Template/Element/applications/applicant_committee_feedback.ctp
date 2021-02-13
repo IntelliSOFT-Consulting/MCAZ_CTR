@@ -37,6 +37,17 @@
             <a class="btn btn-primary" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
                PVCT Committee Meeting Number: <?= $cn ?>
             </a>
+            <?php
+              if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) {
+                echo "&nbsp;"; echo "&nbsp;";
+                echo $this->Form->postLink(
+                  'Submit All to MCAZ)',
+                      ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_sa' => $cn]],
+                      ['data' => ['id' => $cn, 'feedbacks' => Hash::extract(Hash::extract($application->committee_comments, "{n}[approver>0]"), "{n}[model_id=$cn].id"), 'submitted' => 2, 'foreign_key' => $application->id], 
+                      'escape' => false, 'confirm' => __('Are you sure you want to submit all committee number {0} queries for manager review?', $cn), 'class' => 'btn btn-success']
+                );
+              }
+            ?>
             <div class="<?= ($this->request->params['_ext'] == 'pdf' || !empty($this->request->query('rs_id'))) ? '' : 'collapse'; ?>" id="<?= $cn ?>">
               <table class="table table-bordered">
                   <thead>
@@ -157,9 +168,9 @@
                 <!-- <button type="submit" class="btn btn-success active" name="submitChanges" value="2"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
                 <button type="submit" class="btn btn-warning btn-sm" name="saveChanges" value="1"><i class="fa fa-save" aria-hidden="true"></i> Submit <small>(without notifications)</small> </button> -->
                                       <button type="submit" class="btn btn-primary btn-sm" name="submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
-                                      <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" 
+                                      <!-- <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" 
                                               onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit to MCAZ </button>
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit to MCAZ </button> -->
                                         <?php
                                           echo $this->Html->link('<i class="fa fa-remove" aria-hidden="true"></i>', ['action' => 'view', $application->id], ['escape' => false, 'class' => 'btn btn-default btn-sm']);   
                                         ?>

@@ -40,8 +40,29 @@
                 
             ?>" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
                PVCT Committee Meeting Number: <?= $cn ?>
-            </a>
+            </a>            
             <?php
+              if($prefix == 'evaluator' and $ao > 0) {
+                // debug(Hash::extract(Hash::extract($comments, "{n}[submitted=1]"), "{n}[model_id=$cn].id"));
+                echo "&nbsp;"; echo "&nbsp;";
+                echo $this->Form->postLink(
+                  'Submit All <small>(for manager review)</small>)',
+                      ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_sa' => $cn]],
+                      ['data' => ['id' => $cn, 'feedbacks' => Hash::extract(Hash::extract($comments, "{n}[submitted=1]"), "{n}[model_id=$cn].id"), 'submitted' => 2, 'foreign_key' => $application->id], 
+                      'escape' => false, 'confirm' => __('Are you sure you want to submit all committee number {0} queries for manager review?', $cn), 'class' => 'btn btn-success']
+                );
+              }
+              echo "&nbsp;";
+              if($prefix == 'manager' and $bo > 0 and $bo != $co) {
+                  echo $this->Form->postLink(
+                    'Approve All',
+                    ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_ma' => $cn]],
+                    ['data' => ['id' => $cn, 'feedbacks' => Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn].id"), 'submitted' => 2, 'foreign_key' => $application->id,
+                                'approver' => $this->request->session()->read('Auth.User.id')], 
+                      'escape' => false, 'confirm' => __('Are you sure you want to approve all committee number {0} queries?', $cn), 'class' => 'btn btn-success']
+                );
+              }
+
               if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee-feedback', '_ext' => 'pdf', $application->id, $cn], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
             ?>
             <div class="<?= ($this->request->params['_ext'] == 'pdf' || !empty($this->request->query('cf_id'))) ? '' : 'collapse'; ?>" id="<?= $cn ?>">
@@ -99,27 +120,27 @@
                                   ['action' => 'view', $application->id, '?' => ['cf_id' => $comment->id]],
                                   ['data' => ['cf_id' => $comment->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit feedback {0}?', $comment->id)]
                               );
-                              echo "&nbsp;";
-                              if($prefix == 'evaluator') echo $this->Form->postLink(
-                                  '<span class="label label-success">Submit <small>(for manager review)</small></span>',
-                                  ['controller' => 'Comments', 'action' => 'add-from-committee', $comment->id, '?' => ['cf_sm' => $comment->id]],
-                                  ['data' => ['id' => $comment->id, 'foreign_key' => $comment->foreign_key, 'submitted' => 2], 
-                                  'escape' => false, 'confirm' => __('Are you sure you want to submit feedback {0} for review?', $comment->id)]
-                              );
+                              // echo "&nbsp;";
+                              // if($prefix == 'evaluator') echo $this->Form->postLink(
+                              //     '<span class="label label-success">Submit <small>(for manager review)</small></span>',
+                              //     ['controller' => 'Comments', 'action' => 'add-from-committee', $comment->id, '?' => ['cf_sm' => $comment->id]],
+                              //     ['data' => ['id' => $comment->id, 'foreign_key' => $comment->foreign_key, 'submitted' => 2], 
+                              //     'escape' => false, 'confirm' => __('Are you sure you want to submit feedback {0} for review?', $comment->id)]
+                              // );
                               echo "&nbsp;";
                               echo $this->Form->postLink(
-                                  '<span class="label label-danger">Delete</small></span>',
+                                  '<span class="label label-danger">Delete</span>',
                                   ['controller' => 'Comments', 'action' => 'delete', $comment->id],
                                   ['data' => ['id' => $comment->id, 'submitted' => 2], 'escape' => false, 'confirm' => __('Are you sure you want to delete feedback {0}?', $comment->id)]
                               );
                           }                          
                             echo "&nbsp;";
                             if($prefix == 'manager' and empty($comment->approver)) {
-                              echo $this->Form->postLink(
-                                '<span class="label label-success">Approve </span>',
-                                ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['cf_ma' => $comment->id]],
-                                ['data' => ['cf_ma' => $comment->id, 'approver' => $this->request->session()->read('Auth.User.id')], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
-                              );  
+                              // echo $this->Form->postLink(
+                              //   '<span class="label label-success">Approve </span>',
+                              //   ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['cf_ma' => $comment->id]],
+                              //   ['data' => ['cf_ma' => $comment->id, 'approver' => $this->request->session()->read('Auth.User.id')], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
+                              // );  
                             echo "&nbsp;";
                           ?>
                             <!-- Button trigger modal -->
