@@ -39,12 +39,13 @@
             </a>
             <?php
               if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) {
-                echo "&nbsp;"; echo "&nbsp;";
-                echo $this->Form->postLink(
-                  'Submit All to MCAZ)',
+                echo "&nbsp;"; 
+                $kuns = Hash::extract($application->committee_comments,  "{n}[model_id=$cn].responses.{n}[submitted=1].id");
+                if(count($kuns) > 0) echo $this->Form->postLink(
+                  'Submit All to MCAZ',
                       ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_sa' => $cn]],
-                      ['data' => ['id' => $cn, 'feedbacks' => Hash::extract(Hash::extract($application->committee_comments, "{n}[approver>0]"), "{n}[model_id=$cn].id"), 'submitted' => 2, 'foreign_key' => $application->id], 
-                      'escape' => false, 'confirm' => __('Are you sure you want to submit all committee number {0} queries for manager review?', $cn), 'class' => 'btn btn-success']
+                      ['data' => ['id' => $cn, 'feedbacks' => $kuns, 'submitted' => 2, 'foreign_key' => $application->id], 
+                      'escape' => false, 'confirm' => __('Are you sure you want to submit responses to committee number {0} queries to MCAZ for review?', $cn), 'class' => 'btn btn-success']
                 );
               }
             ?>

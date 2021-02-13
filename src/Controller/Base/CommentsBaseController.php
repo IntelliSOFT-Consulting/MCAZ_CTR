@@ -237,8 +237,8 @@ class CommentsBaseController extends AppController
                         $data['vars']['protocol_no'] = $application->protocol_no;
                         $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the PVCT Committee Meeting '.$this->request->getData('id').' and the applicant was requested to address the following issues';
                         $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
-                        $content = implode("\n\n", $vCon);
-                        $data['vars']['content'] = $content;              
+                        $content = implode("<br><br>", $vCon);
+                        $data['vars']['content'] = $content;
                         //notify applicant
                         $this->QueuedJobs->createJob('GenericEmail', $data);
                         $data['type'] = 'manager_new_query_notification';
@@ -273,7 +273,7 @@ class CommentsBaseController extends AppController
                             $data['vars']['protocol_no'] = $application->protocol_no;
                             $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the PVCT Committee Meeting '.$this->request->getData('id').' and the applicant was requested to address the following issues';
                             $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
-                            $content = implode("\n\n", $vCon);
+                            $content = implode("<br><br>", $vCon);
                             $data['vars']['content'] = $content; 
 
                             //notify applicant
@@ -293,7 +293,7 @@ class CommentsBaseController extends AppController
                         $data['vars']['name'] = $applicant->name;
                         $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the PVCT Committee Meeting '.$this->request->getData('id').' and the applicant was requested to address the following issues';
                         $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
-                        $content = implode("\n\n", $vCon);
+                        $content = implode("<br><br>", $vCon);
                         $data['vars']['content'] = $content; 
 
                         //notify applicant
