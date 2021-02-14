@@ -3,6 +3,7 @@
   use Cake\Utility\Hash;
   $this->Html->css('bootstrap/comments.css', ['block' => true]);
   $this->Html->script('comments/comments', ['block' => true]);
+  // $this->Html->script('comments/applicant_feedback', ['block' => true]);
   $v = array_unique(Hash::extract($application->committee_comments, '{n}[approver>0].model_id'));
   rsort($v);
   // print_r($v);
@@ -41,12 +42,32 @@
               if(!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                 echo "&nbsp;"; 
                 $kuns = Hash::extract($application->committee_comments,  "{n}[model_id=$cn].responses.{n}[submitted=1].id");
-                if(count($kuns) > 0) echo $this->Form->postLink(
-                  'Submit All to MCAZ',
-                      ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_sa' => $cn]],
-                      ['data' => ['id' => $cn, 'feedbacks' => $kuns, 'submitted' => 2, 'foreign_key' => $application->id], 
-                      'escape' => false, 'confirm' => __('Are you sure you want to submit responses to committee number {0} queries to MCAZ for review?', $cn), 'class' => 'btn btn-success']
-                );
+                $co = count(array_unique(Hash::extract(Hash::extract($application->committee_comments, "{n}[approver>0]"), "{n}[model_id=$cn].id")));
+                $ure = count(array_unique(Hash::extract($application->committee_comments,  "{n}[model_id=$cn].responses.{n}[submitted=1].foreign_key")));
+                $sre = count(array_unique(Hash::extract($application->committee_comments,  "{n}[model_id=$cn].responses.{n}[submitted=2].foreign_key")));
+                if(count($kuns) > 0) {
+                  // if unsubmitted + submitted responses < queries then respond to all
+                  if (($ure+$sre) < $co) { 
+                      //echo '<button type="button" class="btn btn-warning" disabled="disabled">Please respond to all queries</button>';
+                      echo '<span class="label label-warning" style="font-size: 14px;">Please respond to all queries and submit!</span>';
+                  } 
+                  // if unsubmitted + submitted responses == queries then ready to submit
+                  elseif (($ure+$sre) >= $co) { 
+                      echo $this->Form->postLink(
+                      'Submit Responses to MCAZ',
+                          ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_sa' => $cn]],
+                          ['data' => ['id' => $cn, 'feedbacks' => $kuns, 'submitted' => 2, 'foreign_key' => $application->id], 
+                          'escape' => false, 
+                          'confirm' => __('Are you sure you want to submit responses to committee number {0} queries to MCAZ for review?', $cn), 
+                          'class' => 'btn btn-success']
+                      );
+                  }
+                  // if submitted responses == queries then no action
+                  elseif (($ure+$sre) == $co) { 
+                      echo '<span class="label label-success" style="font-size: 14px;">Responses submitted!</span>';
+                  } 
+                    
+                }
               }
             ?>
             <div class="<?= ($this->request->params['_ext'] == 'pdf' || !empty($this->request->query('rs_id'))) ? '' : 'collapse'; ?>" id="<?= $cn ?>">

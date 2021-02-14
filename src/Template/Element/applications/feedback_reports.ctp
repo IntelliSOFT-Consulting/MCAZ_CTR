@@ -142,6 +142,11 @@
                               //   ['data' => ['cf_ma' => $comment->id, 'approver' => $this->request->session()->read('Auth.User.id')], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
                               // );  
                             echo "&nbsp;";
+                              echo $this->Form->postLink(
+                                  '<span class="label label-danger">Delete</span>',
+                                  ['controller' => 'Comments', 'action' => 'delete', $comment->id],
+                                  ['data' => ['id' => $comment->id, 'submitted' => 2], 'escape' => false, 'confirm' => __('Are you sure you want to delete feedback {0}?', $comment->id)]
+                              );
                           ?>
                             <!-- Button trigger modal -->
                             <a href="#">
@@ -219,7 +224,7 @@
                               
                               if($comment->ef_submitted >= '2') $odipo = true;
 
-                              if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id') and $comment->ef_submitted =='1') {
+                              if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id')) {
                                    $odipo = $bodipo = true;
                               }
 
@@ -294,7 +299,7 @@
                                     ?>
                                     <div class="modal-body">
                                       <?php  
-                                        echo $this->Form->control('manager_comment', ['label' => false, 'type' => 'textarea', 'templates' => [
+                                        echo $this->Form->control('manager_feedback', ['label' => false, 'type' => 'textarea', 'templates' => [
                                               'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
                                               'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
                                         
