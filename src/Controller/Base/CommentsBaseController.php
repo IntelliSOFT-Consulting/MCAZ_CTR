@@ -3,6 +3,7 @@ namespace App\Controller\Base;
 
 use App\Controller\AppController;
 use Cake\Utility\Hash;
+use Cake\I18n\Number;
 
 /**
  * Comments Controller
@@ -235,7 +236,7 @@ class CommentsBaseController extends AppController
                         $data['vars']['name'] = $manager->name;
                         $data['vars']['evaluator_name'] = $this->Auth->user('name');
                         $data['vars']['protocol_no'] = $application->protocol_no;
-                        $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the PVCT Committee Meeting '.$this->request->getData('id').' and the applicant was requested to address the following issues';
+                        $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the '.Number::ordinal($this->request->getData('id')).' PVCT Committee Meeting and the applicant was requested to address the following issues';
                         $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
                         $content = implode("<br><br>", $vCon);
                         $data['vars']['content'] = $content;
@@ -271,7 +272,7 @@ class CommentsBaseController extends AppController
                             ];
                             $data['vars']['name'] = $manager->name;
                             $data['vars']['protocol_no'] = $application->protocol_no;
-                            $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the PVCT Committee Meeting '.$this->request->getData('id').' and the applicant was requested to address the following issues';
+                            $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the '.Number::ordinal($this->request->getData('id')).' PVCT Committee Meeting and the applicant was requested to address the following issues';
                             $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
                             $content = implode("<br><br>", $vCon);
                             $data['vars']['content'] = $content; 
@@ -291,7 +292,7 @@ class CommentsBaseController extends AppController
                         ];
                         $data['vars']['protocol_no'] = $application->protocol_no;
                         $data['vars']['name'] = $applicant->name;
-                        $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the PVCT Committee Meeting '.$this->request->getData('id').' and the applicant was requested to address the following issues';
+                        $data['vars']['subject'] = 'The application '.$application->protocol_no.' was tabled at the '.Number::ordinal($this->request->getData('id')).' PVCT Committee Meeting and the applicant was requested to address the following issues';
                         $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
                         $content = implode("<br><br>", $vCon);
                         $data['vars']['content'] = $content; 
@@ -503,7 +504,43 @@ class CommentsBaseController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $comment = $this->Comments->get($id);
         if ($this->Comments->delete($comment)) {
-            $this->Flash->success(__('The comment has been deleted.'));
+
+            //Manager deletes evalauator's query
+            if($this->request->query('cf_md')) {
+                $this->loadModel('Applications');
+                $this->loadModel('Queue.QueuedJobs'); 
+                $application = $this->Applications->get($this->request->query('cf_md'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);
+                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                array_push($filt, 1);
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
+                                $orConditions = $exp->or_(['id IN' => $filt])
+                                    ->eq('group_id', 2);
+                                return $exp
+                                    ->add($orConditions)
+                                    ->add(['group_id !=' => 6]);
+                            });
+                foreach ($managers as $manager) {
+                    //Notify managers  
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_delete_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['manager_name'] = $this->Auth->user('name');
+                    $data['vars']['protocol_no'] = $application->protocol_no;
+                    $data['vars']['subject'] = $comment->subject;  
+                    $data['vars']['content'] = $comment->manager_feedback;              
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_delete_query_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                $this->Flash->success(__('The comment/query has been successfully deleted.'));
+            } else {
+                $this->Flash->success(__('The comment has been deleted.'));
+            }
+            
         } else {
             $this->Flash->error(__('The comment could not be deleted. Please, try again.'));
         }

@@ -168,7 +168,7 @@
                                     echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'committee', 'templates' => 'table_form']);
                                     echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);                
                                     echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
-                                    echo $this->Form->control('subject', ['label' => 'Subject', 'templates' => 'comment_form']);
+                                    // echo $this->Form->control('subject', ['label' => 'Subject', 'templates' => 'comment_form']);
                                     echo $this->Form->control('content', ['label' => 'Response', 'type' => 'textarea', 'templates' => 
                                           [
                                           'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',

@@ -3,6 +3,7 @@ namespace App\Controller\Applicant;
 
 use App\Controller\AppController;
 use Cake\Utility\Hash;
+use Cake\I18n\Number;
 
 /**
  * Comments Controller
@@ -80,7 +81,7 @@ class CommentsController extends AppController
                         $data['vars']['protocol_no'] = $application->protocol_no;
                         // $data['vars']['subject'] = $comment->subject;  
                         // $data['vars']['content'] = $comment->content; 
-                        $data['vars']['subject'] = 'Applicant response to queries tabled at the PVCT Committee Meeting '.$this->request->getData('id'); 
+                        $data['vars']['subject'] = 'Applicant response to queries tabled at the '.Number::ordinal($this->request->getData('id')).' PVCT Committee Meeting '; 
                         $data['vars']['content'] = $content;       
                         //notify applicant
                         $this->QueuedJobs->createJob('GenericEmail', $data);

@@ -144,17 +144,17 @@
                             echo "&nbsp;";
                               echo $this->Form->postLink(
                                   '<span class="label label-danger">Delete</span>',
-                                  ['controller' => 'Comments', 'action' => 'delete', $comment->id],
+                                  ['controller' => 'Comments', 'action' => 'delete', $comment->id, '?' => ['cf_md' => $application->id]],
                                   ['data' => ['id' => $comment->id, 'submitted' => 2], 'escape' => false, 'confirm' => __('Are you sure you want to delete feedback {0}?', $comment->id)]
                               );
                           ?>
                             <!-- Button trigger modal -->
                             <a href="#">
-                              <span class="label label-warning" data-toggle="modal" data-target="#revertModal"> Revert </span>
+                              <span class="label label-warning" data-toggle="modal" data-target="#revertModal<?= $comment->id ?>"> Revert </span>
                             </a>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="revertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal fade" id="revertModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $comment->id ?>">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -212,7 +212,7 @@
                         </td>
                       </tr>
                       <tr class="<?php
-                         echo ($comment->ef_submitted > '2') ? $luku : 'info'; ?>">
+                         echo ($comment->ef_submitted >= '2') ? 'success' : 'info'; ?>">
                         <td></td>      
                         <td colspan="2" class="evaluation-commentsa" 
                             data-type="wysihtml5" data-pk="<?= $comment->id ?>" 
@@ -234,11 +234,11 @@
                             <?php if($bodipo) { ?>
                               <!-- Button trigger modal -->
                               <a href="#">
-                                <span class="label label-warning" data-toggle="modal" data-target="#evalfeedModal"> Evaluator's feedback </span>
+                                <span class="label label-warning" data-toggle="modal" data-target="#evalfeedModal<?= $comment->id ?>"> Evaluator's feedback </span>
                               </a>
 
                               <!-- Modal -->
-                              <div class="modal fade" id="evalfeedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                              <div class="modal fade" id="evalfeedModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $comment->id ?>">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -281,11 +281,11 @@
                             ?>
                               <!-- Button trigger modal -->
                               <a href="#">
-                                <span class="label label-warning" data-toggle="modal" data-target="#revertefModal"> Revert </span>
+                                <span class="label label-warning" data-toggle="modal" data-target="#revertefModal<?= $comment->id ?>"> Revert </span>
                               </a>
 
                               <!-- Modal -->
-                              <div class="modal fade" id="revertefModal" tabindex="-1" role="dialog" aria-labelledby="revertefModalLabel">
+                              <div class="modal fade" id="revertefModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="revertefModalLabel<?= $comment->id ?>">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
