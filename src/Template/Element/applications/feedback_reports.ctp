@@ -222,9 +222,14 @@
                             <?php                               
                               $odipo = $bodipo = false;
                               
-                              if($comment->ef_submitted >= '2') $odipo = true;
+                              //if manager approves response, then visible to everyone
+                              if($comment->ef_submitted == '3') $odipo = true;
 
-                              if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id')) {
+                              //if submitted but not approved, then visible to manager and submitting evaluator only. Furthermore, only visible when not pdf
+                              if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id') and $this->request->params['_ext'] != 'pdf') {
+                                   $odipo = $bodipo = true;
+                              }
+                              if ($prefix == 'manager' and $comment->ef_submitted == '2' and $this->request->params['_ext'] != 'pdf') {
                                    $odipo = $bodipo = true;
                               }
 
