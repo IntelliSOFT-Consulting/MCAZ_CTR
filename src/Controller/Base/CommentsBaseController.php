@@ -481,6 +481,34 @@ class CommentsBaseController extends AppController
                     
                 }
 
+                //Manager assigns evaluator to respond
+                if($this->request->query('cf_ae')) {
+                    if ($this->request->getData('assigned_to')) {
+                        $evaluator = $this->Applications->Users->get($this->request->getData('assigned_to'));
+
+                        foreach ($managers as $manager) {
+                            //Notify managers and only the assigned evaluator!! 
+                            $data = [
+                                'email_address' => $manager->email, 'user_id' => $manager->id,
+                                'type' => 'manager_assign_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                            ];
+                            $data['vars']['name'] = $manager->name;
+                            $data['vars']['manager_name'] = $this->Auth->user('name');
+                            $data['vars']['evaluator_name'] = $evaluator->name;
+                            $data['vars']['protocol_no'] = $application->protocol_no;
+                            $data['vars']['subject'] = 'Applicant response assigned to: '.$evaluator->name;  
+                            $data['vars']['assign_message'] = $this->request->getData('assign_message');              
+                            //notify applicant
+                            $this->QueuedJobs->createJob('GenericEmail', $data);
+                            $data['type'] = 'manager_assign_query_notification';
+                            $this->QueuedJobs->createJob('GenericNotification', $data);
+                        }
+                        $this->Flash->success(__('The evaluator has been assigned to review the applicant\'s response.'));    
+                    } else {
+                        $this->Flash->info(__('Please select an evaluator.'));
+                    }                
+                }
+
                 return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The comment feedback could not be saved. Please, try again.'));

@@ -97,7 +97,7 @@
                                 echo 'base';
                             }
                          ?>">
-                        <td><?= $i ?></td>
+                        <td rowspan="3"><b><?= $i ?></b></td>
                         <td>
                           <label class="control-label"><?=  $comment->subject ?></label><br>
                           <?=  $comment->content ?>
@@ -211,12 +211,65 @@
                         endforeach; ?>
                         </td>
                       </tr>
+                      <tr>
+                        <td colspan="2">
+                            <b>Evaluator's Comments</b>
+                            
+                              <?php 
+                                //If manager, set the assigned to field
+                                echo (isset($internal_evaluators->toArray()[$comment->assigned_to])) ? 
+                                  '<span class="label label-success">'.$internal_evaluators->toArray()[$comment->assigned_to].'</span>' : '<span class="label label-default"><small><i>not assigned</i></small></span>';
+                              ?>
+                            
+                            &nbsp;
+                            <?php
+                              if($prefix == 'manager') {
+                            ?>
+                              <a href="#">
+                                <span class="label label-info" data-toggle="modal" data-target="#evalAssignModal<?= $comment->id ?>"> Assign Evalator </span>
+                              </a>
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="evalAssignModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $comment->id ?>">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title">Assign Evaluator</h4>
+                                    </div>
+                                    <?php                                  
+                                      echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix,
+                                        '?' => ['cf_ae' => $comment->id]
+                                    ]]);
+                                    ?>
+                                    <div class="modal-body">
+                                      <?php
+                                        echo $this->Form->control('assigned_to', ['type' => 'select', 'options' => $internal_evaluators, 'empty' => true, 'escape' => false, 'templates' => 'app_form']);            
+                                        echo $this->Form->control('assign_message', ['label' => 'Message', 'type' => 'textarea', 'templates' => [
+                                              'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                              'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
+                                              'textarea' => '<div class="col-sm-6"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);                                        
+                                      ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="submit" class="btn btn-success btn-sm" name="assign" value="2">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Assign </button>
+                                    </div>
+                                    <?php echo $this->Form->end(); ?>
+                                  </div>
+                                </div>
+                              </div>
+                            <?php 
+                              }
+                            ?>
+                        </td>
+                      </tr>
                       <tr class="<?php
                          echo ($comment->ef_submitted >= '2') ? 'success' : 'info'; ?>">
-                        <td></td>      
-                        <td colspan="2" class="evaluation-commentsa" 
+                        <!-- <td></td>       -->
+                        <td colspan="2" class="evaluation-comments" 
                             data-type="wysihtml5" data-pk="<?= $comment->id ?>" 
-                            data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'evaluator-comment',  'prefix' => $prefix, $comment->id, '_ext' => 'json']); ?>" 
+                            data-url="<?= $this->Url->build(['controller' => 'Comments', 'action' => 'submit', $comment->id,  'prefix' => $prefix]); ?>" 
                             data-name="review"
                             data-title="Enter evaluator's comment">
                             <?php                               
@@ -233,14 +286,16 @@
                                    $odipo = $bodipo = true;
                               }
 
-                              if($odipo) echo ($comment->review) ? $comment->review : 'Evaluator\'s comment';
+                              if($odipo) echo ($comment->review) ? $comment->review : '';
                              ?>
                              <br>
                             <?php if($bodipo) { ?>
                               <!-- Button trigger modal -->
+                              <?php if($comment->assigned_to == $this->request->session()->read('Auth.User.id')) { ?>
                               <a href="#">
                                 <span class="label label-warning" data-toggle="modal" data-target="#evalfeedModal<?= $comment->id ?>"> Evaluator's feedback </span>
                               </a>
+                              <?php } ?>
 
                               <!-- Modal -->
                               <div class="modal fade" id="evalfeedModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $comment->id ?>">
