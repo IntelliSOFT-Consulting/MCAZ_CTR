@@ -240,11 +240,12 @@ class ApplicationsBaseController extends AppController
         $internal_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3,
             'id NOT IN' => $this->filt]);
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 6,
-            'id NOT IN' => $this->filt]);        
+            'id NOT IN' => $this->filt]); 
+        $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3, 'id IN' => $this->filt]);        
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
         
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'provinces', 'ekey', 'evaluation_id', 'committee_dates'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
         // $this->render('/Base/Applications/view');
 

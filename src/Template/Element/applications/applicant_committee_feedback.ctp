@@ -94,7 +94,7 @@
                       ?>
                     <?php $i++ ?>
                       <tr>
-                        <td rowspan="3"><b><?= $i ?></b></td>
+                        <td><b><?= $i ?></b></td>
                         <td>
                           <label class="control-label"><?=  $comment->subject ?></label><br>
                           <?=  $comment->content ?>
@@ -205,19 +205,6 @@
                       <?php } ?>
                             </div>
                           </td>
-                      </tr>
-                      <tr><td colspan="2"><b>Evaluator's Comments</b></td></tr>
-                      <tr>
-                        <!-- <td></td>       -->
-                        <td colspan="2">
-                            <?php //echo (empty($application->evaluation_header->study_design)) ? $application->design_controlled : $application->evaluation_header->study_design ?>
-                            <?php //  ($comment->review) ? $comment->review : 'Evaluator\'s comment' ?>
-                            <?php
-                                if ($comment->ef_submitted == '3') {
-                                  echo $comment->review;
-                                }
-                            ?>
-                        </td>
                       </tr>
                     <?php 
                       }}

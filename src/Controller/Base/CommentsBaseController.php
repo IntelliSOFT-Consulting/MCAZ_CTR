@@ -413,7 +413,8 @@ class CommentsBaseController extends AppController
                         }
 
                         //Notify Applicant 
-                        $applicant = $this->Applications->Users->get($application->user_id);
+                        //Removed because applicant should not see evaluator's comments
+                        /*$applicant = $this->Applications->Users->get($application->user_id);
                         $email_address = ($application->report_type == 'Amendment') ? $application->parent_application->email_address : $application->email_address ;
                         $data = [
                                 'email_address' => $email_address, 'user_id' => $application->user_id,
@@ -426,7 +427,7 @@ class CommentsBaseController extends AppController
                         //notify applicant
                         $this->QueuedJobs->createJob('GenericEmail', $data);
                         $data['type'] = 'applicant_pvct_query_notification';
-                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                        $this->QueuedJobs->createJob('GenericNotification', $data);*/
 
 
                         $this->Flash->success(__('The evaluator\'s feedback has been approved and shared with the applicant.'));  

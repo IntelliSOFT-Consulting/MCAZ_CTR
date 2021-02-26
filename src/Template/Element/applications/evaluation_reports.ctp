@@ -126,14 +126,12 @@
         ?>
               <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $evaluation->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 <table class="table table-bordered table-condensed">
-                  <thead>
-                    <tr class="active">
-                      <th></th>
-                      <th>Vulnerable/High Risk Groups </th>
-                      <th width="22.5%"></th>
-                    </tr>
-                  </thead>
                   <tbody>
+                    <tr class="active">
+                      <td></td>
+                      <td><strong>Vulnerable/High Risk Groups </strong></td>
+                      <td width="22.5%"></td>
+                    </tr>                  
                     <tr>
                       <td><?= $numb++ ?>.</td>
                       <td>Is a vulnerable population being studied:</td>

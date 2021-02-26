@@ -82,7 +82,7 @@
                             $disp = false;
                             if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id')) $disp = true;
                             if($prefix == 'evaluator' and $comment->user_id != $this->request->session()->read('Auth.User.id') and $comment->submitted == '2') $disp = true;
-                            if($prefix == 'manager' and $comment->submitted == '2') $disp = true;
+                            if($prefix == 'manager' and $comment->submitted >= '2') $disp = true;
                             if($prefix == 'director_general' and $comment->submitted == '2') $disp = true;
                             if($prefix == 'applicant' and $comment->approver > 0) $disp = true;
                             if($disp) {
@@ -168,6 +168,7 @@
                                   ?>
                                   <div class="modal-body">
                                     <?php  
+                                      echo $this->Form->control('submitted', ['type' => 'hidden', 'value' => 3, 'templates' => 'comment_form']);
                                       echo $this->Form->control('manager_feedback', ['label' => false, 'type' => 'textarea', 'templates' => [
                                             'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
                                             'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
@@ -217,8 +218,8 @@
                             
                               <?php 
                                 //If manager, set the assigned to field
-                                echo (isset($internal_evaluators->toArray()[$comment->assigned_to])) ? 
-                                  '<span class="label label-success">'.$internal_evaluators->toArray()[$comment->assigned_to].'</span>' : '<span class="label label-default"><small><i>not assigned</i></small></span>';
+                                echo (isset($feedback_evaluators->toArray()[$comment->assigned_to])) ? 
+                                  '<span class="label label-success">'.$feedback_evaluators->toArray()[$comment->assigned_to].'</span>' : '<span class="label label-default"><small><i>not assigned</i></small></span>';
                               ?>
                             
                             &nbsp;
@@ -244,7 +245,7 @@
                                     ?>
                                     <div class="modal-body">
                                       <?php
-                                        echo $this->Form->control('assigned_to', ['type' => 'select', 'options' => $internal_evaluators, 'empty' => true, 'escape' => false, 'templates' => 'app_form']);            
+                                        echo $this->Form->control('assigned_to', ['type' => 'select', 'options' => $feedback_evaluators, 'empty' => true, 'escape' => false, 'templates' => 'app_form']);            
                                         echo $this->Form->control('assign_message', ['label' => 'Message', 'type' => 'textarea', 'templates' => [
                                               'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
                                               'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
