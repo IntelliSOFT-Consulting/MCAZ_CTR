@@ -40,18 +40,91 @@
                 
             ?>" role="button" data-toggle="collapse" href="#<?= $cn ?>" aria-expanded="false" aria-controls="<?= $cn ?>">
                PVCT Committee Meeting Number: <?= $cn ?>
-            </a>            
+            </a> 
+
+            &nbsp;
+            <?php 
+              $xf = (Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn]"))[0] ?? ['assigned_to' => ''];
+              echo (isset($feedback_evaluators->toArray()[$xf->assigned_to])) ? 
+                '<span class="label label-success">'.$feedback_evaluators->toArray()[$xf->assigned_to].'</span>' : '<span class="label label-default"><small><i>not assigned</i></small></span>';
+            ?>  
             <?php
-              if($prefix == 'evaluator' and $ao > 0) {
+              if($prefix == 'manager') {
+            ?>
+              <a href="#">
+                <span class="label label-info" data-toggle="modal" data-target="#evalAssignModal<?= $cn ?>"> Assign Evalator </span>
+              </a>
+
+              <!-- Modal -->
+              <div class="modal fade" id="evalAssignModal<?= $cn ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $cn ?>">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Assign Evaluator</h4>
+                    </div>
+                    <?php
+                      
+                      echo $this->Form->create(['schema' => ['assigned_to'], 'defaults' => ['assigned_to' => $xf['assigned_to']]], ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submitAll', $cn, 'prefix' => $prefix,
+                        '?' => ['cf_ae' => $cn]
+                    ]]);
+                    ?>
+                    <div class="modal-body">
+                      <?php
+                        $fb = Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn].id");
+                        foreach ($fb as $n => $v) {
+                          echo $this->Form->control('feedbacks.'.$n, ['type' => 'hidden', 'value' => $v]); 
+                        }                                   
+                        echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $cn]); 
+                        echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $application->id]); 
+
+                        echo $this->Form->control('assigned_to', ['type' => 'select', 'options' => $feedback_evaluators, 'empty' => true, 'escape' => false, 'templates' => 'app_form']);            
+                        echo $this->Form->control('assign_message', ['label' => 'Message', 'type' => 'textarea', 'templates' => [
+                              'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                              'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
+                              'textarea' => '<div class="col-sm-6"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);                                        
+                      ?>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success btn-sm" name="assign" value="2">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Assign All</button>
+                    </div>
+                    <?php echo $this->Form->end(); ?>
+                  </div>
+                </div>
+              </div>
+            <?php 
+              }
+            ?>
+
+            <?php
+              //Can only submit my queries for manager review
+              $user_id = $this->request->session()->read('Auth.User.id');
+              $myq = Hash::extract(Hash::extract(Hash::extract($comments, "{n}[submitted=1]"), "{n}[model_id=$cn]"), "{n}[user_id=$user_id]");
+              if($prefix == 'evaluator' and count($myq) > 0) {
                 // debug(Hash::extract(Hash::extract($comments, "{n}[submitted=1]"), "{n}[model_id=$cn].id"));
                 echo "&nbsp;"; echo "&nbsp;";
                 echo $this->Form->postLink(
-                  'Submit All <small>(for manager review)</small>)',
+                  'Submit Queries',
                       ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_sa' => $cn]],
-                      ['data' => ['id' => $cn, 'feedbacks' => Hash::extract(Hash::extract($comments, "{n}[submitted=1]"), "{n}[model_id=$cn].id"), 'submitted' => 2, 'foreign_key' => $application->id], 
-                      'escape' => false, 'confirm' => __('Are you sure you want to submit all committee number {0} queries for manager review?', $cn), 'class' => 'btn btn-success']
+                      ['data' => ['id' => $cn, 'feedbacks' => Hash::extract($myq, "{n}.id"), 'submitted' => 2, 'foreign_key' => $application->id], 
+                      'escape' => false, 'confirm' => __('Are you sure you want to submit all committee number {0} queries for manager review?', $cn), 'class' => 'label label-success']
                 );
               }
+
+              //Submit review comments for approval. Can only submit my unsubmitted review comments              
+              $user_id = $this->request->session()->read('Auth.User.id');
+              $myrc = Hash::extract(Hash::extract(Hash::extract($comments, "{n}[ef_submitted=1]"), "{n}[model_id=$cn]"), "{n}[assigned_to=$user_id]");
+              if($prefix == 'evaluator' and count($myrc) > 0) {
+                echo "&nbsp;"; echo "&nbsp;";
+                echo $this->Form->postLink(
+                  'Submit Review Comments',
+                      ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_rc' => $cn]],
+                      ['data' => ['model_id' => $cn, 'feedbacks' => Hash::extract($myrc, "{n}.id"), 'ef_submitted' => 2, 'foreign_key' => $application->id], 
+                      'escape' => false, 'confirm' => __('Are you sure you want to submit all committee number {0} review comments for manager review?', $cn), 'class' => 'label label-success']
+                );
+              }
+
               echo "&nbsp;";
               if($prefix == 'manager' and $bo > 0 and $bo != $co) {
                   echo $this->Form->postLink(
@@ -214,61 +287,15 @@
                       </tr>
                       <tr>
                         <td colspan="2">
-                            <b>Evaluator's Comments</b>
+                            <b>Evaluator's Comments</b>                           
+                                             
                             
-                              <?php 
-                                //If manager, set the assigned to field
-                                echo (isset($feedback_evaluators->toArray()[$comment->assigned_to])) ? 
-                                  '<span class="label label-success">'.$feedback_evaluators->toArray()[$comment->assigned_to].'</span>' : '<span class="label label-default"><small><i>not assigned</i></small></span>';
-                              ?>
-                            
-                            &nbsp;
-                            <?php
-                              if($prefix == 'manager') {
-                            ?>
-                              <a href="#">
-                                <span class="label label-info" data-toggle="modal" data-target="#evalAssignModal<?= $comment->id ?>"> Assign Evalator </span>
-                              </a>
-
-                              <!-- Modal -->
-                              <div class="modal fade" id="evalAssignModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $comment->id ?>">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                      <h4 class="modal-title">Assign Evaluator</h4>
-                                    </div>
-                                    <?php                                  
-                                      echo $this->Form->create($comment, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $comment->id, 'prefix' => $prefix,
-                                        '?' => ['cf_ae' => $comment->id]
-                                    ]]);
-                                    ?>
-                                    <div class="modal-body">
-                                      <?php
-                                        echo $this->Form->control('assigned_to', ['type' => 'select', 'options' => $feedback_evaluators, 'empty' => true, 'escape' => false, 'templates' => 'app_form']);            
-                                        echo $this->Form->control('assign_message', ['label' => 'Message', 'type' => 'textarea', 'templates' => [
-                                              'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
-                                              'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',
-                                              'textarea' => '<div class="col-sm-6"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);                                        
-                                      ?>
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="submit" class="btn btn-success btn-sm" name="assign" value="2">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Assign </button>
-                                    </div>
-                                    <?php echo $this->Form->end(); ?>
-                                  </div>
-                                </div>
-                              </div>
-                            <?php 
-                              }
-                            ?>
                         </td>
                       </tr>
                       <tr class="<?php
                          echo ($comment->ef_submitted >= '2') ? 'success' : 'info'; ?>">
                         <!-- <td></td>       -->
-                        <td colspan="2" class="evaluation-comments" 
+                        <td colspan="2" class="evaluation-commentsa" 
                             data-type="wysihtml5" data-pk="<?= $comment->id ?>" 
                             data-url="<?= $this->Url->build(['controller' => 'Comments', 'action' => 'submit', $comment->id,  'prefix' => $prefix]); ?>" 
                             data-name="review"
@@ -279,6 +306,9 @@
                               //if manager approves response, then visible to everyone
                               if($comment->ef_submitted == '3') $odipo = true;
 
+                              //if manager assigns me response, then visible to me
+                              if($comment->assigned_to == $this->request->session()->read('Auth.User.id')) $odipo = true;
+
                               //if submitted but not approved, then visible to manager and submitting evaluator only. Furthermore, only visible when not pdf
                               if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id') and $this->request->params['_ext'] != 'pdf') {
                                    $odipo = $bodipo = true;
@@ -287,10 +317,15 @@
                                    $odipo = $bodipo = true;
                               }
 
-                              if($odipo) echo ($comment->review) ? $comment->review : '';
+                              //If the comment has not been assigned to the evaluator
+                              if($prefix == 'evaluator' and $comment->assigned_to != $this->request->session()->read('Auth.User.id')) $odipo = false;
+
+                              if($odipo) {
+                                echo ($comment->review) ? $comment->review : '';
+                              } 
+
                              ?>
                              <br>
-                            <?php if($bodipo) { ?>
                               <!-- Button trigger modal -->
                               <?php if($comment->assigned_to == $this->request->session()->read('Auth.User.id')) { ?>
                               <a href="#">
@@ -322,15 +357,14 @@
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                       <button type="submit" class="btn btn-primary btn-sm" name="ef_submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
-                                      <button type="submit" class="btn btn-success btn-sm" name="ef_submitted" value="2" onclick="return confirm('Are you sure you wish to submit for manager review? You will not be able to edit it later.');">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button>
+                                      <!-- <button type="submit" class="btn btn-success btn-sm" name="ef_submitted" value="2" onclick="return confirm('Are you sure you wish to submit for manager review?');">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button> -->
                                     </div>
                                     <?php echo $this->Form->end(); ?>
                                   </div>
                                 </div>
                               </div>
                             <?php 
-                              } 
 
                               if($prefix == 'manager' and $comment->ef_submitted == '2') {
                                 echo $this->Form->postLink(

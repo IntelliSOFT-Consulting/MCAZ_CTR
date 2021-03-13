@@ -253,6 +253,77 @@ class CommentsBaseController extends AppController
                 $this->Flash->error(__('The committee feedback could not be shared with the manager. Please, try again.'));
             }
 
+            //Manager assigns evaluator to respond
+            if($this->request->query('cf_ae')) {
+                if ($this->request->getData('assigned_to')) {
+                    // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);                  
+                    if ($this->Comments->updateAll(['assigned_to' => $this->request->getData('assigned_to')], ['model_id' => $this->request->getData('model_id'), 'id IN' => $this->request->getData('feedbacks')])) { 
+                    // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                        $evaluator = $this->Applications->Users->get($this->request->getData('assigned_to'));          
+                        foreach ($managers as $manager) {
+                            //Notify managers and only the assigned evaluator!!
+                            if ($manager->group_id = 2 or $manager->id == $this->request->getData('assigned_to')) {
+                                $data = [
+                                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                                    'type' => 'manager_assign_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                                ];
+                                $data['vars']['name'] = $manager->name;
+                                $data['vars']['manager_name'] = $this->Auth->user('name');
+                                $data['vars']['evaluator_name'] = $evaluator->name;
+                                $data['vars']['protocol_no'] = $application->protocol_no;
+                                $data['vars']['subject'] = 'Applicant response assigned to: '.$evaluator->name;  
+                                $data['vars']['assign_message'] = $this->request->getData('assign_message');              
+                                //notify applicant
+                                $this->QueuedJobs->createJob('GenericEmail', $data);
+                                $data['type'] = 'manager_assign_query_notification';
+                                $this->QueuedJobs->createJob('GenericNotification', $data);
+                            }                            
+                        }
+                        
+                        $this->Flash->success(__('The committee feedback has been submitted to the managers for review.'));
+
+                        return $this->redirect($this->referer());
+                    }
+                    $this->Flash->error(__('The committee feedback could not be shared with the manager. Please, try again.'));
+                } else {
+                    $this->Flash->info(__('Please select an evaluator.'));
+                }                
+            }
+
+            //Manager assigns evaluator to respond
+            if($this->request->query('cf_rc')) {
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);                  
+                if ($this->Comments->updateAll(['ef_submitted' => $this->request->getData('ef_submitted')], ['model_id' => $this->request->getData('model_id'), 'id IN' => $this->request->getData('feedbacks')])) { 
+                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                    foreach ($managers as $manager) {
+                        //Notify managers and only the assigned evaluator!!
+                        if ($manager->group_id = 2 or $manager->id == $this->Auth->user('id')) {
+                            //Notify managers  
+                            $data = [
+                                'email_address' => $manager->email, 'user_id' => $manager->id,
+                                'type' => 'manager_new_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                            ];
+                            $data['vars']['name'] = $manager->name;
+                            $data['vars']['manager_name'] = $this->Auth->user('name');
+                            $data['vars']['protocol_no'] = $application->protocol_no;
+                            $data['vars']['subject'] = 'Evaluator\'s Review Comments';
+                            $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'review', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
+                            $content = implode("<br><br>", $vCon);
+                            $data['vars']['content'] = $content;              
+                            //notify applicant
+                            $this->QueuedJobs->createJob('GenericEmail', $data);
+                            $data['type'] = 'manager_new_query_notification';
+                            $this->QueuedJobs->createJob('GenericNotification', $data);
+                        }                            
+                    }
+                    
+                    $this->Flash->success(__('The evaluator\'s feedback has been shared with the managers for review.'));
+
+                    return $this->redirect($this->referer());
+                }
+                $this->Flash->error(__('The committee feedback could not be shared with the manager. Please, try again.'));              
+            }
+
             //Manager Approves all queries for the committee meeting
             if ($this->request->query('cf_ma')) {
                 if ($this->Comments->updateAll(['approver' => $this->request->getData('approver')], ['model_id' => $this->request->getData('id'), 'id IN' => $this->request->getData('feedbacks')])) {

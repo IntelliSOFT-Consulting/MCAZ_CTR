@@ -1197,8 +1197,13 @@ class ApplicationsBaseController extends AppController
             $comments = $this->Applications->Comments->findByForeignKeyAndModelIdAndSubmitted($id, $scope, 2)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         }
-        $this->set(compact('comments', 'application'));
-        $this->set('_serialize', ['comments', 'application']);
+        
+        $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+        array_push($this->filt, 1);
+        $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3, 'id IN' => $this->filt]);  
+
+        $this->set(compact('comments', 'application', 'feedback_evaluators'));
+        $this->set('_serialize', ['comments', 'application', 'feedback_evaluators']);
 
 
         if ($this->request->params['_ext'] === 'pdf') {
