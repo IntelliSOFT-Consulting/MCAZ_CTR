@@ -54,12 +54,15 @@
                   data-url="<?= $this->Url->build(['controller' => 'Applications', 'action' => 'commonHeader',  'prefix' => 'manager', $application->id, '_ext' => 'json']); ?>" 
                   data-name="evaluation_header[population]"
                   data-title="Update population">
-                  <p><?php echo (empty($application->evaluation_header->population)) ? $application->participants_description : $application->evaluation_header->population ?> </p>                 
+                  <p><?php 
+                        $value = (empty($application->evaluation_header->population)) ? $application->participants_description : $application->evaluation_header->population;
+                        echo preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $value);
+                      ?> </p>                 
               </td>
             </tr>
             <tr>
               <th>Study Objectives:</th>
-              <td><?= $application->abstract_of_study ?></td>
+              <td><?= preg_replace('/(<[^>]*) style=("[^"]+"|\'[^\']+\')([^>]*>)/i', '$1$3', $application->abstract_of_study) ?></td>
             </tr>
             <tr>
               <th>Applicant:</th>

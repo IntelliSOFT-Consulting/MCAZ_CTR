@@ -529,7 +529,7 @@ class CommentsBaseController extends AppController
 
                 //Evaluator shares query
                 if($this->request->query('cf_ef')) {
-                    if ($comment->ef_submitted == '2') {                     
+                    if ($comment->ef_submitted == '2' or $comment->ef_submitted == '3') {                     
                         foreach ($managers as $manager) {
                             //Notify managers  
                             $data = [

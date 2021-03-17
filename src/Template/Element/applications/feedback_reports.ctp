@@ -328,17 +328,17 @@
                              <br>
                               <!-- Button trigger modal -->
                               <?php if($comment->assigned_to == $this->request->session()->read('Auth.User.id')) { ?>
-                              <a href="#">
-                                <span class="label label-warning" data-toggle="modal" data-target="#evalfeedModal<?= $comment->id ?>"> Evaluator's feedback </span>
-                              </a>
+                              <!-- <a href="#"> -->
+                                <button class="btn btn-warning btn-xs"  id="#evalfeedModal<?= $comment->id ?>" onclick='$("#evalfeedModal<?= $comment->id ?>").toggle()' > Evaluator's feedback </button>
+                              <!-- </a> -->
                               <?php } ?>
 
                               <!-- Modal -->
-                              <div class="modal fade" id="evalfeedModal<?= $comment->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $comment->id ?>">
+                              <div  id="evalfeedModal<?= $comment->id ?>"  aria-labelledby="myModalLabel<?= $comment->id ?>" style="display: none;" >
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
                                       <h4 class="modal-title">Evaluator's feedback</h4>
                                     </div>
                                     <?php                                  
@@ -350,13 +350,13 @@
                                       <?php                                        
                                       echo $this->Form->control('review', ['label' => false, 'type' => 'textarea', 'templates' => [
                                               'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
-                                              'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                              'textarea' => '<div class="col-sm-12"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
                                         
                                       ?>
                                     </div>
                                     <div class="modal-footer">
-                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                      <button type="submit" class="btn btn-primary btn-sm" name="ef_submitted" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
+                                      <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                                      <button type="submit" class="btn btn-primary btn-sm" name="ef_submitted" value="<?= ($comment->ef_submitted == 1 or empty($comment->ef_submitted)) ? 1 : $comment->ef_submitted ?>"><i class="fa fa-save" aria-hidden="true"></i> Save changes</button>
                                       <!-- <button type="submit" class="btn btn-success btn-sm" name="ef_submitted" value="2" onclick="return confirm('Are you sure you wish to submit for manager review?');">
                                         <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit <small>(for manager review)</small> </button> -->
                                     </div>
