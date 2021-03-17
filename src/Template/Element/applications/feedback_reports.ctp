@@ -136,6 +136,17 @@
                 );
               }
 
+              echo "&nbsp;";
+              $maef = Hash::extract(Hash::extract($comments, "{n}[ef_submitted=2]"), "{n}[model_id=$cn]");
+              if($prefix == 'manager' and count($maef) > 0) {
+                  echo $this->Form->postLink(
+                    '<span class="label label-primary">Approve Feedback <span class="badge">'.count($maef).'</span></span>',
+                    ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['ef_ma' => $cn]],
+                    ['data' => ['model_id' => $cn, 'ef_submitted' => '3', 'feedbacks' => Hash::extract($maef, "{n}.id"), 'foreign_key' => $application->id], 
+                    'escape' => false, 'confirm' => __('Are you sure you want to approve all evaluator feedback {0}?', $cn)]
+                  );      
+              }
+
               if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee-feedback', '_ext' => 'pdf', $application->id, $cn], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
             ?>
             <div class="<?= ($this->request->params['_ext'] == 'pdf' || !empty($this->request->query('cf_id'))) ? '' : 'collapse'; ?>" id="<?= $cn ?>">
@@ -259,7 +270,7 @@
                           <?php } ?>
                           <br>
                           <?php
-                            if(!empty($comment->manager_feedback) && $prefix != 'applicant') {
+                            if(!empty($comment->manager_feedback) && $prefix != 'applicant' && $this->request->params['_ext'] != 'pdf') {
                               echo "<h6><b>Internal feedback</b></h6>";
                               echo $comment->manager_feedback;
                             }
@@ -367,11 +378,11 @@
                             <?php 
 
                               if($prefix == 'manager' and $comment->ef_submitted == '2') {
-                                echo $this->Form->postLink(
+                               /* echo $this->Form->postLink(
                                   '<span class="label label-success">Approve </span>',
                                   ['controller' => 'Comments', 'action' => 'submit', $comment->id, '?' => ['ef_ma' => $comment->id]],
                                   ['data' => ['ef_ma' => $comment->id, 'ef_submitted' => '3'], 'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $comment->id)]
-                              );          
+                                );   */       
                               echo "&nbsp;";
                             ?>
                               <!-- Button trigger modal -->

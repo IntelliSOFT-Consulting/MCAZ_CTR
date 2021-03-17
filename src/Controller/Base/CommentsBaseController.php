@@ -379,8 +379,44 @@ class CommentsBaseController extends AppController
                     }
                 }
                 $this->Flash->error(__('The committee feedback could not be approved. Please, try again.'));
+            }    
+
+            //Manager approves all evaluator's feedback
+            if($this->request->query('ef_ma')) {
+                if ($this->Comments->updateAll(['ef_submitted' => $this->request->getData('ef_submitted')], ['model_id' => $this->request->getData('model_id'), 'id IN' => $this->request->getData('feedbacks')])) {
+                    $stage1  = $this->Applications->ApplicationStages->newEntity();
+                    $stage1->stage_id = 6;
+                    $stage1->stage_date = date("Y-m-d H:i:s");
+                    $application->application_stages = [$stage1];
+                    $application->status = 'Correspondence';
+                    if ($this->Applications->save($application)) {
+                        //Send email, notification and message to managers and assigned evaluators
+
+                        foreach ($managers as $manager) {
+                            //Notify managers  
+                            $data = [
+                                'email_address' => $manager->email, 'user_id' => $manager->id,
+                                'type' => 'manager_applicant_query_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                            ];
+                            $data['vars']['name'] = $manager->name;
+                            $data['vars']['protocol_no'] = $application->protocol_no;
+                            $data['vars']['subject'] = 'Manager approval of evaluator\'s feedback for : '.$application->protocol_no;  
+                            $vCon = $this->Comments->find('list', ['keyField' => 'id', 'valueField' => 'content', 'conditions' => ['Comments.id IN' => $this->request->getData('feedbacks')]])->toArray();
+                            $content = implode("<br><br>", $vCon);
+                            $data['vars']['content'] = $content;              
+                            //notify applicant
+                            $this->QueuedJobs->createJob('GenericEmail', $data);
+                            $data['type'] = 'manager_applicant_query_notification';
+                            $this->QueuedJobs->createJob('GenericNotification', $data);
+                        }
+
+                        $this->Flash->success(__('The evaluator\'s feedback has been approved.'));  
+                        return $this->redirect($this->referer());
+                    } 
+                }                
+                $this->Flash->error(__('The evaluator\'s feedback could not be approved. Please, try again.'));
             }
-            
+
         } else {
             $this->Flash->error(__('Method not allowed. Please, try again.'));
             return $this->redirect($this->referer());
@@ -501,7 +537,7 @@ class CommentsBaseController extends AppController
                         $this->QueuedJobs->createJob('GenericNotification', $data);*/
 
 
-                        $this->Flash->success(__('The evaluator\'s feedback has been approved and shared with the applicant.'));  
+                        $this->Flash->success(__('The evaluator\'s feedback has been approved.'));  
                         return $this->redirect($this->referer());
                     }              
                 }
