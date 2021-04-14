@@ -2,6 +2,7 @@
   use Cake\Utility\Hash;
   $this->Html->css('bootstrap/comments.css', ['block' => true]);
   $this->Html->script('comments/comments', ['block' => true]);
+  $this->Html->script('comments/recommendations', ['block' => true]);
 ?>
 
   <div class="row">

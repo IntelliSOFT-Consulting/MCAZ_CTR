@@ -12,6 +12,7 @@
   <div class="col-xs-12">   
     <?php
       foreach ($v as $cn) {
+        $recommandation = null;
     ?>
       <div class="thumbnail amend-form">
             <a class="btn btn-<?php
@@ -128,7 +129,7 @@
               echo "&nbsp;";
               if($prefix == 'manager' and $bo > 0 and $bo != $co) {
                   echo $this->Form->postLink(
-                    'Approve All',
+                    'Approve All Queries',
                     ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['cf_ma' => $cn]],
                     ['data' => ['id' => $cn, 'feedbacks' => Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn].id"), 'submitted' => 2, 'foreign_key' => $application->id,
                                 'approver' => $this->request->session()->read('Auth.User.id')], 
@@ -162,7 +163,7 @@
                     <?php $i = 0; ?>
                     <?php                     
                         foreach ($comments as $comment): 
-                          if($comment->model_id == $cn) {
+                          if($comment->model_id == $cn and $comment->subject != 'recommandation finale') {
                             $disp = false;
                             if($prefix == 'evaluator' and $comment->user_id == $this->request->session()->read('Auth.User.id')) $disp = true;
                             if($prefix == 'evaluator' and $comment->user_id != $this->request->session()->read('Auth.User.id') and $comment->submitted == '2') $disp = true;
@@ -361,7 +362,7 @@
                                       <?php                                        
                                       echo $this->Form->control('review', ['label' => false, 'type' => 'textarea', 'templates' => [
                                               'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
-                                              'textarea' => '<div class="col-sm-12"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                              'textarea' => '<div class="col-sm-12"><textarea class="form-control rtecontrol" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
                                         
                                       ?>
                                     </div>
@@ -407,7 +408,7 @@
                                       <?php  
                                         echo $this->Form->control('manager_feedback', ['label' => false, 'type' => 'textarea', 'templates' => [
                                               'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
-                                              'textarea' => '<div class="col-sm-10"><textarea class="form-control" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                              'textarea' => '<div class="col-sm-10"><textarea class="form-control rtecontrol" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
                                         
                                       ?>
                                     </div>
@@ -424,8 +425,49 @@
                       </tr>
                     <?php 
                       }}
+                      elseif($comment->model_id == $cn and $comment->subject == 'recommandation finale') {
+                         $recommandation = $comment;
+                      }
                       endforeach; ?>
 
+                      <!-- Another row for recommendation or form if at least we have some queries -->
+                      <tr class="<?= $luku ?>">
+                        <td colspan="3">
+                          <h3>Final Recommendation</h3>
+                          <?php
+                            if ($co > 0 and $prefix == 'evaluator') {
+                              echo $this->Form->create($recommandation, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-committee', 'prefix' => $prefix]]);
+                              
+                              echo $this->Form->control('id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                              echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $application->id, 'templates' => 'comment_form']);
+                              echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $cn, 'templates' => 'comment_form']);
+                              echo $this->Form->control('ef_submitted', ['type' => 'hidden', 'value' => 2, 'templates' => 'comment_form']);
+                              echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'Applications', 'templates' => 'table_form']);
+                              echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'committee', 'templates' => 'table_form']);
+                              echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);                
+                              echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
+                              echo $this->Form->control('subject', ['type' => 'hidden', 'value' => 'recommandation finale', 'templates' => 'comment_form']);
+                              echo $this->Form->control('content', ['label' => false, 'type' => 'textarea', 'templates' => 
+                                    [
+                                    'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                    'textarea' => '<div class="col-sm-12"><textarea class="form-control rtecontrol" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]); 
+                          ?>
+                            <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" onclick="return confirm('Are you sure you wish to submit the final recommendation?');"> <i   class="fa fa-paper-plane" aria-hidden="true"></i> Submit </button>
+                          <?php 
+                            echo $this->Form->end();
+                            }
+                            elseif ($prefix == 'manager' and !empty($recommandation)) {
+                                echo $recommandation->content.'<br>';
+                                if($recommandation->ef_submitted != 3) echo $this->Form->postLink(
+                                  '<span class="label label-success">Approve </span>',
+                                  ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, '?' => ['ef_ma' => $recommandation->id]],
+                                  ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '3', 'approver' => $this->request->session()->read('Auth.User.id')], 
+                                  'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $recommandation->id)]
+                                ); 
+                            }
+                          ?>
+                        </td>
+                      </tr>
                     <tr>
                       <td colspan="3">
                         <?php
