@@ -435,35 +435,51 @@
                         <td colspan="3">
                           <h3>Final Recommendation</h3>
                           <?php
-                            if ($co > 0 and $prefix == 'evaluator') {
-                              echo $this->Form->create($recommandation, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-committee', 'prefix' => $prefix]]);
-                              
-                              echo $this->Form->control('id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                              echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $application->id, 'templates' => 'comment_form']);
-                              echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $cn, 'templates' => 'comment_form']);
-                              echo $this->Form->control('ef_submitted', ['type' => 'hidden', 'value' => 2, 'templates' => 'comment_form']);
-                              echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'Applications', 'templates' => 'table_form']);
-                              echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'committee', 'templates' => 'table_form']);
-                              echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);                
-                              echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
-                              echo $this->Form->control('subject', ['type' => 'hidden', 'value' => 'recommandation finale', 'templates' => 'comment_form']);
-                              echo $this->Form->control('content', ['label' => false, 'type' => 'textarea', 'templates' => 
-                                    [
-                                    'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
-                                    'textarea' => '<div class="col-sm-12"><textarea class="form-control rtecontrol" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]); 
+                            if ($co > 0 and $prefix == 'evaluator' and $this->request->params['_ext'] != 'pdf') {
+                              if (!empty($recommandation) and $recommandation->ef_submitted == 3) {
+                                echo $recommandation->content.'<br>';
+                              } else {
+                                  echo $this->Form->create($recommandation, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'add-from-committee', 'prefix' => $prefix]]);
+                                  
+                                  echo $this->Form->control('id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                                  echo $this->Form->control('foreign_key', ['type' => 'hidden', 'value' => $application->id, 'templates' => 'comment_form']);
+                                  echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $cn, 'templates' => 'comment_form']);
+                                  echo $this->Form->control('ef_submitted', ['type' => 'hidden', 'value' => 2, 'templates' => 'comment_form']);
+                                  echo $this->Form->control('model', ['type' => 'hidden', 'value' => 'Applications', 'templates' => 'table_form']);
+                                  echo $this->Form->control('category', ['type' => 'hidden', 'value' => 'committee', 'templates' => 'table_form']);
+                                  echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);                
+                                  echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
+                                  echo $this->Form->control('subject', ['type' => 'hidden', 'value' => 'recommandation finale', 'templates' => 'comment_form']);
+                                  echo $this->Form->control('content', ['label' => false, 'type' => 'textarea', 'templates' => 
+                                        [
+                                        'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                        'textarea' => '<div class="col-sm-12"><textarea class="form-control rtecontrol" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]); 
                           ?>
-                            <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" onclick="return confirm('Are you sure you wish to submit the final recommendation?');"> <i   class="fa fa-paper-plane" aria-hidden="true"></i> Submit </button>
+                                <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" onclick="return confirm('Are you sure you wish to submit the final recommendation?');"> <i   class="fa fa-paper-plane" aria-hidden="true"></i> Submit </button>
                           <?php 
-                            echo $this->Form->end();
+                                  echo $this->Form->end();
+                              }
                             }
                             elseif ($prefix == 'manager' and !empty($recommandation)) {
                                 echo $recommandation->content.'<br>';
-                                if($recommandation->ef_submitted != 3) echo $this->Form->postLink(
-                                  '<span class="label label-success">Approve </span>',
-                                  ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, '?' => ['ef_ma' => $recommandation->id]],
-                                  ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '3', 'approver' => $this->request->session()->read('Auth.User.id')], 
-                                  'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $recommandation->id)]
-                                ); 
+                                if($recommandation->ef_submitted != 3) {
+                                    echo $this->Form->postLink(
+                                      '<span class="label label-success">Approve </span>',
+                                      ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, '?' => ['ef_ma' => $recommandation->id]],
+                                      ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '3', 'approver' => $this->request->session()->read('Auth.User.id')], 
+                                      'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $recommandation->id)]
+                                    ); 
+                                } else {
+                                    echo $this->Form->postLink(
+                                      '<span class="label label-warning">Request changes </span>',
+                                      ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, '?' => ['ef_ma' => $recommandation->id]],
+                                      ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '2', 'approver' => $this->request->session()->read('Auth.User.id')], 
+                                      'escape' => false, 'confirm' => __('Are you sure you want to request changes to feedback {0}?', $recommandation->id)]
+                                    ); 
+                                }
+                            } elseif(!empty($recommandation) and $recommandation->ef_submitted == 3) {
+                                //only approved recommendations appear
+                                echo $recommandation->content.'<br>';
                             }
                           ?>
                         </td>
