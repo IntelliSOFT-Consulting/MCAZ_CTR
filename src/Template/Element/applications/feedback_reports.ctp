@@ -143,7 +143,7 @@
                   echo $this->Form->postLink(
                     '<span class="label label-primary">Approve Feedback <span class="badge">'.count($maef).'</span></span>',
                     ['controller' => 'Comments', 'action' => 'submitAll', $cn, '?' => ['ef_ma' => $cn]],
-                    ['data' => ['model_id' => $cn, 'ef_submitted' => '3', 'feedbacks' => Hash::extract($maef, "{n}.id"), 'foreign_key' => $application->id], 
+                    ['data' => ['model_id' => $cn, 'ef_submitted' => '3', 'approver' => $this->request->session()->read('Auth.User.id'), 'feedbacks' => Hash::extract($maef, "{n}.id"), 'foreign_key' => $application->id], 
                     'escape' => false, 'confirm' => __('Are you sure you want to approve all evaluator feedback {0}?', $cn)]
                   );      
               }

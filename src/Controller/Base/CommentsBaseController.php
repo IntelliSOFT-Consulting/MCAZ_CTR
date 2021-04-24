@@ -254,9 +254,11 @@ class CommentsBaseController extends AppController
             }
 
             //Manager assigns evaluator to respond
-            if($this->request->query('cf_ae')) {
+            if(strlen($this->request->query('cf_ae')) > 0) {
+
                 if ($this->request->getData('assigned_to')) {
-                    // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);                  
+                    // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);   
+                    // debug($this->request->getData());  
                     if ($this->Comments->updateAll(['assigned_to' => $this->request->getData('assigned_to')], ['model_id' => $this->request->getData('model_id'), 'id IN' => $this->request->getData('feedbacks')])) { 
                     // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
                         $evaluator = $this->Applications->Users->get($this->request->getData('assigned_to'));          
@@ -287,6 +289,7 @@ class CommentsBaseController extends AppController
                     $this->Flash->error(__('The committee feedback could not be shared with the manager. Please, try again.'));
                 } else {
                     $this->Flash->info(__('Please select an evaluator.'));
+                    return $this->redirect($this->referer());
                 }                
             }
 
@@ -383,7 +386,8 @@ class CommentsBaseController extends AppController
 
             //Manager approves all evaluator's feedback
             if($this->request->query('ef_ma')) {
-                if ($this->Comments->updateAll(['ef_submitted' => $this->request->getData('ef_submitted')], ['model_id' => $this->request->getData('model_id'), 'id IN' => $this->request->getData('feedbacks')])) {
+                if ($this->Comments->updateAll(['ef_submitted' => $this->request->getData('ef_submitted'), 'approver' => $this->request->getData('approver')], 
+                        ['model_id' => $this->request->getData('model_id'), 'id IN' => $this->request->getData('feedbacks')])) {
                     $stage1  = $this->Applications->ApplicationStages->newEntity();
                     $stage1->stage_id = 6;
                     $stage1->stage_date = date("Y-m-d H:i:s");
@@ -416,6 +420,7 @@ class CommentsBaseController extends AppController
                 }                
                 $this->Flash->error(__('The evaluator\'s feedback could not be approved. Please, try again.'));
             }
+            return $this->redirect($this->referer());
 
         } else {
             $this->Flash->error(__('Method not allowed. Please, try again.'));
