@@ -542,7 +542,7 @@ class CommentsBaseController extends AppController
                         $this->QueuedJobs->createJob('GenericNotification', $data);*/
 
 
-                        $this->Flash->success(__('The evaluator\'s feedback has been approved.'));  
+                        $this->Flash->success(__('The evaluator\'s feedback has been reviewed.'));  
                         return $this->redirect($this->referer());
                     }              
                 }

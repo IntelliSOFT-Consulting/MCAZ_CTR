@@ -458,6 +458,10 @@
                                 <button type="submit" class="btn btn-success btn-sm" name="submitted" value="2" onclick="return confirm('Are you sure you wish to submit the final recommendation?');"> <i   class="fa fa-paper-plane" aria-hidden="true"></i> Submit </button>
                           <?php 
                                   echo $this->Form->end();
+                                  if(!empty($recommandation) and $this->request->params['_ext'] != 'pdf') {
+                                    echo "<hr><h4>Manager feedback</h4>";
+                                    echo $recommandation->manager_feedback;
+                                  }
                               }
                             }
                             elseif ($prefix == 'manager' and !empty($recommandation)) {
@@ -469,14 +473,60 @@
                                       ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '3', 'approver' => $this->request->session()->read('Auth.User.id')], 
                                       'escape' => false, 'confirm' => __('Are you sure you want to approve feedback {0}?', $recommandation->id)]
                                     ); 
-                                } else {
-                                    echo $this->Form->postLink(
-                                      '<span class="label label-warning">Request changes </span>',
-                                      ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, '?' => ['ef_ma' => $recommandation->id]],
-                                      ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '2', 'approver' => $this->request->session()->read('Auth.User.id')], 
-                                      'escape' => false, 'confirm' => __('Are you sure you want to request changes to feedback {0}?', $recommandation->id)]
-                                    ); 
-                                }
+                                } 
+
+                                    // echo $this->Form->postLink(
+                                    //   '<span class="label label-warning">Request changes </span>',
+                                    //   ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, '?' => ['ef_ma' => $recommandation->id]],
+                                    //   ['data' => ['ef_ma' => $recommandation->id, 'ef_submitted' => '2', 'approver' => $this->request->session()->read('Auth.User.id')], 
+                                    //   'escape' => false, 'confirm' => __('Are you sure you want to request changes to feedback {0}?', $recommandation->id)]
+                                    // ); 
+                              ?>
+                                <!-- Button trigger modal -->
+                                &nbsp;
+                                <a href="#">
+                                  <span class="label label-warning" data-toggle="modal" data-target="#requestModal<?= $recommandation->id ?>"> Request changes </span>
+                                </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="requestModal<?= $recommandation->id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?= $recommandation->id ?>">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Manager feedback</h4>
+                                      </div>
+                                      <?php                                  
+                                        echo $this->Form->create($recommandation, ['type' => 'file','url' => ['controller' => 'Comments', 'action' => 'submit', $recommandation->id, 'prefix' => $prefix,
+                                          '?' => ['ef_ma' => $recommandation->id]
+                                      ]]);
+                                      ?>
+                                      <div class="modal-body">
+                                        <?php  
+                                          echo $this->Form->control('submitted', ['type' => 'hidden', 'value' => 0, 'templates' => 'comment_form']);
+                                          echo $this->Form->control('ef_submitted', ['type' => 'hidden', 'value' => 2, 'templates' => 'comment_form']);
+                                          echo $this->Form->control('ef_ma', ['type' => 'hidden', 'value' => $recommandation->id, 'templates' => 'comment_form']);
+                                          echo $this->Form->control('manager_feedback', ['label' => false, 'type' => 'textarea', 'templates' => [
+                                                'inputContainer' => '<div class="{{type}}{{required}}">{{content}}</div>',
+                                                'textarea' => '<div class="col-sm-10"><textarea class="form-control rtecontrol" rows=3 name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);  
+                                          
+                                        ?>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                      </div>
+                                      <?php echo $this->Form->end(); ?>
+                                    </div>
+                                  </div>
+                                </div>
+                              <?php
+                              
+                              if(!empty($recommandation) and $this->request->params['_ext'] != 'pdf') {
+                                    echo "<hr><h4>Manager feedback</h4>";
+                                    echo $recommandation->manager_feedback;
+                              }
+
                             } elseif(!empty($recommandation) and $recommandation->ef_submitted == 3) {
                                 //only approved recommendations appear
                                 echo $recommandation->content.'<br>';
