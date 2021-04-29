@@ -46,7 +46,8 @@
             &nbsp;
             <?php 
               $xf = (Hash::extract(Hash::extract($comments, "{n}[submitted=2]"), "{n}[model_id=$cn]"))[0] ?? ['assigned_to' => ''];
-              echo (isset($feedback_evaluators->toArray()[$xf->assigned_to])) ? 
+              // debug($xf[]);
+              echo (!empty($xf) and isset($feedback_evaluators->toArray()[$xf['assigned_to']])) ? 
                 '<span class="label label-success">'.$feedback_evaluators->toArray()[$xf->assigned_to].'</span>' : '<span class="label label-default"><small><i>not assigned</i></small></span>';
             ?>  
             <?php
