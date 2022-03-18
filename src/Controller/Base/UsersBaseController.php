@@ -41,12 +41,18 @@ class UsersBaseController extends AppController
             ['submitted' => 2, 'report_type' => 'Initial', //'ifnull(approved, "N") NOT IN' => ['Authorize', 'DirectorAuthorize', 'Declined']
         ], 
             ['order' => ['Applications.id' => 'desc']]);
+
+
         //Evaluators and External evaluators only to view if assigned
-        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
-            $app_query->matching('AssignEvaluators', function ($q) {
-                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
-            });
-        }
+        // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+        //     $app_query->matching('AssignEvaluators', function ($q) {
+        //         return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+        //     });
+        // }
+
+        //Above lines commented to allow evaluators view a report
+
+
         //Finance only able to see FN
         if ($this->Auth->user('group_id') == 5) {
             $app_query->andWhere(['Applications.protocol_no LIKE' => '%FN%']);

@@ -64,11 +64,15 @@ class ApplicationsBaseController extends AppController
         }
 
         //Evaluators and External evaluators only to view if assigned
-        if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
-            $query->matching('AssignEvaluators', function ($q) {
-                return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
-            });
-        }
+        //    if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+        //         $query->matching('AssignEvaluators', function ($q) {
+        //             return $q->where(['AssignEvaluators.assigned_to' => $this->Auth->user('id')]);
+        //         });
+        //    }
+
+        //Commented out the above to display all the reports to Evaluators
+
+
         // Secretary General only able to view once it has been approved
         if ($this->Auth->user('group_id') == 7) {
             $query->matching('ApplicationStages', function ($q) {
@@ -115,7 +119,7 @@ class ApplicationsBaseController extends AppController
             function ($row) { return implode('|', Hash::extract($row['participants'], '{n}.place_of_birth')); }, 
             function ($row) { return implode('|', Hash::extract($row['participants'], '{n}.file')); }, 
             'single_site_member_state', 'location_of_area', 'single_site_physical_address', 'single_site_contact_person', 'single_site_telephone', 'multiple_sites_member_state', 'number_of_sites', 'single_site_name', 'single_site_physical_address', 'single_site_contact_details', 'single_site_contact_person', 
-            function ($row) use($_provinces) { return $_provinces[$row['single_site_province_id']] ?? '' ; }, //'single_site_province_id', 
+            function ($row) use($_provinces) { return (!empty($_provinces[$row['single_site_province_id']])) ?$_provinces[$row['single_site_province_id']] : '' ; }, //'single_site_province_id', 
             function ($row) { return implode('|', Hash::extract($row['site_details'], '{n}.site_name')); }, 
             function ($row) { return implode('|', Hash::extract($row['site_details'], '{n}.physical_address')); }, 
             function ($row) { return implode('|', Hash::extract($row['site_details'], '{n}.contact_details')); }, 
@@ -148,7 +152,7 @@ class ApplicationsBaseController extends AppController
             function ($row) { return implode('|', Hash::extract($row['assign_evaluators'], '{n}.category')); }, 
             function ($row) { return implode('|', Hash::extract($row['assign_evaluators'], '{n}.user_message')); }, 
             'report_type', 
-            function ($row) use($_users) { return $_users[$row['user_id']] ?? '' ; }, //'user_id', 
+            function ($row) use($_users) { return (!empty($_users[$row['user_id']])) ?$_users[$row['user_id']]: '' ; }, //'user_id', 
             'approval_date', 'date_submitted', 'approved', 'status', 'approved_date', 'final_report', 'created', 'modified'
         ];
 
@@ -373,6 +377,16 @@ class ApplicationsBaseController extends AppController
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
 
+              // Check if Evaluator has been assigned | if not block from leaving a review
+              if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
+
             //new stage only once
             if(!in_array("4", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
@@ -474,6 +488,16 @@ class ApplicationsBaseController extends AppController
                                 'CommitteeReviews.Attachments',
                             ]
                      ]);
+
+                       // Check if Evaluator has been assigned | if not block from leaving a review
+            if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
             /**
              * Committee decision 
              * If decision is Approved, the status is set to DirectorGeneral or Stage 9
@@ -618,7 +642,17 @@ class ApplicationsBaseController extends AppController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            //$application->status = 'Section75';
+           
+            
+            // Check if Evaluator has been assigned | if not block from leaving a review
+            if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -697,6 +731,16 @@ class ApplicationsBaseController extends AppController
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
             //$application->status = 'RequestReporter';
+
+              // Check if Evaluator has been assigned | if not block from leaving a review
+              if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol to send a request!. Kindly contact MCAZ.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
@@ -777,7 +821,19 @@ class ApplicationsBaseController extends AppController
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            //$application->status = 'GCP';
+            
+  
+            // Check if Evaluator has been assigned | if not block from leaving a review
+            if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
+
+
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
