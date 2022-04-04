@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -12,6 +13,7 @@
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -41,10 +43,12 @@ class AppController extends Controller
 
     protected $_contain;
 
-    protected $a_contain = ['InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',    'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Details', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceAnnualApprovals', 'FinanceApprovals', 'FinanceApprovals.Attachments', 'AssignEvaluators', 'AssignEvaluators.Users', 'Evaluations', 'Evaluations.Users', 'Evaluations.EvaluationEdits', 'Evaluations.EvaluationEdits.Users', 
-    'CommitteeReviews', 'CommitteeReviews.Attachments', 'CommitteeReviews.Comments', 'CommitteeReviews.Comments.Attachments', 'Appeals', 'Appeals.Attachments', 'Appeals.Users', 'Comments', 'Comments.Responses', 'Comments.Attachments', 'Comments.Responses.Attachments',
-    'EvaluationComments', 'EvaluationComments.Attachments', 'CommitteeComments', 'CommitteeComments.Attachments',  'CommitteeComments.Responses', 'CommitteeComments.Responses.Attachments', 
-    'DgReviews', 'DgReviews.Users', 'DgReviews.Attachments', 'FinalStages', 'FinalStages.Users', 'FinalStages.Attachments', 'AnnualApprovals', 'AnnualApprovals.Users', 'AnnualApprovals.Attachments', 'EvaluationHeaders', 'RequestInfos', 'RequestInfos.Users', 'RequestInfos.Attachments', 'SeventyFives', 'GcpInspections', 'ParentApplications', 'ApplicationStages', 'ApplicationStages.Stages'];
+    protected $a_contain = [
+        'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos',    'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Details', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers', 'FinanceAnnualApprovals', 'FinanceApprovals', 'FinanceApprovals.Attachments', 'AssignEvaluators', 'AssignEvaluators.Users', 'Evaluations', 'Evaluations.Users', 'Evaluations.EvaluationEdits', 'Evaluations.EvaluationEdits.Users',
+        'CommitteeReviews', 'CommitteeReviews.Attachments', 'CommitteeReviews.Comments', 'CommitteeReviews.Comments.Attachments', 'Appeals', 'Appeals.Attachments', 'Appeals.Users', 'Comments', 'Comments.Responses', 'Comments.Attachments', 'Comments.Responses.Attachments',
+        'EvaluationComments', 'EvaluationComments.Attachments', 'CommitteeComments', 'CommitteeComments.Attachments',  'CommitteeComments.Responses', 'CommitteeComments.Responses.Attachments', 'Clinicals',
+        'DgReviews', 'DgReviews.Users', 'DgReviews.Attachments', 'FinalStages', 'FinalStages.Users', 'FinalStages.Attachments', 'AnnualApprovals', 'AnnualApprovals.Users', 'AnnualApprovals.Attachments', 'EvaluationHeaders', 'RequestInfos', 'RequestInfos.Users', 'RequestInfos.Attachments', 'SeventyFives', 'GcpInspections', 'ParentApplications', 'ApplicationStages', 'ApplicationStages.Stages'
+    ];
 
     public $components = [
         'Acl' => [
@@ -70,10 +74,12 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-        $this->_contain = ['InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Details', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers',  'FinanceAnnualApprovals', 'FinanceApprovals', 'FinanceApprovals.Attachments', 'AssignEvaluators', 'AssignEvaluators.Users', 'ApplicationStages', 'ApplicationStages.Stages', 'Amendments', 'Amendments.InvestigatorContacts', 'Amendments.Participants', 'Amendments.SiteDetails', 'Amendments.Medicines', 'Amendments.Registrations', 'Amendments.Policies', 'Amendments.Details', 'Amendments.Details',  'Amendments.Proofs', 'Amendments.Committees', 'Amendments.CoverLetters', 'Amendments.Fees', 'Amendments.LegalForms', 'Amendments.Protocols', 'Amendments.Leaflets', 'Amendments.Brochures', 'Amendments.InvestigatorCvs', 'Amendments.Declarations', 'Amendments.StudyMonitors', 'Amendments.MonitoringPlans', 'Amendments.PiDeclarations', 'Amendments.PharmacyPlans', 'Amendments.StudySponsorships', 'Amendments.PharmacyLicenses', 'Amendments.StudyMedicines', 'Amendments.InsuranceCertificates', 'Amendments.GenericInsurances', 'Amendments.EthicsApprovals', 'Amendments.EthicsLetters', 'Amendments.CountryApprovals', 'Amendments.Advertisments', 'Amendments.SafetyMonitors', 'Amendments.BiologicalProducts', 'Amendments.Dossiers', 'Amendments.Mc10Forms', 'Amendments.Receipts', 'Amendments.Attachments', 'Amendments.ApplicationStages', 'Amendments.ApplicationStages.Stages', 'Evaluations', 'Evaluations.Users', 'Evaluations.EvaluationEdits', 'Evaluations.EvaluationEdits.Users', 'CommitteeReviews', 'CommitteeReviews.Attachments', 'CommitteeReviews.Comments', 'CommitteeReviews.Comments.Attachments', 'Appeals', 'Appeals.Attachments', 'Appeals.Users', 'Comments', 'Comments.Responses', 'Comments.Attachments', 'Comments.Responses.Attachments',
-        'EvaluationComments', 'EvaluationComments.Attachments', 'CommitteeComments', 'CommitteeComments.Attachments',  'CommitteeComments.Responses', 'CommitteeComments.Responses.Attachments', 
-        'NotificationComments', 'NotificationComments.Attachments', 
-        'DgReviews', 'DgReviews.Users', 'DgReviews.Attachments', 'FinalStages', 'FinalStages.Users', 'FinalStages.Attachments', 'AnnualApprovals', 'AnnualApprovals.Users', 'AnnualApprovals.Attachments', 'EvaluationHeaders', 'RequestInfos', 'RequestInfos.Users', 'RequestInfos.Attachments', 'SeventyFives', 'SeventyFives.Users', 'GcpInspections', 'GcpInspections.Users',];
+        $this->_contain = [
+            'InvestigatorContacts', 'Participants', 'Sponsors', 'SiteDetails', 'Placebos', 'Medicines', 'Protocols', 'Attachments', 'Receipts', 'Registrations', 'Policies', 'Details', 'Proofs', 'Committees', 'Fees', 'Mc10Forms', 'LegalForms', 'CoverLetters', 'Leaflets', 'Brochures', 'InvestigatorCvs', 'Declarations', 'StudyMonitors', 'MonitoringPlans', 'PiDeclarations', 'StudySponsorships', 'PharmacyPlans', 'PharmacyLicenses', 'StudyMedicines', 'InsuranceCertificates', 'GenericInsurances', 'EthicsApprovals', 'EthicsLetters', 'CountryApprovals', 'Advertisments', 'SafetyMonitors', 'BiologicalProducts', 'Dossiers',  'FinanceAnnualApprovals', 'FinanceApprovals', 'FinanceApprovals.Attachments', 'AssignEvaluators', 'AssignEvaluators.Users', 'ApplicationStages', 'ApplicationStages.Stages', 'Amendments', 'Amendments.InvestigatorContacts', 'Amendments.Participants', 'Amendments.SiteDetails', 'Amendments.Medicines', 'Amendments.Registrations', 'Amendments.Policies', 'Amendments.Details', 'Amendments.Details',  'Amendments.Proofs', 'Amendments.Committees', 'Amendments.CoverLetters', 'Amendments.Fees', 'Amendments.LegalForms', 'Amendments.Protocols', 'Amendments.Leaflets', 'Amendments.Brochures', 'Amendments.InvestigatorCvs', 'Amendments.Declarations', 'Amendments.StudyMonitors', 'Amendments.MonitoringPlans', 'Amendments.PiDeclarations', 'Amendments.PharmacyPlans', 'Amendments.StudySponsorships', 'Amendments.PharmacyLicenses', 'Amendments.StudyMedicines', 'Amendments.InsuranceCertificates', 'Amendments.GenericInsurances', 'Amendments.EthicsApprovals', 'Amendments.EthicsLetters', 'Amendments.CountryApprovals', 'Amendments.Advertisments', 'Amendments.SafetyMonitors', 'Amendments.BiologicalProducts', 'Amendments.Dossiers', 'Amendments.Mc10Forms', 'Amendments.Receipts', 'Amendments.Attachments', 'Amendments.ApplicationStages', 'Amendments.ApplicationStages.Stages', 'Evaluations', 'Evaluations.Users', 'Evaluations.EvaluationEdits', 'Evaluations.EvaluationEdits.Users', 'CommitteeReviews', 'CommitteeReviews.Attachments', 'CommitteeReviews.Comments', 'CommitteeReviews.Comments.Attachments', 'Appeals', 'Appeals.Attachments', 'Appeals.Users', 'Comments', 'Comments.Responses', 'Comments.Attachments', 'Comments.Responses.Attachments',
+            'EvaluationComments', 'EvaluationComments.Attachments', 'CommitteeComments', 'CommitteeComments.Attachments',  'CommitteeComments.Responses', 'CommitteeComments.Responses.Attachments',
+            'NotificationComments', 'NotificationComments.Attachments',
+            'DgReviews', 'DgReviews.Users', 'DgReviews.Attachments', 'FinalStages', 'FinalStages.Users', 'FinalStages.Attachments', 'AnnualApprovals', 'AnnualApprovals.Users', 'AnnualApprovals.Attachments', 'EvaluationHeaders', 'RequestInfos', 'RequestInfos.Users', 'RequestInfos.Attachments', 'SeventyFives', 'SeventyFives.Users', 'GcpInspections', 'GcpInspections.Users',
+        ];
 
         $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
 
@@ -87,10 +93,15 @@ class AppController extends Controller
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
         $prefix = null;
-        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
-        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager';  }
-        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; }
-        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 1) {
+            $prefix = 'admin';
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 2) {
+            $prefix = 'manager';
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 3) {
+            $prefix = 'evaluator';
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 4) {
+            $prefix = 'applicant';
+        }
 
         $this->loadComponent('Auth', [
             'authorize' => [
@@ -130,15 +141,16 @@ class AppController extends Controller
     }
 
     /*1. Ported from 1.2*/
-    public function beforeFilter(Event $event) {
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
-        $this->Auth->allow('display'); 
+        $this->Auth->allow('display');
         //if admin prefix, redirect to admin
         // $this->viewBuilder()->setLayout('admin');
         // if($this->Auth->user('group_id')!= 'applicant') {
         //     $this->viewBuilder()->setLayout('admin');
         // }
-    }    
+    }
     /*end 1*/
 
 
@@ -153,7 +165,8 @@ class AppController extends Controller
         // Note: These defaults are just to get started quickly with development
         // and should not be used in production. You should instead set "_serialize"
         // in each action as required.
-        if (!array_key_exists('_serialize', $this->viewVars) &&
+        if (
+            !array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
@@ -161,13 +174,27 @@ class AppController extends Controller
 
         //pass prefix to all controllers
         $prefix = null;
-        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin'; $this->viewBuilder()->setLayout('admin');} 
-        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager';  $this->viewBuilder()->setLayout('admin');}
-        elseif ($this->request->session()->read('Auth.User.group_id') == 3) { $prefix = 'evaluator'; $this->viewBuilder()->setLayout('admin'); }
-        elseif ($this->request->session()->read('Auth.User.group_id') == 6) { $prefix = 'external_evaluator'; $this->viewBuilder()->setLayout('admin'); }
-        elseif ($this->request->session()->read('Auth.User.group_id') == 7) { $prefix = 'director_general'; $this->viewBuilder()->setLayout('admin'); }
-        elseif ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'finance'; $this->viewBuilder()->setLayout('admin'); }
-        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'applicant'; }
-        $this->set(['prefix'=> $prefix]);
+        if ($this->request->session()->read('Auth.User.group_id') == 1) {
+            $prefix = 'admin';
+            $this->viewBuilder()->setLayout('admin');
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 2) {
+            $prefix = 'manager';
+            $this->viewBuilder()->setLayout('admin');
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 3) {
+            $prefix = 'evaluator';
+            $this->viewBuilder()->setLayout('admin');
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 6) {
+            $prefix = 'external_evaluator';
+            $this->viewBuilder()->setLayout('admin');
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 7) {
+            $prefix = 'director_general';
+            $this->viewBuilder()->setLayout('admin');
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 5) {
+            $prefix = 'finance';
+            $this->viewBuilder()->setLayout('admin');
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 4) {
+            $prefix = 'applicant';
+        }
+        $this->set(['prefix' => $prefix]);
     }
 }
