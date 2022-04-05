@@ -8,7 +8,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $application_id
- * @property int $evaluation_id
  * @property int $user_id
  * @property string $sponsor_justification
  * @property string $sponsor_comment
@@ -96,9 +95,65 @@ use Cake\ORM\Entity;
  * @property string $permitted_concomitant
  * @property string $prohibited_concomitant
  * @property string $concomitant_comments
+ * @property string $procedures_adequate
+ * @property bool $insufficient_frequency
+ * @property string $frequency_comments
+ * @property bool $relevant_targets
+ * @property string $relevant_targets_comments
+ * @property bool $minimization_measures
+ * @property string $minimization_measures_comments
+ * @property bool $risk_unacceptable
+ * @property string $risk_unacceptable_comments
+ * @property bool $insufficient_followup
+ * @property string $insufficient_followup_comments
+ * @property bool $other_safety
+ * @property string $other_safety_comments
+ * @property string $rsi_included
+ * @property string $acceptable_document
+ * @property string $acceptable_format
+ * @property string $expected_acceptable
+ * @property string $general_irs_comments
+ * @property string $general_safety_comments
+ * @property string $dsmc_committee
+ * @property string $arrangements_acceptable
+ * @property string $dsmc_comments
+ * @property string $trial_definition_acceptable
+ * @property string $trial_definition_comments
+ * @property string $collection_unacceptable
+ * @property string $collection_unacceptable_comments
+ * @property bool $data_policies_acceptable
+ * @property string $data_policies_acceptable_comments
+ * @property bool $unauthorised_unacceptable
+ * @property string $unauthorised_unacceptable_comments
+ * @property bool $measures_unacceptable
+ * @property string $measures_unacceptable_comments
+ * @property bool $breach_unacceptable
+ * @property string $breach_unacceptable_comments
+ * @property bool $other_protection
+ * @property string $other_protection_comments
+ * @property string $data_protection_comments
+ * @property bool $recruitment_unacceptable
+ * @property string $recruitment_unacceptable_comments
+ * @property string $recruitment_comments
+ * @property string $risk_evaluation_unacceptable
+ * @property string $participants_protection_acceptable
+ * @property bool $condition_unmonitored
+ * @property string $condition_unmonitored_comments
+ * @property bool $unsafeguarded_rights
+ * @property string $unsafeguarded_rights_comments
+ * @property bool $unmonitored_threshold
+ * @property string $unmonitored_threshold_comments
+ * @property string $risk_assessment_comments
+ * @property bool $application_acceptable
+ * @property string $application_acceptable_comments
+ * @property bool $supplementary_required
+ * @property string $supplementary_required_comments
+ * @property string $overal_assessment_comments
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $deleted
+ * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Application $application
- * @property \App\Model\Entity\Evaluation $evaluation
  * @property \App\Model\Entity\User $user
  */
 class Clinical extends Entity
@@ -115,7 +170,6 @@ class Clinical extends Entity
      */
     protected $_accessible = [
         'application_id' => true,
-        'evaluation_id' => true,
         'user_id' => true,
         'sponsor_justification' => true,
         'sponsor_comment' => true,
@@ -203,8 +257,64 @@ class Clinical extends Entity
         'permitted_concomitant' => true,
         'prohibited_concomitant' => true,
         'concomitant_comments' => true,
+        'procedures_adequate' => true,
+        'insufficient_frequency' => true,
+        'frequency_comments' => true,
+        'relevant_targets' => true,
+        'relevant_targets_comments' => true,
+        'minimization_measures' => true,
+        'minimization_measures_comments' => true,
+        'risk_unacceptable' => true,
+        'risk_unacceptable_comments' => true,
+        'insufficient_followup' => true,
+        'insufficient_followup_comments' => true,
+        'other_safety' => true,
+        'other_safety_comments' => true,
+        'rsi_included' => true,
+        'acceptable_document' => true,
+        'acceptable_format' => true,
+        'expected_acceptable' => true,
+        'general_irs_comments' => true,
+        'general_safety_comments' => true,
+        'dsmc_committee' => true,
+        'arrangements_acceptable' => true,
+        'dsmc_comments' => true,
+        'trial_definition_acceptable' => true,
+        'trial_definition_comments' => true,
+        'collection_unacceptable' => true,
+        'collection_unacceptable_comments' => true,
+        'data_policies_acceptable' => true,
+        'data_policies_acceptable_comments' => true,
+        'unauthorised_unacceptable' => true,
+        'unauthorised_unacceptable_comments' => true,
+        'measures_unacceptable' => true,
+        'measures_unacceptable_comments' => true,
+        'breach_unacceptable' => true,
+        'breach_unacceptable_comments' => true,
+        'other_protection' => true,
+        'other_protection_comments' => true,
+        'data_protection_comments' => true,
+        'recruitment_unacceptable' => true,
+        'recruitment_unacceptable_comments' => true,
+        'recruitment_comments' => true,
+        'risk_evaluation_unacceptable' => true,
+        'participants_protection_acceptable' => true,
+        'condition_unmonitored' => true,
+        'condition_unmonitored_comments' => true,
+        'unsafeguarded_rights' => true,
+        'unsafeguarded_rights_comments' => true,
+        'unmonitored_threshold' => true,
+        'unmonitored_threshold_comments' => true,
+        'risk_assessment_comments' => true,
+        'application_acceptable' => true,
+        'application_acceptable_comments' => true,
+        'supplementary_required' => true,
+        'supplementary_required_comments' => true,
+        'overal_assessment_comments' => true,
+        'created' => true,
+        'deleted' => true,
+        'modified' => true,
         'application' => true,
-        'evaluation' => true,
         'user' => true
     ];
 }

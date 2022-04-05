@@ -10,7 +10,6 @@ use Cake\Validation\Validator;
  * Clinicals Model
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
- * @property \App\Model\Table\EvaluationsTable|\Cake\ORM\Association\BelongsTo $Evaluations
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\Clinical get($primaryKey, $options = [])
@@ -20,6 +19,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Clinical patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Clinical[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Clinical findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ClinicalsTable extends Table
 {
@@ -38,12 +39,10 @@ class ClinicalsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Evaluations', [
-            'foreignKey' => 'evaluation_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Users', [
@@ -494,6 +493,263 @@ class ClinicalsTable extends Table
             ->maxLength('concomitant_comments', 4294967295)
             ->allowEmpty('concomitant_comments');
 
+        $validator
+            ->scalar('procedures_adequate')
+            ->maxLength('procedures_adequate', 255)
+            ->allowEmpty('procedures_adequate');
+
+        $validator
+            ->boolean('insufficient_frequency')
+            ->allowEmpty('insufficient_frequency');
+
+        $validator
+            ->scalar('frequency_comments')
+            ->maxLength('frequency_comments', 4294967295)
+            ->allowEmpty('frequency_comments');
+
+        $validator
+            ->boolean('relevant_targets')
+            ->allowEmpty('relevant_targets');
+
+        $validator
+            ->scalar('relevant_targets_comments')
+            ->maxLength('relevant_targets_comments', 4294967295)
+            ->allowEmpty('relevant_targets_comments');
+
+        $validator
+            ->boolean('minimization_measures')
+            ->allowEmpty('minimization_measures');
+
+        $validator
+            ->scalar('minimization_measures_comments')
+            ->maxLength('minimization_measures_comments', 4294967295)
+            ->allowEmpty('minimization_measures_comments');
+
+        $validator
+            ->boolean('risk_unacceptable')
+            ->allowEmpty('risk_unacceptable');
+
+        $validator
+            ->scalar('risk_unacceptable_comments')
+            ->maxLength('risk_unacceptable_comments', 4294967295)
+            ->allowEmpty('risk_unacceptable_comments');
+
+        $validator
+            ->boolean('insufficient_followup')
+            ->allowEmpty('insufficient_followup');
+
+        $validator
+            ->scalar('insufficient_followup_comments')
+            ->maxLength('insufficient_followup_comments', 4294967295)
+            ->allowEmpty('insufficient_followup_comments');
+
+        $validator
+            ->boolean('other_safety')
+            ->allowEmpty('other_safety');
+
+        $validator
+            ->scalar('other_safety_comments')
+            ->maxLength('other_safety_comments', 4294967295)
+            ->allowEmpty('other_safety_comments');
+
+        $validator
+            ->scalar('rsi_included')
+            ->maxLength('rsi_included', 255)
+            ->allowEmpty('rsi_included');
+
+        $validator
+            ->scalar('acceptable_document')
+            ->maxLength('acceptable_document', 255)
+            ->allowEmpty('acceptable_document');
+
+        $validator
+            ->scalar('acceptable_format')
+            ->maxLength('acceptable_format', 255)
+            ->allowEmpty('acceptable_format');
+
+        $validator
+            ->scalar('expected_acceptable')
+            ->maxLength('expected_acceptable', 255)
+            ->allowEmpty('expected_acceptable');
+
+        $validator
+            ->scalar('general_irs_comments')
+            ->maxLength('general_irs_comments', 4294967295)
+            ->allowEmpty('general_irs_comments');
+
+        $validator
+            ->scalar('general_safety_comments')
+            ->maxLength('general_safety_comments', 4294967295)
+            ->allowEmpty('general_safety_comments');
+
+        $validator
+            ->scalar('dsmc_committee')
+            ->maxLength('dsmc_committee', 255)
+            ->allowEmpty('dsmc_committee');
+
+        $validator
+            ->scalar('arrangements_acceptable')
+            ->maxLength('arrangements_acceptable', 255)
+            ->allowEmpty('arrangements_acceptable');
+
+        $validator
+            ->scalar('dsmc_comments')
+            ->maxLength('dsmc_comments', 4294967295)
+            ->allowEmpty('dsmc_comments');
+
+        $validator
+            ->scalar('trial_definition_acceptable')
+            ->maxLength('trial_definition_acceptable', 255)
+            ->allowEmpty('trial_definition_acceptable');
+
+        $validator
+            ->scalar('trial_definition_comments')
+            ->maxLength('trial_definition_comments', 4294967295)
+            ->allowEmpty('trial_definition_comments');
+
+        $validator
+            ->scalar('collection_unacceptable')
+            ->maxLength('collection_unacceptable', 255)
+            ->allowEmpty('collection_unacceptable');
+
+        $validator
+            ->scalar('collection_unacceptable_comments')
+            ->maxLength('collection_unacceptable_comments', 4294967295)
+            ->allowEmpty('collection_unacceptable_comments');
+
+        $validator
+            ->boolean('data_policies_acceptable')
+            ->allowEmpty('data_policies_acceptable');
+
+        $validator
+            ->scalar('data_policies_acceptable_comments')
+            ->maxLength('data_policies_acceptable_comments', 4294967295)
+            ->allowEmpty('data_policies_acceptable_comments');
+
+        $validator
+            ->boolean('unauthorised_unacceptable')
+            ->allowEmpty('unauthorised_unacceptable');
+
+        $validator
+            ->scalar('unauthorised_unacceptable_comments')
+            ->maxLength('unauthorised_unacceptable_comments', 4294967295)
+            ->allowEmpty('unauthorised_unacceptable_comments');
+
+        $validator
+            ->boolean('measures_unacceptable')
+            ->allowEmpty('measures_unacceptable');
+
+        $validator
+            ->scalar('measures_unacceptable_comments')
+            ->maxLength('measures_unacceptable_comments', 4294967295)
+            ->allowEmpty('measures_unacceptable_comments');
+
+        $validator
+            ->boolean('breach_unacceptable')
+            ->allowEmpty('breach_unacceptable');
+
+        $validator
+            ->scalar('breach_unacceptable_comments')
+            ->maxLength('breach_unacceptable_comments', 4294967295)
+            ->allowEmpty('breach_unacceptable_comments');
+
+        $validator
+            ->boolean('other_protection')
+            ->allowEmpty('other_protection');
+
+        $validator
+            ->scalar('other_protection_comments')
+            ->maxLength('other_protection_comments', 4294967295)
+            ->allowEmpty('other_protection_comments');
+
+        $validator
+            ->scalar('data_protection_comments')
+            ->maxLength('data_protection_comments', 4294967295)
+            ->allowEmpty('data_protection_comments');
+
+        $validator
+            ->boolean('recruitment_unacceptable')
+            ->allowEmpty('recruitment_unacceptable');
+
+        $validator
+            ->scalar('recruitment_unacceptable_comments')
+            ->maxLength('recruitment_unacceptable_comments', 4294967295)
+            ->allowEmpty('recruitment_unacceptable_comments');
+
+        $validator
+            ->scalar('recruitment_comments')
+            ->maxLength('recruitment_comments', 4294967295)
+            ->allowEmpty('recruitment_comments');
+
+        $validator
+            ->scalar('risk_evaluation_unacceptable')
+            ->maxLength('risk_evaluation_unacceptable', 255)
+            ->allowEmpty('risk_evaluation_unacceptable');
+
+        $validator
+            ->scalar('participants_protection_acceptable')
+            ->maxLength('participants_protection_acceptable', 255)
+            ->allowEmpty('participants_protection_acceptable');
+
+        $validator
+            ->boolean('condition_unmonitored')
+            ->allowEmpty('condition_unmonitored');
+
+        $validator
+            ->scalar('condition_unmonitored_comments')
+            ->maxLength('condition_unmonitored_comments', 4294967295)
+            ->allowEmpty('condition_unmonitored_comments');
+
+        $validator
+            ->boolean('unsafeguarded_rights')
+            ->allowEmpty('unsafeguarded_rights');
+
+        $validator
+            ->scalar('unsafeguarded_rights_comments')
+            ->maxLength('unsafeguarded_rights_comments', 4294967295)
+            ->allowEmpty('unsafeguarded_rights_comments');
+
+        $validator
+            ->boolean('unmonitored_threshold')
+            ->allowEmpty('unmonitored_threshold');
+
+        $validator
+            ->scalar('unmonitored_threshold_comments')
+            ->maxLength('unmonitored_threshold_comments', 4294967295)
+            ->allowEmpty('unmonitored_threshold_comments');
+
+        $validator
+            ->scalar('risk_assessment_comments')
+            ->maxLength('risk_assessment_comments', 4294967295)
+            ->allowEmpty('risk_assessment_comments');
+
+        $validator
+            ->boolean('application_acceptable')
+            ->allowEmpty('application_acceptable');
+
+        $validator
+            ->scalar('application_acceptable_comments')
+            ->maxLength('application_acceptable_comments', 4294967295)
+            ->allowEmpty('application_acceptable_comments');
+
+        $validator
+            ->boolean('supplementary_required')
+            ->allowEmpty('supplementary_required');
+
+        $validator
+            ->scalar('supplementary_required_comments')
+            ->maxLength('supplementary_required_comments', 4294967295)
+            ->allowEmpty('supplementary_required_comments');
+
+        $validator
+            ->scalar('overal_assessment_comments')
+            ->maxLength('overal_assessment_comments', 4294967295)
+            ->allowEmpty('overal_assessment_comments');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
+
         return $validator;
     }
 
@@ -507,7 +763,6 @@ class ClinicalsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
-        $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;

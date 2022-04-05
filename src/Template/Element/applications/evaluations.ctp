@@ -59,6 +59,18 @@ use Cake\Utility\Hash;
     </div>
 </div>
 
+<!-- Display Clinical Assessment -->
+<div class="row">
+    <div class="col-xs-12">
+        <?php
+            if (!empty($application->clinicals)) {
+                echo "<h3 class='text-center'>Previous Clinical Assessment(s)</h3>";
+            }
+        ?>
+        <?= $this->element('applications/clinicals_reports', ["clinicals" => $application->clinicals]) ?>
+    </div>
+</div>
+
 <?php if (!in_array($prefix, ['director_general', 'admin']) and (count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric')) < 1)) {  ?>
 <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false"
     aria-controls="collapseReview">

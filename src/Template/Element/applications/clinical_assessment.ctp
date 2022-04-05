@@ -294,7 +294,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_adolescent', ['type' => 'checkbox', 'label' => 'Children/adolescents', 'templates' => 'checkbox_form_ev']);
                                     echo $this->Form->control('clinicals.' . $ekey . 'adolescents_age_group', [
                                         'label' =>  'Age group if children/adolescents proposed: ',
-                                        'type' => 'text',
+                                        'type' => 'text', 'templates' => 'view_form_text'
                                     ]);
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_elderly', ['type' => 'checkbox', 'label' => 'Elderly ≥65 years', 'templates' => 'checkbox_form_ev']);
                                     ?>
@@ -306,12 +306,12 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                                     echo $this->Form->control('clinicals.' . $ekey . 'potential_contraception', [
                                         'label' =>  'Women of childbearing potential on
                                         contraception, provide numbers: ',
-                                        'type' => 'number',
+                                        'type' => 'number', 'templates' => 'view_form_text'
                                     ]);
                                     echo $this->Form->control('clinicals.' . $ekey . 'potential_none_contraception', [
                                         'label' =>  'Women of childbearing potential not on
                                         contraception, provide numbers: ',
-                                        'type' => 'number',
+                                        'type' => 'number', 'templates' => 'view_form_text'
                                     ]);
                                     ?>
                             </div>
@@ -980,7 +980,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                 </tr>
                 <tr>
                     <td><?= $numb++ ?>.</td>
-                    <td> Is a description of permitted medications included in the study protocol and is acceptable12
+                    <td> Is a description of permitted medications included in the study protocol and is acceptable
                     </td>
                     <td>
                         <?= $this->Form->control('clinicals.' . $ekey . 'permitted_concomitant', [
@@ -1015,6 +1015,633 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                         </div>
                     </td>
                 </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Safety and Monitoring</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td><strong> Study procedures, visits and monitoring of participants, and follow up</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td> Are the study procedures, study visits, monitoring of participants, risk minimization measures
+                        and follow up adequately described and acceptable?
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'procedures_adequate', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> If No - tick the appropriate box and comment</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.insufficient_frequency', ['type' => 'checkbox', 'label' => 'Is the frequency of the study visits/monitoring insufficient?', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.frequency_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.relevant_targets', ['type' => 'checkbox', 'label' => 'Are the relevant targets not monitored?', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.relevant_targets_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.minimization_measures', ['type' => 'checkbox', 'label' => 'Are the proposed risk minimization measures and risk management guidelines (including monitoring, treatment modifications in case of toxicities) not acceptable?', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.minimization_measures_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.risk_unacceptable', ['type' => 'checkbox', 'label' => 'Are Risks associated with the study procedures including diagnostic procedures unacceptable?', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.risk_unacceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.insufficient_followup', ['type' => 'checkbox', 'label' => 'Is the follow-up period after the treatment is completed or after adverse reactions insufficient', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.insufficient_followup_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.other_safety', ['type' => 'checkbox', 'label' => 'Other Issues', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.other_safety_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.general_safety_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Reference Safety Information</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>Reference Safety Information (RSI) is included in the SmPC or IB
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'rsi_included', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['SmPC' => 'SmPC', 'IB' => 'IB']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>The document proposed as the RSI (SmPC or IB) is acceptable
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'acceptable_document', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>The format of the RSI is acceptable (where IB is used)
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'acceptable_format', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>The list of the proposed ARs declared as “expected” is acceptable (where IB is used)
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'expected_acceptable', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.general_irs_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Data Safety Monitoring Committee (if applicable)</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>The trial has a data safety monitoring committee
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'dsmc_committee', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td> In cases where the trial has a DSMC, are the arrangements considered acceptable?
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'arrangements_acceptable', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.dsmc_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Definition of the end of the trial</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td> A definition of the end of trial is provided and acceptable?
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'trial_definition_acceptable', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.trial_definition_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Biological samples used in the study (if applicable)</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td> Are the Procedures for the collection, storage and future use of biological samples not
+                        described adequately or not acceptable?.
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'collection_unacceptable', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.collection_unacceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Data protection</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.data_policies_acceptable', ['type' => 'checkbox', 'label' => 'The data protection policies as described in the protocol are not acceptable.', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.data_policies_acceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.unauthorised_unacceptable', ['type' => 'checkbox', 'label' => 'Organisational and technical arrangements to avoid unauthorised access, disclosure, dissemination, alteration or loss of information and personal data processed are insufficiently described or are unacceptable.', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.unauthorised_unacceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.measures_unacceptable', ['type' => 'checkbox', 'label' => 'Measures to ensure confidentiality of records and personal data of participants are insufficiently described or are unacceptable.', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.measures_unacceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.breach_unacceptable', ['type' => 'checkbox', 'label' => 'Measures that will be implemented in case of data security breach are insufficiently described or are unacceptable.', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.breach_unacceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.other_protection', ['type' => 'checkbox', 'label' => 'Other Data protection issues.', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.other_protection_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.data_protection_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Recruitment and informed consent procedures</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.recruitment_unacceptable', ['type' => 'checkbox', 'label' => 'Recruitment and informed consent procedure as described in the study protocol are not acceptable and/or not in compliance with ethical requirements on the protection of participants in clinical trials and informed consent.', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.recruitment_unacceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.recruitment_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Benefit/risk assessment</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>The protocol contains an acceptable evaluation of the anticipated benefits and risks of
+                        participating in the trial.
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'risk_evaluation_unacceptable', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>Are the measures proposed to address the known and potential risks of participating in the trial
+                        and to protect participants acceptable?
+                    </td>
+                    <td>
+                        <?= $this->Form->control('clinicals.' . $ekey . 'participants_protection_acceptable', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No']
+                            ]); ?> </td>
+
+                </tr>
+
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> If No - tick the appropriate box below and provide a comment</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.condition_unmonitored', ['type' => 'checkbox', 'label' => '
+                            Based on medical and ethical principles the anticipated benefits to the participants or to public health do not justify the foreseeable risks and inconveniences, or compliance with this condition is not constantly monitored', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.condition_unmonitored_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.unsafeguarded_rights', ['type' => 'checkbox', 'label' => '
+                            Rights of the participants to physical and mental integrity, and privacy are insufficiently safeguarded in the study', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.unsafeguarded_rights_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.unmonitored_threshold', ['type' => 'checkbox', 'label' => '
+                            The clinical trial has not been designed to involve as little pain, discomfort, fear and any other foreseeable risk as possible, or both the risk threshold and the degree of distress are not defined in the protocol or are not monitored', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.unmonitored_threshold_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> General Comments:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.risk_assessment_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="active">
+                    <td> <?php $numb = 1; ?></td>
+                    <td><strong> Assessor’s overall conclusions on the clinical part</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.application_acceptable', ['type' => 'checkbox', 'label' => '
+                            The clinical aspects of the application are acceptable', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.application_acceptable_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.supplementary_required', ['type' => 'checkbox', 'label' => '
+                            Supplementary information needs to be provided (refer to the list of requests for additional information)', 'templates' => 'checkbox_form_ev']);
+                            ?>
+                    </td>
+
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Comment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.supplementary_required_comments', ['label' => false, 'escape' => false, 'templates' => 'view_form_text']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> Overall comment/ conclusion on the clinical assessment:</label>
+                                <?php
+                                    echo $this->Form->control('clinicals.' . $ekey . '.overal_assessment_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
             </tbody>
         </table>
 

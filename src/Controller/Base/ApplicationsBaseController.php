@@ -295,6 +295,8 @@ class ApplicationsBaseController extends AppController
             'conditions' => ['report_type' => 'Initial']
         ]);
 
+        //dd($application);
+
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
         //     if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
