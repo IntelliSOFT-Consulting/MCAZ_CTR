@@ -295,7 +295,7 @@ class ApplicationsBaseController extends AppController
             'conditions' => ['report_type' => 'Initial']
         ]);
 
-        //dd($application);
+        // dd($application);
 
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
@@ -492,15 +492,16 @@ class ApplicationsBaseController extends AppController
         }
     }
 
-    // clinical Review Section
+    // NonClinical
 
-    public function addClinicalReview()
+    public function addNonClinicalReview()
+
     {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
         // 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            //   dd($application);
+            // dd($application);
             // Check if Evaluator has been assigned | if not block from leaving a review
             if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
 
@@ -512,13 +513,58 @@ class ApplicationsBaseController extends AppController
 
                 if ($this->Applications->save($application)) {
 
-                    $this->Flash->success('Successful submitted review of Application ' . $application->protocol_no . '.');
+                    $this->Flash->success('Successful submitted nonclinical assessment of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
         }
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
+    }
+
+    // clinical Review Section
+
+    public function addClinicalReview()
+    {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
+        // 
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            //dd($application);
+            // Check if Evaluator has been assigned | if not block from leaving a review
+            if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+
+                if (!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                    $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                    return $this->redirect($this->referer());
+                }
+
+
+                if ($this->Applications->save($application)) {
+
+                    $this->Flash->success('Successful submitted clinical assessment of Application ' . $application->protocol_no . '.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                }
+            }
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
+        return $this->redirect($this->referer());
+    }
+
+    public function removeClinicalAssessment($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $clinical = $this->Applications->Clinicals->get($id);
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
+            && $this->Applications->Clinicals->delete($clinical)
+        ) {
+            $this->Flash->success(__('The clincal assessment has been removed.'));
+        } else {
+            $this->Flash->error(__('The assessment could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect($this->redirect($this->referer()));
     }
 
     public function addReview()
