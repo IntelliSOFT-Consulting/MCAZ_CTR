@@ -12,7 +12,6 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
 <div class="row">
     <div class="col-xs-12">
         <?php
-            // debug($this->request->query('ev_id'));
             echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
             echo $this->Form->control('clinicals.' . $ekey . '.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
 

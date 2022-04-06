@@ -522,6 +522,22 @@ class ApplicationsBaseController extends AppController
         return $this->redirect($this->referer());
     }
 
+    public function removeNonclinicalAssessment($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $clinical = $this->Applications->NonClinicals->get($id);
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
+            && $this->Applications->NonClinicals->delete($clinical)
+        ) {
+            $this->Flash->success(__('The clincal assessment has been removed.'));
+        } else {
+            $this->Flash->error(__('The assessment could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect($this->redirect($this->referer()));
+    }
+
     // clinical Review Section
 
     public function addClinicalReview()
