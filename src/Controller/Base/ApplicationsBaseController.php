@@ -295,7 +295,7 @@ class ApplicationsBaseController extends AppController
             'conditions' => ['report_type' => 'Initial']
         ]);
 
-        // dd($application);
+        //dd($application);
 
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
@@ -492,6 +492,37 @@ class ApplicationsBaseController extends AppController
         }
     }
 
+    public function removeQualityAssessment($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $clinical = $this->Applications->Qualities->get($id);
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
+            && $this->Applications->Qualities->delete($clinical)
+        ) {
+            $this->Flash->success(__('The statistical quality has been removed.'));
+        } else {
+            $this->Flash->error(__('The quality could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect($this->redirect($this->referer()));
+    }
+    public function removeStatisticalAssessment($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $clinical = $this->Applications->Statisticals->get($id);
+        if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
+            && $this->Applications->Statisticals->delete($clinical)
+        ) {
+            $this->Flash->success(__('The statistical assessment has been removed.'));
+        } else {
+            $this->Flash->error(__('The assessment could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect($this->redirect($this->referer()));
+    }
+
     // NonClinical
 
     public function addNonClinicalReview()
@@ -522,6 +553,32 @@ class ApplicationsBaseController extends AppController
         return $this->redirect($this->referer());
     }
 
+    public function addQualityReview()
+    {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
+        // 
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $application = $this->Applications->patchEntity($application, $this->request->getData());
+            //dd($application);
+            // Check if Evaluator has been assigned | if not block from leaving a review
+            if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+
+                if (!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                    $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                    return $this->redirect($this->referer());
+                }
+
+                if ($this->Applications->save($application)) {
+
+                    $this->Flash->success('Successful submitted quality assessment of Application ' . $application->protocol_no . '.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                }
+            }
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
+        return $this->redirect($this->referer());
+    }
+
     public function removeNonclinicalAssessment($id = null)
     {
 
@@ -530,7 +587,7 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
             && $this->Applications->NonClinicals->delete($clinical)
         ) {
-            $this->Flash->success(__('The clincal assessment has been removed.'));
+            $this->Flash->success(__('The clinical assessment has been removed.'));
         } else {
             $this->Flash->error(__('The assessment could not be removed. Please, try again.'));
         }
