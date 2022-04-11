@@ -42,8 +42,7 @@ class ClinicalsTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Applications', [
-            'foreignKey' => 'application_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'application_id'
         ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -66,14 +65,12 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('sponsor_justification')
             ->maxLength('sponsor_justification', 4294967295)
-            ->requirePresence('sponsor_justification', 'create')
-            ->notEmpty('sponsor_justification');
+            ->allowEmpty('sponsor_justification');
 
         $validator
             ->scalar('sponsor_comment')
             ->maxLength('sponsor_comment', 4294967295)
-            ->requirePresence('sponsor_comment', 'create')
-            ->notEmpty('sponsor_comment');
+            ->allowEmpty('sponsor_comment');
 
         $validator
             ->scalar('low_intervention')
@@ -93,50 +90,37 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('poses_risk')
             ->maxLength('poses_risk', 255)
-            ->requirePresence('poses_risk', 'create')
-            ->notEmpty('poses_risk');
+            ->allowEmpty('poses_risk');
 
         $validator
             ->scalar('posed_risks_comment')
             ->maxLength('posed_risks_comment', 4294967295)
-            ->requirePresence('posed_risks_comment', 'create')
-            ->notEmpty('posed_risks_comment');
+            ->allowEmpty('posed_risks_comment');
 
         $validator
             ->scalar('trial_phase')
             ->maxLength('trial_phase', 4294967295)
-            ->requirePresence('trial_phase', 'create')
-            ->notEmpty('trial_phase');
+            ->allowEmpty('trial_phase');
 
         $validator
             ->scalar('therapeutic_condition')
             ->maxLength('therapeutic_condition', 4294967295)
-            ->requirePresence('therapeutic_condition', 'create')
-            ->notEmpty('therapeutic_condition');
+            ->allowEmpty('therapeutic_condition');
 
         $validator
             ->scalar('action_mechanism')
             ->maxLength('action_mechanism', 4294967295)
-            ->requirePresence('action_mechanism', 'create')
-            ->notEmpty('action_mechanism');
+            ->allowEmpty('action_mechanism');
 
         $validator
             ->scalar('development_status')
             ->maxLength('development_status', 4294967295)
-            ->requirePresence('development_status', 'create')
-            ->notEmpty('development_status');
-
-        $validator
-            ->scalar('assessor_discussion')
-            ->maxLength('assessor_discussion', 4294967295)
-            ->requirePresence('assessor_discussion', 'create')
-            ->notEmpty('assessor_discussion');
+            ->allowEmpty('development_status');
 
         $validator
             ->scalar('rationale_acceptable')
             ->maxLength('rationale_acceptable', 255)
-            ->requirePresence('rationale_acceptable', 'create')
-            ->notEmpty('rationale_acceptable');
+            ->allowEmpty('rationale_acceptable');
 
         $validator
             ->scalar('objective_acceptable')
@@ -147,32 +131,27 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('endpoint_acceptable')
             ->maxLength('endpoint_acceptable', 255)
-            ->requirePresence('endpoint_acceptable', 'create')
-            ->notEmpty('endpoint_acceptable');
+            ->allowEmpty('endpoint_acceptable');
 
         $validator
             ->scalar('objective_comments')
             ->maxLength('objective_comments', 4294967295)
-            ->requirePresence('objective_comments', 'create')
-            ->notEmpty('objective_comments');
+            ->allowEmpty('objective_comments');
 
         $validator
             ->scalar('secondary_objective_acceptable')
             ->maxLength('secondary_objective_acceptable', 255)
-            ->requirePresence('secondary_objective_acceptable', 'create')
-            ->notEmpty('secondary_objective_acceptable');
+            ->allowEmpty('secondary_objective_acceptable');
 
         $validator
             ->scalar('secondary_endpoint_acceptable')
             ->maxLength('secondary_endpoint_acceptable', 255)
-            ->requirePresence('secondary_endpoint_acceptable', 'create')
-            ->notEmpty('secondary_endpoint_acceptable');
+            ->allowEmpty('secondary_endpoint_acceptable');
 
         $validator
             ->scalar('secondary_objective_comments')
             ->maxLength('secondary_objective_comments', 4294967295)
-            ->requirePresence('secondary_objective_comments', 'create')
-            ->notEmpty('secondary_objective_comments');
+            ->allowEmpty('secondary_objective_comments');
 
         $validator
             ->boolean('study_health_participants')
@@ -264,7 +243,7 @@ class ClinicalsTable extends Table
 
         $validator
             ->scalar('proposed_study_acceptable')
-            ->maxLength('proposed_study_acceptable', 255)
+            ->maxLength('proposed_study_acceptable', 4294967295)
             ->allowEmpty('proposed_study_acceptable');
 
         $validator
@@ -390,7 +369,8 @@ class ClinicalsTable extends Table
             ->allowEmpty('contraceptive_acceptable');
 
         $validator
-            ->boolean('proposal_insufficient')
+            ->scalar('proposal_insufficient')
+            ->maxLength('proposal_insufficient', 255)
             ->allowEmpty('proposal_insufficient');
 
         $validator
@@ -414,8 +394,7 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('contraception_treatment_comments')
             ->maxLength('contraception_treatment_comments', 4294967295)
-            ->requirePresence('contraception_treatment_comments', 'create')
-            ->notEmpty('contraception_treatment_comments');
+            ->allowEmpty('contraception_treatment_comments');
 
         $validator
             ->scalar('other_issue_comments')
@@ -470,7 +449,7 @@ class ClinicalsTable extends Table
 
         $validator
             ->scalar('termination_criteria_acceptable')
-            ->maxLength('termination_criteria_acceptable', 255)
+            ->maxLength('termination_criteria_acceptable', 4294967295)
             ->allowEmpty('termination_criteria_acceptable');
 
         $validator
@@ -484,8 +463,7 @@ class ClinicalsTable extends Table
             ->allowEmpty('permitted_concomitant');
 
         $validator
-            ->scalar('prohibited_concomitant')
-            ->maxLength('prohibited_concomitant', 255)
+            ->boolean('prohibited_concomitant')
             ->allowEmpty('prohibited_concomitant');
 
         $validator
@@ -494,8 +472,7 @@ class ClinicalsTable extends Table
             ->allowEmpty('concomitant_comments');
 
         $validator
-            ->scalar('procedures_adequate')
-            ->maxLength('procedures_adequate', 255)
+            ->boolean('procedures_adequate')
             ->allowEmpty('procedures_adequate');
 
         $validator
@@ -749,6 +726,11 @@ class ClinicalsTable extends Table
         $validator
             ->dateTime('deleted')
             ->allowEmpty('deleted');
+
+        $validator
+            ->scalar('assessor_discussion')
+            ->maxLength('assessor_discussion', 4294967295)
+            ->allowEmpty('assessor_discussion');
 
         return $validator;
     }

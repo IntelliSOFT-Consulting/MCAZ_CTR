@@ -650,5 +650,8 @@ class Application extends Entity
         'comments' => true,
         'clinicals' => true,
         'non_clinicals' => true,
+        'statisticals' => true,
+        'qualities' => true,
+        'sdrug' => true,
     ];
 }

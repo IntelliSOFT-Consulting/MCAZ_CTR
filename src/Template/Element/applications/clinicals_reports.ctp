@@ -30,6 +30,9 @@ if ($prefix === 'manager') {
                 aria-controls="<?= $clinical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
                 Assessed on: <?= $clinical['created'] ?>
             </a>
+            <?php
+                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $clinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+                ?>
         </div>
         <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>"
             id="<?= $clinical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">

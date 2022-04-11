@@ -19,6 +19,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\NonClinical patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\NonClinical[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\NonClinical findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class NonClinicalsTable extends Table
 {
@@ -36,6 +38,8 @@ class NonClinicalsTable extends Table
         $this->setTable('non_clinicals');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
@@ -693,6 +697,10 @@ class NonClinicalsTable extends Table
             ->scalar('overall_comments')
             ->maxLength('overall_comments', 4294967295)
             ->allowEmpty('overall_comments');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
 
         return $validator;
     }

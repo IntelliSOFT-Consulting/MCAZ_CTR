@@ -20,7 +20,6 @@ use Cake\ORM\Entity;
  * @property string $therapeutic_condition
  * @property string $action_mechanism
  * @property string $development_status
- * @property string $assessor_discussion
  * @property string $rationale_acceptable
  * @property string $objective_acceptable
  * @property string $endpoint_acceptable
@@ -73,7 +72,7 @@ use Cake\ORM\Entity;
  * @property string $unbinding_comments
  * @property string $teratogenicity_risk
  * @property string $contraceptive_acceptable
- * @property bool $proposal_insufficient
+ * @property string $proposal_insufficient
  * @property string $proposal_comments
  * @property bool $male_participants
  * @property string $male_participants_comments
@@ -93,9 +92,9 @@ use Cake\ORM\Entity;
  * @property string $termination_criteria_acceptable
  * @property string $discontinuation_comments
  * @property string $permitted_concomitant
- * @property string $prohibited_concomitant
+ * @property bool $prohibited_concomitant
  * @property string $concomitant_comments
- * @property string $procedures_adequate
+ * @property bool $procedures_adequate
  * @property bool $insufficient_frequency
  * @property string $frequency_comments
  * @property bool $relevant_targets
@@ -149,9 +148,9 @@ use Cake\ORM\Entity;
  * @property bool $supplementary_required
  * @property string $supplementary_required_comments
  * @property string $overal_assessment_comments
- * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\FrozenTime $created
+ * @property string $assessor_discussion
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
@@ -182,7 +181,6 @@ class Clinical extends Entity
         'therapeutic_condition' => true,
         'action_mechanism' => true,
         'development_status' => true,
-        'assessor_discussion' => true,
         'rationale_acceptable' => true,
         'objective_acceptable' => true,
         'endpoint_acceptable' => true,
@@ -311,9 +309,9 @@ class Clinical extends Entity
         'supplementary_required' => true,
         'supplementary_required_comments' => true,
         'overal_assessment_comments' => true,
-        'created' => true,
         'deleted' => true,
-        'modified' => true,
+        'created' => true,
+        'assessor_discussion' => true,
         'application' => true,
         'user' => true
     ];

@@ -82,6 +82,35 @@ use Cake\Utility\Hash;
         <?= $this->element('applications/nonclinicals_reports', ["non_clinicals" => $application->non_clinicals]) ?>
     </div>
 </div>
+
+
+<!-- Display Quality Assessment -->
+<div class="row">
+    <div class="col-xs-12">
+        <?php
+            if (!empty($application->qualities)) {
+                echo "<h3 class='text-center'>Previous Quality Assessment(s)</h3>";
+            }
+        ?>
+        <?= $this->element('applications/quality_reports', ["quality" => $application->qualities]) ?>
+    </div>
+</div>
+
+
+
+<!-- Display Statistical Assessment -->
+<div class="row">
+    <div class="col-xs-12">
+        <?php
+            if (!empty($application->statisticals)) {
+                echo "<h3 class='text-center'>Previous Statistical Assessment(s)</h3>";
+            }
+        ?>
+        <?= $this->element('applications/statistical_reports', ["statisticals" => $application->statisticals]) ?>
+    </div>
+</div>
+
+
 <?php if (!in_array($prefix, ['director_general', 'admin']) and (count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric')) < 1)) {  ?>
 <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false"
     aria-controls="collapseReview">
@@ -1134,6 +1163,19 @@ use Cake\Utility\Hash;
 </div>
 <!-- End of Clinical Assessment -->
 
+<!-- Start of  Clinical Assessment -->
+
+
+<div class="row collapse" id="clinicalReview">
+    <div class="col-xs-12">
+
+        <?= $this->element('applications/quality_assessment', ["application" => $application]) ?>
+
+
+    </div>
+</div>
+<!-- End of Clinical Assessment -->
+
 <!-- Start of Non Clinical Assessment -->
 
 
@@ -1148,139 +1190,31 @@ use Cake\Utility\Hash;
 </div>
 <!-- End of Non Clinical Assessment -->
 
-<!-- Start of Non Clinical Assessment -->
-
+<!-- Start of Quality Assessment -->
 
 <div class="row collapse" id="qualityReview">
     <div class="col-xs-12">
 
-        <?php
-        if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric')) < 1) {
-            echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-review']]); ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <?php
-                    // debug($this->request->query('ev_id'));
-                    echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
-                    echo $this->Form->control('evaluation_pr_id', ['type' => 'hidden', 'value' => (!empty($application->evaluations[$ekey]['id']) ? $application->evaluations[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
-                    if ($this->request->query('ev_id')) {
-                        echo $this->Form->control('evaluations.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                    } elseif ($this->request->query('cp_fn')) {
-                        echo $this->Form->control('evaluations.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
-                    } else {
-                        echo $this->Form->control('evaluations.' . $ekey . '.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
-                        echo $this->Form->control('evaluations.' . $ekey . '.evaluation_type', [
-                            'type' => 'hidden',
-                            'value' => ($evaluation_id) ? 'Revision' : 'Initial',
-                            'templates' => 'table_form'
-                        ]);
-                    }
-                    echo $this->Form->control('evaluations.' . $ekey . '.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
 
-                    ?>
 
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr class="active">
-                            <th></th>
-                            <th>1.1 Background information<br>1.1.1 Trial category <br>1.1.1.1 For low-intervention
-                                clinical trials1 only</th>
-                            <th width="22.5%"></th>
-                        </tr>
-                    </thead>
-
-                </table>
-
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <?php if ($prefix == 'evaluator' || $prefix == 'manager') { ?>
-                <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i
-                        class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
-                <?php } ?>
-                <button type="submit" class="btn btn-primary active" id="ev-submit" name="ev_save" value="2"><i
-                        class="fa fa-save" aria-hidden="true"></i> Submit</button>
-                <?php
-                    echo $this->Html->link('<i class="fa fa-remove" aria-hidden="true"></i> Reset', [], ['escape' => false, 'class' => 'btn btn-default']);
-                    ?>
-            </div>
-        </div>
-        <?php
-            echo $this->Form->end();
-        }
-        ?>
+        <?= $this->element('applications/quality_assessment', ["application" => $application]) ?>
 
     </div>
 </div>
-<!-- End of Non Clinical Assessment -->
+<!-- End of Quality Assessment -->
 
-<!-- Start of Non Clinical Assessment -->
+<!-- Start of Statistical Assessment   -->
 
 
 <div class="row collapse" id="statisticalReview">
     <div class="col-xs-12">
 
-        <?php
-        if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric')) < 1) {
-            echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-review']]); ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <?php
-                    // debug($this->request->query('ev_id'));
-                    echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
-                    echo $this->Form->control('evaluation_pr_id', ['type' => 'hidden', 'value' => (!empty($application->evaluations[$ekey]['id']) ? $application->evaluations[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
-                    if ($this->request->query('ev_id')) {
-                        echo $this->Form->control('evaluations.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                    } elseif ($this->request->query('cp_fn')) {
-                        echo $this->Form->control('evaluations.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
-                    } else {
-                        echo $this->Form->control('evaluations.' . $ekey . '.evaluation_id', ['type' => 'hidden', 'value' => $evaluation_id, 'templates' => 'table_form']);
-                        echo $this->Form->control('evaluations.' . $ekey . '.evaluation_type', [
-                            'type' => 'hidden',
-                            'value' => ($evaluation_id) ? 'Revision' : 'Initial',
-                            'templates' => 'table_form'
-                        ]);
-                    }
-                    echo $this->Form->control('evaluations.' . $ekey . '.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
 
-                    ?>
-
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr class="active">
-                            <th></th>
-                            <th>1.1 Background information<br>1.1.1 Trial category <br>1.1.1.1 For low-intervention
-                                clinical trials1 only</th>
-                            <th width="22.5%"></th>
-                        </tr>
-                    </thead>
-
-                </table>
-
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <?php if ($prefix == 'evaluator' || $prefix == 'manager') { ?>
-                <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i
-                        class="fa fa-save" aria-hidden="true"></i> Save Changes</button>
-                <?php } ?>
-                <button type="submit" class="btn btn-primary active" id="ev-submit" name="ev_save" value="2"><i
-                        class="fa fa-save" aria-hidden="true"></i> Submit</button>
-                <?php
-                    echo $this->Html->link('<i class="fa fa-remove" aria-hidden="true"></i> Reset', [], ['escape' => false, 'class' => 'btn btn-default']);
-                    ?>
-            </div>
-        </div>
-        <?php
-            echo $this->Form->end();
-        }
-        ?>
+        <?= $this->element('applications/statistical_assessment', ["application" => $application]) ?>
 
     </div>
 </div>
-<!-- End of Non Clinical Assessment -->
+<!-- End of Statistical Assessment -->
 <script type="text/javascript">
 $(function() {
     // console.log('waa gwan');
