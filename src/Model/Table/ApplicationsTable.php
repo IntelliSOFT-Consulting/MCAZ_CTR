@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -31,7 +32,7 @@ use ArrayObject;
  */
 class ApplicationsTable extends Table
 {
-    
+
     use SoftDeleteTrait;
     protected $softDeleteField = 'deleted_date';
     /**
@@ -66,21 +67,21 @@ class ApplicationsTable extends Table
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('EvaluationComments.model' => 'Applications', 'EvaluationComments.category' => 'evaluation' ),
+            'conditions' => array('EvaluationComments.model' => 'Applications', 'EvaluationComments.category' => 'evaluation'),
         ]);
 
         $this->hasMany('NotificationComments', [
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('NotificationComments.model' => 'Applications', 'NotificationComments.category' => 'notification' ),
+            'conditions' => array('NotificationComments.model' => 'Applications', 'NotificationComments.category' => 'notification'),
         ]);
 
         $this->hasMany('CommitteeComments', [
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('CommitteeComments.model' => 'Applications', 'CommitteeComments.category' => 'committee' ),
+            'conditions' => array('CommitteeComments.model' => 'Applications', 'CommitteeComments.category' => 'committee'),
         ]);
 
         $this->hasMany('ApplicationStages', [
@@ -124,28 +125,28 @@ class ApplicationsTable extends Table
         ]);
         $this->hasMany('CommitteeReviews', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('DgReviews', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('FinalStages', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('AnnualApprovals', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('Appeals', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('RequestInfos', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('SeventyFives', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('GcpInspections', [
             'foreignKey' => 'application_id'
-        ]); 
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',
@@ -337,18 +338,30 @@ class ApplicationsTable extends Table
             'foreignKey' => 'application_id',
             'dependent' => true,
             'conditions' => array('Amendments.report_type' => 'Amendment'),
-        ]);        
+        ]);
         $this->hasMany('Comments', [
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Comments.model' => 'Applications'),
         ]);
+        $this->hasMany('Clinicals', [
+            'foreignKey' => 'application_id',
+        ]);
+        $this->hasMany('NonClinicals', [
+            'foreignKey' => 'application_id',
+        ]);
+        $this->hasMany('Statisticals', [
+            'foreignKey' => 'application_id',
+        ]);
+        $this->hasMany('QualityAssessments', [
+            'foreignKey' => 'application_id',
+        ]);
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
@@ -358,17 +371,18 @@ class ApplicationsTable extends Table
             ->like('protocol_no')
             ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
             ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
-            ->like('public_title') 
+            ->like('public_title')
             ->like('scientific_title')
             ->like('pi', ['field' => ['InvestigatorContacts.given_name', 'InvestigatorContacts.email']])
             ->like('business_name')
             ->like('money_source')
-            ->like('sponsor', ['field' => ['Applications.sponsor_name', 'Applications.sponsor_email_address', 'Sponsors.sponsor',
-                                            'Sponsors.email_address']])
+            ->like('sponsor', ['field' => [
+                'Applications.sponsor_name', 'Applications.sponsor_email_address', 'Sponsors.sponsor',
+                'Sponsors.email_address'
+            ]])
             ->like('site', ['field' => ['Applications.location_of_area', 'Applications.single_site_name', 'SiteDetails.site_name',]])
             ->like('medicine', ['field' => ['Applications.drug_name', 'Medicines.medicine_name',]])
-            ->like('health', ['field' => ['disease_condition']])
-            ;
+            ->like('health', ['field' => ['disease_condition']]);
 
         return $searchManager;
     }
@@ -383,7 +397,7 @@ class ApplicationsTable extends Table
             if (is_string($value)) {
                 // $data[$key] = trim($value);
                 //Force UTF8 encoding
-                $data[$key] = iconv(mb_detect_encoding($value, mb_detect_order(), true), 'utf-8//IGNORE', $value); 
+                $data[$key] = iconv(mb_detect_encoding($value, mb_detect_order(), true), 'utf-8//IGNORE', $value);
             }
         }
     }
@@ -461,19 +475,19 @@ class ApplicationsTable extends Table
         $validator
             ->scalar('study_drug')
             ->notEmpty('study_drug', ['message' => '1. Abstract: Study product required']);
-            
+
         $validator
             ->scalar('sponsor_name')
             ->notEmpty('sponsor_name', ['message' => '3. Sponsor: Sponsor required']);
-            
+
         $validator
             ->scalar('sponsor_address')
             ->notEmpty('sponsor_address', ['message' => '3. Sponsor: Address required']);
-            
+
         $validator
             ->scalar('sponsor_telephone_number')
             ->notEmpty('sponsor_telephone_number', ['message' => '3. Sponsor: Telephone number required']);
-            
+
         $validator
             ->scalar('sponsor_cell_number')
             ->notEmpty('sponsor_cell_number', ['message' => '3. Sponsor: Mobile phone number required']);
@@ -494,15 +508,15 @@ class ApplicationsTable extends Table
         $validator
             ->scalar('total_enrolment_per_site')
             ->notEmpty('total_enrolment_per_site', ['message' => '4. Participants: Total enrolment per site required']);
-            
+
         $validator
             ->scalar('total_participants_worldwide')
             ->notEmpty('total_participants_worldwide', ['message' => '4. Participants: Total participants woldwide required']);
-            
+
         $validator
             ->scalar('participants_justification')
             ->notEmpty('participants_justification', ['message' => '4. Participants: Justification required']);
-            
+
         $validator
             ->scalar('gender')
             ->notEmpty('gender', ['message' => '4. Participants: Gender required']);
@@ -601,11 +615,11 @@ class ApplicationsTable extends Table
         $validator
             ->allowEmpty('insurance_company')
             ->add('insurance_company', 'ic-or-other', [
-                'rule' => function ($value, $context) {                    
-                    if(!$value && empty($context['data']['other_insurance'])) return false;
-                    if($value && !empty($context['data']['other_insurance'])) return false;
+                'rule' => function ($value, $context) {
+                    if (!$value && empty($context['data']['other_insurance'])) return false;
+                    if ($value && !empty($context['data']['other_insurance'])) return false;
                     return true;
-            }, 'message' => '10. Provide the company who will insure the participants OR if no insurance company, provide details'
+                }, 'message' => '10. Provide the company who will insure the participants OR if no insurance company, provide details'
             ]);
 
         $validator
