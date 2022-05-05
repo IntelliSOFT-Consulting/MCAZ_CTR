@@ -1,11 +1,7 @@
 <?php
+$numb = 1;
 
 use Cake\Utility\Hash;
-
-$this->Html->script('ckeditor/ckeditor', ['block' => true]);
-$this->Html->script('ckeditor/config', ['block' => true]);
-$this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
-$numb = 1;
 
 if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric')) < 1) {
     echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-non-clinical-review']]); ?>

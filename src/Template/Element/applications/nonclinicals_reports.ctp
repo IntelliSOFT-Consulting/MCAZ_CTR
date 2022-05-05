@@ -28,7 +28,7 @@ if ($prefix === 'manager') {
             <a class="btn btn-primary" role="button" data-toggle="collapse"
                 href="#<?= $nonclinical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false"
                 aria-controls="<?= $nonclinical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
-                Assessed on: <?= $nonclinical['created'] ?>
+                Assessed on: <?= $nonclinical['created'] ?> by <?= $nonclinical->user->name ?>
             </a>
             <?php
                 if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $nonclinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);

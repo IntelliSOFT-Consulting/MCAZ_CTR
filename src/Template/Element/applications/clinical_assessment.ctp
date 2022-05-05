@@ -1,11 +1,9 @@
 <?php
+$numb = 1;
 
 use Cake\Utility\Hash;
 
-$this->Html->script('ckeditor/ckeditor', ['block' => true]);
-$this->Html->script('ckeditor/config', ['block' => true]);
-$this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
-$numb = 1;
+
 
 if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Hash::extract($application->evaluations, '{n}.chosen'), 'is_numeric')) < 1) {
     echo $this->Form->create($application, ['type' => 'file', 'url' => ['action' => 'add-clinical-review']]); ?>
@@ -291,10 +289,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                                 <?php
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_adults', ['type' => 'checkbox', 'label' => 'Adults', 'templates' => 'checkbox_form_ev']);
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_adolescent', ['type' => 'checkbox', 'label' => 'Children/adolescents', 'templates' => 'checkbox_form_ev']);
-                                    echo $this->Form->control('clinicals.' . $ekey . 'adolescents_age_group', [
-                                        'label' =>  'Age group if children/adolescents proposed: ',
-                                        'type' => 'text', 'templates' => 'view_form_text'
-                                    ]);
+
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_elderly', ['type' => 'checkbox', 'label' => 'Elderly ≥65 years', 'templates' => 'checkbox_form_ev']);
                                     ?>
                             </div>
@@ -302,19 +297,27 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                                 <?php
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_male', ['type' => 'checkbox', 'label' => 'Male', 'templates' => 'checkbox_form_ev']);
                                     echo $this->Form->control('clinicals.' . $ekey . '.study_female', ['type' => 'checkbox', 'label' => 'Female', 'templates' => 'checkbox_form_ev']);
-                                    echo $this->Form->control('clinicals.' . $ekey . 'potential_contraception', [
-                                        'label' =>  'Women of childbearing potential on
-                                        contraception, provide numbers: ',
-                                        'type' => 'number', 'templates' => 'view_form_text'
-                                    ]);
-                                    echo $this->Form->control('clinicals.' . $ekey . 'potential_none_contraception', [
-                                        'label' =>  'Women of childbearing potential not on
-                                        contraception, provide numbers: ',
-                                        'type' => 'number', 'templates' => 'view_form_text'
-                                    ]);
+
                                     ?>
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('clinicals.' . $ekey . '.adolescents_age_group', [
+                                'label' =>  'Age group if children/adolescents proposed: ',
+                                'type' => 'text', 'templates' => 'view_form_text'
+                            ]);
+                            echo $this->Form->control('clinicals.' . $ekey . '.potential_contraception', [
+                                'label' =>  'Women of childbearing potential on contraception, provide numbers: ',
+                                'type' => 'number', 'templates' => 'view_form_text'
+                            ]);
+                            echo $this->Form->control('clinicals.' . $ekey . '.potential_none_contraception', [
+                                'label' =>  'Women of childbearing potential not on
+                                        contraception, provide numbers: ',
+                                'type' => 'number', 'templates' => 'view_form_text'
+                            ]);
+                            ?>
                     </td>
                 </tr>
                 <tr>

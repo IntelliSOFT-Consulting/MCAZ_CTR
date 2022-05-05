@@ -1,7 +1,4 @@
 <?php
-$this->Html->script('ckeditor/ckeditor', ['block' => true]);
-$this->Html->script('ckeditor/config', ['block' => true]);
-$this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
 $numb = 1;
 
 use Cake\Utility\Hash;
@@ -88,11 +85,11 @@ use Cake\Utility\Hash;
 <div class="row">
     <div class="col-xs-12">
         <?php
-            if (!empty($application->qualities)) {
+            if (!empty($application->quality_assessments)) {
                 echo "<h3 class='text-center'>Previous Quality Assessment(s)</h3>";
             }
         ?>
-        <?= $this->element('applications/quality_reports', ["quality" => $application->qualities]) ?>
+        <?= $this->element('applications/quality_reports', ["quality" => $application->quality_assessments]) ?>
     </div>
 </div>
 
@@ -120,8 +117,8 @@ use Cake\Utility\Hash;
     aria-controls="clinicalReview">
     Clinical Assessment.
 </button>
-<button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#noneclinicalReview"
-    aria-expanded="false" aria-controls="collapseReview">
+<button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#nonclinicalReview"
+    aria-expanded="false" aria-controls="nonclinicalReview">
     NonClinical Assessment.
 </button>
 <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#qualityReview" aria-expanded="false"
@@ -1163,23 +1160,10 @@ use Cake\Utility\Hash;
 </div>
 <!-- End of Clinical Assessment -->
 
-<!-- Start of  Clinical Assessment -->
-
-
-<div class="row collapse" id="clinicalReview">
-    <div class="col-xs-12">
-
-        <?= $this->element('applications/quality_assessment', ["application" => $application]) ?>
-
-
-    </div>
-</div>
-<!-- End of Clinical Assessment -->
-
 <!-- Start of Non Clinical Assessment -->
 
 
-<div class="row collapse" id="noneclinicalReview">
+<div class="row collapse" id="nonclinicalReview">
     <div class="col-xs-12">
 
 
@@ -1190,12 +1174,12 @@ use Cake\Utility\Hash;
 </div>
 <!-- End of Non Clinical Assessment -->
 
-<!-- Start of Quality Assessment -->
+
+<!-- Start of  Quality Assessment -->
+
 
 <div class="row collapse" id="qualityReview">
     <div class="col-xs-12">
-
-
 
         <?= $this->element('applications/quality_assessment', ["application" => $application]) ?>
 
@@ -1225,11 +1209,41 @@ $(function() {
         CKEDITOR.replace($(this).attr('id'));
     });
 });
-// CKEDITOR.replace('evaluations-100-vulnerable-population-comments');
-// CKEDITOR.replace('evaluations-100-scientific-issues-comments');
-// CKEDITOR.replace('evaluations-100-informed-consent-text');
-// CKEDITOR.replace('evaluations-100-other-materials-comments');
-// CKEDITOR.replace('evaluations-100-clinical-trials-text');
-// CKEDITOR.replace('evaluations-100-biological-materials-comments');
-// CKEDITOR.replace('evaluations-100-recommendations');
+$(function() {
+    // console.log('waa gwan');
+    $("#clinicalReview textarea").each(function() {
+        // this.value = this.value.replace("AFFURL",producturl);
+        // console.log('woi gwan');
+        // console.log($(this).attr('id'));
+        CKEDITOR.replace($(this).attr('id'));
+    });
+});
+$(function() {
+    // console.log('waa gwan');
+    $("#nonclinicalReview textarea").each(function() {
+        // this.value = this.value.replace("AFFURL",producturl);
+        // console.log('woi gwan');
+        // console.log($(this).attr('id'));
+        CKEDITOR.replace($(this).attr('id'));
+    });
+});
+
+$(function() {
+    // console.log('waa gwan');
+    $("#qualityReview textarea").each(function() {
+        // this.value = this.value.replace("AFFURL",producturl);
+        // console.log('woi gwan');
+        // console.log($(this).attr('id'));
+        CKEDITOR.replace($(this).attr('id'));
+    });
+});
+$(function() {
+    // console.log('waa gwan');
+    $("#statisticalReview textarea").each(function() {
+        // this.value = this.value.replace("AFFURL",producturl);
+        // console.log('woi gwan');
+        // console.log($(this).attr('id'));
+        CKEDITOR.replace($(this).attr('id'));
+    });
+});
 </script>
