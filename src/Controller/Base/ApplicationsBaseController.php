@@ -529,10 +529,9 @@ class ApplicationsBaseController extends AppController
 
     {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
-        // 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            // dd($application);
+
             // Check if Evaluator has been assigned | if not block from leaving a review
             if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
 
@@ -540,14 +539,49 @@ class ApplicationsBaseController extends AppController
                     $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
                     return $this->redirect($this->referer());
                 }
+            }
+
+            if ($this->Applications->save($application)) {
+                if ($this->request->getData('ev_save') !== '1') {
+                    //Send email, notification and message to managers and assigned evaluators
+                    $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                    array_push($filt, 1);
 
 
-                if ($this->Applications->save($application)) {
+                    $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                        $orConditions = $exp->or_(['id IN' => $filt])
+                            ->eq('group_id', 2);
+                        return $exp
+                            ->add($orConditions)
+                            ->add(['group_id !=' => 6]);
+                    });
+                    $this->loadModel('Queue.QueuedJobs');
+                    foreach ($managers as $manager) {
+                        //Notify managers
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id,
+                            'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['evaluator_name'] = $this->Auth->user('name');
+                        $data['vars']['user_message'] = "New nonclinical Assessment has been created";
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_create_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
 
-                    $this->Flash->success('Successful submitted nonclinical assessment of Application ' . $application->protocol_no . '.');
+                    $this->Flash->success('Successful submitted nonclinical review of Application ' . $application->protocol_no . '.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->success('Saved changes for nonclinical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
+            // debug($application->errors());
+            $this->Flash->error(__('Unable to create nonclinical review. Please, try again.'));
+            return $this->redirect($this->referer());
         }
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
@@ -556,11 +590,9 @@ class ApplicationsBaseController extends AppController
     public function addQualityReview()
     {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
-        // 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
 
-            //dd($application);
             // Check if Evaluator has been assigned | if not block from leaving a review
             if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
 
@@ -568,13 +600,49 @@ class ApplicationsBaseController extends AppController
                     $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
                     return $this->redirect($this->referer());
                 }
+            }
 
-                if ($this->Applications->save($application)) {
+            if ($this->Applications->save($application)) {
+                if ($this->request->getData('ev_save') !== '1') {
+                    //Send email, notification and message to managers and assigned evaluators
+                    $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                    array_push($filt, 1);
 
-                    $this->Flash->success('Successful submitted quality assessment of Application ' . $application->protocol_no . '.');
+
+                    $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                        $orConditions = $exp->or_(['id IN' => $filt])
+                            ->eq('group_id', 2);
+                        return $exp
+                            ->add($orConditions)
+                            ->add(['group_id !=' => 6]);
+                    });
+                    $this->loadModel('Queue.QueuedJobs');
+                    foreach ($managers as $manager) {
+                        //Notify managers
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id,
+                            'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['evaluator_name'] = $this->Auth->user('name');
+                        $data['vars']['user_message'] = "New quality Assessment has been created";
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_create_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+
+                    $this->Flash->success('Successful submitted quality review of Application ' . $application->protocol_no . '.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->success('Saved changes for quality review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
+            // debug($application->errors());
+            $this->Flash->error(__('Unable to create quality review. Please, try again.'));
+            return $this->redirect($this->referer());
         }
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
@@ -583,7 +651,6 @@ class ApplicationsBaseController extends AppController
     public function addStatisticalReview()
     {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
-        // 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
 
@@ -594,13 +661,49 @@ class ApplicationsBaseController extends AppController
                     $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
                     return $this->redirect($this->referer());
                 }
+            }
 
-                if ($this->Applications->save($application)) {
+            if ($this->Applications->save($application)) {
+                if ($this->request->getData('ev_save') !== '1') {
+                    //Send email, notification and message to managers and assigned evaluators
+                    $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                    array_push($filt, 1);
 
-                    $this->Flash->success('Successful submitted quality assessment of Application ' . $application->protocol_no . '.');
+
+                    $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                        $orConditions = $exp->or_(['id IN' => $filt])
+                            ->eq('group_id', 2);
+                        return $exp
+                            ->add($orConditions)
+                            ->add(['group_id !=' => 6]);
+                    });
+                    $this->loadModel('Queue.QueuedJobs');
+                    foreach ($managers as $manager) {
+                        //Notify managers
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id,
+                            'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['evaluator_name'] = $this->Auth->user('name');
+                        $data['vars']['user_message'] = "New statistical Assessment has been created";
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_create_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+
+                    $this->Flash->success('Successful submitted statistical review of Application ' . $application->protocol_no . '.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->success('Saved changes for statistical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
+            // debug($application->errors());
+            $this->Flash->error(__('Unable to create statistical review. Please, try again.'));
+            return $this->redirect($this->referer());
         }
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
@@ -657,10 +760,9 @@ class ApplicationsBaseController extends AppController
     public function addClinicalReview()
     {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
-        // 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            //dd($application);
+
             // Check if Evaluator has been assigned | if not block from leaving a review
             if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
 
@@ -668,14 +770,49 @@ class ApplicationsBaseController extends AppController
                     $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
                     return $this->redirect($this->referer());
                 }
+            }
+
+            if ($this->Applications->save($application)) {
+                if ($this->request->getData('ev_save') !== '1') {
+                    //Send email, notification and message to managers and assigned evaluators
+                    $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+                    array_push($filt, 1);
 
 
-                if ($this->Applications->save($application)) {
+                    $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                        $orConditions = $exp->or_(['id IN' => $filt])
+                            ->eq('group_id', 2);
+                        return $exp
+                            ->add($orConditions)
+                            ->add(['group_id !=' => 6]);
+                    });
+                    $this->loadModel('Queue.QueuedJobs');
+                    foreach ($managers as $manager) {
+                        //Notify managers
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id,
+                            'type' => 'manager_create_review_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        ];
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['evaluator_name'] = $this->Auth->user('name');
+                        $data['vars']['user_message'] = "New Clinical Assessment has been created";
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_create_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
 
-                    $this->Flash->success('Successful submitted clinical assessment of Application ' . $application->protocol_no . '.');
+                    $this->Flash->success('Successful submitted clinical review of Application ' . $application->protocol_no . '.');
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->success('Saved changes for clinical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
+            // debug($application->errors());
+            $this->Flash->error(__('Unable to create clinical review. Please, try again.'));
+            return $this->redirect($this->referer());
         }
         $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
