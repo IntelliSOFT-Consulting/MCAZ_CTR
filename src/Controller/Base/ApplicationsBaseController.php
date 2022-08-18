@@ -1993,4 +1993,16 @@ class ApplicationsBaseController extends AppController
         $this->Flash->success('Reinstated ' . $application->protocol_no . '. ');
         return $this->redirect($this->referer());
     }
+
+    public function clear($id=null){
+        
+        $this->loadModel('Applications');
+        $application = $this->Applications->get($id, ['contain' => ['AssignEvaluators']]);
+        if (($this->Auth->user('group_id') == 2 && $this->Applications->delete($application))) {
+        $this->Flash->success(__('The Unsubmmited report has been deleted.'));
+        } else {
+            $this->Flash->error(__('Failed to delete the report. Please, try again.'));
+        } 
+        return $this->redirect($this->referer());
+    }
 }
