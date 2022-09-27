@@ -111,8 +111,58 @@
                         ?>
                     </td>
                 </tr>  
+                <tr>  
+                    <td>  
+                        <?php
+                              echo $this->Form->control(
+                                'status',
+                                [
+                                    'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                    'options' => [
+                                        'Submitted' => 'Submitted', 
+                                        'Finance' => 'Finance',
+                                        'Assigned' => 'Assigned',
+                                        'Evaluated' => 'Evaluated',
+                                        'Committee' => 'Committee',
+                                        'Correspondence' => 'Correspondence',
+                                        'ApplicantResponse' => 'Applicant Response',
+                                        'Presented' => 'Presented',
+                                        'DirectorGeneral' => 'Director General', 
+                                        'DirectorDeclined' => 'Director Declined',
+                                        'CommitteeDeclined' => 'Committee Declined',
+                                        'UnSubmitted' => 'UnSubmitted',
+                                        'Suspended' => 'Suspended',
+                                        'FinalStage' => 'FinalStage'
+                                    ]
+                                ]
+                            );
+                            
+                        ?>
+                           <a onclick="$('#status').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
+                                            aria-hidden="true"></i></em></a>
+                    </td> 
+                    <td>  
+                        <?php
+                              echo $this->Form->control(
+                                'approved',
+                                [
+                                    'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                    'options' => [
+                                        'DirectorAuthorize' => 'DirectorAuthorize', 
+                                        'Authorize' => 'Authorize' 
+                                    ]
+                                ]
+                            );
+                        ?>
+                          <a onclick="$('#approved').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
+                                            aria-hidden="true"></i></em></a>
+                    </td> 
+</tr>
             </tbody>
         </table>
+        
         </div>
     </div>
     <div class="col-md-2">

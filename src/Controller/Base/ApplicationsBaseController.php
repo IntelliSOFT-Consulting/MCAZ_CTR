@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use Cake\ORM\Entity;
 use Cake\View\Helper\HtmlHelper;
 use Cake\Utility\Hash;
+use Cake\ORM\TableRegistry;
 
 /**
  * Applications Controller
@@ -1952,6 +1953,74 @@ class ApplicationsBaseController extends AppController
         $this->Flash->success('Suspended ' . $application->protocol_no . '. ');
         return $this->redirect($this->referer());
     }
+    public function updateReference($id = null)
+    {
+        $this->loadModel('Applications');
+        $application = $this->Applications->get($id, ['contain' => ['AssignEvaluators']]);
+        $this->request->allowMethod(['post', 'delete']);
+        $reference=  $this->request->getData('reference');
+
+        /**
+         * Check Report Status if Gone past Finance
+         */
+        $status=$application->status;
+        if($status=="Submitted"){
+            $this->Flash->error('Please wait for Finance Approval ' . $application->protocol_no . '. ');
+            return $this->redirect($this->referer());
+        }
+      
+        /*
+         * Check if the provided protocol number exists for another report
+         * 
+         */
+
+        
+        $applicationsTable = TableRegistry::get('Applications');
+        $another = $applicationsTable->exists(['protocol_no' => $reference]);
+
+        if($another){
+            $this->Flash->error('Error!! There exists another report with the provided reference number ' . $application->protocol_no . '. ');
+            return $this->redirect($this->referer());
+        }else{ 
+   
+        $query = $this->Applications->query();
+        $query->update()
+            ->set(['protocol_no' => $reference])
+            ->where(['id' => $application->id])
+            ->execute();
+
+        //send message to applicant and managers upon successful reference change
+        $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+        $filt[] = $application->user_id; //Add applicant
+        // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+            $orConditions = $exp->or_(['id IN' => $filt])
+                ->eq('group_id', 2);
+            return $exp
+                ->add($orConditions)
+                ->add(['group_id !=' => 6]);
+        });
+        $this->loadModel('Queue.QueuedJobs');
+        foreach ($managers as $manager) {
+            //Notify managers    
+            $data = [
+                'email_address' => $manager->email, 'user_id' => $manager->id,
+                'type' => 'reference_change_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+            ];
+            $data['vars']['name'] = $manager->name;
+            $data['vars']['protocol_no'] = $reference;
+            $data['vars']['message'] = $this->request->getData('message');
+           // //notify applicant if need be:: 
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $data['type'] = 'reference_change_notification';
+            $this->QueuedJobs->createJob('GenericNotification', $data);
+        }
+        $this->Flash->success('Reference Updated from ' . $application->protocol_no . ' to '. $reference);
+        return $this->redirect($this->referer());
+    }
+    }
+
+
     public function reinstate($id = null)
     {
         //TODO: Application must have been previously approved by DG

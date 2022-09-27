@@ -51,7 +51,8 @@ class QualityAssessmentsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Sdrug', [
-            'foreignKey' => 'quality_assessment_id'
+            'foreignKey' => 'quality_assessment_id',
+            
         ]);
     }
 

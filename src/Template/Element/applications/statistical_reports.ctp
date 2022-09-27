@@ -28,10 +28,11 @@ if ($prefix === 'manager') {
             <a class="btn btn-primary" role="button" data-toggle="collapse"
                 href="#<?= $statistical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false"
                 aria-controls="<?= $statistical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
-                Assessed on: <?= $statistical['created'] ?> by<?= $statistical->user->name ?>
+                Assessed on: <?= $statistical['created'] ?> by <?= $statistical->user->name ?>
             </a>
             <?php
                 if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $statistical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+            
                 ?>
         </div>
         <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>"
