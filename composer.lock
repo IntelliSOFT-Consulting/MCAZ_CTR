@@ -1110,7 +1110,7 @@
             },
             "require": {
                 "cakephp/orm": "3.*",
-                "league/flysystem": "1.1.4",
+                "league/flysystem": "2.1.1",
                 "php": ">=5.5"
             },
             "require-dev": {
@@ -1210,7 +1210,7 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.70",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
