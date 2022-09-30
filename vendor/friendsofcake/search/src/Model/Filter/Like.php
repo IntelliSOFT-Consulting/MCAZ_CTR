@@ -143,11 +143,14 @@ class Like extends Base
      * set configuration for escape driver name
      *
      * @return void
+     * @throws \InvalidArgumentException
      */
     protected function _setEscaper()
     {
         if ($this->getConfig('escaper') === null) {
-            $driver = get_class($this->getQuery()->connection()->driver());
+            /** @var \Cake\Database\Query $query */
+            $query = $this->getQuery();
+            $driver = get_class($query->getConnection()->getDriver());
             $driverName = 'Sqlserver';
             if (substr_compare($driver, $driverName, -strlen($driverName)) === 0) {
                 $this->setConfig('escaper', 'Search.Sqlserver');

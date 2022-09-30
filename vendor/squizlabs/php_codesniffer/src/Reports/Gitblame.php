@@ -32,7 +32,7 @@ class Gitblame extends VersionControl
      */
     protected function getAuthor($line)
     {
-        $blameParts = array();
+        $blameParts = [];
         $line       = preg_replace('|\s+|', ' ', $line);
         preg_match(
             '|\(.+[0-9]{4}-[0-9]{2}-[0-9]{2}\s+[0-9]+\)|',
@@ -51,7 +51,7 @@ class Gitblame extends VersionControl
         }
 
         $parts  = array_slice($parts, 0, (count($parts) - 2));
-        $author = preg_replace('|\(|', '', implode($parts, ' '));
+        $author = preg_replace('|\(|', '', implode(' ', $parts));
         return $author;
 
     }//end getAuthor()
@@ -63,6 +63,7 @@ class Gitblame extends VersionControl
      * @param string $filename File to blame.
      *
      * @return array
+     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException
      */
     protected function getBlameContent($filename)
     {
@@ -77,7 +78,7 @@ class Gitblame extends VersionControl
         }
 
         $rawContent = stream_get_contents($handle);
-        fclose($handle);
+        pclose($handle);
 
         $blames = explode("\n", $rawContent);
         chdir($cwd);

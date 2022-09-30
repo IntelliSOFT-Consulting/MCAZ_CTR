@@ -1,6 +1,6 @@
 <?php
 /**
- * A simple sniff for detecting BOMs that may corrupt application work.
+ * A simple sniff for detecting a BOM definition that may corrupt application work.
  *
  * @author    Piotr Karas <office@mediaself.pl>
  * @author    Greg Sherwood <gsherwood@squiz.net>
@@ -10,8 +10,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\Files;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ByteOrderMarkSniff implements Sniff
 {
@@ -23,11 +23,11 @@ class ByteOrderMarkSniff implements Sniff
      *
      * @var array
      */
-    protected $bomDefinitions = array(
-                                 'UTF-8'       => 'efbbbf',
-                                 'UTF-16 (BE)' => 'feff',
-                                 'UTF-16 (LE)' => 'fffe',
-                                );
+    protected $bomDefinitions = [
+        'UTF-8'       => 'efbbbf',
+        'UTF-16 (BE)' => 'feff',
+        'UTF-16 (LE)' => 'fffe',
+    ];
 
 
     /**
@@ -37,7 +37,7 @@ class ByteOrderMarkSniff implements Sniff
      */
     public function register()
     {
-        return array(T_INLINE_HTML);
+        return [T_INLINE_HTML];
 
     }//end register()
 
@@ -64,7 +64,7 @@ class ByteOrderMarkSniff implements Sniff
             $bomByteLength = (strlen($expectedBomHex) / 2);
             $htmlBomHex    = bin2hex(substr($tokens[$stackPtr]['content'], 0, $bomByteLength));
             if ($htmlBomHex === $expectedBomHex) {
-                $errorData = array($bomName);
+                $errorData = [$bomName];
                 $error     = 'File contains %s byte order mark, which may corrupt your application';
                 $phpcsFile->addError($error, $stackPtr, 'Found', $errorData);
                 $phpcsFile->recordMetric($stackPtr, 'Using byte order mark', 'yes');

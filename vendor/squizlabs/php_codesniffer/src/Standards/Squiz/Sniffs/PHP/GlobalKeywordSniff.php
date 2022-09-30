@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class GlobalKeywordSniff implements Sniff
 {
@@ -23,7 +23,7 @@ class GlobalKeywordSniff implements Sniff
      */
     public function register()
     {
-        return array(T_GLOBAL);
+        return [T_GLOBAL];
 
     }//end register()
 
@@ -41,10 +41,10 @@ class GlobalKeywordSniff implements Sniff
     {
         $tokens = $phpcsFile->getTokens();
 
-        $nextVar = $tokens[$phpcsFile->findNext(array(T_VARIABLE), $stackPtr)];
+        $nextVar = $tokens[$phpcsFile->findNext([T_VARIABLE], $stackPtr)];
         $varName = str_replace('$', '', $nextVar['content']);
         $error   = 'Use of the "global" keyword is forbidden; use "$GLOBALS[\'%s\']" instead';
-        $data    = array($varName);
+        $data    = [$varName];
         $phpcsFile->addError($error, $stackPtr, 'NotAllowed', $data);
 
     }//end process()

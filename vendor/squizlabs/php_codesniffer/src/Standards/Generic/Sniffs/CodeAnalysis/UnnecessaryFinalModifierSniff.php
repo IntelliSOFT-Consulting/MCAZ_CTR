@@ -2,7 +2,7 @@
 /**
  * Detects unnecessary final modifiers inside of final classes.
  *
- * This rule is based on the PMD rule catalog. The Unnecessary Final Modifier
+ * This rule is based on the PMD rule catalogue. The Unnecessary Final Modifier
  * sniff detects the use of the final modifier inside of a final class which
  * is unnecessary.
  *
@@ -22,8 +22,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class UnnecessaryFinalModifierSniff implements Sniff
@@ -37,7 +37,7 @@ class UnnecessaryFinalModifierSniff implements Sniff
      */
     public function register()
     {
-        return array(T_CLASS);
+        return [T_CLASS];
 
     }//end register()
 

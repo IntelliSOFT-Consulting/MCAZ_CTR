@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ElseIfDeclarationSniff implements Sniff
 {
@@ -23,7 +23,7 @@ class ElseIfDeclarationSniff implements Sniff
      */
     public function register()
     {
-        return array(T_ELSEIF);
+        return [T_ELSEIF];
 
     }//end register()
 

@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class BacktickOperatorSniff implements Sniff
 {
@@ -23,7 +23,7 @@ class BacktickOperatorSniff implements Sniff
      */
     public function register()
     {
-        return array(T_BACKTICK);
+        return [T_BACKTICK];
 
     }//end register()
 

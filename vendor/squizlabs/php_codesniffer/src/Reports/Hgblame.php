@@ -32,7 +32,7 @@ class Hgblame extends VersionControl
      */
     protected function getAuthor($line)
     {
-        $blameParts = array();
+        $blameParts = [];
         $line       = preg_replace('|\s+|', ' ', $line);
 
         preg_match(
@@ -53,7 +53,7 @@ class Hgblame extends VersionControl
 
         $parts = array_slice($parts, 0, (count($parts) - 6));
 
-        return trim(preg_replace('|<.+>|', '', implode($parts, ' ')));
+        return trim(preg_replace('|<.+>|', '', implode(' ', $parts)));
 
     }//end getAuthor()
 
@@ -64,6 +64,7 @@ class Hgblame extends VersionControl
      * @param string $filename File to blame.
      *
      * @return array
+     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException
      */
     protected function getBlameContent($filename)
     {
@@ -74,7 +75,7 @@ class Hgblame extends VersionControl
         $location  = '';
         while (empty($fileParts) === false) {
             array_pop($fileParts);
-            $location = implode($fileParts, DIRECTORY_SEPARATOR);
+            $location = implode(DIRECTORY_SEPARATOR, $fileParts);
             if (is_dir($location.DIRECTORY_SEPARATOR.'.hg') === true) {
                 $found = true;
                 break;
@@ -96,7 +97,7 @@ class Hgblame extends VersionControl
         }
 
         $rawContent = stream_get_contents($handle);
-        fclose($handle);
+        pclose($handle);
 
         $blames = explode("\n", $rawContent);
         chdir($cwd);

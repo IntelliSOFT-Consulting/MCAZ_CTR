@@ -73,7 +73,7 @@ abstract class AbstractSniffUnitTest extends TestCase
      */
     protected function getTestFiles($testFileBase)
     {
-        $testFiles = array();
+        $testFiles = [];
 
         $dir = substr($testFileBase, 0, strrpos($testFileBase, DIRECTORY_SEPARATOR));
         $di  = new \DirectoryIterator($dir);
@@ -81,7 +81,7 @@ abstract class AbstractSniffUnitTest extends TestCase
         foreach ($di as $file) {
             $path = $file->getPathname();
             if (substr($path, 0, strlen($testFileBase)) === $testFileBase) {
-                if ($path !== $testFileBase.'php' && substr($path, -5) !== 'fixed') {
+                if ($path !== $testFileBase.'php' && substr($path, -5) !== 'fixed' && substr($path, -4) !== '.bak') {
                     $testFiles[] = $path;
                 }
             }
@@ -127,6 +127,7 @@ abstract class AbstractSniffUnitTest extends TestCase
 
         // Get a list of all test files to check.
         $testFiles = $this->getTestFiles($testFileBase);
+        $GLOBALS['PHP_CODESNIFFER_SNIFF_CASE_FILES'][] = $testFiles;
 
         if (isset($GLOBALS['PHP_CODESNIFFER_CONFIG']) === true) {
             $config = $GLOBALS['PHP_CODESNIFFER_CONFIG'];
@@ -136,12 +137,12 @@ abstract class AbstractSniffUnitTest extends TestCase
             $GLOBALS['PHP_CODESNIFFER_CONFIG'] = $config;
         }
 
-        $config->standards = array($standardName);
-        $config->sniffs    = array($sniffCode);
-        $config->ignored   = array();
+        $config->standards = [$standardName];
+        $config->sniffs    = [$sniffCode];
+        $config->ignored   = [];
 
         if (isset($GLOBALS['PHP_CODESNIFFER_RULESETS']) === false) {
-            $GLOBALS['PHP_CODESNIFFER_RULESETS'] = array();
+            $GLOBALS['PHP_CODESNIFFER_RULESETS'] = [];
         }
 
         if (isset($GLOBALS['PHP_CODESNIFFER_RULESETS'][$standardName]) === false) {
@@ -157,11 +158,11 @@ abstract class AbstractSniffUnitTest extends TestCase
         $sniffClassName = str_replace('\Tests\\', '\Sniffs\\', $sniffClassName);
         $sniffClassName = Common::cleanSniffClass($sniffClassName);
 
-        $restrictions = array(strtolower($sniffClassName) => true);
-        $ruleset->registerSniffs(array($sniffFile), $restrictions, array());
+        $restrictions = [strtolower($sniffClassName) => true];
+        $ruleset->registerSniffs([$sniffFile], $restrictions, []);
         $ruleset->populateTokenListeners();
 
-        $failureMessages = array();
+        $failureMessages = [];
         foreach ($testFiles as $testFile) {
             $filename  = basename($testFile);
             $oldConfig = $config->getSettings();
@@ -240,36 +241,36 @@ abstract class AbstractSniffUnitTest extends TestCase
             it's not really structured to allow that.
         */
 
-        $allProblems     = array();
-        $failureMessages = array();
+        $allProblems     = [];
+        $failureMessages = [];
 
         foreach ($foundErrors as $line => $lineErrors) {
             foreach ($lineErrors as $column => $errors) {
                 if (isset($allProblems[$line]) === false) {
-                    $allProblems[$line] = array(
-                                           'expected_errors'   => 0,
-                                           'expected_warnings' => 0,
-                                           'found_errors'      => array(),
-                                           'found_warnings'    => array(),
-                                          );
+                    $allProblems[$line] = [
+                        'expected_errors'   => 0,
+                        'expected_warnings' => 0,
+                        'found_errors'      => [],
+                        'found_warnings'    => [],
+                    ];
                 }
 
-                $foundErrorsTemp = array();
+                $foundErrorsTemp = [];
                 foreach ($allProblems[$line]['found_errors'] as $foundError) {
                     $foundErrorsTemp[] = $foundError;
                 }
 
-                $errorsTemp = array();
+                $errorsTemp = [];
                 foreach ($errors as $foundError) {
                     $errorsTemp[] = $foundError['message'].' ('.$foundError['source'].')';
 
                     $source = $foundError['source'];
-                    if (in_array($source, $GLOBALS['PHP_CODESNIFFER_SNIFF_CODES']) === false) {
+                    if (in_array($source, $GLOBALS['PHP_CODESNIFFER_SNIFF_CODES'], true) === false) {
                         $GLOBALS['PHP_CODESNIFFER_SNIFF_CODES'][] = $source;
                     }
 
                     if ($foundError['fixable'] === true
-                        && in_array($source, $GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES']) === false
+                        && in_array($source, $GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES'], true) === false
                     ) {
                         $GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES'][] = $source;
                     }
@@ -289,12 +290,12 @@ abstract class AbstractSniffUnitTest extends TestCase
 
         foreach ($expectedErrors as $line => $numErrors) {
             if (isset($allProblems[$line]) === false) {
-                $allProblems[$line] = array(
-                                       'expected_errors'   => 0,
-                                       'expected_warnings' => 0,
-                                       'found_errors'      => array(),
-                                       'found_warnings'    => array(),
-                                      );
+                $allProblems[$line] = [
+                    'expected_errors'   => 0,
+                    'expected_warnings' => 0,
+                    'found_errors'      => [],
+                    'found_warnings'    => [],
+                ];
             }
 
             $allProblems[$line]['expected_errors'] = $numErrors;
@@ -303,22 +304,33 @@ abstract class AbstractSniffUnitTest extends TestCase
         foreach ($foundWarnings as $line => $lineWarnings) {
             foreach ($lineWarnings as $column => $warnings) {
                 if (isset($allProblems[$line]) === false) {
-                    $allProblems[$line] = array(
-                                           'expected_errors'   => 0,
-                                           'expected_warnings' => 0,
-                                           'found_errors'      => array(),
-                                           'found_warnings'    => array(),
-                                          );
+                    $allProblems[$line] = [
+                        'expected_errors'   => 0,
+                        'expected_warnings' => 0,
+                        'found_errors'      => [],
+                        'found_warnings'    => [],
+                    ];
                 }
 
-                $foundWarningsTemp = array();
+                $foundWarningsTemp = [];
                 foreach ($allProblems[$line]['found_warnings'] as $foundWarning) {
                     $foundWarningsTemp[] = $foundWarning;
                 }
 
-                $warningsTemp = array();
+                $warningsTemp = [];
                 foreach ($warnings as $warning) {
                     $warningsTemp[] = $warning['message'].' ('.$warning['source'].')';
+
+                    $source = $warning['source'];
+                    if (in_array($source, $GLOBALS['PHP_CODESNIFFER_SNIFF_CODES'], true) === false) {
+                        $GLOBALS['PHP_CODESNIFFER_SNIFF_CODES'][] = $source;
+                    }
+
+                    if ($warning['fixable'] === true
+                        && in_array($source, $GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES'], true) === false
+                    ) {
+                        $GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES'][] = $source;
+                    }
                 }
 
                 $allProblems[$line]['found_warnings'] = array_merge($foundWarningsTemp, $warningsTemp);
@@ -335,12 +347,12 @@ abstract class AbstractSniffUnitTest extends TestCase
 
         foreach ($expectedWarnings as $line => $numWarnings) {
             if (isset($allProblems[$line]) === false) {
-                $allProblems[$line] = array(
-                                       'expected_errors'   => 0,
-                                       'expected_warnings' => 0,
-                                       'found_errors'      => array(),
-                                       'found_warnings'    => array(),
-                                      );
+                $allProblems[$line] = [
+                    'expected_errors'   => 0,
+                    'expected_warnings' => 0,
+                    'found_errors'      => [],
+                    'found_warnings'    => [],
+                ];
             }
 
             $allProblems[$line]['expected_warnings'] = $numWarnings;

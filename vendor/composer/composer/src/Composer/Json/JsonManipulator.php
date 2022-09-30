@@ -22,7 +22,7 @@ class JsonManipulator
     private static $DEFINES = '(?(DEFINE)
        (?<number>   -? (?= [1-9]|0(?!\d) ) \d+ (\.\d+)? ([eE] [+-]? \d+)? )
        (?<boolean>   true | false | null )
-       (?<string>    " ([^"\\\\]* | \\\\ ["\\\\bfnrt\/] | \\\\ u [0-9a-f]{4} )* " )
+       (?<string>    " ([^"\\\\]* | \\\\ ["\\\\bfnrt\/] | \\\\ u [0-9A-Fa-f]{4} )* " )
        (?<array>     \[  (?:  (?&json) \s* (?: , (?&json) \s* )*  )?  \s* \] )
        (?<pair>      \s* (?&string) \s* : (?&json) \s* )
        (?<object>    \{  (?:  (?&pair)  (?: , (?&pair)  )*  )?  \s* \} )
@@ -167,8 +167,16 @@ class JsonManipulator
 
     public function addProperty($name, $value)
     {
+        if (substr($name, 0, 8) === 'suggest.') {
+            return $this->addSubNode('suggest', substr($name, 8), $value);
+        }
+
         if (substr($name, 0, 6) === 'extra.') {
             return $this->addSubNode('extra', substr($name, 6), $value);
+        }
+
+        if (substr($name, 0, 8) === 'scripts.') {
+            return $this->addSubNode('scripts', substr($name, 8), $value);
         }
 
         return $this->addMainKey($name, $value);
@@ -176,8 +184,16 @@ class JsonManipulator
 
     public function removeProperty($name)
     {
+        if (substr($name, 0, 8) === 'suggest.') {
+            return $this->removeSubNode('suggest', substr($name, 8));
+        }
+
         if (substr($name, 0, 6) === 'extra.') {
             return $this->removeSubNode('extra', substr($name, 6));
+        }
+
+        if (substr($name, 0, 8) === 'scripts.') {
+            return $this->removeSubNode('scripts', substr($name, 8));
         }
 
         return $this->removeMainKey($name);
@@ -188,7 +204,7 @@ class JsonManipulator
         $decoded = JsonFile::parseJson($this->contents);
 
         $subName = null;
-        if (in_array($mainNode, array('config', 'extra')) && false !== strpos($name, '.')) {
+        if (in_array($mainNode, array('config', 'extra', 'scripts')) && false !== strpos($name, '.')) {
             list($name, $subName) = explode('.', $name, 2);
         }
 
@@ -229,7 +245,7 @@ class JsonManipulator
         // child exists
         $childRegex = '{'.self::$DEFINES.'(?P<start>"'.preg_quote($name).'"\s*:\s*)(?P<content>(?&json))(?P<end>,?)}x';
         if ($this->pregMatch($childRegex, $children, $matches)) {
-            $children = preg_replace_callback($childRegex, function ($matches) use ($name, $subName, $value, $that) {
+            $children = preg_replace_callback($childRegex, function ($matches) use ($subName, $value, $that) {
                 if ($subName !== null) {
                     $curVal = json_decode($matches['content'], true);
                     if (!is_array($curVal)) {
@@ -308,7 +324,7 @@ class JsonManipulator
         }
 
         $subName = null;
-        if (in_array($mainNode, array('config', 'extra')) && false !== strpos($name, '.')) {
+        if (in_array($mainNode, array('config', 'extra', 'scripts')) && false !== strpos($name, '.')) {
             list($name, $subName) = explode('.', $name, 2);
         }
 
@@ -318,9 +334,10 @@ class JsonManipulator
         }
 
         // try and find a match for the subkey
-        if ($this->pregMatch('{"'.preg_quote($name).'"\s*:}i', $children)) {
+        $keyRegex = str_replace('/', '\\\\?/', preg_quote($name));
+        if ($this->pregMatch('{"'.$keyRegex.'"\s*:}i', $children)) {
             // find best match for the value of "name"
-            if (preg_match_all('{'.self::$DEFINES.'"'.preg_quote($name).'"\s*:\s*(?:(?&json))}x', $children, $matches)) {
+            if (preg_match_all('{'.self::$DEFINES.'"'.$keyRegex.'"\s*:\s*(?:(?&json))}x', $children, $matches)) {
                 $bestMatch = '';
                 foreach ($matches[0] as $match) {
                     if (strlen($bestMatch) < strlen($match)) {
@@ -417,7 +434,7 @@ class JsonManipulator
     {
         $decoded = JsonFile::parseJson($this->contents);
 
-        if (!isset($decoded[$key])) {
+        if (!array_key_exists($key, $decoded)) {
             return true;
         }
 
@@ -502,8 +519,7 @@ class JsonManipulator
                     if (PHP_VERSION_ID > 70000) {
                         throw new \RuntimeException('Failed to execute regex: PREG_JIT_STACKLIMIT_ERROR', 6);
                     }
-                    // fallthrough
-
+                    // no break
                 default:
                     throw new \RuntimeException('Failed to execute regex: Unknown error');
             }

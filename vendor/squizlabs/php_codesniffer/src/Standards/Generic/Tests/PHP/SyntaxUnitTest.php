@@ -10,32 +10,10 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Tests\PHP;
 
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 class SyntaxUnitTest extends AbstractSniffUnitTest
 {
-
-
-    /**
-     * Should this test be skipped for some reason.
-     *
-     * @return void
-     */
-    protected function shouldSkipTest()
-    {
-        if (defined('PHP_BINARY') === true) {
-            return false;
-        }
-
-        $phpPath = Config::getExecutablePath('php');
-        if ($phpPath === null) {
-            return true;
-        }
-
-        return false;
-
-    }//end shouldSkipTest()
 
 
     /**
@@ -44,11 +22,21 @@ class SyntaxUnitTest extends AbstractSniffUnitTest
      * The key of the array should represent the line number and the value
      * should represent the number of errors that should occur on that line.
      *
+     * @param string $testFile The name of the file being tested.
+     *
      * @return array<int, int>
      */
-    public function getErrorList()
+    public function getErrorList($testFile='')
     {
-        return array(3 => 1);
+        switch ($testFile) {
+        case 'SyntaxUnitTest.1.inc':
+        case 'SyntaxUnitTest.2.inc':
+            return [3 => 1];
+            break;
+        default:
+            return [];
+            break;
+        }
 
     }//end getErrorList()
 
@@ -63,7 +51,7 @@ class SyntaxUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 

@@ -1,8 +1,17 @@
 # CakePHP DebugKit
 [![Build Status](https://secure.travis-ci.org/cakephp/debug_kit.png?branch=master)](http://travis-ci.org/cakephp/debug_kit)
 [![Coverage Status](https://img.shields.io/codecov/c/github/cakephp/debug_kit.svg?style=flat-square)](https://codecov.io/github/cakephp/debug_kit)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
+[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/cakephp.svg?style=flat-square)](https://packagist.org/packages/cakephp/debug_kit)
 
-DebugKit provides a debugging toolbar and enhanced debugging tools for CakePHP applications.
+DebugKit provides a debugging toolbar and enhanced debugging tools for CakePHP
+applications. It lets you quickly see configuration data, log messages, SQL
+queries, and timing data for your application.
+
+:warning: DebugKit is only intended for use in single-user local development
+environments. You should avoid using DebugKit in shared development
+environments, staging environments, or any environment where you need to keep
+configuration data and environment variables hidden. :warning:
 
 ## Requirements
 
@@ -198,4 +207,10 @@ the panel data. If you'd like DebugKit to store its data elsewhere, you should d
 connection.
 
 ## Cleaning Storage
+
 You can safely remove the file tmp/debug_kit.sqlite, the plugin is able to regenerate it.
+
+## Helper Functions
+
+* `sql()` Dumps out the SQL from an ORM query.
+* `sqld()` Dumps out the SQL from an ORM query, and exits.

@@ -17,8 +17,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ClassCommentSniff implements Sniff
@@ -32,7 +32,7 @@ class ClassCommentSniff implements Sniff
      */
     public function register()
     {
-        return array(T_CLASS);
+        return [T_CLASS];
 
     }//end register()
 
@@ -50,13 +50,33 @@ class ClassCommentSniff implements Sniff
     {
         $tokens = $phpcsFile->getTokens();
         $find   = Tokens::$methodPrefixes;
-        $find[] = T_WHITESPACE;
+        $find[T_WHITESPACE] = T_WHITESPACE;
 
-        $commentEnd = $phpcsFile->findPrevious($find, ($stackPtr - 1), null, true);
+        $previousContent = null;
+        for ($commentEnd = ($stackPtr - 1); $commentEnd >= 0; $commentEnd--) {
+            if (isset($find[$tokens[$commentEnd]['code']]) === true) {
+                continue;
+            }
+
+            if ($previousContent === null) {
+                $previousContent = $commentEnd;
+            }
+
+            if ($tokens[$commentEnd]['code'] === T_ATTRIBUTE_END
+                && isset($tokens[$commentEnd]['attribute_opener']) === true
+            ) {
+                $commentEnd = $tokens[$commentEnd]['attribute_opener'];
+                continue;
+            }
+
+            break;
+        }
+
         if ($tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG
             && $tokens[$commentEnd]['code'] !== T_COMMENT
         ) {
-            $phpcsFile->addError('Missing class doc comment', $stackPtr, 'Missing');
+            $class = $phpcsFile->getDeclarationName($stackPtr);
+            $phpcsFile->addError('Missing doc comment for class %s', $stackPtr, 'Missing', [$class]);
             $phpcsFile->recordMetric($stackPtr, 'Class has doc comment', 'no');
             return;
         }
@@ -68,7 +88,7 @@ class ClassCommentSniff implements Sniff
             return;
         }
 
-        if ($tokens[$commentEnd]['line'] !== ($tokens[$stackPtr]['line'] - 1)) {
+        if ($tokens[$previousContent]['line'] !== ($tokens[$stackPtr]['line'] - 1)) {
             $error = 'There must be no blank lines after the class comment';
             $phpcsFile->addError($error, $commentEnd, 'SpacingAfter');
         }
@@ -76,7 +96,7 @@ class ClassCommentSniff implements Sniff
         $commentStart = $tokens[$commentEnd]['comment_opener'];
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
             $error = '%s tag is not allowed in class comment';
-            $data  = array($tokens[$tag]['content']);
+            $data  = [$tokens[$tag]['content']];
             $phpcsFile->addWarning($error, $tag, 'TagNotAllowed', $data);
         }
 

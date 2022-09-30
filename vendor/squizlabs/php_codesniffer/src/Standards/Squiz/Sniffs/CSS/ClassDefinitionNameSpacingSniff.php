@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\CSS;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ClassDefinitionNameSpacingSniff implements Sniff
@@ -21,7 +21,7 @@ class ClassDefinitionNameSpacingSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array('CSS');
+    public $supportedTokenizers = ['CSS'];
 
 
     /**
@@ -31,7 +31,7 @@ class ClassDefinitionNameSpacingSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_CURLY_BRACKET);
+        return [T_OPEN_CURLY_BRACKET];
 
     }//end register()
 
@@ -49,6 +49,11 @@ class ClassDefinitionNameSpacingSniff implements Sniff
     {
         $tokens = $phpcsFile->getTokens();
 
+        if (isset($tokens[$stackPtr]['bracket_closer']) === false) {
+            // Syntax error or live coding, bow out.
+            return;
+        }
+
         // Do not check nested style definitions as, for example, in @media style rules.
         $nested = $phpcsFile->findNext(T_OPEN_CURLY_BRACKET, ($stackPtr + 1), $tokens[$stackPtr]['bracket_closer']);
         if ($nested !== false) {
@@ -57,11 +62,11 @@ class ClassDefinitionNameSpacingSniff implements Sniff
 
         // Find the first blank line before this opening brace, unless we get
         // to another style definition, comment or the start of the file.
-        $endTokens  = array(
-                       T_OPEN_CURLY_BRACKET  => T_OPEN_CURLY_BRACKET,
-                       T_CLOSE_CURLY_BRACKET => T_CLOSE_CURLY_BRACKET,
-                       T_OPEN_TAG            => T_OPEN_TAG,
-                      );
+        $endTokens  = [
+            T_OPEN_CURLY_BRACKET  => T_OPEN_CURLY_BRACKET,
+            T_CLOSE_CURLY_BRACKET => T_CLOSE_CURLY_BRACKET,
+            T_OPEN_TAG            => T_OPEN_TAG,
+        ];
         $endTokens += Tokens::$commentTokens;
 
         $prev = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($stackPtr - 1), null, true);

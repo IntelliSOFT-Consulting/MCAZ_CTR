@@ -10,7 +10,6 @@
 namespace PHP_CodeSniffer\Sniffs;
 
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Util\Tokens;
 use PHP_CodeSniffer\Tokenizers\PHP;
 use PHP_CodeSniffer\Exceptions\RuntimeException;
@@ -37,7 +36,7 @@ abstract class AbstractPatternSniff implements Sniff
      *
      * @var array
      */
-    private $parsedPatterns = array();
+    private $parsedPatterns = [];
 
     /**
      * Tokens that this sniff wishes to process outside of the patterns.
@@ -46,14 +45,14 @@ abstract class AbstractPatternSniff implements Sniff
      * @see registerSupplementary()
      * @see processSupplementary()
      */
-    private $supplementaryTokens = array();
+    private $supplementaryTokens = [];
 
     /**
      * Positions in the stack where errors have occurred.
      *
      * @var array<int, bool>
      */
-    private $errorPos = array();
+    private $errorPos = [];
 
 
     /**
@@ -84,7 +83,7 @@ abstract class AbstractPatternSniff implements Sniff
      */
     final public function register()
     {
-        $listenTypes = array();
+        $listenTypes = [];
         $patterns    = $this->getPatterns();
 
         foreach ($patterns as $pattern) {
@@ -96,14 +95,14 @@ abstract class AbstractPatternSniff implements Sniff
             $tokenType     = $parsedPattern[$pos]['token'];
             $listenTypes[] = $tokenType;
 
-            $patternArray = array(
-                             'listen_pos'   => $pos,
-                             'pattern'      => $parsedPattern,
-                             'pattern_code' => $pattern,
-                            );
+            $patternArray = [
+                'listen_pos'   => $pos,
+                'pattern'      => $parsedPattern,
+                'pattern_code' => $pattern,
+            ];
 
             if (isset($this->parsedPatterns[$tokenType]) === false) {
-                $this->parsedPatterns[$tokenType] = array();
+                $this->parsedPatterns[$tokenType] = [];
             }
 
             $this->parsedPatterns[$tokenType][] = $patternArray;
@@ -132,7 +131,7 @@ abstract class AbstractPatternSniff implements Sniff
      */
     private function getPatternTokenTypes($pattern)
     {
-        $tokenTypes = array();
+        $tokenTypes = [];
         foreach ($pattern as $pos => $patternInfo) {
             if ($patternInfo['type'] === 'token') {
                 if (isset($tokenTypes[$patternInfo['token']]) === false) {
@@ -154,7 +153,7 @@ abstract class AbstractPatternSniff implements Sniff
      *
      * @return int The position in the pattern that this test should register
      *             as the listener.
-     * @throws RuntimeException If we could not determine a token to listen for.
+     * @throws \PHP_CodeSniffer\Exceptions\RuntimeException If we could not determine a token to listen for.
      */
     private function getListenerTokenPos($pattern)
     {
@@ -190,13 +189,13 @@ abstract class AbstractPatternSniff implements Sniff
         $file = $phpcsFile->getFilename();
         if ($this->currFile !== $file) {
             // We have changed files, so clean up.
-            $this->errorPos = array();
+            $this->errorPos = [];
             $this->currFile = $file;
         }
 
         $tokens = $phpcsFile->getTokens();
 
-        if (in_array($tokens[$stackPtr]['code'], $this->supplementaryTokens) === true) {
+        if (in_array($tokens[$stackPtr]['code'], $this->supplementaryTokens, true) === true) {
             $this->processSupplementary($phpcsFile, $stackPtr);
         }
 
@@ -208,7 +207,7 @@ abstract class AbstractPatternSniff implements Sniff
             return;
         }
 
-        $allErrors = array();
+        $allErrors = [];
 
         // Loop over each pattern that is listening to the current token type
         // that we are processing.
@@ -258,13 +257,12 @@ abstract class AbstractPatternSniff implements Sniff
         $tokens      = $phpcsFile->getTokens();
         $pattern     = $patternInfo['pattern'];
         $patternCode = $patternInfo['pattern_code'];
-        $errors      = array();
+        $errors      = [];
         $found       = '';
 
-        $ignoreTokens = array(T_WHITESPACE);
+        $ignoreTokens = [T_WHITESPACE => T_WHITESPACE];
         if ($this->ignoreComments === true) {
-            $ignoreTokens
-                = array_merge($ignoreTokens, Tokens::$commentTokens);
+            $ignoreTokens += Tokens::$commentTokens;
         }
 
         $origStackPtr = $stackPtr;
@@ -675,7 +673,6 @@ abstract class AbstractPatternSniff implements Sniff
                         ($next - $stackPtr)
                     );
 
-                    $diff = ($next - $stackPtr);
                     $lastAddedStackPtr = ($next - 1);
                 }
 
@@ -737,7 +734,7 @@ abstract class AbstractPatternSniff implements Sniff
      */
     protected function registerSupplementary()
     {
-        return array();
+        return [];
 
     }//end registerSupplementary()
 
@@ -770,7 +767,7 @@ abstract class AbstractPatternSniff implements Sniff
      */
     private function parse($pattern)
     {
-        $patterns   = array();
+        $patterns   = [];
         $length     = strlen($pattern);
         $lastToken  = 0;
         $firstToken = 0;
@@ -787,21 +784,21 @@ abstract class AbstractPatternSniff implements Sniff
                 $specialPattern = $this->createSkipPattern($pattern, ($i - 1));
                 $lastToken      = ($i - $firstToken);
                 $firstToken     = ($i + 3);
-                $i = ($i + 2);
+                $i += 2;
 
                 if ($specialPattern['to'] !== 'unknown') {
                     $firstToken++;
                 }
             } else if (substr($pattern, $i, 3) === 'abc') {
-                $specialPattern = array('type' => 'string');
+                $specialPattern = ['type' => 'string'];
                 $lastToken      = ($i - $firstToken);
                 $firstToken     = ($i + 3);
-                $i = ($i + 2);
+                $i += 2;
             } else if (substr($pattern, $i, 3) === 'EOL') {
-                $specialPattern = array('type' => 'newline');
+                $specialPattern = ['type' => 'newline'];
                 $lastToken      = ($i - $firstToken);
                 $firstToken     = ($i + 3);
-                $i = ($i + 2);
+                $i += 2;
             }//end if
 
             if ($specialPattern !== false || $isLastChar === true) {
@@ -861,7 +858,7 @@ abstract class AbstractPatternSniff implements Sniff
      */
     private function createSkipPattern($pattern, $from)
     {
-        $skip = array('type' => 'skip');
+        $skip = ['type' => 'skip'];
 
         $nestedParenthesis = 0;
         $nestedBraces      = 0;
@@ -922,13 +919,13 @@ abstract class AbstractPatternSniff implements Sniff
         $tokens = $tokenizer->getTokens();
         $tokens = array_slice($tokens, 1, (count($tokens) - 2));
 
-        $patterns = array();
+        $patterns = [];
         foreach ($tokens as $patternInfo) {
-            $patterns[] = array(
-                           'type'  => 'token',
-                           'token' => $patternInfo['code'],
-                           'value' => $patternInfo['content'],
-                          );
+            $patterns[] = [
+                'type'  => 'token',
+                'token' => $patternInfo['code'],
+                'value' => $patternInfo['content'],
+            ];
         }
 
         return $patterns;

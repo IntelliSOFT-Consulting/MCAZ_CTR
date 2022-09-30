@@ -2,7 +2,7 @@
 /**
  * Detects incrementer jumbling in for loops.
  *
- * This rule is based on the PMD rule catalog. The jumbling incrementer sniff
+ * This rule is based on the PMD rule catalogue. The jumbling incrementer sniff
  * detects the usage of one and the same incrementer into an outer and an inner
  * loop. Even it is intended this is confusing code.
  *
@@ -29,8 +29,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class JumbledIncrementerSniff implements Sniff
 {
@@ -43,7 +43,7 @@ class JumbledIncrementerSniff implements Sniff
      */
     public function register()
     {
-        return array(T_FOR);
+        return [T_FOR];
 
     }//end register()
 
@@ -89,7 +89,7 @@ class JumbledIncrementerSniff implements Sniff
 
             if (count($diff) !== 0) {
                 $error = 'Loop incrementor (%s) jumbling with inner loop';
-                $data  = array(join(', ', $diff));
+                $data  = [join(', ', $diff)];
                 $phpcsFile->addWarning($error, $stackPtr, 'Found', $data);
             }
         }
@@ -109,13 +109,13 @@ class JumbledIncrementerSniff implements Sniff
     {
         // Skip invalid statement.
         if (isset($token['parenthesis_opener']) === false) {
-            return array();
+            return [];
         }
 
         $start = ++$token['parenthesis_opener'];
         $end   = --$token['parenthesis_closer'];
 
-        $incrementers = array();
+        $incrementers = [];
         $semicolons   = 0;
         for ($next = $start; $next <= $end; ++$next) {
             $code = $tokens[$next]['code'];

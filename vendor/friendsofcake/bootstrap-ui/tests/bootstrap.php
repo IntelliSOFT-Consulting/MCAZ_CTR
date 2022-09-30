@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\I18n;
+use Cake\Utility\Security;
 
 require_once 'vendor/autoload.php';
 
@@ -65,7 +66,7 @@ Configure::write('App', [
     ]
 ]);
 
-Cache::config([
+Cache::setConfig([
     '_cake_core_' => [
         'engine' => 'File',
         'prefix' => 'cake_core_',
@@ -78,4 +79,4 @@ Cache::config([
     ]
 ]);
 
-Plugin::load('BootstrapUI', ['path' => ROOT . DS]);
+Security::setSalt('foobar');

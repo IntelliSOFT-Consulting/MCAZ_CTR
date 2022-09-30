@@ -33,6 +33,7 @@ class ErrorHandler
      *
      * @static
      * @throws \ErrorException
+     * @return bool
      */
     public static function handle($level, $message, $file, $line)
     {
@@ -41,7 +42,7 @@ class ErrorHandler
             return;
         }
 
-        if (ini_get('xdebug.scream')) {
+        if (filter_var(ini_get('xdebug.scream'), FILTER_VALIDATE_BOOLEAN)) {
             $message .= "\n\nWarning: You have xdebug.scream enabled, the warning above may be".
             "\na legitimately suppressed error that you were not supposed to see.";
         }
@@ -51,6 +52,15 @@ class ErrorHandler
         }
 
         if (self::$io) {
+            // ignore symfony/* deprecation warnings about return types
+            // also ignore them from the Composer namespace, as 1.x won't get all that fixed anymore
+            if (preg_match('{^Return type of (Symfony|Composer)\\\\.*ReturnTypeWillChange}is', $message)) {
+                return true;
+            }
+            if (strpos(strtr($file, '\\', '/'), 'vendor/symfony/') !== false) {
+                return true;
+            }
+
             self::$io->writeError('<warning>Deprecation Notice: '.$message.' in '.$file.':'.$line.'</warning>');
             if (self::$io->isVerbose()) {
                 self::$io->writeError('<warning>Stack trace:</warning>');
@@ -63,6 +73,8 @@ class ErrorHandler
                 }, array_slice(debug_backtrace(), 2))));
             }
         }
+
+        return true;
     }
 
     /**

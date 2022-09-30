@@ -13,6 +13,7 @@ namespace DebugKit;
 
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
+use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
@@ -162,8 +163,9 @@ class ToolbarService
     public function saveData(ServerRequest $request, ResponseInterface $response)
     {
         // Skip debugkit requests and requestAction()
-        if ($request->param('plugin') === 'DebugKit' ||
-            strpos($request->getUri()->getPath(), 'debug_kit') !== false ||
+        $path = $request->getUri()->getPath();
+        if (strpos($path, 'debug_kit') !== false ||
+            strpos($path, 'debug-kit') !== false ||
             $request->is('requested')
         ) {
             return null;
@@ -205,6 +207,28 @@ class ToolbarService
     }
 
     /**
+     * Reads the modified date of a file in the webroot, and returns the integer
+     *
+     * @return string
+     */
+    public function getToolbarUrl()
+    {
+        $url = 'js/toolbar.js';
+        $filePaths = [
+            str_replace('/', DIRECTORY_SEPARATOR, WWW_ROOT . 'debug_kit/' . $url),
+            str_replace('/', DIRECTORY_SEPARATOR, Plugin::path('DebugKit') . 'webroot/' . $url)
+        ];
+        $url = '/debug_kit/' . $url;
+        foreach ($filePaths as $filePath) {
+            if (file_exists($filePath)) {
+                return $url . '?' . filemtime($filePath);
+            }
+        }
+
+        return $url;
+    }
+
+    /**
      * Injects the JS to build the toolbar.
      *
      * The toolbar will only be injected if the response's content type
@@ -237,7 +261,7 @@ class ToolbarService
             '<script id="__debug_kit" data-id="%s" data-url="%s" src="%s"></script>',
             $row->id,
             $url,
-            Router::url('/debug_kit/js/toolbar.js')
+            Router::url($this->getToolbarUrl())
         );
         $contents = substr($contents, 0, $pos) . $script . substr($contents, $pos);
         $body->rewind();

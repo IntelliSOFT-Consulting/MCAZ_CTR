@@ -66,6 +66,29 @@ Basic example
         <?php echo $this->Form->input('username'); ?>
         <?php echo $this->Form->input('photo', ['type' => 'file']); ?>
     <?php echo $this->Form->end(); ?>
+    
+    Note: If you used *bake* to generate MVC structure after creating 
+    the users table, you will need to remove the default scalar validation
+    for the photos field. 
+    
+.. code:: php
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('username')
+            ->allowEmpty('username');
+
+        $validator
+            // remove ->scalar('photo')
+            ->allowEmpty('photo');
+
+        return $validator;
+    }
+    ?>
 
 Deleting files
 --------------
@@ -201,7 +224,7 @@ This example uses the Imagine library. It can be installed through composer:
                         'size' => 'photo_size',
                         'type' => 'photo_type'
                     ],
-                    'nameCallback' => function ($data, $settings) {
+                    'nameCallback' => function ($table, $entity, $data, $field, $settings) {
                         return strtolower($data['name']);
                     },
                     'transformer' =>  function ($table, $entity, $data, $field, $settings) {

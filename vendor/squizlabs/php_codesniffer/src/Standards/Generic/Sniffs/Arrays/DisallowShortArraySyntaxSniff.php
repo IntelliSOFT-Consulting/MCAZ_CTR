@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\Arrays;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class DisallowShortArraySyntaxSniff implements Sniff
 {
@@ -23,7 +23,7 @@ class DisallowShortArraySyntaxSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_SHORT_ARRAY);
+        return [T_OPEN_SHORT_ARRAY];
 
     }//end register()
 

@@ -38,7 +38,7 @@ class DummyFile extends File
         // This is done by including: phpcs_input_file: [file path]
         // as the first line of content.
         $path = 'STDIN';
-        if ($content !== null) {
+        if ($content !== '') {
             if (substr($content, 0, 17) === 'phpcs_input_file:') {
                 $eolPos   = strpos($content, $this->eolChar);
                 $filename = trim(substr($content, 17, ($eolPos - 17)));
@@ -54,7 +54,7 @@ class DummyFile extends File
             $path = $config->stdinPath;
         }
 
-        return parent::__construct($path, $ruleset, $config);
+        parent::__construct($path, $ruleset, $config);
 
     }//end __construct()
 

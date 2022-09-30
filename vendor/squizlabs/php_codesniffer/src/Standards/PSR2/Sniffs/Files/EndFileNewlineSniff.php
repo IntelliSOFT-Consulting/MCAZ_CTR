@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\PSR2\Sniffs\Files;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class EndFileNewlineSniff implements Sniff
 {
@@ -23,7 +23,10 @@ class EndFileNewlineSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_TAG);
+        return [
+            T_OPEN_TAG,
+            T_OPEN_TAG_WITH_ECHO,
+        ];
 
     }//end register()
 
@@ -69,7 +72,7 @@ class EndFileNewlineSniff implements Sniff
         if ($tokens[$lastToken]['code'] === T_WHITESPACE
             || $tokens[$lastToken]['code'] === T_DOC_COMMENT_WHITESPACE
         ) {
-            $lastCode = $phpcsFile->findPrevious(array(T_WHITESPACE, T_DOC_COMMENT_WHITESPACE), ($lastToken - 1), null, true);
+            $lastCode = $phpcsFile->findPrevious([T_WHITESPACE, T_DOC_COMMENT_WHITESPACE], ($lastToken - 1), null, true);
         } else {
             $lastCode = $lastToken;
         }
@@ -80,7 +83,7 @@ class EndFileNewlineSniff implements Sniff
 
         if ($blankLines > 1) {
             $error = 'Expected 1 blank line at end of file; %s found';
-            $data  = array($blankLines);
+            $data  = [$blankLines];
             $fix   = $phpcsFile->addFixableError($error, $lastCode, 'TooMany', $data);
 
             if ($fix === true) {

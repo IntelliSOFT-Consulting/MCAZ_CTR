@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ClosingDeclarationCommentSniff implements Sniff
 {
@@ -23,11 +23,12 @@ class ClosingDeclarationCommentSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_FUNCTION,
-                T_CLASS,
-                T_INTERFACE,
-               );
+        return [
+            T_FUNCTION,
+            T_CLASS,
+            T_INTERFACE,
+            T_ENUM,
+        ];
 
     }//end register()
 
@@ -69,13 +70,15 @@ class ClosingDeclarationCommentSniff implements Sniff
             $comment = '//end '.$decName.'()';
         } else if ($tokens[$stackPtr]['code'] === T_CLASS) {
             $comment = '//end class';
-        } else {
+        } else if ($tokens[$stackPtr]['code'] === T_INTERFACE) {
             $comment = '//end interface';
+        } else {
+            $comment = '//end enum';
         }//end if
 
         if (isset($tokens[$stackPtr]['scope_closer']) === false) {
             $error = 'Possible parse error: %s missing opening or closing brace';
-            $data  = array($tokens[$stackPtr]['content']);
+            $data  = [$tokens[$stackPtr]['content']];
             $phpcsFile->addWarning($error, $stackPtr, 'MissingBrace', $data);
             return;
         }
@@ -87,7 +90,7 @@ class ClosingDeclarationCommentSniff implements Sniff
             return;
         }
 
-        $data = array($comment);
+        $data = [$comment];
         if (isset($tokens[($closingBracket + 1)]) === false || $tokens[($closingBracket + 1)]['code'] !== T_COMMENT) {
             $next = $phpcsFile->findNext(T_WHITESPACE, ($closingBracket + 1), null, true);
             if (rtrim($tokens[$next]['content']) === $comment) {

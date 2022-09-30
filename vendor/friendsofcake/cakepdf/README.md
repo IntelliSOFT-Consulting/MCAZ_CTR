@@ -7,17 +7,19 @@
 
 Plugin containing CakePdf lib which will use a PDF engine to convert HTML to PDF.
 
-Current engines:
-* DomPdf
-* Mpdf
-* Tcpdf
+Engines included in the plugin:
+* DomPdf (^0.8)
+* Mpdf (^7.0)
+* Tcpdf (^6.2)
 * WkHtmlToPdf **RECOMMENDED ENGINE**
+
+Community maintained engines:
+* [PDFreactor](https://github.com/jmischer/cake-pdfreactor)
 
 
 ## Requirements
 
-* PHP 5.4.16+
-* CakePHP 3.0+
+* CakePHP 3.4+
 * One of the following render engines: DomPdf, Mpdf, Tcpdf or wkhtmltopdf
 * pdftk (optional) See: http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/
 
@@ -37,7 +39,7 @@ by default CakePdf expects the wkhtmltopdf binary to be located in /usr/bin/wkht
 If you are using wkhtmltopdf in Windows, remove any spaces in the path name. For example
 use `C:/Progra~1/wkhtmltopdf/bin/wkhtmltopdf.exe`
 
-DomPdf, Mpdf and Tcpdf can be installed via composer using on of the following commands:
+DomPdf, Mpdf and Tcpdf can be installed via composer using one of the following commands:
 
 ```
 composer require dompdf/dompdf
@@ -91,14 +93,17 @@ Configuration options:
 * engine: Engine to be used (required), or an array of engine config options
   * className: Engine class to use
   * binary: Binary file to use (Only for wkhtmltopdf)
-  * options: Engine specific options. Currently only for `WkHtmlToPdf`, where the options
-    are passed as CLI arguments, and for `DomPdf`, where the options are passed to the
-    `DomPdf` class constructor.
+  * cwd: current working directory (Only for wkhtmltopdf)
+  * options: Engine specific options. Currently used for following engine:
+    * `WkHtmlToPdfEngine`: The options are passed as CLI arguments
+    * `TexToPdfEngine`: The options are passed as CLI arguments
+    * `DomPdfEngine`: The options are passed to constructor of `Dompdf` class
+    * `MpdfEngine`: The options are passed to constructor of `Mpdf` class
 * crypto: Crypto engine to be used, or an array of crypto config options
   * className: Crypto class to use
   * binary: Binary file to use
 * pageSize: Change the default size, defaults to A4
-* orientation: Change the default orientation, defaults to potrait
+* orientation: Change the default orientation, defaults to portrait
 * margin: Array or margins with the keys: bottom, left, right, top and their values
 * title: Title of the document
 * delay: A delay in milliseconds to wait before rendering the pdf
@@ -156,6 +161,7 @@ options for the relevant class. For example:
             // old fashioned MS-DOS Paths, otherwise you will keep getting:
             // WKHTMLTOPDF didn't return any data
             // 'binary' => 'C:\\Progra~1\\wkhtmltopdf\\bin\\wkhtmltopdf.exe',
+            // 'cwd' => 'C:\\Progra~1\\wkhtmltopdf\\bin',
 	        'options' => [
 	            'print-media-type' => false,
 	            'outline' => true,
@@ -187,9 +193,25 @@ to your routes file and you can access the same document at
 `http://localhost/invoices/1.pdf`.
 
 In case you don't want to use the `pdf` extension in your URLs, you can omit
-registering it in your routes configuration, and have your requests send a
-`Accept: application/pdf` header instead.
+registering it in your routes configuration. Then in your controller action
+specify the view class to be used:
 
+```php
+$this->viewBuilder()->setClassName('CakePdf.Pdf');
+```
+
+Instead of having the pdf rendered in browser itself you can force it to be
+downloaded by using `download` option. Additionally you can specify custom filename
+using `filename` options.
+
+```php
+$this->viewBuilder()->options([
+    'pdfConfig' => [
+        'download' => true, // This can be omitted if "filename" is specified.
+        'filename' => 'Invoice_' . $id // This can be omitted if you want file name based on URL.
+    ]
+]);
+```
 
 ### 2: Create PDF for email attachment, file storage etc.
 
@@ -257,18 +279,34 @@ Set 'permissions' to an array with a combination of the following available perm
 * annotate,
 * fill_in
 
+## How to
 
-## Note about static assets
+## Ensure css, images etc. are loaded in PDF
 
 Use absolute URLs for static assets in your view templates for PDFs.
-If you use `HtmlHelper::image()`, `HtmlHelper::script()` or `HtmlHelper::css()`
-make sure you have `$options['_full'] = true`.
+If you use `HtmlHelper::image()`, or `HtmlHelper::css()`
+make sure you have set `fullBase` option to `true`.
 
 For example
 ```
-echo $this->Html->script('jquery/jquery.js', ['fullBase' => true]);
-echo $this->Html->css('bootstrap/bootstrap.css', ['fullBase' => true]);
+echo $this->Html->image('logo.png', ['fullBase' => true]);
+echo $this->Html->css('bootstrap.css', ['fullBase' => true]);
 ```
+
+If you are enable to get URLs for assets working properly, you can
+try using file system paths instead for the assets.
+
+```
+<img src="<?= WWW_ROOT ?>img/logo.png" />
+```
+
+## Get header and footer on all pages
+
+Here are a couple of CSS based solutions you can refer to for easily
+getting header footer on all PDF pages.
+
+* https://ourcodeworld.com/articles/read/687/how-to-configure-a-header-and-footer-in-dompdf
+* http://www.jessicaschillinger.us/2017/blog/print-repeating-header-browser/
 
 ## Thanks
 

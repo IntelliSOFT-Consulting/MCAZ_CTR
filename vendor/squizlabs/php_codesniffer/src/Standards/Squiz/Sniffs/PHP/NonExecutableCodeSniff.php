@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class NonExecutableCodeSniff implements Sniff
@@ -24,13 +24,14 @@ class NonExecutableCodeSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_BREAK,
-                T_CONTINUE,
-                T_RETURN,
-                T_THROW,
-                T_EXIT,
-               );
+        return [
+            T_BREAK,
+            T_CONTINUE,
+            T_RETURN,
+            T_THROW,
+            T_EXIT,
+            T_GOTO,
+        ];
 
     }//end register()
 
@@ -100,11 +101,12 @@ class NonExecutableCodeSniff implements Sniff
                 // end of SWITCH token will not be executable.
                 $end  = $phpcsFile->findEndOfStatement($stackPtr);
                 $next = $phpcsFile->findNext(
-                    array(
-                     T_CASE,
-                     T_DEFAULT,
-                     T_CLOSE_CURLY_BRACKET,
-                    ),
+                    [
+                        T_CASE,
+                        T_DEFAULT,
+                        T_CLOSE_CURLY_BRACKET,
+                        T_ENDSWITCH,
+                    ],
                     ($end + 1)
                 );
 
@@ -118,8 +120,11 @@ class NonExecutableCodeSniff implements Sniff
                         $line = $tokens[$i]['line'];
                         if ($line > $lastLine) {
                             $type    = substr($tokens[$stackPtr]['type'], 2);
-                            $warning = 'Code after %s statement cannot be executed';
-                            $data    = array($type);
+                            $warning = 'Code after the %s statement on line %s cannot be executed';
+                            $data    = [
+                                $type,
+                                $tokens[$stackPtr]['line'],
+                            ];
                             $phpcsFile->addWarning($warning, $i, 'Unreachable', $data);
                             $lastLine = $line;
                         }
@@ -137,11 +142,11 @@ class NonExecutableCodeSniff implements Sniff
         $prev = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($stackPtr - 1), null, true);
         if (isset($tokens[$prev]['parenthesis_owner']) === true) {
             $owner  = $tokens[$prev]['parenthesis_owner'];
-            $ignore = array(
-                       T_IF     => true,
-                       T_ELSE   => true,
-                       T_ELSEIF => true,
-                      );
+            $ignore = [
+                T_IF     => true,
+                T_ELSE   => true,
+                T_ELSEIF => true,
+            ];
             if (isset($ignore[$tokens[$owner]['code']]) === true) {
                 return;
             }
@@ -206,12 +211,16 @@ class NonExecutableCodeSniff implements Sniff
                 break;
             }
 
-            if ($tokens[$start]['code'] === T_OPEN_PARENTHESIS) {
+            if (isset($tokens[$start]['parenthesis_closer']) === true
+                && $tokens[$start]['code'] === T_OPEN_PARENTHESIS
+            ) {
                 $start = $tokens[$start]['parenthesis_closer'];
                 continue;
             }
 
-            if ($tokens[$start]['code'] === T_OPEN_CURLY_BRACKET) {
+            if (isset($tokens[$start]['bracket_closer']) === true
+                && $tokens[$start]['code'] === T_OPEN_CURLY_BRACKET
+            ) {
                 $start = $tokens[$start]['bracket_closer'];
                 continue;
             }
@@ -221,20 +230,30 @@ class NonExecutableCodeSniff implements Sniff
             }
         }//end for
 
+        if (isset($tokens[$start]) === false) {
+            return;
+        }
+
         $lastLine = $tokens[$start]['line'];
         for ($i = ($start + 1); $i < $end; $i++) {
             if (isset(Tokens::$emptyTokens[$tokens[$i]['code']]) === true
                 || isset(Tokens::$bracketTokens[$tokens[$i]['code']]) === true
+                || $tokens[$i]['code'] === T_SEMICOLON
             ) {
                 continue;
             }
 
             // Skip whole functions and classes/interfaces because they are not
             // technically executed code, but rather declarations that may be used.
-            if ($tokens[$i]['code'] === T_FUNCTION
-                || $tokens[$i]['code'] === T_CLASS
-                || $tokens[$i]['code'] === T_INTERFACE
+            if (isset(Tokens::$ooScopeTokens[$tokens[$i]['code']]) === true
+                || $tokens[$i]['code'] === T_FUNCTION
+                || $tokens[$i]['code'] === T_CLOSURE
             ) {
+                if (isset($tokens[$i]['scope_closer']) === false) {
+                    // Parse error/Live coding.
+                    return;
+                }
+
                 $i = $tokens[$i]['scope_closer'];
                 continue;
             }
@@ -242,8 +261,11 @@ class NonExecutableCodeSniff implements Sniff
             $line = $tokens[$i]['line'];
             if ($line > $lastLine) {
                 $type    = substr($tokens[$stackPtr]['type'], 2);
-                $warning = 'Code after %s statement cannot be executed';
-                $data    = array($type);
+                $warning = 'Code after the %s statement on line %s cannot be executed';
+                $data    = [
+                    $type,
+                    $tokens[$stackPtr]['line'],
+                ];
                 $phpcsFile->addWarning($warning, $i, 'Unreachable', $data);
                 $lastLine = $line;
             }

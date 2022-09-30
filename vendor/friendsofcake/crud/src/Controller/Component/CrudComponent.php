@@ -112,20 +112,20 @@ class CrudComponent extends Component
             'invalidId' => [
                 'code' => 400,
                 'class' => BadRequestException::class,
-                'text' => 'Invalid id'
+                'text' => 'Invalid id',
             ],
             'recordNotFound' => [
                 'code' => 404,
                 'class' => NotFoundException::class,
-                'text' => 'Not found'
+                'text' => 'Not found',
             ],
             'badRequestMethod' => [
                 'code' => 405,
                 'class' => MethodNotAllowedException::class,
-                'text' => 'Method not allowed. This action permits only {methods}'
-            ]
+                'text' => 'Method not allowed. This action permits only {methods}',
+            ],
         ],
-        'eventLogging' => false
+        'eventLogging' => false,
     ];
 
     /**
@@ -493,7 +493,7 @@ class CrudComponent extends Component
      * This will also detach it from the EventManager if it's attached.
      *
      * @param string $name Name
-     * @return bool|null
+     * @return false|void
      */
     public function removeListener($name)
     {
@@ -552,7 +552,7 @@ class CrudComponent extends Component
      * Add a log entry for the event.
      *
      * @param string $eventName Event name
-     * @param array $data Event data
+     * @param array|\Crud\Event\Subject $data Event data
      * @return void
      */
     public function logEvent($eventName, $data = [])

@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ClassFileNameSniff implements Sniff
 {
@@ -23,10 +23,12 @@ class ClassFileNameSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_CLASS,
-                T_INTERFACE,
-               );
+        return [
+            T_CLASS,
+            T_INTERFACE,
+            T_TRAIT,
+            T_ENUM,
+        ];
 
     }//end register()
 
@@ -54,11 +56,11 @@ class ClassFileNameSniff implements Sniff
 
         if ($tokens[$decName]['content'] !== $fileName) {
             $error = '%s name doesn\'t match filename; expected "%s %s"';
-            $data  = array(
-                      ucfirst($tokens[$stackPtr]['content']),
-                      $tokens[$stackPtr]['content'],
-                      $fileName,
-                     );
+            $data  = [
+                ucfirst($tokens[$stackPtr]['content']),
+                $tokens[$stackPtr]['content'],
+                $fileName,
+            ];
             $phpcsFile->addError($error, $stackPtr, 'NoMatch', $data);
         }
 

@@ -11,6 +11,7 @@ use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Exception;
 use Queue\Queue\TaskFinder;
+use Throwable;
 
 declare(ticks = 1);
 
@@ -163,7 +164,7 @@ TEXT;
 				$taskname = 'Queue' . $queuedTask['job_type'];
 
 				try {
-					$data = json_decode($queuedTask['data'], true);
+					$data = unserialize($queuedTask['data']);
 					/** @var \Queue\Shell\Task\QueueTask $task */
 					$task = $this->{$taskname};
 					$return = $task->run((array)$data, $queuedTask['id']);
@@ -172,6 +173,12 @@ TEXT;
 					if ($task->failureMessage) {
 						$failureMessage = $task->failureMessage;
 					}
+				} catch (Throwable $e) {
+					$return = false;
+
+					$failureMessage = get_class($e) . ': ' . $e->getMessage();
+					//log the exception
+					$this->_logError($taskname . "\n" . $failureMessage . "\n" . $e->getTraceAsString());
 				} catch (Exception $e) {
 					$return = false;
 
@@ -185,8 +192,9 @@ TEXT;
 					$this->out('Job Finished.');
 				} else {
 					$this->QueuedJobs->markJobFailed($queuedTask, $failureMessage);
-					$this->_log('job ' . $queuedTask['job_type'] . ', id ' . $queuedTask['id'] . ' failed and requeued', $pid);
-					$this->out('Job did not finish, requeued.');
+					$failedStatus = $this->QueuedJobs->getFailedStatus($queuedTask, $this->_getTaskConf());
+					$this->_log('job ' . $queuedTask['job_type'] . ', id ' . $queuedTask['id'] . ' failed and ' . $failedStatus, $pid);
+					$this->out('Job did not finish, ' . $failedStatus . ' after try ' . $queuedTask->failed . '.');
 				}
 			} elseif (Configure::read('Queue.exitwhennothingtodo')) {
 				$this->out('nothing to do, exiting.');
@@ -229,6 +237,10 @@ TEXT;
 	 * @return void
 	 */
 	public function clean() {
+		if (!Configure::read('Queue.cleanuptimeout')) {
+			$this->abort('You disabled cleanuptimout in config. Aborting.');
+		}
+
 		$this->out('Deleting old jobs, that have finished before ' . date('Y-m-d H:i:s', time() - Configure::read('Queue.cleanuptimeout')));
 		$this->QueuedJobs->cleanOldJobs();
 		$this->QueueProcesses->cleanKilledProcesses();
@@ -340,7 +352,7 @@ TEXT;
 	 * @return void
 	 */
 	public function install() {
-		$this->out('Run `cake Migrations.migrate -p Queue`');
+		$this->out('Run `bin/cake migrations migrate -p Queue`');
 		$this->out('Set up cronjob, e.g. via `crontab -e -u www-data`');
 	}
 

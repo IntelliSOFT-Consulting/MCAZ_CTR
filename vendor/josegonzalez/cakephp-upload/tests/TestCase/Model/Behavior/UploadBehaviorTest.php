@@ -347,7 +347,23 @@ class UploadBehaviorTest extends TestCase
         $behavior->config($settings);
         $this->entity->expects($this->never())->method('getOriginal');
         $this->entity->expects($this->never())->method('set');
+
         $behavior->beforeSave(new Event('fake.event'), $this->entity, new ArrayObject);
+    }
+
+    public function testBeforeSaveWithProtectedFieldName()
+    {
+        $settings = $this->settings;
+        $settings['priority'] = 11;
+
+        $methods = array_diff($this->behaviorMethods, ['beforeSave', 'config', 'setConfig', 'getConfig']);
+        $behavior = $this->getMockBuilder('Josegonzalez\Upload\Model\Behavior\UploadBehavior')
+            ->setMethods($methods)
+            ->setConstructorArgs([$this->table, $this->settings])
+            ->getMock();
+        $behavior->config($settings);
+
+        $this->assertNull($behavior->beforeSave(new Event('fake.event'), $this->entity, new ArrayObject));
     }
 
     public function testAfterDeleteOk()
@@ -369,7 +385,7 @@ class UploadBehaviorTest extends TestCase
                      ->method('delete')
                      ->will($this->returnValue([true]));
 
-        $this->assertNull($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
+        $this->assertTrue($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
     }
 
     public function testAfterDeleteFail()
@@ -410,7 +426,7 @@ class UploadBehaviorTest extends TestCase
             ->method('delete')
             ->will($this->returnValue([true]));
 
-        $this->assertNull($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
+        $this->assertTrue($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
     }
 
     public function testAfterDeleteUsesPathProcessorToDetectPathToTheFile()
@@ -497,7 +513,7 @@ class UploadBehaviorTest extends TestCase
             ->with([$dir . $field])
             ->will($this->returnValue([true]));
 
-        $this->assertNull($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
+        $this->assertTrue($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
     }
 
     public function testAfterDeleteNoDeleteCallback()
@@ -568,6 +584,27 @@ class UploadBehaviorTest extends TestCase
             ->willReturn([true, true, true]);
 
         $behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject);
+    }
+
+    public function testAfterDeleteWithProtectedFieldName()
+    {
+        $settings = $this->settings;
+        $settings['priority'] = 11;
+
+        $methods = array_diff($this->behaviorMethods, ['afterDelete', 'config', 'setConfig', 'getConfig']);
+        $behavior = $this->getMockBuilder('Josegonzalez\Upload\Model\Behavior\UploadBehavior')
+            ->setMethods($methods)
+            ->setConstructorArgs([$this->table, $settings])
+            ->getMock();
+
+        $behavior->expects($this->any())
+            ->method('getWriter')
+            ->will($this->returnValue($this->writer));
+        $this->writer->expects($this->any())
+            ->method('delete')
+            ->will($this->returnValue([true]));
+
+        $this->assertTrue($behavior->afterDelete(new Event('fake.event'), $this->entity, new ArrayObject));
     }
 
     public function testGetWriter()

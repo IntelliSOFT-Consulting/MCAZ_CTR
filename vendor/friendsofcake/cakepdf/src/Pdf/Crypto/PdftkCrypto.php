@@ -9,7 +9,6 @@ class PdftkCrypto extends AbstractPdfCrypto
     /**
      * Path to the pdftk executable binary
      *
-     * @access protected
      * @var string
      */
     protected $_binary = '/usr/local/bin/pdftk';
@@ -17,8 +16,7 @@ class PdftkCrypto extends AbstractPdfCrypto
     /**
      * Mapping of the CakePdf permissions to the Pdftk arguments
      *
-     * @access protected
-     * @var string
+     * @var array
      */
     protected $_permissionsMap = [
         'print' => 'Printing',
@@ -28,7 +26,7 @@ class PdftkCrypto extends AbstractPdfCrypto
         'copy_contents' => 'CopyContents',
         'screen_readers' => 'ScreenReaders',
         'annotate' => 'ModifyAnnotations',
-        'fill_in' => 'FillIn'
+        'fill_in' => 'FillIn',
     ];
 
     /**
@@ -40,6 +38,7 @@ class PdftkCrypto extends AbstractPdfCrypto
      */
     public function encrypt($data)
     {
+        /** @var string $binary */
         $binary = $this->config('binary');
 
         if ($binary) {
@@ -133,7 +132,7 @@ class PdftkCrypto extends AbstractPdfCrypto
     /**
      * Generate the permissions argument
      *
-     * @return string list of arguments
+     * @return string|false list of arguments or false if no permission set
      */
     protected function _buildPermissionsArgument()
     {

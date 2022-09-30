@@ -9,9 +9,10 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\Debug;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Config;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Common;
 
 class CSSLintSniff implements Sniff
 {
@@ -21,7 +22,7 @@ class CSSLintSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array('CSS');
+    public $supportedTokenizers = ['CSS'];
 
 
     /**
@@ -31,7 +32,7 @@ class CSSLintSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_TAG);
+        return [T_OPEN_TAG];
 
     }//end register()
 
@@ -54,7 +55,7 @@ class CSSLintSniff implements Sniff
 
         $fileName = $phpcsFile->getFilename();
 
-        $cmd = escapeshellcmd($csslintPath).' '.escapeshellarg($fileName).' 2>&1';
+        $cmd = Common::escapeshellcmd($csslintPath).' '.escapeshellarg($fileName).' 2>&1';
         exec($cmd, $output, $retval);
 
         if (is_array($output) === false) {
@@ -64,7 +65,7 @@ class CSSLintSniff implements Sniff
         $count = count($output);
 
         for ($i = 0; $i < $count; $i++) {
-            $matches    = array();
+            $matches    = [];
             $numMatches = preg_match(
                 '/(error|warning) at line (\d+)/',
                 $output[$i],
