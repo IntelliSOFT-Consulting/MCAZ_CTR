@@ -2482,7 +2482,7 @@
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "^3.5.10",
+                "cakephp/cakephp": "3.10.3",
                 "cakephp/plugin-installer": "^1.0",
                 "php": ">=5.6.0",
                 "wyrihaximus/twig-view": "^4.2.1"
