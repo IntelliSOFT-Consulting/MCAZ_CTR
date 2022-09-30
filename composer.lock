@@ -53,13 +53,10 @@
                 "l10n",
                 "localization"
             ],
-<<<<<<< HEAD
-=======
             "support": {
                 "issues": "https://github.com/auraphp/Aura.Intl/issues",
                 "source": "https://github.com/auraphp/Aura.Intl/tree/3.0.1"
             },
->>>>>>> master
             "time": "2022-01-28T10:55:50+00:00"
         },
         {
@@ -204,9 +201,6 @@
                 "rapid-development",
                 "validation"
             ],
-<<<<<<< HEAD
-            "time": "2022-05-08T15:00:39+00:00"
-=======
             "support": {
                 "forum": "https://stackoverflow.com/tags/cakephp",
                 "irc": "irc://irc.freenode.org/cakephp",
@@ -214,7 +208,6 @@
                 "source": "https://github.com/cakephp/cakephp"
             },
             "time": "2019-04-24T02:05:09+00:00"
->>>>>>> master
         },
         {
             "name": "cakephp/chronos",
