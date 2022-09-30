@@ -21,11 +21,15 @@ class IndentationUnitTest extends AbstractSniffUnitTest
      * The key of the array should represent the line number and the value
      * should represent the number of errors that should occur on that line.
      *
+     * @param string $testFile The name of the file being tested.
+     *
      * @return array<int, int>
      */
-    public function getErrorList()
+    public function getErrorList($testFile='')
     {
-        return array(
+        switch ($testFile) {
+        case 'IndentationUnitTest.1.css':
+            return [
                 2  => 1,
                 3  => 1,
                 5  => 1,
@@ -44,7 +48,11 @@ class IndentationUnitTest extends AbstractSniffUnitTest
                 70 => 1,
                 71 => 1,
                 72 => 1,
-               );
+            ];
+
+        default:
+            return [];
+        }//end switch
 
     }//end getErrorList()
 
@@ -59,7 +67,7 @@ class IndentationUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 

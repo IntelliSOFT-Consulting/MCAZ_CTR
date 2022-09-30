@@ -76,3 +76,28 @@ class MyClass2
      */
     var $x;
 }
+
+abstract class MyClass
+{
+    /**
+* Property comment
+   */
+    readonly public string $prop;
+}
+
+/**
+ * Some info about the enum here
+  *
+*/
+enum Suits: string
+{
+    /**
+      * Some info about the case here.
+       */
+    case HEARTS;
+}
+
+/** ************************************************************************
+ * Example with no errors.
+ **************************************************************************/
+function example() {}

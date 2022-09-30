@@ -16,19 +16,27 @@ return [
 		],
 		'monitorCallback' => function (\Cake\Event\Event $event) {
 			/** @var \DatabaseLog\Model\Table\DatabaseLogsTable $logsTable */
-			$logsTable = $event->subject();
+			$logsTable = $event->getSubject();
 
 			/* @var \DatabaseLog\Model\Entity\DatabaseLog[] $logs */
-			$logs = $event->data('logs');
+			$logs = $event->getData('logs');
 
 			$content = '';
 			foreach ($logs as $log) {
 				$content .= $logsTable->format($log);
 			}
 
-			$mailer = new \Cake\Mailer\Mailer();
+			$email = new \Cake\Mailer\Email();
 			$subject = count($logs) . ' new error log entries';
 			// TODO Implement
-		}
+		},
+		'saveCallback' => function (\DatabaseLog\Model\Entity\DatabaseLog $databaseLog) {
+			if (empty($_SESSION) || empty($_SESSION['language'])) {
+				return;
+			}
+			$currentSessionLanguage = $_SESSION['language'];
+
+			$databaseLog->message .= PHP_EOL . 'Language: ' . $currentSessionLanguage;
+		},
 	]
 ];

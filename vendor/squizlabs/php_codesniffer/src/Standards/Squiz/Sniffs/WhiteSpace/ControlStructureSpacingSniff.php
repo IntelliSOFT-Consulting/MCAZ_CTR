@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ControlStructureSpacingSniff implements Sniff
@@ -21,10 +21,10 @@ class ControlStructureSpacingSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array(
-                                   'PHP',
-                                   'JS',
-                                  );
+    public $supportedTokenizers = [
+        'PHP',
+        'JS',
+    ];
 
 
     /**
@@ -34,18 +34,20 @@ class ControlStructureSpacingSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_IF,
-                T_WHILE,
-                T_FOREACH,
-                T_FOR,
-                T_SWITCH,
-                T_DO,
-                T_ELSE,
-                T_ELSEIF,
-                T_TRY,
-                T_CATCH,
-               );
+        return [
+            T_IF,
+            T_WHILE,
+            T_FOREACH,
+            T_FOR,
+            T_SWITCH,
+            T_DO,
+            T_ELSE,
+            T_ELSEIF,
+            T_TRY,
+            T_CATCH,
+            T_FINALLY,
+            T_MATCH,
+        ];
 
     }//end register()
 
@@ -79,7 +81,7 @@ class ControlStructureSpacingSniff implements Sniff
                 }
 
                 $error = 'Expected 0 spaces after opening bracket; %s found';
-                $data  = array($gap);
+                $data  = [$gap];
                 $fix   = $phpcsFile->addFixableError($error, ($parenOpener + 1), 'SpacingAfterOpenBrace', $data);
                 if ($fix === true) {
                     $phpcsFile->fixer->replaceToken(($parenOpener + 1), '');
@@ -93,7 +95,7 @@ class ControlStructureSpacingSniff implements Sniff
             ) {
                 $gap   = $tokens[($parenCloser - 1)]['length'];
                 $error = 'Expected 0 spaces before closing bracket; %s found';
-                $data  = array($gap);
+                $data  = [$gap];
                 $fix   = $phpcsFile->addFixableError($error, ($parenCloser - 1), 'SpaceBeforeCloseBrace', $data);
                 if ($fix === true) {
                     $phpcsFile->fixer->replaceToken(($parenCloser - 1), '');
@@ -138,13 +140,14 @@ class ControlStructureSpacingSniff implements Sniff
         }
 
         // We ignore spacing for some structures that tend to have their own rules.
-        $ignore = array(
-                   T_FUNCTION             => true,
-                   T_CLASS                => true,
-                   T_INTERFACE            => true,
-                   T_TRAIT                => true,
-                   T_DOC_COMMENT_OPEN_TAG => true,
-                  );
+        $ignore = [
+            T_FUNCTION             => true,
+            T_CLASS                => true,
+            T_INTERFACE            => true,
+            T_TRAIT                => true,
+            T_ENUM                 => true,
+            T_DOC_COMMENT_OPEN_TAG => true,
+        ];
 
         if (isset($ignore[$tokens[$firstContent]['code']]) === false
             && $tokens[$firstContent]['line'] >= ($tokens[$scopeOpener]['line'] + 2)
@@ -212,7 +215,6 @@ class ControlStructureSpacingSniff implements Sniff
 
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
-                    $i = ($scopeCloser - 1);
                     for ($i = ($scopeCloser - 1); $i > $lastContent; $i--) {
                         if ($tokens[$i]['line'] === $tokens[$scopeCloser]['line']) {
                             continue;
@@ -232,6 +234,16 @@ class ControlStructureSpacingSniff implements Sniff
             }//end if
         }//end if
 
+        if ($tokens[$stackPtr]['code'] === T_MATCH) {
+            // Move the scope closer to the semicolon/comma.
+            $next = $phpcsFile->findNext(Tokens::$emptyTokens, ($scopeCloser + 1), null, true);
+            if ($next !== false
+                && ($tokens[$next]['code'] === T_SEMICOLON || $tokens[$next]['code'] === T_COMMA)
+            ) {
+                $scopeCloser = $next;
+            }
+        }
+
         $trailingContent = $phpcsFile->findNext(
             T_WHITESPACE,
             ($scopeCloser + 1),
@@ -239,7 +251,9 @@ class ControlStructureSpacingSniff implements Sniff
             true
         );
 
-        if ($tokens[$trailingContent]['code'] === T_COMMENT) {
+        if ($tokens[$trailingContent]['code'] === T_COMMENT
+            || isset(Tokens::$phpcsCommentTokens[$tokens[$trailingContent]['code']]) === true
+        ) {
             // Special exception for code where the comment about
             // an ELSE or ELSEIF is written between the control structures.
             $nextCode = $phpcsFile->findNext(
@@ -251,6 +265,7 @@ class ControlStructureSpacingSniff implements Sniff
 
             if ($tokens[$nextCode]['code'] === T_ELSE
                 || $tokens[$nextCode]['code'] === T_ELSEIF
+                || $tokens[$trailingContent]['line'] === $tokens[$scopeCloser]['line']
             ) {
                 $trailingContent = $nextCode;
             }
@@ -289,8 +304,7 @@ class ControlStructureSpacingSniff implements Sniff
             }
 
             if ($tokens[$owner]['code'] === T_CLOSURE
-                && ($phpcsFile->hasCondition($stackPtr, T_FUNCTION) === true
-                || $phpcsFile->hasCondition($stackPtr, T_CLOSURE) === true
+                && ($phpcsFile->hasCondition($stackPtr, [T_FUNCTION, T_CLOSURE]) === true
                 || isset($tokens[$stackPtr]['nested_parenthesis']) === true)
             ) {
                 return;
@@ -315,12 +329,27 @@ class ControlStructureSpacingSniff implements Sniff
         } else if ($tokens[$trailingContent]['code'] !== T_ELSE
             && $tokens[$trailingContent]['code'] !== T_ELSEIF
             && $tokens[$trailingContent]['code'] !== T_CATCH
+            && $tokens[$trailingContent]['code'] !== T_FINALLY
             && $tokens[$trailingContent]['line'] === ($tokens[$scopeCloser]['line'] + 1)
         ) {
             $error = 'No blank line found after control structure';
             $fix   = $phpcsFile->addFixableError($error, $scopeCloser, 'NoLineAfterClose');
             if ($fix === true) {
-                $phpcsFile->fixer->addNewline($scopeCloser);
+                $trailingContent = $phpcsFile->findNext(
+                    T_WHITESPACE,
+                    ($scopeCloser + 1),
+                    null,
+                    true
+                );
+
+                if (($tokens[$trailingContent]['code'] === T_COMMENT
+                    || isset(Tokens::$phpcsCommentTokens[$tokens[$trailingContent]['code']]) === true)
+                    && $tokens[$trailingContent]['line'] === $tokens[$scopeCloser]['line']
+                ) {
+                    $phpcsFile->fixer->addNewline($trailingContent);
+                } else {
+                    $phpcsFile->fixer->addNewline($scopeCloser);
+                }
             }
         }//end if
 

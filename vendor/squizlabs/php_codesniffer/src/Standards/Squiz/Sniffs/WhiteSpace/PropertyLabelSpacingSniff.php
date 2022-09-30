@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class PropertyLabelSpacingSniff implements Sniff
 {
@@ -20,7 +20,7 @@ class PropertyLabelSpacingSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array('JS');
+    public $supportedTokenizers = ['JS'];
 
 
     /**
@@ -30,10 +30,10 @@ class PropertyLabelSpacingSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_PROPERTY,
-                T_LABEL,
-               );
+        return [
+            T_PROPERTY,
+            T_LABEL,
+        ];
 
     }//end register()
 

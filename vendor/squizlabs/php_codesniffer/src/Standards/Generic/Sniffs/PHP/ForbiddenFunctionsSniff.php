@@ -12,8 +12,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ForbiddenFunctionsSniff implements Sniff
 {
@@ -26,17 +26,17 @@ class ForbiddenFunctionsSniff implements Sniff
      *
      * @var array<string, string|null>
      */
-    public $forbiddenFunctions = array(
-                                  'sizeof' => 'count',
-                                  'delete' => 'unset',
-                                 );
+    public $forbiddenFunctions = [
+        'sizeof' => 'count',
+        'delete' => 'unset',
+    ];
 
     /**
      * A cache of forbidden function names, for faster lookups.
      *
      * @var string[]
      */
-    protected $forbiddenFunctionNames = array();
+    protected $forbiddenFunctionNames = [];
 
     /**
      * If true, forbidden functions will be considered regular expressions.
@@ -69,17 +69,26 @@ class ForbiddenFunctionsSniff implements Sniff
                 $this->forbiddenFunctionNames[$i] = '/'.$name.'/i';
             }
 
-            return array(T_STRING);
+            return [T_STRING];
         }
 
         // If we are not pattern matching, we need to work out what
         // tokens to listen for.
-        $string = '<?php ';
+        $hasHaltCompiler = false;
+        $string          = '<?php ';
         foreach ($this->forbiddenFunctionNames as $name) {
-            $string .= $name.'();';
+            if ($name === '__halt_compiler') {
+                $hasHaltCompiler = true;
+            } else {
+                $string .= $name.'();';
+            }
         }
 
-        $register = array();
+        if ($hasHaltCompiler === true) {
+            $string .= '__halt_compiler();';
+        }
+
+        $register = [];
 
         $tokens = token_get_all($string);
         array_shift($tokens);
@@ -110,20 +119,21 @@ class ForbiddenFunctionsSniff implements Sniff
     {
         $tokens = $phpcsFile->getTokens();
 
-        $ignore = array(
-                   T_DOUBLE_COLON    => true,
-                   T_OBJECT_OPERATOR => true,
-                   T_FUNCTION        => true,
-                   T_CONST           => true,
-                   T_PUBLIC          => true,
-                   T_PRIVATE         => true,
-                   T_PROTECTED       => true,
-                   T_AS              => true,
-                   T_NEW             => true,
-                   T_INSTEADOF       => true,
-                   T_NS_SEPARATOR    => true,
-                   T_IMPLEMENTS      => true,
-                  );
+        $ignore = [
+            T_DOUBLE_COLON             => true,
+            T_OBJECT_OPERATOR          => true,
+            T_NULLSAFE_OBJECT_OPERATOR => true,
+            T_FUNCTION                 => true,
+            T_CONST                    => true,
+            T_PUBLIC                   => true,
+            T_PRIVATE                  => true,
+            T_PROTECTED                => true,
+            T_AS                       => true,
+            T_NEW                      => true,
+            T_INSTEADOF                => true,
+            T_NS_SEPARATOR             => true,
+            T_IMPLEMENTS               => true,
+        ];
 
         $prevToken = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), null, true);
 
@@ -173,7 +183,7 @@ class ForbiddenFunctionsSniff implements Sniff
             // Remove the pattern delimiters and modifier.
             $pattern = substr($pattern, 1, -2);
         } else {
-            if (in_array($function, $this->forbiddenFunctionNames) === false) {
+            if (in_array($function, $this->forbiddenFunctionNames, true) === false) {
                 return;
             }
         }//end if
@@ -196,7 +206,7 @@ class ForbiddenFunctionsSniff implements Sniff
      */
     protected function addError($phpcsFile, $stackPtr, $function, $pattern=null)
     {
-        $data  = array($function);
+        $data  = [$function];
         $error = 'The use of function %s() is ';
         if ($this->error === true) {
             $type   = 'Found';

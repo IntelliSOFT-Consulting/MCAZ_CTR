@@ -18,8 +18,23 @@ use Cake\Validation\Validator;
  * @method \Queue\Model\Entity\QueueProcess findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \Queue\Model\Entity\QueueProcess|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class QueueProcessesTable extends Table {
+
+	/**
+	 * set connection name
+	 *
+	 * @return string
+	 */
+	public static function defaultConnectionName() {
+		$connection = Configure::read('Queue.connection');
+		if (!empty($connection)) {
+			return $connection;
+		};
+
+		return parent::defaultConnectionName();
+	}
 
 	/**
 	 * Initialize method

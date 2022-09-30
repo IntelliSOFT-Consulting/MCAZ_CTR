@@ -4,8 +4,9 @@ namespace Queue\Shell\Task;
 
 use Cake\Core\Configure;
 use Cake\Log\Log;
-// use Cake\Mailer\Email;
+use Cake\Mailer\Email;
 use Exception;
+use Throwable;
 
 /**
  * @author Mark Scherer
@@ -54,9 +55,7 @@ class QueueEmailTask extends QueueTask {
 				'from' => 'system@example.com',
 				'template' => 'sometemplate',
 			],
-			'vars' => [
-				'content' => 'hello world',
-			],
+			'content' => 'hello world',
 		], true));
 		$this->out('Alternativly, you can pass the whole EmailLib to directly use it.');
 	}
@@ -77,8 +76,11 @@ class QueueEmailTask extends QueueTask {
 		$email = $data['settings'];
 		if (is_object($email) && $email instanceof Email) {
 			try {
-				$transportClassNames = $email->configuredTransport();
-				$result = $email->transport($transportClassNames[0])->send();
+				if (!empty($data['transport'])) {
+					$email->setTransport($data['transport']);
+				}
+				$content = isset($data['content']) ? $data['content'] : null;
+				$result = $email->send($content);
 
 				if (!isset($config['log']) || !empty($config['logTrace']) && $config['logTrace'] === true) {
 					$config['log'] = 'email_trace';
@@ -93,14 +95,18 @@ class QueueEmailTask extends QueueTask {
 					$this->_log($result, $config['log']);
 				}
 				return (bool)$result;
+			} catch (Throwable $e) {
+				$error = $e->getMessage();
+				$error .= ' (line ' . $e->getLine() . ' in ' . $e->getFile() . ')' . PHP_EOL . $e->getTraceAsString();
+				Log::write('error', $error);
 			} catch (Exception $e) {
 
 				$error = $e->getMessage();
 				$error .= ' (line ' . $e->getLine() . ' in ' . $e->getFile() . ')' . PHP_EOL . $e->getTraceAsString();
 				Log::write('error', $error);
-
-				return false;
 			}
+
+			return false;
 		}
 
 		$this->Email = $this->_getMailer();
@@ -110,11 +116,16 @@ class QueueEmailTask extends QueueTask {
 			call_user_func_array([$this->Email, $method], (array)$setting);
 		}
 		$message = null;
+		if (isset($data['content'])) {
+			$message = $data['content'];
+		}
 		if (!empty($data['vars'])) {
-			if (isset($data['vars']['content'])) {
+			// @deprecated BC only, use $data['content'] instead.
+			if ($message === null && isset($data['vars']['content'])) {
 				$message = $data['vars']['content'];
 			}
-			$this->Email->viewVars($data['vars']);
+
+			$this->Email->setViewVars($data['vars']);
 		}
 		if (!empty($data['headers'])) {
 			if (!is_array($data['headers'])) {

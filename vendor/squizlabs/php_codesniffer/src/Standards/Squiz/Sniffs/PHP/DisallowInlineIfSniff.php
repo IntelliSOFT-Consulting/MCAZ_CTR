@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class DisallowInlineIfSniff implements Sniff
 {
@@ -20,10 +20,10 @@ class DisallowInlineIfSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array(
-                                   'PHP',
-                                   'JS',
-                                  );
+    public $supportedTokenizers = [
+        'PHP',
+        'JS',
+    ];
 
 
     /**
@@ -33,7 +33,7 @@ class DisallowInlineIfSniff implements Sniff
      */
     public function register()
     {
-        return array(T_INLINE_THEN);
+        return [T_INLINE_THEN];
 
     }//end register()
 

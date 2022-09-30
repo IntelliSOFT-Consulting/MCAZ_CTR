@@ -3,8 +3,8 @@ namespace CsvView\View;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventManager;
-use Cake\Network\Request;
-use Cake\Network\Response;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest as Request;
 use Cake\Utility\Hash;
 use Cake\View\View;
 use Exception;
@@ -55,7 +55,7 @@ use Exception;
  * - array `$_header`: (default null)    A flat array of header column names
  * - array `$_footer`: (default null)    A flat array of footer column names
  * - string `$_delimiter`: (default ',') CSV Delimiter, defaults to comma
- * - string `$_enclosure`: (default '"') CSV Enclosure for use with fputscsv()
+ * - string `$_enclosure`: (default '"') CSV Enclosure for use with fputcsv()
  * - string `$_eol`: (default '\n')      End-of-line character the csv
  *
  * @link https://github.com/friendsofcake/cakephp-csvview
@@ -100,6 +100,20 @@ class CsvView extends View
     const EXTENSION_MBSTRING = 'mbstring';
 
     /**
+     * List of bom signs for encodings.
+     *
+     * @var array
+     */
+    protected $bomMap;
+
+    /**
+     * BOM first appearance
+     *
+     * @var bool
+     */
+    protected $isFirstBom;
+
+    /**
      * List of special view vars.
      *
      * @var array
@@ -118,16 +132,16 @@ class CsvView extends View
         '_setSeparator',
         '_csvEncoding',
         '_dataEncoding',
-        '_extension'
+        '_extension',
     ];
 
     /**
      * Constructor
      *
-     * @param \Cake\Network\Request|null $request Request instance.
-     * @param \Cake\Network\Response|null $response Response instance.
+     * @param \Cake\Http\ServerRequest|null $request      Request instance.
+     * @param \Cake\Http\Response|null      $response     Response instance.
      * @param \Cake\Event\EventManager|null $eventManager EventManager instance.
-     * @param array $viewOptions An array of view options
+     * @param array                         $viewOptions  An array of view options
      */
     public function __construct(
         Request $request = null,
@@ -135,11 +149,18 @@ class CsvView extends View
         EventManager $eventManager = null,
         array $viewOptions = []
     ) {
+        $this->bomMap = [
+            'UTF-32BE' => chr(0x00) . chr(0x00) . chr(0xFE) . chr(0xFF),
+            'UTF-32LE' => chr(0xFF) . chr(0xFE) . chr(0x00) . chr(0x00),
+            'UTF-16BE' => chr(0xFE) . chr(0xFF),
+            'UTF-16LE' => chr(0xFF) . chr(0xFE),
+            'UTF-8' => chr(0xEF) . chr(0xBB) . chr(0xBF),
+        ];
+
         parent::__construct($request, $response, $eventManager, $viewOptions);
 
-        if ($response && $response instanceof Response) {
-            $response->type('csv');
-        }
+        $this->response = $this->response->withType('csv');
+        $this->isFirstBom = true;
     }
 
     /**
@@ -166,8 +187,9 @@ class CsvView extends View
      * Also has support for specifying headers and footers in '_header'
      * and '_footer' variables, respectively.
      *
-     * @param string|null $view The view being rendered.
+     * @param string|null $view   The view being rendered.
      * @param string|null $layout The layout being rendered.
+     *
      * @return string The rendered view.
      */
     public function render($view = null, $layout = null)
@@ -221,8 +243,8 @@ class CsvView extends View
      *                                    If a string or unspecified, the format
      *                                    default is '%s'.
      * - '_delimiter': (default ',')      CSV Delimiter, defaults to comma
-     * - '_enclosure': (default '"')      CSV Enclosure for use with fputscsv()
-     * - '_newline': (default '\n')       CSV Newline replacement for use with fputscsv()
+     * - '_enclosure': (default '"')      CSV Enclosure for use with fputcsv()
+     * - '_newline': (default '\n')       CSV Newline replacement for use with fputcsv()
      * - '_eol': (default '\n')           End-of-line character the csv
      * - '_bom': (default false)          Adds BOM (byte order mark) header
      * - '_setSeparator: (default false)  Adds sep=[_delimiter] in the first line
@@ -348,6 +370,7 @@ class CsvView extends View
      * Aggregates the rows into a single csv
      *
      * @param array|null $row Row data
+     *
      * @return null|string CSV with all data to date
      */
     protected function _renderRow($row = null)
@@ -372,6 +395,7 @@ class CsvView extends View
      * returning it's contents
      *
      * @param array|null $row Row data
+     *
      * @return string|false String with the row in csv-syntax, false on fputscv failure
      */
     protected function _generateRow($row = null)
@@ -385,9 +409,6 @@ class CsvView extends View
         if ($fp === false) {
             $fp = fopen('php://temp', 'r+');
 
-            if ($this->viewVars['_bom']) {
-                fwrite($fp, chr(0xEF) . chr(0xBB) . chr(0xBF));
-            }
             if ($this->viewVars['_setSeparator']) {
                 fwrite($fp, "sep=" . $this->viewVars['_delimiter'] . "\n");
             }
@@ -442,6 +463,37 @@ class CsvView extends View
             }
         }
 
+        //bom must be added after encoding
+        if ($this->viewVars['_bom'] && $this->isFirstBom) {
+            $csv = $this->getBom($this->viewVars['_csvEncoding']) . $csv;
+            $this->isFirstBom = false;
+        }
+
         return $csv;
+    }
+
+    /**
+     * Returns the BOM for the encoding given.
+     *
+     * @param string $csvEncoding The encoding you want the BOM for
+     * @return string
+     */
+    protected function getBom($csvEncoding)
+    {
+        $csvEncoding = strtoupper($csvEncoding);
+
+        return isset($this->bomMap[$csvEncoding]) ? $this->bomMap[$csvEncoding] : '';
+    }
+
+    /**
+     * Gets the response instance.
+     *
+     * Added for compatibility with CakePHP 3.7+.
+     *
+     * @return \Cake\Http\Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 }

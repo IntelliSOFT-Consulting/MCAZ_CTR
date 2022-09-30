@@ -25,14 +25,16 @@ class LowercaseClassKeywordsUnitTest extends AbstractSniffUnitTest
      */
     public function getErrorList()
     {
-        $errors = array(
-                   2  => 3,
-                   3  => 3,
-                   4  => 1,
-                   5  => 1,
-                   9  => 1,
-                   10 => 1,
-                  );
+        $errors = [
+            2  => 3,
+            3  => 3,
+            4  => 1,
+            5  => 1,
+            6  => 2,
+            10 => 1,
+            11 => 1,
+            14 => 1,
+        ];
 
         return $errors;
 
@@ -49,7 +51,7 @@ class LowercaseClassKeywordsUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 

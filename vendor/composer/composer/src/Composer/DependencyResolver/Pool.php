@@ -50,7 +50,7 @@ class Pool implements \Countable
     protected $versionParser;
     protected $providerCache = array();
     protected $filterRequires;
-    protected $whitelist = null;
+    protected $whitelist = null; // TODO 2.0 rename to allowList
     protected $id = 1;
 
     public function __construct($minimumStability = 'stable', array $stabilityFlags = array(), array $filterRequires = array())
@@ -71,6 +71,15 @@ class Pool implements \Countable
         }
     }
 
+    public function setAllowList($allowList)
+    {
+        // call original method for BC
+        $this->setWhitelist($allowList);
+    }
+
+    /**
+     * @deprecated use setAllowList instead
+     */
     public function setWhitelist($whitelist)
     {
         $this->whitelist = $whitelist;
@@ -317,12 +326,12 @@ class Pool implements \Countable
      * Checks if the package matches the given constraint directly or through
      * provided or replaced packages
      *
-     * @param  array|PackageInterface $candidate
+     * @param  PackageInterface       $candidate
      * @param  string                 $name       Name of the package to be matched
      * @param  ConstraintInterface    $constraint The constraint to verify
      * @return int                    One of the MATCH* constants of this class or 0 if there is no match
      */
-    private function match($candidate, $name, ConstraintInterface $constraint = null, $bypassFilters)
+    public function match($candidate, $name, ConstraintInterface $constraint = null, $bypassFilters)
     {
         $candidateName = $candidate->getName();
         $candidateVersion = $candidate->getVersion();

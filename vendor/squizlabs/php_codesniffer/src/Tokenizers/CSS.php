@@ -9,9 +9,9 @@
 
 namespace PHP_CodeSniffer\Tokenizers;
 
-use PHP_CodeSniffer\Util;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Exceptions\TokenizerException;
+use PHP_CodeSniffer\Util;
 
 class CSS extends PHP
 {
@@ -27,7 +27,7 @@ class CSS extends PHP
      * @param string                  $eolChar The EOL char used in the content.
      *
      * @return void
-     * @throws TokenizerException If the file appears to be minified.
+     * @throws \PHP_CodeSniffer\Exceptions\TokenizerException If the file appears to be minified.
      */
     public function __construct($content, Config $config, $eolChar='\n')
     {
@@ -35,7 +35,7 @@ class CSS extends PHP
             throw new TokenizerException('File appears to be minified and cannot be processed');
         }
 
-        return parent::__construct($content, $config, $eolChar);
+        parent::__construct($content, $config, $eolChar);
 
     }//end __construct()
 
@@ -67,12 +67,12 @@ class CSS extends PHP
         $string = str_replace('?>', '^PHPCS_CSS_T_CLOSE_TAG^', $string);
         $tokens = parent::tokenize('<?php '.$string.'?>');
 
-        $finalTokens    = array();
-        $finalTokens[0] = array(
-                           'code'    => T_OPEN_TAG,
-                           'type'    => 'T_OPEN_TAG',
-                           'content' => '',
-                          );
+        $finalTokens    = [];
+        $finalTokens[0] = [
+            'code'    => T_OPEN_TAG,
+            'type'    => 'T_OPEN_TAG',
+            'content' => '',
+        ];
 
         $newStackPtr      = 1;
         $numTokens        = count($tokens);
@@ -91,10 +91,14 @@ class CSS extends PHP
                 || $token['code'] === T_FOREACH
                 || $token['code'] === T_WHILE
                 || $token['code'] === T_DEC
+                || $token['code'] === T_NEW
             ) {
                 $token['type'] = 'T_STRING';
                 $token['code'] = T_STRING;
             }
+
+            $token['content'] = str_replace('^PHPCS_CSS_T_OPEN_TAG^', '<?php', $token['content']);
+            $token['content'] = str_replace('^PHPCS_CSS_T_CLOSE_TAG^', '?>', $token['content']);
 
             if (PHP_CODESNIFFER_VERBOSITY > 1) {
                 $type    = $token['type'];
@@ -106,7 +110,7 @@ class CSS extends PHP
                 && $tokens[($stackPtr + 1)]['content'] === 'PHPCS_CSS_T_OPEN_TAG'
             ) {
                 $content = '<?php';
-                for ($stackPtr = ($stackPtr + 3); $stackPtr < $numTokens; $stackPtr++) {
+                for ($stackPtr += 3; $stackPtr < $numTokens; $stackPtr++) {
                     if ($tokens[$stackPtr]['code'] === T_BITWISE_XOR
                         && $tokens[($stackPtr + 1)]['content'] === 'PHPCS_CSS_T_CLOSE_TAG'
                     ) {
@@ -125,11 +129,11 @@ class CSS extends PHP
                     echo $cleanContent.PHP_EOL;
                 }
 
-                $finalTokens[$newStackPtr] = array(
-                                              'type'    => 'T_EMBEDDED_PHP',
-                                              'code'    => T_EMBEDDED_PHP,
-                                              'content' => $content,
-                                             );
+                $finalTokens[$newStackPtr] = [
+                    'type'    => 'T_EMBEDDED_PHP',
+                    'code'    => T_EMBEDDED_PHP,
+                    'content' => $content,
+                ];
 
                 $newStackPtr++;
                 continue;
@@ -138,28 +142,28 @@ class CSS extends PHP
             if ($token['code'] === T_GOTO_LABEL) {
                 // Convert these back to T_STRING followed by T_COLON so we can
                 // more easily process style definitions.
-                $finalTokens[$newStackPtr] = array(
-                                              'type'    => 'T_STRING',
-                                              'code'    => T_STRING,
-                                              'content' => substr($token['content'], 0, -1),
-                                             );
+                $finalTokens[$newStackPtr] = [
+                    'type'    => 'T_STRING',
+                    'code'    => T_STRING,
+                    'content' => substr($token['content'], 0, -1),
+                ];
                 $newStackPtr++;
-                $finalTokens[$newStackPtr] = array(
-                                              'type'    => 'T_COLON',
-                                              'code'    => T_COLON,
-                                              'content' => ':',
-                                             );
+                $finalTokens[$newStackPtr] = [
+                    'type'    => 'T_COLON',
+                    'code'    => T_COLON,
+                    'content' => ':',
+                ];
                 $newStackPtr++;
                 continue;
             }
 
             if ($token['code'] === T_FUNCTION) {
                 // There are no functions in CSS, so convert this to a string.
-                $finalTokens[$newStackPtr] = array(
-                                              'type'    => 'T_STRING',
-                                              'code'    => T_STRING,
-                                              'content' => $token['content'],
-                                             );
+                $finalTokens[$newStackPtr] = [
+                    'type'    => 'T_STRING',
+                    'code'    => T_STRING,
+                    'content' => $token['content'],
+                ];
 
                 $newStackPtr++;
                 continue;
@@ -176,14 +180,14 @@ class CSS extends PHP
             if ($token['code'] === T_COMMENT
                 && $multiLineComment === false
                 && (substr($token['content'], 0, 2) === '//'
-                || $token['content']{0} === '#')
+                || $token['content'][0] === '#')
             ) {
                 $content = ltrim($token['content'], '#/');
 
                 // Guard against PHP7+ syntax errors by stripping
                 // leading zeros so the content doesn't look like an invalid int.
                 $leadingZero = false;
-                if ($content{0} === '0') {
+                if ($content[0] === '0') {
                     $content     = '1'.$content;
                     $leadingZero = true;
                 }
@@ -199,7 +203,7 @@ class CSS extends PHP
                     $content = substr($content, 1);
                 }
 
-                if ($token['content']{0} === '#') {
+                if ($token['content'][0] === '#') {
                     // The # character is not a comment in CSS files, so
                     // determine what it means in this context.
                     $firstContent = $commentTokens[0]['content'];
@@ -222,24 +226,24 @@ class CSS extends PHP
                         array_shift($commentTokens);
                         // Work out what we trimmed off above and remember to re-add it.
                         $trimmed = substr($token['content'], 0, (strlen($token['content']) - strlen($content)));
-                        $finalTokens[$newStackPtr] = array(
-                                                      'type'    => 'T_COLOUR',
-                                                      'code'    => T_COLOUR,
-                                                      'content' => $trimmed.$firstContent,
-                                                     );
+                        $finalTokens[$newStackPtr] = [
+                            'type'    => 'T_COLOUR',
+                            'code'    => T_COLOUR,
+                            'content' => $trimmed.$firstContent,
+                        ];
                     } else {
-                        $finalTokens[$newStackPtr] = array(
-                                                      'type'    => 'T_HASH',
-                                                      'code'    => T_HASH,
-                                                      'content' => '#',
-                                                     );
+                        $finalTokens[$newStackPtr] = [
+                            'type'    => 'T_HASH',
+                            'code'    => T_HASH,
+                            'content' => '#',
+                        ];
                     }
                 } else {
-                    $finalTokens[$newStackPtr] = array(
-                                                  'type'    => 'T_STRING',
-                                                  'code'    => T_STRING,
-                                                  'content' => '//',
-                                                 );
+                    $finalTokens[$newStackPtr] = [
+                        'type'    => 'T_STRING',
+                        'code'    => T_STRING,
+                        'content' => '//',
+                    ];
                 }//end if
 
                 $newStackPtr++;
@@ -358,7 +362,6 @@ class CSS extends PHP
                     $finalTokens[($stackPtr + 1)]['content'] = '-'.$finalTokens[($stackPtr + 1)]['content'];
                     unset($finalTokens[$stackPtr]);
                 }//end if
-
                 break;
             case T_COLON:
                 // Only interested in colons that are defining styles.
@@ -391,7 +394,7 @@ class CSS extends PHP
 
                     // Needs to be in the format "url(" for it to be a URL.
                     if ($finalTokens[$x]['code'] !== T_OPEN_PARENTHESIS) {
-                        continue;
+                        continue 2;
                     }
 
                     // Make sure the content isn't empty.
@@ -402,7 +405,7 @@ class CSS extends PHP
                     }
 
                     if ($finalTokens[$y]['code'] === T_CLOSE_PARENTHESIS) {
-                        continue;
+                        continue 2;
                     }
 
                     if (PHP_CODESNIFFER_VERBOSITY > 1) {
@@ -472,7 +475,6 @@ class CSS extends PHP
                         unset($finalTokens[$stackPtr]);
                     }
                 }//end if
-
                 break;
             case T_ASPERAND:
                 $asperandStart = true;

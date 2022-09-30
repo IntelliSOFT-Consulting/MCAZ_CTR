@@ -14,7 +14,7 @@ trait FindMethodTrait
      *
      * @param string|array|null $method Method name as string or array where
      * key is finder name and value is find options.
-     * @return string|array
+     * @return string|array|$this
      */
     public function findMethod($method = null)
     {
@@ -61,7 +61,7 @@ trait FindMethodTrait
 
         $subject->set([
             'repository' => $repository,
-            'query' => $query
+            'query' => $query,
         ]);
 
         $this->_trigger('beforeFind', $subject);

@@ -30,7 +30,6 @@ if (!Configure::read('AclManager.admin') || Configure::read('AclManager.admin') 
         'AclManager/:action/*',
         ['plugin' => 'AclManager', 'controller' => 'Acl']
     );
-
 } else {
     // Connect routes for admin prefix.
     Router::connect(

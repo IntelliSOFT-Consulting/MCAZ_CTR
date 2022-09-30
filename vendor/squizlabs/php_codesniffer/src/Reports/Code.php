@@ -74,7 +74,7 @@ class Code implements Report
         }//end if
 
         // Create an array that maps lines to the first token on the line.
-        $lineTokens = array();
+        $lineTokens = [];
         $lastLine   = 0;
         $stackPtr   = 0;
         foreach ($tokens as $stackPtr => $token) {
@@ -84,10 +84,10 @@ class Code implements Report
                 }
 
                 $lastLine++;
-                $lineTokens[$lastLine] = array(
-                                          'start' => $stackPtr,
-                                          'end'   => null,
-                                         );
+                $lineTokens[$lastLine] = [
+                    'start' => $stackPtr,
+                    'end'   => null,
+                ];
             }
         }
 
@@ -225,7 +225,7 @@ class Code implements Report
                     if (strpos($tokenContent, "\t") !== false) {
                         $token            = $tokens[$i];
                         $token['content'] = $tokenContent;
-                        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                        if (stripos(PHP_OS, 'WIN') === 0) {
                             $tab = "\000";
                         } else {
                             $tab = "\033[30;1m»\033[0m";
@@ -235,7 +235,7 @@ class Code implements Report
                         $tokenContent = $token['content'];
                     }
 
-                    $tokenContent = Util\Common::prepareForOutput($tokenContent, array("\r", "\n", "\t"));
+                    $tokenContent = Util\Common::prepareForOutput($tokenContent, ["\r", "\n", "\t"]);
                     $tokenContent = str_replace("\000", ' ', $tokenContent);
 
                     $underline = false;

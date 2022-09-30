@@ -6,7 +6,8 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Filesystem\File;
-use Cake\Network\Request;
+use Cake\Http\ServerRequestFactory;
+use Cake\Routing\Router;
 
 class CakePdf
 {
@@ -56,7 +57,7 @@ class CakePdf
     /**
      * Theme for the View
      *
-     * @var array
+     * @var string
      */
     protected $_theme = null;
 
@@ -112,14 +113,14 @@ class CakePdf
     /**
      * Footer HTML
      *
-     * @var string
+     * @var array
      */
     protected $_footer = ['left' => null, 'center' => null, 'right' => null];
 
     /**
      * Header HTML
      *
-     * @var string
+     * @var array
      */
     protected $_header = ['left' => null, 'center' => null, 'right' => null];
 
@@ -182,14 +183,14 @@ class CakePdf
     /**
      * User password, used with crypto
      *
-     * @var bool
+     * @var string
      */
     protected $_userPassword = null;
 
     /**
      * Owner password, used with crypto
      *
-     * @var bool
+     * @var string
      */
     protected $_ownerPassword = null;
 
@@ -224,7 +225,7 @@ class CakePdf
         'copy_contents',
         'screen_readers',
         'annotate',
-        'fill_in'
+        'fill_in',
     ];
 
     /**
@@ -258,7 +259,7 @@ class CakePdf
             'permissions',
             'cache',
             'delay',
-            'windowStatus'
+            'windowStatus',
         ];
         foreach ($options as $option) {
             if (isset($config[$option])) {
@@ -286,6 +287,7 @@ class CakePdf
         }
         $this->html($html);
 
+        $cacheKey = null;
         $cache = $this->cache();
         if ($cache) {
             $cacheKey = md5(serialize($this));
@@ -363,11 +365,10 @@ class CakePdf
             throw new Exception(__d('cake_pdf', sprintf('Pdf engine "%s" not found', $name)));
         }
         if (!is_subclass_of($engineClassName, 'CakePdf\Pdf\Engine\AbstractPdfEngine')) {
-            debug(get_parent_class($engineClassName));
             throw new Exception(__d('cake_pdf', 'Pdf engines must extend "AbstractPdfEngine"'));
         }
         $this->_engineClass = new $engineClassName($this);
-        $this->_engineClass->config($config);
+        $this->_engineClass->setConfig($config);
 
         return $this->_engineClass;
     }
@@ -536,7 +537,7 @@ class CakePdf
                 'bottom' => $this->_marginBottom,
                 'left' => $this->_marginLeft,
                 'right' => $this->_marginRight,
-                'top' => $this->_marginTop
+                'top' => $this->_marginTop,
             ];
         }
 
@@ -806,6 +807,7 @@ class CakePdf
 
         return $this;
     }
+
     /**
      * Template and layout
      *
@@ -818,7 +820,7 @@ class CakePdf
         if ($template === false) {
             return [
                 'template' => $this->_template,
-                'layout' => $this->_layout
+                'layout' => $this->_layout,
             ];
         }
         $this->_template = $template;
@@ -936,15 +938,33 @@ class CakePdf
     {
         $viewClass = $this->viewRender();
         $viewClass = App::className($viewClass, 'View', $viewClass == 'View' ? '' : 'View');
-        $View = new $viewClass(Request::createFromGlobals());
-        $View->viewVars = $this->_viewVars;
-        $View->theme = $this->_theme;
-        $View->layoutPath = $this->_layoutPath;
-        $View->templatePath = $this->_templatePath;
-        $View->view = $this->_template;
-        $View->layout = $this->_layout;
-        $View->helpers = $this->_helpers;
-        $View->loadHelpers();
+
+        $viewVars = [
+            'theme',
+            'layoutPath',
+            'templatePath',
+            'template',
+            'layout',
+            'helpers',
+            'viewVars',
+        ];
+        $viewOptions = [];
+        foreach ($viewVars as $var) {
+            $prop = '_' . $var;
+            $viewOptions[$var] = $this->{$prop};
+        }
+
+        $request = Router::getRequest(true);
+        if (!$request) {
+            $request = ServerRequestFactory::fromGlobals();
+        }
+
+        $View = new $viewClass(
+            $request,
+            null,
+            null,
+            $viewOptions
+        );
 
         return $View->render();
     }

@@ -7,6 +7,8 @@
 
 namespace Queue\Test\TestCase\Model\Table;
 
+use Cake\Datasource\ConnectionManager;
+use Cake\I18n\FrozenTime;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
@@ -100,6 +102,8 @@ class QueuedJobsTableTest extends TestCase {
 	 * @return void
 	 */
 	public function testCreateAndFetch() {
+		$this->_needsConnection();
+
 		//$capabilities is a list of tasks the worker can run.
 		$capabilities = [
 			'task1' => [
@@ -130,7 +134,7 @@ class QueuedJobsTableTest extends TestCase {
 		$this->assertEquals('task1', $job['job_type']);
 		$this->assertEquals(0, $job['failed']);
 		$this->assertNull($job['completed']);
-		$this->assertEquals($testData, json_decode($job['data'], true));
+		$this->assertEquals($testData, unserialize($job['data']));
 
 		// after this job has been fetched, it may not be reassigned.
 		$result = $this->QueuedJobs->requestJob($capabilities);
@@ -152,6 +156,8 @@ class QueuedJobsTableTest extends TestCase {
 	 * @return void
 	 */
 	public function testSequence() {
+		$this->_needsConnection();
+
 		//$capabilities is a list of tasks the worker can run.
 		$capabilities = [
 			'task1' => [
@@ -176,9 +182,7 @@ class QueuedJobsTableTest extends TestCase {
 		foreach (range(0, 4) as $num) {
 			$this->QueuedJobs->clearKey();
 			$array[$num] = $this->QueuedJobs->requestJob($capabilities);
-			//debug($job);ob_flush();
-			$jobData = json_decode($array[$num]['data'], true);
-			//debug($jobData);ob_flush();
+			$jobData = unserialize($array[$num]['data']);
 			$this->assertEquals($num, $jobData['tasknum']);
 		}
 		// now mark them as done
@@ -190,7 +194,7 @@ class QueuedJobsTableTest extends TestCase {
 		// jobs should be fetched in the original sequence.
 		foreach (range(5, 9) as $num) {
 			$job = $this->QueuedJobs->requestJob($capabilities);
-			$jobData = json_decode($job['data'], true);
+			$jobData = unserialize($job['data']);
 			$this->assertEquals($num, $jobData['tasknum']);
 			$this->assertTrue($this->QueuedJobs->markJobDone($job));
 			$this->assertEquals(9 - $num, $this->QueuedJobs->getLength());
@@ -217,9 +221,11 @@ class QueuedJobsTableTest extends TestCase {
 	 * Test Job reordering depending on 'notBefore' field.
 	 * Jobs with an expired notbefore field should be executed before any other job without specific timing info.
 	 *
-	 * @return null
+	 * @return void
 	 */
 	public function testNotBeforeOrder() {
+		$this->_needsConnection();
+
 		$capabilities = [
 			'task1' => [
 				'name' => 'task1',
@@ -268,7 +274,7 @@ class QueuedJobsTableTest extends TestCase {
 			$tmp = $this->QueuedJobs->requestJob($capabilities);
 
 			$this->assertEquals($item['name'], $tmp['job_type']);
-			$this->assertEquals($item['data'], json_decode($tmp['data'], true));
+			$this->assertEquals($item['data'], unserialize($tmp['data']));
 		}
 	}
 
@@ -279,6 +285,8 @@ class QueuedJobsTableTest extends TestCase {
 	 * @return void
 	 */
 	public function testRateLimit() {
+		$this->_needsConnection();
+
 		$capabilities = [
 			'task1' => [
 				'name' => 'task1',
@@ -311,20 +319,20 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data1, json_decode($tmp['data'], true));
+		$this->assertEquals($data1, unserialize($tmp['data']));
 
 		//The rate limit should now skip over task1-2 and fetch a dummytask.
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('dummytask', $tmp['job_type']);
-		$this->assertNull(json_decode($tmp['data'], true));
+		$this->assertFalse(unserialize($tmp['data']));
 
 		usleep(100000);
 		//and again.
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('dummytask', $tmp['job_type']);
-		$this->assertNull(json_decode($tmp['data'], true));
+		$this->assertFalse(unserialize($tmp['data']));
 
 		//Then some time passes
 		sleep(2);
@@ -333,13 +341,13 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data2, json_decode($tmp['data'], true));
+		$this->assertEquals($data2, unserialize($tmp['data']));
 
 		//and again rate limit to dummytask.
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('dummytask', $tmp['job_type']);
-		$this->assertNull(json_decode($tmp['data'], true));
+		$this->assertFalse(unserialize($tmp['data']));
 
 		//Then some more time passes
 		sleep(2);
@@ -348,13 +356,13 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data3, json_decode($tmp['data'], true));
+		$this->assertEquals($data3, unserialize($tmp['data']));
 
 		//and again rate limit to dummytask.
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('dummytask', $tmp['job_type']);
-		$this->assertNull(json_decode($tmp['data'], true));
+		$this->assertFalse(unserialize($tmp['data']));
 
 		//and now the queue is empty
 		$this->QueuedJobs->clearKey();
@@ -363,7 +371,7 @@ class QueuedJobsTableTest extends TestCase {
 	}
 
 	/**
-	 * Are those tests still valid?
+	 * Are those tests still valid? //FIXME
 	 *
 	 * @return void
 	 */
@@ -385,14 +393,14 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data, json_decode($tmp['data'], true));
+		$this->assertEquals($data, unserialize($tmp['data']));
 		$this->assertEquals('0', $tmp['failed']);
 		sleep(2);
 
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data, json_decode($tmp['data'], true));
+		$this->assertEquals($data, unserialize($tmp['data']));
 		$this->assertEquals('1', $tmp['failed']);
 		$this->assertEquals('Restart after timeout', $tmp['failure_message']);
 	}
@@ -401,7 +409,7 @@ class QueuedJobsTableTest extends TestCase {
 	 * Tests whether the timeout of second tasks doesn't interfere with
 	 * requeue of tasks
 	 *
-	 * Are those tests still valid?
+	 * Are those tests still valid? //FIXME
 	 *
 	 * @return void
 	 */
@@ -426,14 +434,14 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals(['1'], json_decode($tmp['data'], true));
+		$this->assertEquals(['1'], unserialize($tmp['data']));
 		$this->assertEquals('0', $tmp['failed']);
 		sleep(2);
 
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals(['1'], json_decode($tmp['data'], true));
+		$this->assertEquals(['1'], unserialize($tmp['data']));
 		$this->assertEquals('1', $tmp['failed']);
 		$this->assertEquals('Restart after timeout', $tmp['failure_message']);
 	}
@@ -444,6 +452,8 @@ class QueuedJobsTableTest extends TestCase {
 	 * @return void
 	 */
 	public function testRequestGroup() {
+		$this->_needsConnection();
+
 		$capabilities = [
 			'task1' => [
 				'name' => 'task1',
@@ -464,13 +474,13 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data, json_decode($tmp['data'], true));
+		$this->assertEquals($data, unserialize($tmp['data']));
 
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
 		$this->assertEquals('task1', $tmp['job_type']);
 
-		$this->assertEquals($data2, json_decode($tmp['data'], true));
+		$this->assertEquals($data2, unserialize($tmp['data']));
 
 		// well, lets try that Again, while limiting by Group
 		// create an ungrouped task
@@ -488,12 +498,12 @@ class QueuedJobsTableTest extends TestCase {
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities, 'testgroup');
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data4, json_decode($tmp['data'], true));
+		$this->assertEquals($data4, unserialize($tmp['data']));
 
 		$this->QueuedJobs->clearKey();
 		$tmp = $this->QueuedJobs->requestJob($capabilities, 'testgroup');
 		$this->assertEquals('task1', $tmp['job_type']);
-		$this->assertEquals($data6, json_decode($tmp['data'], true));
+		$this->assertEquals($data6, unserialize($tmp['data']));
 
 		// use FindProgress on the testgroup:
 		$progress = $this->QueuedJobs->find('all', [
@@ -513,6 +523,8 @@ class QueuedJobsTableTest extends TestCase {
 	 * @return void
 	 */
 	public function testPriority() {
+		$this->_needsConnection();
+
 		$capabilities = [
 			'task1' => [
 				'name' => 'task1',
@@ -532,8 +544,42 @@ class QueuedJobsTableTest extends TestCase {
 		$this->assertTrue((bool)$this->QueuedJobs->createJob('task1', $data, ['priority' => 6]));
 
 		$tmp = $this->QueuedJobs->requestJob($capabilities);
-		$data = json_decode($tmp['data'], true);
+		$data = unserialize($tmp['data']);
 		$this->assertSame(['key' => 'k2'], $data);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIsQueued() {
+		$result = $this->QueuedJobs->isQueued('foo-bar');
+		$this->assertFalse($result);
+
+		$queuedJob = $this->QueuedJobs->newEntity([
+			'key' => 'key',
+			'job_type' => 'FooBar',
+			'reference' => 'foo-bar',
+		]);
+		$this->QueuedJobs->saveOrFail($queuedJob);
+
+		$result = $this->QueuedJobs->isQueued('foo-bar');
+		$this->assertTrue($result);
+
+		$queuedJob->completed = new FrozenTime();
+		$this->QueuedJobs->saveOrFail($queuedJob);
+
+		$result = $this->QueuedJobs->isQueued('foo-bar');
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * Helper method for skipping tests that need a real connection.
+	 *
+	 * @return void
+	 */
+	protected function _needsConnection() {
+		$config = ConnectionManager::config('test');
+		$this->skipIf(strpos($config['driver'], 'Mysql') === false, 'Only Mysql is working yet for this.');
 	}
 
 }

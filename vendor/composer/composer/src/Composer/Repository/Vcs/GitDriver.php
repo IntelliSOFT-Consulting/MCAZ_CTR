@@ -38,9 +38,16 @@ class GitDriver extends VcsDriver
     {
         if (Filesystem::isLocalPath($this->url)) {
             $this->url = preg_replace('{[\\/]\.git/?$}', '', $this->url);
+            if (!is_dir($this->url)) {
+                throw new \RuntimeException('Failed to read package information from '.$this->url.' as the path does not exist');
+            }
             $this->repoDir = $this->url;
             $cacheUrl = realpath($this->url);
         } else {
+            if (!Cache::isUsable($this->config->get('cache-vcs-dir'))) {
+                throw new \RuntimeException('GitDriver requires a usable cache directory, and it looks like you set it to be disabled');
+            }
+
             $this->repoDir = $this->config->get('cache-vcs-dir') . '/' . preg_replace('{[^a-z0-9.]}i', '-', $this->url) . '/';
 
             GitUtil::cleanEnv();
@@ -123,6 +130,10 @@ class GitDriver extends VcsDriver
      */
     public function getFileContent($file, $identifier)
     {
+        if (isset($identifier[0]) && $identifier[0] === '-') {
+            throw new \RuntimeException('Invalid git identifier detected. Identifier must not start with a -, given: ' . $identifier);
+        }
+
         $resource = sprintf('%s:%s', ProcessExecutor::escape($identifier), ProcessExecutor::escape($file));
         $this->process->execute(sprintf('git show %s', $resource), $content, $this->repoDir);
 
@@ -139,7 +150,7 @@ class GitDriver extends VcsDriver
     public function getChangeDate($identifier)
     {
         $this->process->execute(sprintf(
-            'git log -1 --format=%%at %s',
+            'git -c log.showSignature=false log -1 --format=%%at %s',
             ProcessExecutor::escape($identifier)
         ), $output, $this->repoDir);
 
@@ -176,7 +187,7 @@ class GitDriver extends VcsDriver
             $this->process->execute('git branch --no-color --no-abbrev -v', $output, $this->repoDir);
             foreach ($this->process->splitLines($output) as $branch) {
                 if ($branch && !preg_match('{^ *[^/]+/HEAD }', $branch)) {
-                    if (preg_match('{^(?:\* )? *(\S+) *([a-f0-9]+)(?: .*)?$}', $branch, $match)) {
+                    if (preg_match('{^(?:\* )? *(\S+) *([a-f0-9]+)(?: .*)?$}', $branch, $match) && $match[1][0] !== '-') {
                         $branches[$match[1]] = $match[2];
                     }
                 }
@@ -215,11 +226,17 @@ class GitDriver extends VcsDriver
             return false;
         }
 
-        $process = new ProcessExecutor($io);
-        if ($process->execute('git ls-remote --heads ' . ProcessExecutor::escape($url), $output) === 0) {
-            return true;
+        $gitUtil = new GitUtil($io, $config, new ProcessExecutor($io), new Filesystem());
+        GitUtil::cleanEnv();
+
+        try {
+            $gitUtil->runCommand(function ($url) {
+                return 'git ls-remote --heads -- ' . ProcessExecutor::escape($url);
+            }, $url, sys_get_temp_dir());
+        } catch (\RuntimeException $e) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

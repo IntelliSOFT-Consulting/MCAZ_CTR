@@ -16,7 +16,9 @@ class Standards
 
 
     /**
-     * Get a list paths where standards are installed.
+     * Get a list of paths where standards are installed.
+     *
+     * Unresolvable relative paths will be excluded from the results.
      *
      * @return array
      */
@@ -24,16 +26,19 @@ class Standards
     {
         $ds = DIRECTORY_SEPARATOR;
 
-        $installedPaths = array(dirname(dirname(__DIR__)).$ds.'src'.$ds.'Standards');
+        $installedPaths = [dirname(dirname(__DIR__)).$ds.'src'.$ds.'Standards'];
         $configPaths    = Config::getConfigData('installed_paths');
         if ($configPaths !== null) {
             $installedPaths = array_merge($installedPaths, explode(',', $configPaths));
         }
 
-        $resolvedInstalledPaths = array();
+        $resolvedInstalledPaths = [];
         foreach ($installedPaths as $installedPath) {
             if (substr($installedPath, 0, 1) === '.') {
                 $installedPath = Common::realPath(__DIR__.$ds.'..'.$ds.'..'.$ds.$installedPath);
+                if ($installedPath === false) {
+                    continue;
+                }
             }
 
             $resolvedInstalledPaths[] = $installedPath;
@@ -74,12 +79,12 @@ class Standards
         $includeGeneric=false,
         $standardsDir=''
     ) {
-        $rulesets = array();
+        $rulesets = [];
 
         if ($standardsDir === '') {
             $installedPaths = self::getInstalledStandardPaths();
         } else {
-            $installedPaths = array($standardsDir);
+            $installedPaths = [$standardsDir];
         }
 
         foreach ($installedPaths as $standardsDir) {
@@ -87,6 +92,10 @@ class Standards
             $csFile = $standardsDir.'/ruleset.xml';
             if (is_file($csFile) === true) {
                 $rulesets[] = $csFile;
+                continue;
+            }
+
+            if (is_dir($standardsDir) === false) {
                 continue;
             }
 
@@ -109,10 +118,10 @@ class Standards
             }
         }//end foreach
 
-        $installedStandards = array();
+        $installedStandards = [];
 
         foreach ($rulesets as $rulesetPath) {
-            $ruleset = simplexml_load_string(file_get_contents($rulesetPath));
+            $ruleset = @simplexml_load_string(file_get_contents($rulesetPath));
             if ($ruleset === false) {
                 continue;
             }
@@ -126,11 +135,11 @@ class Standards
                 $namespace = $dirname;
             }
 
-            $installedStandards[$dirname] = array(
-                                             'path'      => dirname($rulesetPath),
-                                             'name'      => $standardName,
-                                             'namespace' => $namespace,
-                                            );
+            $installedStandards[$dirname] = [
+                'path'      => dirname($rulesetPath),
+                'name'      => $standardName,
+                'namespace' => $namespace,
+            ];
         }//end foreach
 
         return $installedStandards;
@@ -159,19 +168,20 @@ class Standards
         $includeGeneric=false,
         $standardsDir=''
     ) {
-        $installedStandards = array();
+        $installedStandards = [];
 
         if ($standardsDir === '') {
             $installedPaths = self::getInstalledStandardPaths();
         } else {
-            $installedPaths = array($standardsDir);
+            $installedPaths = [$standardsDir];
         }
 
         foreach ($installedPaths as $standardsDir) {
             // Check if the installed dir is actually a standard itself.
             $csFile = $standardsDir.'/ruleset.xml';
             if (is_file($csFile) === true) {
-                $installedStandards[] = basename($standardsDir);
+                $basename = basename($standardsDir);
+                $installedStandards[$basename] = $basename;
                 continue;
             }
 
@@ -181,6 +191,7 @@ class Standards
             }
 
             $di = new \DirectoryIterator($standardsDir);
+            $standardsInDir = [];
             foreach ($di as $file) {
                 if ($file->isDir() === true && $file->isDot() === false) {
                     $filename = $file->getFilename();
@@ -193,10 +204,13 @@ class Standards
                     // Valid coding standard dirs include a ruleset.
                     $csFile = $file->getPathname().'/ruleset.xml';
                     if (is_file($csFile) === true) {
-                        $installedStandards[] = $filename;
+                        $standardsInDir[$filename] = $filename;
                     }
                 }
             }
+
+            natsort($standardsInDir);
+            $installedStandards += $standardsInDir;
         }//end foreach
 
         return $installedStandards;
@@ -225,6 +239,9 @@ class Standards
             // This could be a custom standard, installed outside our
             // standards directory.
             $standard = Common::realPath($standard);
+            if ($standard === false) {
+                return false;
+            }
 
             // Might be an actual ruleset file itUtil.
             // If it has an XML extension, let's at least try it.
@@ -278,7 +295,7 @@ class Standards
 
             $path = Common::realpath($standardPath.DIRECTORY_SEPARATOR.'ruleset.xml');
 
-            if (is_file($path) === true) {
+            if ($path !== false && is_file($path) === true) {
                 return $path;
             } else if (Common::isPharFile($standardPath) === true) {
                 $path = Common::realpath($standardPath);

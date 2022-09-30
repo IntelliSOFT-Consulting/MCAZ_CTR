@@ -117,7 +117,7 @@ class Question
     /**
      * Gets values for the autocompleter.
      *
-     * @return null|array|\Traversable
+     * @return iterable|null
      */
     public function getAutocompleterValues()
     {
@@ -127,7 +127,7 @@ class Question
     /**
      * Sets values for the autocompleter.
      *
-     * @param null|array|\Traversable $values
+     * @param iterable|null $values
      *
      * @return $this
      *
@@ -136,14 +136,12 @@ class Question
      */
     public function setAutocompleterValues($values)
     {
-        if (is_array($values)) {
+        if (\is_array($values)) {
             $values = $this->isAssoc($values) ? array_merge(array_keys($values), array_values($values)) : array_values($values);
         }
 
-        if (null !== $values && !is_array($values)) {
-            if (!$values instanceof \Traversable || !$values instanceof \Countable) {
-                throw new InvalidArgumentException('Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.');
-            }
+        if (null !== $values && !\is_array($values) && !$values instanceof \Traversable) {
+            throw new InvalidArgumentException('Autocompleter values can be either an array, `null` or a `Traversable` object.');
         }
 
         if ($this->hidden) {
@@ -158,8 +156,6 @@ class Question
     /**
      * Sets a validator for the question.
      *
-     * @param null|callable $validator
-     *
      * @return $this
      */
     public function setValidator(callable $validator = null)
@@ -172,7 +168,7 @@ class Question
     /**
      * Gets the validator for the question.
      *
-     * @return null|callable
+     * @return callable|null
      */
     public function getValidator()
     {
@@ -184,7 +180,7 @@ class Question
      *
      * Null means an unlimited number of attempts.
      *
-     * @param null|int $attempts
+     * @param int|null $attempts
      *
      * @return $this
      *
@@ -192,8 +188,11 @@ class Question
      */
     public function setMaxAttempts($attempts)
     {
-        if (null !== $attempts && $attempts < 1) {
-            throw new InvalidArgumentException('Maximum number of attempts must be a positive value.');
+        if (null !== $attempts) {
+            $attempts = (int) $attempts;
+            if ($attempts < 1) {
+                throw new InvalidArgumentException('Maximum number of attempts must be a positive value.');
+            }
         }
 
         $this->attempts = $attempts;
@@ -206,7 +205,7 @@ class Question
      *
      * Null means an unlimited number of attempts.
      *
-     * @return null|int
+     * @return int|null
      */
     public function getMaxAttempts()
     {
@@ -217,8 +216,6 @@ class Question
      * Sets a normalizer for the response.
      *
      * The normalizer can be a callable (a string), a closure or a class implementing __invoke.
-     *
-     * @param callable $normalizer
      *
      * @return $this
      */
@@ -234,7 +231,7 @@ class Question
      *
      * The normalizer can ba a callable (a string), a closure or a class implementing __invoke.
      *
-     * @return callable
+     * @return callable|null
      */
     public function getNormalizer()
     {
@@ -243,6 +240,6 @@ class Question
 
     protected function isAssoc($array)
     {
-        return (bool) count(array_filter(array_keys($array), 'is_string'));
+        return (bool) \count(array_filter(array_keys($array), 'is_string'));
     }
 }

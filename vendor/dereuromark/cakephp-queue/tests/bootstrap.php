@@ -1,7 +1,6 @@
 <?php
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\DispatcherFactory;
-use TestApp\Controller\AppController;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -18,7 +17,7 @@ define('ROOT', dirname(__DIR__));
 define('TMP', ROOT . DS . 'tmp' . DS);
 define('LOGS', TMP . 'logs' . DS);
 define('CACHE', TMP . 'cache' . DS);
-define('APP', sys_get_temp_dir());
+define('APP', ROOT . DS . 'tests' . DS . 'test_app' . DS . 'src' . DS);
 define('APP_DIR', 'src');
 define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
@@ -33,7 +32,7 @@ require ROOT . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
 Cake\Core\Configure::write('App', [
-	'namespace' => 'TestApp',
+	'namespace' => 'App',
 	'encoding' => 'UTF-8',
 	'paths' => [
 		'templates' => [ROOT . DS . 'tests' . DS . 'test_app' . DS . 'src' . DS . 'Template' . DS],
@@ -82,29 +81,29 @@ $cache = [
 	],
 ];
 
-Cake\Cache\Cache::config($cache);
+Cake\Cache\Cache::setConfig($cache);
 
 Cake\Core\Plugin::load('Queue', ['path' => ROOT . DS, 'autoload' => true, 'bootstrap' => false, 'routes' => true]);
-Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS . 'vendor' . DS . 'deuromark' . DS . 'cakephp-tools' . DS]);
+Cake\Core\Plugin::load('Foo', ['path' => ROOT . DS . 'tests' . DS . 'test_app' . DS . 'plugins' . DS . 'Foo' . DS]);
+Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS . 'vendor' . DS . 'dereuromark' . DS . 'cakephp-tools' . DS]);
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
-class_alias(AppController::class, 'App\Controller\AppController');
 
-Cake\Mailer\Email::configTransport('default', [
+Cake\Mailer\Email::setConfigTransport('default', [
 	'className' => 'Debug',
 ]);
-Cake\Mailer\Email::configTransport('queue', [
+Cake\Mailer\Email::setConfigTransport('queue', [
 	'className' => 'Queue.Queue',
 ]);
-Cake\Mailer\Email::config('default', [
+Cake\Mailer\Email::setConfig('default', [
 	'transport' => 'default',
 ]);
 
 // Allow local overwrite
 // E.g. in your console: export db_dsn="mysql://root:secret@127.0.0.1/cake_test"
 if (!getenv('db_class') && getenv('db_dsn')) {
-	ConnectionManager::config('test', ['url' => getenv('db_dsn')]);
+	ConnectionManager::setConfig('test', ['url' => getenv('db_dsn')]);
 	return;
 }
 if (!getenv('db_class')) {
@@ -113,7 +112,7 @@ if (!getenv('db_class')) {
 }
 
 // Uses Travis config then (MySQL, Postgres, ...)
-ConnectionManager::config('test', [
+ConnectionManager::setConfig('test', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => getenv('db_class'),
 	'dsn' => getenv('db_dsn'),

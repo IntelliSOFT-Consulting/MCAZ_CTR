@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Objects;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ObjectInstantiationSniff implements Sniff
@@ -24,7 +24,7 @@ class ObjectInstantiationSniff implements Sniff
      */
     public function register()
     {
-        return array(T_NEW);
+        return [T_NEW];
 
     }//end register()
 
@@ -47,19 +47,37 @@ class ObjectInstantiationSniff implements Sniff
 
         $prev = $phpcsFile->findPrevious($allowedTokens, ($stackPtr - 1), null, true);
 
-        $allowedTokens = array(
-                          T_EQUAL        => true,
-                          T_DOUBLE_ARROW => true,
-                          T_THROW        => true,
-                          T_RETURN       => true,
-                          T_INLINE_THEN  => true,
-                          T_INLINE_ELSE  => true,
-                         );
+        $allowedTokens = [
+            T_EQUAL          => T_EQUAL,
+            T_COALESCE_EQUAL => T_COALESCE_EQUAL,
+            T_DOUBLE_ARROW   => T_DOUBLE_ARROW,
+            T_FN_ARROW       => T_FN_ARROW,
+            T_MATCH_ARROW    => T_MATCH_ARROW,
+            T_THROW          => T_THROW,
+            T_RETURN         => T_RETURN,
+        ];
 
-        if (isset($allowedTokens[$tokens[$prev]['code']]) === false) {
-            $error = 'New objects must be assigned to a variable';
-            $phpcsFile->addError($error, $stackPtr, 'NotAssigned');
+        if (isset($allowedTokens[$tokens[$prev]['code']]) === true) {
+            return;
         }
+
+        $ternaryLikeTokens = [
+            T_COALESCE    => true,
+            T_INLINE_THEN => true,
+            T_INLINE_ELSE => true,
+        ];
+
+        // For ternary like tokens, walk a little further back to see if it is preceded by
+        // one of the allowed tokens (within the same statement).
+        if (isset($ternaryLikeTokens[$tokens[$prev]['code']]) === true) {
+            $hasAllowedBefore = $phpcsFile->findPrevious($allowedTokens, ($prev - 1), null, false, null, true);
+            if ($hasAllowedBefore !== false) {
+                return;
+            }
+        }
+
+        $error = 'New objects must be assigned to a variable';
+        $phpcsFile->addError($error, $stackPtr, 'NotAssigned');
 
     }//end process()
 

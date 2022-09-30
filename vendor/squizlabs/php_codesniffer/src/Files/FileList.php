@@ -11,10 +11,12 @@
 
 namespace PHP_CodeSniffer\Files;
 
+use PHP_CodeSniffer\Autoload;
 use PHP_CodeSniffer\Util;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Exceptions\DeepExitException;
+use ReturnTypeWillChange;
 
 class FileList implements \Iterator, \Countable
 {
@@ -24,7 +26,7 @@ class FileList implements \Iterator, \Countable
      *
      * @var array
      */
-    private $files = array();
+    private $files = [];
 
     /**
      * The number of files in the list.
@@ -52,7 +54,7 @@ class FileList implements \Iterator, \Countable
      *
      * @var array
      */
-    protected $ignorePatterns = array();
+    protected $ignorePatterns = [];
 
 
     /**
@@ -119,7 +121,7 @@ class FileList implements \Iterator, \Countable
 
         $filterClass = $this->getFilterClass();
 
-        $di       = new \RecursiveArrayIterator(array($path));
+        $di       = new \RecursiveArrayIterator([$path]);
         $filter   = new $filterClass($di, $path, $this->config, $this->ruleset);
         $iterator = new \RecursiveIteratorIterator($filter);
 
@@ -135,6 +137,7 @@ class FileList implements \Iterator, \Countable
      * Get the class name of the filter being used for the run.
      *
      * @return string
+     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException If the specified filter could not be found.
      */
     private function getFilterClass()
     {
@@ -151,7 +154,7 @@ class FileList implements \Iterator, \Countable
                     throw new DeepExitException($error, 3);
                 }
 
-                $filterClass = \PHP_CodeSniffer\Autoload::loadFile($filename);
+                $filterClass = Autoload::loadFile($filename);
             } else {
                 $filterClass = '\PHP_CodeSniffer\Filters\\'.$filterType;
             }
@@ -167,7 +170,8 @@ class FileList implements \Iterator, \Countable
      *
      * @return void
      */
-    function rewind()
+    #[ReturnTypeWillChange]
+    public function rewind()
     {
         reset($this->files);
 
@@ -179,10 +183,11 @@ class FileList implements \Iterator, \Countable
      *
      * @return \PHP_CodeSniffer\Files\File
      */
-    function current()
+    #[ReturnTypeWillChange]
+    public function current()
     {
         $path = key($this->files);
-        if ($this->files[$path] === null) {
+        if (isset($this->files[$path]) === false) {
             $this->files[$path] = new LocalFile($path, $this->ruleset, $this->config);
         }
 
@@ -196,7 +201,8 @@ class FileList implements \Iterator, \Countable
      *
      * @return void
      */
-    function key()
+    #[ReturnTypeWillChange]
+    public function key()
     {
         return key($this->files);
 
@@ -208,7 +214,8 @@ class FileList implements \Iterator, \Countable
      *
      * @return void
      */
-    function next()
+    #[ReturnTypeWillChange]
+    public function next()
     {
         next($this->files);
 
@@ -220,7 +227,8 @@ class FileList implements \Iterator, \Countable
      *
      * @return boolean
      */
-    function valid()
+    #[ReturnTypeWillChange]
+    public function valid()
     {
         if (current($this->files) === false) {
             return false;
@@ -236,7 +244,8 @@ class FileList implements \Iterator, \Countable
      *
      * @return integer
      */
-    function count()
+    #[ReturnTypeWillChange]
+    public function count()
     {
         return $this->numFiles;
 

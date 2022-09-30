@@ -1,6 +1,8 @@
 <?php
 namespace Crud\Event;
 
+use Exception;
+
 /**
  * Crud subject
  *
@@ -55,7 +57,7 @@ class Subject
      * this subject has passed through
      *
      * @param string $name name of event
-     * @return array
+     * @return bool
      */
     public function hasEvent($name)
     {
@@ -104,7 +106,7 @@ class Subject
                 return !in_array($this->action, $actions);
 
             default:
-                throw new \Exception('Invalid mode');
+                throw new Exception('Invalid mode');
         }
     }
 }

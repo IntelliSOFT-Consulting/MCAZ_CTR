@@ -1,6 +1,9 @@
 <?php
 namespace CakePdf\Pdf\Engine;
 
+use Mpdf\Mpdf;
+use Mpdf\Output\Destination;
+
 class MpdfEngine extends AbstractPdfEngine
 {
 
@@ -11,12 +14,37 @@ class MpdfEngine extends AbstractPdfEngine
      */
     public function output()
     {
-        //mPDF often produces a whole bunch of errors, although there is a pdf created when debug = 0
-        //Configure::write('debug', 0);
-        $orientation = $this->_Pdf->orientation() == 'landscape' ? 'L' : 'P';
-        $MPDF = new \mPDF($this->_Pdf->encoding(), $this->_Pdf->pageSize() . '-' . $orientation);
-        $MPDF->writeHTML($this->_Pdf->html());
+        $orientation = $this->_Pdf->orientation() === 'landscape' ? 'L' : 'P';
+        $format = $this->_Pdf->pageSize();
+        if (is_string($format)
+            && $orientation === 'L'
+            && strpos($format, '-L') === false
+        ) {
+            $format .= '-' . $orientation;
+        }
 
-        return $MPDF->Output('', 'S');
+        $options = [
+            'mode' => $this->_Pdf->encoding(),
+            'format' => $format,
+            'orientation' => $orientation,
+            'tempDir' => TMP,
+        ];
+        $options = array_merge($options, (array)$this->getConfig('options'));
+
+        $Mpdf = $this->_createInstance($options);
+        $Mpdf->WriteHTML($this->_Pdf->html());
+
+        return $Mpdf->Output('', Destination::STRING_RETURN);
+    }
+
+    /**
+     * Creates the Mpdf instance.
+     *
+     * @param array $options The engine options.
+     * @return \Mpdf\Mpdf
+     */
+    protected function _createInstance($options)
+    {
+        return new Mpdf($options);
     }
 }

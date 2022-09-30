@@ -234,4 +234,18 @@ abstract class BasePackage implements PackageInterface
         $this->repository = null;
         $this->id = -1;
     }
+
+    /**
+     * Build a regexp from a package name, expanding * globs as required
+     *
+     * @param  string $allowListPattern
+     * @param  string $wrap Wrap the cleaned string by the given string
+     * @return string
+     */
+    public static function packageNameToRegexp($allowListPattern, $wrap = '{^%s$}i')
+    {
+        $cleanedAllowListPattern = str_replace('\\*', '.*', preg_quote($allowListPattern));
+
+        return sprintf($wrap, $cleanedAllowListPattern);
+    }
 }

@@ -1,5 +1,5 @@
 <?php
-public function someFunctionWithAVeryLongName($firstParameter='something',
+function someFunctionWithAVeryLongName($firstParameter='something',
    $secondParameter='booooo', $third=null, $fourthParameter=false,
      $fifthParameter=123.12, $sixthParam=true
 ){
@@ -18,7 +18,7 @@ function  blah()
 {
 }
 
-class MyClass
+abstract class MyClass
 {
 
     public function someFunctionWithAVeryLongName($firstParameter='something',
@@ -182,21 +182,21 @@ $b = function &() {
 function foo(
     $param1,
     $param2,
-    $param3,
+    $param3
 ) : SomeClass {
 }
 
 function foo(
     $param1,
     $param2,
-    $param3,
+    $param3
 ): SomeClass {
 }
 
 function foo(
     $param1,
     $param2,
-    $param3,
+    $param3
 ): SomeClass // Comment here
 {
 }
@@ -206,7 +206,7 @@ function foo(
 
     $param2,
 
-    $param3,
+    $param3
 ) : SomeClass {
 }
 
@@ -236,4 +236,185 @@ function foo(
 )
 /* hello */ { echo 'hi';
     // body
+}
+
+$a = function () {
+
+function foo ()
+{}
+
+abstract class Foo {
+    function bar ()
+    {
+    }
+
+    abstract function baz () ;
+
+    abstract function qux () : void ;
+}
+
+interface Foo {
+    function bar () ;
+
+    function baz (
+        $longArgument,
+        $longerArgument,
+        $muchLongerArgument
+    ) ;
+
+    function qux (
+        $longArgument,
+        $longerArgument,
+        $muchLongerArgument
+    ) : void ;
+}
+
+trait Foo {
+    function bar ()
+    {
+    }
+
+    abstract function baz ()
+    ;
+}
+
+if(true) {
+    abstract class Foo {
+        function bar ()
+        {
+        }
+
+        abstract function baz () ;
+
+        abstract function qux () : void ;
+    }
+
+    interface Foo {
+        function bar () ;
+
+        function baz (
+            $longArgument,
+            $longerArgument,
+            $muchLongerArgument
+        ) ;
+
+        function qux (
+            $longArgument,
+            $longerArgument,
+            $muchLongerArgument
+        ) : void ;
+    }
+
+    trait Foo {
+        function bar ()
+        {
+        }
+
+        abstract function baz ()
+        ;
+    }
+}
+
+class ConstructorPropertyPromotionSingleLineDocblockIndentOK
+{
+    public function __construct(
+        /** @var string */
+        public string $public,
+        /** @var string */
+        private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionMultiLineDocblockAndAttributeIndentOK
+{
+    public function __construct(
+        /**
+         * @var string
+         * @Assert\NotBlank()
+         */
+        public string $public,
+        /**
+         * @var string
+         * @Assert\NotBlank()
+         */
+        #[NotBlank]
+        private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionSingleLineDocblockIncorrectIndent
+{
+    public function __construct(
+      /** @var string */
+      public string $public,
+          /** @var string */
+          private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionMultiLineDocblockAndAttributeIncorrectIndent
+{
+    public function __construct(
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     */
+    public string $public,
+/**
+ * @var string
+ * @Assert\NotBlank()
+ */
+#[NotBlank]
+private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionMultiLineAttributesOK
+{
+    public function __construct(
+        #[ORM\ManyToOne(
+            Something: true,
+            SomethingElse: 'text',
+        )]
+        #[Groups([
+            'ArrayEntry',
+            'Another.ArrayEntry',
+        ])]
+        #[MoreGroups(
+            [
+                'ArrayEntry',
+                'Another.ArrayEntry',
+            ]
+        )]
+        private Type $property
+    ) {
+        // Do something.
+    }
+}
+
+class ConstructorPropertyPromotionMultiLineAttributesIncorrectIndent
+{
+    public function __construct(
+    #[ORM\ManyToOne(
+        Something: true,
+        SomethingElse: 'text',
+    )]
+            #[Groups([
+                'ArrayEntry',
+                'Another.ArrayEntry',
+            ])]
+        #[MoreGroups(
+    [
+        'ArrayEntry',
+        'Another.ArrayEntry',
+    ]
+        )]
+        private Type $property
+    ) {
+        // Do something.
+    }
 }

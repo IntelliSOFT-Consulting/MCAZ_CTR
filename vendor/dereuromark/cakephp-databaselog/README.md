@@ -3,7 +3,7 @@
 [![Build Status](https://api.travis-ci.org/dereuromark/CakePHP-DatabaseLog.png?branch=master)](https://travis-ci.org/dereuromark/CakePHP-DatabaseLog)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/CakePHP-DatabaseLog/master.svg)](https://codecov.io/github/dereuromark/CakePHP-DatabaseLog?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/CakePHP-DatabaseLog/v/stable.svg)](https://packagist.org/packages/dereuromark/CakePHP-DatabaseLog)
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/CakePHP-DatabaseLog/license.png)](https://packagist.org/packages/dereuromark/CakePHP-DatabaseLog)
 [![Total Downloads](https://poser.pugx.org/dereuromark/CakePHP-DatabaseLog/d/total.png)](https://packagist.org/packages/dereuromark/CakePHP-DatabaseLog)
 
@@ -14,6 +14,7 @@ DatabaseLog engine for CakePHP applications.
 ## Features
 
 - Easy setup and almost no dependencies.
+- Detailed log infos added for both Web and CLI log entries.
 - Defaults to SQLite as single app application light weight approach.
 - Ideal for multi app applications where logging to a file is just not convenient.
 - If DB is used, fallback to SQLite in case the DB is not reachable.
@@ -58,6 +59,7 @@ You can simply modify the existing config entries in your `config/app.php`:
 		'error' => [
 			'className' => 'DatabaseLog.Database'
 		],
+		...
 	],
 ```
 This will use the `database_log` connection and an SQLite file database by default, stored in your `logs` folder.

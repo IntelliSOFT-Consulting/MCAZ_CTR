@@ -9,9 +9,10 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Debug;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Config;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Common;
 
 class JSLintSniff implements Sniff
 {
@@ -21,7 +22,7 @@ class JSLintSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array('JS');
+    public $supportedTokenizers = ['JS'];
 
 
     /**
@@ -31,7 +32,7 @@ class JSLintSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_TAG);
+        return [T_OPEN_TAG];
 
     }//end register()
 
@@ -48,7 +49,7 @@ class JSLintSniff implements Sniff
      */
     public function process(File $phpcsFile, $stackPtr)
     {
-        $rhinoPath  = Config::getExecutablePath('jslint');
+        $rhinoPath  = Config::getExecutablePath('rhino');
         $jslintPath = Config::getExecutablePath('jslint');
         if ($rhinoPath === null || $jslintPath === null) {
             return;
@@ -56,15 +57,15 @@ class JSLintSniff implements Sniff
 
         $fileName = $phpcsFile->getFilename();
 
-        $rhinoPath  = escapeshellcmd($rhinoPath);
-        $jslintPath = escapeshellcmd($jslintPath);
+        $rhinoPath  = Common::escapeshellcmd($rhinoPath);
+        $jslintPath = Common::escapeshellcmd($jslintPath);
 
         $cmd = "$rhinoPath \"$jslintPath\" ".escapeshellarg($fileName);
-        $msg = exec($cmd, $output, $retval);
+        exec($cmd, $output, $retval);
 
         if (is_array($output) === true) {
             foreach ($output as $finding) {
-                $matches    = array();
+                $matches    = [];
                 $numMatches = preg_match('/Lint at line ([0-9]+).*:(.*)$/', $finding, $matches);
                 if ($numMatches === 0) {
                     continue;

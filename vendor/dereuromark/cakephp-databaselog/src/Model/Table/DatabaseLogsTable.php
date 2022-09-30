@@ -26,6 +26,7 @@ use DatabaseLog\Model\Entity\DatabaseLog;
  * @method \DatabaseLog\Model\Entity\DatabaseLog[] patchEntities($entities, array $data, array $options = [])
  * @method \DatabaseLog\Model\Entity\DatabaseLog findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \DatabaseLog\Model\Entity\DatabaseLog|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class DatabaseLogsTable extends DatabaseLogAppTable {
 
@@ -43,7 +44,7 @@ class DatabaseLogsTable extends DatabaseLogAppTable {
 	 * @return void
 	 */
 	public function initialize(array $config) {
-		$this->displayField('type');
+		$this->setDisplayField('type');
 		$this->addBehavior('Timestamp', ['modified' => false]);
 		$this->ensureTables(['DatabaseLog.DatabaseLogs']);
 
@@ -51,7 +52,7 @@ class DatabaseLogsTable extends DatabaseLogAppTable {
 		if (!$callback) {
 			return;
 		}
-		$this->eventManager()->on('DatabaseLog.alert', $callback);
+		$this->getEventManager()->on('DatabaseLog.alert', $callback);
 	}
 
 	/**
@@ -70,29 +71,63 @@ class DatabaseLogsTable extends DatabaseLogAppTable {
 			'count' => 1
 		];
 		$log = $this->newEntity($data);
+
 		return (bool)$this->save($log);
 	}
 
 	/**
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \DatabaseLog\Model\Entity\DatabaseLog $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
 	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		$entity['ip'] = env('REMOTE_ADDR');
-		$entity['hostname'] = env('HTTP_HOST');
+		$entity['hostname'] = env('HTTP_HOST') ?: gethostname();
 		$entity['uri'] = env('REQUEST_URI');
 		$entity['refer'] = env('HTTP_REFERER');
 		$entity['user_agent'] = env('HTTP_USER_AGENT');
+
+		if (PHP_SAPI === 'cli') {
+			if (!$entity['hostname']) {
+				$entity['hostname'] = env('SERVER_NAME');
+			}
+			if (!$entity['hostname']) {
+				$user = env('USER');
+				$logName = env('LOGNAME');
+				if ($user || $logName) {
+					$entity['hostname'] = $user . '@' . $logName;
+				}
+			}
+			if (!$entity['uri']) {
+				$type = 'CLI';
+				$entity['uri'] = $type . ' ' . str_replace(env('PWD'), '', implode(' ', (array)env('argv')));
+			}
+			if (!$entity['user_agent']) {
+				$shell = env('SHELL') ?: 'n/a';
+				$entity['user_agent'] = $shell . ' (' . php_uname() . ')';
+			}
+		}
+
+		$env = getenv('APPLICATION_ENV');
+		if ($env) {
+			$entity['user_agent'] .= ($entity['user_agent'] ? '' : 'n/a') . ' [' . $env . ']';
+		}
+
+		$callback = Configure::read('DatabaseLog.saveCallback');
+		if (!is_callable($callback)) {
+			return;
+		}
+
+		$callback($entity);
 	}
 
 	/**
-	* Return a text search on message
-	*
-	* @param string|null $query search string or `type@...`
-	* @return array Conditions
-	*/
+	 * Return a text search on message
+	 *
+	 * @param string|null $query search string or `type@...`
+	 * @return array Conditions
+	 */
 	public function textSearch($query = null) {
 		if ($query) {
 			if (strpos($query, 'type@') === 0) {
@@ -107,10 +142,10 @@ class DatabaseLogsTable extends DatabaseLogAppTable {
 	}
 
 	/**
-	* Return all the unique types
-	*
-	* @return array Types
-	*/
+	 * Return all the unique types
+	 *
+	 * @return array Types
+	 */
 	public function getTypes() {
 		$types = $this->find()->select(['type'])->distinct('type')->order('type ASC')->toArray();
 		return (array)Hash::extract($types, '{n}.type');
@@ -200,7 +235,7 @@ class DatabaseLogsTable extends DatabaseLogAppTable {
 	 * @return void
 	 */
 	public function truncate() {
-		$sql = $this->schema()->truncateSql($this->_connection);
+		$sql = $this->getSchema()->truncateSql($this->_connection);
 		foreach ($sql as $snippet) {
 			$this->_connection->execute($snippet);
 		}
@@ -212,7 +247,7 @@ class DatabaseLogsTable extends DatabaseLogAppTable {
 	 */
 	public function notify(ResultSetInterface $logs) {
 		$event = new Event('DatabaseLog.alert', $this, ['logs' => $logs]);
-		$this->eventManager()->dispatch($event);
+		$this->getEventManager()->dispatch($event);
 	}
 
 	/**

@@ -3,6 +3,7 @@
 namespace BootstrapUI\View\Helper;
 
 use Cake\View\Helper;
+use Cake\View\View;
 
 /**
  * FlashHelper class to render flash messages.
@@ -10,7 +11,6 @@ use Cake\View\Helper;
  */
 class FlashHelper extends Helper
 {
-
     /**
      * Default config
      *
@@ -22,8 +22,32 @@ class FlashHelper extends Helper
     protected $_defaultConfig = [
         'class' => ['alert', 'alert-dismissible', 'fade', 'in'],
         'attributes' => ['role' => 'alert'],
-        'element' => 'BootstrapUI.Flash/default'
+        'element' => 'BootstrapUI.Flash/default',
     ];
+
+    /**
+     * Request instance.
+     *
+     * @var \Cake\Http\ServerRequest
+     */
+    public $request;
+
+    /**
+     * Constructor
+     *
+     * @param \Cake\View\View $View View
+     * @param array $config Config
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        if (method_exists($View, 'getRequest')) {
+            $this->request = $View->getRequest();
+        } else {
+            $this->request = $View->request;
+        }
+
+        parent::__construct($View, $config);
+    }
 
     /**
      * Similar to the core's FlashHelper used to render the message set in FlashComponent::set().
@@ -40,11 +64,11 @@ class FlashHelper extends Helper
      */
     public function render($key = 'flash', array $options = [])
     {
-        if (!$this->request->session()->check("Flash.$key")) {
+        if (!$this->request->getSession()->check("Flash.$key")) {
             return null;
         }
 
-        $stack = $this->request->session()->read("Flash.$key");
+        $stack = $this->request->getSession()->read("Flash.$key");
         if (!is_array($stack)) {
             throw new \UnexpectedValueException(sprintf(
                 'Value for flash setting key "%s" must be an array.',
@@ -60,10 +84,11 @@ class FlashHelper extends Helper
         foreach ($stack as $message) {
             $message = $options + $message;
             $message['params'] += $this->_config;
-            $this->request->session()->delete("Flash.$key");
+            $this->request->getSession()->delete("Flash.$key");
 
             $element = $message['element'];
-            if (strpos($element, '.') === false &&
+            if (
+                strpos($element, '.') === false &&
                 preg_match('#Flash/(default|success|error|info|warning)$#', $element, $matches)
             ) {
                 $class = $matches[1];
@@ -72,7 +97,7 @@ class FlashHelper extends Helper
                 if (is_array($message['params']['class'])) {
                     $message['params']['class'][] = 'alert-' . $class;
                 }
-                $element = $this->_config['element'];
+                $element = $this->getConfig('element');
             }
 
             $out .= $this->_View->element($element, $message);
