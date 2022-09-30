@@ -1056,7 +1056,7 @@
             },
             "require": {
                 "cakephp/acl": "~0.2",
-                "cakephp/cakephp": "~3.0",
+                "cakephp/cakephp": "3.10.3",
                 "cakephp/plugin-installer": "~1.0",
                 "composer/installers": "*",
                 "php": ">=5.4.16"
@@ -1110,11 +1110,11 @@
             },
             "require": {
                 "cakephp/orm": "3.*",
-                "league/flysystem": "*",
+                "league/flysystem": "1.1.4",
                 "php": ">=5.5"
             },
             "require-dev": {
-                "cakephp/cakephp": "~3.0",
+                "cakephp/cakephp": "3.10.3",
                 "cakephp/cakephp-codesniffer": "dev-master",
                 "league/flysystem-vfs": "*",
                 "phpunit/phpunit": "<6.0",
@@ -1485,7 +1485,7 @@
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "~3.0",
+                "cakephp/cakephp": "3.10.3",
                 "cakephp/plugin-installer": "*",
                 "php": ">=5.4"
             },
