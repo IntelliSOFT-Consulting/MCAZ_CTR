@@ -4,7 +4,7 @@ This directory contains some examples of what `composer` type repositories can
 look like. They serve as illustrating examples accompanying the docs, but can
 also be used as (initial) fixtures for tests.
 
-* `repo-composer-plain` is a simple, plain `packages.json` file
+* `repo-composer-plain` is a basic, plain `packages.json` file
 * `repo-composer-with-includes` uses the `includes` mechanism
 * `repo-composer-with-providers` uses the `providers` mechanism
 
@@ -19,5 +19,4 @@ All these repositories contain the following packages.
    by `qux/quux`.
 * `bar/baz` has a 1.0.0 version and 1.0.x-dev as well as dev-default branches.
    Additionally, 1.1.x-dev is a branch alias for dev-default.
-
 

@@ -58,8 +58,14 @@
                 <td>
                     <?php 
                       foreach ($application->finance_approvals as $finance_approval) {
-                        echo '<b>Outcome: </b>'.$finance_approval->outcome.' <span class="muted">'.$finance_approval->outcome_date.' by '.$finance_approval->user->name.'</span><br>';
-                        // echo '<b>Outcome: </b>'.$finance_approval->outcome.'<span class="muted">'.$finance_approval->outcome_date;
+ 
+                        // get user name if user_id is not null
+                        $user= null;
+                        if ($finance_approval->user) {
+                          $user= $finance_approval->user->name;
+                        }
+                        echo '<b>Outcome: </b>'.$finance_approval->outcome.' <span class="muted">'.$finance_approval->outcome_date.' by '.$user.'</span><br>';
+ 
                         echo "<p>".$finance_approval->internal_comments."</p>";
                         echo "<p>".$finance_approval->public_comments."</p><hr class='finance'>";
                       }

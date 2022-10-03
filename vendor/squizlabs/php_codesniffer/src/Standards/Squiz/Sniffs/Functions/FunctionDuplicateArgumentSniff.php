@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class FunctionDuplicateArgumentSniff implements Sniff
 {
@@ -23,7 +23,7 @@ class FunctionDuplicateArgumentSniff implements Sniff
      */
     public function register()
     {
-        return array(T_FUNCTION);
+        return [T_FUNCTION];
 
     }//end register()
 
@@ -44,13 +44,13 @@ class FunctionDuplicateArgumentSniff implements Sniff
         $openBracket  = $tokens[$stackPtr]['parenthesis_opener'];
         $closeBracket = $tokens[$stackPtr]['parenthesis_closer'];
 
-        $foundVariables = array();
+        $foundVariables = [];
         for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
             if ($tokens[$i]['code'] === T_VARIABLE) {
                 $variable = $tokens[$i]['content'];
-                if (in_array($variable, $foundVariables) === true) {
+                if (in_array($variable, $foundVariables, true) === true) {
                     $error = 'Variable "%s" appears more than once in function declaration';
-                    $data  = array($variable);
+                    $data  = [$variable];
                     $phpcsFile->addError($error, $i, 'Found', $data);
                 } else {
                     $foundVariables[] = $variable;

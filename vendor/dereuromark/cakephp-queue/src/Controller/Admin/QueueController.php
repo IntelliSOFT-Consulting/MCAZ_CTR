@@ -23,7 +23,7 @@ class QueueController extends AppController {
 	 * QueueController::beforeFilter()
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @return void
+	 * @return \Cake\Http\Response|null
 	 */
 	public function beforeFilter(Event $event) {
 		$this->QueuedJobs->initConfig();
@@ -35,7 +35,7 @@ class QueueController extends AppController {
 	 * Admin center.
 	 * Manage queues from admin backend (without the need to open ssh console window).
 	 *
-	 * @return void
+	 * @return \Cake\Http\Response|null
 	 */
 	public function index() {
 		$status = $this->_status();
@@ -49,6 +49,7 @@ class QueueController extends AppController {
 
 		$this->set(compact('current', 'data', 'pendingDetails', 'status', 'tasks'));
 		$this->helpers[] = 'Tools.Format';
+		$this->helpers[] = 'Tools.Time';
 	}
 
 	/**
@@ -117,12 +118,28 @@ class QueueController extends AppController {
 	}
 
 	/**
-	 * Truncate the queue list / table.
+	 * Mark all failed jobs as ready for re-run.
 	 *
 	 * @return \Cake\Http\Response
 	 * @throws \Cake\Network\Exception\MethodNotAllowedException when not posted
 	 */
 	public function reset() {
+		$this->request->allowMethod('post');
+		$this->QueuedJobs->reset();
+
+		$message = __d('queue', 'OK');
+		$this->Flash->success($message);
+
+		return $this->redirect(['action' => 'index']);
+	}
+
+	/**
+	 * Truncate the queue list / table.
+	 *
+	 * @return \Cake\Http\Response
+	 * @throws \Cake\Network\Exception\MethodNotAllowedException when not posted
+	 */
+	public function hardReset() {
 		$this->request->allowMethod('post');
 		$this->QueuedJobs->truncate();
 

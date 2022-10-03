@@ -7,16 +7,24 @@ namespace Composer\Autoload;
 class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '34122c0574b76bf21c9a8db62b5b9cf3' => __DIR__ . '/..' . '/cakephp/chronos/src/carbon_compat.php',
+        'cf97c57bfe0f23854afd2f3818abb7a0' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/create_uploaded_file.php',
+        '9bf37a3d0dad93e29cb4e1b1bfab04e9' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/marshal_headers_from_sapi.php',
+        'ce70dccb4bcc2efc6e94d2ee526e6972' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/marshal_method_from_sapi.php',
+        'f86420df471f14d568bfcb71e271b523' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/marshal_protocol_version_from_sapi.php',
+        'b87481e008a3700344428ae089e7f9e5' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/marshal_uri_from_sapi.php',
+        '0b0974a5566a1077e4f2e111341112c1' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/normalize_server.php',
+        '1ca3bc274755662169f9629d5412a1da' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/normalize_uploaded_files.php',
+        '40360c0b9b437e69bcbb7f1349ce029e' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/parse_cookie_header.php',
         'c720f792236cd163ece8049879166850' => __DIR__ . '/..' . '/cakephp/cakephp/src/Core/functions.php',
         'ede59e3a405fb689cd1cebb7bb1db3fb' => __DIR__ . '/..' . '/cakephp/cakephp/src/Collection/functions.php',
         '90236b492da7ca2983a2ad6e33e4152e' => __DIR__ . '/..' . '/cakephp/cakephp/src/I18n/functions.php',
         'b1fc73705e1bec51cd2b20a32cf1c60a' => __DIR__ . '/..' . '/cakephp/cakephp/src/Utility/bootstrap.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'e80e30046ea6fdfe12005b11c3d7267e' => __DIR__ . '/..' . '/friendsofcake/crud/aliases.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
+        '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -24,13 +32,18 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             'Zend\\Diactoros\\' => 15,
         ),
-        'X' => 
+        'W' => 
         array (
-            'XdgBaseDir\\' => 11,
+            'WyriHaximus\\TwigView\\' => 21,
+        ),
+        'T' => 
+        array (
+            'Twig\\' => 5,
         ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Process\\' => 26,
@@ -42,7 +55,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'SoftDelete\\' => 11,
             'Seld\\PharUtils\\' => 15,
             'Seld\\JsonLint\\' => 14,
-            'Seld\\CliPrompt\\' => 15,
             'Search\\' => 7,
         ),
         'Q' => 
@@ -72,6 +84,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'JsonSchema\\' => 11,
             'Josegonzalez\\Upload\\Test\\Fixture\\' => 33,
             'Josegonzalez\\Upload\\' => 20,
+            'Jasny\\Twig\\' => 11,
         ),
         'D' => 
         array (
@@ -84,6 +97,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             'CsvView\\' => 8,
             'Crud\\' => 5,
+            'Composer\\XdebugHandler\\' => 23,
             'Composer\\Spdx\\' => 14,
             'Composer\\Semver\\' => 16,
             'Composer\\Installers\\' => 20,
@@ -108,6 +122,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Aura\\Intl\\' => 10,
             'App\\Test\\' => 9,
             'App\\' => 4,
+            'Ajgl\\Twig\\Extension\\' => 20,
             'Acl\\' => 4,
             'AclManager\\' => 11,
         ),
@@ -118,13 +133,21 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
         ),
-        'XdgBaseDir\\' => 
+        'WyriHaximus\\TwigView\\' => 
         array (
-            0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+            0 => __DIR__ . '/..' . '/wyrihaximus/twig-view/src',
+        ),
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -170,10 +193,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint',
         ),
-        'Seld\\CliPrompt\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/seld/cli-prompt/src',
-        ),
         'Search\\' => 
         array (
             0 => __DIR__ . '/..' . '/friendsofcake/search/src',
@@ -188,7 +207,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         ),
         'Psy\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
+            0 => __DIR__ . '/..' . '/psy/psysh/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -230,6 +249,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/josegonzalez/cakephp-upload/src',
         ),
+        'Jasny\\Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jasny/twig-extensions/src',
+        ),
         'DebugKit\\Test\\Fixture\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/tests/Fixture',
@@ -253,6 +276,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Crud\\' => 
         array (
             0 => __DIR__ . '/..' . '/friendsofcake/crud/src',
+        ),
+        'Composer\\XdebugHandler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/xdebug-handler/src',
         ),
         'Composer\\Spdx\\' => 
         array (
@@ -326,6 +353,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
+        'Ajgl\\Twig\\Extension\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ajgl/breakpoint-twig-extension/src',
+        ),
         'Acl\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/acl/src',
@@ -334,6 +365,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/ivanamat/cakephp3-aclmanager/src',
         ),
+    );
+
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/asm89/twig-cache-extension/lib',
     );
 
     public static $prefixesPsr0 = array (
@@ -345,15 +380,18 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
                 1 => __DIR__ . '/..' . '/josegonzalez/dotenv/tests',
             ),
         ),
-        'J' => 
+        'U' => 
         array (
-            'JakubOnderka\\PhpConsoleHighlighter' => 
+            'Umpirsky\\' => 
             array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
+                0 => __DIR__ . '/..' . '/umpirsky/twig-php-function/src',
             ),
-            'JakubOnderka\\PhpConsoleColor' => 
+        ),
+        'T' => 
+        array (
+            'Twig_' => 
             array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
             ),
         ),
         'D' => 
@@ -363,9 +401,17 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
                 0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
             ),
         ),
+        'A' => 
+        array (
+            'Aptoma' => 
+            array (
+                0 => __DIR__ . '/..' . '/aptoma/twig-markdown/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'SqlFormatter' => __DIR__ . '/..' . '/jdorn/sql-formatter/lib/SqlFormatter.php',
     );
@@ -375,6 +421,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$classMap;
 

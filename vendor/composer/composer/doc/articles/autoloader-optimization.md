@@ -12,7 +12,7 @@ it can immediately be discovered/used without having to rebuild the autoloader
 configuration.
 
 The problem however is in production you generally want things to happen as fast
-as possible, as you can simply rebuild the configuration every time you deploy and
+as possible, as you can rebuild the configuration every time you deploy and
 new classes do not appear at random between deploys.
 
 For this reason, Composer offers a few strategies to optimize the autoloader.
@@ -53,7 +53,6 @@ result in slow filesystem checks. To solve this issue two Level 2 optimization
 options exist, and you can decide to enable either if you have a lot of
 class_exists checks that are done for classes that do not exist in your project.
 
-
 ## Optimization Level 2/A: Authoritative class maps
 
 ### How to run it?
@@ -68,7 +67,7 @@ There are a few options to enable this:
 
 Enabling this automatically enables Level 1 class map optimizations.
 
-This option is very simple, it says that if something is not found in the classmap,
+This option says that if something is not found in the classmap,
 then it does not exist and the autoloader should not attempt to look on the
 filesystem according to PSR-4 rules.
 
@@ -81,7 +80,6 @@ then you might experience "class not found" issues in production. Enable this wi
 
 > Note: This can not be combined with Level 2/B optimizations. You have to choose one as
 > they address the same issue in different ways.
-
 
 ## Optimization Level 2/B: APCu cache
 

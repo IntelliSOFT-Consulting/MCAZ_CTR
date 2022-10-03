@@ -345,6 +345,7 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('Comments.model' => 'Applications'),
         ]);
+ 
         $this->hasMany('Clinicals', [
             'foreignKey' => 'application_id',
         ]);
@@ -356,6 +357,13 @@ class ApplicationsTable extends Table
         ]);
         $this->hasMany('QualityAssessments', [
             'foreignKey' => 'application_id',
+    ]);
+        $this->hasMany('Refids', [
+            'className' => 'Refids',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Refids.model' => 'Applications'),
+ 
         ]);
     }
 

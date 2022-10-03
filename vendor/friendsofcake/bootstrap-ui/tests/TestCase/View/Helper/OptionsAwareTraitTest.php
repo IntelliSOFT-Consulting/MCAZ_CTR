@@ -10,7 +10,6 @@ use Cake\TestSuite\TestCase;
  */
 class TestOptionsAware
 {
-
     use OptionsAwareTrait;
 }
 
@@ -22,7 +21,7 @@ class OptionsAwareTraitTest extends TestCase
     /**
      * @var OptionsAwareTrait
      */
-    public $object;
+    protected $object;
 
     /**
      * setUp method
@@ -93,5 +92,7 @@ class OptionsAwareTraitTest extends TestCase
         $this->assertTrue($this->object->checkClasses('a', ['class' => 'a']));
         $this->assertTrue($this->object->checkClasses('a b c', ['class' => 'c b a']));
         $this->assertTrue($this->object->checkClasses('a b c', ['class' => ['c', 'b', 'a']]));
+
+        $this->assertFalse($this->object->checkClasses('a', ['a']));
     }
 }

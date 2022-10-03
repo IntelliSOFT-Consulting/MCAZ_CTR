@@ -12,9 +12,10 @@
 
 namespace Composer\Util;
 
+use Composer\IO\IOInterface;
+use Composer\Util\Platform;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessUtils;
-use Composer\IO\IOInterface;
 
 /**
  * @author Robert Schönthal <seroscho@googlemail.com>
@@ -45,12 +46,14 @@ class ProcessExecutor
     {
         if ($this->io && $this->io->isDebug()) {
             $safeCommand = preg_replace_callback('{://(?P<user>[^:/\s]+):(?P<password>[^@\s/]+)@}i', function ($m) {
-                if (preg_match('{^[a-f0-9]{12,}$}', $m['user'])) {
+                // if the username looks like a long (12char+) hex string, or a modern github token (e.g. ghp_xxx) we obfuscate that
+                if (preg_match('{^([a-f0-9]{12,}|gh[a-z]_[a-zA-Z0-9_]+)$}', $m['user'])) {
                     return '://***:***@';
                 }
 
                 return '://'.$m['user'].':***@';
             }, $command);
+            $safeCommand = preg_replace("{--password (.*[^\\\\]\') }", '--password \'***\' ', $safeCommand);
             $this->io->writeError('Executing command ('.($cwd ?: 'CWD').'): '.$safeCommand);
         }
 
@@ -60,9 +63,19 @@ class ProcessExecutor
             $cwd = realpath(getcwd());
         }
 
-        $this->captureOutput = count(func_get_args()) > 1;
+        if (null !== $cwd && !is_dir($cwd)) {
+            throw new \RuntimeException('The given CWD for the process does not exist: '.$cwd);
+        }
+
+        $this->captureOutput = func_num_args() > 1;
         $this->errorOutput = null;
-        $process = new Process($command, $cwd, null, null, static::getTimeout());
+
+        // TODO in v3, commands should be passed in as arrays of cmd + args
+        if (method_exists('Symfony\Component\Process\Process', 'fromShellCommandline')) {
+            $process = Process::fromShellCommandline($command, $cwd, null, null, static::getTimeout());
+        } else {
+            $process = new Process($command, $cwd, null, null, static::getTimeout());
+        }
 
         $callback = is_callable($output) ? $output : array($this, 'outputHandler');
         $process->run($callback);
@@ -105,10 +118,18 @@ class ProcessExecutor
             return;
         }
 
-        if (Process::ERR === $type) {
-            $this->io->writeError($buffer, false);
+        if (method_exists($this->io, 'writeRaw')) {
+            if (Process::ERR === $type) {
+                $this->io->writeErrorRaw($buffer, false);
+            } else {
+                $this->io->writeRaw($buffer, false);
+            }
         } else {
-            $this->io->write($buffer, false);
+            if (Process::ERR === $type) {
+                $this->io->writeError($buffer, false);
+            } else {
+                $this->io->write($buffer, false);
+            }
         }
     }
 
@@ -131,6 +152,54 @@ class ProcessExecutor
      */
     public static function escape($argument)
     {
-        return ProcessUtils::escapeArgument($argument);
+        return self::escapeArgument($argument);
+    }
+
+    /**
+     * Escapes a string to be used as a shell argument for Symfony Process.
+     *
+     * This method expects cmd.exe to be started with the /V:ON option, which
+     * enables delayed environment variable expansion using ! as the delimiter.
+     * If this is not the case, any escaped ^^!var^^! will be transformed to
+     * ^!var^! and introduce two unintended carets.
+     *
+     * Modified from https://github.com/johnstevenson/winbox-args
+     * MIT Licensed (c) John Stevenson <john-stevenson@blueyonder.co.uk>
+     *
+     * @param string $argument
+     *
+     * @return string
+     */
+    private static function escapeArgument($argument)
+    {
+        if ('' === ($argument = (string) $argument)) {
+            return escapeshellarg($argument);
+        }
+
+        if (!Platform::isWindows()) {
+            return "'".str_replace("'", "'\\''", $argument)."'";
+        }
+
+        // New lines break cmd.exe command parsing
+        $argument = strtr($argument, "\n", ' ');
+
+        $quote = strpbrk($argument, " \t") !== false;
+        $argument = preg_replace('/(\\\\*)"/', '$1$1\\"', $argument, -1, $dquotes);
+        $meta = $dquotes || preg_match('/%[^%]+%|![^!]+!/', $argument);
+
+        if (!$meta && !$quote) {
+            $quote = strpbrk($argument, '^&|<>()') !== false;
+        }
+
+        if ($quote) {
+            $argument = '"'.preg_replace('/(\\\\*)$/', '$1$1', $argument).'"';
+        }
+
+        if ($meta) {
+            $argument = preg_replace('/(["^&|<>()%])/', '^$1', $argument);
+            $argument = preg_replace('/(!)/', '^^$1', $argument);
+        }
+
+        return $argument;
     }
 }

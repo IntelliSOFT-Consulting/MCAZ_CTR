@@ -58,6 +58,16 @@ echo $this->Html->css('AclManager.default',['inline' => false]);
     </div>
 </div>
 
+<?php if($this->request->session()->read('Flash')) { ?>
+<div class="row panel">
+    <div class="columns large-12">
+        <h3>Response</h3>
+        <hr />
+        <?php echo $this->Flash->render(); ?>
+    </div>
+</div>
+<?php } ?>
+
 <div class="row panel">
     <div class="columns large-12">
         <h2><?php echo sprintf(__($model)); ?></h2>
@@ -72,8 +82,11 @@ echo $this->Html->css('AclManager.default',['inline' => false]);
                         <?php $aro = array_shift($aro); ?>
                         <th>
                             <?php
-                            if (($model == 'Roles' OR $model == 'Users') && $this->request->session()->read('Auth.User.role_id') == 1) {
-                                $gData = $this->AclManager->getName('Groups', $aro['group_id']);
+                            $parentNode = $aro->parentNode();
+                            if (!is_null($parentNode)) {
+                                $key = key($parentNode);
+                                $subKey = key($parentNode[$key]);
+                                $gData = $this->AclManager->getName($key, $parentNode[key($parentNode)][$subKey]);
                                 echo h($aro[$aroDisplayField]) . ' ( ' . $gData['name'] . ' )';
                             } else {
                                 echo h($aro[$aroDisplayField]);
@@ -101,8 +114,13 @@ echo $this->Html->css('AclManager.default',['inline' => false]);
                     if ($ident != $lastIdent) {
                         echo "<tr class='aclmanager-ident-" . $ident . "'>";
                     }
+                    
+                    $uAllowed = true;
+                    if($hideDenied) {
+                        $uAllowed = $this->AclManager->Acl->check(['Users' => ['id' => $this->request->session()->read('Auth.User.id')]], $action);
+                    }
 
-                    if ($this->AclManager->Acl->check(['Users' => ['id' => $this->request->session()->read('Auth.User.id')]], $action)) {
+                    if ($uAllowed) {
                         echo "<td>";
                         echo Inflector::humanize(($ident == 1 ? "<strong>" : "" ) . ($uglyIdent ? str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $ident) : "") . h($alias) . ($ident == 1 ? "</strong>" : "" ));
                         echo "</td>";

@@ -182,6 +182,7 @@
             Sort by
             <span class="caret"></span>
           </button>
+        
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><?= $this->Paginator->sort('id') ?></li>
             <li><?= $this->Paginator->sort('protocol_no') ?></li>

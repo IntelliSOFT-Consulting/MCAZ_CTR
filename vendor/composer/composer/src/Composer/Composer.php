@@ -29,9 +29,57 @@ use Composer\Package\Archiver\ArchiveManager;
  */
 class Composer
 {
-    const VERSION = '1.5.2';
+    /*
+     * Examples of the following constants in the various configurations they can be in
+     *
+     * releases (phar):
+     * const VERSION = '1.8.2';
+     * const BRANCH_ALIAS_VERSION = '';
+     * const RELEASE_DATE = '2019-01-29 15:00:53';
+     * const SOURCE_VERSION = '';
+     *
+     * snapshot builds (phar):
+     * const VERSION = 'd3873a05650e168251067d9648845c220c50e2d7';
+     * const BRANCH_ALIAS_VERSION = '1.9-dev';
+     * const RELEASE_DATE = '2019-02-20 07:43:56';
+     * const SOURCE_VERSION = '';
+     *
+     * source (git clone):
+     * const VERSION = '@package_version@';
+     * const BRANCH_ALIAS_VERSION = '@package_branch_alias_version@';
+     * const RELEASE_DATE = '@release_date@';
+     * const SOURCE_VERSION = '1.8-dev+source';
+     */
+    const VERSION = '1.10.26';
     const BRANCH_ALIAS_VERSION = '';
-    const RELEASE_DATE = '2017-09-11 16:59:25';
+    const RELEASE_DATE = '2022-04-13 16:39:56';
+    const SOURCE_VERSION = '';
+
+    /**
+     * Version number of the internal composer-runtime-api package
+     *
+     * This is used to version features available to projects at runtime
+     * like the platform-check file, the Composer\InstalledVersions class
+     * and possibly others in the future.
+     *
+     * @var string
+     */
+    const RUNTIME_API_VERSION = '1.0.0';
+
+    public static function getVersion()
+    {
+        // no replacement done, this must be a source checkout
+        if (self::VERSION === '@package_version'.'@') {
+            return self::SOURCE_VERSION;
+        }
+
+        // we have a branch alias and version is a commit id, this must be a snapshot build
+        if (self::BRANCH_ALIAS_VERSION !== '' && preg_match('{^[a-f0-9]{40}$}', self::VERSION)) {
+            return self::BRANCH_ALIAS_VERSION.'+'.self::VERSION;
+        }
+
+        return self::VERSION;
+    }
 
     /**
      * @var Package\RootPackageInterface

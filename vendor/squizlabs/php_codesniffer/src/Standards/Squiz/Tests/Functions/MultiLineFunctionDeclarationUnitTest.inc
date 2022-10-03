@@ -161,3 +161,97 @@ function foo(
     $param3,
 ) : SomeClass {
 }
+
+// Issue 1959.
+function __construct(
+    $foo,   // This is foo
+    $bar
+) {}
+
+function __construct(
+    $foo /* this is foo */,
+    $bar // this is bar
+) {}
+
+function __construct(
+    $foo,   // phpcs:ignore Standard.Category.Sniff -- for reasons.
+    $bar
+) {}
+
+public function hello(string $greeting
+) {
+}
+
+public function hello(string $greeting // cant fix this
+) {
+}
+
+public function hello(string $greeting // phpcs:ignore Standard.Category.Sniff -- for reasons.
+) {
+}
+
+function foo(
+
+
+    $foo,
+    $bar
+) {
+}
+
+class ConstructorPropertyPromotionSingleLineDocblockIndentOK
+{
+    public function __construct(
+        /** @var string */
+        public string $public,
+        /** @var string */
+        private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionMultiLineDocblockAndAttributeIndentOK
+{
+    public function __construct(
+        /**
+         * @var string
+         * @Assert\NotBlank()
+         */
+        public string $public,
+        /**
+         * @var string
+         * @Assert\NotBlank()
+         */
+        #[NotBlank]
+        private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionSingleLineDocblockIncorrectIndent
+{
+    public function __construct(
+      /** @var string */
+      public string $public,
+          /** @var string */
+          private string $private,
+    ) {
+    }
+}
+
+class ConstructorPropertyPromotionMultiLineDocblockAndAttributeIncorrectIndent
+{
+    public function __construct(
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     */
+    public string $public,
+/**
+ * @var string
+ * @Assert\NotBlank()
+ */
+#[NotBlank]
+private string $private,
+    ) {
+    }
+}

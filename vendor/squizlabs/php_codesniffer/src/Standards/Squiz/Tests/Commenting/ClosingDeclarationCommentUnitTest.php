@@ -25,16 +25,17 @@ class ClosingDeclarationCommentUnitTest extends AbstractSniffUnitTest
      */
     public function getErrorList()
     {
-        return array(
-                13 => 1,
-                17 => 1,
-                31 => 1,
-                41 => 1,
-                59 => 1,
-                63 => 1,
-                67 => 1,
-                79 => 1,
-               );
+        return [
+            13 => 1,
+            17 => 1,
+            31 => 1,
+            41 => 1,
+            59 => 1,
+            63 => 1,
+            67 => 1,
+            79 => 1,
+            83 => 1,
+        ];
 
     }//end getErrorList()
 
@@ -49,7 +50,7 @@ class ClosingDeclarationCommentUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array(71 => 1);
+        return [71 => 1];
 
     }//end getWarningList()
 

@@ -45,6 +45,13 @@ class PluginTask extends BakeTask
     ];
 
     /**
+     * Plugin path.
+     *
+     * @var string
+     */
+    public $path;
+
+    /**
      * initialize
      *
      * @return void
@@ -133,6 +140,11 @@ class PluginTask extends BakeTask
     protected function _modifyBootstrap($plugin, $hasAutoloader)
     {
         $bootstrap = new File($this->bootstrap, false);
+        if (!$bootstrap->exists()) {
+            $this->err('<warning>Could not update application bootstrap.php file, as it could not be found.</warning>');
+
+            return;
+        }
         $contents = $bootstrap->read();
         if (!preg_match("@\n\s*Plugin::loadAll@", $contents)) {
             $autoload = $hasAutoloader ? null : "'autoload' => true, ";
@@ -193,12 +205,13 @@ class PluginTask extends BakeTask
         do {
             $templatesPath = array_shift($paths) . 'Bake/Plugin';
             $templatesDir = new Folder($templatesPath);
-            $templates = $templatesDir->findRecursive('.*\.ctp');
+            $templates = $templatesDir->findRecursive('.*\.(twig|ctp)');
         } while (!$templates);
 
         sort($templates);
         foreach ($templates as $template) {
             $template = substr($template, strrpos($template, 'Plugin') + 7, -4);
+            $template = rtrim($template, '.');
             $this->_generateFile($template, $root);
         }
     }
@@ -315,6 +328,7 @@ class PluginTask extends BakeTask
             return;
         }
 
+        $choice = null;
         while (!$valid) {
             foreach ($pathOptions as $i => $option) {
                 $this->out($i + 1 . '. ' . $option);

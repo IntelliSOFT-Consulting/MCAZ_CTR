@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Operators;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class IncrementDecrementUsageSniff implements Sniff
@@ -24,13 +24,13 @@ class IncrementDecrementUsageSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_EQUAL,
-                T_PLUS_EQUAL,
-                T_MINUS_EQUAL,
-                T_INC,
-                T_DEC,
-               );
+        return [
+            T_EQUAL,
+            T_PLUS_EQUAL,
+            T_MINUS_EQUAL,
+            T_INC,
+            T_DEC,
+        ];
 
     }//end register()
 
@@ -74,7 +74,8 @@ class IncrementDecrementUsageSniff implements Sniff
         // start looking for other operators.
         if ($tokens[($stackPtr - 1)]['code'] === T_VARIABLE
             || ($tokens[($stackPtr - 1)]['code'] === T_STRING
-            && $tokens[($stackPtr - 2)]['code'] === T_OBJECT_OPERATOR)
+            && ($tokens[($stackPtr - 2)]['code'] === T_OBJECT_OPERATOR
+            || $tokens[($stackPtr - 2)]['code'] === T_NULLSAFE_OBJECT_OPERATOR))
         ) {
             $start = ($stackPtr + 1);
         } else {
@@ -125,10 +126,10 @@ class IncrementDecrementUsageSniff implements Sniff
             return;
         }
 
-        $statementEnd = $phpcsFile->findNext(array(T_SEMICOLON, T_CLOSE_PARENTHESIS, T_CLOSE_SQUARE_BRACKET, T_CLOSE_CURLY_BRACKET), $stackPtr);
+        $statementEnd = $phpcsFile->findNext([T_SEMICOLON, T_CLOSE_PARENTHESIS, T_CLOSE_SQUARE_BRACKET, T_CLOSE_CURLY_BRACKET], $stackPtr);
 
         // If there is anything other than variables, numbers, spaces or operators we need to return.
-        $noiseTokens = $phpcsFile->findNext(array(T_LNUMBER, T_VARIABLE, T_WHITESPACE, T_PLUS, T_MINUS, T_OPEN_PARENTHESIS), ($stackPtr + 1), $statementEnd, true);
+        $noiseTokens = $phpcsFile->findNext([T_LNUMBER, T_VARIABLE, T_WHITESPACE, T_PLUS, T_MINUS, T_OPEN_PARENTHESIS], ($stackPtr + 1), $statementEnd, true);
 
         if ($noiseTokens !== false) {
             return;
@@ -167,7 +168,7 @@ class IncrementDecrementUsageSniff implements Sniff
         $nextNumber     = ($stackPtr + 1);
         $previousNumber = ($stackPtr + 1);
         $numberCount    = 0;
-        while (($nextNumber = $phpcsFile->findNext(array(T_LNUMBER), ($nextNumber + 1), $statementEnd, false)) !== false) {
+        while (($nextNumber = $phpcsFile->findNext([T_LNUMBER], ($nextNumber + 1), $statementEnd, false)) !== false) {
             $previousNumber = $nextNumber;
             $numberCount++;
         }
@@ -179,7 +180,7 @@ class IncrementDecrementUsageSniff implements Sniff
         $nextNumber = $previousNumber;
         if ($tokens[$nextNumber]['content'] === '1') {
             if ($tokens[$stackPtr]['code'] === T_EQUAL) {
-                $opToken = $phpcsFile->findNext(array(T_PLUS, T_MINUS), ($nextVar + 1), $statementEnd);
+                $opToken = $phpcsFile->findNext([T_PLUS, T_MINUS], ($nextVar + 1), $statementEnd);
                 if ($opToken === false) {
                     // Operator was before the variable, like:
                     // $var = 1 + $var;
@@ -205,7 +206,7 @@ class IncrementDecrementUsageSniff implements Sniff
                 }
             }
 
-            $expected = $tokens[$assignedVar]['content'].$operator.$operator;
+            $expected = $operator.$operator.$tokens[$assignedVar]['content'];
             $found    = $phpcsFile->getTokensAsString($assignedVar, ($statementEnd - $assignedVar + 1));
 
             if ($operator === '+') {

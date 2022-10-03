@@ -22,6 +22,7 @@ bin/cake acl deny Groups.2 controllers/Admin
 bin/cake acl deny Groups.2 controllers/Evaluator
 bin/cake acl deny Groups.2 controllers/Applicant
 bin/cake acl deny Groups.2 controllers/Finance
+bin/cake acl grant Groups.2 controllers/Refids
 bin/cake acl grant Groups.2 controllers/Reports
 bin/cake acl grant Groups.2 controllers/CommitteeDates
 bin/cake acl grant Groups.2 controllers/Manager

@@ -5,6 +5,12 @@ use Cake\View\View;
 
 class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 {
+    /**
+     * Request instance.
+     *
+     * @var \Cake\Http\ServerRequest;
+     */
+    public $request;
 
     /**
      * Constructor. Overridden to merge passed args with URL options.
@@ -14,6 +20,12 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
      */
     public function __construct(View $View, array $config = [])
     {
+        if (method_exists($View, 'getRequest')) {
+            $this->request = $View->getRequest();
+        } else {
+            $this->request = $View->request;
+        }
+
         $this->_defaultConfig['templates'] = [
             'nextActive' => '<li class="next"><a rel="next" aria-label="Next" href="{{url}}">' .
                             '<span aria-hidden="true">{{text}}</span></a></li>',
@@ -74,14 +86,14 @@ class PaginatorHelper extends \Cake\View\Helper\PaginatorHelper
 
         if (isset($options['prev'])) {
             if ($options['prev'] === true) {
-                $options['prev'] = $this->config('labels.prev');
+                $options['prev'] = $this->getConfig('labels.prev');
             }
             $options['before'] .= $this->prev($options['prev'], ['escape' => false]);
         }
 
         if (isset($options['next'])) {
             if ($options['next'] === true) {
-                $options['next'] = $this->config('labels.next');
+                $options['next'] = $this->getConfig('labels.next');
             }
             $options['after'] = $this->next($options['next'], ['escape' => false]) . $options['after'];
         }

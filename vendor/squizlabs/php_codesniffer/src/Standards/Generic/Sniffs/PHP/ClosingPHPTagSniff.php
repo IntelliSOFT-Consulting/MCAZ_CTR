@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ClosingPHPTagSniff implements Sniff
 {
@@ -23,7 +23,10 @@ class ClosingPHPTagSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_TAG);
+        return [
+            T_OPEN_TAG,
+            T_OPEN_TAG_WITH_ECHO,
+        ];
 
     }//end register()
 

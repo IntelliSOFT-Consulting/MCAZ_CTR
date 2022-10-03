@@ -197,6 +197,9 @@ try {
 catch (Exception $e) {
     // Something
 }
+finally {
+    // Something
+}
 
 if ($foo) {
 
@@ -229,6 +232,16 @@ if (true) { echo 'foo';
     echo 'foo';
 }
 
+if ($true) {
+    echo 'hi 2';
+}//end if
+echo 'hi';
+
+if ($true) {
+    echo 'hi 2';
+} // phpcs:enable Standard.Category.Sniff -- for reasons.
+echo 'hi';
+
 ?>
 <?php foreach($formset['Fieldset'] as $fieldset): ?>
 
@@ -238,3 +251,19 @@ if (true) { echo 'foo';
     ?>
     <?php endforeach; ?>
 <?php endforeach; ?>
+
+<?php
+
+$expr = match( $foo ){
+
+    1 => 1,
+    2 => 2,
+
+};
+echo $expr;
+
+if($true) {
+
+    enum SomeEnum {}
+
+}

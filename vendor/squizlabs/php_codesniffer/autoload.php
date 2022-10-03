@@ -23,7 +23,7 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
         /**
          * The composer autoloader.
          *
-         * @var Composer\Autoload\ClassLoader
+         * @var \Composer\Autoload\ClassLoader
          */
         private static $composerAutoloader = null;
 
@@ -32,14 +32,14 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
          *
          * @var array<string, string>
          */
-        private static $loadedClasses = array();
+        private static $loadedClasses = [];
 
         /**
          * A mapping of class names to file names.
          *
          * @var array<string, string>
          */
-        private static $loadedFiles = array();
+        private static $loadedFiles = [];
 
         /**
          * A list of additional directories to search during autoloading.
@@ -48,7 +48,7 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
          *
          * @var string[]
          */
-        private static $searchPaths = array();
+        private static $searchPaths = [];
 
 
         /**
@@ -74,7 +74,7 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
                 }
 
                 if (strpos(__DIR__, 'phar://') !== 0
-                    && file_exists(__DIR__.'/../../autoload.php') === true
+                    && @file_exists(__DIR__.'/../../autoload.php') === true
                 ) {
                     self::$composerAutoloader = include __DIR__.'/../../autoload.php';
                     if (self::$composerAutoloader instanceof \Composer\Autoload\ClassLoader) {
@@ -160,14 +160,58 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
                 return self::$loadedClasses[$path];
             }
 
-            $classes    = get_declared_classes();
-            $interfaces = get_declared_interfaces();
-            $traits     = get_declared_traits();
+            $classesBeforeLoad = [
+                'classes'    => get_declared_classes(),
+                'interfaces' => get_declared_interfaces(),
+                'traits'     => get_declared_traits(),
+            ];
 
             include $path;
 
-            $className  = null;
-            $newClasses = array_reverse(array_diff(get_declared_classes(), $classes));
+            $classesAfterLoad = [
+                'classes'    => get_declared_classes(),
+                'interfaces' => get_declared_interfaces(),
+                'traits'     => get_declared_traits(),
+            ];
+
+            $className = self::determineLoadedClass($classesBeforeLoad, $classesAfterLoad);
+
+            self::$loadedClasses[$path]    = $className;
+            self::$loadedFiles[$className] = $path;
+            return self::$loadedClasses[$path];
+
+        }//end loadFile()
+
+
+        /**
+         * Determine which class was loaded based on the before and after lists of loaded classes.
+         *
+         * @param array $classesBeforeLoad The classes/interfaces/traits before the file was included.
+         * @param array $classesAfterLoad  The classes/interfaces/traits after the file was included.
+         *
+         * @return string The fully qualified name of the class in the loaded file.
+         */
+        public static function determineLoadedClass($classesBeforeLoad, $classesAfterLoad)
+        {
+            $className = null;
+
+            $newClasses = array_diff($classesAfterLoad['classes'], $classesBeforeLoad['classes']);
+            if (PHP_VERSION_ID < 70400) {
+                $newClasses = array_reverse($newClasses);
+            }
+
+            // Since PHP 7.4 get_declared_classes() does not guarantee any order, making
+            // it impossible to use order to determine which is the parent an which is the child.
+            // Let's reduce the list of candidates by removing all the classes known to be "parents".
+            // That way, at the end, only the "main" class just included will remain.
+            $newClasses = array_reduce(
+                $newClasses,
+                function ($remaining, $current) {
+                    return array_diff($remaining, class_parents($current));
+                },
+                $newClasses
+            );
+
             foreach ($newClasses as $name) {
                 if (isset(self::$loadedFiles[$name]) === false) {
                     $className = $name;
@@ -176,7 +220,7 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
             }
 
             if ($className === null) {
-                $newClasses = array_reverse(array_diff(get_declared_interfaces(), $interfaces));
+                $newClasses = array_reverse(array_diff($classesAfterLoad['interfaces'], $classesBeforeLoad['interfaces']));
                 foreach ($newClasses as $name) {
                     if (isset(self::$loadedFiles[$name]) === false) {
                         $className = $name;
@@ -186,7 +230,7 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
             }
 
             if ($className === null) {
-                $newClasses = array_reverse(array_diff(get_declared_traits(), $traits));
+                $newClasses = array_reverse(array_diff($classesAfterLoad['traits'], $classesBeforeLoad['traits']));
                 foreach ($newClasses as $name) {
                     if (isset(self::$loadedFiles[$name]) === false) {
                         $className = $name;
@@ -195,11 +239,9 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
                 }
             }
 
-            self::$loadedClasses[$path]    = $className;
-            self::$loadedFiles[$className] = $path;
-            return self::$loadedClasses[$path];
+            return $className;
 
-        }//end loadFile()
+        }//end determineLoadedClass()
 
 
         /**
@@ -215,6 +257,18 @@ if (class_exists('PHP_CodeSniffer\Autoload', false) === false) {
             self::$searchPaths[$path] = rtrim(trim((string) $nsPrefix), '\\');
 
         }//end addSearchPath()
+
+
+        /**
+         * Retrieve the namespaces and paths registered by external standards.
+         *
+         * @return array
+         */
+        public static function getSearchPaths()
+        {
+            return self::$searchPaths;
+
+        }//end getSearchPaths()
 
 
         /**

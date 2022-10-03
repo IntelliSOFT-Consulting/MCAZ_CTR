@@ -10,9 +10,6 @@
 namespace JsonSchema\Constraints;
 
 use JsonSchema\Entity\JsonPointer;
-use JsonSchema\SchemaStorage;
-use JsonSchema\Uri\UriRetriever;
-use JsonSchema\UriRetrieverInterface;
 
 /**
  * The Base Constraints, all Validators should extend this class
@@ -45,10 +42,15 @@ abstract class Constraint extends BaseConstraint implements ConstraintInterface
     protected function incrementPath(JsonPointer $path = null, $i)
     {
         $path = $path ?: new JsonPointer('');
+
+        if ($i === null || $i === '') {
+            return $path;
+        }
+
         $path = $path->withPropertyPaths(
             array_merge(
                 $path->getPropertyPaths(),
-                array_filter(array($i), 'strlen')
+                array($i)
             )
         );
 

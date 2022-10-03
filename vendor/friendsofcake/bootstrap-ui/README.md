@@ -7,6 +7,8 @@
 
 Transparently use [Bootstrap 3][twbs3] with [CakePHP 3][cakephp].
 
+For version info see [version map](https://github.com/FriendsOfCake/bootstrap-ui/wiki#version-map).
+
 ## Requirements
 
 * CakePHP 3.x
@@ -31,13 +33,7 @@ Transparently use [Bootstrap 3][twbs3] with [CakePHP 3][cakephp].
 composer require friendsofcake/bootstrap-ui
 ```
 
-Then load the plugin by adding the following to your app's `config/boostrap.php`:
-
-```php
-\Cake\Core\Plugin::load('BootstrapUI');
-```
-
-or using CakePHP's console:
+Then load the plugin by using CakePHP's console:
 
 ```
 ./bin/cake plugin load BootstrapUI
@@ -107,7 +103,7 @@ BootstrapUI comes with its own `layout.ctp` file and examples taken from the Boo
 When no layout for the view is defined the `BootstrapUI\View\UIViewTrait` will load its own `layout.ctp` file. You can
 override this behavior in two ways.
 
-- Assign a layout to the view with `$this->layout('layout')`.
+- Assign a layout to the view with `$this->setLayout('layout')`.
 - Disable auto loading of the layout in `BootstrapUI\View\UIViewTrait` with `$this->initializeUI(['layout' => false]);`.
 
 ### Loading the Bootstrap framework
@@ -142,20 +138,19 @@ Available types are:
 
 **NOTE: Remember to set the stylesheets in the layouts you copy.**
 
-## Installing Bootstrap via Bower
+## Installing Bootstrap via Composer
 
-A quick way of getting the Bootstrap assets installed is using [bower]. Assuming you are in `ROOT`:
+A quick way of getting the Bootstrap and jQuery assets installed is using composer. Assuming you are in `ROOT`:
 
 ```
-bower install bootstrap
+composer require twbs/bootstrap:3.3.7
+composer require components/jquery
 mkdir -p webroot/css/bootstrap webroot/js/bootstrap webroot/js/jquery webroot/css/fonts
-cp bower_components/bootstrap/dist/css/* webroot/css/bootstrap/.
-cp bower_components/bootstrap/dist/js/* webroot/js/bootstrap/.
-cp bower_components/jquery/dist/* webroot/js/jquery/.
-cp bower_components/bootstrap/dist/fonts/* webroot/css/fonts/.
-echo /bower_components >> .gitignore
+cp vendor/twbs/bootstrap/dist/css/* webroot/css/bootstrap/.
+cp vendor/twbs/bootstrap/dist/js/* webroot/js/bootstrap/.
+cp vendor/twbs/bootstrap/dist/fonts/* webroot/css/fonts/.
+cp vendor/components/jquery/jquery.js webroot/js/jquery/.
 git add .gitignore \
-bower.json \
 webroot/css/bootstrap \
 webroot/js/bootstrap \
 webroot/js/jquery

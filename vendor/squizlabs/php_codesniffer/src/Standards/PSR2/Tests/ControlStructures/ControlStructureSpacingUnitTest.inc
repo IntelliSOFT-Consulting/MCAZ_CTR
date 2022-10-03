@@ -36,12 +36,46 @@ if (
     $settingsUpdated = FALSE;
 }
 
-// @codingStandardsChangeSetting PSR2.ControlStructures.ControlStructureSpacing requiredSpacesAfterOpen 1
-// @codingStandardsChangeSetting PSR2.ControlStructures.ControlStructureSpacing requiredSpacesBeforeClose 1
+if ( // comment
+    $something
+) {
+}
+
+while ( /* comment */
+    true
+) {
+}
+
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesAfterOpen 1
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesBeforeClose 1
 foreach ($something as $blah => $that) {}
 foreach ( $something as $blah => $that ) {}
 foreach (  $something as $blah => $that  ) {}
-// @codingStandardsChangeSetting PSR2.ControlStructures.ControlStructureSpacing requiredSpacesAfterOpen 0
-// @codingStandardsChangeSetting PSR2.ControlStructures.ControlStructureSpacing requiredSpacesBeforeClose 0
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesAfterOpen 0
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesBeforeClose 0
 
 $binary = b"binary string";
+
+if ($expr1
+    && $expr2             ) {
+}
+
+if ($expr1
+    && $expr2     /* comment */   ) {
+}
+
+if ($expr1
+    && $expr2
+    /* comment */   ) {
+}
+
+$r = match ($x) {};
+$r = match ( $x ) {};
+
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesAfterOpen 1
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesBeforeClose 1
+$r = match ($x) {};
+$r = match ( $x ) {};
+$r = match (  $x  ) {};
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesAfterOpen 0
+// phpcs:set PSR2.ControlStructures.ControlStructureSpacing requiredSpacesBeforeClose 0

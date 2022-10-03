@@ -238,12 +238,11 @@ class Validation
     /**
      * Used to compare 2 numeric values.
      *
-     * @param string $check1 if string is passed for, a string must also be passed for $check2
-     *    used as an array it must be passed as ['check1' => value, 'operator' => 'value', 'check2' => value]
+     * @param string $check1 The left value to compare.
      * @param string $operator Can be either a word or operand
      *    is greater >, is less <, greater or equal >=
      *    less or equal <=, is less <, equal to ==, not equal !=
-     * @param int $check2 only needed if $check1 is a string
+     * @param int $check2 The right value to compare.
      * @return bool Success
      */
     public static function comparison($check1, $operator, $check2)
@@ -527,7 +526,7 @@ class Validation
      * The list of what is considered to be boolean values, may be set via $booleanValues.
      *
      * @param bool|int|string $check Value to check.
-     * @param string $booleanValues List of valid boolean values, defaults to `[true, false, 0, 1, '0', '1']`.
+     * @param array $booleanValues List of valid boolean values, defaults to `[true, false, 0, 1, '0', '1']`.
      * @return bool Success.
      */
     public static function boolean($check, array $booleanValues = [])
@@ -656,7 +655,7 @@ class Validation
                 return true;
             }
 
-            return is_array(gethostbynamel($regs[1]));
+            return is_array(gethostbynamel($regs[1] . '.'));
         }
 
         return false;
@@ -1232,7 +1231,7 @@ class Validation
         if (isset($options['width'])) {
             $validWidth = self::comparison($width, $options['width'][0], $options['width'][1]);
         }
-        if (isset($validHeight) && isset($validWidth)) {
+        if (isset($validHeight, $validWidth)) {
             return ($validHeight && $validWidth);
         }
         if (isset($validHeight)) {

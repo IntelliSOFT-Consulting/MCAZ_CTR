@@ -48,13 +48,25 @@ use Cake\Core\Configure;
  * Turn off when using CSS
  */
 Configure::write('AclManager.uglyIdent', true);
-				
+
+/**
+ * Hide denied on ACL list
+ * Format: boolean ( true/false)
+ */
+if(!Configure::check('AclManager.hideDenied')) {
+    Configure::write('AclManager.hideDenied', true);
+}
+
 /**
  * Actions to ignore when looking for new ACOs
  * Format: 'action', 'Controller/action' or 'Plugin.Controller/action'
  */
 if(!Configure::check('AclManager.ignoreActions')) {
-    Configure::write('AclManager.ignoreActions', array('isAuthorized'));
+    Configure::write('AclManager.ignoreActions', array(
+        'isAuthorized',
+        'Acl.*',
+        'Error/*'
+    ));
 }
 
 /**
@@ -70,7 +82,7 @@ if(!Configure::check('AclManager.ignoreActions')) {
 /**
  * AclManager settings
  */
-Configure::write("AclManager.version", "1.0b");
+Configure::write("AclManager.version", "1.3");
 if (!is_array(Configure::read('AclManager.aros'))) {
 	Configure::write('AclManager.aros', array(Configure::read('AclManager.aros')));
 }

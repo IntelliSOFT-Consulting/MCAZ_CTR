@@ -18,7 +18,7 @@ You can install a cronjob to hourly trigger the cleanup shell command:
 ```
 bin/cake database_log cleanup
 ```
-See the [CakePHP Cronjob docs](http://book.cakephp.org/3.0/en/console-and-shells/cron-jobs.html) for details.
+See the [CakePHP Cronjob docs](https://book.cakephp.org/3.0/en/console-and-shells/cron-jobs.html) for details.
 
 It will combine the log entries of the same content (and increase the count), and on top
 also clean out old records, either by date or by total record count.
@@ -76,6 +76,23 @@ They are on purpose `.txt` as they are not typical log files, the order is rever
 bin/cake database_log reset
 ```
 will truncate your logs table and you have a fully resetted setup.
+
+## Save Callback
+You can add additional infos into the stacktrace via custom `saveCallback` callable:
+```php
+// in your app.php config
+	'DatabaseLog' => [
+		'saveCallback' => function (\DatabaseLog\Model\Entity\DatabaseLog $databaseLog) {
+			if (empty($_SESSION) || empty($_SESSION['language'])) {
+				return;
+			}
+			$currentSessionLanguage = $_SESSION['language'];
+
+			$databaseLog->message .= PHP_EOL . 'Language: ' . $currentSessionLanguage;
+		},
+	],
+```
+This will run after all the internal processing of the entity has been done, prior to actually saving the log.
 
 ## Monitor
 You can run a very basic cronjob based monitoring on your log files, alerting you via eMail, SMS or alike if any critical issues arise.

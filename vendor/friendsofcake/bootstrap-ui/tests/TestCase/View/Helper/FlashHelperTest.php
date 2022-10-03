@@ -2,10 +2,11 @@
 
 namespace BootstrapUI\Test\TestCase\View\Helper;
 
+use BootstrapUI\TestSuite\TestCase;
 use BootstrapUI\View\Helper\FlashHelper;
-use Cake\Network\Request;
+use Cake\Core\Plugin;
+use Cake\Http\ServerRequest;
 use Cake\Network\Session;
-use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
 /**
@@ -15,14 +16,19 @@ use Cake\View\View;
 class FlashHelperTest extends TestCase
 {
     /**
-     * @var View
+     * @var \Cake\View\View
      */
-    public $View;
+    protected $View;
 
     /**
      * @var FlashHelper
      */
-    public $Flash;
+    protected $Flash;
+
+    /**
+     * @var Session
+     */
+    protected $session;
 
     /**
      * setUp method
@@ -32,44 +38,48 @@ class FlashHelperTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->View = new View();
-        $session = new Session();
-        $this->View->request = new Request(['session' => $session]);
-        $this->Flash = new FlashHelper($this->View);
 
-        $session->write([
+        $this->deprecated(function () {
+            Plugin::load('BootstrapUI', ['path' => ROOT . DS]);
+            $this->session = new Session();
+        });
+
+        $this->View = new View(new ServerRequest(['session' => $this->session]));
+        $this->Flash = new FlashHelper($this->View, []);
+
+        $this->session->write([
             'Flash' => [
                 'flash' => [
                     'key' => 'flash',
                     'message' => 'This is a calling',
                     'element' => 'Flash/default',
-                    'params' => []
+                    'params' => [],
                 ],
                 'error' => [
                     'key' => 'error',
                     'message' => 'This is error',
                     'element' => 'Flash/error',
-                    'params' => []
+                    'params' => [],
                 ],
                 'custom1' => [
                     'key' => 'custom1',
                     'message' => 'This is custom1',
                     'element' => 'Flash/warning',
-                    'params' => []
+                    'params' => [],
                 ],
                 'custom2' => [
                     'key' => 'custom2',
                     'message' => 'This is custom2',
                     'element' => 'Flash/default',
-                    'params' => ['class' => 'foobar']
+                    'params' => ['class' => 'foobar'],
                 ],
                 'custom3' => [
                     'key' => 'custom3',
                     'message' => 'This is <a href="#">custom3</a>',
                     'element' => 'Flash/default',
-                    'params' => ['escape' => false]
+                    'params' => ['escape' => false],
                 ],
-            ]
+            ],
         ]);
     }
 
@@ -122,20 +132,20 @@ class FlashHelperTest extends TestCase
      */
     public function testRenderForMultipleMessages()
     {
-        $this->View->request->session()->write([
+        $this->session->write([
             'Flash' => [
                 'flash' => [
                     [
                         'key' => 'flash',
                         'message' => 'This is a calling',
                         'element' => 'Flash/default',
-                        'params' => []
+                        'params' => [],
                     ],
                     [
                         'key' => 'flash',
                         'message' => 'This is a second message',
                         'element' => 'Flash/default',
-                        'params' => ['class' => ['extra']]
+                        'params' => ['class' => ['extra']],
                     ],
                 ],
                 'error' => [
@@ -143,10 +153,10 @@ class FlashHelperTest extends TestCase
                         'key' => 'error',
                         'message' => 'This is error',
                         'element' => 'Flash/error',
-                        'params' => []
-                    ]
-                ]
-            ]
+                        'params' => [],
+                    ],
+                ],
+            ],
         ]);
 
         $result = $this->Flash->render();

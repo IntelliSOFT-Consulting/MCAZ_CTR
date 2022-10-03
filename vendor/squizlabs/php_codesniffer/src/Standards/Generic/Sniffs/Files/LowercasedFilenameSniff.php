@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\Files;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class LowercasedFilenameSniff implements Sniff
 {
@@ -23,7 +23,10 @@ class LowercasedFilenameSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OPEN_TAG);
+        return [
+            T_OPEN_TAG,
+            T_OPEN_TAG_WITH_ECHO,
+        ];
 
     }//end register()
 
@@ -47,10 +50,10 @@ class LowercasedFilenameSniff implements Sniff
         $filename          = basename($filename);
         $lowercaseFilename = strtolower($filename);
         if ($filename !== $lowercaseFilename) {
-            $data  = array(
-                      $filename,
-                      $lowercaseFilename,
-                     );
+            $data  = [
+                $filename,
+                $lowercaseFilename,
+            ];
             $error = 'Filename "%s" doesn\'t match the expected filename "%s"';
             $phpcsFile->addError($error, $stackPtr, 'NotFound', $data);
             $phpcsFile->recordMetric($stackPtr, 'Lowercase filename', 'no');

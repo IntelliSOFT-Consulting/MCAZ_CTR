@@ -666,7 +666,7 @@ class Baz {
  * Test
  *
  * @return void
- * @throws E 
+ * @throws E
  */
 function myFunction() {}
 
@@ -970,3 +970,79 @@ class TestReturnVoid
         };
     }
 }
+
+/**
+ * Comment here.
+ *
+ * @param integer $a This is A.
+ * @param ?array  $b This is B.
+ *
+ * @return void
+ */
+public static function foo(?int $a, ?array $b) {}
+
+/**
+ * Comment here.
+ *
+ * @param object $a This is A.
+ * @param object $b This is B.
+ *
+ * @return void
+ */
+public function foo(object $a, ?object $b) {}
+
+/**
+ * Prepares given PHP class method for later code building.
+ *
+ * @param integer           $foo Comment.
+ *  - Additional comment.
+ *
+ * @return void
+ */
+function foo($foo) {}
+
+/**
+ * {@inheritDoc}
+ */
+public function foo($a, $b) {}
+
+// phpcs:set Squiz.Commenting.FunctionComment skipIfInheritdoc true
+
+/**
+ * {@inheritDoc}
+ */
+public function foo($a, $b) {}
+
+/**
+ * Foo.
+ *
+ * @param mixed $a Comment.
+ *
+ * @return mixed
+ */
+public function foo(mixed $a): mixed {}
+
+// phpcs:set Squiz.Commenting.FunctionComment specialMethods[]
+class Bar {
+    /**
+     * The PHP5 constructor
+     */
+    public function __construct() {
+
+    }
+}
+
+// phpcs:set Squiz.Commenting.FunctionComment specialMethods[] ignored
+/**
+ * Should be ok
+ */
+public function ignored() {
+
+}
+
+// phpcs:set Squiz.Commenting.FunctionComment specialMethods[] __construct,__destruct
+
+/** 
+ * @return void
+ * @throws Exception If any other error occurs. */
+function throwCommentOneLine() {}

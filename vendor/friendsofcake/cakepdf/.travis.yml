@@ -1,11 +1,10 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 env:
   global:
@@ -18,20 +17,32 @@ matrix:
     - php: 7.0
       env: PHPCS=1 DEFAULT=0
 
+    - php: 7.1
+      env: PHPSTAN=1 DEFAULT=0
+
+    - php: 5.6
+      env: PREFER_LOWEST=1
+
 before_script:
   - if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then phpenv config-rm xdebug.ini; fi
 
   - sudo apt-get install wkhtmltopdf -y
   - sudo touch /usr/bin/latexpdf && sudo chmod +x /usr/bin/latexpdf
 
-  - composer install --no-interaction
+  - if [[ $PREFER_LOWEST != 1 ]]; then composer update --no-interaction ; fi
+  - if [[ $PREFER_LOWEST == 1 ]]; then composer update --no-interaction --prefer-lowest --prefer-stable; fi
 
-  - if [[ $PHPCS = 1 ]]; then composer require cakephp/cakephp-codesniffer:~2.0; fi
+  - if [[ $PHPCS = 1 ]]; then composer require cakephp/cakephp-codesniffer:^3.0; fi
+
+  - if [[ $PHPSTAN = 1 ]]; then composer require --dev phpstan/phpstan:^0.9; fi
 
 script:
   - if [[ $DEFAULT = 1 && $TRAVIS_PHP_VERSION != 7.0 ]]; then vendor/bin/phpunit; fi
   - if [[ $DEFAULT = 1 && $TRAVIS_PHP_VERSION = 7.0 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml; fi
+
   - if [[ $PHPCS = 1 ]]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests ./config; fi
+
+  - if [[ $PHPSTAN = 1 ]]; then vendor/bin/phpstan analyze -l 3 -a tests/bootstrap.php src/; fi
 
 after_success:
   - if [[ $DEFAULT = 1 && $TRAVIS_PHP_VERSION = 7.0 ]]; then bash <(curl -s https://codecov.io/bash); fi

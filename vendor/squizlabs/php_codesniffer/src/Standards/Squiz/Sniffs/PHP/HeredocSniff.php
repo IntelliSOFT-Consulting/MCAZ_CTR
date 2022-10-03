@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class HeredocSniff implements Sniff
 {
@@ -23,10 +23,10 @@ class HeredocSniff implements Sniff
      */
     public function register()
     {
-        return array(
-                T_START_HEREDOC,
-                T_START_NOWDOC,
-               );
+        return [
+            T_START_HEREDOC,
+            T_START_NOWDOC,
+        ];
 
     }//end register()
 

@@ -1,12 +1,12 @@
 composer/spdx-licenses
 ======================
 
-SPDX licenses list and validation library.
+SPDX (Software Package Data Exchange) licenses list and validation library.
 
 Originally written as part of [composer/composer](https://github.com/composer/composer),
 now extracted and made available as a stand-alone library.
 
-[![Build Status](https://travis-ci.org/composer/spdx-licenses.svg?branch=master)](https://travis-ci.org/composer/spdx-licenses)
+[![Continuous Integration](https://github.com/composer/spdx-licenses/workflows/Continuous%20Integration/badge.svg?branch=main)](https://github.com/composer/spdx-licenses/actions)
 
 Installation
 ------------
@@ -39,11 +39,14 @@ $licenses->getIdentifierByName('MIT License');
 // check if a license is OSI approved by identifier
 $licenses->isOsiApprovedByIdentifier('MIT');
 
+// check if a license identifier is deprecated
+$licenses->isDeprecatedByIdentifier('MIT');
+
 // check if input is a valid SPDX license expression
 $licenses->validate($input);
 ```
 
-> Read the [specifications](https://spdx.org/SPDX-specifications/spdx-version-2.0)
+> Read the [specifications](https://spdx.org/specifications)
 > to find out more about valid license expressions.
 
 Requirements
@@ -59,7 +62,8 @@ composer/spdx-licenses is licensed under the MIT License, see the LICENSE file f
 Source
 ------
 
-License information taken from [spdx.org](https://spdx.org/).
+License information is curated by [SPDX](https://spdx.org/). The data is pulled from the
+[License List Data](https://github.com/spdx/license-list-data) repository.
 
 * [Licenses](https://spdx.org/licenses/index.html)
 * [License Exceptions](https://spdx.org/licenses/exceptions-index.html)

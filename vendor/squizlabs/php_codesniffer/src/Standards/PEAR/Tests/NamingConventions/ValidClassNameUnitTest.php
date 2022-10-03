@@ -25,26 +25,32 @@ class ValidClassNameUnitTest extends AbstractSniffUnitTest
      */
     public function getErrorList()
     {
-        return array(
-                5  => 1,
-                7  => 2,
-                9  => 1,
-                19 => 1,
-                24 => 1,
-                26 => 2,
-                28 => 1,
-                38 => 1,
-                40 => 2,
-                42 => 2,
-                44 => 1,
-                46 => 1,
-                50 => 1,
-                52 => 2,
-                54 => 1,
-                64 => 1,
-                66 => 2,
-                68 => 1,
-               );
+        return [
+            5  => 1,
+            7  => 2,
+            9  => 1,
+            19 => 1,
+            24 => 1,
+            26 => 2,
+            28 => 1,
+            38 => 1,
+            40 => 2,
+            42 => 2,
+            44 => 1,
+            46 => 1,
+            50 => 1,
+            52 => 2,
+            54 => 1,
+            64 => 1,
+            66 => 2,
+            68 => 1,
+            72 => 1,
+            74 => 2,
+            76 => 1,
+            86 => 1,
+            88 => 2,
+            90 => 1,
+        ];
 
     }//end getErrorList()
 
@@ -59,7 +65,7 @@ class ValidClassNameUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 

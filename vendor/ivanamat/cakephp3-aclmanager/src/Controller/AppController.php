@@ -32,7 +32,7 @@ class AppController extends BaseController {
      */
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        $this->viewBuilder()->setLayout('admin');        
+        
     }
 
 }

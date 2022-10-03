@@ -25,9 +25,6 @@ class ExprBuilder
     public $ifPart;
     public $thenPart;
 
-    /**
-     * @param NodeDefinition $node The related node
-     */
     public function __construct(NodeDefinition $node)
     {
         $this->node = $node;
@@ -35,8 +32,6 @@ class ExprBuilder
 
     /**
      * Marks the expression as being always used.
-     *
-     * @param \Closure $then
      *
      * @return $this
      */
@@ -55,8 +50,6 @@ class ExprBuilder
      * Sets a closure to use as tests.
      *
      * The default one tests if the value is true.
-     *
-     * @param \Closure $closure
      *
      * @return $this
      */
@@ -78,7 +71,7 @@ class ExprBuilder
      */
     public function ifString()
     {
-        $this->ifPart = function ($v) { return is_string($v); };
+        $this->ifPart = function ($v) { return \is_string($v); };
 
         return $this;
     }
@@ -114,7 +107,7 @@ class ExprBuilder
      */
     public function ifArray()
     {
-        $this->ifPart = function ($v) { return is_array($v); };
+        $this->ifPart = function ($v) { return \is_array($v); };
 
         return $this;
     }
@@ -122,13 +115,11 @@ class ExprBuilder
     /**
      * Tests if the value is in an array.
      *
-     * @param array $array
-     *
      * @return $this
      */
     public function ifInArray(array $array)
     {
-        $this->ifPart = function ($v) use ($array) { return in_array($v, $array, true); };
+        $this->ifPart = function ($v) use ($array) { return \in_array($v, $array, true); };
 
         return $this;
     }
@@ -136,13 +127,11 @@ class ExprBuilder
     /**
      * Tests if the value is not in an array.
      *
-     * @param array $array
-     *
      * @return $this
      */
     public function ifNotInArray(array $array)
     {
-        $this->ifPart = function ($v) use ($array) { return !in_array($v, $array, true); };
+        $this->ifPart = function ($v) use ($array) { return !\in_array($v, $array, true); };
 
         return $this;
     }
@@ -154,16 +143,14 @@ class ExprBuilder
      */
     public function castToArray()
     {
-        $this->ifPart = function ($v) { return !is_array($v); };
-        $this->thenPart = function ($v) { return array($v); };
+        $this->ifPart = function ($v) { return !\is_array($v); };
+        $this->thenPart = function ($v) { return [$v]; };
 
         return $this;
     }
 
     /**
      * Sets the closure to run if the test pass.
-     *
-     * @param \Closure $closure
      *
      * @return $this
      */
@@ -181,13 +168,13 @@ class ExprBuilder
      */
     public function thenEmptyArray()
     {
-        $this->thenPart = function ($v) { return array(); };
+        $this->thenPart = function ($v) { return []; };
 
         return $this;
     }
 
     /**
-     * Sets a closure marking the value as invalid at validation time.
+     * Sets a closure marking the value as invalid at processing time.
      *
      * if you want to add the value of the node in your message just use a %s placeholder.
      *
@@ -199,13 +186,13 @@ class ExprBuilder
      */
     public function thenInvalid($message)
     {
-        $this->thenPart = function ($v) use ($message) {throw new \InvalidArgumentException(sprintf($message, json_encode($v))); };
+        $this->thenPart = function ($v) use ($message) { throw new \InvalidArgumentException(sprintf($message, json_encode($v))); };
 
         return $this;
     }
 
     /**
-     * Sets a closure unsetting this key of the array at validation time.
+     * Sets a closure unsetting this key of the array at processing time.
      *
      * @return $this
      *
@@ -213,7 +200,7 @@ class ExprBuilder
      */
     public function thenUnset()
     {
-        $this->thenPart = function ($v) { throw new UnsetKeyException('Unsetting key'); };
+        $this->thenPart = function ($v) { throw new UnsetKeyException('Unsetting key.'); };
 
         return $this;
     }

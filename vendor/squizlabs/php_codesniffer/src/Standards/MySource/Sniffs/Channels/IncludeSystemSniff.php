@@ -21,32 +21,32 @@ class IncludeSystemSniff extends AbstractScopeSniff
      *
      * @var string[]
      */
-    private $ignore = array(
-                       'self'                      => true,
-                       'static'                    => true,
-                       'parent'                    => true,
-                       'channels'                  => true,
-                       'basesystem'                => true,
-                       'dal'                       => true,
-                       'init'                      => true,
-                       'pdo'                       => true,
-                       'util'                      => true,
-                       'ziparchive'                => true,
-                       'phpunit_framework_assert'  => true,
-                       'abstractmysourceunittest'  => true,
-                       'abstractdatacleanunittest' => true,
-                       'exception'                 => true,
-                       'abstractwidgetwidgettype'  => true,
-                       'domdocument'               => true,
-                      );
+    private $ignore = [
+        'self'                      => true,
+        'static'                    => true,
+        'parent'                    => true,
+        'channels'                  => true,
+        'basesystem'                => true,
+        'dal'                       => true,
+        'init'                      => true,
+        'pdo'                       => true,
+        'util'                      => true,
+        'ziparchive'                => true,
+        'phpunit_framework_assert'  => true,
+        'abstractmysourceunittest'  => true,
+        'abstractdatacleanunittest' => true,
+        'exception'                 => true,
+        'abstractwidgetwidgettype'  => true,
+        'domdocument'               => true,
+    ];
 
 
     /**
-     * Constructs a Squiz_Sniffs_Scope_MethodScopeSniff.
+     * Constructs an AbstractScopeSniff.
      */
     public function __construct()
     {
-        parent::__construct(array(T_FUNCTION), array(T_DOUBLE_COLON, T_EXTENDS), true);
+        parent::__construct([T_FUNCTION], [T_DOUBLE_COLON, T_EXTENDS], true);
 
     }//end __construct()
 
@@ -84,10 +84,10 @@ class IncludeSystemSniff extends AbstractScopeSniff
             return;
         }
 
-        $includedClasses = array();
+        $includedClasses = [];
 
         $fileName = strtolower($phpcsFile->getFilename());
-        $matches  = array();
+        $matches  = [];
         if (preg_match('|/systems/(.*)/([^/]+)?actions.inc$|', $fileName, $matches) !== 0) {
             // This is an actions file, which means we don't
             // have to include the system in which it exists.
@@ -185,7 +185,7 @@ class IncludeSystemSniff extends AbstractScopeSniff
 
         if (isset($includedClasses[strtolower($className)]) === false) {
             $error = 'Static method called on non-included class or system "%s"; include system with Channels::includeSystem() or include class with require_once';
-            $data  = array($className);
+            $data  = [$className];
             $phpcsFile->addError($error, $stackPtr, 'NotIncludedCall', $data);
         }
 
@@ -226,10 +226,10 @@ class IncludeSystemSniff extends AbstractScopeSniff
             return;
         }
 
-        $includedClasses = array();
+        $includedClasses = [];
 
         $fileName = strtolower($phpcsFile->getFilename());
-        $matches  = array();
+        $matches  = [];
         if (preg_match('|/systems/([^/]+)/([^/]+)?actions.inc$|', $fileName, $matches) !== 0) {
             // This is an actions file, which means we don't
             // have to include the system in which it exists
@@ -242,7 +242,7 @@ class IncludeSystemSniff extends AbstractScopeSniff
         for ($i = 0; $i < $stackPtr; $i++) {
             // Skip classes and functions as will we never get
             // into their scopes when including this file, although
-            // we have a chance of getting into IF's, WHILE's etc.
+            // we have a chance of getting into IF, WHILE etc.
             if (($tokens[$i]['code'] === T_CLASS
                 || $tokens[$i]['code'] === T_INTERFACE
                 || $tokens[$i]['code'] === T_FUNCTION)
@@ -266,11 +266,11 @@ class IncludeSystemSniff extends AbstractScopeSniff
         if (isset($includedClasses[strtolower($className)]) === false) {
             if ($tokens[$stackPtr]['code'] === T_EXTENDS) {
                 $error = 'Class extends non-included class or system "%s"; include system with Channels::includeSystem() or include class with require_once';
-                $data  = array($className);
+                $data  = [$className];
                 $phpcsFile->addError($error, $stackPtr, 'NotIncludedExtends', $data);
             } else {
                 $error = 'Static method called on non-included class or system "%s"; include system with Channels::includeSystem() or include class with require_once';
-                $data  = array($className);
+                $data  = [$className];
                 $phpcsFile->addError($error, $stackPtr, 'NotIncludedCall', $data);
             }
         }

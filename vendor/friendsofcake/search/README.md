@@ -9,7 +9,7 @@ Search provides a simple interface to create paginate-able filters for your Cake
 
 ## Requirements
 
-* CakePHP 3.4.0 or greater. For older versions of CakePHP use 3.x releases of
+* CakePHP 3.5.0 or greater. For older versions of CakePHP use 3.x releases of
 the plugin.
 
 ## Installation
@@ -32,6 +32,20 @@ or adding following to your `config/bootstrap.php`
 ```php
 Plugin::load('Search');
 ```
+
+## Contents
+* [Usage](#usage)
+ * [Table behaviour configuration](#table-class)
+ * [Controller method configuration](#controller-class)
+ * [Component](#component)
+* [Filtering your data](#filtering-your-data)
+* [Filter types](#filters)
+* [Filter scopes](#filter-collections)
+* [Optional filters](#optional-fields)
+* [Allowing empty filters](#empty-fields)
+* [Persisting the query string](#persisting-the-query-string)
+* [Blacklist query string](#blacklist-query-string)
+
 
 ## Usage
 
@@ -148,7 +162,7 @@ public function index()
     $query = $this->Articles
         // Use the plugins 'search' custom finder and pass in the
         // processed query params
-        ->find('search', ['search' => $this->request->query])
+        ->find('search', ['search' => $this->request->getQueryParams()])
         // You can add extra things to the query if you need to
         ->contain(['Comments'])
         ->where(['title IS NOT' => null]);
@@ -182,6 +196,36 @@ public function initialize()
 The `Search.Prg` component will allow your filtering forms to be populated using
 the data in the query params. It uses the [Post, redirect, get pattern](https://en.wikipedia.org/wiki/Post/Redirect/Get).
 
+### Custom repository
+
+It is also possible to use the search plugin on custom repositories which
+implement `Cake\Datasource\RepositoryInterface` like endpoint classes used
+in the Webservice plugin.
+
+```php
+<?php
+
+namespace App\Model\Endpoint;
+
+use Muffin\Webservice\Model\Endpoint;
+use Search\Model\SearchTrait;
+
+class ProductsEndpoint extends Endpoint
+{
+    use SearchTrait;
+
+    public function initialize()
+    {
+        $this->searchManager()
+            ->value('category_id');
+    }
+}
+
+```
+
+After including the trait you can use the searchManager by calling the
+`searchManager()` method from your `initialize()` method.
+
 ## Filtering your data
 Once you have completed all the setup you can now filter your data by passing
 query params in your index method. Using the `Article` example given above, you
@@ -201,9 +245,9 @@ your data.
 ```php
     echo $this->Form->create(null, ['valueSources' => 'query']);
     // You'll need to populate $authors in the template from your controller
-    echo $this->Form->input('author_id');
+    echo $this->Form->control('author_id');
     // Match the search param in your table configuration
-    echo $this->Form->input('q');
+    echo $this->Form->control('q');
     echo $this->Form->button('Filter', ['type' => 'submit']);
     echo $this->Html->link('Reset', ['action' => 'index']);
     echo $this->Form->end();
@@ -293,15 +337,20 @@ The following options are supported by all filters except `Callback` and `Finder
   multiple values. If disabled, and multiple values are being passed, the filter
   will fall back to using the default value defined by the `defaultValue` option.
 
+- `multiValueSeparator` (`string`, defaults to `null`) Defines whether the filter should
+  auto-tokenize multiple values using a specific separator string. If disabled, the data
+  must be an in form of an array.
+
 - `field` (`string|array`), defaults to the name passed to the first argument of the
   add filter method) The name of the field to use for searching. Works like the base
   `field` option but also accepts multiple field names as an array. When defining
   multiple fields, the search term is going to be looked up in all the given fields,
   using the conditional operator defined by the `fieldMode` option.
 
-- `colType` (`array`), Use to set a custom type for any column that needs to be treated as
+- `colType` (`array`), An associative array, use to set a custom type for any column that needs to be treated as
   string column despite its actual type. This is important for integer fields, for example, if they
-  are part of the fields to be searched.
+  are part of the fields to be searched. Usage example:
+   `'colType' => ['id' => 'string']`
 
 - `before` (`bool`, defaults to `false`) Whether to automatically add a wildcard
   *before* the search term.
@@ -344,6 +393,10 @@ The following options are supported by all filters except `Callback` and `Finder
 - `multiValue` (`bool`, defaults to `false`) Defines whether the filter accepts
   multiple values. If disabled, and multiple values are being passed, the filter
   will fall back to using the default value defined by the `defaultValue` option.
+  
+- `multiValueSeparator` (`string`, defaults to `null`) Defines whether the filter should
+  auto-tokenize multiple values using a specific separator string. If disabled, the data
+  must be an in form of an array.  
 
 - `mode` (`string`, defaults to `OR`) The conditional mode to use when matching
   against multiple fields. Valid values are `OR` and `AND`.
@@ -351,7 +404,7 @@ The following options are supported by all filters except `Callback` and `Finder
 #### `Finder`
 
 - `finder` (`string`) The [find type](https://book.cakephp.org/3.0/en/orm/retrieving-data-and-resultsets.html#custom-finder-methods) to use.
-  Use the `map` config array if you need to map your field to a finder key (`'to_field' => 'from_field'`).
+  Use the `map` config array if you need to map your field to a finder key (`'to_field' => 'from_field'`). Use `options` config to pass additional config.
 
 ## Filter collections
 

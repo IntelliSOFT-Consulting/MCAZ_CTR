@@ -25,12 +25,13 @@ class ConstructorNameUnitTest extends AbstractSniffUnitTest
      */
     public function getErrorList()
     {
-        return array(
-                6  => 1,
-                11 => 1,
-                47 => 1,
-                62 => 1,
-               );
+        return [
+            6  => 1,
+            11 => 1,
+            47 => 1,
+            62 => 1,
+            91 => 1,
+        ];
 
     }//end getErrorList()
 
@@ -45,7 +46,7 @@ class ConstructorNameUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 

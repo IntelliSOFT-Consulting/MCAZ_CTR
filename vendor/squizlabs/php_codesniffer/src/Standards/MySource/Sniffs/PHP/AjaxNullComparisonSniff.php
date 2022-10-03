@@ -26,7 +26,7 @@ class AjaxNullComparisonSniff implements Sniff
      */
     public function register()
     {
-        return array(T_FUNCTION);
+        return [T_FUNCTION];
 
     }//end register()
 
@@ -47,14 +47,19 @@ class AjaxNullComparisonSniff implements Sniff
         // Make sure it is an API function. We know this by the doc comment.
         $commentEnd   = $phpcsFile->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $stackPtr);
         $commentStart = $phpcsFile->findPrevious(T_DOC_COMMENT_OPEN_TAG, ($commentEnd - 1));
-        $comment      = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart));
+        // If function doesn't contain any doc comments - skip it.
+        if ($commentEnd === false || $commentStart === false) {
+            return;
+        }
+
+        $comment = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart));
         if (strpos($comment, '* @api') === false) {
             return;
         }
 
         // Find all the vars passed in as we are only interested in comparisons
         // to NULL for these specific variables.
-        $foundVars = array();
+        $foundVars = [];
         $open      = $tokens[$stackPtr]['parenthesis_opener'];
         $close     = $tokens[$stackPtr]['parenthesis_closer'];
         for ($i = ($open + 1); $i < $close; $i++) {

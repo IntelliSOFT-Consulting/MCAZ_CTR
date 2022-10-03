@@ -7,6 +7,7 @@ use Cake\I18n\Time;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Exception;
+use InvalidArgumentException;
 use Queue\Model\Entity\QueuedJob;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -29,8 +30,13 @@ if (!defined('SIGTERM')) {
  * @method \Queue\Model\Entity\QueuedJob[] patchEntities($entities, array $data, array $options = [])
  * @method \Queue\Model\Entity\QueuedJob findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \Queue\Model\Entity\QueuedJob|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class QueuedJobsTable extends Table {
+
+	const DRIVER_MYSQL = 'Mysql';
+	const DRIVER_POSTGRES = 'Postgres';
+	const DRIVER_SQLSERVER = 'Sqlserver';
 
 	/**
 	 * @var array
@@ -48,6 +54,20 @@ class QueuedJobsTable extends Table {
 	 * @var string|null
 	 */
 	protected $_key = null;
+
+	/**
+	 * set connection name
+	 *
+	 * @return string
+	 */
+	public static function defaultConnectionName() {
+		$connection = Configure::read('Queue.connection');
+		if (!empty($connection)) {
+			return $connection;
+		};
+
+		return parent::defaultConnectionName();
+	}
 
 	/**
 	 * initialize Table
@@ -98,16 +118,29 @@ class QueuedJobsTable extends Table {
 	public function createJob($jobName, array $data = null, array $config = []) {
 		$queuedJob = [
 			'job_type' => $jobName,
-			'data' => is_array($data) ? json_encode($data) : null,
+			'data' => is_array($data) ? serialize($data) : null,
 			'job_group' => !empty($config['group']) ? $config['group'] : null,
 			'notbefore' => !empty($config['notBefore']) ? new Time($config['notBefore']) : null,
 		] + $config;
 
 		$queuedJob = $this->newEntity($queuedJob);
-		if ($queuedJob->errors()) {
+		if ($queuedJob->getErrors()) {
 			throw new Exception('Invalid entity data');
 		}
 		return $this->save($queuedJob);
+	}
+
+	/**
+	 * @param string $reference
+	 *
+	 * @return bool
+	 */
+	public function isQueued($reference) {
+		if (!$reference) {
+			throw new InvalidArgumentException('A reference is needed');
+		}
+
+		return (bool)$this->find()->where(['reference' => $reference, 'completed IS' => null])->select(['id'])->first();
 	}
 
 	/**
@@ -156,17 +189,28 @@ class QueuedJobsTable extends Table {
 	 * @return \Cake\ORM\Query
 	 */
 	public function getStats() {
+		$driverName = $this->_getDriverName();
 		$options = [
-			'fields' => function ($query) {
+			'fields' => function ($query) use ($driverName) {
+				$alltime = $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(created)');
+				$runtime = $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(fetched)');
+				$fetchdelay = $query->func()->avg('UNIX_TIMESTAMP(fetched) - IF(notbefore is NULL, UNIX_TIMESTAMP(created), UNIX_TIMESTAMP(notbefore))');
+				switch ($driverName) {
+					case static::DRIVER_SQLSERVER:
+						$alltime = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', completed) - DATEDIFF(s, '1970-01-01 00:00:00', created)");
+						$runtime = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', completed) - DATEDIFF(s, '1970-01-01 00:00:00', fetched)");
+						$fetchdelay = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', fetched) - (CASE WHEN notbefore IS NULL THEN DATEDIFF(s, '1970-01-01 00:00:00', created) ELSE DATEDIFF(s, '1970-01-01 00:00:00', notbefore) END)");
+						break;
+				}
 					/**
 						 * @var \Cake\ORM\Query
 						 */
 				return [
 					'job_type',
 					'num' => $query->func()->count('*'),
-					'alltime' => $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(created)'),
-					'runtime' => $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(fetched)'),
-					'fetchdelay' => $query->func()->avg('UNIX_TIMESTAMP(fetched) - IF(notbefore is NULL, UNIX_TIMESTAMP(created), UNIX_TIMESTAMP(notbefore))'),
+					'alltime' => $alltime,
+					'runtime' => $runtime,
+					'fetchdelay' => $fetchdelay,
 				];
 			},
 			'conditions' => [
@@ -190,15 +234,22 @@ class QueuedJobsTable extends Table {
 	public function requestJob(array $capabilities, $group = null) {
 		$now = new Time();
 		$nowStr = $now->toDateTimeString();
+		$driverName = $this->_getDriverName();
 
 		$query = $this->find();
+		$age = $query->newExpr()->add('IFNULL(TIMESTAMPDIFF(SECOND, "' . $nowStr . '", notbefore), 0)');
+		switch ($driverName) {
+			case static::DRIVER_SQLSERVER:
+				$age = $query->newExpr()->add('ISNULL(DATEDIFF(SECOND, GETDATE(), notbefore), 0)');
+				break;
+		}
 		$options = [
 			'conditions' => [
 				'completed IS' => null,
 				'OR' => [],
 			],
 			'fields' => [
-				'age' => $query->newExpr()->add('IFNULL(TIMESTAMPDIFF(SECOND, "' . $nowStr . '", notbefore), 0)')
+				'age' => $age
 			],
 			'order' => [
 				'priority' => 'ASC',
@@ -234,7 +285,15 @@ class QueuedJobsTable extends Table {
 				'failed <' => ($task['retries'] + 1),
 			];
 			if (array_key_exists('rate', $task) && $tmp['job_type'] && array_key_exists($tmp['job_type'], $this->rateHistory)) {
-				$tmp['UNIX_TIMESTAMP() >='] = $this->rateHistory[$tmp['job_type']] + $task['rate'];
+				switch ($driverName) {
+					case static::DRIVER_POSTGRES:
+					case static::DRIVER_MYSQL:
+						$tmp['UNIX_TIMESTAMP() >='] = $this->rateHistory[$tmp['job_type']] + $task['rate'];
+						break;
+					case static::DRIVER_SQLSERVER:
+						$tmp["DATEDIFF(s, '1970-01-01 00:00:00', GETDATE()) >="] = $this->rateHistory[$tmp['job_type']] + $task['rate'];
+						break;
+				}
 			}
 			$options['conditions']['OR'][] = $tmp;
 		}
@@ -368,6 +427,10 @@ class QueuedJobsTable extends Table {
 	 * @return void
 	 */
 	public function cleanOldJobs() {
+		if (!Configure::read('Queue.cleanuptimeout')) {
+			return;
+		}
+
 		$this->deleteAll([
 			'completed <' => time() - Configure::read('Queue.cleanuptimeout'),
 		]);
@@ -391,6 +454,26 @@ class QueuedJobsTable extends Table {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param \Queue\Model\Entity\QueuedJob $queuedTask
+	 * @param array $taskConfiguration
+	 * @return string
+	 */
+	public function getFailedStatus($queuedTask, array $taskConfiguration) {
+		$failureMessageRequeued = 'requeued';
+
+		$queuedTaskName = 'Queue' . $queuedTask->job_type;
+		if (empty($taskConfiguration[$queuedTaskName])) {
+			return $failureMessageRequeued;
+		}
+		$retries = $taskConfiguration[$queuedTaskName]['retries'];
+		if ($queuedTask->failed <= $retries) {
+			return $failureMessageRequeued;
+		}
+
+		return 'aborted';
 	}
 
 	/**
@@ -460,7 +543,6 @@ class QueuedJobsTable extends Table {
 			$this->deleteAll([
 				'id' => array_slice($x, $start, 10),
 			]);
-			//debug(array_slice($x, $start, 10));
 			$start = $start + 100;
 		}
 	}
@@ -517,7 +599,7 @@ class QueuedJobsTable extends Table {
 		$processes = [];
 		foreach (glob($pidFilePath . 'queue_*.pid') as $filename) {
 			$time = filemtime($filename);
-			preg_match('/\bqueue_(\d+)\.pid$/', $filename, $matches);
+			preg_match('/\bqueue_([0-9a-z]+)\.pid$/', $filename, $matches);
 			$processes[$matches[1]] = $time;
 		}
 
@@ -539,8 +621,13 @@ class QueuedJobsTable extends Table {
 
 		$pidFilePath = Configure::read('Queue.pidfilepath');
 
-		posix_kill($pid, $sig);
-		exec('kill -' . $sig . ' ' . $pid);
+		$killed = false;
+		if (function_exists('posix_kill')) {
+			$killed = posix_kill($pid, $sig);
+		}
+		if (!$killed) {
+			exec('kill -' . $sig . ' ' . $pid);
+		}
 		sleep(1);
 
 		if (!$pidFilePath) {
@@ -554,6 +641,18 @@ class QueuedJobsTable extends Table {
 		if (file_exists($file)) {
 			unlink($file);
 		}
+	}
+
+	/**
+	 * get the name of the driver
+	 *
+	 * @return string
+	 */
+	protected function _getDriverName() {
+		$className = explode('\\', $this->connection()->config()['driver']);
+		$name = end($className);
+
+		return $name;
 	}
 
 }
