@@ -344,6 +344,12 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('Comments.model' => 'Applications'),
         ]);
+        $this->hasMany('Refids', [
+            'className' => 'Refids',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Refids.model' => 'Applications'),
+        ]);
     }
 
     /**

@@ -43,7 +43,12 @@ class ApplicationsController extends ApplicationsBaseController
                   $stage1->alt_date = $application->finance_approvals[0]->outcome_date;
                   $application->application_stages = [$stage1];
                   $application->status = 'Finance';
-                  $application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
+                  //Generate Refined Protocol Number
+                  $refid = $this->Applications->Refids->newEntity(['foreign_key' => $application->id, 'model' => 'Applications', 'year' => date('Y')]);
+                  $this->Applications->Refids->save($refid);
+                  $refid = $this->Applications->Refids->get($refid->id);
+                  $application->protocol_no = 'CT' . $refid->refid . '/' . $refid->year;
+                  $this->Applications->save($application); 
               }
             }
             //Notification should be sent to manager and assigned_to evaluator if exists

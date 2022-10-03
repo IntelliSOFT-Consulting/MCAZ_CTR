@@ -110,4 +110,30 @@ class ApplicationsController extends ApplicationsBaseController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function generateReferenceNumber()
+    {
+        # get all applications where submitted=2
+        $applications = $this->Applications->find('all')->where(['submitted' => 2]);
+        
+        //generate an array of dates 
+        foreach ($applications as $application) {
+
+            //get the year when the application was submitted and use it to generate the reference number
+            $year = date('Y'); 
+
+            $model='Applications';
+            // if ($application->id % 2 == 0) {
+            //    $model='Applications2';            }
+
+            $refid = $this->Applications->Refids->newEntity(['foreign_key' => $application->id, 'model' => $model, 'year' => $year]);
+            $this->Applications->Refids->save($refid);
+            $refid = $this->Applications->Refids->get($refid->id);
+            $application->protocol_no = 'CT' . $refid->refid . '/' . $refid->year;
+            $this->Applications->save($application);
+        }
+        $this->Flash->success(__('Reference numbers generated.'));
+        return $this->redirect(['action' => 'index']);
+
+    }
 }
