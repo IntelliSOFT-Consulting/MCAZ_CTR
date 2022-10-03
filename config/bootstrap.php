@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -230,7 +231,7 @@ Plugin::load('Josegonzalez/Upload');
  * Debug Kit should not be installed on a production system
  */
 if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => true]);
+    Plugin::load('DebugKit', ['bootstrap' => false]);
 }
 
 Plugin::load('Acl', ['bootstrap' => true]);
@@ -254,7 +255,7 @@ Configure::write('AclManager.aros', array('Groups', 'Roles', 'Users'));
 Plugin::load('AclManager', ['bootstrap' => true, 'routes' => true]);
 // Set prefix admin ( http://www.domain.com/admin/AclManager )
 Configure::write('AclManager.admin', true);
-Configure::write('AclManager.ignoreActions', array('isAuthorized','login','logout'));
+Configure::write('AclManager.ignoreActions', array('isAuthorized', 'login', 'logout'));
 
 Plugin::load('SoftDelete');
 Plugin::load('Search');

@@ -16,7 +16,14 @@
   <div role="tabpanel" class="tab-pane active" id="report">
     <?php
         echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'view', '_ext' => 'pdf', $application->id, ], ['escape' => false, 'class' => 'btn btn-info active']);
+        
+        
     ?>
+    <?php if($prefix === 'manager' or $prefix === 'admin') { ?>
+       <a href="#" data-target="#modifyModal" data-toggle="modal" class="btn btn-warning"><i class="fa fa-cog" aria-hidden="true"></i> Modify Reference Number </a>
+    <?php }
+    ?>
+
     <?php
     if($prefix == 'manager') {
       if($application->approved === 'Suspended') {
@@ -31,6 +38,37 @@
       }
     }
     ?>
+      <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modifyModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modify Reference Number</h4>               
+          </div>
+    
+          <form method="post" accept-charset="utf-8" action="/base/applications-base/update-reference/<?= $application->id ?>">     
+          <div class="modal-body">
+           
+              <div class="form-group">
+                  <label for="reference" class="control-label">Enter the New Reference Number:</label>
+                  <input class="form-control" name="reference" id="reference"/>
+              </div>
+              <div class="form-group">
+                  <label for="message" class="control-label">Note:</label>
+                  <textarea class="form-control" name="message" id="message"></textarea>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+
+          </form>
+        
+        </div>
+      </div>
+    </div>
 
     <div class="modal fade" id="suspendModal" tabindex="-1" role="dialog" aria-labelledby="suspendModal">
       <div class="modal-dialog" role="document">

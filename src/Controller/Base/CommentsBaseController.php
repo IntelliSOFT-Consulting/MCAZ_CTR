@@ -21,13 +21,24 @@ class CommentsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
+            $this->loadModel('Applications');
+            $this->loadModel('Queue.QueuedJobs'); 
+            $application = $this->Applications->get($this->request->getData('foreign_key'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);   
+
+                // Check if Evaluator has been assigned | if not block from leaving a comment
+                if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                    if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                    $this->Flash->error(__('You have not been assigned the protocol for comments!.'));
+                    return $this->redirect($this->referer());
+                    }               
+    
+                }
 
             if ($this->Comments->save($comment)) {         
 
                 if ($this->request->getData('submitted') == '2') {
-                    $this->loadModel('Applications');
-                    $this->loadModel('Queue.QueuedJobs'); 
-                    $application = $this->Applications->get($this->request->getData('foreign_key'), ['contain' => ['AssignEvaluators', 'ParentApplications']]);                     
+                                     
 
                     //Send email, notification and message to managers and assigned evaluators
                     $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
@@ -86,6 +97,16 @@ class CommentsBaseController extends AppController
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
             $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators']]);
 
+
+              // Check if Evaluator has been assigned | if not block from leaving a review
+              if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol for review!. Kindly contact MCAZ.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
             /**
              * Evaluator or Manager raises query on evaluation
              * If decision is Approved comments/queries should not appear
@@ -138,9 +159,23 @@ class CommentsBaseController extends AppController
     {
         $comment = $this->Comments->newEntity();
         if ($this->request->is('post')) {
+
+            
             $this->loadModel('Applications');
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
             $application = $this->Applications->get($this->request->getData('model_id'), ['contain' => ['AssignEvaluators']]);
+            $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+            array_push($filt, 1);
+            
+            // Check if Evaluator has been assigned | if not block from leaving a comment
+            if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
+   
+                if(!in_array($this->Auth->user('id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) {
+                $this->Flash->error(__('You have not been assigned the protocol for comments!.'));
+                return $this->redirect($this->referer());
+                }               
+
+            }
 
             /**
              * Evaluator or Manager raises query on evaluation
@@ -150,8 +185,7 @@ class CommentsBaseController extends AppController
 
             if ($this->Comments->save($comment)) {
                 //Send email, notification and message to managers and assigned evaluators
-                $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
+               
                 // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
 
                 $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {

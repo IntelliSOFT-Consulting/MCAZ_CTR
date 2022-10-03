@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Controller\Manager;
 
 use App\Controller\Base\ApplicationsBaseController;
 use Cake\ORM\Entity;
-use Cake\View\Helper\HtmlHelper; 
+use Cake\View\Helper\HtmlHelper;
 use Cake\Utility\Hash;
 
 /**
@@ -15,71 +16,95 @@ use Cake\Utility\Hash;
  */
 class ApplicationsController extends ApplicationsBaseController
 {
+    public function processAssignment($application, $evaluator, $message)
+    {
+        $application = $this->Applications->patchEntity($application, $this->request->getData());
 
-    //TODO: simply check if a given user has permissions to action before rendering view / displaying action
-    public function assignEvaluator() {
-        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => 'ApplicationStages']);
-        $evaluator = $this->Applications->Users->get($this->request->getData('assign_evaluators.100.assigned_to'));
-        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData());
-            
-            //new stage only once
-            if(!in_array("3", Hash::extract($application->application_stages, '{n}.stage_id'))) {
-                $stage1  = $this->Applications->ApplicationStages->newEntity();
-                $stage1->stage_id = 3;
-                $stage1->stage_date = date("Y-m-d H:i:s");
-                $application->application_stages = [$stage1];
-                $application->status = 'Assigned';
-            }
+        //new stage only once
+        if (!in_array("3", Hash::extract($application->application_stages, '{n}.stage_id'))) {
+            $stage1  = $this->Applications->ApplicationStages->newEntity();
+            $stage1->stage_id = 3;
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $application->application_stages = [$stage1];
+            $application->status = 'Assigned';
+        }
 
-            if ($this->Applications->save($application)) {
+        if ($this->Applications->save($application)) {
 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
-                $this->loadModel('Queue.QueuedJobs'); 
-                foreach ($managers as $manager) {
-                    //Notify managers   
-                    $data = [
-                        'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_assign_evaluator_email', 'model' => 'Applications', 'foreign_key' => $application->id,
-                    ];
-                    $data['vars']['name'] = $manager->name;
-                    $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['evaluator_name'] = $evaluator->name;                
-                    $data['vars']['user_message'] = $this->request->getData('assign_evaluators.100.user_message');
-                    //notify manager
-                    $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_assign_evaluator_notification';
-                    $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
-                //Send email, notification and message to evaluator
-                $data['user_id'] = $evaluator->id;                
-                $data['email_address'] = $evaluator->email;
-                $data['vars']['evaluator_name'] = $evaluator->name;        
-                $data['vars']['user_message'] = $this->request->getData('user_message');
-
-                //remove double notification
-                $data['vars']['name'] = $this->Auth->user('name');
-                /*
-                $data['type'] = 'manager_assign_evaluator_message';
-                $this->QueuedJobs->createJob('GenericNotification', $data);*/
-                //email evaluator_assigned_manager_notification
-                $data['type'] = 'evaluator_assigned_manager_email';
+            $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+            $this->loadModel('Queue.QueuedJobs');
+            foreach ($managers as $manager) {
+                //Notify managers   
+                $data = [
+                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                    'type' => 'manager_assign_evaluator_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['name'] = $manager->name;
+                $data['vars']['protocol_no'] = $application->protocol_no;
+                $data['vars']['evaluator_name'] = $evaluator->name;
+                $data['vars']['user_message'] = $message;
+                //notify manager
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'evaluator_assigned_manager_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);                
-                
-                $this->Flash->success('Evaluator '.$evaluator->name.' assigned Application '.$application->protocol_no.' for review.');
+                $data['type'] = 'manager_assign_evaluator_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+            }
+            //Send email, notification and message to evaluator
+            $data['user_id'] = $evaluator->id;
+            $data['email_address'] = $evaluator->email;
+            $data['vars']['evaluator_name'] = $evaluator->name;
+            $data['vars']['user_message'] = $message;
 
-                return $this->redirect($this->referer());
-            } 
-            $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
+            //remove double notification
+            $data['vars']['name'] = $this->Auth->user('name');
+            /*
+            $data['type'] = 'manager_assign_evaluator_message';
+            $this->QueuedJobs->createJob('GenericNotification', $data);*/
+            //email evaluator_assigned_manager_notification
+            $data['type'] = 'evaluator_assigned_manager_email';
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $data['type'] = 'evaluator_assigned_manager_notification';
+            $this->QueuedJobs->createJob('GenericNotification', $data);
+
+            $this->Flash->success('Evaluator ' . $evaluator->name . ' assigned Application ' . $application->protocol_no . ' for review.');
+
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unable to assign evaluator. Please, try again.'));
         return $this->redirect($this->referer());
     }
 
-    public function removeEvaluator($id = null) {
+    public function assignSelf()
+    {
+
+        $current_id = $this->Auth->user('id');
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => 'ApplicationStages']);
+        $evaluator = $this->Applications->Users->get($current_id);
+        $message = $this->request->getData('user_message');
+
+        if (in_array($this->Auth->user('id'), Hash::extract($application, 'assign_evaluators.{n}.assigned_to'))) {
+
+            $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
+            return $this->redirect($this->referer());
+        }
+        $this->processAssignment($application, $evaluator, $message);
+    }
+
+    //TODO: simply check if a given user has permissions to action before rendering view / displaying action
+    public function assignEvaluator()
+    {
+        $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => 'ApplicationStages']);
+        $evaluator = $this->Applications->Users->get($this->request->getData('assign_evaluators.100.assigned_to'));
+        if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
+            $message = $this->request->getData('user_message');
+            $this->processAssignment($application, $evaluator, $message);
+        } else {
+            $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
+            return $this->redirect($this->referer());
+        }
+    }
+
+    public function removeEvaluator($id = null)
+    {
         $this->request->allowMethod(['post', 'delete']);
         $evaluator = $this->Applications->AssignEvaluators->get($id);
         if ($this->Auth->user('group_id') == 2 && $this->Applications->AssignEvaluators->delete($evaluator)) {
@@ -110,6 +135,7 @@ class ApplicationsController extends ApplicationsBaseController
 
         return $this->redirect(['action' => 'index']);
     }
+ 
 
     public function generateReferenceNumber()
     {
@@ -136,4 +162,5 @@ class ApplicationsController extends ApplicationsBaseController
         return $this->redirect(['action' => 'index']);
 
     }
+ 
 }

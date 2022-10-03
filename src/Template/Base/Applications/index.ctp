@@ -35,7 +35,13 @@
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th> 
-                <th scope="col"></th>
+                <?php
+                if(isset($this->request->query['status'])&&($this->request->query['status'])=="UnSubmitted"&&$prefix=="manager"){
+                ?> 
+                <th scope="col"><?= $this->Paginator->sort('Action') ?></th> 
+               <?php
+            }
+            ?>
             </tr>
         </thead>
         <tbody>
@@ -66,7 +72,17 @@
                         }
                     ?></div>
                 </td>
-                <td><?= h($application->created) ?></td>         
+                <td><?= h($application->created) ?></td>  
+                <?php
+                if(isset($this->request->query['status'])&&($this->request->query['status'])=="UnSubmitted" &&$prefix=="manager"){
+                ?>                     
+                <td><?php
+               echo $this->Html->link('<span class="label label-danger">Delete </span>', ['action' => 'clear', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false,'confirm'=>__('Are you sure you want to delete # {0}?', $application->id), 'style' => 'color: white;']);
+                ?>  
+            </td>
+                <?php
+                
+                }?>    
                 <td>
                                
                 </td>
