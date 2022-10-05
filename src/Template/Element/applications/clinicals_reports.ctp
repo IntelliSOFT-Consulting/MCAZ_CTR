@@ -31,7 +31,7 @@ if ($prefix === 'manager') {
                 Assessed on: <?= $clinical['created'] ?> by <?= $clinical->user->name ?>
             </a>
             <?php
-                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $clinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'clinical-review', '_ext' => 'pdf', $clinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
                 ?>
         </div>
         <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>"
@@ -1234,9 +1234,7 @@ if ($prefix === 'manager') {
                                 </span>
 
                             </div>
-                            <?php
-                                echo $this->Form->control('clinicals.' . $ekey . '.', ['type' => 'checkbox', 'label' => '', 'templates' => 'checkbox_form_ev']);
-                                ?>
+                           
                         </td>
                         <td colspan="3">
                             <div class="row">

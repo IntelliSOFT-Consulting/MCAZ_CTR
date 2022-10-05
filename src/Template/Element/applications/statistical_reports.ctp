@@ -3,8 +3,8 @@
 use Cake\Utility\Hash;
 
 $numb = 1;
-$checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
-$nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
+$checked = '<i class="fa fa-check-circle-o" aria-hidden="true"></i>';
+$nChecked = '<i class="fa fa-circle-o" aria-hidden="true"></i>';
 
 if ($prefix === 'manager') {
     $this->Html->css('bootstrap-editable', ['block' => true]);
@@ -31,7 +31,7 @@ if ($prefix === 'manager') {
                 Assessed on: <?= $statistical['created'] ?> by <?= $statistical->user->name ?>
             </a>
             <?php
-                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $statistical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'statistical-review', '_ext' => 'pdf', $statistical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
             
                 ?>
         </div>
@@ -48,7 +48,7 @@ if ($prefix === 'manager') {
                     <tr class="active">
                         <th></th>
                         <th>Study plan and design </th>
-                        <th width="35%"></th>
+                        <th width="55%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,19 +56,56 @@ if ($prefix === 'manager') {
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Controlled/non controlled?</td>
-                        <td> <?= $statistical->design_type ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->design_type=="Controlled") ? $checked : $nChecked; ?> Controlled
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->design_type=="Non controlled") ? $checked : $nChecked; ?> Non
+                                    controlled
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Randomized?</td>
-                        <td> <?= $statistical->randomized ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->randomized=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->randomized=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Blinding (masking)?</td>
-                        <td><?= $statistical->blinding ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->blinding=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->blinding=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
+
+
                         </td>
                     </tr>
                     <tr>
@@ -87,7 +124,19 @@ if ($prefix === 'manager') {
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Is the proposed study design acceptable?</td>
-                        <td> <?= $statistical->design_acceptable ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->design_acceptable=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->design_acceptable=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -147,13 +196,44 @@ if ($prefix === 'manager') {
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Are the sample size calculation and justification acceptable?</td>
-                        <td> <?= $statistical->sample_acceptable ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->sample_acceptable=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->sample_acceptable=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Are the trial power and level of significance acceptable?</td>
-                        <td> <?= $statistical->power_acceptable ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->power_acceptable=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->power_acceptable=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->power_acceptable=="NA") ? $checked : $nChecked; ?> NA
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -210,7 +290,26 @@ if ($prefix === 'manager') {
                                 </div>
 
                                 <div class="col-xs-4">
-                                    <?= $statistical->analysis_objective ?>
+
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->analysis_objective=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->analysis_objective=="No") ? $checked : $nChecked; ?> No
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->analysis_objective=="Other") ? $checked : $nChecked; ?>
+                                            Other
+
+                                        </span>
+                                    </div>
 
                                 </div>
                             </div>
@@ -229,7 +328,27 @@ if ($prefix === 'manager') {
                                 </div>
 
                                 <div class="col-xs-4">
-                                    <?= $statistical->methods_appropriate ?>
+
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->methods_appropriate=="Yes") ? $checked : $nChecked; ?>
+                                            Yes
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->methods_appropriate=="No") ? $checked : $nChecked; ?> No
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->methods_appropriate=="Other") ? $checked : $nChecked; ?>
+                                            Other
+
+                                        </span>
+                                    </div>
 
                                 </div>
                             </div>
@@ -247,8 +366,26 @@ if ($prefix === 'manager') {
                                 </div>
 
                                 <div class="col-xs-4">
-                                    <?= $statistical->considerations ?>
 
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->considerations=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->considerations=="No") ? $checked : $nChecked; ?> No
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->considerations=="Other") ? $checked : $nChecked; ?>
+                                            Other
+
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -264,7 +401,26 @@ if ($prefix === 'manager') {
                                 </div>
 
                                 <div class="col-xs-4">
-                                    <?= $statistical->multiplicity ?>
+
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->multiplicity=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->multiplicity=="No") ? $checked : $nChecked; ?> No
+
+                                        </span>
+                                    </div>
+                                    <div class="entry">
+                                        <span class="editer">
+                                            <?= ($statistical->multiplicity=="Other") ? $checked : $nChecked; ?>
+                                            Other
+
+                                        </span>
+                                    </div>
 
                                 </div>
                             </div>
@@ -275,7 +431,19 @@ if ($prefix === 'manager') {
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Are the planned analyses appropriate?</td>
-                        <td> <?= $statistical->analyses_acceptable ?>
+                        <td>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->analyses_acceptable=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->analyses_acceptable=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -299,13 +467,37 @@ if ($prefix === 'manager') {
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>Does the trial have a data safety monitoring committee?</td>
-                        <td> <?= $statistical->interim_safety ?>
+                        <td>  
+                        <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->interim_safety=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->interim_safety=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td> Is there an interim analysis planned for this trial?</td>
-                        <td> <?= $statistical->interim_planning ?>
+                        <td> 
+                        <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->interim_planning=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->interim_planning=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
 
@@ -345,7 +537,19 @@ if ($prefix === 'manager') {
                     <tr>
                         <td><?= $numb++ ?>.</td>
                         <td>The statistical aspects of the application are acceptable</td>
-                        <td> <?= $statistical->statistical_acceptable ?>
+                        <td> 
+                        <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->statistical_acceptable=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->statistical_acceptable=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -353,7 +557,19 @@ if ($prefix === 'manager') {
                         <td> Supplementary information needs to be provided (refer to the list of requests for
                             additional
                             information)</td>
-                        <td> <?= $statistical->information_needed ?>
+                        <td>  
+                        <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->information_needed=="Yes") ? $checked : $nChecked; ?> Yes
+
+                                </span>
+                            </div>
+                            <div class="entry">
+                                <span class="editer">
+                                    <?= ($statistical->information_needed=="No") ? $checked : $nChecked; ?> No
+
+                                </span>
+                            </div>
                         </td>
                     </tr>
 

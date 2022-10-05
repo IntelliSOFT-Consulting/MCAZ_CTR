@@ -7,21 +7,20 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Sdrug Model
+ * Quality Model
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\QualitiesTable|\Cake\ORM\Association\BelongsTo $Qualities
  *
- * @method \App\Model\Entity\Sdrug get($primaryKey, $options = [])
- * @method \App\Model\Entity\Sdrug newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Sdrug[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Sdrug|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Sdrug patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Sdrug[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Sdrug findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Quality get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Quality newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Quality[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Quality|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Quality patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Quality[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Quality findOrCreate($search, callable $callback = null, $options = [])
  */
-class SdrugTable extends Table
+class QualityTable extends Table
 {
 
     /**
@@ -34,7 +33,7 @@ class SdrugTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('sdrug');
+        $this->setTable('quality');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -44,10 +43,6 @@ class SdrugTable extends Table
         ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Qualities', [
-            'foreignKey' => 'quality_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -65,17 +60,23 @@ class SdrugTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->boolean('drug_eur')
-            ->allowEmpty('drug_eur');
+            ->scalar('submitted')
+            ->maxLength('submitted', 255)
+            ->requirePresence('submitted', 'create')
+            ->allowEmpty('submitted');
 
         $validator
-            ->boolean('drug_usp')
-            ->allowEmpty('drug_usp');
+            ->scalar('quality_workspace')
+            ->requirePresence('quality_workspace', 'create')
+            ->allowEmpty('quality_workspace');
 
         $validator
-            ->scalar('drug_authorised')
-            ->maxLength('drug_authorised', 255)
-            ->allowEmpty('drug_authorised');
+            ->requirePresence('gmp_smpc', 'create')
+            ->allowEmpty('gmp_smpc');
+
+        $validator
+            ->requirePresence('gmp_included', 'create')
+            ->allowEmpty('gmp_included');
 
         return $validator;
     }
@@ -91,7 +92,6 @@ class SdrugTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['quality_id'], 'Qualities'));
 
         return $rules;
     }

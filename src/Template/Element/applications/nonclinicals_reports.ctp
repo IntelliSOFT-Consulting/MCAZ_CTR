@@ -31,7 +31,7 @@ if ($prefix === 'manager') {
                 Assessed on: <?= $nonclinical['created'] ?> by <?= $nonclinical->user->name ?>
             </a>
             <?php
-                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $nonclinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+                if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'non-clinical-review', '_ext' => 'pdf', $nonclinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
                 ?>
         </div>
         <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>"

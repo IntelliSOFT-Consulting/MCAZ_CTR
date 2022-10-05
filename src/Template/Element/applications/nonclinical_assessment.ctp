@@ -17,7 +17,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             <thead>
                 <tr class="active">
                     <th></th>
-                    <th>Pharmacolog </th>
+                    <th>Pharmacology </th>
                     <th width="35%"></th>
                 </tr>
                 <tr class="active">

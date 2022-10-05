@@ -24,6 +24,8 @@ bin/cake acl deny Groups.2 controllers/Applicant
 bin/cake acl deny Groups.2 controllers/Finance
 bin/cake acl grant Groups.2 controllers/Refids
 bin/cake acl grant Groups.2 controllers/Reports
+bin/cake acl grant Groups.2 controllers/Sdrugs
+bin/cake acl grant Groups.2 controllers/Quality
 bin/cake acl grant Groups.2 controllers/CommitteeDates
 bin/cake acl grant Groups.2 controllers/Manager
 bin/cake acl grant Groups.2 controllers/Users/profile
@@ -65,10 +67,14 @@ bin/cake acl grant Groups.3 controllers/CommitteeDates
 bin/cake acl grant Groups.3 controllers/Users/profile
 bin/cake acl grant Groups.3 controllers/Users/edit
 bin/cake acl grant Groups.3 controllers/Evaluator
+bin/cake acl grant Groups.3 controllers/Sdrugs
+bin/cake acl grant Groups.3 controllers/Quality
 # bin/cake acl grant Groups.3 controllers/Base
 bin/cake acl grant Groups.3 controllers/Notifications/delete
 bin/cake acl grant Groups.6 controllers/Attachments/download
 bin/cake acl grant Groups.6 controllers/Reports
+bin/cake acl grant Groups.6 controllers/Sdrugs
+bin/cake acl grant Groups.6 controllers/Quality
 bin/cake acl grant Groups.6 controllers/ExternalEvaluator
 bin/cake acl grant Groups.6 controllers/Users/profile
 bin/cake acl grant Groups.6 controllers/Users/edit

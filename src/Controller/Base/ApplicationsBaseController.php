@@ -363,8 +363,6 @@ class ApplicationsBaseController extends AppController
 
         $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
-        // $this->render('/Base/Applications/view');
-
 
         if ($this->request->params['_ext'] === 'pdf') {
             $this->render('/Base/Applications/pdf/view');
@@ -641,7 +639,8 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
-            // debug($application->errors());
+            debug($application->errors());
+            exit;
             $this->Flash->error(__('Unable to create quality review. Please, try again.'));
             return $this->redirect($this->referer());
         }
@@ -1700,6 +1699,81 @@ class ApplicationsBaseController extends AppController
             $this->render('/Base/Evaluations/pdf/view');
         }
     }
+
+    // Download Statisctical Reviews
+    public function statisticalReview($id = null, $scope = null)
+    {
+        $statistic = $this->Applications->Statisticals->get($id, [
+            'contain' => ['Applications' => $this->_contain, 'Users'],
+
+        ]);
+        $application = $statistic->application;
+        $statisticals[] = $statistic;
+
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('statisticals', 'application', 'all_evaluators'));
+        $this->set('_serialize', ['statisticals', 'application']);
+
+        // debug($evaluations);
+        // exit;
+
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'statistical_review_' . $id . '.pdf'
+                ]
+            ]);
+            $this->render('/Base/Statisticals/pdf/view');
+        }
+    }
+
+    public function clinicalReview($id = null, $scope = null)
+    {
+        $clinical = $this->Applications->Clinicals->get($id, [
+            'contain' => ['Applications' => $this->_contain, 'Users'],
+
+        ]);
+        $application = $clinical->application;
+        $clinicals[] = $clinical;
+
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('clinicals', 'application', 'all_evaluators'));
+        $this->set('_serialize', ['clinicals', 'application']);
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'clinicals_review_' . $id . '.pdf'
+                ]
+            ]);
+            $this->render('/Base/clinicals/pdf/view');
+        }
+    }
+    public function nonClinicalReview($id = null, $scope = null)
+    {
+        $non_clinical = $this->Applications->NonClinicals->get($id, [
+            'contain' => ['Applications' => $this->_contain, 'Users'],
+
+        ]);
+        $application = $non_clinical->application;
+        $non_clinicals[] = $non_clinical;
+
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('non_clinicals', 'application', 'all_evaluators'));
+        $this->set('_serialize', ['non_clinicals', 'application']);
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'non_clinicals_review_' . $id . '.pdf'
+                ]
+            ]);
+            $this->render('/Base/non_clinicals/pdf/view');
+        }
+    }
+    
+
     public function communication($id = null, $scope = null)
     {
         if ($scope === 'All') {
@@ -1958,66 +2032,66 @@ class ApplicationsBaseController extends AppController
         $this->loadModel('Applications');
         $application = $this->Applications->get($id, ['contain' => ['AssignEvaluators']]);
         $this->request->allowMethod(['post', 'delete']);
-        $reference=  $this->request->getData('reference');
+        $reference =  $this->request->getData('reference');
 
         /**
          * Check Report Status if Gone past Finance
          */
-        $status=$application->status;
-        if($status=="Submitted"){
+        $status = $application->status;
+        if ($status == "Submitted") {
             $this->Flash->error('Please wait for Finance Approval ' . $application->protocol_no . '. ');
             return $this->redirect($this->referer());
         }
-      
+
         /*
          * Check if the provided protocol number exists for another report
          * 
          */
 
-        
+
         $applicationsTable = TableRegistry::get('Applications');
         $another = $applicationsTable->exists(['protocol_no' => $reference]);
 
-        if($another){
+        if ($another) {
             $this->Flash->error('Error!! There exists another report with the provided reference number ' . $application->protocol_no . '. ');
             return $this->redirect($this->referer());
-        }else{ 
-   
-        $query = $this->Applications->query();
-        $query->update()
-            ->set(['protocol_no' => $reference])
-            ->where(['id' => $application->id])
-            ->execute();
+        } else {
 
-        //send message to applicant and managers upon successful reference change
-        $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-        $filt[] = $application->user_id; //Add applicant
-        // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
-        $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
-            $orConditions = $exp->or_(['id IN' => $filt])
-                ->eq('group_id', 2);
-            return $exp
-                ->add($orConditions)
-                ->add(['group_id !=' => 6]);
-        });
-        $this->loadModel('Queue.QueuedJobs');
-        foreach ($managers as $manager) {
-            //Notify managers    
-            $data = [
-                'email_address' => $manager->email, 'user_id' => $manager->id,
-                'type' => 'reference_change_email', 'model' => 'Applications', 'foreign_key' => $application->id,
-            ];
-            $data['vars']['name'] = $manager->name;
-            $data['vars']['protocol_no'] = $reference;
-            $data['vars']['message'] = $this->request->getData('message');
-           // //notify applicant if need be:: 
-            $this->QueuedJobs->createJob('GenericEmail', $data);
-            $data['type'] = 'reference_change_notification';
-            $this->QueuedJobs->createJob('GenericNotification', $data);
+            $query = $this->Applications->query();
+            $query->update()
+                ->set(['protocol_no' => $reference])
+                ->where(['id' => $application->id])
+                ->execute();
+
+            //send message to applicant and managers upon successful reference change
+            $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
+            $filt[] = $application->user_id; //Add applicant
+            // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+            $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                $orConditions = $exp->or_(['id IN' => $filt])
+                    ->eq('group_id', 2);
+                return $exp
+                    ->add($orConditions)
+                    ->add(['group_id !=' => 6]);
+            });
+            $this->loadModel('Queue.QueuedJobs');
+            foreach ($managers as $manager) {
+                //Notify managers    
+                $data = [
+                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                    'type' => 'reference_change_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                ];
+                $data['vars']['name'] = $manager->name;
+                $data['vars']['protocol_no'] = $reference;
+                $data['vars']['message'] = $this->request->getData('message');
+                // //notify applicant if need be:: 
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'reference_change_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+            }
+            $this->Flash->success('Reference Updated from ' . $application->protocol_no . ' to ' . $reference);
+            return $this->redirect($this->referer());
         }
-        $this->Flash->success('Reference Updated from ' . $application->protocol_no . ' to '. $reference);
-        return $this->redirect($this->referer());
-    }
     }
 
 
@@ -2063,15 +2137,50 @@ class ApplicationsBaseController extends AppController
         return $this->redirect($this->referer());
     }
 
-    public function clear($id=null){
-        
+    public function clear($id = null)
+    {
+
         $this->loadModel('Applications');
         $application = $this->Applications->get($id, ['contain' => ['AssignEvaluators']]);
         if (($this->Auth->user('group_id') == 2 && $this->Applications->delete($application))) {
-        $this->Flash->success(__('The Unsubmmited report has been deleted.'));
+            $this->Flash->success(__('The Unsubmmited report has been deleted.'));
         } else {
             $this->Flash->error(__('Failed to delete the report. Please, try again.'));
-        } 
+        }
         return $this->redirect($this->referer());
+    }
+
+    public function timelineReport()
+    {
+        //load all applications where status is submitted
+        $query = $this->Applications
+            // Use the plugins 'search' custom finder and pass in the
+            // processed query params
+            ->find('search', ['search' => $this->request->query])
+            ->leftJoinWith('InvestigatorContacts')
+            ->leftJoinWith('Sponsors')
+            ->leftJoinWith('SiteDetails')
+            ->leftJoinWith('Medicines')
+            ->contain($this->_contain)
+            // You can add extra things to the query if you need to
+            ->where([['report_type' => 'Initial', 'status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']])
+            ->order(['Applications.id' => 'desc'])
+            ->distinct();
+
+        // Secretary General only able to view once it has been approved
+        if ($this->Auth->user('group_id') == 7) {
+            $query->matching('ApplicationStages', function ($q) {
+                return $q->where(['ApplicationStages.stage_id' => 9]);
+            });
+        }
+        $this->set('applications', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => 'Timeline_Report.pdf'
+                ]
+            ]);
+            $this->render('/Base/Applications/pdf/timeline');
+        }
     }
 }

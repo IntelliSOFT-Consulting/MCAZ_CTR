@@ -182,7 +182,14 @@
             Sort by
             <span class="caret"></span>
           </button>
-        
+
+          <!-- check if prefix manager -->
+            <?php if($prefix == 'manager'){
+                   echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report', ['action' => 'timeline_report', '_ext' => 'pdf'], ['class' => 'btn btn-primary btn-sm btn-block', 'escape' => false]);
+
+            } ?>
+            <!-- end check if prefix manager -->
+                 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><?= $this->Paginator->sort('id') ?></li>
             <li><?= $this->Paginator->sort('protocol_no') ?></li>

@@ -345,25 +345,37 @@ class ApplicationsTable extends Table
             'dependent' => true,
             'conditions' => array('Comments.model' => 'Applications'),
         ]);
- 
+
         $this->hasMany('Clinicals', [
+            'className' => 'Clinicals',
             'foreignKey' => 'application_id',
         ]);
         $this->hasMany('NonClinicals', [
+            'className' => 'NonClinicals',
             'foreignKey' => 'application_id',
         ]);
         $this->hasMany('Statisticals', [
+            'className' => 'Statisticals',
             'foreignKey' => 'application_id',
         ]);
         $this->hasMany('QualityAssessments', [
+            'className' => 'QualityAssessments',
             'foreignKey' => 'application_id',
-    ]);
+        ]);
+        $this->hasMany('Quality', [
+            'className' => 'Quality',
+            'foreignKey' => 'application_id',
+        ]);
+        $this->hasMany('Sdrugs', [
+            'className' => 'Sdrugs',
+            'foreignKey' => 'application_id',
+        ]);
         $this->hasMany('Refids', [
             'className' => 'Refids',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Refids.model' => 'Applications'),
- 
+
         ]);
     }
 

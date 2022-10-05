@@ -24,7 +24,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                 <tr class="active">
                     <th></th>
                     <th>Study plan and design </th>
-                    <th width="35%"></th>
+                    <th width="55%"></th>
                 </tr>
             </thead>
             <tbody>
