@@ -639,8 +639,8 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 }
             }
-            debug($application->errors());
-            exit;
+            // debug($application->errors());
+            // exit;
             $this->Flash->error(__('Unable to create quality review. Please, try again.'));
             return $this->redirect($this->referer());
         }
