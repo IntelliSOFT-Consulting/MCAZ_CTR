@@ -3,10 +3,7 @@
   $this->Html->script('ckeditor/config', ['block' => true]);
   $this->Html->script('ckeditor/adapters/jquery', ['block' => true]);
 ?>
-      <?php   
-      if($prefix == 'manager' or $application->review->user_id == $this->request->session()->read('Auth.User.id')) {
-        
-        ?>
+    
 <div class="row">
     <div class="col-xs-12">
         <h4 class="text-center"><label class="text-success">Request for Info</label></h4>
@@ -91,9 +88,7 @@
         <?php echo $this->Form->end() ?>
     </div>
 </div>
-<?php }else{
-echo "<div><p>You have not been assigned the protocol to view this section</p></div>";
-        }?>
+ 
 <script type="text/javascript">
 CKEDITOR.replace('request-infos-100-mcaz-comment');
 </script>
