@@ -14,8 +14,9 @@ $(function () {
             intId = 1;
         } 
 
-        //get all checkboxes only in this group
-        var checkboxes = $("#investigator_contacts .contact-group").last().find('input[type="checkbox"]');
+        //get allcheckboxes under this group
+
+        var checkboxes = $("#investigator_contacts .contact-group").find('input[type="checkbox"]');
         var checked = [];
         checkboxes.each(function () {
             if ($(this).is(":checked")) {
@@ -23,6 +24,7 @@ $(function () {
                 //update the value
                 $(this).val(1);
             } else {
+                checked.push($(this).val());
                 $(this).val(0);
             }
         });
@@ -52,14 +54,14 @@ $(function () {
                                 </div>\
                                 <div class="col-xs-9">\
                                     <br>\
-                                    <input name="sdrugs[{i}][mono_ph]" id="mono_ph{i}" class="updateCheckboxes"   type="checkbox" "> Ph. Eur.<br>\
+                                    <input name="sdrugs[{i}][mono_ph]" id="mono_ph{i}" class="updateCheckboxes" type="checkbox"> Ph. Eur.<br>\
                                     <input name="sdrugs[{i}][mono_japan]" id="mono_japan{i}" type="checkbox" class="updateCheckboxes"> USP/JP<br>\
                                     <input name="sdrugs[{i}][mono_other]" id="mono_other{i}" type="checkbox" class="updateCheckboxes"> Other<br>\
                                     </div>\
                             </div>\
                         </td>\
                         <td> \
-                        <input name="sdrugs[{i}][mono_no]" id="mono_no{i}" type="checkbox" class="updateCheckboxes" type="checkbox"> No\
+                        <input name="sdrugs[{i}][mono_no]" id="mono_no{i}" type="checkbox" class="updateCheckboxes"> No\
                         </td>\
                     </tr>\
                     <tr>\
@@ -706,7 +708,7 @@ $(function () {
 
     function updateCheckboxes() {
         //get all checkboxes only in this group
-        var checkboxes = $("#investigator_contacts .contact-group").last().find('input[type="checkbox"]');
+        var checkboxes = $("#investigator_contacts .contact-group").find('input[type="checkbox"]');
         var checked = [];
         checkboxes.each(function () {
             if ($(this).is(":checked")) {
@@ -715,11 +717,11 @@ $(function () {
                 // prevent this error: 'boolean' => 'The provided value is invalid'
                 $(this).val(1);
             } else {
+                checked.push($(this).val());
                 $(this).val(0);
             }
         });
-        //console log name and value of checked checkboxes
-        console.log(checked);
+         
     }
 
 

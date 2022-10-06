@@ -1727,7 +1727,32 @@ class ApplicationsBaseController extends AppController
             $this->render('/Base/Statisticals/pdf/view');
         }
     }
+   // Download Quality Reviews
+   public function qualityReview($id = null, $scope = null)
+   {
+       $data = $this->Applications->QualityAssessments->get($id, [
+           'contain' => ['Applications' => $this->_contain, 'Users','SDrugs'],
+       ]);
+       $application = $data->application;
+       $quality[] = $data;
 
+       $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+       $this->set(compact('quality', 'application', 'all_evaluators'));
+       $this->set('_serialize', ['quality', 'application']);
+
+       // debug($evaluations);
+       // exit;
+
+
+       if ($this->request->params['_ext'] === 'pdf') {
+           $this->viewBuilder()->options([
+               'pdfConfig' => [
+                   'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'statistical_review_' . $id . '.pdf'
+               ]
+           ]);
+           $this->render('/Base/Quality/pdf/view');
+       }
+   }
     public function clinicalReview($id = null, $scope = null)
     {
         $clinical = $this->Applications->Clinicals->get($id, [
