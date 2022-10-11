@@ -49,3 +49,9 @@ configuration relevant for your application.
 The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) CSS
 framework by default. You can, however, replace it with any other library or
 custom styles.
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[GNU General Public License](https://github.com/IntelliSOFT-Consulting/MCAZ_CTR/blob/master/LICENSE.md)**
