@@ -31,10 +31,10 @@ use Cake\ORM\Entity;
  * @property bool $study_participants
  * @property bool $study_adults
  * @property bool $study_adolescent
- * @property string $adolescents_age_group
  * @property bool $study_elderly
  * @property bool $study_male
  * @property bool $study_female
+ * @property string $adolescents_age_group
  * @property string $potential_contraception
  * @property string $potential_none_contraception
  * @property string $study_population_comments
@@ -151,6 +151,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $deleted
  * @property \Cake\I18n\FrozenTime $created
  * @property string $assessor_discussion
+ * @property string $additional
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
@@ -192,10 +193,10 @@ class Clinical extends Entity
         'study_participants' => true,
         'study_adults' => true,
         'study_adolescent' => true,
-        'adolescents_age_group' => true,
         'study_elderly' => true,
         'study_male' => true,
         'study_female' => true,
+        'adolescents_age_group' => true,
         'potential_contraception' => true,
         'potential_none_contraception' => true,
         'study_population_comments' => true,
@@ -312,6 +313,7 @@ class Clinical extends Entity
         'deleted' => true,
         'created' => true,
         'assessor_discussion' => true,
+        'additional' => true,
         'application' => true,
         'user' => true
     ];

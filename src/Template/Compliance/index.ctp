@@ -22,7 +22,12 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('quality_assessment_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('site_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('site_function') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('valid_license') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('comment') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('created_at') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('updated_at') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -32,7 +37,12 @@
                 <td><?= $this->Number->format($compliance->id) ?></td>
                 <td><?= $compliance->has('application') ? $this->Html->link($compliance->application->id, ['controller' => 'Applications', 'action' => 'view', $compliance->application->id]) : '' ?></td>
                 <td><?= $compliance->has('quality_assessment') ? $this->Html->link($compliance->quality_assessment->id, ['controller' => 'QualityAssessments', 'action' => 'view', $compliance->quality_assessment->id]) : '' ?></td>
-                <td><?= h($compliance->valid_license) ?></td>
+                <td><?= h($compliance->site_name) ?></td>
+                <td><?= h($compliance->site_function) ?></td>
+                <td><?= $this->Number->format($compliance->valid_license) ?></td>
+                <td><?= h($compliance->comment) ?></td>
+                <td><?= h($compliance->created_at) ?></td>
+                <td><?= h($compliance->updated_at) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $compliance->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $compliance->id]) ?>

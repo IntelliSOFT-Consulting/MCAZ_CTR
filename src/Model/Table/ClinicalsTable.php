@@ -170,11 +170,6 @@ class ClinicalsTable extends Table
             ->allowEmpty('study_adolescent');
 
         $validator
-            ->scalar('adolescents_age_group')
-            ->maxLength('adolescents_age_group', 255)
-            ->allowEmpty('adolescents_age_group');
-
-        $validator
             ->boolean('study_elderly')
             ->allowEmpty('study_elderly');
 
@@ -187,14 +182,22 @@ class ClinicalsTable extends Table
             ->allowEmpty('study_female');
 
         $validator
+            ->scalar('adolescents_age_group')
+            ->maxLength('adolescents_age_group', 255)
+            ->requirePresence('adolescents_age_group', 'create')
+            ->notEmpty('adolescents_age_group');
+
+        $validator
             ->scalar('potential_contraception')
             ->maxLength('potential_contraception', 255)
-            ->allowEmpty('potential_contraception');
+            ->requirePresence('potential_contraception', 'create')
+            ->notEmpty('potential_contraception');
 
         $validator
             ->scalar('potential_none_contraception')
             ->maxLength('potential_none_contraception', 255)
-            ->allowEmpty('potential_none_contraception');
+            ->requirePresence('potential_none_contraception', 'create')
+            ->notEmpty('potential_none_contraception');
 
         $validator
             ->scalar('study_population_comments')
@@ -731,6 +734,11 @@ class ClinicalsTable extends Table
             ->scalar('assessor_discussion')
             ->maxLength('assessor_discussion', 4294967295)
             ->allowEmpty('assessor_discussion');
+
+        $validator
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
 
         return $validator;
     }

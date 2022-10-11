@@ -140,6 +140,7 @@ use Cake\ORM\Entity;
  * @property string $overall_comments
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
+ * @property string $additional
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
@@ -290,6 +291,7 @@ class NonClinical extends Entity
         'overall_comments' => true,
         'created' => true,
         'deleted' => true,
+        'additional' => true,
         'application' => true,
         'user' => true
     ];

@@ -10,59 +10,33 @@ $numb = 1;
         <div style="margin-left: 30px;">
 
             <table class="table table-bordered table-condensed">
-                <thead>
-                    <tr class="active">
-                        <th></th>
-                        <th>Introduction </th>
-                        <th width="35%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td colspan="3">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label>Workspace:</label>
-                                    <?php
-
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.quality_workspace', ['label' => false, 'class' => 'ckeditor', 'escape' => false, 'templates' => 'textarea_form']);
-                                    ?>
-                                </div>
+ 
+                <tr class="active">
+                    <th></th>
+                    <th>Assessment of the IMPD </th>
+                    <th width="35%"></th>
+                </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <label> IMP</label>
                             </div>
-                        </td>
-                    </tr>
-                    <tr class="active">
-                        <th> <?php $numb = 1; ?></th>
-                        <th>GMP compliance </th>
-                        <th width="35%"></th>
-                    </tr>
-                    <tr class="active">
-                        <th></th>
-                        <th>Assessment of the IMPD </th>
-                        <th width="35%"></th>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <label> IMP</label>
-                                </div>
-                                <div class="col-xs-9">
-                                    (check off all that apply)
-                                    <?php
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.gmp_smpc', ['type' => 'checkbox', 'label' => 'Registered, non-modified product only SmPC has been provided, IMPD', 'templates' => 'checkbox_form_ev']);
+                            <div class="col-xs-9">
+                                (check off all that apply)
+                                <?php
+                                echo $this->Form->control('quality_assessments.' . $ekey . '.gmp_smpc', ['type' => 'checkbox', 'label' => 'Registered, non-modified product only SmPC has been provided, IMPD', 'templates' => 'checkbox_form_ev']);
 
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.gmp_included', ['type' => 'checkbox', 'label' => 'Assessment of the IMPD is included in section 2.3', 'templates' => 'checkbox_form_ev']);
-                                    ?>
+                                echo $this->Form->control('quality_assessments.' . $ekey . '.gmp_included', ['type' => 'checkbox', 'label' => 'Assessment of the IMPD is included in section 2.3', 'templates' => 'checkbox_form_ev']);
+                                ?>
 
 
-                                </div>
                             </div>
-                        </td>
-                        <td> </td>
-                    </tr>
+                        </div>
+                    </td>
+                    <td> </td>
+                </tr>
                 </tbody>
             </table>
             <h5>S Drug substance Section (<small>where necessary, Click button to add more -
@@ -832,115 +806,12 @@ $numb = 1;
                 </table>
             </div>
 
-            <!-- Final Section -->
-            <table class="table table-bordered table-condensed">
-
-                <tbody>
-                    <tr class="active">
-                        <th> <?php $numb = 1; ?></th>
-                        <th> Labelling</th>
-                        <th width="35%"></th>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td> Is the proposed labelling in line with national requirements?</td>
-                        <td>
-                            <?= $this->Form->control('quality_assessments.' . $ekey . '.labelling', [
-                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
-                                'options' => ['Yes' => 'Yes', 'No' => 'No', 'NA' => 'NA']
-                            ]); ?> </td>
-                    </tr>
-
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td colspan="3">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label> Officer’s Comments </label>
-                                    <?php
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.labelling_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
-                                    ?>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="active">
-                        <th> <?php $numb = 1; ?></th>
-                        <th> Blinding</th>
-                        <th width="35%"></th>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td colspan="3">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label> Workspace </label>
-                                    <?php
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.blinding_workspace', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
-                                    ?>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td colspan="3">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label> Officer’s Comments </label>
-                                    <?php
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.blinding_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
-                                    ?>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="active">
-                        <th> <?php $numb = 1; ?></th>
-                        <th> Assessor’s overall conclusions on the quality part</th>
-                        <th width="35%"></th>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td> The quality data are acceptable:</td>
-                        <td>
-                            <?= $this->Form->control('quality_assessments.' . $ekey . '.acceptable', [
-                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
-                                'options' => ['Yes' => 'Yes', 'No' => 'No']
-                            ]); ?> </td>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td> Supplementary information has to be provided</td>
-                        <td>
-                            <?= $this->Form->control('quality_assessments.' . $ekey . '.supplementary_need', [
-                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
-                                'options' => ['Yes' => 'Yes', 'No' => 'No']
-                            ]); ?> </td>
-                    </tr>
-                    <tr>
-                        <td><?= $numb++ ?>.</td>
-                        <td colspan="3">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label> Overall comment/ conclusion on the quality assessment: </label>
-                                    <?php
-                                    echo $this->Form->control('quality_assessments.' . $ekey . '.overall_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
-                                    ?>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- End of Final Section -->
 
         </div>
     </div>
     <div id="investigator_contacts">
         <?php
-        if (!empty($application['quality_assessments'][$ekey]['drugs'])) {
+        if (!empty($application['quality_assessments'][$ekey]['sdrugs'])) {
             for ($i = 1; $i <= count($application['investigator_contacts']) - 1; $i++) {
                 if ($i == 1) echo "<h5 style='margin-left: 30px;'><b></b></h5>";
         ?>

@@ -654,5 +654,6 @@ class Application extends Entity
         'quality_assessments' => true,
         'sdrugs' => true,
         'quality' => true,
+        'compliance' => true,
     ];
 }

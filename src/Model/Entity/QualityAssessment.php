@@ -89,10 +89,18 @@ use Cake\ORM\Entity;
  * @property string $solvents_info
  * @property string $solvents_workspace
  * @property string $solvents_comments
+ * @property string $placebo
+ * @property string $placebo_workspace
+ * @property string $placebo_comments
+ * @property string $auxiliary
+ * @property string $auxiliary_workspace
+ * @property string $auxiliary_comments
+ * @property string $additional
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
- * @property \App\Model\Entity\Sdrug[] $sdrug
+ * @property \App\Model\Entity\Compliance[] $compliance
+ * @property \App\Model\Entity\Sdrug[] $sdrugs
  */
 class QualityAssessment extends Entity
 {
@@ -189,8 +197,16 @@ class QualityAssessment extends Entity
         'solvents_info' => true,
         'solvents_workspace' => true,
         'solvents_comments' => true,
+        'placebo' => true,
+        'placebo_workspace' => true,
+        'placebo_comments' => true,
+        'auxiliary' => true,
+        'auxiliary_workspace' => true,
+        'auxiliary_comments' => true,
+        'additional' => true,
         'application' => true,
         'user' => true,
-        'sdrug' => true
+        'compliance' => true,
+        'sdrugs' => true
     ];
 }

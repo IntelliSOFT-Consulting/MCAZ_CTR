@@ -9,10 +9,12 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $quality_assessment_id
- * @property string $name
- * @property string $function
- * @property string $valid_license
+ * @property string $site_name
+ * @property string $site_function
+ * @property int $valid_license
  * @property string $comment
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $updated_at
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\QualityAssessment $quality_assessment
@@ -32,10 +34,12 @@ class Compliance extends Entity
     protected $_accessible = [
         'application_id' => true,
         'quality_assessment_id' => true,
-        'name' => true,
-        'function' => true,
+        'site_name' => true,
+        'site_function' => true,
         'valid_license' => true,
         'comment' => true,
+        'created_at' => true,
+        'updated_at' => true,
         'application' => true,
         'quality_assessment' => true
     ];

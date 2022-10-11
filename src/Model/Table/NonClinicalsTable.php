@@ -702,6 +702,11 @@ class NonClinicalsTable extends Table
             ->dateTime('deleted')
             ->allowEmpty('deleted');
 
+        $validator
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
+
         return $validator;
     }
 

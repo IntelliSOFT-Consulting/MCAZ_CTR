@@ -38,12 +38,10 @@ class ComplianceTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Applications', [
-            'foreignKey' => 'application_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'application_id'
         ]);
         $this->belongsTo('QualityAssessments', [
-            'foreignKey' => 'quality_assessment_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'quality_assessment_id'
         ]);
     }
 
@@ -60,25 +58,30 @@ class ComplianceTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('name')
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->scalar('site_name')
+            ->maxLength('site_name', 255)
+            ->allowEmpty('site_name');
 
         $validator
-            ->scalar('function')
-            ->requirePresence('function', 'create')
-            ->notEmpty('function');
+            ->scalar('site_function')
+            ->maxLength('site_function', 255)
+            ->allowEmpty('site_function');
 
         $validator
-            ->scalar('valid_license')
-            ->maxLength('valid_license', 255)
-            ->requirePresence('valid_license', 'create')
-            ->notEmpty('valid_license');
+            ->allowEmpty('valid_license');
 
         $validator
             ->scalar('comment')
-            ->requirePresence('comment', 'create')
-            ->notEmpty('comment');
+            ->maxLength('comment', 255)
+            ->allowEmpty('comment');
+
+        $validator
+            ->dateTime('created_at')
+            ->allowEmpty('created_at');
+
+        $validator
+            ->dateTime('updated_at')
+            ->allowEmpty('updated_at');
 
         return $validator;
     }

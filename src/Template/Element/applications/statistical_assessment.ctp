@@ -392,6 +392,19 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td><?= $numb++ ?>.</td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label> REQUESTS FOR ADDITIONAL INFORMATION:</label>
+                                <?php
+                                    echo $this->Form->control('statisticals.' . $ekey . '.additional', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
 
         </table>

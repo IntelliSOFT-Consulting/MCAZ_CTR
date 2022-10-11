@@ -29,24 +29,32 @@
             <td><?= $compliance->has('quality_assessment') ? $this->Html->link($compliance->quality_assessment->id, ['controller' => 'QualityAssessments', 'action' => 'view', $compliance->quality_assessment->id]) : '' ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Valid License') ?></th>
-            <td><?= h($compliance->valid_license) ?></td>
+            <th scope="row"><?= __('Site Name') ?></th>
+            <td><?= h($compliance->site_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Site Function') ?></th>
+            <td><?= h($compliance->site_function) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Comment') ?></th>
+            <td><?= h($compliance->comment) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($compliance->id) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Valid License') ?></th>
+            <td><?= $this->Number->format($compliance->valid_license) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Created At') ?></th>
+            <td><?= h($compliance->created_at) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Updated At') ?></th>
+            <td><?= h($compliance->updated_at) ?></td>
+        </tr>
     </table>
-    <div class="row">
-        <h4><?= __('Name') ?></h4>
-        <?= $this->Text->autoParagraph(h($compliance->name)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Function') ?></h4>
-        <?= $this->Text->autoParagraph(h($compliance->function)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($compliance->comment)); ?>
-    </div>
 </div>

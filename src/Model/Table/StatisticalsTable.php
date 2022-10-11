@@ -19,6 +19,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Statistical patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Statistical[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Statistical findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StatisticalsTable extends Table
 {
@@ -36,6 +38,8 @@ class StatisticalsTable extends Table
         $this->setTable('statisticals');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id',
@@ -208,6 +212,15 @@ class StatisticalsTable extends Table
             ->scalar('overall_comment')
             ->maxLength('overall_comment', 4294967295)
             ->allowEmpty('overall_comment');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
+
+        $validator
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
 
         return $validator;
     }
