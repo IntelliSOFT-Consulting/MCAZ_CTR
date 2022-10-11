@@ -52,6 +52,6 @@ custom styles.
 
 ## License
 
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+[![License](http://img.shields.io/:license-gnu-blue.svg?style=flat-square)](http://badges.gnu-license.org)
 
 - **[GNU General Public License](https://github.com/IntelliSOFT-Consulting/MCAZ_CTR/blob/master/LICENSE.md)**
