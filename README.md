@@ -52,7 +52,6 @@ custom styles.
 
 ## License
 [![License](http://img.shields.io/:license-gnu-blue.svg?style=flat-square)](http://badges.gnu-license.org) 
-Copyright [yyyy] [ICL]
 
 Licensed under the GNU General Public License, Version 3.0 (the "License");
 you may not use this file except in compliance with the License.
