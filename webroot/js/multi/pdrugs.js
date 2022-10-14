@@ -1,13 +1,13 @@
 $(function () {
     // Multi Contacts Handling
-    $("#addPIContact").on("click", addPIContacts);
+    $("#AddPDrug").on("click", AddPDrug);
     $(document).on('click', '.removePIContact', removePIContact);
     $(document).on('click', '.updateCheckboxes', updateCheckboxes); 
     $("#pdrugs").find('.rteditor').ckeditor();
 
  
     // Multi Contacts Handling
-    function addPIContacts() {
+    function AddPDrug() {
         var se = $("#pdrugs .contact-group").last().find('button').attr('id');
         if (typeof se !== 'undefined' && se !== false && se !== "") {
             intId = parseFloat(se.replace('pdrugsButton', '')) + 1;
@@ -35,7 +35,7 @@ $(function () {
 
         if ($("#pdrugs .contact-group").length < 9) {
             var new_picontact = $('<div class="contact-group" style="margin-right: 30px;"> \
-                    <div style="margin-right: 30px;" id="investigator_primary_contact"> \
+                    <div style="margin-right: 30px;" id="pdrug_primary"> \
                         <div class="form-group" style="margin-right: 30px;">\
                         <table class="table table-bordered table-condensed">\
                         <thead>\
@@ -46,7 +46,6 @@ $(function () {
                             </tr>\
                         </thead>\
                     <tbody>\
-                    <tr>\
                     <tr>\
                     <td></td>\
                     <td>The description and composition are adequate:</td>\

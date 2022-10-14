@@ -17,6 +17,8 @@
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Compliance'), ['controller' => 'Compliance', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Compliance'), ['controller' => 'Compliance', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Pdrugs'), ['controller' => 'Pdrugs', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Pdrug'), ['controller' => 'Pdrugs', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sdrugs'), ['controller' => 'Sdrugs', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sdrug'), ['controller' => 'Sdrugs', 'action' => 'add']) ?> </li>
     </ul>
@@ -33,8 +35,20 @@
             <td><?= $qualityAssessment->has('user') ? $this->Html->link($qualityAssessment->user->name, ['controller' => 'Users', 'action' => 'view', $qualityAssessment->user->id]) : '' ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Code') ?></th>
-            <td><?= h($qualityAssessment->code) ?></td>
+            <th scope="row"><?= __('Quality Data') ?></th>
+            <td><?= h($qualityAssessment->quality_data) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Adventitious Agents') ?></th>
+            <td><?= h($qualityAssessment->adventitious_agents) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Novel Excipients') ?></th>
+            <td><?= h($qualityAssessment->novel_excipients) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Reconstitution') ?></th>
+            <td><?= h($qualityAssessment->reconstitution) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Labelling') ?></th>
@@ -49,149 +63,61 @@
             <td><?= h($qualityAssessment->supplementary_need) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Submitted') ?></th>
-            <td><?= h($qualityAssessment->submitted) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Drug Authorised') ?></th>
-            <td><?= h($qualityAssessment->drug_authorised) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Str Subsection') ?></th>
-            <td><?= h($qualityAssessment->str_subsection) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Gen Prop Adequately') ?></th>
-            <td><?= h($qualityAssessment->gen_prop_adequately) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Manu Identified') ?></th>
-            <td><?= h($qualityAssessment->manu_identified) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Process Described') ?></th>
-            <td><?= h($qualityAssessment->process_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Control Described') ?></th>
-            <td><?= h($qualityAssessment->control_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Control Steps Described') ?></th>
-            <td><?= h($qualityAssessment->control_steps_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Validation Described') ?></th>
-            <td><?= h($qualityAssessment->validation_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Manufacturing Described') ?></th>
-            <td><?= h($qualityAssessment->manufacturing_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Substance Described') ?></th>
-            <td><?= h($qualityAssessment->substance_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Impurities Characterised') ?></th>
-            <td><?= h($qualityAssessment->impurities_characterised) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Specifications Appropriate') ?></th>
-            <td><?= h($qualityAssessment->specifications_appropriate) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Analytical Described') ?></th>
-            <td><?= h($qualityAssessment->analytical_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Acceptance Presented') ?></th>
-            <td><?= h($qualityAssessment->acceptance_presented) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Suitability Explained') ?></th>
-            <td><?= h($qualityAssessment->suitability_explained) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Batch Provided') ?></th>
-            <td><?= h($qualityAssessment->batch_provided) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Justification Acceptable') ?></th>
-            <td><?= h($qualityAssessment->justification_acceptable) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Reference Described') ?></th>
-            <td><?= h($qualityAssessment->reference_described) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Container Suitable') ?></th>
-            <td><?= h($qualityAssessment->container_suitable) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Stability Satisfactory') ?></th>
-            <td><?= h($qualityAssessment->stability_satisfactory) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Medical Product') ?></th>
-            <td><?= h($qualityAssessment->medical_product) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Agents Adequate') ?></th>
-            <td><?= h($qualityAssessment->agents_adequate) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Novel Excipients') ?></th>
-            <td><?= h($qualityAssessment->novel_excipients) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Solvents Info') ?></th>
-            <td><?= h($qualityAssessment->solvents_info) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Placebo') ?></th>
-            <td><?= h($qualityAssessment->placebo) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Auxiliary') ?></th>
-            <td><?= h($qualityAssessment->auxiliary) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($qualityAssessment->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Gmp Included') ?></th>
+            <td><?= $this->Number->format($qualityAssessment->gmp_included) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Gmp Smpc') ?></th>
+            <td><?= $this->Number->format($qualityAssessment->gmp_smpc) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($qualityAssessment->created) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Deleted') ?></th>
-            <td><?= h($qualityAssessment->deleted) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Gmp Smpc') ?></th>
-            <td><?= $qualityAssessment->gmp_smpc ? __('Yes') : __('No'); ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Gmp Included') ?></th>
-            <td><?= $qualityAssessment->gmp_included ? __('Yes') : __('No'); ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Drug Eur') ?></th>
-            <td><?= $qualityAssessment->drug_eur ? __('Yes') : __('No'); ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Drug Usp') ?></th>
-            <td><?= $qualityAssessment->drug_usp ? __('Yes') : __('No'); ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Drug None') ?></th>
-            <td><?= $qualityAssessment->drug_none ? __('Yes') : __('No'); ?></td>
+            <th scope="row"><?= __('Updated At') ?></th>
+            <td><?= h($qualityAssessment->updated_at) ?></td>
         </tr>
     </table>
     <div class="row">
         <h4><?= __('Quality Workspace') ?></h4>
         <?= $this->Text->autoParagraph(h($qualityAssessment->quality_workspace)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Auxiliary Workspace') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->auxiliary_workspace)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Auxiliary Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->auxiliary_comments)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Adventitious Workspace') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->adventitious_workspace)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Adventitious Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->adventitious_comments)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Novel Excipients Workspace') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->novel_excipients_workspace)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Novel Excipients Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->novel_excipients_comments)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Reconstitution Workspace') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->reconstitution_workspace)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Reconstitution Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($qualityAssessment->reconstitution_comments)); ?>
     </div>
     <div class="row">
         <h4><?= __('Labelling Comments') ?></h4>
@@ -208,178 +134,6 @@
     <div class="row">
         <h4><?= __('Overall Comments') ?></h4>
         <?= $this->Text->autoParagraph(h($qualityAssessment->overall_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Drug Ssection') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->drug_ssection)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Nomen Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->nomen_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Noment Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->noment_comment)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Str Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->str_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Str Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->str_comment)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Gen Prop Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->gen_prop_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Gen Prop Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->gen_prop_comment)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Gen Manu Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->gen_manu_comment)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Process Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->process_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Workspace Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->workspace_comment)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Control Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->control_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Control Comment') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->control_comment)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Control Steps Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->control_steps_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Validation Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->validation_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Manufacturing Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->manufacturing_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Manufacturing Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->manufacturing_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Substance Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->substance_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Substance Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->substance_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Impurities Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->impurities_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Impurities Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->impurities_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Specifications Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->specifications_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Specifications Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->specifications_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Analytical Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->analytical_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Validation Procedures Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->validation_procedures_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Batch Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->batch_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Batch Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->batch_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Justification Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->justification_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Justification Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->justification_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Reference Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->reference_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Container Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->container_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Stability Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->stability_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Medical Product Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->medical_product_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Medical Product Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->medical_product_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Agents Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->agents_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Agents Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->agents_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Novel Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->novel_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Novel Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->novel_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Solvents Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->solvents_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Solvents Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->solvents_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Placebo Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->placebo_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Placebo Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->placebo_comments)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Auxiliary Workspace') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->auxiliary_workspace)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Auxiliary Comments') ?></h4>
-        <?= $this->Text->autoParagraph(h($qualityAssessment->auxiliary_comments)); ?>
     </div>
     <div class="row">
         <h4><?= __('Additional') ?></h4>
@@ -416,6 +170,155 @@
                     <?= $this->Html->link(__('View'), ['controller' => 'Compliance', 'action' => 'view', $compliance->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Compliance', 'action' => 'edit', $compliance->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'Compliance', 'action' => 'delete', $compliance->id], ['confirm' => __('Are you sure you want to delete # {0}?', $compliance->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Pdrugs') ?></h4>
+        <?php if (!empty($qualityAssessment->pdrugs)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Application Id') ?></th>
+                <th scope="col"><?= __('Quality Assessment Id') ?></th>
+                <th scope="col"><?= __('Composition') ?></th>
+                <th scope="col"><?= __('Composition Workspace') ?></th>
+                <th scope="col"><?= __('Composition Comment') ?></th>
+                <th scope="col"><?= __('Pharma Adequate') ?></th>
+                <th scope="col"><?= __('Pharma Comments') ?></th>
+                <th scope="col"><?= __('Manu Identified') ?></th>
+                <th scope="col"><?= __('Manu Workspace') ?></th>
+                <th scope="col"><?= __('Manu Comments') ?></th>
+                <th scope="col"><?= __('Batch Described') ?></th>
+                <th scope="col"><?= __('Batch Workspace') ?></th>
+                <th scope="col"><?= __('Batch Comments') ?></th>
+                <th scope="col"><?= __('Control Described') ?></th>
+                <th scope="col"><?= __('Control Workspace') ?></th>
+                <th scope="col"><?= __('Control Comments') ?></th>
+                <th scope="col"><?= __('Control Steps Described') ?></th>
+                <th scope="col"><?= __('Control Steps Comments') ?></th>
+                <th scope="col"><?= __('Validation Described') ?></th>
+                <th scope="col"><?= __('Validation Workspace') ?></th>
+                <th scope="col"><?= __('Validation Comments') ?></th>
+                <th scope="col"><?= __('Specification Criteria') ?></th>
+                <th scope="col"><?= __('Specifications Comments') ?></th>
+                <th scope="col"><?= __('Analytical Described') ?></th>
+                <th scope="col"><?= __('Analytical Comments') ?></th>
+                <th scope="col"><?= __('Procedures Validated') ?></th>
+                <th scope="col"><?= __('Procedures Comments') ?></th>
+                <th scope="col"><?= __('Justification Satisfactory') ?></th>
+                <th scope="col"><?= __('Justification Comments') ?></th>
+                <th scope="col"><?= __('Justification Workspace') ?></th>
+                <th scope="col"><?= __('Animal Origin') ?></th>
+                <th scope="col"><?= __('Tse Satisfactory') ?></th>
+                <th scope="col"><?= __('Tse Comments') ?></th>
+                <th scope="col"><?= __('Excipients Controlled') ?></th>
+                <th scope="col"><?= __('Excipients Workspace') ?></th>
+                <th scope="col"><?= __('Excipients Comments') ?></th>
+                <th scope="col"><?= __('Appropriate Limits') ?></th>
+                <th scope="col"><?= __('Appropriate Control Workspace') ?></th>
+                <th scope="col"><?= __('Appropriate Control Comments') ?></th>
+                <th scope="col"><?= __('Analytical Methods') ?></th>
+                <th scope="col"><?= __('Analytical Methods Comments') ?></th>
+                <th scope="col"><?= __('Validation Procedure') ?></th>
+                <th scope="col"><?= __('Validation Results') ?></th>
+                <th scope="col"><?= __('Validation Second Comments') ?></th>
+                <th scope="col"><?= __('Batch Analyses') ?></th>
+                <th scope="col"><?= __('Batch Described Comments') ?></th>
+                <th scope="col"><?= __('Impurities Acceptable') ?></th>
+                <th scope="col"><?= __('Impurities Workspace') ?></th>
+                <th scope="col"><?= __('Impurities Comments') ?></th>
+                <th scope="col"><?= __('Product Specifications') ?></th>
+                <th scope="col"><?= __('Justification Satis Comments') ?></th>
+                <th scope="col"><?= __('Justification Specs Comments') ?></th>
+                <th scope="col"><?= __('Justification Specs Workspace') ?></th>
+                <th scope="col"><?= __('Reference Standards') ?></th>
+                <th scope="col"><?= __('Reference Standards Comments') ?></th>
+                <th scope="col"><?= __('Closure System') ?></th>
+                <th scope="col"><?= __('Closure System Comments') ?></th>
+                <th scope="col"><?= __('Stability Tests') ?></th>
+                <th scope="col"><?= __('Stability Tests Workspace') ?></th>
+                <th scope="col"><?= __('Substantial Amendment') ?></th>
+                <th scope="col"><?= __('Registered Protocol') ?></th>
+                <th scope="col"><?= __('Pdrug Comments') ?></th>
+                <th scope="col"><?= __('Created At') ?></th>
+                <th scope="col"><?= __('Updated At') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($qualityAssessment->pdrugs as $pdrugs): ?>
+            <tr>
+                <td><?= h($pdrugs->id) ?></td>
+                <td><?= h($pdrugs->application_id) ?></td>
+                <td><?= h($pdrugs->quality_assessment_id) ?></td>
+                <td><?= h($pdrugs->composition) ?></td>
+                <td><?= h($pdrugs->composition_workspace) ?></td>
+                <td><?= h($pdrugs->composition_comment) ?></td>
+                <td><?= h($pdrugs->pharma_adequate) ?></td>
+                <td><?= h($pdrugs->pharma_comments) ?></td>
+                <td><?= h($pdrugs->manu_identified) ?></td>
+                <td><?= h($pdrugs->manu_workspace) ?></td>
+                <td><?= h($pdrugs->manu_comments) ?></td>
+                <td><?= h($pdrugs->batch_described) ?></td>
+                <td><?= h($pdrugs->batch_workspace) ?></td>
+                <td><?= h($pdrugs->batch_comments) ?></td>
+                <td><?= h($pdrugs->control_described) ?></td>
+                <td><?= h($pdrugs->control_workspace) ?></td>
+                <td><?= h($pdrugs->control_comments) ?></td>
+                <td><?= h($pdrugs->control_steps_described) ?></td>
+                <td><?= h($pdrugs->control_steps_comments) ?></td>
+                <td><?= h($pdrugs->validation_described) ?></td>
+                <td><?= h($pdrugs->validation_workspace) ?></td>
+                <td><?= h($pdrugs->validation_comments) ?></td>
+                <td><?= h($pdrugs->specification_criteria) ?></td>
+                <td><?= h($pdrugs->specifications_comments) ?></td>
+                <td><?= h($pdrugs->analytical_described) ?></td>
+                <td><?= h($pdrugs->analytical_comments) ?></td>
+                <td><?= h($pdrugs->procedures_validated) ?></td>
+                <td><?= h($pdrugs->procedures_comments) ?></td>
+                <td><?= h($pdrugs->justification_satisfactory) ?></td>
+                <td><?= h($pdrugs->justification_comments) ?></td>
+                <td><?= h($pdrugs->justification_workspace) ?></td>
+                <td><?= h($pdrugs->animal_origin) ?></td>
+                <td><?= h($pdrugs->tse_satisfactory) ?></td>
+                <td><?= h($pdrugs->tse_comments) ?></td>
+                <td><?= h($pdrugs->excipients_controlled) ?></td>
+                <td><?= h($pdrugs->excipients_workspace) ?></td>
+                <td><?= h($pdrugs->excipients_comments) ?></td>
+                <td><?= h($pdrugs->appropriate_limits) ?></td>
+                <td><?= h($pdrugs->appropriate_control_workspace) ?></td>
+                <td><?= h($pdrugs->appropriate_control_comments) ?></td>
+                <td><?= h($pdrugs->analytical_methods) ?></td>
+                <td><?= h($pdrugs->analytical_methods_comments) ?></td>
+                <td><?= h($pdrugs->validation_procedure) ?></td>
+                <td><?= h($pdrugs->validation_results) ?></td>
+                <td><?= h($pdrugs->validation_second_comments) ?></td>
+                <td><?= h($pdrugs->batch_analyses) ?></td>
+                <td><?= h($pdrugs->batch_described_comments) ?></td>
+                <td><?= h($pdrugs->impurities_acceptable) ?></td>
+                <td><?= h($pdrugs->impurities_workspace) ?></td>
+                <td><?= h($pdrugs->impurities_comments) ?></td>
+                <td><?= h($pdrugs->product_specifications) ?></td>
+                <td><?= h($pdrugs->justification_satis_comments) ?></td>
+                <td><?= h($pdrugs->justification_specs_comments) ?></td>
+                <td><?= h($pdrugs->justification_specs_workspace) ?></td>
+                <td><?= h($pdrugs->reference_standards) ?></td>
+                <td><?= h($pdrugs->reference_standards_comments) ?></td>
+                <td><?= h($pdrugs->closure_system) ?></td>
+                <td><?= h($pdrugs->closure_system_comments) ?></td>
+                <td><?= h($pdrugs->stability_tests) ?></td>
+                <td><?= h($pdrugs->stability_tests_workspace) ?></td>
+                <td><?= h($pdrugs->substantial_amendment) ?></td>
+                <td><?= h($pdrugs->registered_protocol) ?></td>
+                <td><?= h($pdrugs->pdrug_comments) ?></td>
+                <td><?= h($pdrugs->created_at) ?></td>
+                <td><?= h($pdrugs->updated_at) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'Pdrugs', 'action' => 'view', $pdrugs->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Pdrugs', 'action' => 'edit', $pdrugs->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Pdrugs', 'action' => 'delete', $pdrugs->id], ['confirm' => __('Are you sure you want to delete # {0}?', $pdrugs->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

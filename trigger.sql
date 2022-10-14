@@ -21,6 +21,17 @@ BEGIN
         WHERE created = NEW.created_at
      );
 END;
+CREATE TRIGGER tgr_pdrugs
+BEFORE INSERT ON `pdrugs` 
+FOR EACH ROW
+BEGIN
+  SET NEW.quality_assessment_id = 
+     (
+       SELECT id 
+         FROM quality_assessments
+        WHERE created = NEW.created_at
+     );
+END;
 
 CREATE TRIGGER tgr_compliance
 BEFORE INSERT ON `compliance` 
@@ -59,4 +70,3 @@ BEGIN
      );
 END;
  
-

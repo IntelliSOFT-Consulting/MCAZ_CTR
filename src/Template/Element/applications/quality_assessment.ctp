@@ -13,8 +13,8 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
             echo $this->Form->control('quality_assessments.' . $ekey . '.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
             echo $this->Form->control('quality_assessments.' . $ekey . '.submitted', ['type' => 'hidden', 'value' => 'created', 'templates' => 'table_form']);
-          ?>
-               <table class="table table-bordered table-condensed">
+            ?>
+            <table class="table table-bordered table-condensed">
                 <thead>
                     <tr class="active">
                         <th></th>
@@ -37,20 +37,192 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                             </div>
                         </td>
                     </tr>
-                    
+
                 </tbody>
             </table>
             <?php
-            //  echo $this->element('multi/gmp_compliance');
-            //  echo $this->element('multi/impd_assessments');
-             echo $this->element('multi/pdrugs_assessments');
+            echo $this->element('multi/gmp_compliance');
+            echo $this->element('multi/sdrugs_assessments');
+            echo $this->element('multi/pdrugs_assessments');
 
-          
+
             ?>
             <!-- Final Section -->
             <table class="table table-bordered table-condensed">
 
                 <tbody>
+                    <tr class="active">
+                        <th> <?php $numb = 1; ?></th>
+                        <th>3.3 A Appendices</th>
+                        <th width="35%"></th>
+                    </tr>
+                    <tr>
+                        <th> <?php $numb = 1; ?></th>
+                        <th>A.1 Facilities and equipment<small>Not applicable</small></th>
+                        <th width="35%"></th>
+                    </tr>
+                    <tr class="active">
+                        <th> <?php $numb = 1; ?></th>
+                        <th>A.2 Adventitious agents' safety evaluation</th>
+                        <th width="35%"></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> The data provided on the safety of adventitious agents are adequate</td>
+                        <td>
+                            <?= $this->Form->control('quality_assessments.' . $ekey . '.adventitious_agents', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No', 'NA' => 'NA']
+                            ]); ?> </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Workspace </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.adventitious_workspace', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Officer’s Comments </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.adventitious_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <th> <?php $numb = 1; ?></th>
+                        <th>A.3 Novel excipients</th>
+                        <th width="35%"></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> The information on novel excipients is in line with the respective clinical phase</td>
+                        <td>
+                            <?= $this->Form->control('quality_assessments.' . $ekey . '.novel_excipients', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No', 'NA' => 'NA']
+                            ]); ?> </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Workspace </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.novel_excipients_workspace', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Officer’s Comments </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.novel_excipients_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <th> <?php $numb = 1; ?></th>
+                        <th>A.4 Solvents for reconstitution/dilution</th>
+                        <th width="35%"></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> Information on solvents provided:</td>
+                        <td>
+                            <?= $this->Form->control('quality_assessments.' . $ekey . '.reconstitution', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No', 'NA' => 'NA']
+                            ]); ?> </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Workspace </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.reconstitution_workspace', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Officer’s Comments </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.reconstitution_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- End -->
+                    <tr class="active">
+                        <th> <?php $numb = 1; ?></th>
+                        <th>1.6 Auxiliary medical products– replicate the individual sections of the assessment form, 3.S and 3.P as required</th>
+                        <th width="35%"></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> The quality data provided for non-authorised auxiliary medical products are acceptable</td>
+                        <td>
+                            <?= $this->Form->control('quality_assessments.' . $ekey . '.quality_data', [
+                                'type' => 'radio', 'label' => false, 'templates' => 'radio_form_tbl',
+                                'options' => ['Yes' => 'Yes', 'No' => 'No', 'NA' => 'NA']
+                            ]); ?> </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Workspace </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.auxiliary_workspace', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label> Officer’s Comments </label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.auxiliary_comments', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     <tr class="active">
                         <th> <?php $numb = 1; ?></th>
                         <th>1.7 Labelling</th>
@@ -152,25 +324,25 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                         <th width="35%"></th>
                     </tr>
                     <tr>
-                    <td></td>
-                    <td colspan="3">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label></label>
-                                <?php
+                        <td></td>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label></label>
+                                    <?php
                                     echo $this->Form->control('quality_assessments.' . $ekey . '.additional', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
                                     ?>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
             <!-- End of Final Section -->
         </div>
     </div>
-<div class="form-group">
+    <div class="form-group">
         <div class="col-sm-12">
             <?php if ($prefix == 'evaluator' || $prefix == 'manager') { ?>
                 <button type="submit" class="btn btn-info active" id="ev-save-changes" name="ev_save" value="1"><i class="fa fa-save" aria-hidden="true"></i> Save Changes</button>

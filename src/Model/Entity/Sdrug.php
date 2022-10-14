@@ -175,6 +175,7 @@ class Sdrug extends Entity
         'created_at' => true,
         'update_at' => true,
         'application' => true,
-        'quality_assessment' => true
+        'quality_assessment' => true,
+        'storage_conditions' => true
     ];
 }

@@ -43,7 +43,6 @@
                 <th scope="col"><?= $this->Paginator->sort('validation_procedure') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('validation_results') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('batch_analyses') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('batch_described_comments') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('impurities_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('product_specifications') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_standards') ?></th>
@@ -81,7 +80,6 @@
                 <td><?= h($pdrug->validation_procedure) ?></td>
                 <td><?= h($pdrug->validation_results) ?></td>
                 <td><?= h($pdrug->batch_analyses) ?></td>
-                <td><?= h($pdrug->batch_described_comments) ?></td>
                 <td><?= h($pdrug->impurities_acceptable) ?></td>
                 <td><?= h($pdrug->product_specifications) ?></td>
                 <td><?= h($pdrug->reference_standards) ?></td>

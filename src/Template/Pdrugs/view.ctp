@@ -103,10 +103,6 @@
             <td><?= h($pdrug->batch_analyses) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Batch Described Comments') ?></th>
-            <td><?= h($pdrug->batch_described_comments) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Impurities Acceptable') ?></th>
             <td><?= h($pdrug->impurities_acceptable) ?></td>
         </tr>
@@ -246,6 +242,10 @@
     <div class="row">
         <h4><?= __('Validation Second Comments') ?></h4>
         <?= $this->Text->autoParagraph(h($pdrug->validation_second_comments)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Batch Described Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($pdrug->batch_described_comments)); ?>
     </div>
     <div class="row">
         <h4><?= __('Impurities Workspace') ?></h4>

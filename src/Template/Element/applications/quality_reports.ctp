@@ -117,7 +117,6 @@ if ($prefix === 'manager') {
                             <th width="35%"></th>
                         </tr>
 
-
                         <tr>
                             <td><?= $numb++ ?>.</td>
                             <td>
@@ -849,7 +848,771 @@ if ($prefix === 'manager') {
 
                         <?php } ?>
 
+
                         <!-- End of S-Drug -->
+
+                        <!-- Start of P-Drug -->
+                        <?php
+                        $pdrugs = $quadata->pdrugs;
+                        foreach ($pdrugs as $pdrug) {
+                        ?>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>P Drug substance </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>P.1 Description and composition of the investigational medical product: </td>
+                                <td> <?= $pdrug->substance_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The description and composition are adequate:</td>
+                                <td><?= $pdrug->composition ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $pdrug->composition_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->composition_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>P.2 Pharmaceutical development </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The pharmaceutical development is adequately described:</td>
+                                <td>
+                                    <?= $pdrug->pharma_adequate ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Comments</label>
+                                            <?= $pdrug->pharma_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>P.3 Manufacture </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>P.3.1 Manufacturer(s) </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The manufacturing sites are clearly identified:</td>
+                                <td>
+                                    <?= $pdrug->manu_identified ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $pdrug->manu_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->manu_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> </th>
+                                <th>P.3.2 Batch formula</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The batch formula is appropriately described:</td>
+                                <td>
+                                    <?= $pdrug->batch_described ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $pdrug->batch_described_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->batch_described_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>P.3.3 Description of the manufacturing process and process controls</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The manufacturing process and process control are adequately described:?</td>
+                                <td>
+                                    <?= $pdrug->control_described ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $pdrug->control_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->control_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>P.3.4 Controls of critical steps and intermediates</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The controls of critical steps and intermediates are adequately described:</td>
+                                <td>
+                                    <?= $pdrug->control_steps_described ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->control_steps_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>P.3.5 Process validation and/or evaluation</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The validation processes are adequately described: </td>
+                                <td>
+                                    <?= $pdrug->validation_described ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace:</label>
+                                            <?= $pdrug->validation_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->validation_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4 Control of excipients </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4.1 Specifications </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> For excipients not described in current pharmacopoeias. The specifications and acceptance criteria provided are appropriate: </td>
+                                <td>
+                                    <?= $pdrug->specification_criteria ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->specifications_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4.2 Analytical procedures </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The analytical procedures are adequately described: </td>
+                                <td>
+                                    <?= $pdrug->analytical_described ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->analytical_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4.3 Validation of the analytical procedures </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The analytical procedures are adequately validated:</td>
+                                <td>
+                                    <?= $pdrug->procedures_validated ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->procedures_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4.4 Justification of the specifications</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The justification provided for the specifications of excipients and their limits is satisfactory: </td>
+                                <td>
+                                    <?= $pdrug->justification_satisfactory ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $pdrug->justification_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->justification_satis_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4.5 Excipients of animal or human origin </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The IMP contains excipients of animal origin: </td>
+                                <td>
+                                    <?= $pdrug->animal_origin ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> Safety information on transmissible spongiform encephalopathies (TSE) is provided and deemed satisfactory: </td>
+                                <td>
+                                    <?= $pdrug->tse_satisfactory ?> </td>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->tse_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.4.6 Novel excipients </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> Excipients are appropriately controlled: </td>
+                                <td>
+                                    <?= $pdrug->excipients_controlled ?> </td>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $pdrug->excipients_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->excipients_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5 Control of the drug product </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5.1 Specifications </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> Satisfactory specifications for the drug product, including appropriate limits, are proposed:</td>
+                                <td>
+                                    <?= $pdrug->appropriate_limits ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $pdrug->appropriate_control_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->appropriate_control_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5.2 Analytical procedures </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> Are the analytical methods adequately described?: </td>
+                                <td>
+                                    <?= $pdrug->analytical_methods ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->analytical_methods_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5.3 Validation of analytical procedures </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> <b>Phase I trials</b>. The suitability of the methods is commensurate with the stage of development. The acceptance limits and parameters to validate the analytical methods are presented: </td>
+                                <td>
+                                    <?= $pdrug->validation_procedure ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> <b>For phase II/III trials</b>. The suitability of methods is commensurate with the stage of development and clearly explained. A summary of the validation results is provided: </td>
+                                <td>
+                                    <?= $pdrug->validation_results ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->validation_second_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5.4 Batch analyses </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> Data for representative batch analyses are provided for all the relevant manufacturing process, and for each drug product manufacturer:</td>
+                                <td>
+                                    <?= $pdrug->batch_analyses ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $pdrug->batch_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5.5 Characterisation of impurities </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The information provided for impurities is acceptable:</td>
+                                <td>
+                                    <?= $pdrug->impurities_acceptable ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace: </label>
+                                            <?= $pdrug->impurities_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $pdrug->impurities_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.5.6 Justification of specification(s) </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The justification for the drug product specifications and limits is acceptable</td>
+                                <td>
+                                    <?= $pdrug->product_specifications ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $pdrug->justification_specs_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $pdrug->justification_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.6 Reference standards or materials </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The justification for the drug product specifications and limits is acceptable</td>
+                                <td>
+                                    <?= $pdrug->reference_standards ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $pdrug->reference_standards_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.7 Container closure system </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The container closure system for the drug product is properly characterised and suitable:</td>
+                                <td>
+                                    <?= $pdrug->closure_system ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $pdrug->closure_system_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.8 Stability </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.8.1 Stability summary and conclusions </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.8.2 Post-approval stability protocol and stability commitment </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th> P.8.3 Stability data </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The drug product has undergone appropriate stability tests:</td>
+                                <td>
+                                    <?= $pdrug->stability_tests ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace: </label>
+                                            <?= $pdrug->stability_tests_workspace ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <?php if (!empty($pdrug->storage_conditions)) : ?>
+                            <tr class="active">
+                                <td></td>
+                                <td colspan="3">List of proposed shelf-life/retest period and storage conditions of the drug substance. </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h5><small> Summary of stability studies provided in support of the proposed shelf-life. State number of months for which data is available.:</small></h5>
+                                        </div>
+                                    </div>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="border">
+                                                <!-- check if pdrugs['storage_conditions'] is not empty -->
+                                                
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th> Batch details<br> (e.g. batch number) </th>
+                                                                <th> Manufacturing <br>process </th>
+                                                                <th> -70ºC</th>
+                                                                <th> -20ºC </th>
+                                                                <th> 5ºC </th>
+                                                                <th> 25ºC/<br>60% RH</th>
+                                                                <th> 30ºC/<br>65% RH</th>
+                                                                <th> 40ºC/<br>75% RH </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $i = 1;
+                                                            foreach ($pdrug->storage_conditions as $storage_condition) :
+                                                                $i++;
+
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= $i; ?></td>
+                                                                    <td>
+                                                                        <?= $storage_condition->batch_details ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->manu_process ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->neg_seventy ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->neg_twenty ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_five ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_twenty_five ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_thirty ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_fourty ?>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                        </tbody>
+                                                    </table>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endif; ?>
+                            <tr class="active">
+                                <th></th>
+                                <th> Comment whether trends or out of specifications results were observed. </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The extension of shelf-life will be made without substantial amendment:</td>
+                                <td>
+                                    <?= $pdrug->substantial_amendment ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> If yes, extension to be made in accordance with a registered protocol:</td>
+                                <td>
+                                    <?= $pdrug->registered_protocol ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $pdrug->pdrug_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+
                         <tr class="active">
                             <th> 1.7 <?php $numb = 1; ?></th>
                             <th> Labelling </th>

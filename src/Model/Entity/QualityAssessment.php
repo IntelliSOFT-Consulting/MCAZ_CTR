@@ -9,10 +9,21 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
- * @property string $code
  * @property string $quality_workspace
- * @property bool $gmp_smpc
- * @property bool $gmp_included
+ * @property int $gmp_included
+ * @property int $gmp_smpc
+ * @property string $quality_data
+ * @property string $auxiliary_workspace
+ * @property string $auxiliary_comments
+ * @property string $adventitious_agents
+ * @property string $adventitious_workspace
+ * @property string $adventitious_comments
+ * @property string $novel_excipients
+ * @property string $novel_excipients_workspace
+ * @property string $novel_excipients_comments
+ * @property string $reconstitution
+ * @property string $reconstitution_workspace
+ * @property string $reconstitution_comments
  * @property string $labelling
  * @property string $labelling_comments
  * @property string $blinding_workspace
@@ -20,86 +31,14 @@ use Cake\ORM\Entity;
  * @property string $acceptable
  * @property string $supplementary_need
  * @property string $overall_comments
- * @property string $submitted
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $deleted
- * @property bool $drug_eur
- * @property bool $drug_usp
- * @property bool $drug_none
- * @property string $drug_authorised
- * @property string $drug_ssection
- * @property string $nomen_workspace
- * @property string $noment_comment
- * @property string $str_subsection
- * @property string $str_workspace
- * @property string $str_comment
- * @property string $gen_prop_adequately
- * @property string $gen_prop_workspace
- * @property string $gen_prop_comment
- * @property string $manu_identified
- * @property string $process_described
- * @property string $gen_manu_comment
- * @property string $process_workspace
- * @property string $workspace_comment
- * @property string $control_described
- * @property string $control_workspace
- * @property string $control_comment
- * @property string $control_steps_described
- * @property string $control_steps_comments
- * @property string $validation_described
- * @property string $validation_comments
- * @property string $manufacturing_described
- * @property string $manufacturing_workspace
- * @property string $manufacturing_comments
- * @property string $substance_described
- * @property string $substance_workspace
- * @property string $substance_comments
- * @property string $impurities_characterised
- * @property string $impurities_workspace
- * @property string $impurities_comments
- * @property string $specifications_appropriate
- * @property string $specifications_workspace
- * @property string $specifications_comments
- * @property string $analytical_described
- * @property string $analytical_comments
- * @property string $acceptance_presented
- * @property string $suitability_explained
- * @property string $validation_procedures_comments
- * @property string $batch_provided
- * @property string $batch_workspace
- * @property string $batch_comments
- * @property string $justification_acceptable
- * @property string $justification_workspace
- * @property string $justification_comments
- * @property string $reference_described
- * @property string $reference_comments
- * @property string $container_suitable
- * @property string $container_comments
- * @property string $stability_satisfactory
- * @property string $stability_workspace
- * @property string $medical_product
- * @property string $medical_product_workspace
- * @property string $medical_product_comments
- * @property string $agents_adequate
- * @property string $agents_workspace
- * @property string $agents_comments
- * @property string $novel_excipients
- * @property string $novel_workspace
- * @property string $novel_comments
- * @property string $solvents_info
- * @property string $solvents_workspace
- * @property string $solvents_comments
- * @property string $placebo
- * @property string $placebo_workspace
- * @property string $placebo_comments
- * @property string $auxiliary
- * @property string $auxiliary_workspace
- * @property string $auxiliary_comments
  * @property string $additional
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $updated_at
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Compliance[] $compliance
+ * @property \App\Model\Entity\Pdrug[] $pdrugs
  * @property \App\Model\Entity\Sdrug[] $sdrugs
  */
 class QualityAssessment extends Entity
@@ -117,10 +56,21 @@ class QualityAssessment extends Entity
     protected $_accessible = [
         'application_id' => true,
         'user_id' => true,
-        'code' => true,
         'quality_workspace' => true,
-        'gmp_smpc' => true,
         'gmp_included' => true,
+        'gmp_smpc' => true,
+        'quality_data' => true,
+        'auxiliary_workspace' => true,
+        'auxiliary_comments' => true,
+        'adventitious_agents' => true,
+        'adventitious_workspace' => true,
+        'adventitious_comments' => true,
+        'novel_excipients' => true,
+        'novel_excipients_workspace' => true,
+        'novel_excipients_comments' => true,
+        'reconstitution' => true,
+        'reconstitution_workspace' => true,
+        'reconstitution_comments' => true,
         'labelling' => true,
         'labelling_comments' => true,
         'blinding_workspace' => true,
@@ -128,86 +78,13 @@ class QualityAssessment extends Entity
         'acceptable' => true,
         'supplementary_need' => true,
         'overall_comments' => true,
-        'submitted' => true,
-        'created' => true,
-        'deleted' => true,
-        'drug_eur' => true,
-        'drug_usp' => true,
-        'drug_none' => true,
-        'drug_authorised' => true,
-        'drug_ssection' => true,
-        'nomen_workspace' => true,
-        'noment_comment' => true,
-        'str_subsection' => true,
-        'str_workspace' => true,
-        'str_comment' => true,
-        'gen_prop_adequately' => true,
-        'gen_prop_workspace' => true,
-        'gen_prop_comment' => true,
-        'manu_identified' => true,
-        'process_described' => true,
-        'gen_manu_comment' => true,
-        'process_workspace' => true,
-        'workspace_comment' => true,
-        'control_described' => true,
-        'control_workspace' => true,
-        'control_comment' => true,
-        'control_steps_described' => true,
-        'control_steps_comments' => true,
-        'validation_described' => true,
-        'validation_comments' => true,
-        'manufacturing_described' => true,
-        'manufacturing_workspace' => true,
-        'manufacturing_comments' => true,
-        'substance_described' => true,
-        'substance_workspace' => true,
-        'substance_comments' => true,
-        'impurities_characterised' => true,
-        'impurities_workspace' => true,
-        'impurities_comments' => true,
-        'specifications_appropriate' => true,
-        'specifications_workspace' => true,
-        'specifications_comments' => true,
-        'analytical_described' => true,
-        'analytical_comments' => true,
-        'acceptance_presented' => true,
-        'suitability_explained' => true,
-        'validation_procedures_comments' => true,
-        'batch_provided' => true,
-        'batch_workspace' => true,
-        'batch_comments' => true,
-        'justification_acceptable' => true,
-        'justification_workspace' => true,
-        'justification_comments' => true,
-        'reference_described' => true,
-        'reference_comments' => true,
-        'container_suitable' => true,
-        'container_comments' => true,
-        'stability_satisfactory' => true,
-        'stability_workspace' => true,
-        'medical_product' => true,
-        'medical_product_workspace' => true,
-        'medical_product_comments' => true,
-        'agents_adequate' => true,
-        'agents_workspace' => true,
-        'agents_comments' => true,
-        'novel_excipients' => true,
-        'novel_workspace' => true,
-        'novel_comments' => true,
-        'solvents_info' => true,
-        'solvents_workspace' => true,
-        'solvents_comments' => true,
-        'placebo' => true,
-        'placebo_workspace' => true,
-        'placebo_comments' => true,
-        'auxiliary' => true,
-        'auxiliary_workspace' => true,
-        'auxiliary_comments' => true,
         'additional' => true,
+        'created' => true,
+        'updated_at' => true,
         'application' => true,
         'user' => true,
         'compliance' => true,
-        'sdrugs' => true,
         'pdrugs' => true,
+        'sdrugs' => true
     ];
 }

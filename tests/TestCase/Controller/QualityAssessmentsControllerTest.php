@@ -20,6 +20,7 @@ class QualityAssessmentsControllerTest extends IntegrationTestCase
         'app.applications',
         'app.users',
         'app.compliance',
+        'app.pdrugs',
         'app.sdrugs'
     ];
 

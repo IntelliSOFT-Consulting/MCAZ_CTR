@@ -28,6 +28,7 @@ class QualityAssessmentsTableTest extends TestCase
         'app.applications',
         'app.users',
         'app.compliance',
+        'app.pdrugs',
         'app.sdrugs'
     ];
 

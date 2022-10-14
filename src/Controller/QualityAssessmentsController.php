@@ -38,7 +38,7 @@ class QualityAssessmentsController extends AppController
     public function view($id = null)
     {
         $qualityAssessment = $this->QualityAssessments->get($id, [
-            'contain' => ['Applications', 'Users', 'Compliance', 'Sdrugs']
+            'contain' => ['Applications', 'Users', 'Compliance', 'Pdrugs', 'Sdrugs']
         ]);
 
         $this->set('qualityAssessment', $qualityAssessment);

@@ -276,7 +276,7 @@ class PdrugsTable extends Table
 
         $validator
             ->scalar('batch_described_comments')
-            ->maxLength('batch_described_comments', 255)
+            ->maxLength('batch_described_comments', 4294967295)
             ->allowEmpty('batch_described_comments');
 
         $validator
