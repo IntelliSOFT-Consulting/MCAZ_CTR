@@ -370,6 +370,10 @@ class ApplicationsTable extends Table
             'className' => 'Sdrugs',
             'foreignKey' => 'application_id',
         ]);
+        $this->hasMany('Pdrugs', [
+            'className' => 'Pdrugs',
+            'foreignKey' => 'application_id',
+        ]);
         $this->hasMany('Compliance', [
             'className' => 'Compliance',
             'foreignKey' => 'application_id',

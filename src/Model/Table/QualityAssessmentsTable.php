@@ -57,6 +57,9 @@ class QualityAssessmentsTable extends Table
         $this->hasMany('Sdrugs', [
             'foreignKey' => 'quality_assessment_id'
         ]);
+        $this->hasMany('Pdrugs', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
     }
 
     /**

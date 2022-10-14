@@ -207,6 +207,7 @@ class QualityAssessment extends Entity
         'application' => true,
         'user' => true,
         'compliance' => true,
-        'sdrugs' => true
+        'sdrugs' => true,
+        'pdrugs' => true,
     ];
 }

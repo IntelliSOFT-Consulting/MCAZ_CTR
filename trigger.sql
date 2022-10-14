@@ -46,5 +46,17 @@ BEGIN
         WHERE created_at = NEW.created_at and NEW.model = 'sdrug'
      );
 END;
+
+CREATE TRIGGER tgr_pdrugs_storage_conditions
+BEFORE INSERT ON `storage_conditions` 
+FOR EACH ROW
+BEGIN
+  SET NEW.pdrug_id = 
+     (
+       SELECT id 
+         FROM pdrugs
+        WHERE created_at = NEW.created_at and NEW.model = 'pdrug'
+     );
+END;
  
 
