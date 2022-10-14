@@ -34,5 +34,17 @@ BEGIN
      );
 END;
 
+
+CREATE TRIGGER tgr_sdrugs_storage_conditions
+BEFORE INSERT ON `storage_conditions` 
+FOR EACH ROW
+BEGIN
+  SET NEW.sdrug_id = 
+     (
+       SELECT id 
+         FROM sdrugs
+        WHERE created_at = NEW.created_at and NEW.model = 'sdrug'
+     );
+END;
  
 

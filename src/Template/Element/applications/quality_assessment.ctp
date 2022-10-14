@@ -43,6 +43,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             <?php
              echo $this->element('multi/gmp_compliance');
              echo $this->element('multi/impd_assessments');
+            //  echo $this->element('multi/storage_conditions');
 
           
             ?>

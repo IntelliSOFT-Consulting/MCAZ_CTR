@@ -374,6 +374,11 @@ class ApplicationsTable extends Table
             'className' => 'Compliance',
             'foreignKey' => 'application_id',
         ]);
+        $this->hasMany('StorageConditions', [
+            'className' => 'StorageConditions',
+            'foreignKey' => 'application_id',
+        ]);
+
         $this->hasMany('Refids', [
             'className' => 'Refids',
             'foreignKey' => 'foreign_key',

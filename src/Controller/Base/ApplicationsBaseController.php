@@ -627,9 +627,9 @@ class ApplicationsBaseController extends AppController
                         $data['vars']['evaluator_name'] = $this->Auth->user('name');
                         $data['vars']['user_message'] = "New quality Assessment has been created";
                         //notify applicant
-                        $this->QueuedJobs->createJob('GenericEmail', $data);
-                        $data['type'] = 'manager_create_review_notification';
-                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                        // $this->QueuedJobs->createJob('GenericEmail', $data);
+                        // $data['type'] = 'manager_create_review_notification';
+                        // $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
 
                     $this->Flash->success('Successful submitted quality review of Application ' . $application->protocol_no . '.');
@@ -1731,7 +1731,7 @@ class ApplicationsBaseController extends AppController
    public function qualityReview($id = null, $scope = null)
    {
        $data = $this->Applications->QualityAssessments->get($id, [
-           'contain' => ['Applications' => $this->_contain, 'Users','SDrugs'],
+           'contain' => ['Applications' => $this->_contain, 'Users','SDrugs','Compliance'],
        ]);
        $application = $data->application;
        $quality[] = $data;

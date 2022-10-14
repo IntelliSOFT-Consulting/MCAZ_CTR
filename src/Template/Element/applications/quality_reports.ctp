@@ -65,6 +65,52 @@ if ($prefix === 'manager') {
                             <th>GMP compliance </th>
                             <th width="35%"></th>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!-- check if there are compliance -->
+                                        <?php if (count($quadata->compliance) > 0) { ?>
+                                            <table class="table table-bordered table-condensed">
+                                                <thead>
+                                                    <tr class="active">
+                                                        <th>#</th>
+                                                        <th> Name and address of site(can be cut and pasted from the IMPD) </th>
+                                                        <th> Function (include reference to PRx, PLx etc as relevant) </th>
+                                                        <th> Valid license </th>
+                                                        <th> Comment </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $numb = 1;
+                                                    foreach ($quadata->compliance as $comp) {
+                                                    ?>
+                                                        <tr>
+                                                            <td><?= $numb++ ?>.</td>
+                                                            <td><?= $comp->site_name ?></td>
+                                                            <td><?= $comp->site_function ?></td>
+                                                            <td>
+                                                                <div class="entry">
+                                                                    <span class="editer">
+
+                                                                        <?= ($comp->valid_license) ? $checked : $nChecked; ?>Yes<br>
+                                                                    </span>
+
+                                                                </div>
+                                                            </td>
+                                                            <td><?= $comp->comment ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        <?php } ?>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                         <tr class="active">
                             <th></th>
                             <th>Assessment of the IMPD </th>
@@ -164,642 +210,642 @@ if ($prefix === 'manager') {
                                 </td>
                             </tr>
                             <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Does the active substance belong to an authorised drug product in the EU/USA/Japan?</td>
-                            <td><?= $sdrug->drug_authorised ?></td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>None of the above (full S Section is needed):</label>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Does the active substance belong to an authorised drug product in the EU/USA/Japan?</td>
+                                <td><?= $sdrug->drug_authorised ?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>None of the above (full S Section is needed):</label>
 
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>GMP General information </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr class="active">
-                            <th></th>
-                            <th>Nomenclature</th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Workspace</label>
-                                        <?= $sdrug->nomen_workspace ?> 
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->noment_comment ?> 
-                                       
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>Structure </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Does the submitted documentation cover this subsection adequately?</td>
-                            <td>    <?= $sdrug->str_subsection ?> 
-                                   </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Workspace:</label>
-                                        <?= $sdrug->str_workspace ?> 
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->str_comment ?>                                       
-                                       
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>General properties </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Does the submitted material cover this subsection adequately?</td>
-                            <td>  <?= $sdrug->gen_prop_adequately ?> 
-                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Workspace:</label>
-                                        <?= $sdrug->gen_prop_workspace ?> 
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-
-                                        <?= $sdrug->gen_prop_comment ?> 
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>Manufacture </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>Manufacturer(s) </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Are the production sites clearly identified?</td>
-                            <td> 
-                                        <?= $sdrug->manu_identified ?> 
-                               </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->gen_manu_comment ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>Description of the manufacturing process and process controls</th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Substance: Are the manufacturing processes and their controls adequately described?</td>
-                            <td>      <?= $sdrug->process_described ?>
-                               </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Workspace</label>
-                                        <?= $sdrug->process_workspace ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->workspace_comment ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>Control of materials</th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Is the control of materials adequately described?</td>
-                            <td>     <?= $sdrug->control_described ?>
-                               </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Workspace</label>
-                                        <?= $sdrug->control_workspace ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->control_comment ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th>Control of critical steps and intermediates</th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td>Is the control of critical steps and intermediates adequately described?</td>
-                            <td>      <?= $sdrug->control_steps_described ?>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->control_steps_comments ?>
-                                        
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>GMP General information </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th></th>
+                                <th>Nomenclature</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $sdrug->nomen_workspace ?>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Process validation and/or evaluation </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Is the process validation adequately described? </td>
-                            <td>  <?= $sdrug->validation_described ?>
-                                        
                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->validation_comments ?>
-                                        
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->noment_comment ?>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Manufacturing process development </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Is the manufacturing process development adequately described? </td>
-                            <td>  <?= $sdrug->manufacturing_described ?>
-                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace </label>
-                                        <?= $sdrug->manufacturing_workspace ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->manufacturing_comments ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Characterisation </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Elucidation of the structure and other characteristics </th>
-                            <th width="35%"></th>
-                        </tr>
-
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Is the drug substance sufficiently characterised? </td>
-                            <td>   <?= $sdrug->substance_described ?>
-                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace </label>
-                                        <?= $sdrug->substance_workspace ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->substance_comments ?>
-                                       
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Impurities </th>
-                            <th width="35%"></th>
-                        </tr>
-
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Are impurities sufficiently characterised? </td>
-                            <td>    <?= $sdrug->impurities_characterised ?>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace </label>
-                                        <?= $sdrug->impurities_workspace ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->impurities_comments ?>
-                                       
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Control of the drug substance </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Specification(s) </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Satisfactory specifications for the drug substance, including appropriate limits, are proposed:
-                            </td>
-                            <td>    <?= $sdrug->specifications_appropriate ?>
-                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace </label>
-                                        <?= $sdrug->specifications_workspace ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->specifications_comments ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Analytical procedures </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Are the analytical methods adequately described? </td>
-                            <td>  <?= $sdrug->analytical_described ?>
-                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->analytical_comments ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Validation of analytical procedures </th>
-                            <th width="35%"></th>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> <b>Phase I trials</b> The suitability of the methods is commensurate with the stage of
-                                development. The acceptance limits and parameters to validate the analytical methods are
-                                presented: </td>
-                            <td>
-                                        <?= $sdrug->acceptance_presented ?>
-                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> <b>For phase II/III trials</b> The suitability of methods is commensurate with the stage of
-                                development and clearly explained. A summary of the validation results is provided: </td>
-                            <td>  <?= $sdrug->suitability_explained ?>
+                            </tr>
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>Structure </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Does the submitted documentation cover this subsection adequately?</td>
+                                <td> <?= $sdrug->str_subsection ?>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->validation_procedures_comments ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Batch analyses </th>
-                            <th width="35%"></th>
-                        </tr>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace:</label>
+                                            <?= $sdrug->str_workspace ?>
 
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> Data for representative batch analyses are provided for all the relevant manufacturing process,
-                                and for each drug substance manufacturer: </td>
-                            <td>   <?= $sdrug->batch_provided ?>
+                                        </div>
+                                    </div>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace </label>
-                                        <?= $sdrug->batch_workspace ?>
-                                         
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->str_comment ?>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->batch_comments ?>
-                                         
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Justification of the specification (s) </th>
-                            <th width="35%"></th>
-                        </tr>
-
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> The justification for the specifications is acceptable</td>
-                            <td> <?= $sdrug->justification_acceptable ?>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace </label>
-                                        <?= $sdrug->justification_workspace ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->justification_comments ?>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                            </tr>
 
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Reference standards or materials </th>
-                            <th width="35%"></th>
-                        </tr>
-
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> A suitable reference standard is adequately described: </td>
-                            <td>  <?= $sdrug->reference_described ?>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>General properties </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Does the submitted material cover this subsection adequately?</td>
+                                <td> <?= $sdrug->gen_prop_adequately ?>
                                 </td>
-                        </tr>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace:</label>
+                                            <?= $sdrug->gen_prop_workspace ?>
 
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->reference_comments ?>
-                                         
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
 
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Container closure system </th>
-                            <th width="35%"></th>
-                        </tr>
+                                            <?= $sdrug->gen_prop_comment ?>
 
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> The container closure system for the drug substance is properly characterised and suitable:
-                            </td>
-                            <td>    <?= $sdrug->container_suitable ?>
-                                 </td>
-                        </tr>
-
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label>Officer’s Comments</label>
-                                        <?= $sdrug->container_comments ?>
-                                         
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="active">
-                            <th> <?php $numb = 1; ?></th>
-                            <th> Stability </th>
-                            <th width="35%"></th>
-                        </tr>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>Manufacture </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>Manufacturer(s) </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Are the production sites clearly identified?</td>
+                                <td>
+                                    <?= $sdrug->manu_identified ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->gen_manu_comment ?>
 
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td> The stability for the drug substance is satisfactory and properly described for all the
-                                relevant manufacturing processes:
-                            </td>
-                            <td>  <?= $sdrug->stability_satisfactory ?>
-                                 </td>
-                        </tr>
-
-                        <tr>
-                            <td><?= $numb++ ?>.</td>
-                            <td colspan="3">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <label> Workspace: </label>
-                                        <?= $sdrug->stability_workspace ?>
-                                         
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>Description of the manufacturing process and process controls</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Substance: Are the manufacturing processes and their controls adequately described?</td>
+                                <td> <?= $sdrug->process_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $sdrug->process_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->workspace_comment ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>Control of materials</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Is the control of materials adequately described?</td>
+                                <td> <?= $sdrug->control_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Workspace</label>
+                                            <?= $sdrug->control_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->control_comment ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th>Control of critical steps and intermediates</th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td>Is the control of critical steps and intermediates adequately described?</td>
+                                <td> <?= $sdrug->control_steps_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->control_steps_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Process validation and/or evaluation </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Is the process validation adequately described? </td>
+                                <td> <?= $sdrug->validation_described ?>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->validation_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Manufacturing process development </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Is the manufacturing process development adequately described? </td>
+                                <td> <?= $sdrug->manufacturing_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $sdrug->manufacturing_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->manufacturing_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Characterisation </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Elucidation of the structure and other characteristics </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Is the drug substance sufficiently characterised? </td>
+                                <td> <?= $sdrug->substance_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $sdrug->substance_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->substance_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Impurities </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Are impurities sufficiently characterised? </td>
+                                <td> <?= $sdrug->impurities_characterised ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $sdrug->impurities_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->impurities_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Control of the drug substance </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Specification(s) </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Satisfactory specifications for the drug substance, including appropriate limits, are proposed:
+                                </td>
+                                <td> <?= $sdrug->specifications_appropriate ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $sdrug->specifications_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->specifications_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Analytical procedures </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Are the analytical methods adequately described? </td>
+                                <td> <?= $sdrug->analytical_described ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->analytical_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Validation of analytical procedures </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> <b>Phase I trials</b> The suitability of the methods is commensurate with the stage of
+                                    development. The acceptance limits and parameters to validate the analytical methods are
+                                    presented: </td>
+                                <td>
+                                    <?= $sdrug->acceptance_presented ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> <b>For phase II/III trials</b> The suitability of methods is commensurate with the stage of
+                                    development and clearly explained. A summary of the validation results is provided: </td>
+                                <td> <?= $sdrug->suitability_explained ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->validation_procedures_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Batch analyses </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> Data for representative batch analyses are provided for all the relevant manufacturing process,
+                                    and for each drug substance manufacturer: </td>
+                                <td> <?= $sdrug->batch_provided ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $sdrug->batch_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->batch_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Justification of the specification (s) </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> The justification for the specifications is acceptable</td>
+                                <td> <?= $sdrug->justification_acceptable ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace </label>
+                                            <?= $sdrug->justification_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->justification_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Reference standards or materials </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> A suitable reference standard is adequately described: </td>
+                                <td> <?= $sdrug->reference_described ?>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->reference_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Container closure system </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> The container closure system for the drug substance is properly characterised and suitable:
+                                </td>
+                                <td> <?= $sdrug->container_suitable ?>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label>Officer’s Comments</label>
+                                            <?= $sdrug->container_comments ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="active">
+                                <th> <?php $numb = 1; ?></th>
+                                <th> Stability </th>
+                                <th width="35%"></th>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td> The stability for the drug substance is satisfactory and properly described for all the
+                                    relevant manufacturing processes:
+                                </td>
+                                <td> <?= $sdrug->stability_satisfactory ?>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><?= $numb++ ?>.</td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Workspace: </label>
+                                            <?= $sdrug->stability_workspace ?>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
                         <?php } ?>
 
@@ -893,6 +939,19 @@ if ($prefix === 'manager') {
                                         <label> Overall comment/ conclusion on the quality assessment: </label>
                                         <br>
                                         <?= $quadata->overall_comments ?>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?= $numb++ ?>.</td>
+                            <td colspan="3">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <label> REQUESTS FOR ADDITIONAL INFORMATION ON QUALITY </label>
+                                        <br>
+                                        <?= $quadata->additional ?>
 
                                     </div>
                                 </div>

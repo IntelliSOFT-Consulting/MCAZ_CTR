@@ -3,8 +3,55 @@ $(function () {
     $("#addPIContact").on("click", addPIContacts);
     $(document).on('click', '.removePIContact', removePIContact);
     $(document).on('click', '.updateCheckboxes', updateCheckboxes);
+    $(document).on('click', '#addStorage', addStorage);
     $("#investigator_contacts").find('.rteditor').ckeditor();
 
+
+    function addStorage() {
+
+        var storageTable = $("#storageTable");        
+        var storageRow = storageTable.find("tr").last();
+        // subract 1 from the id to get the index of the table
+        console.log(tableId);
+        // console log the intId 
+         
+        var intId2 = 1 + 1; 
+        // add to max 10 rows
+        if ($('#storageTable tbody tr').length < 10) {
+            // ensure the rows fit well to the table as form-group class is used
+
+            var trWrapper = '\
+            <tr>\
+                <td>{i}</td>\
+                <td>\
+                <input class="form-control" name="storage_conditions[{i}][model]" id="storage_conditions-{i}-model" type="hidden" value="sdrug">\
+                <input class="form-control" name="storage_conditions[{i}][batch_details]" id="storage_conditions-{i}-batch_details" type="text">  </td>\
+                <td>\
+                    <input class="form-control" name="storage_conditions[{i}][manu_process]" id="storage_conditions-{i}-site_function" type="text"> </td>\
+                <td>\
+                <input class="form-control " name="storage_conditions[{i}][neg_seventy]" id="storage_conditions-{i}-neg_seventy" type="number">   </td>\
+                <td>\
+                <input class="form-control " name="storage_conditions[{i}][neg_twenty]" id="storage_conditions-{i}-neg_twenty" type="number">   </td>\
+                <td>\
+                <input class="form-control " name="storage_conditions[{i}][pos_five]" id="storage_conditions-{i}-pos_five" type="number">   </td>\
+                <td>\
+                <input class="form-control " name="storage_conditions[{i}][pos_twenty_five]" id="storage_conditions-{i}-pos_twenty_five" type="number">   </td>\
+                <td>\
+                <input class="form-control " name="storage_conditions[{i}][pos_thirty]" id="storage_conditions-{i}-pos_thirty" type="number">   </td>\
+                <td>\
+                <input class="form-control " name="storage_conditions[{i}][pos_forty]" id="storage_conditions-{i}-pos_forty" type="number">   </td>\
+                <td>\
+                    <button type="button" class="btn btn-default btn-sm remove-participant"><i class="fa fa-trash-o"></i> </button>\
+                </td>\
+                </tr>\
+                ';
+            trWrapper = trWrapper.replace(/{i}/g, intId2);
+            storageTable.append(trWrapper);
+        } else {
+            alert("Sorry, cant add more than " + $("#storageTable tbody tr").length + " Storage Conditions Substances!");
+        }
+
+    }
     // Multi Contacts Handling
     function addPIContacts() {
         var se = $("#investigator_contacts .contact-group").last().find('button').attr('id');
@@ -12,7 +59,7 @@ $(function () {
             intId = parseFloat(se.replace('investigator_contactsButton', '')) + 1;
         } else {
             intId = 1;
-        } 
+        }
 
         //get allcheckboxes under this group
 
@@ -33,9 +80,9 @@ $(function () {
 
 
         if ($("#investigator_contacts .contact-group").length < 9) {
-            var new_picontact = $('<div class="contact-group"> \
-                    <div style="margin-right: 20px;" id="investigator_primary_contact"> \
-                        <div class="form-group">\
+            var new_picontact = $('<div class="contact-group" style="margin-right: 30px;"> \
+                    <div style="margin-right: 30px;" id="investigator_primary_contact"> \
+                        <div class="form-group" style="margin-right: 30px;">\
                         <table class="table table-bordered table-condensed">\
                         <thead>\
                             <tr class="active">\
@@ -686,14 +733,79 @@ $(function () {
     </div>\
 </td>\
 </tr>\
+<tr class="active">\
+<td></td>\
+<td colspan="3">\List of proposed shelf-life/retest period and storage conditions of the drug substance. </td>\
+</tr>\
+<tr>\
+            <td></td>\
+            <td colspan="3">\
+                <div class="row">\
+                    <div class="col-xs-12">\
+                        <h5><small> Summary of stability studies provided in support of the proposed shelf-life. State number of months for which data is available.:</small></h5>\
+                    </div>\
+                </div>\
+            </tr>\
+            <tr>\
+            <td></td>\
+            <td colspan="3">\
+                <div class="row">\
+                    <div class="col-xs-12">\
+                        <div class="border">\
+                            <table id="storageTable{i}" class="table table-bordered ">\
+                                <thead>\
+                                    <tr>\
+                                        <th>#</th>\
+                                        <th> Batch details<br> (e.g. batch number) </th>\
+                                        <th> Manufacturing <br>process </th>\
+                                        <th> -70ºC</th>\
+                                        <th> -20ºC </th>\
+                                        <th> 5ºC </th>\
+                                        <th> 25ºC/<br>60% RH</th>\
+                                        <th> 30ºC/<br>65% RH</th>\
+                                        <th> 40ºC/<br>75% RH </th>\
+                                        <th></th>\
+                                    </tr>\
+                                </thead>\
+                                <tbody>\
+                                    <tr>\
+                                    <td>1.</td>\
+                                    <td>\
+                                    <input class="form-control" name="storage_conditions[{i}][model]" id="storage_conditions-{i}-model" type="hidden" value="sdrug">\
+                                    <input class="form-control" name="storage_conditions[{i}][batch_details]" id="storage_conditions-{i}-batch_details" type="text">  </td>\
+                                    <td>\
+                                        <input class="form-control" name="storage_conditions[{i}][manu_process]" id="storage_conditions-{i}-site_function" type="text"> </td>\
+                                    <td>\
+                                    <input class="form-control " name="storage_conditions[{i}][neg_seventy]" id="storage_conditions-{i}-neg_seventy" type="number">   </td>\
+                                    <td>\
+                                    <input class="form-control " name="storage_conditions[{i}][neg_twenty]" id="storage_conditions-{i}-neg_twenty" type="number">   </td>\
+                                    <td>\
+                                    <input class="form-control " name="storage_conditions[{i}][pos_five]" id="storage_conditions-{i}-pos_five" type="number">   </td>\
+                                    <td>\
+                                    <input class="form-control " name="storage_conditions[{i}][pos_twenty_five]" id="storage_conditions-{i}-pos_twenty_five" type="number">   </td>\
+                                    <td>\
+                                    <input class="form-control " name="storage_conditions[{i}][pos_thirty]" id="storage_conditions-{i}-pos_thirty" type="number">   </td>\
+                                    <td>\
+                                    <input class="form-control " name="storage_conditions[{i}][pos_forty]" id="storage_conditions-{i}-pos_forty" type="number">   </td>\
+                                    <td>\
+                                        <button type="button" class="btn btn-default btn-sm remove-participant"><i class="fa fa-trash-o"></i> </button>\
+                                    </td>\
+                                    </tr>\
+                                    </tbody>\
+                            </table>\
+                        </div>\
+                    </div>\
+                </div>\
+            </td>\
+        </tr>\
                 </tbody>\
             </table>\
-                        <div class="controls"><button type="button" id="investigator_contactsButton{i}" class="btn btn-xs btn-danger removePIContact"><i class="icon-trash"></i> Remove PR</button></div> \
+            <div class="controls"><button type="button" id="investigator_contactsButton{i}" class="btn btn-xs btn-danger removePIContact"><i class="icon-trash"></i> Remove PR</button></div> \
                         <hr id="investigator_contactsHr{i}"> \
                     </div> \
                     </div> \
                 </div>\
-                </div>'.replace(/{i}/g, intId)); 
+                </div>'.replace(/{i}/g, intId));
             $("#investigator_contacts").append(new_picontact).find('.rteditor').ckeditor();
         } else {
             alert("Sorry, cant add more than " + $("#investigator_contacts .contact-group").length + " S Drug Substances!");
@@ -721,7 +833,7 @@ $(function () {
                 $(this).val(0);
             }
         });
-         
+
     }
 
 

@@ -48,6 +48,10 @@ class SdrugsTable extends Table
         $this->belongsTo('QualityAssessments', [
             'foreignKey' => 'quality_assessment_id'
         ]);
+        $this->hasMany('StorageConditions', [
+            'className' => 'StorageConditions',
+            'foreignKey' => 'sdrug_id',
+        ]);
     }
 
     /**
