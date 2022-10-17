@@ -39,6 +39,7 @@ use Cake\ORM\Entity;
  * @property string $statistical_acceptable
  * @property string $information_needed
  * @property string $overall_comment
+ * @property int $chosen
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
  * @property string $additional
@@ -91,6 +92,7 @@ class Statistical extends Entity
         'statistical_acceptable' => true,
         'information_needed' => true,
         'overall_comment' => true,
+        'chosen' => true,
         'created' => true,
         'deleted' => true,
         'additional' => true,

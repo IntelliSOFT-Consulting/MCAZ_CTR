@@ -148,6 +148,7 @@ use Cake\ORM\Entity;
  * @property bool $supplementary_required
  * @property string $supplementary_required_comments
  * @property string $overal_assessment_comments
+ * @property int $chosen
  * @property \Cake\I18n\FrozenTime $deleted
  * @property \Cake\I18n\FrozenTime $created
  * @property string $assessor_discussion
@@ -310,6 +311,7 @@ class Clinical extends Entity
         'supplementary_required' => true,
         'supplementary_required_comments' => true,
         'overal_assessment_comments' => true,
+        'chosen' => true,
         'deleted' => true,
         'created' => true,
         'assessor_discussion' => true,

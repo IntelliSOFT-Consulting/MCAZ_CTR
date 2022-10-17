@@ -727,6 +727,10 @@ class ClinicalsTable extends Table
             ->allowEmpty('overal_assessment_comments');
 
         $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmpty('deleted');
 

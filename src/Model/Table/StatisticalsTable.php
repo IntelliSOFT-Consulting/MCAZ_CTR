@@ -214,6 +214,10 @@ class StatisticalsTable extends Table
             ->allowEmpty('overall_comment');
 
         $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmpty('deleted');
 

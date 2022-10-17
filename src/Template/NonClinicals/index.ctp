@@ -101,6 +101,7 @@
                 <th scope="col"><?= $this->Paginator->sort('glp_aspects') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('non_clinical_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_info_needed') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -191,6 +192,7 @@
                 <td><?= h($nonClinical->glp_aspects) ?></td>
                 <td><?= h($nonClinical->non_clinical_acceptable) ?></td>
                 <td><?= h($nonClinical->supplementary_info_needed) ?></td>
+                <td><?= $this->Number->format($nonClinical->chosen) ?></td>
                 <td><?= h($nonClinical->created) ?></td>
                 <td><?= h($nonClinical->deleted) ?></td>
                 <td class="actions">

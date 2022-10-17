@@ -309,6 +309,10 @@
             <td><?= $this->Number->format($nonClinical->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Chosen') ?></th>
+            <td><?= $this->Number->format($nonClinical->chosen) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($nonClinical->created) ?></td>
         </tr>

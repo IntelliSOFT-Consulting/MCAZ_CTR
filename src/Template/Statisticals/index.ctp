@@ -37,6 +37,7 @@
                 <th scope="col"><?= $this->Paginator->sort('interim_planning') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('statistical_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('information_needed') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -63,6 +64,7 @@
                 <td><?= h($statistical->interim_planning) ?></td>
                 <td><?= h($statistical->statistical_acceptable) ?></td>
                 <td><?= h($statistical->information_needed) ?></td>
+                <td><?= $this->Number->format($statistical->chosen) ?></td>
                 <td><?= h($statistical->created) ?></td>
                 <td><?= h($statistical->deleted) ?></td>
                 <td class="actions">

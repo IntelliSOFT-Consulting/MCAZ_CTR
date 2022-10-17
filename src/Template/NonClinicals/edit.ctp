@@ -156,6 +156,7 @@
             echo $this->Form->control('non_clinical_acceptable');
             echo $this->Form->control('supplementary_info_needed');
             echo $this->Form->control('overall_comments');
+            echo $this->Form->control('chosen');
             echo $this->Form->control('deleted', ['empty' => true]);
             echo $this->Form->control('additional');
         ?>

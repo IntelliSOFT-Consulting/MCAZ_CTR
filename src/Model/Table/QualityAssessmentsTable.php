@@ -185,6 +185,10 @@ class QualityAssessmentsTable extends Table
             ->allowEmpty('additional');
 
         $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
             ->dateTime('updated_at')
             ->allowEmpty('updated_at');
 

@@ -50,6 +50,7 @@
             echo $this->Form->control('supplementary_need');
             echo $this->Form->control('overall_comments');
             echo $this->Form->control('additional');
+            echo $this->Form->control('chosen');
             echo $this->Form->control('updated_at', ['empty' => true]);
         ?>
     </fieldset>

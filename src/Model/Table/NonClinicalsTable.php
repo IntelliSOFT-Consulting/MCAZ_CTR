@@ -699,6 +699,10 @@ class NonClinicalsTable extends Table
             ->allowEmpty('overall_comments');
 
         $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmpty('deleted');
 

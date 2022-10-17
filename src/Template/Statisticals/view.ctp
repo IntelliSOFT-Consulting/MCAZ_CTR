@@ -93,6 +93,10 @@
             <td><?= $this->Number->format($statistical->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Chosen') ?></th>
+            <td><?= $this->Number->format($statistical->chosen) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($statistical->created) ?></td>
         </tr>

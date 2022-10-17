@@ -32,6 +32,26 @@ if ($prefix === 'manager') {
                 </a>
                 <?php
                 if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'quality-review', '_ext' => 'pdf', $quadata->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+
+                echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
+                if (
+                    $this->request->params['_ext'] != 'pdf' and ($quadata->user_id != $this->request->session()->read('Auth.User.id'))
+                    and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
+                    //and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
+                    and is_null($quadata->chosen)
+                ) {
+                    echo $this->Form->postLink(
+                        '<span class="label label-success active">Approve the Review?</span>',
+                        ['action' => 'attachQualitySignature', $quadata->id, 'prefix' => $prefix],
+                        ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to Review?', 'class' => 'label-link']
+                    );
+                }
+                if (
+                    $this->request->params['_ext'] != 'pdf' and !empty($quadata->chosen)
+                    and in_array($quadata->chosen, Hash::extract($quality, '{n}.chosen'))
+                ) {
+                    echo '&nbsp;<span class="label label-success">Approved</span>';
+                }
                 ?>
             </div>
             <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $quadata->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
@@ -1502,29 +1522,29 @@ if ($prefix === 'manager') {
                                     </div>
                                 </td>
                             </tr>
-                            
+
                             <?php if (!empty($pdrug->storage_conditions)) : ?>
-                            <tr class="active">
-                                <td></td>
-                                <td colspan="3">List of proposed shelf-life/retest period and storage conditions of the drug substance. </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td colspan="3">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <h5><small> Summary of stability studies provided in support of the proposed shelf-life. State number of months for which data is available.:</small></h5>
+                                <tr class="active">
+                                    <td></td>
+                                    <td colspan="3">List of proposed shelf-life/retest period and storage conditions of the drug substance. </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <h5><small> Summary of stability studies provided in support of the proposed shelf-life. State number of months for which data is available.:</small></h5>
+                                            </div>
                                         </div>
-                                    </div>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td colspan="3">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <div class="border">
-                                                <!-- check if pdrugs['storage_conditions'] is not empty -->
-                                                
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="border">
+                                                    <!-- check if pdrugs['storage_conditions'] is not empty -->
+
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr>
@@ -1570,18 +1590,18 @@ if ($prefix === 'manager') {
                                                                         <?= $storage_condition->pos_thirty ?>
                                                                     </td>
                                                                     <td>
-                                                                        <?= $storage_condition->pos_fourty ?>
+                                                                        <?= $storage_condition->pos_forty ?>
                                                                     </td>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         </tbody>
                                                     </table>
-                                               
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             <?php endif; ?>
                             <tr class="active">
                                 <th></th>
@@ -1718,6 +1738,24 @@ if ($prefix === 'manager') {
 
                                     </div>
                                 </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h4 class="text-center"> Signature(s)</h4>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <h4 class="text-center">
+                                            <?php
+                                            echo ($quadata->user->dir) ? "<span>" . $quadata->user->name . ": </span><img src='" . $this->Url->build(substr($quadata->user->dir, 8) . '/' . $quadata->user->file, true) . "' style='width: 30%;' alt=''>" : '';
+                                            ?></h4>
+                                        <?= ($quadata->chosen) ? $this->cell('Signature', [$quadata->chosen]) : ''; ?>
+                                    </div>
+                                </div>
+                                <br>
                             </td>
                         </tr>
 

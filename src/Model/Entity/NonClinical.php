@@ -138,6 +138,7 @@ use Cake\ORM\Entity;
  * @property bool $non_clinical_acceptable
  * @property bool $supplementary_info_needed
  * @property string $overall_comments
+ * @property int $chosen
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
  * @property string $additional
@@ -289,6 +290,7 @@ class NonClinical extends Entity
         'non_clinical_acceptable' => true,
         'supplementary_info_needed' => true,
         'overall_comments' => true,
+        'chosen' => true,
         'created' => true,
         'deleted' => true,
         'additional' => true,

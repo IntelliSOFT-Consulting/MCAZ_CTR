@@ -75,6 +75,10 @@
             <td><?= $this->Number->format($qualityAssessment->gmp_smpc) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Chosen') ?></th>
+            <td><?= $this->Number->format($qualityAssessment->chosen) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($qualityAssessment->created) ?></td>
         </tr>

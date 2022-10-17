@@ -57,6 +57,7 @@
             echo $this->Form->control('statistical_acceptable');
             echo $this->Form->control('information_needed');
             echo $this->Form->control('overall_comment');
+            echo $this->Form->control('chosen');
             echo $this->Form->control('deleted', ['empty' => true]);
             echo $this->Form->control('additional');
         ?>

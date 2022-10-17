@@ -160,6 +160,7 @@
             echo $this->Form->control('supplementary_required');
             echo $this->Form->control('supplementary_required_comments');
             echo $this->Form->control('overal_assessment_comments');
+            echo $this->Form->control('chosen');
             echo $this->Form->control('deleted', ['empty' => true]);
             echo $this->Form->control('assessor_discussion');
             echo $this->Form->control('additional');

@@ -205,6 +205,10 @@
             <td><?= $this->Number->format($clinical->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Chosen') ?></th>
+            <td><?= $this->Number->format($clinical->chosen) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Deleted') ?></th>
             <td><?= h($clinical->deleted) ?></td>
         </tr>

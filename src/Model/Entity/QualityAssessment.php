@@ -32,6 +32,7 @@ use Cake\ORM\Entity;
  * @property string $supplementary_need
  * @property string $overall_comments
  * @property string $additional
+ * @property int $chosen
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $updated_at
  *
@@ -79,6 +80,7 @@ class QualityAssessment extends Entity
         'supplementary_need' => true,
         'overall_comments' => true,
         'additional' => true,
+        'chosen' => true,
         'created' => true,
         'updated_at' => true,
         'application' => true,

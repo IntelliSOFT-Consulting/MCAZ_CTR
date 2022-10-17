@@ -296,7 +296,7 @@ class ApplicationsBaseController extends AppController
             'conditions' => ['report_type' => 'Initial']
         ]);
 
-        // dd($application);
+        // dd($application->pdrugs[0]->storage_conditions);
 
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
@@ -926,6 +926,21 @@ class ApplicationsBaseController extends AppController
         return $this->redirect($this->redirect($this->referer()));
     }
 
+
+    public function  attachQualitySignature($id = null)
+    {
+        $quality = $this->Applications->QualityAssessments->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $quality = $this->Applications->QualityAssessments->patchEntity($quality, ['chosen' => $this->Auth->user('id')]);
+            if ($this->Applications->QualityAssessments->save($quality)) {
+                $this->Flash->success('Signature successfully attached to the revview');
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to attach signature. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+    }
 
     public function attachSignature($id = null)
     {

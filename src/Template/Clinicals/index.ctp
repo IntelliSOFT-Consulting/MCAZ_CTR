@@ -100,6 +100,7 @@
                 <th scope="col"><?= $this->Paginator->sort('unmonitored_threshold') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_required') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -189,6 +190,7 @@
                 <td><?= h($clinical->unmonitored_threshold) ?></td>
                 <td><?= h($clinical->application_acceptable) ?></td>
                 <td><?= h($clinical->supplementary_required) ?></td>
+                <td><?= $this->Number->format($clinical->chosen) ?></td>
                 <td><?= h($clinical->deleted) ?></td>
                 <td><?= h($clinical->created) ?></td>
                 <td class="actions">

@@ -37,6 +37,7 @@
                 <th scope="col"><?= $this->Paginator->sort('labelling') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_need') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('updated_at') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -57,6 +58,7 @@
                 <td><?= h($qualityAssessment->labelling) ?></td>
                 <td><?= h($qualityAssessment->acceptable) ?></td>
                 <td><?= h($qualityAssessment->supplementary_need) ?></td>
+                <td><?= $this->Number->format($qualityAssessment->chosen) ?></td>
                 <td><?= h($qualityAssessment->created) ?></td>
                 <td><?= h($qualityAssessment->updated_at) ?></td>
                 <td class="actions">
