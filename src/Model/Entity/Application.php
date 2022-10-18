@@ -657,5 +657,6 @@ class Application extends Entity
         'compliance' => true,
         'storage_conditions' => true,
         'pdrugs' => true,
+        'sdrugs_conditions' => true,
     ];
 }

@@ -71,6 +71,9 @@ use Cake\ORM\Entity;
  * @property string $batch_provided
  * @property string $batch_workspace
  * @property string $batch_comments
+ * @property string $substantial_amendment
+ * @property string $registered_protocol
+ * @property string $sdrug_comments
  * @property string $justification_acceptable
  * @property string $justification_workspace
  * @property string $justification_comments
@@ -85,6 +88,8 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\QualityAssessment $quality_assessment
+ * @property \App\Model\Entity\SdrugsCondition[] $sdrugs_conditions
+ * @property \App\Model\Entity\StorageCondition[] $storage_conditions
  */
 class Sdrug extends Entity
 {
@@ -163,6 +168,9 @@ class Sdrug extends Entity
         'batch_provided' => true,
         'batch_workspace' => true,
         'batch_comments' => true,
+        'substantial_amendment' => true,
+        'registered_protocol' => true,
+        'sdrug_comments' => true,
         'justification_acceptable' => true,
         'justification_workspace' => true,
         'justification_comments' => true,
@@ -176,6 +184,8 @@ class Sdrug extends Entity
         'update_at' => true,
         'application' => true,
         'quality_assessment' => true,
-        'storage_conditions' => true
+        'sdrugs_conditions' => true,
+        'storage_conditions' => true,
+        
     ];
 }

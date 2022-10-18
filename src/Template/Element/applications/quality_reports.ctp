@@ -38,7 +38,7 @@ if ($prefix === 'manager') {
                     $this->request->params['_ext'] != 'pdf' and ($quadata->user_id != $this->request->session()->read('Auth.User.id'))
                     and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
                     //and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
-                    and is_null($quadata->chosen)
+                    and is_null($quadata->chosen)   
                 ) {
                     echo $this->Form->postLink(
                         '<span class="label label-success active">Approve the Review?</span>',
@@ -865,8 +865,120 @@ if ($prefix === 'manager') {
                                     </div>
                                 </td>
                             </tr>
+                            <?php if (!empty($sdrug->sdrugs_conditions)) : ?>
+                                <tr class="active">
+                                    <td></td>
+                                    <td colspan="3">List of proposed shelf-life/retest period and storage conditions of the drug substance. </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <h5><small> Summary of stability studies provided in support of the proposed shelf-life. State number of months for which data is available.:</small></h5>
+                                            </div>
+                                        </div>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="border">
+                                                    <!-- check if pdrugs['storage_conditions'] is not empty -->
+
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th> Batch details<br> (e.g. batch number) </th>
+                                                                <th> Manufacturing <br>process </th>
+                                                                <th> -70ºC</th>
+                                                                <th> -20ºC </th>
+                                                                <th> 5ºC </th>
+                                                                <th> 25ºC/<br>60% RH</th>
+                                                                <th> 30ºC/<br>65% RH</th>
+                                                                <th> 40ºC/<br>75% RH </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $i = 1;
+                                                            foreach ($sdrug->sdrugs_conditions as $storage_condition) :
+                                                                $i++;
+
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?= $i; ?></td>
+                                                                    <td>
+                                                                        <?= $storage_condition->batch_details ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->manu_process ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->neg_seventy ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->neg_twenty ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_five ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_twenty_five ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_thirty ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?= $storage_condition->pos_forty ?>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                            <tr class="active">
+                                <th></th>
+                                <th> Comment whether trends or out of specifications results were observed. </th>
+                                <th width="35%"></th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> The extension of shelf-life will be made without substantial amendment:</td>
+                                <td>
+                                    <?= $sdrug->substantial_amendment ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td> If yes, extension to be made in accordance with a registered protocol:</td>
+                                <td>
+                                    <?= $sdrug->registered_protocol ?> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <label> Comments: </label>
+                                            <?= $sdrug->sdrug_comments ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        
 
                         <?php } ?>
+
+
+                        <!-- Add SdrugConditions -->
 
 
                         <!-- End of S-Drug -->

@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\SdrugsTable;
+use App\Model\Table\SdrugsConditionsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\SdrugsTable Test Case
+ * App\Model\Table\SdrugsConditionsTable Test Case
  */
-class SdrugsTableTest extends TestCase
+class SdrugsConditionsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\SdrugsTable
+     * @var \App\Model\Table\SdrugsConditionsTable
      */
-    public $Sdrugs;
+    public $SdrugsConditions;
 
     /**
      * Fixtures
@@ -24,11 +24,10 @@ class SdrugsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.sdrugs',
-        'app.applications',
-        'app.quality_assessments',
         'app.sdrugs_conditions',
-        'app.storage_conditions'
+        'app.applications',
+        'app.sdrugs',
+        'app.pdrugs'
     ];
 
     /**
@@ -39,8 +38,8 @@ class SdrugsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Sdrugs') ? [] : ['className' => SdrugsTable::class];
-        $this->Sdrugs = TableRegistry::get('Sdrugs', $config);
+        $config = TableRegistry::exists('SdrugsConditions') ? [] : ['className' => SdrugsConditionsTable::class];
+        $this->SdrugsConditions = TableRegistry::get('SdrugsConditions', $config);
     }
 
     /**
@@ -50,7 +49,7 @@ class SdrugsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Sdrugs);
+        unset($this->SdrugsConditions);
 
         parent::tearDown();
     }

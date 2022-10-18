@@ -15,6 +15,10 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Quality Assessments'), ['controller' => 'QualityAssessments', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Quality Assessment'), ['controller' => 'QualityAssessments', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sdrugs Conditions'), ['controller' => 'SdrugsConditions', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sdrugs Condition'), ['controller' => 'SdrugsConditions', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Storage Conditions'), ['controller' => 'StorageConditions', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Storage Condition'), ['controller' => 'StorageConditions', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="sdrugs view large-9 medium-8 columns content">
@@ -107,6 +111,14 @@
         <tr>
             <th scope="row"><?= __('Batch Provided') ?></th>
             <td><?= h($sdrug->batch_provided) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Substantial Amendment') ?></th>
+            <td><?= h($sdrug->substantial_amendment) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Registered Protocol') ?></th>
+            <td><?= h($sdrug->registered_protocol) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Justification Acceptable') ?></th>
@@ -306,6 +318,10 @@
         <?= $this->Text->autoParagraph(h($sdrug->batch_comments)); ?>
     </div>
     <div class="row">
+        <h4><?= __('Sdrug Comments') ?></h4>
+        <?= $this->Text->autoParagraph(h($sdrug->sdrug_comments)); ?>
+    </div>
+    <div class="row">
         <h4><?= __('Justification Workspace') ?></h4>
         <?= $this->Text->autoParagraph(h($sdrug->justification_workspace)); ?>
     </div>
@@ -324,5 +340,101 @@
     <div class="row">
         <h4><?= __('Stability Workspace') ?></h4>
         <?= $this->Text->autoParagraph(h($sdrug->stability_workspace)); ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Sdrugs Conditions') ?></h4>
+        <?php if (!empty($sdrug->sdrugs_conditions)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Application Id') ?></th>
+                <th scope="col"><?= __('Sdrug Id') ?></th>
+                <th scope="col"><?= __('Batch Details') ?></th>
+                <th scope="col"><?= __('Manu Process') ?></th>
+                <th scope="col"><?= __('Neg Seventy') ?></th>
+                <th scope="col"><?= __('Neg Twenty') ?></th>
+                <th scope="col"><?= __('Pos Five') ?></th>
+                <th scope="col"><?= __('Pos Twenty Five') ?></th>
+                <th scope="col"><?= __('Pos Thirty') ?></th>
+                <th scope="col"><?= __('Pos Forty') ?></th>
+                <th scope="col"><?= __('Created At') ?></th>
+                <th scope="col"><?= __('Updated At') ?></th>
+                <th scope="col"><?= __('Model') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdrug->sdrugs_conditions as $sdrugsConditions): ?>
+            <tr>
+                <td><?= h($sdrugsConditions->id) ?></td>
+                <td><?= h($sdrugsConditions->application_id) ?></td>
+                <td><?= h($sdrugsConditions->sdrug_id) ?></td>
+                <td><?= h($sdrugsConditions->batch_details) ?></td>
+                <td><?= h($sdrugsConditions->manu_process) ?></td>
+                <td><?= h($sdrugsConditions->neg_seventy) ?></td>
+                <td><?= h($sdrugsConditions->neg_twenty) ?></td>
+                <td><?= h($sdrugsConditions->pos_five) ?></td>
+                <td><?= h($sdrugsConditions->pos_twenty_five) ?></td>
+                <td><?= h($sdrugsConditions->pos_thirty) ?></td>
+                <td><?= h($sdrugsConditions->pos_forty) ?></td>
+                <td><?= h($sdrugsConditions->created_at) ?></td>
+                <td><?= h($sdrugsConditions->updated_at) ?></td>
+                <td><?= h($sdrugsConditions->model) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdrugsConditions', 'action' => 'view', $sdrugsConditions->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdrugsConditions', 'action' => 'edit', $sdrugsConditions->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdrugsConditions', 'action' => 'delete', $sdrugsConditions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdrugsConditions->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Storage Conditions') ?></h4>
+        <?php if (!empty($sdrug->storage_conditions)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Application Id') ?></th>
+                <th scope="col"><?= __('Sdrug Id') ?></th>
+                <th scope="col"><?= __('Pdrug Id') ?></th>
+                <th scope="col"><?= __('Batch Details') ?></th>
+                <th scope="col"><?= __('Manu Process') ?></th>
+                <th scope="col"><?= __('Neg Seventy') ?></th>
+                <th scope="col"><?= __('Neg Twenty') ?></th>
+                <th scope="col"><?= __('Pos Five') ?></th>
+                <th scope="col"><?= __('Pos Twenty Five') ?></th>
+                <th scope="col"><?= __('Pos Thirty') ?></th>
+                <th scope="col"><?= __('Pos Forty') ?></th>
+                <th scope="col"><?= __('Created At') ?></th>
+                <th scope="col"><?= __('Updated At') ?></th>
+                <th scope="col"><?= __('Model') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdrug->storage_conditions as $storageConditions): ?>
+            <tr>
+                <td><?= h($storageConditions->id) ?></td>
+                <td><?= h($storageConditions->application_id) ?></td>
+                <td><?= h($storageConditions->sdrug_id) ?></td>
+                <td><?= h($storageConditions->pdrug_id) ?></td>
+                <td><?= h($storageConditions->batch_details) ?></td>
+                <td><?= h($storageConditions->manu_process) ?></td>
+                <td><?= h($storageConditions->neg_seventy) ?></td>
+                <td><?= h($storageConditions->neg_twenty) ?></td>
+                <td><?= h($storageConditions->pos_five) ?></td>
+                <td><?= h($storageConditions->pos_twenty_five) ?></td>
+                <td><?= h($storageConditions->pos_thirty) ?></td>
+                <td><?= h($storageConditions->pos_forty) ?></td>
+                <td><?= h($storageConditions->created_at) ?></td>
+                <td><?= h($storageConditions->updated_at) ?></td>
+                <td><?= h($storageConditions->model) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'StorageConditions', 'action' => 'view', $storageConditions->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'StorageConditions', 'action' => 'edit', $storageConditions->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'StorageConditions', 'action' => 'delete', $storageConditions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $storageConditions->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
     </div>
 </div>

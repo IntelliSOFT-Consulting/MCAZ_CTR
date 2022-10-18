@@ -38,7 +38,7 @@ class SdrugsController extends AppController
     public function view($id = null)
     {
         $sdrug = $this->Sdrugs->get($id, [
-            'contain' => ['Applications', 'QualityAssessments']
+            'contain' => ['Applications', 'QualityAssessments', 'SdrugsConditions', 'StorageConditions']
         ]);
 
         $this->set('sdrug', $sdrug);

@@ -933,7 +933,7 @@ class ApplicationsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $quality = $this->Applications->QualityAssessments->patchEntity($quality, ['chosen' => $this->Auth->user('id')]);
             if ($this->Applications->QualityAssessments->save($quality)) {
-                $this->Flash->success('Signature successfully attached to the revview');
+                $this->Flash->success('Signature successfully attached to the review');
                 return $this->redirect($this->referer());
             } else {
                 $this->Flash->error(__('Unable to attach signature. Please, try again.'));
@@ -941,6 +941,51 @@ class ApplicationsBaseController extends AppController
             }
         }
     }
+
+    // CLINICAL SIGNATURE
+    
+    public function  attachClinicalSignature($id = null)
+    {
+        $clinical = $this->Applications->Clinicals->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $clinical = $this->Applications->Clinicals->patchEntity($clinical, ['chosen' => $this->Auth->user('id')]);
+            if ($this->Applications->Clinicals->save($clinical)) {
+                $this->Flash->success('Signature successfully attached to the review');
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to attach signature. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+    }
+    public function  attachNonClinicalSignature($id = null)
+    {
+        $nonclinical = $this->Applications->NonClinicals->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $nonclinical = $this->Applications->NonClinicals->patchEntity($nonclinical, ['chosen' => $this->Auth->user('id')]);
+            if ($this->Applications->NonClinicals->save($nonclinical)) {
+                $this->Flash->success('Signature successfully attached to the review');
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to attach signature. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+    }
+    public function  attachStatisticalSignature($id = null)
+    {
+        $statistical = $this->Applications->Statisticals->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $statistical = $this->Applications->Statisticals->patchEntity($statistical, ['chosen' => $this->Auth->user('id')]);
+            if ($this->Applications->Statisticals->save($statistical)) {
+                $this->Flash->success('Signature successfully attached to the review');
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to attach signature. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+    } 
 
     public function attachSignature($id = null)
     {
@@ -1746,7 +1791,11 @@ class ApplicationsBaseController extends AppController
    public function qualityReview($id = null, $scope = null)
    {
        $data = $this->Applications->QualityAssessments->get($id, [
-           'contain' => ['Applications' => $this->_contain, 'Users','SDrugs','Compliance'],
+           'contain' => [
+            'Applications' => $this->_contain, 
+            'Users','SDrugs','Compliance','PDrugs',
+            'Sdrugs.SdrugsConditions','Pdrugs.StorageConditions'
+        ],
        ]);
        $application = $data->application;
        $quality[] = $data;
@@ -1755,14 +1804,14 @@ class ApplicationsBaseController extends AppController
        $this->set(compact('quality', 'application', 'all_evaluators'));
        $this->set('_serialize', ['quality', 'application']);
 
-       // debug($evaluations);
-       // exit;
+       debug($data);
+       exit;
 
 
        if ($this->request->params['_ext'] === 'pdf') {
            $this->viewBuilder()->options([
                'pdfConfig' => [
-                   'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'statistical_review_' . $id . '.pdf'
+                   'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'quality_review_' . $id . '.pdf'
                ]
            ]);
            $this->render('/Base/Quality/pdf/view');

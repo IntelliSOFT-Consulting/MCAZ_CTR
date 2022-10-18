@@ -1051,7 +1051,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                             echo $this->Form->control('clinicals.' . $ekey . '.insufficient_frequency', ['type' => 'checkbox', 'label' => 'Is the frequency of the study visits/monitoring insufficient?', 'templates' => 'checkbox_form_ev']);
                             ?>
                     </td>
-                    <td colspan="3">
+                    <td colspan="2">
                         <div class="row">
                             <div class="col-xs-12">
                                 <label> Comment:</label>
@@ -1479,7 +1479,8 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                 </tr>
                 <tr class="active">
                     <td> <?php $numb = 1; ?></td>
-                    <td><strong> Benefit/risk assessment</strong></td>
+                    <td colspan="3">
+                    <strong> Benefit/risk assessment</strong></td>
                     <td></td>
                 </tr>
                 <tr>

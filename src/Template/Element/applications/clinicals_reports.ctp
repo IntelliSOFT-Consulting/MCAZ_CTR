@@ -32,6 +32,26 @@ if ($prefix === 'manager') {
             </a>
             <?php
                 if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'clinical-review', '_ext' => 'pdf', $clinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+                echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
+                if (
+                    $this->request->params['_ext'] != 'pdf' and ($clinical->user_id != $this->request->session()->read('Auth.User.id'))
+                    and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
+                    //and count(array_filter(Hash::extract($evaluations, '{n}.chosen'), 'is_numeric' )) < 1
+                    and is_null($clinical->chosen)
+                ) {
+                    echo $this->Form->postLink(
+                        '<span class="label label-success active">Approve the Review?</span>',
+                        ['action' => 'attachClinicalSignature', $clinical->id, 'prefix' => $prefix],
+                        ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to Review?', 'class' => 'label-link']
+                    );
+                }
+                if (
+                    $this->request->params['_ext'] != 'pdf' and !empty($clinical->chosen)
+                    and in_array($clinical->chosen, Hash::extract($clinicals, '{n}.chosen'))
+                ) {
+                    echo '&nbsp;<span class="label label-success">Approved</span>';
+                }
+            
                 ?>
         </div>
         <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>"
@@ -1801,7 +1821,23 @@ if ($prefix === 'manager') {
                             </div>
                         </td>
                     </tr>
-
+                    <tr>
+                            <td colspan="3">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h4 class="text-center"> Signature(s)</h4>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <h4 class="text-center">
+                                            <?php
+                                            echo ($clinical->user->dir) ? "<span>" . $clinical->user->name . ": </span><img src='" . $this->Url->build(substr($clinical->user->dir, 8) . '/' . $clinical->user->file, true) . "' style='width: 30%;' alt=''>" : '';
+                                            ?></h4>
+                                        <?= ($clinical->chosen) ? $this->cell('Signature', [$clinical->chosen]) : ''; ?>
+                                    </div>
+                                </div>
+                                <br>
+                            </td>
+                        </tr>
                 </tbody>
             </table>
             <?php

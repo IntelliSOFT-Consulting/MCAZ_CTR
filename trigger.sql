@@ -69,4 +69,16 @@ BEGIN
         WHERE created_at = NEW.created_at and NEW.model = 'pdrug'
      );
 END;
+
+CREATE TRIGGER tgr_sdrugs_conditions
+BEFORE INSERT ON `sdrugs_conditions` 
+FOR EACH ROW
+BEGIN
+  SET NEW.sdrug_id = 
+     (
+       SELECT id 
+         FROM sdrugs
+        WHERE created_at = NEW.created_at and NEW.model = 'sdrug'
+     );
+END;
  

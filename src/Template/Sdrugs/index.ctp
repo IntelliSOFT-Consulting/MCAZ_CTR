@@ -12,6 +12,10 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Quality Assessments'), ['controller' => 'QualityAssessments', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Quality Assessment'), ['controller' => 'QualityAssessments', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sdrugs Conditions'), ['controller' => 'SdrugsConditions', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sdrugs Condition'), ['controller' => 'SdrugsConditions', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Storage Conditions'), ['controller' => 'StorageConditions', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Storage Condition'), ['controller' => 'StorageConditions', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdrugs index large-9 medium-8 columns content">
@@ -53,6 +57,8 @@
                 <th scope="col"><?= $this->Paginator->sort('acceptance_presented') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('suitability_explained') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('batch_provided') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('substantial_amendment') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('registered_protocol') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('justification_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_described') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('container_suitable') ?></th>
@@ -99,6 +105,8 @@
                 <td><?= h($sdrug->acceptance_presented) ?></td>
                 <td><?= h($sdrug->suitability_explained) ?></td>
                 <td><?= h($sdrug->batch_provided) ?></td>
+                <td><?= h($sdrug->substantial_amendment) ?></td>
+                <td><?= h($sdrug->registered_protocol) ?></td>
                 <td><?= h($sdrug->justification_acceptable) ?></td>
                 <td><?= h($sdrug->reference_described) ?></td>
                 <td><?= h($sdrug->container_suitable) ?></td>

@@ -81,8 +81,8 @@ $(function () {
 
         if ($("#investigator_contacts .contact-group").length < 9) {
             var new_picontact = $('<div class="contact-group" style="margin-right: 30px;"> \
-                    <div style="margin-right: 30px;" id="investigator_primary_contact"> \
-                        <div class="form-group" style="margin-right: 30px;">\
+                    <div style="margin-right: 0px;" id="investigator_primary_contact"> \
+                        <div class="form-group" style="margin-right: 0px;">\
                         <table class="table table-bordered table-condensed">\
                         <thead>\
                             <tr class="active">\
@@ -771,22 +771,22 @@ $(function () {
                                     <tr>\
                                     <td>1.</td>\
                                     <td>\
-                                    <input class="form-control" name="storage_conditions[{i}][model]" id="storage_conditions-{i}-model" type="hidden" value="sdrug">\
-                                    <input class="form-control" name="storage_conditions[{i}][batch_details]" id="storage_conditions-{i}-batch_details" type="text">  </td>\
+                                    <input class="form-control" name="sdrugs_conditions[{i}][model]" id="sdrugs_conditions-{i}-model" type="hidden" value="sdrug">\
+                                    <input class="form-control" name="sdrugs_conditions[{i}][batch_details]" id="sdrugs_conditions-{i}-batch_details" type="text">  </td>\
                                     <td>\
-                                        <input class="form-control" name="storage_conditions[{i}][manu_process]" id="storage_conditions-{i}-site_function" type="text"> </td>\
+                                        <input class="form-control" name="sdrugs_conditions[{i}][manu_process]" id="sdrugs_conditions-{i}-site_function" type="text"> </td>\
                                     <td>\
-                                    <input class="form-control " name="storage_conditions[{i}][neg_seventy]" id="storage_conditions-{i}-neg_seventy" type="number">   </td>\
+                                    <input class="form-control " name="sdrugs_conditions[{i}][neg_seventy]" id="sdrugs_conditions-{i}-neg_seventy" type="number">   </td>\
                                     <td>\
-                                    <input class="form-control " name="storage_conditions[{i}][neg_twenty]" id="storage_conditions-{i}-neg_twenty" type="number">   </td>\
+                                    <input class="form-control " name="sdrugs_conditions[{i}][neg_twenty]" id="sdrugs_conditions-{i}-neg_twenty" type="number">   </td>\
                                     <td>\
-                                    <input class="form-control " name="storage_conditions[{i}][pos_five]" id="storage_conditions-{i}-pos_five" type="number">   </td>\
+                                    <input class="form-control " name="sdrugs_conditions[{i}][pos_five]" id="sdrugs_conditions-{i}-pos_five" type="number">   </td>\
                                     <td>\
-                                    <input class="form-control " name="storage_conditions[{i}][pos_twenty_five]" id="storage_conditions-{i}-pos_twenty_five" type="number">   </td>\
+                                    <input class="form-control " name="sdrugs_conditions[{i}][pos_twenty_five]" id="sdrugs_conditions-{i}-pos_twenty_five" type="number">   </td>\
                                     <td>\
-                                    <input class="form-control " name="storage_conditions[{i}][pos_thirty]" id="storage_conditions-{i}-pos_thirty" type="number">   </td>\
+                                    <input class="form-control " name="sdrugs_conditions[{i}][pos_thirty]" id="sdrugs_conditions-{i}-pos_thirty" type="number">   </td>\
                                     <td>\
-                                    <input class="form-control " name="storage_conditions[{i}][pos_forty]" id="storage_conditions-{i}-pos_forty" type="number">   </td>\
+                                    <input class="form-control " name="sdrugs_conditions[{i}][pos_forty]" id="sdrugs_conditions-{i}-pos_forty" type="number">   </td>\
                                     <td>\
                                         <button type="button" class="btn btn-default btn-sm remove-participant"><i class="fa fa-trash-o"></i> </button>\
                                     </td>\
@@ -797,6 +797,44 @@ $(function () {
                     </div>\
                 </div>\
             </td>\
+        </tr>\  </tr>\<tr class="active">\
+        <th></th>\
+        <th> Comment whether trends or out of specifications results were observed. </th>\
+        <th width="35%"></th>\
+        </tr>\
+        <tr>\
+        <td></td>\
+        <td> The extension of shelf-life will be made without substantial amendment:</td>\
+        <td>\
+        <input class="form-control" type="hidden" name="sdrugs[{i}][substantial_amendment]" value="">\
+        <label class="radio-inline" for="sdrugs-{i}-substantial_amendment-yes">\
+        <input type="radio" class="radio-inline" name="sdrugs[{i}][substantial_amendment]" value="Yes" id="sdrugs-{i}-substantial_amendment-yes">Yes</label>\
+        <label class="radio-inline" for="sdrugs-{i}-substantial_amendment-no">\
+        <input type="radio" class="radio-inline" name="sdrugs[{i}][substantial_amendment]" value="No" id="sdrugs-{i}-substantial_amendment-no">No</label> \
+        <label class="radio-inline" for="sdrugs-{i}-substantial_amendment-na">\
+        <input type="radio" class="radio-inline" name="sdrugs[{i}][substantial_amendment]" value="NA" id="sdrugs-{i}-substantial_amendment-na">NA</label></td>\
+        </tr>\
+        <tr>\
+        <td></td>\
+        <td> If yes, extension to be made in accordance with a registered protocol:</td>\
+        <td>\
+        <input class="form-control" type="hidden" name="sdrugs[{i}][registered_protocol]" value="">\
+        <label class="radio-inline" for="sdrugs-{i}-registered_protocol-yes">\
+        <input type="radio" class="radio-inline" name="sdrugs[{i}][registered_protocol]" value="Yes" id="sdrugs-{i}-registered_protocol-yes">Yes</label>\
+        <label class="radio-inline" for="sdrugs-{i}-registered_protocol-no">\
+        <input type="radio" class="radio-inline" name="sdrugs[{i}][registered_protocol]" value="No" id="sdrugs-{i}-registered_protocol-no">No</label> \
+        <label class="radio-inline" for="sdrugs-{i}-registered_protocol-na">\
+        <input type="radio" class="radio-inline" name="sdrugs[{i}][registered_protocol]" value="NA" id="sdrugs-{i}-registered_protocol-na">NA</label></td>\
+        </tr>\<tr>\
+        <td></td>\
+        <td colspan="3">\
+            <div class="row">\
+                <div class="col-xs-12">\
+                    <label> Comments: </label>\
+                    <textarea class="form-control rteditor" name="sdrugs[{i}][sdrug_comments]" cols="30" rows="3"></textarea>\
+                </div>\
+            </div>\
+        </td>\
         </tr>\
                 </tbody>\
             </table>\

@@ -1,5 +1,5 @@
 <?php
-$this->Html->script('multi/sdrugs', ['block' => true]);
+$this->Html->script('multi/sdrugs_details', ['block' => true]);
 $numb = 1;
 ?>
 

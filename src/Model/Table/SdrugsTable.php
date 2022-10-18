@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\QualityAssessmentsTable|\Cake\ORM\Association\BelongsTo $QualityAssessments
+ * @property \App\Model\Table\SdrugsConditionsTable|\Cake\ORM\Association\HasMany $SdrugsConditions
+ * @property \App\Model\Table\StorageConditionsTable|\Cake\ORM\Association\HasMany $StorageConditions
  *
  * @method \App\Model\Entity\Sdrug get($primaryKey, $options = [])
  * @method \App\Model\Entity\Sdrug newEntity($data = null, array $options = [])
@@ -48,9 +50,11 @@ class SdrugsTable extends Table
         $this->belongsTo('QualityAssessments', [
             'foreignKey' => 'quality_assessment_id'
         ]);
+        $this->hasMany('SdrugsConditions', [
+            'foreignKey' => 'sdrug_id'
+        ]);
         $this->hasMany('StorageConditions', [
-            'className' => 'StorageConditions',
-            'foreignKey' => 'sdrug_id',
+            'foreignKey' => 'sdrug_id'
         ]);
     }
 
@@ -360,6 +364,21 @@ class SdrugsTable extends Table
             ->scalar('batch_comments')
             ->maxLength('batch_comments', 4294967295)
             ->allowEmpty('batch_comments');
+
+        $validator
+            ->scalar('substantial_amendment')
+            ->maxLength('substantial_amendment', 255)
+            ->allowEmpty('substantial_amendment');
+
+        $validator
+            ->scalar('registered_protocol')
+            ->maxLength('registered_protocol', 255)
+            ->allowEmpty('registered_protocol');
+
+        $validator
+            ->scalar('sdrug_comments')
+            ->maxLength('sdrug_comments', 4294967295)
+            ->allowEmpty('sdrug_comments');
 
         $validator
             ->scalar('justification_acceptable')

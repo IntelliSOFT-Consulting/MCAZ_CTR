@@ -18,6 +18,10 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Quality Assessments'), ['controller' => 'QualityAssessments', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Quality Assessment'), ['controller' => 'QualityAssessments', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sdrugs Conditions'), ['controller' => 'SdrugsConditions', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sdrugs Condition'), ['controller' => 'SdrugsConditions', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Storage Conditions'), ['controller' => 'StorageConditions', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Storage Condition'), ['controller' => 'StorageConditions', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdrugs form large-9 medium-8 columns content">
@@ -88,6 +92,9 @@
             echo $this->Form->control('batch_provided');
             echo $this->Form->control('batch_workspace');
             echo $this->Form->control('batch_comments');
+            echo $this->Form->control('substantial_amendment');
+            echo $this->Form->control('registered_protocol');
+            echo $this->Form->control('sdrug_comments');
             echo $this->Form->control('justification_acceptable');
             echo $this->Form->control('justification_workspace');
             echo $this->Form->control('justification_comments');
