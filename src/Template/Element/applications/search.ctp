@@ -5,9 +5,12 @@
     $arr1 = explode('?', $this->request->getRequestTarget());
     if(count($arr1) > 1) {
         $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
+        $urlPdf = implode('.pdf?', explode('?', $this->request->getRequestTarget()));
     } else {
         $url = implode('.csv?', explode('?', $this->request->getRequestTarget())).'.csv';
+        $urlPdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())).'.pdf';
     }
+    
 ?>
 
 <?= $this->Form->create(null, ['valueSources' => 'query', 'templates' => 'clear_form']) ?>
@@ -184,11 +187,11 @@
           </button>
 
           <!-- check if prefix manager -->
-            <?php if($prefix == 'manager'){
-                   echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report', ['action' => 'timeline_report', '_ext' => 'pdf'], ['class' => 'btn btn-primary btn-sm btn-block', 'escape' => false]);
-
-            } ?>
-            <!-- end check if prefix manager -->
+            <?php if($prefix == 'manager'){?>
+                 <a class="btn btn-primary btn-sm btn-block" href="<?= $urlPdf ?>" style="margin-top: 4px;">
+                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
+             </a> 
+           <?php }?>
                  
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><?= $this->Paginator->sort('id') ?></li>

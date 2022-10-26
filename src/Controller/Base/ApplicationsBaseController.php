@@ -259,6 +259,19 @@ class ApplicationsBaseController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
+        if ($this->request->params['_ext'] === 'pdf') {
+             
+        //get date today
+        $today = date("Y-m-d");
+        $this->set('applications', $this->paginate($query));
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => $today.'_Timeline_Report.pdf'
+                ]
+            ]);
+            $this->render('/Base/Applications/pdf/timeline');
+            return;
+        }
 
         //$this->set(compact('applications'));
         //$this->set('_serialize', ['applications']);
@@ -627,9 +640,9 @@ class ApplicationsBaseController extends AppController
                         $data['vars']['evaluator_name'] = $this->Auth->user('name');
                         $data['vars']['user_message'] = "New quality Assessment has been created";
                         //notify applicant
-                        // $this->QueuedJobs->createJob('GenericEmail', $data);
-                        // $data['type'] = 'manager_create_review_notification';
-                        // $this->QueuedJobs->createJob('GenericNotification', $data);
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_create_review_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
 
                     $this->Flash->success('Successful submitted quality review of Application ' . $application->protocol_no . '.');
@@ -1804,8 +1817,8 @@ class ApplicationsBaseController extends AppController
        $this->set(compact('quality', 'application', 'all_evaluators'));
        $this->set('_serialize', ['quality', 'application']);
 
-       debug($data);
-       exit;
+    //    debug($data);
+    //    exit;
 
 
        if ($this->request->params['_ext'] === 'pdf') {
@@ -2240,7 +2253,9 @@ class ApplicationsBaseController extends AppController
     }
 
     public function timelineReport()
-    {
+    { 
+
+
         //load all applications where status is submitted
         $query = $this->Applications
             // Use the plugins 'search' custom finder and pass in the
