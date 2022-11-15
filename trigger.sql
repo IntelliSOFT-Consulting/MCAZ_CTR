@@ -10,6 +10,9 @@ BEGIN
 END;
 
 
+     
+
+
 CREATE TRIGGER tgr_sdrugs
 BEFORE INSERT ON `sdrugs` 
 FOR EACH ROW

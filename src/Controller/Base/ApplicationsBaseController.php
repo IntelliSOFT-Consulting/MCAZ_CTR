@@ -260,13 +260,13 @@ class ApplicationsBaseController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
         if ($this->request->params['_ext'] === 'pdf') {
-             
-        //get date today
-        $today = date("Y-m-d");
-        $this->set('applications', $this->paginate($query));
+
+            //get date today
+            $today = date("Y-m-d");
+            $this->set('applications', $this->paginate($query));
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => $today.'_Timeline_Report.pdf'
+                    'filename' => $today . '_Timeline_Report.pdf'
                 ]
             ]);
             $this->render('/Base/Applications/pdf/timeline');
@@ -361,7 +361,8 @@ class ApplicationsBaseController extends AppController
         array_push($this->filt, 1);
 
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['OR' => [['group_id IN' => [2, 3, 6]], ['id IN' => $this->filt]]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
+            ->where(['OR' => [['group_id IN' => [2, 3, 6]], ['id IN' => $this->filt]]]);
         $internal_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where([
             'group_id' => 3,
             'id NOT IN' => $this->filt
@@ -370,7 +371,11 @@ class ApplicationsBaseController extends AppController
             'group_id' => 6,
             'id NOT IN' => $this->filt
         ]);
-        $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3, 'id IN' => $this->filt]);
+
+        // get 
+
+        $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
+            ->where(['OR' => [['group_id IN' => [2, 3]], ['id IN' => $this->filt]]]);
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
@@ -956,7 +961,7 @@ class ApplicationsBaseController extends AppController
     }
 
     // CLINICAL SIGNATURE
-    
+
     public function  attachClinicalSignature($id = null)
     {
         $clinical = $this->Applications->Clinicals->get($id);
@@ -998,7 +1003,7 @@ class ApplicationsBaseController extends AppController
                 return $this->redirect($this->referer());
             }
         }
-    } 
+    }
 
     public function attachSignature($id = null)
     {
@@ -1800,36 +1805,36 @@ class ApplicationsBaseController extends AppController
             $this->render('/Base/Statisticals/pdf/view');
         }
     }
-   // Download Quality Reviews
-   public function qualityReview($id = null, $scope = null)
-   {
-       $data = $this->Applications->QualityAssessments->get($id, [
-           'contain' => [
-            'Applications' => $this->_contain, 
-            'Users','SDrugs','Compliance','PDrugs',
-            'Sdrugs.SdrugsConditions','Pdrugs.StorageConditions'
-        ],
-       ]);
-       $application = $data->application;
-       $quality[] = $data;
+    // Download Quality Reviews
+    public function qualityReview($id = null, $scope = null)
+    {
+        $data = $this->Applications->QualityAssessments->get($id, [
+            'contain' => [
+                'Applications' => $this->_contain,
+                'Users', 'SDrugs', 'Compliance', 'PDrugs',
+                'Sdrugs.SdrugsConditions', 'Pdrugs.StorageConditions'
+            ],
+        ]);
+        $application = $data->application;
+        $quality[] = $data;
 
-       $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
-       $this->set(compact('quality', 'application', 'all_evaluators'));
-       $this->set('_serialize', ['quality', 'application']);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $this->set(compact('quality', 'application', 'all_evaluators'));
+        $this->set('_serialize', ['quality', 'application']);
 
-    //    debug($data);
-    //    exit;
+        //    debug($data);
+        //    exit;
 
 
-       if ($this->request->params['_ext'] === 'pdf') {
-           $this->viewBuilder()->options([
-               'pdfConfig' => [
-                   'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'quality_review_' . $id . '.pdf'
-               ]
-           ]);
-           $this->render('/Base/Quality/pdf/view');
-       }
-   }
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_review_' . $id . '.pdf' : 'quality_review_' . $id . '.pdf'
+                ]
+            ]);
+            $this->render('/Base/Quality/pdf/view');
+        }
+    }
     public function clinicalReview($id = null, $scope = null)
     {
         $clinical = $this->Applications->Clinicals->get($id, [
@@ -1874,7 +1879,7 @@ class ApplicationsBaseController extends AppController
             $this->render('/Base/non_clinicals/pdf/view');
         }
     }
-    
+
 
     public function communication($id = null, $scope = null)
     {
@@ -1927,7 +1932,8 @@ class ApplicationsBaseController extends AppController
     public function committeeFeedback($id = null, $scope = null)
     {
         if ($scope === 'All') {
-            $comments = $this->Applications->Comments->findByForeignKeyAndSubmitted($id, 2)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
+            $comments = $this->Applications->Comments->findByForeignKeyAndSubmitted($id, 2)
+                ->contain(['Responses', 'Attachments', 'Responses.Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $comments = $this->Applications->Comments->findByForeignKeyAndModelIdAndSubmitted($id, $scope, 2)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
@@ -1936,8 +1942,11 @@ class ApplicationsBaseController extends AppController
 
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
-        $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id' => 3, 'id IN' => $this->filt]);
-
+        $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
+            ->where(['OR' => [['group_id IN' => [2, 3]], ['id IN' => $this->filt]]]);
+        // ->where(['group_id' => 3, 'id IN' => $this->filt]);
+        debug($feedback_evaluators->toArray());
+        exit;
         $this->set(compact('comments', 'application', 'feedback_evaluators'));
         $this->set('_serialize', ['comments', 'application', 'feedback_evaluators']);
 
@@ -2253,7 +2262,7 @@ class ApplicationsBaseController extends AppController
     }
 
     public function timelineReport()
-    { 
+    {
 
 
         //load all applications where status is submitted
