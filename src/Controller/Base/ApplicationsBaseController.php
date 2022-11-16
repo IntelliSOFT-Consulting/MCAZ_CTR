@@ -309,7 +309,15 @@ class ApplicationsBaseController extends AppController
             'conditions' => ['report_type' => 'Initial']
         ]);
 
-        // dd($application->pdrugs[0]->storage_conditions);
+        // CLINICAL EVALUATION
+        $contains['Clinicals'] = function ($q) {
+            return $q->where(['OR' =>
+            ['Clinicals.evaluation_type' => 'Initial', 'Clinicals.id' => $this->request->query('cnl_id'), 'Clinicals.id' => $this->request->query('cp_fn_cnl')]]);
+        };
+
+
+        // dd($application);
+        // exit;
 
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
@@ -357,6 +365,37 @@ class ApplicationsBaseController extends AppController
             }
         }
 
+        // CLINICAL SECTION
+        $ekey = 100;
+        $clinical_id = $this->request->getData('clinical_id');
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            foreach ($application->clinicals as $key => $value) {
+                if ($value['id'] == $this->request->getData('clinical_id')) {
+                    $ekey = $key;
+                }
+            }
+        }
+
+        if ($this->request->query('cnl_id')) {
+            foreach ($application->clinicals as $key => $value) {
+                $ev_id = $this->request->query('ev_id');
+                if ($value['id'] == $ev_id) {
+                    $ekey = $key;
+                    $clinical_id = $this->request->query('cnl_id');
+                }
+            }
+        }
+
+        if ($this->request->query('cp_fn_cnl')) {
+            foreach ($application->clinicals as $key => $value) {
+                $cp_fn = $this->request->query('cp_fn_cnl');
+                if ($value['id'] == $cp_fn) {
+                    $ekey = $key;
+                    $clinical_id = $this->request->query('cp_fn_cnl');
+                }
+            }
+        }
+
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
 
@@ -379,7 +418,7 @@ class ApplicationsBaseController extends AppController
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'committee_dates'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id','clinical_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -1791,9 +1830,7 @@ class ApplicationsBaseController extends AppController
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('statisticals', 'application', 'all_evaluators'));
         $this->set('_serialize', ['statisticals', 'application']);
-
-        // debug($evaluations);
-        // exit;
+ 
 
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -1838,8 +1875,8 @@ class ApplicationsBaseController extends AppController
     public function clinicalReview($id = null, $scope = null)
     {
         $clinical = $this->Applications->Clinicals->get($id, [
-            'contain' => ['Applications' => $this->_contain, 'Users'],
-
+            'contain' => ['Applications' => $this->_contain, 'Users','ClinicalsEdits'],
+            'conditions' => ['Clinicals.evaluation_type' => 'Initial']
         ]);
         $application = $clinical->application;
         $clinicals[] = $clinical;

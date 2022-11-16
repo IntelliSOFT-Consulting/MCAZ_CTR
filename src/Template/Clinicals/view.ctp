@@ -29,6 +29,10 @@
             <td><?= $clinical->has('user') ? $this->Html->link($clinical->user->name, ['controller' => 'Users', 'action' => 'view', $clinical->user->id]) : '' ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Evaluation Type') ?></th>
+            <td><?= h($clinical->evaluation_type) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Low Intervention') ?></th>
             <td><?= h($clinical->low_intervention) ?></td>
         </tr>
@@ -203,6 +207,10 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($clinical->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Clinical Id') ?></th>
+            <td><?= $this->Number->format($clinical->clinical_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Chosen') ?></th>

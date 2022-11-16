@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
+ * @property int $clinical_id
+ * @property string $evaluation_type
  * @property string $sponsor_justification
  * @property string $sponsor_comment
  * @property string $low_intervention
@@ -172,6 +174,8 @@ class Clinical extends Entity
     protected $_accessible = [
         'application_id' => true,
         'user_id' => true,
+        'clinical_id' => true,
+        'evaluation_type' => true,
         'sponsor_justification' => true,
         'sponsor_comment' => true,
         'low_intervention' => true,

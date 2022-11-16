@@ -40,10 +40,7 @@ if ($prefix === 'manager') {
             $evaluation_edit[substr($key, strrpos($key, '.') + 1)][] =
               (end($evaluation_edit[substr($key, strrpos($key, '.') + 1)]) != $value) ? $value : null;
           }
-        }
-        // $evaluation_edit = Hash::filter($evaluation_edit); //causes missing errors
-        // print_r($resa);
-    ?>
+        } ?>
 
         <?php
         $evec = count($evaluation->evaluation_edits);

@@ -22,6 +22,8 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('clinical_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('evaluation_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('low_intervention') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('evidence_based') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('products_authorised') ?></th>
@@ -112,6 +114,8 @@
                 <td><?= $this->Number->format($clinical->id) ?></td>
                 <td><?= $clinical->has('application') ? $this->Html->link($clinical->application->id, ['controller' => 'Applications', 'action' => 'view', $clinical->application->id]) : '' ?></td>
                 <td><?= $clinical->has('user') ? $this->Html->link($clinical->user->name, ['controller' => 'Users', 'action' => 'view', $clinical->user->id]) : '' ?></td>
+                <td><?= $this->Number->format($clinical->clinical_id) ?></td>
+                <td><?= h($clinical->evaluation_type) ?></td>
                 <td><?= h($clinical->low_intervention) ?></td>
                 <td><?= h($clinical->evidence_based) ?></td>
                 <td><?= h($clinical->products_authorised) ?></td>

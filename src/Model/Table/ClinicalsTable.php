@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property |\Cake\ORM\Association\BelongsTo $Clinicals
+ * @property |\Cake\ORM\Association\HasMany $Clinicals
  *
  * @method \App\Model\Entity\Clinical get($primaryKey, $options = [])
  * @method \App\Model\Entity\Clinical newEntity($data = null, array $options = [])
@@ -48,6 +50,16 @@ class ClinicalsTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Clinicals', [
+            'foreignKey' => 'clinical_id'
+        ]);
+       
+        $this->hasMany('ClinicalEdits', [
+            'className' => 'Clinicals',
+            'foreignKey' => 'clinical_id',
+            'dependent' => true,
+            'conditions' => array('ClinicalEdits.evaluation_type' => 'Revision'),
+        ]);  
     }
 
     /**
@@ -61,6 +73,11 @@ class ClinicalsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('sponsor_justification')
@@ -125,8 +142,7 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('objective_acceptable')
             ->maxLength('objective_acceptable', 255)
-            ->requirePresence('objective_acceptable', 'create')
-            ->notEmpty('objective_acceptable');
+            ->allowEmpty('objective_acceptable');
 
         $validator
             ->scalar('endpoint_acceptable')
@@ -184,20 +200,17 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('adolescents_age_group')
             ->maxLength('adolescents_age_group', 255)
-            ->requirePresence('adolescents_age_group', 'create')
-            ->notEmpty('adolescents_age_group');
+            ->allowEmpty('adolescents_age_group');
 
         $validator
             ->scalar('potential_contraception')
             ->maxLength('potential_contraception', 255)
-            ->requirePresence('potential_contraception', 'create')
-            ->notEmpty('potential_contraception');
+            ->allowEmpty('potential_contraception');
 
         $validator
             ->scalar('potential_none_contraception')
             ->maxLength('potential_none_contraception', 255)
-            ->requirePresence('potential_none_contraception', 'create')
-            ->notEmpty('potential_none_contraception');
+            ->allowEmpty('potential_none_contraception');
 
         $validator
             ->scalar('study_population_comments')
@@ -758,6 +771,7 @@ class ClinicalsTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['clinical_id'], 'Clinicals'));
 
         return $rules;
     }

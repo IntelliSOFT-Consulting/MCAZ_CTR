@@ -22,8 +22,34 @@ if ($prefix === 'manager') {
 <div class="row">
     <div class="col-xs-12">
         <?php
-        foreach ($clinicals as $clinical) { ?>
+        foreach ($clinicals as $clinical) {
+         if ($clinical->evaluation_type == 'Initial') {
 
+            // Added section
+            $clinical_edit = [];
+            $resa = [];
+            $res = [];
+            foreach ($clinical->clinical_edits as $key => $value) {
+              $res[$key] = $value->toArray();
+            }
+            $resa = Hash::flatten($res);
+            foreach ($resa as $key => $value) {
+              if (!isset($clinical_edit[substr($key, strrpos($key, '.') + 1)])) {
+                $clinical_edit[substr($key, strrpos($key, '.') + 1)][] =
+                  ($clinical[substr($key, strrpos($key, '.') + 1)] != $value) ? $value : null;
+              } else {
+                $clinical_edit[substr($key, strrpos($key, '.') + 1)][] =
+                  (end($clinical_edit[substr($key, strrpos($key, '.') + 1)]) != $value) ? $value : null;
+              }
+            } ?>
+    
+            <?php
+            $evec = count($clinical->clinical_edits);
+            $eved = $clinical->clinical_edits;
+            $hlis = [];
+            ?>
+    
+ 
         <div class="thumbnail amend-form">
             <a class="btn btn-primary" role="button" data-toggle="collapse"
                 href="#<?= $clinical->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false"
@@ -32,7 +58,59 @@ if ($prefix === 'manager') {
             </a>
             <?php
                 if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'clinical-review', '_ext' => 'pdf', $clinical->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
-                echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
+                echo '&nbsp;'; 
+
+                // Start of the Additional Functionality
+                if ($this->request->params['_ext'] != 'pdf' and ($clinical->user_id == $this->request->session()->read('Auth.User.id'))
+                and count(array_filter(Hash::extract($clinicals, '{n}.chosen'), 'is_numeric')) < 1
+              ) {
+                echo $this->Form->postLink(
+                  '<span class="label label-info">Edit</span>',
+                  ['action' => 'view', $application->id, '?' => ['cnl_id' => $clinical->id]],
+                  ['data' => ['cnl_id' => $clinical->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit clinical {0}?', $clinical->id)]
+                );
+                echo "&nbsp;";
+                if ($prefix == 'evaluator') echo $this->Form->postLink(
+                  '<span class="label label-success">Copy & Finalize <small>(initial review)</small></span>',
+                  ['action' => 'view', $application->id, '?' => ['cp_fn_cnl' => $clinical->id]],
+                  ['data' => ['cp_fn_cnl' => $clinical->id], 'escape' => false, 'confirm' => __('Are you sure you want to copy and finalize clinical {0}?', $clinical->id)]
+                );
+                echo "&nbsp;";
+                for ($i = 0; $i < count($clinical->clinical_edits); $i++) {
+                  if ($this->request->params['_ext'] != 'pdf' and $clinical->clinical_edits[$i]['user']['group_id'] == 2) {
+                    if ($prefix == 'evaluator') echo $this->Form->postLink(
+                      '<span class="label label-default">Copy & Finalize <small>(manager version # ' . ($i + 1) . ')</small></span>',
+                      ['action' => 'view', $application->id, '?' => ['cp_fn_cnl' => $clinical->clinical_edits[$i]['id']]],
+                      ['data' => ['cp_fn_cnl' => $clinical->clinical_edits[$i]['id']], 'escape' => false, 'confirm' => __('Are you sure you want to copy and finalize manager edit {0}?', ($i + 1))]
+                    );
+                    echo '&nbsp;';
+                  }
+                }
+              }
+    
+              if (
+                $this->request->params['_ext'] != 'pdf' and ($this->request->session()->read('Auth.User.group_id') == 2)
+                and count(array_filter(Hash::extract($clinicals, '{n}.chosen'), 'is_numeric')) < 1
+              ) {
+                echo $this->Form->postLink(
+                  '<span class="label label-primary">New <small>(tracked changes)</small></span>',
+                  [],
+                  ['data' => ['clinical_id' => $clinical->id], 'escape' => false, 'confirm' => __('Are you sure you want to create new tracked change for clinical {0}?', $clinical->id)]
+                );
+                echo '&nbsp;';
+                for ($i = 0; $i < count($clinical->clinical_edits); $i++) {
+                  if ($this->request->params['_ext'] != 'pdf' and $clinical->clinical_edits[$i]['user_id'] == $this->request->session()->read('Auth.User.id')) {
+                    echo $this->Form->postLink(
+                      '<span class="label label-success">Edit change # ' . ($i + 1) . '</span>',
+                      ['action' => 'view', $application->id, '?' => ['cnl_id' => $clinical->clinical_edits[$i]['id']]],
+                      ['data' => ['cnl_id' => $clinical->clinical_edits[$i]['id']], 'escape' => false, 'confirm' => __('Are you sure you want to edit tracked change {0}?', ($i + 1))]
+                    );
+                    echo '&nbsp;';
+                  }
+                }
+              }
+              echo '&nbsp;';
+                // End of the Additional Functionality
                 if (
                     $this->request->params['_ext'] != 'pdf' and ($clinical->user_id != $this->request->session()->read('Auth.User.id'))
                     and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
@@ -1855,6 +1933,7 @@ if ($prefix === 'manager') {
                 }
                 ?>
         </div>
+        <?php } ?>
         <?php } ?>
 
     </div>

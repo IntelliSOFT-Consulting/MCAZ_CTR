@@ -21,6 +21,8 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications, 'empty' => true]);
             echo $this->Form->control('user_id', ['options' => $users]);
+            echo $this->Form->control('clinical_id');
+            echo $this->Form->control('evaluation_type');
             echo $this->Form->control('sponsor_justification');
             echo $this->Form->control('sponsor_comment');
             echo $this->Form->control('low_intervention');
