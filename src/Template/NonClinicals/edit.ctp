@@ -18,6 +18,8 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Non Clinicals'), ['controller' => 'NonClinicals', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Non Clinical'), ['controller' => 'NonClinicals', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="nonClinicals form large-9 medium-8 columns content">
@@ -27,6 +29,8 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications, 'empty' => true]);
             echo $this->Form->control('user_id', ['options' => $users]);
+            echo $this->Form->control('non_clinical_id', ['options' => $nonClinicals, 'empty' => true]);
+            echo $this->Form->control('evaluation_type');
             echo $this->Form->control('basis_provided');
             echo $this->Form->control('primary_comment');
             echo $this->Form->control('relevant_vitro_vivo');
@@ -157,6 +161,7 @@
             echo $this->Form->control('supplementary_info_needed');
             echo $this->Form->control('overall_comments');
             echo $this->Form->control('chosen');
+            echo $this->Form->control('submitted');
             echo $this->Form->control('deleted', ['empty' => true]);
             echo $this->Form->control('additional');
         ?>

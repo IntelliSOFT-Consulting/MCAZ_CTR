@@ -103,6 +103,7 @@
                 <th scope="col"><?= $this->Paginator->sort('application_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_required') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('submitted') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -114,7 +115,7 @@
                 <td><?= $this->Number->format($clinical->id) ?></td>
                 <td><?= $clinical->has('application') ? $this->Html->link($clinical->application->id, ['controller' => 'Applications', 'action' => 'view', $clinical->application->id]) : '' ?></td>
                 <td><?= $clinical->has('user') ? $this->Html->link($clinical->user->name, ['controller' => 'Users', 'action' => 'view', $clinical->user->id]) : '' ?></td>
-                <td><?= $this->Number->format($clinical->clinical_id) ?></td>
+                <td><?= $clinical->has('clinical') ? $this->Html->link($clinical->clinical->id, ['controller' => 'Clinicals', 'action' => 'view', $clinical->clinical->id]) : '' ?></td>
                 <td><?= h($clinical->evaluation_type) ?></td>
                 <td><?= h($clinical->low_intervention) ?></td>
                 <td><?= h($clinical->evidence_based) ?></td>
@@ -195,6 +196,7 @@
                 <td><?= h($clinical->application_acceptable) ?></td>
                 <td><?= h($clinical->supplementary_required) ?></td>
                 <td><?= $this->Number->format($clinical->chosen) ?></td>
+                <td><?= $this->Number->format($clinical->submitted) ?></td>
                 <td><?= h($clinical->deleted) ?></td>
                 <td><?= h($clinical->created) ?></td>
                 <td class="actions">

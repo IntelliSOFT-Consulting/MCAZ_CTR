@@ -22,6 +22,8 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('non_clinical_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('evaluation_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('basis_provided') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('relevant_vitro_vivo') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('pharmacological_exposure') ?></th>
@@ -102,6 +104,7 @@
                 <th scope="col"><?= $this->Paginator->sort('non_clinical_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_info_needed') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('submitted') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -113,6 +116,8 @@
                 <td><?= $this->Number->format($nonClinical->id) ?></td>
                 <td><?= $nonClinical->has('application') ? $this->Html->link($nonClinical->application->id, ['controller' => 'Applications', 'action' => 'view', $nonClinical->application->id]) : '' ?></td>
                 <td><?= $nonClinical->has('user') ? $this->Html->link($nonClinical->user->name, ['controller' => 'Users', 'action' => 'view', $nonClinical->user->id]) : '' ?></td>
+                <td><?= $nonClinical->has('non_clinical') ? $this->Html->link($nonClinical->non_clinical->id, ['controller' => 'NonClinicals', 'action' => 'view', $nonClinical->non_clinical->id]) : '' ?></td>
+                <td><?= h($nonClinical->evaluation_type) ?></td>
                 <td><?= h($nonClinical->basis_provided) ?></td>
                 <td><?= h($nonClinical->relevant_vitro_vivo) ?></td>
                 <td><?= h($nonClinical->pharmacological_exposure) ?></td>
@@ -193,6 +198,7 @@
                 <td><?= h($nonClinical->non_clinical_acceptable) ?></td>
                 <td><?= h($nonClinical->supplementary_info_needed) ?></td>
                 <td><?= $this->Number->format($nonClinical->chosen) ?></td>
+                <td><?= $this->Number->format($nonClinical->submitted) ?></td>
                 <td><?= h($nonClinical->created) ?></td>
                 <td><?= h($nonClinical->deleted) ?></td>
                 <td class="actions">

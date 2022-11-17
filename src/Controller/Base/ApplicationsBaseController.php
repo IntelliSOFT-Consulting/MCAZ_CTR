@@ -315,6 +315,13 @@ class ApplicationsBaseController extends AppController
             ['Clinicals.evaluation_type' => 'Initial', 'Clinicals.id' => $this->request->query('cnl_id'), 'Clinicals.id' => $this->request->query('cp_fn_cnl')]]);
         };
 
+        // NONCLINICAL EVALUATION
+        $contains['NonClinicals'] = function ($q) {
+            return $q->where(['OR' =>
+            ['NonClinicals.evaluation_type' => 'Initial', 'NonClinicals.id' => $this->request->query('non_cnl_id'), 'NonClinicals.id' => $this->request->query('non_cp_fn_cnl')]]);
+        };
+
+
 
         // dd($application);
         // exit;
@@ -366,7 +373,7 @@ class ApplicationsBaseController extends AppController
         }
 
         // CLINICAL SECTION
-        $ekey = 100;
+      
         $clinical_id = $this->request->getData('clinical_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($application->clinicals as $key => $value) {
@@ -378,7 +385,7 @@ class ApplicationsBaseController extends AppController
 
         if ($this->request->query('cnl_id')) {
             foreach ($application->clinicals as $key => $value) {
-                $ev_id = $this->request->query('ev_id');
+                $ev_id = $this->request->query('cnl_id');
                 if ($value['id'] == $ev_id) {
                     $ekey = $key;
                     $clinical_id = $this->request->query('cnl_id');
@@ -395,7 +402,36 @@ class ApplicationsBaseController extends AppController
                 }
             }
         }
+        // CLINICAL SECTION
+      
+        $non_clinical_id = $this->request->getData('non_clinical_id');
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            foreach ($application->non_clinicals as $key => $value) {
+                if ($value['id'] == $this->request->getData('non_clinical_id')) {
+                    $ekey = $key;
+                }
+            }
+        }
 
+        if ($this->request->query('non_cnl_id')) {
+            foreach ($application->non_clinicals as $key => $value) {
+                $ev_id = $this->request->query('non_cnl_id');
+                if ($value['id'] == $ev_id) {
+                    $ekey = $key;
+                    $non_clinical_id = $this->request->query('non_cnl_id');
+                }
+            }
+        }
+
+        if ($this->request->query('non_cp_fn_cnl')) {
+            foreach ($application->non_clinicals as $key => $value) {
+                $cp_fn = $this->request->query('non_cp_fn_cnl');
+                if ($value['id'] == $cp_fn) {
+                    $ekey = $key;
+                    $non_clinical_id = $this->request->query('non_cp_fn_cnl');
+                }
+            }
+        }
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
 
@@ -412,13 +448,14 @@ class ApplicationsBaseController extends AppController
         ]);
 
         // get 
-
+// dd($evaluation_id);
+// exit;
         $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
             ->where(['OR' => [['group_id IN' => [2, 3]], ['id IN' => $this->filt]]]);
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id','clinical_id', 'committee_dates'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id','non_clinical_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -632,10 +669,17 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for nonclinical review of Application ' . $application->protocol_no . '.');
-                    return $this->redirect(['action' => 'view', $application->id]);
+                    
+                    return $this->redirect([
+                        'action' => 'view', $application->id,
+                        '?' => [
+                            'non_cnl_id' => $application->non_clinicals[0]->id,
+                        ]
+                    ]);
                 }
             }
-            // debug($application->errors());
+        //  debug($application->errors());
+        //  exit;
             $this->Flash->error(__('Unable to create nonclinical review. Please, try again.'));
             return $this->redirect($this->referer());
         }
@@ -864,7 +908,13 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for clinical review of Application ' . $application->protocol_no . '.');
-                    return $this->redirect(['action' => 'view', $application->id]);
+                    
+                    return $this->redirect([
+                        'action' => 'view', $application->id,
+                        '?' => [
+                            'cnl_id' => $application->clinicals[0]->id,
+                        ]
+                    ]);
                 }
             }
             // debug($application->errors());
@@ -1830,7 +1880,7 @@ class ApplicationsBaseController extends AppController
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('statisticals', 'application', 'all_evaluators'));
         $this->set('_serialize', ['statisticals', 'application']);
- 
+
 
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -1875,7 +1925,7 @@ class ApplicationsBaseController extends AppController
     public function clinicalReview($id = null, $scope = null)
     {
         $clinical = $this->Applications->Clinicals->get($id, [
-            'contain' => ['Applications' => $this->_contain, 'Users','ClinicalsEdits'],
+            'contain' => ['Applications' => $this->_contain, 'Users', 'ClinicalEdits'],
             'conditions' => ['Clinicals.evaluation_type' => 'Initial']
         ]);
         $application = $clinical->application;

@@ -15,6 +15,10 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Non Clinicals'), ['controller' => 'NonClinicals', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Non Clinical'), ['controller' => 'NonClinicals', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Non Clinical Edits'), ['controller' => 'NonClinicals', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Non Clinical Edit'), ['controller' => 'NonClinicals', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="nonClinicals view large-9 medium-8 columns content">
@@ -27,6 +31,14 @@
         <tr>
             <th scope="row"><?= __('User') ?></th>
             <td><?= $nonClinical->has('user') ? $this->Html->link($nonClinical->user->name, ['controller' => 'Users', 'action' => 'view', $nonClinical->user->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Non Clinical') ?></th>
+            <td><?= $nonClinical->has('non_clinical') ? $this->Html->link($nonClinical->non_clinical->id, ['controller' => 'NonClinicals', 'action' => 'view', $nonClinical->non_clinical->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Evaluation Type') ?></th>
+            <td><?= h($nonClinical->evaluation_type) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Basis Provided') ?></th>
@@ -313,6 +325,10 @@
             <td><?= $this->Number->format($nonClinical->chosen) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Submitted') ?></th>
+            <td><?= $this->Number->format($nonClinical->submitted) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($nonClinical->created) ?></td>
         </tr>
@@ -564,5 +580,302 @@
     <div class="row">
         <h4><?= __('Additional') ?></h4>
         <?= $this->Text->autoParagraph(h($nonClinical->additional)); ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Non Clinicals') ?></h4>
+        <?php if (!empty($nonClinical->non_clinical_edits)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Application Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
+                <th scope="col"><?= __('Non Clinical Id') ?></th>
+                <th scope="col"><?= __('Evaluation Type') ?></th>
+                <th scope="col"><?= __('Basis Provided') ?></th>
+                <th scope="col"><?= __('Primary Comment') ?></th>
+                <th scope="col"><?= __('Relevant Vitro Vivo') ?></th>
+                <th scope="col"><?= __('Pharmacological Exposure') ?></th>
+                <th scope="col"><?= __('Active Metabolites') ?></th>
+                <th scope="col"><?= __('Imp Compound') ?></th>
+                <th scope="col"><?= __('Off Target Identified') ?></th>
+                <th scope="col"><?= __('Off Target Effects') ?></th>
+                <th scope="col"><?= __('Secondary Comment') ?></th>
+                <th scope="col"><?= __('Cardiovascular') ?></th>
+                <th scope="col"><?= __('Cardiovascular Comments') ?></th>
+                <th scope="col"><?= __('Respiratory') ?></th>
+                <th scope="col"><?= __('Respiratory Comments') ?></th>
+                <th scope="col"><?= __('Pharmacology Comment') ?></th>
+                <th scope="col"><?= __('Cns') ?></th>
+                <th scope="col"><?= __('Cns Comments') ?></th>
+                <th scope="col"><?= __('Other') ?></th>
+                <th scope="col"><?= __('Other Comments') ?></th>
+                <th scope="col"><?= __('Significant Concerns') ?></th>
+                <th scope="col"><?= __('Planned Exposure') ?></th>
+                <th scope="col"><?= __('Safety Comment') ?></th>
+                <th scope="col"><?= __('Interactions Identified') ?></th>
+                <th scope="col"><?= __('Pharmacodynamic Comment') ?></th>
+                <th scope="col"><?= __('Adequate Analysis') ?></th>
+                <th scope="col"><?= __('Analysis Comment') ?></th>
+                <th scope="col"><?= __('Absorption') ?></th>
+                <th scope="col"><?= __('Absorption Comments') ?></th>
+                <th scope="col"><?= __('Distribution') ?></th>
+                <th scope="col"><?= __('Distribution Comments') ?></th>
+                <th scope="col"><?= __('Metabolism') ?></th>
+                <th scope="col"><?= __('Metabolism Comments') ?></th>
+                <th scope="col"><?= __('Excretion') ?></th>
+                <th scope="col"><?= __('Excretion Comments') ?></th>
+                <th scope="col"><?= __('Adme Concerns') ?></th>
+                <th scope="col"><?= __('Major Metabolites') ?></th>
+                <th scope="col"><?= __('Unique Metabolites') ?></th>
+                <th scope="col"><?= __('Pharmacokinetics Comment') ?></th>
+                <th scope="col"><?= __('Enzyme Inhibition') ?></th>
+                <th scope="col"><?= __('Enzyme Inhibition Comments') ?></th>
+                <th scope="col"><?= __('Enzyme Induction') ?></th>
+                <th scope="col"><?= __('Enzyme Induction Comments') ?></th>
+                <th scope="col"><?= __('Transporter') ?></th>
+                <th scope="col"><?= __('Transporter Comments') ?></th>
+                <th scope="col"><?= __('Co Pathways') ?></th>
+                <th scope="col"><?= __('Co Pathways Comments') ?></th>
+                <th scope="col"><?= __('Drug Interaction') ?></th>
+                <th scope="col"><?= __('Interaction Highlighted') ?></th>
+                <th scope="col"><?= __('Drug Interaction Comment') ?></th>
+                <th scope="col"><?= __('Pk Studies') ?></th>
+                <th scope="col"><?= __('Concerns Identified') ?></th>
+                <th scope="col"><?= __('Identified Studies Comment') ?></th>
+                <th scope="col"><?= __('Toxicologically Relevant') ?></th>
+                <th scope="col"><?= __('Human Pharmacology') ?></th>
+                <th scope="col"><?= __('Human Pk') ?></th>
+                <th scope="col"><?= __('Well Designed Studies') ?></th>
+                <th scope="col"><?= __('Toxicology Comment') ?></th>
+                <th scope="col"><?= __('Toxicities Identified') ?></th>
+                <th scope="col"><?= __('Sufficient Margins') ?></th>
+                <th scope="col"><?= __('Single Dose Comment') ?></th>
+                <th scope="col"><?= __('Repeat Toxicities Identified') ?></th>
+                <th scope="col"><?= __('Repeat Sufficient Margins') ?></th>
+                <th scope="col"><?= __('Repeat Treatment Duration') ?></th>
+                <th scope="col"><?= __('Repeat Dose Comment') ?></th>
+                <th scope="col"><?= __('Gene Mutations') ?></th>
+                <th scope="col"><?= __('Gene Mutation Results') ?></th>
+                <th scope="col"><?= __('Vitro Mammalian') ?></th>
+                <th scope="col"><?= __('Vitro Mammalian Results') ?></th>
+                <th scope="col"><?= __('Vivo Genotoxicit') ?></th>
+                <th scope="col"><?= __('Vivo Genotoxicit Results') ?></th>
+                <th scope="col"><?= __('Additional Assays') ?></th>
+                <th scope="col"><?= __('Additional Assays Results') ?></th>
+                <th scope="col"><?= __('Potential Genotoxic') ?></th>
+                <th scope="col"><?= __('Genotoxicity Comment') ?></th>
+                <th scope="col"><?= __('Carcinogenicity') ?></th>
+                <th scope="col"><?= __('Carcinogenicity Exposure') ?></th>
+                <th scope="col"><?= __('Carcinogenicity Comment') ?></th>
+                <th scope="col"><?= __('Fertility') ?></th>
+                <th scope="col"><?= __('Fertility Findings') ?></th>
+                <th scope="col"><?= __('Embryo Dev') ?></th>
+                <th scope="col"><?= __('Embryo Dev Findings') ?></th>
+                <th scope="col"><?= __('Pre Post Natal') ?></th>
+                <th scope="col"><?= __('Pre Post Natal Findings') ?></th>
+                <th scope="col"><?= __('Reproductive Margins') ?></th>
+                <th scope="col"><?= __('Reproductive Comment') ?></th>
+                <th scope="col"><?= __('Juvenile Age Range') ?></th>
+                <th scope="col"><?= __('Enhanced Juvenile') ?></th>
+                <th scope="col"><?= __('Planned Juvenile Exposure') ?></th>
+                <th scope="col"><?= __('Juvenile Comment') ?></th>
+                <th scope="col"><?= __('Other Potential Toxicities') ?></th>
+                <th scope="col"><?= __('Other Potential Exposure') ?></th>
+                <th scope="col"><?= __('Other Potential Comment') ?></th>
+                <th scope="col"><?= __('Imp Teratogenic') ?></th>
+                <th scope="col"><?= __('Imp Genotoxic') ?></th>
+                <th scope="col"><?= __('Imp Insufficient') ?></th>
+                <th scope="col"><?= __('Imp Irelevant') ?></th>
+                <th scope="col"><?= __('Imp Nodata') ?></th>
+                <th scope="col"><?= __('Male Partners Included') ?></th>
+                <th scope="col"><?= __('Considered Suspected') ?></th>
+                <th scope="col"><?= __('Considered Possible') ?></th>
+                <th scope="col"><?= __('Considered Unlikely') ?></th>
+                <th scope="col"><?= __('Imp Assessor Comment') ?></th>
+                <th scope="col"><?= __('Local Toxicity') ?></th>
+                <th scope="col"><?= __('Local Toxicity Comments') ?></th>
+                <th scope="col"><?= __('Std Phototoxic') ?></th>
+                <th scope="col"><?= __('Std Phototoxic Comments') ?></th>
+                <th scope="col"><?= __('Std Tissue') ?></th>
+                <th scope="col"><?= __('Std Tissue Comments') ?></th>
+                <th scope="col"><?= __('Std Antigenicity') ?></th>
+                <th scope="col"><?= __('Std Antigenicity Comments') ?></th>
+                <th scope="col"><?= __('Std Imuno') ?></th>
+                <th scope="col"><?= __('Std Imuno Comments') ?></th>
+                <th scope="col"><?= __('Std Dependence') ?></th>
+                <th scope="col"><?= __('Std Dependence Comments') ?></th>
+                <th scope="col"><?= __('Std Metabolites') ?></th>
+                <th scope="col"><?= __('Std Metabolites Comments') ?></th>
+                <th scope="col"><?= __('Std Impurities') ?></th>
+                <th scope="col"><?= __('Std Impurities Comments') ?></th>
+                <th scope="col"><?= __('Std Other') ?></th>
+                <th scope="col"><?= __('Std Other Comments') ?></th>
+                <th scope="col"><?= __('Other Toxicity Comments') ?></th>
+                <th scope="col"><?= __('Fih Dose') ?></th>
+                <th scope="col"><?= __('Fih Dose Steps') ?></th>
+                <th scope="col"><?= __('Fih Dose Max') ?></th>
+                <th scope="col"><?= __('Fih Dose Comments') ?></th>
+                <th scope="col"><?= __('Glp Aspects') ?></th>
+                <th scope="col"><?= __('Glp Aspects Comments') ?></th>
+                <th scope="col"><?= __('Non Clinical Acceptable') ?></th>
+                <th scope="col"><?= __('Supplementary Info Needed') ?></th>
+                <th scope="col"><?= __('Overall Comments') ?></th>
+                <th scope="col"><?= __('Chosen') ?></th>
+                <th scope="col"><?= __('Submitted') ?></th>
+                <th scope="col"><?= __('Created') ?></th>
+                <th scope="col"><?= __('Deleted') ?></th>
+                <th scope="col"><?= __('Additional') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($nonClinical->non_clinical_edits as $nonClinicalEdits): ?>
+            <tr>
+                <td><?= h($nonClinicalEdits->id) ?></td>
+                <td><?= h($nonClinicalEdits->application_id) ?></td>
+                <td><?= h($nonClinicalEdits->user_id) ?></td>
+                <td><?= h($nonClinicalEdits->non_clinical_id) ?></td>
+                <td><?= h($nonClinicalEdits->evaluation_type) ?></td>
+                <td><?= h($nonClinicalEdits->basis_provided) ?></td>
+                <td><?= h($nonClinicalEdits->primary_comment) ?></td>
+                <td><?= h($nonClinicalEdits->relevant_vitro_vivo) ?></td>
+                <td><?= h($nonClinicalEdits->pharmacological_exposure) ?></td>
+                <td><?= h($nonClinicalEdits->active_metabolites) ?></td>
+                <td><?= h($nonClinicalEdits->imp_compound) ?></td>
+                <td><?= h($nonClinicalEdits->off_target_identified) ?></td>
+                <td><?= h($nonClinicalEdits->off_target_effects) ?></td>
+                <td><?= h($nonClinicalEdits->secondary_comment) ?></td>
+                <td><?= h($nonClinicalEdits->cardiovascular) ?></td>
+                <td><?= h($nonClinicalEdits->cardiovascular_comments) ?></td>
+                <td><?= h($nonClinicalEdits->respiratory) ?></td>
+                <td><?= h($nonClinicalEdits->respiratory_comments) ?></td>
+                <td><?= h($nonClinicalEdits->pharmacology_comment) ?></td>
+                <td><?= h($nonClinicalEdits->cns) ?></td>
+                <td><?= h($nonClinicalEdits->cns_comments) ?></td>
+                <td><?= h($nonClinicalEdits->other) ?></td>
+                <td><?= h($nonClinicalEdits->other_comments) ?></td>
+                <td><?= h($nonClinicalEdits->significant_concerns) ?></td>
+                <td><?= h($nonClinicalEdits->planned_exposure) ?></td>
+                <td><?= h($nonClinicalEdits->safety_comment) ?></td>
+                <td><?= h($nonClinicalEdits->interactions_identified) ?></td>
+                <td><?= h($nonClinicalEdits->Pharmacodynamic_comment) ?></td>
+                <td><?= h($nonClinicalEdits->adequate_analysis) ?></td>
+                <td><?= h($nonClinicalEdits->analysis_comment) ?></td>
+                <td><?= h($nonClinicalEdits->absorption) ?></td>
+                <td><?= h($nonClinicalEdits->absorption_comments) ?></td>
+                <td><?= h($nonClinicalEdits->distribution) ?></td>
+                <td><?= h($nonClinicalEdits->distribution_comments) ?></td>
+                <td><?= h($nonClinicalEdits->metabolism) ?></td>
+                <td><?= h($nonClinicalEdits->metabolism_comments) ?></td>
+                <td><?= h($nonClinicalEdits->excretion) ?></td>
+                <td><?= h($nonClinicalEdits->excretion_comments) ?></td>
+                <td><?= h($nonClinicalEdits->adme_concerns) ?></td>
+                <td><?= h($nonClinicalEdits->major_metabolites) ?></td>
+                <td><?= h($nonClinicalEdits->unique_metabolites) ?></td>
+                <td><?= h($nonClinicalEdits->pharmacokinetics_comment) ?></td>
+                <td><?= h($nonClinicalEdits->enzyme_inhibition) ?></td>
+                <td><?= h($nonClinicalEdits->enzyme_inhibition_comments) ?></td>
+                <td><?= h($nonClinicalEdits->enzyme_induction) ?></td>
+                <td><?= h($nonClinicalEdits->enzyme_induction_comments) ?></td>
+                <td><?= h($nonClinicalEdits->transporter) ?></td>
+                <td><?= h($nonClinicalEdits->transporter_comments) ?></td>
+                <td><?= h($nonClinicalEdits->co_pathways) ?></td>
+                <td><?= h($nonClinicalEdits->co_pathways_comments) ?></td>
+                <td><?= h($nonClinicalEdits->drug_interaction) ?></td>
+                <td><?= h($nonClinicalEdits->interaction_highlighted) ?></td>
+                <td><?= h($nonClinicalEdits->drug_interaction_comment) ?></td>
+                <td><?= h($nonClinicalEdits->pk_studies) ?></td>
+                <td><?= h($nonClinicalEdits->concerns_identified) ?></td>
+                <td><?= h($nonClinicalEdits->identified_studies_comment) ?></td>
+                <td><?= h($nonClinicalEdits->toxicologically_relevant) ?></td>
+                <td><?= h($nonClinicalEdits->human_pharmacology) ?></td>
+                <td><?= h($nonClinicalEdits->human_pk) ?></td>
+                <td><?= h($nonClinicalEdits->well_designed_studies) ?></td>
+                <td><?= h($nonClinicalEdits->toxicology_comment) ?></td>
+                <td><?= h($nonClinicalEdits->toxicities_identified) ?></td>
+                <td><?= h($nonClinicalEdits->sufficient_margins) ?></td>
+                <td><?= h($nonClinicalEdits->single_dose_comment) ?></td>
+                <td><?= h($nonClinicalEdits->repeat_toxicities_identified) ?></td>
+                <td><?= h($nonClinicalEdits->repeat_sufficient_margins) ?></td>
+                <td><?= h($nonClinicalEdits->repeat_treatment_duration) ?></td>
+                <td><?= h($nonClinicalEdits->repeat_dose_comment) ?></td>
+                <td><?= h($nonClinicalEdits->gene_mutations) ?></td>
+                <td><?= h($nonClinicalEdits->gene_mutation_results) ?></td>
+                <td><?= h($nonClinicalEdits->vitro_mammalian) ?></td>
+                <td><?= h($nonClinicalEdits->vitro_mammalian_results) ?></td>
+                <td><?= h($nonClinicalEdits->vivo_genotoxicit) ?></td>
+                <td><?= h($nonClinicalEdits->vivo_genotoxicit_results) ?></td>
+                <td><?= h($nonClinicalEdits->additional_assays) ?></td>
+                <td><?= h($nonClinicalEdits->additional_assays_results) ?></td>
+                <td><?= h($nonClinicalEdits->potential_genotoxic) ?></td>
+                <td><?= h($nonClinicalEdits->genotoxicity_comment) ?></td>
+                <td><?= h($nonClinicalEdits->carcinogenicity) ?></td>
+                <td><?= h($nonClinicalEdits->carcinogenicity_exposure) ?></td>
+                <td><?= h($nonClinicalEdits->carcinogenicity_comment) ?></td>
+                <td><?= h($nonClinicalEdits->fertility) ?></td>
+                <td><?= h($nonClinicalEdits->fertility_findings) ?></td>
+                <td><?= h($nonClinicalEdits->embryo_dev) ?></td>
+                <td><?= h($nonClinicalEdits->embryo_dev_findings) ?></td>
+                <td><?= h($nonClinicalEdits->pre_post_natal) ?></td>
+                <td><?= h($nonClinicalEdits->pre_post_natal_findings) ?></td>
+                <td><?= h($nonClinicalEdits->reproductive_margins) ?></td>
+                <td><?= h($nonClinicalEdits->reproductive_comment) ?></td>
+                <td><?= h($nonClinicalEdits->juvenile_age_range) ?></td>
+                <td><?= h($nonClinicalEdits->enhanced_juvenile) ?></td>
+                <td><?= h($nonClinicalEdits->planned_juvenile_exposure) ?></td>
+                <td><?= h($nonClinicalEdits->juvenile_comment) ?></td>
+                <td><?= h($nonClinicalEdits->other_potential_toxicities) ?></td>
+                <td><?= h($nonClinicalEdits->other_potential_exposure) ?></td>
+                <td><?= h($nonClinicalEdits->other_potential_comment) ?></td>
+                <td><?= h($nonClinicalEdits->imp_teratogenic) ?></td>
+                <td><?= h($nonClinicalEdits->imp_genotoxic) ?></td>
+                <td><?= h($nonClinicalEdits->imp_insufficient) ?></td>
+                <td><?= h($nonClinicalEdits->imp_irelevant) ?></td>
+                <td><?= h($nonClinicalEdits->imp_nodata) ?></td>
+                <td><?= h($nonClinicalEdits->male_partners_included) ?></td>
+                <td><?= h($nonClinicalEdits->considered_suspected) ?></td>
+                <td><?= h($nonClinicalEdits->considered_possible) ?></td>
+                <td><?= h($nonClinicalEdits->considered_unlikely) ?></td>
+                <td><?= h($nonClinicalEdits->imp_assessor_comment) ?></td>
+                <td><?= h($nonClinicalEdits->local_toxicity) ?></td>
+                <td><?= h($nonClinicalEdits->local_toxicity_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_phototoxic) ?></td>
+                <td><?= h($nonClinicalEdits->std_phototoxic_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_tissue) ?></td>
+                <td><?= h($nonClinicalEdits->std_tissue_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_antigenicity) ?></td>
+                <td><?= h($nonClinicalEdits->std_antigenicity_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_imuno) ?></td>
+                <td><?= h($nonClinicalEdits->std_imuno_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_dependence) ?></td>
+                <td><?= h($nonClinicalEdits->std_dependence_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_metabolites) ?></td>
+                <td><?= h($nonClinicalEdits->std_metabolites_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_impurities) ?></td>
+                <td><?= h($nonClinicalEdits->std_impurities_comments) ?></td>
+                <td><?= h($nonClinicalEdits->std_other) ?></td>
+                <td><?= h($nonClinicalEdits->std_other_comments) ?></td>
+                <td><?= h($nonClinicalEdits->other_toxicity_comments) ?></td>
+                <td><?= h($nonClinicalEdits->fih_dose) ?></td>
+                <td><?= h($nonClinicalEdits->fih_dose_steps) ?></td>
+                <td><?= h($nonClinicalEdits->fih_dose_max) ?></td>
+                <td><?= h($nonClinicalEdits->fih_dose_comments) ?></td>
+                <td><?= h($nonClinicalEdits->glp_aspects) ?></td>
+                <td><?= h($nonClinicalEdits->glp_aspects_comments) ?></td>
+                <td><?= h($nonClinicalEdits->non_clinical_acceptable) ?></td>
+                <td><?= h($nonClinicalEdits->supplementary_info_needed) ?></td>
+                <td><?= h($nonClinicalEdits->overall_comments) ?></td>
+                <td><?= h($nonClinicalEdits->chosen) ?></td>
+                <td><?= h($nonClinicalEdits->submitted) ?></td>
+                <td><?= h($nonClinicalEdits->created) ?></td>
+                <td><?= h($nonClinicalEdits->deleted) ?></td>
+                <td><?= h($nonClinicalEdits->additional) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'NonClinicals', 'action' => 'view', $nonClinicalEdits->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'NonClinicals', 'action' => 'edit', $nonClinicalEdits->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'NonClinicals', 'action' => 'delete', $nonClinicalEdits->id], ['confirm' => __('Are you sure you want to delete # {0}?', $nonClinicalEdits->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
     </div>
 </div>

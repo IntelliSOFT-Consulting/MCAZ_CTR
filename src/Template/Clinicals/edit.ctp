@@ -18,6 +18,8 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Clinicals'), ['controller' => 'Clinicals', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Clinical'), ['controller' => 'Clinicals', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="clinicals form large-9 medium-8 columns content">
@@ -27,7 +29,7 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications, 'empty' => true]);
             echo $this->Form->control('user_id', ['options' => $users]);
-            echo $this->Form->control('clinical_id');
+            echo $this->Form->control('clinical_id', ['options' => $clinicals, 'empty' => true]);
             echo $this->Form->control('evaluation_type');
             echo $this->Form->control('sponsor_justification');
             echo $this->Form->control('sponsor_comment');
@@ -169,6 +171,7 @@
             echo $this->Form->control('supplementary_required_comments');
             echo $this->Form->control('overal_assessment_comments');
             echo $this->Form->control('chosen');
+            echo $this->Form->control('submitted');
             echo $this->Form->control('deleted', ['empty' => true]);
             echo $this->Form->control('assessor_discussion');
             echo $this->Form->control('additional');

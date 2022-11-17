@@ -14,13 +14,25 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             echo $this->Form->control('clinical_pr_id', ['type' => 'hidden', 'value' => (!empty($application->clinicals[$ekey]['id']) ? $application->clinicals[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
             if ($this->request->query('cnl_id')) {
                 echo $this->Form->control('clinicals.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                echo $this->Form->control('clinicals.' . $ekey . '.clinical_id', ['type' => 'hidden', 'value' => $clinical_id, 'templates' => 'table_form']);
+                echo $this->Form->control('clinicals.' . $ekey . '.evaluation_type', [
+                    'type' => 'hidden',
+                    'value' => ($clinical_id) ? 'Revision' : 'Initial',
+                    'templates' => 'table_form'
+                ]);
             } elseif ($this->request->query('cp_fn_cnl')) {
                 echo $this->Form->control('clinicals.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
+                echo $this->Form->control('clinicals.' . $ekey . '.clinical_id', ['type' => 'hidden', 'value' => $clinical_id, 'templates' => 'table_form']);
+                echo $this->Form->control('clinicals.' . $ekey . '.evaluation_type', [
+                    'type' => 'hidden',
+                    'value' => ($clinical_id) ? 'Revision' : 'Initial',
+                    'templates' => 'table_form'
+                ]);
             } else {
                 echo $this->Form->control('clinicals.' . $ekey . '.clinical_id', ['type' => 'hidden', 'value' => $clinical_id, 'templates' => 'table_form']);
                 echo $this->Form->control('clinicals.' . $ekey . '.evaluation_type', [
                     'type' => 'hidden',
-                    'value' => ($evaluation_id) ? 'Revision' : 'Initial',
+                    'value' => ($clinical_id) ? 'Revision' : 'Initial',
                     'templates' => 'table_form'
                 ]);
             }
@@ -330,7 +342,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                                     ]);
                                     ?>
                                 </div>
-                                <div class="col-xs-4"  style="margin-left: 1%;">
+                                <div class="col-xs-4" style="margin-left: 1%;">
                                     <?php
 
                                     echo $this->Form->control('clinicals.' . $ekey . '.potential_contraception', [

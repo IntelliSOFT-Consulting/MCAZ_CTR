@@ -21,7 +21,7 @@ class NonClinicalsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'NonClinicals']
         ];
         $nonClinicals = $this->paginate($this->NonClinicals);
 
@@ -38,7 +38,7 @@ class NonClinicalsController extends AppController
     public function view($id = null)
     {
         $nonClinical = $this->NonClinicals->get($id, [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'NonClinicals', 'NonClinicalEdits']
         ]);
 
         $this->set('nonClinical', $nonClinical);
@@ -63,7 +63,8 @@ class NonClinicalsController extends AppController
         }
         $applications = $this->NonClinicals->Applications->find('list', ['limit' => 200]);
         $users = $this->NonClinicals->Users->find('list', ['limit' => 200]);
-        $this->set(compact('nonClinical', 'applications', 'users'));
+        $nonClinicals = $this->NonClinicals->NonClinicals->find('list', ['limit' => 200]);
+        $this->set(compact('nonClinical', 'applications', 'users', 'nonClinicals'));
     }
 
     /**
@@ -89,7 +90,8 @@ class NonClinicalsController extends AppController
         }
         $applications = $this->NonClinicals->Applications->find('list', ['limit' => 200]);
         $users = $this->NonClinicals->Users->find('list', ['limit' => 200]);
-        $this->set(compact('nonClinical', 'applications', 'users'));
+        $nonClinicals = $this->NonClinicals->NonClinicals->find('list', ['limit' => 200]);
+        $this->set(compact('nonClinical', 'applications', 'users', 'nonClinicals'));
     }
 
     /**

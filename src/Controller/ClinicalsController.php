@@ -21,7 +21,7 @@ class ClinicalsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'Clinicals']
         ];
         $clinicals = $this->paginate($this->Clinicals);
 
@@ -38,7 +38,7 @@ class ClinicalsController extends AppController
     public function view($id = null)
     {
         $clinical = $this->Clinicals->get($id, [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'Clinicals', 'ClinicalEdits']
         ]);
 
         $this->set('clinical', $clinical);
@@ -63,7 +63,8 @@ class ClinicalsController extends AppController
         }
         $applications = $this->Clinicals->Applications->find('list', ['limit' => 200]);
         $users = $this->Clinicals->Users->find('list', ['limit' => 200]);
-        $this->set(compact('clinical', 'applications', 'users'));
+        $clinicals = $this->Clinicals->Clinicals->find('list', ['limit' => 200]);
+        $this->set(compact('clinical', 'applications', 'users', 'clinicals'));
     }
 
     /**
@@ -89,7 +90,8 @@ class ClinicalsController extends AppController
         }
         $applications = $this->Clinicals->Applications->find('list', ['limit' => 200]);
         $users = $this->Clinicals->Users->find('list', ['limit' => 200]);
-        $this->set(compact('clinical', 'applications', 'users'));
+        $clinicals = $this->Clinicals->Clinicals->find('list', ['limit' => 200]);
+        $this->set(compact('clinical', 'applications', 'users', 'clinicals'));
     }
 
     /**

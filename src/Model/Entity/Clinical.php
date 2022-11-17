@@ -151,6 +151,7 @@ use Cake\ORM\Entity;
  * @property string $supplementary_required_comments
  * @property string $overal_assessment_comments
  * @property int $chosen
+ * @property int $submitted
  * @property \Cake\I18n\FrozenTime $deleted
  * @property \Cake\I18n\FrozenTime $created
  * @property string $assessor_discussion
@@ -158,6 +159,8 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Clinical $clinical
+ * @property \App\Model\Entity\Clinical[] $clinical_edits
  */
 class Clinical extends Entity
 {
@@ -316,11 +319,14 @@ class Clinical extends Entity
         'supplementary_required_comments' => true,
         'overal_assessment_comments' => true,
         'chosen' => true,
+        'submitted' => true,
         'deleted' => true,
         'created' => true,
         'assessor_discussion' => true,
         'additional' => true,
         'application' => true,
-        'user' => true
+        'user' => true,
+        'clinical' => true,
+        'clinical_edits' => true
     ];
 }

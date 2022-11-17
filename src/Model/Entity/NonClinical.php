@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
+ * @property int $non_clinical_id
+ * @property string $evaluation_type
  * @property string $basis_provided
  * @property string $primary_comment
  * @property string $relevant_vitro_vivo
@@ -139,12 +141,15 @@ use Cake\ORM\Entity;
  * @property bool $supplementary_info_needed
  * @property string $overall_comments
  * @property int $chosen
+ * @property int $submitted
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
  * @property string $additional
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\NonClinical $non_clinical
+ * @property \App\Model\Entity\NonClinical[] $non_clinical_edits
  */
 class NonClinical extends Entity
 {
@@ -161,6 +166,8 @@ class NonClinical extends Entity
     protected $_accessible = [
         'application_id' => true,
         'user_id' => true,
+        'non_clinical_id' => true,
+        'evaluation_type' => true,
         'basis_provided' => true,
         'primary_comment' => true,
         'relevant_vitro_vivo' => true,
@@ -291,10 +298,13 @@ class NonClinical extends Entity
         'supplementary_info_needed' => true,
         'overall_comments' => true,
         'chosen' => true,
+        'submitted' => true,
         'created' => true,
         'deleted' => true,
         'additional' => true,
         'application' => true,
-        'user' => true
+        'user' => true,
+        'non_clinical' => true,
+        'non_clinical_edits' => true
     ];
 }

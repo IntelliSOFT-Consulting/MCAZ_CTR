@@ -11,8 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property |\Cake\ORM\Association\BelongsTo $Clinicals
- * @property |\Cake\ORM\Association\HasMany $Clinicals
+ * @property \App\Model\Table\ClinicalsTable|\Cake\ORM\Association\BelongsTo $Clinicals
+ * @property \App\Model\Table\ClinicalsTable|\Cake\ORM\Association\HasMany $Clinicals
  *
  * @method \App\Model\Entity\Clinical get($primaryKey, $options = [])
  * @method \App\Model\Entity\Clinical newEntity($data = null, array $options = [])
@@ -53,7 +53,6 @@ class ClinicalsTable extends Table
         $this->belongsTo('Clinicals', [
             'foreignKey' => 'clinical_id'
         ]);
-       
         $this->hasMany('ClinicalEdits', [
             'className' => 'Clinicals',
             'foreignKey' => 'clinical_id',
@@ -77,7 +76,8 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('evaluation_type')
             ->maxLength('evaluation_type', 255)
-            ->allowEmpty('evaluation_type');
+            ->requirePresence('evaluation_type', 'create')
+            ->notEmpty('evaluation_type');
 
         $validator
             ->scalar('sponsor_justification')
@@ -742,6 +742,10 @@ class ClinicalsTable extends Table
         $validator
             ->integer('chosen')
             ->allowEmpty('chosen');
+
+        $validator
+            ->integer('submitted')
+            ->allowEmpty('submitted');
 
         $validator
             ->dateTime('deleted')

@@ -15,6 +15,10 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Clinicals'), ['controller' => 'Clinicals', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Clinical'), ['controller' => 'Clinicals', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Clinical Edits'), ['controller' => 'Clinicals', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Clinical Edit'), ['controller' => 'Clinicals', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="clinicals view large-9 medium-8 columns content">
@@ -27,6 +31,10 @@
         <tr>
             <th scope="row"><?= __('User') ?></th>
             <td><?= $clinical->has('user') ? $this->Html->link($clinical->user->name, ['controller' => 'Users', 'action' => 'view', $clinical->user->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Clinical') ?></th>
+            <td><?= $clinical->has('clinical') ? $this->Html->link($clinical->clinical->id, ['controller' => 'Clinicals', 'action' => 'view', $clinical->clinical->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Evaluation Type') ?></th>
@@ -209,12 +217,12 @@
             <td><?= $this->Number->format($clinical->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Clinical Id') ?></th>
-            <td><?= $this->Number->format($clinical->clinical_id) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Chosen') ?></th>
             <td><?= $this->Number->format($clinical->chosen) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Submitted') ?></th>
+            <td><?= $this->Number->format($clinical->submitted) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Deleted') ?></th>
@@ -616,5 +624,324 @@
     <div class="row">
         <h4><?= __('Additional') ?></h4>
         <?= $this->Text->autoParagraph(h($clinical->additional)); ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Clinicals') ?></h4>
+        <?php if (!empty($clinical->clinical_edits)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Application Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
+                <th scope="col"><?= __('Clinical Id') ?></th>
+                <th scope="col"><?= __('Evaluation Type') ?></th>
+                <th scope="col"><?= __('Sponsor Justification') ?></th>
+                <th scope="col"><?= __('Sponsor Comment') ?></th>
+                <th scope="col"><?= __('Low Intervention') ?></th>
+                <th scope="col"><?= __('Evidence Based') ?></th>
+                <th scope="col"><?= __('Products Authorised') ?></th>
+                <th scope="col"><?= __('Poses Risk') ?></th>
+                <th scope="col"><?= __('Posed Risks Comment') ?></th>
+                <th scope="col"><?= __('Trial Phase') ?></th>
+                <th scope="col"><?= __('Therapeutic Condition') ?></th>
+                <th scope="col"><?= __('Action Mechanism') ?></th>
+                <th scope="col"><?= __('Development Status') ?></th>
+                <th scope="col"><?= __('Rationale Acceptable') ?></th>
+                <th scope="col"><?= __('Objective Acceptable') ?></th>
+                <th scope="col"><?= __('Endpoint Acceptable') ?></th>
+                <th scope="col"><?= __('Objective Comments') ?></th>
+                <th scope="col"><?= __('Secondary Objective Acceptable') ?></th>
+                <th scope="col"><?= __('Secondary Endpoint Acceptable') ?></th>
+                <th scope="col"><?= __('Secondary Objective Comments') ?></th>
+                <th scope="col"><?= __('Study Health Participants') ?></th>
+                <th scope="col"><?= __('Study Participants') ?></th>
+                <th scope="col"><?= __('Study Adults') ?></th>
+                <th scope="col"><?= __('Study Adolescent') ?></th>
+                <th scope="col"><?= __('Study Elderly') ?></th>
+                <th scope="col"><?= __('Study Male') ?></th>
+                <th scope="col"><?= __('Study Female') ?></th>
+                <th scope="col"><?= __('Adolescents Age Group') ?></th>
+                <th scope="col"><?= __('Potential Contraception') ?></th>
+                <th scope="col"><?= __('Potential None Contraception') ?></th>
+                <th scope="col"><?= __('Study Population Comments') ?></th>
+                <th scope="col"><?= __('Inclusion Acceptable') ?></th>
+                <th scope="col"><?= __('Inclusion Comments') ?></th>
+                <th scope="col"><?= __('Exclusion Acceptable') ?></th>
+                <th scope="col"><?= __('Exclusion Comments') ?></th>
+                <th scope="col"><?= __('Vulnerable Population') ?></th>
+                <th scope="col"><?= __('Justifiable Population') ?></th>
+                <th scope="col"><?= __('Clinical Benefit') ?></th>
+                <th scope="col"><?= __('Vulnerable Comments') ?></th>
+                <th scope="col"><?= __('Proposed Study Acceptable') ?></th>
+                <th scope="col"><?= __('Study Plan Comments') ?></th>
+                <th scope="col"><?= __('Imp Acceptable') ?></th>
+                <th scope="col"><?= __('Imp Other') ?></th>
+                <th scope="col"><?= __('Imp Comments') ?></th>
+                <th scope="col"><?= __('Comparator Usage') ?></th>
+                <th scope="col"><?= __('Comparator Comments') ?></th>
+                <th scope="col"><?= __('Comparator Smpc') ?></th>
+                <th scope="col"><?= __('Comparator International') ?></th>
+                <th scope="col"><?= __('Comparator Publications') ?></th>
+                <th scope="col"><?= __('Comparator Acceptable') ?></th>
+                <th scope="col"><?= __('Comparator Workspace Comments') ?></th>
+                <th scope="col"><?= __('Placebo Usage') ?></th>
+                <th scope="col"><?= __('Placebo Justified') ?></th>
+                <th scope="col"><?= __('Placebo Comments') ?></th>
+                <th scope="col"><?= __('Auxiliary Usage') ?></th>
+                <th scope="col"><?= __('Auxiliary Justified') ?></th>
+                <th scope="col"><?= __('Auxiliary Comments') ?></th>
+                <th scope="col"><?= __('Medical Device Justified') ?></th>
+                <th scope="col"><?= __('Medical Device Comments') ?></th>
+                <th scope="col"><?= __('Associated Risks Comments') ?></th>
+                <th scope="col"><?= __('Emergency Procedure Justified') ?></th>
+                <th scope="col"><?= __('Additional Measures') ?></th>
+                <th scope="col"><?= __('Unbinding Comments') ?></th>
+                <th scope="col"><?= __('Teratogenicity Risk') ?></th>
+                <th scope="col"><?= __('Contraceptive Acceptable') ?></th>
+                <th scope="col"><?= __('Proposal Insufficient') ?></th>
+                <th scope="col"><?= __('Proposal Comments') ?></th>
+                <th scope="col"><?= __('Male Participants') ?></th>
+                <th scope="col"><?= __('Male Participants Comments') ?></th>
+                <th scope="col"><?= __('Contraception Treatment') ?></th>
+                <th scope="col"><?= __('Contraception Treatment Comments') ?></th>
+                <th scope="col"><?= __('Other Issue Comments') ?></th>
+                <th scope="col"><?= __('Pregnancy Interval') ?></th>
+                <th scope="col"><?= __('Pregnancy Interval Comments') ?></th>
+                <th scope="col"><?= __('Pregnancy Test') ?></th>
+                <th scope="col"><?= __('Pregnancy Test Comments') ?></th>
+                <th scope="col"><?= __('Postmenopausal') ?></th>
+                <th scope="col"><?= __('Postmenopausal Comments') ?></th>
+                <th scope="col"><?= __('Other Issue') ?></th>
+                <th scope="col"><?= __('General Contraception Comments') ?></th>
+                <th scope="col"><?= __('Discontinuation Criteria') ?></th>
+                <th scope="col"><?= __('Criteria Acceptable') ?></th>
+                <th scope="col"><?= __('Termination Criteria Acceptable') ?></th>
+                <th scope="col"><?= __('Discontinuation Comments') ?></th>
+                <th scope="col"><?= __('Permitted Concomitant') ?></th>
+                <th scope="col"><?= __('Prohibited Concomitant') ?></th>
+                <th scope="col"><?= __('Concomitant Comments') ?></th>
+                <th scope="col"><?= __('Procedures Adequate') ?></th>
+                <th scope="col"><?= __('Insufficient Frequency') ?></th>
+                <th scope="col"><?= __('Frequency Comments') ?></th>
+                <th scope="col"><?= __('Relevant Targets') ?></th>
+                <th scope="col"><?= __('Relevant Targets Comments') ?></th>
+                <th scope="col"><?= __('Minimization Measures') ?></th>
+                <th scope="col"><?= __('Minimization Measures Comments') ?></th>
+                <th scope="col"><?= __('Risk Unacceptable') ?></th>
+                <th scope="col"><?= __('Risk Unacceptable Comments') ?></th>
+                <th scope="col"><?= __('Insufficient Followup') ?></th>
+                <th scope="col"><?= __('Insufficient Followup Comments') ?></th>
+                <th scope="col"><?= __('Other Safety') ?></th>
+                <th scope="col"><?= __('Other Safety Comments') ?></th>
+                <th scope="col"><?= __('Rsi Included') ?></th>
+                <th scope="col"><?= __('Acceptable Document') ?></th>
+                <th scope="col"><?= __('Acceptable Format') ?></th>
+                <th scope="col"><?= __('Expected Acceptable') ?></th>
+                <th scope="col"><?= __('General Irs Comments') ?></th>
+                <th scope="col"><?= __('General Safety Comments') ?></th>
+                <th scope="col"><?= __('Dsmc Committee') ?></th>
+                <th scope="col"><?= __('Arrangements Acceptable') ?></th>
+                <th scope="col"><?= __('Dsmc Comments') ?></th>
+                <th scope="col"><?= __('Trial Definition Acceptable') ?></th>
+                <th scope="col"><?= __('Trial Definition Comments') ?></th>
+                <th scope="col"><?= __('Collection Unacceptable') ?></th>
+                <th scope="col"><?= __('Collection Unacceptable Comments') ?></th>
+                <th scope="col"><?= __('Data Policies Acceptable') ?></th>
+                <th scope="col"><?= __('Data Policies Acceptable Comments') ?></th>
+                <th scope="col"><?= __('Unauthorised Unacceptable') ?></th>
+                <th scope="col"><?= __('Unauthorised Unacceptable Comments') ?></th>
+                <th scope="col"><?= __('Measures Unacceptable') ?></th>
+                <th scope="col"><?= __('Measures Unacceptable Comments') ?></th>
+                <th scope="col"><?= __('Breach Unacceptable') ?></th>
+                <th scope="col"><?= __('Breach Unacceptable Comments') ?></th>
+                <th scope="col"><?= __('Other Protection') ?></th>
+                <th scope="col"><?= __('Other Protection Comments') ?></th>
+                <th scope="col"><?= __('Data Protection Comments') ?></th>
+                <th scope="col"><?= __('Recruitment Unacceptable') ?></th>
+                <th scope="col"><?= __('Recruitment Unacceptable Comments') ?></th>
+                <th scope="col"><?= __('Recruitment Comments') ?></th>
+                <th scope="col"><?= __('Risk Evaluation Unacceptable') ?></th>
+                <th scope="col"><?= __('Participants Protection Acceptable') ?></th>
+                <th scope="col"><?= __('Condition Unmonitored') ?></th>
+                <th scope="col"><?= __('Condition Unmonitored Comments') ?></th>
+                <th scope="col"><?= __('Unsafeguarded Rights') ?></th>
+                <th scope="col"><?= __('Unsafeguarded Rights Comments') ?></th>
+                <th scope="col"><?= __('Unmonitored Threshold') ?></th>
+                <th scope="col"><?= __('Unmonitored Threshold Comments') ?></th>
+                <th scope="col"><?= __('Risk Assessment Comments') ?></th>
+                <th scope="col"><?= __('Application Acceptable') ?></th>
+                <th scope="col"><?= __('Application Acceptable Comments') ?></th>
+                <th scope="col"><?= __('Supplementary Required') ?></th>
+                <th scope="col"><?= __('Supplementary Required Comments') ?></th>
+                <th scope="col"><?= __('Overal Assessment Comments') ?></th>
+                <th scope="col"><?= __('Chosen') ?></th>
+                <th scope="col"><?= __('Submitted') ?></th>
+                <th scope="col"><?= __('Deleted') ?></th>
+                <th scope="col"><?= __('Created') ?></th>
+                <th scope="col"><?= __('Assessor Discussion') ?></th>
+                <th scope="col"><?= __('Additional') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($clinical->clinical_edits as $clinicalEdits): ?>
+            <tr>
+                <td><?= h($clinicalEdits->id) ?></td>
+                <td><?= h($clinicalEdits->application_id) ?></td>
+                <td><?= h($clinicalEdits->user_id) ?></td>
+                <td><?= h($clinicalEdits->clinical_id) ?></td>
+                <td><?= h($clinicalEdits->evaluation_type) ?></td>
+                <td><?= h($clinicalEdits->sponsor_justification) ?></td>
+                <td><?= h($clinicalEdits->sponsor_comment) ?></td>
+                <td><?= h($clinicalEdits->low_intervention) ?></td>
+                <td><?= h($clinicalEdits->evidence_based) ?></td>
+                <td><?= h($clinicalEdits->products_authorised) ?></td>
+                <td><?= h($clinicalEdits->poses_risk) ?></td>
+                <td><?= h($clinicalEdits->posed_risks_comment) ?></td>
+                <td><?= h($clinicalEdits->trial_phase) ?></td>
+                <td><?= h($clinicalEdits->therapeutic_condition) ?></td>
+                <td><?= h($clinicalEdits->action_mechanism) ?></td>
+                <td><?= h($clinicalEdits->development_status) ?></td>
+                <td><?= h($clinicalEdits->rationale_acceptable) ?></td>
+                <td><?= h($clinicalEdits->objective_acceptable) ?></td>
+                <td><?= h($clinicalEdits->endpoint_acceptable) ?></td>
+                <td><?= h($clinicalEdits->objective_comments) ?></td>
+                <td><?= h($clinicalEdits->secondary_objective_acceptable) ?></td>
+                <td><?= h($clinicalEdits->secondary_endpoint_acceptable) ?></td>
+                <td><?= h($clinicalEdits->secondary_objective_comments) ?></td>
+                <td><?= h($clinicalEdits->study_health_participants) ?></td>
+                <td><?= h($clinicalEdits->study_participants) ?></td>
+                <td><?= h($clinicalEdits->study_adults) ?></td>
+                <td><?= h($clinicalEdits->study_adolescent) ?></td>
+                <td><?= h($clinicalEdits->study_elderly) ?></td>
+                <td><?= h($clinicalEdits->study_male) ?></td>
+                <td><?= h($clinicalEdits->study_female) ?></td>
+                <td><?= h($clinicalEdits->adolescents_age_group) ?></td>
+                <td><?= h($clinicalEdits->potential_contraception) ?></td>
+                <td><?= h($clinicalEdits->potential_none_contraception) ?></td>
+                <td><?= h($clinicalEdits->study_population_comments) ?></td>
+                <td><?= h($clinicalEdits->inclusion_acceptable) ?></td>
+                <td><?= h($clinicalEdits->inclusion_comments) ?></td>
+                <td><?= h($clinicalEdits->exclusion_acceptable) ?></td>
+                <td><?= h($clinicalEdits->exclusion_comments) ?></td>
+                <td><?= h($clinicalEdits->vulnerable_population) ?></td>
+                <td><?= h($clinicalEdits->justifiable_population) ?></td>
+                <td><?= h($clinicalEdits->clinical_benefit) ?></td>
+                <td><?= h($clinicalEdits->vulnerable_comments) ?></td>
+                <td><?= h($clinicalEdits->proposed_study_acceptable) ?></td>
+                <td><?= h($clinicalEdits->study_plan_comments) ?></td>
+                <td><?= h($clinicalEdits->imp_acceptable) ?></td>
+                <td><?= h($clinicalEdits->imp_other) ?></td>
+                <td><?= h($clinicalEdits->imp_comments) ?></td>
+                <td><?= h($clinicalEdits->comparator_usage) ?></td>
+                <td><?= h($clinicalEdits->comparator_comments) ?></td>
+                <td><?= h($clinicalEdits->comparator_smpc) ?></td>
+                <td><?= h($clinicalEdits->comparator_international) ?></td>
+                <td><?= h($clinicalEdits->comparator_publications) ?></td>
+                <td><?= h($clinicalEdits->comparator_acceptable) ?></td>
+                <td><?= h($clinicalEdits->comparator_workspace_comments) ?></td>
+                <td><?= h($clinicalEdits->placebo_usage) ?></td>
+                <td><?= h($clinicalEdits->placebo_justified) ?></td>
+                <td><?= h($clinicalEdits->placebo_comments) ?></td>
+                <td><?= h($clinicalEdits->auxiliary_usage) ?></td>
+                <td><?= h($clinicalEdits->auxiliary_justified) ?></td>
+                <td><?= h($clinicalEdits->auxiliary_comments) ?></td>
+                <td><?= h($clinicalEdits->medical_device_justified) ?></td>
+                <td><?= h($clinicalEdits->medical_device_comments) ?></td>
+                <td><?= h($clinicalEdits->associated_risks_comments) ?></td>
+                <td><?= h($clinicalEdits->emergency_procedure_justified) ?></td>
+                <td><?= h($clinicalEdits->additional_measures) ?></td>
+                <td><?= h($clinicalEdits->unbinding_comments) ?></td>
+                <td><?= h($clinicalEdits->teratogenicity_risk) ?></td>
+                <td><?= h($clinicalEdits->contraceptive_acceptable) ?></td>
+                <td><?= h($clinicalEdits->proposal_insufficient) ?></td>
+                <td><?= h($clinicalEdits->proposal_comments) ?></td>
+                <td><?= h($clinicalEdits->male_participants) ?></td>
+                <td><?= h($clinicalEdits->male_participants_comments) ?></td>
+                <td><?= h($clinicalEdits->contraception_treatment) ?></td>
+                <td><?= h($clinicalEdits->contraception_treatment_comments) ?></td>
+                <td><?= h($clinicalEdits->other_issue_comments) ?></td>
+                <td><?= h($clinicalEdits->pregnancy_interval) ?></td>
+                <td><?= h($clinicalEdits->pregnancy_interval_comments) ?></td>
+                <td><?= h($clinicalEdits->pregnancy_test) ?></td>
+                <td><?= h($clinicalEdits->pregnancy_test_comments) ?></td>
+                <td><?= h($clinicalEdits->postmenopausal) ?></td>
+                <td><?= h($clinicalEdits->postmenopausal_comments) ?></td>
+                <td><?= h($clinicalEdits->other_issue) ?></td>
+                <td><?= h($clinicalEdits->general_contraception_comments) ?></td>
+                <td><?= h($clinicalEdits->discontinuation_criteria) ?></td>
+                <td><?= h($clinicalEdits->criteria_acceptable) ?></td>
+                <td><?= h($clinicalEdits->termination_criteria_acceptable) ?></td>
+                <td><?= h($clinicalEdits->discontinuation_comments) ?></td>
+                <td><?= h($clinicalEdits->permitted_concomitant) ?></td>
+                <td><?= h($clinicalEdits->prohibited_concomitant) ?></td>
+                <td><?= h($clinicalEdits->concomitant_comments) ?></td>
+                <td><?= h($clinicalEdits->procedures_adequate) ?></td>
+                <td><?= h($clinicalEdits->insufficient_frequency) ?></td>
+                <td><?= h($clinicalEdits->frequency_comments) ?></td>
+                <td><?= h($clinicalEdits->relevant_targets) ?></td>
+                <td><?= h($clinicalEdits->relevant_targets_comments) ?></td>
+                <td><?= h($clinicalEdits->minimization_measures) ?></td>
+                <td><?= h($clinicalEdits->minimization_measures_comments) ?></td>
+                <td><?= h($clinicalEdits->risk_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->risk_unacceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->insufficient_followup) ?></td>
+                <td><?= h($clinicalEdits->insufficient_followup_comments) ?></td>
+                <td><?= h($clinicalEdits->other_safety) ?></td>
+                <td><?= h($clinicalEdits->other_safety_comments) ?></td>
+                <td><?= h($clinicalEdits->rsi_included) ?></td>
+                <td><?= h($clinicalEdits->acceptable_document) ?></td>
+                <td><?= h($clinicalEdits->acceptable_format) ?></td>
+                <td><?= h($clinicalEdits->expected_acceptable) ?></td>
+                <td><?= h($clinicalEdits->general_irs_comments) ?></td>
+                <td><?= h($clinicalEdits->general_safety_comments) ?></td>
+                <td><?= h($clinicalEdits->dsmc_committee) ?></td>
+                <td><?= h($clinicalEdits->arrangements_acceptable) ?></td>
+                <td><?= h($clinicalEdits->dsmc_comments) ?></td>
+                <td><?= h($clinicalEdits->trial_definition_acceptable) ?></td>
+                <td><?= h($clinicalEdits->trial_definition_comments) ?></td>
+                <td><?= h($clinicalEdits->collection_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->collection_unacceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->data_policies_acceptable) ?></td>
+                <td><?= h($clinicalEdits->data_policies_acceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->unauthorised_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->unauthorised_unacceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->measures_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->measures_unacceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->breach_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->breach_unacceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->other_protection) ?></td>
+                <td><?= h($clinicalEdits->other_protection_comments) ?></td>
+                <td><?= h($clinicalEdits->data_protection_comments) ?></td>
+                <td><?= h($clinicalEdits->recruitment_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->recruitment_unacceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->recruitment_comments) ?></td>
+                <td><?= h($clinicalEdits->risk_evaluation_unacceptable) ?></td>
+                <td><?= h($clinicalEdits->participants_protection_acceptable) ?></td>
+                <td><?= h($clinicalEdits->condition_unmonitored) ?></td>
+                <td><?= h($clinicalEdits->condition_unmonitored_comments) ?></td>
+                <td><?= h($clinicalEdits->unsafeguarded_rights) ?></td>
+                <td><?= h($clinicalEdits->unsafeguarded_rights_comments) ?></td>
+                <td><?= h($clinicalEdits->unmonitored_threshold) ?></td>
+                <td><?= h($clinicalEdits->unmonitored_threshold_comments) ?></td>
+                <td><?= h($clinicalEdits->risk_assessment_comments) ?></td>
+                <td><?= h($clinicalEdits->application_acceptable) ?></td>
+                <td><?= h($clinicalEdits->application_acceptable_comments) ?></td>
+                <td><?= h($clinicalEdits->supplementary_required) ?></td>
+                <td><?= h($clinicalEdits->supplementary_required_comments) ?></td>
+                <td><?= h($clinicalEdits->overal_assessment_comments) ?></td>
+                <td><?= h($clinicalEdits->chosen) ?></td>
+                <td><?= h($clinicalEdits->submitted) ?></td>
+                <td><?= h($clinicalEdits->deleted) ?></td>
+                <td><?= h($clinicalEdits->created) ?></td>
+                <td><?= h($clinicalEdits->assessor_discussion) ?></td>
+                <td><?= h($clinicalEdits->additional) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'Clinicals', 'action' => 'view', $clinicalEdits->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Clinicals', 'action' => 'edit', $clinicalEdits->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Clinicals', 'action' => 'delete', $clinicalEdits->id], ['confirm' => __('Are you sure you want to delete # {0}?', $clinicalEdits->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
     </div>
 </div>
