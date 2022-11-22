@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property |\Cake\ORM\Association\BelongsTo $Statisticals
+ * @property |\Cake\ORM\Association\HasMany $Statisticals
  *
  * @method \App\Model\Entity\Statistical get($primaryKey, $options = [])
  * @method \App\Model\Entity\Statistical newEntity($data = null, array $options = [])
@@ -49,6 +51,16 @@ class StatisticalsTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Statisticals', [
+            'foreignKey' => 'statistical_id'
+        ]);
+         
+        $this->hasMany('StatisticalEdits', [
+            'className' => 'Statisticals',
+            'foreignKey' => 'statistical_id',
+            'dependent' => true,
+            'conditions' => array('StatisticalEdits.evaluation_type' => 'Revision'),
+        ]);  
     }
 
     /**
@@ -62,6 +74,11 @@ class StatisticalsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('design_type')
@@ -240,6 +257,7 @@ class StatisticalsTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['statistical_id'], 'Statisticals'));
 
         return $rules;
     }

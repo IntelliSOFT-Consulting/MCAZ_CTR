@@ -29,6 +29,10 @@
             <td><?= $statistical->has('user') ? $this->Html->link($statistical->user->name, ['controller' => 'Users', 'action' => 'view', $statistical->user->id]) : '' ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Evaluation Type') ?></th>
+            <td><?= h($statistical->evaluation_type) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Design Type') ?></th>
             <td><?= h($statistical->design_type) ?></td>
         </tr>
@@ -91,6 +95,10 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($statistical->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Statistical Id') ?></th>
+            <td><?= $this->Number->format($statistical->statistical_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Chosen') ?></th>

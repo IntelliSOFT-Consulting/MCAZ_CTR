@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
+ * @property int $statistical_id
+ * @property string $evaluation_type
  * @property string $design_type
  * @property string $randomized
  * @property string $blinding
@@ -62,6 +64,8 @@ class Statistical extends Entity
     protected $_accessible = [
         'application_id' => true,
         'user_id' => true,
+        'statistical_id' => true,
+        'evaluation_type' => true,
         'design_type' => true,
         'randomized' => true,
         'blinding' => true,

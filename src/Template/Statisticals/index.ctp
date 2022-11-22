@@ -22,6 +22,8 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('statistical_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('evaluation_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('design_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('randomized') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('blinding') ?></th>
@@ -49,6 +51,8 @@
                 <td><?= $this->Number->format($statistical->id) ?></td>
                 <td><?= $statistical->has('application') ? $this->Html->link($statistical->application->id, ['controller' => 'Applications', 'action' => 'view', $statistical->application->id]) : '' ?></td>
                 <td><?= $statistical->has('user') ? $this->Html->link($statistical->user->name, ['controller' => 'Users', 'action' => 'view', $statistical->user->id]) : '' ?></td>
+                <td><?= $this->Number->format($statistical->statistical_id) ?></td>
+                <td><?= h($statistical->evaluation_type) ?></td>
                 <td><?= h($statistical->design_type) ?></td>
                 <td><?= h($statistical->randomized) ?></td>
                 <td><?= h($statistical->blinding) ?></td>

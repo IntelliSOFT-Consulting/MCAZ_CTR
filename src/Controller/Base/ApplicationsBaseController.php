@@ -331,8 +331,8 @@ class ApplicationsBaseController extends AppController
 
 
 
-        // dd($application);
-        // exit;
+        dd($application);
+        exit;
 
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {

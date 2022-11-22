@@ -21,6 +21,8 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications]);
             echo $this->Form->control('user_id', ['options' => $users]);
+            echo $this->Form->control('statistical_id');
+            echo $this->Form->control('evaluation_type');
             echo $this->Form->control('design_type');
             echo $this->Form->control('randomized');
             echo $this->Form->control('blinding');
