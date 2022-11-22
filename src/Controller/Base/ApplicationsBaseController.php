@@ -328,11 +328,17 @@ class ApplicationsBaseController extends AppController
             ['QualityAssessments.evaluation_type' => 'Initial', 'QualityAssessments.id' => $this->request->query('qu_id'), 'QualityAssessments.id' => $this->request->query('qu_fn_cnl')]]);
         };
 
+        // STATISTICAL EVALUATION
+        $contains['Statisticals'] = function ($q) {
+            return $q->where(['OR' =>
+            ['Statisticals.evaluation_type' => 'Initial', 'Statisticals.id' => $this->request->query('stat_id'), 'Statisticals.id' => $this->request->query('stat_fn')]]);
+        };
 
 
 
-        dd($application);
-        exit;
+
+        // dd($application);
+        // exit;
 
         // //Evaluators and External evaluators only to view if assigned
         // if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
@@ -472,6 +478,37 @@ class ApplicationsBaseController extends AppController
         }
 
         // END OF QUALITY ASSESMENT
+        // START OF STATISTICAL ASSESSMENT
+        $statistical_id = $this->request->getData('statistical_id');
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            foreach ($application->statisticals as $key => $value) {
+                if ($value['id'] == $this->request->getData('statistical_id')) {
+                    $ekey = $key;
+                }
+            }
+        }
+
+        if ($this->request->query('stat_id')) {
+            foreach ($application->statisticals as $key => $value) {
+                $ev_id = $this->request->query('stat_id');
+                if ($value['id'] == $ev_id) {
+                    $ekey = $key;
+                    $statistical_id = $this->request->query('stat_id');
+                }
+            }
+        }
+
+        if ($this->request->query('stat_fn')) {
+            foreach ($application->statisticals as $key => $value) {
+                $cp_fn = $this->request->query('stat_fn');
+                if ($value['id'] == $cp_fn) {
+                    $ekey = $key;
+                    $statistical_id = $this->request->query('stat_fn');
+                }
+            }
+        }
+
+        // END OF STATISTICAL ASSESMENT
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
 
@@ -492,7 +529,7 @@ class ApplicationsBaseController extends AppController
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id','non_clinical_id','quality_assessment_id', 'committee_dates'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id','non_clinical_id','quality_assessment_id','statistical_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -782,8 +819,8 @@ class ApplicationsBaseController extends AppController
                     ]);
                 }
             }
-            debug($application->errors());
-            exit;
+            // debug($application->errors());
+            // exit;
             $this->Flash->error(__('Unable to create quality review. Please, try again.'));
             return $this->redirect($this->referer());
         }
@@ -842,6 +879,12 @@ class ApplicationsBaseController extends AppController
                 } else {
                     $this->Flash->success('Saved changes for statistical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
+                    return $this->redirect([
+                        'action' => 'view', $application->id,
+                        '?' => [
+                            'stat_id' => $application->statisticals[0]->id,
+                        ]
+                    ]);
                 }
             }
             // debug($application->errors());

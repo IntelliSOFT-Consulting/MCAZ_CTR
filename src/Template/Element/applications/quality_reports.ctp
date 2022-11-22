@@ -95,7 +95,7 @@ if ($prefix === 'manager') {
                         echo $this->Form->postLink(
                             '<span class="label label-primary">New <small>(tracked changes)</small></span>',
                             [],
-                            ['data' => ['non_clinical_id' => $quadata->id], 'escape' => false, 'confirm' => __('Are you sure you want to create new tracked change for quality assessment {0}?', $quadata->id)]
+                            ['data' => ['quality_assessment_id' => $quadata->id], 'escape' => false, 'confirm' => __('Are you sure you want to create new tracked change for quality assessment {0}?', $quadata->id)]
                         );
                         echo '&nbsp;';
                         for ($i = 0; $i < count($quadata->quality_assessment_edits); $i++) {
