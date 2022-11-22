@@ -54,7 +54,6 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
                     <td><?= $numb++ ?>.</td>
                     <td>Controlled/non controlled?</td>
