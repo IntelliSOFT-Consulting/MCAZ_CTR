@@ -19,7 +19,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                     'value' => ($statistical_id) ? 'Revision' : 'Initial',
                     'templates' => 'table_form'
                 ]); echo $this->Form->control('statisticals.' . $ekey . '.statistical_id', ['type' => 'hidden', 'value' => $statistical_id, 'templates' => 'table_form']);
-            } elseif ($this->request->query('stat_fn_cnl')) {
+            } elseif ($this->request->query('stat_fn')) {
                 echo $this->Form->control('statisticals.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
                 echo $this->Form->control('statisticals.' . $ekey . '.evaluation_type', [
                     'type' => 'hidden',
