@@ -12,6 +12,33 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             <?php
             echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
             echo $this->Form->control('quality_assessments.' . $ekey . '.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
+          
+            //   Copy Edit
+            echo $this->Form->control('quality_assessment_pr_id', ['type' => 'hidden', 'value' => (!empty($application->quality_assessments[$ekey]['id']) ? $application->quality_assessments[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
+            if ($this->request->query('qu_id')) {
+                echo $this->Form->control('quality_assessments.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                echo $this->Form->control('quality_assessments.' . $ekey . '.evaluation_type', [
+                    'type' => 'hidden',
+                    'value' => ($quality_assessment_id) ? 'Revision' : 'Initial',
+                    'templates' => 'table_form'
+                ]); echo $this->Form->control('quality_assessments.' . $ekey . '.quality_assessment_id', ['type' => 'hidden', 'value' => $quality_assessment_id, 'templates' => 'table_form']);
+            } elseif ($this->request->query('qu_fn_cnl')) {
+                echo $this->Form->control('quality_assessments.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
+                echo $this->Form->control('quality_assessments.' . $ekey . '.evaluation_type', [
+                    'type' => 'hidden',
+                    'value' => ($quality_assessment_id) ? 'Revision' : 'Initial',
+                    'templates' => 'table_form'
+                ]); echo $this->Form->control('quality_assessments.' . $ekey . '.quality_assessment_id', ['type' => 'hidden', 'value' => $quality_assessment_id, 'templates' => 'table_form']);
+            } else {
+                echo $this->Form->control('quality_assessments.' . $ekey . '.quality_assessment_id', ['type' => 'hidden', 'value' => $quality_assessment_id, 'templates' => 'table_form']);
+                echo $this->Form->control('quality_assessments.' . $ekey . '.evaluation_type', [
+                    'type' => 'hidden',
+                    'value' => ($quality_assessment_id) ? 'Revision' : 'Initial',
+                    'templates' => 'table_form'
+                ]); 
+            } 
+         
+            // End of Copy Edit
             echo $this->Form->control('quality_assessments.' . $ekey . '.submitted', ['type' => 'hidden', 'value' => 'created', 'templates' => 'table_form']);
             ?>
             <table class="table table-bordered table-condensed">

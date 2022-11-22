@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
+ * @property int $quality_assessment_id
+ * @property string $evaluation_type
  * @property string $quality_workspace
  * @property int $gmp_included
  * @property int $gmp_smpc
@@ -38,6 +40,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\QualityAssessment[] $quality_assessments
  * @property \App\Model\Entity\Compliance[] $compliance
  * @property \App\Model\Entity\Pdrug[] $pdrugs
  * @property \App\Model\Entity\Sdrug[] $sdrugs
@@ -57,6 +60,8 @@ class QualityAssessment extends Entity
     protected $_accessible = [
         'application_id' => true,
         'user_id' => true,
+        'quality_assessment_id' => true,
+        'evaluation_type' => true,
         'quality_workspace' => true,
         'gmp_included' => true,
         'gmp_smpc' => true,
@@ -85,6 +90,7 @@ class QualityAssessment extends Entity
         'updated_at' => true,
         'application' => true,
         'user' => true,
+        'quality_assessments' => true,
         'compliance' => true,
         'pdrugs' => true,
         'sdrugs' => true

@@ -15,6 +15,8 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Quality Assessments'), ['controller' => 'QualityAssessments', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Quality Assessment'), ['controller' => 'QualityAssessments', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Compliance'), ['controller' => 'Compliance', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Compliance'), ['controller' => 'Compliance', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Pdrugs'), ['controller' => 'Pdrugs', 'action' => 'index']) ?> </li>
@@ -33,6 +35,10 @@
         <tr>
             <th scope="row"><?= __('User') ?></th>
             <td><?= $qualityAssessment->has('user') ? $this->Html->link($qualityAssessment->user->name, ['controller' => 'Users', 'action' => 'view', $qualityAssessment->user->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Evaluation Type') ?></th>
+            <td><?= h($qualityAssessment->evaluation_type) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Quality Data') ?></th>
@@ -65,6 +71,10 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($qualityAssessment->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Quality Assessment Id') ?></th>
+            <td><?= $this->Number->format($qualityAssessment->quality_assessment_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Gmp Included') ?></th>
@@ -142,6 +152,87 @@
     <div class="row">
         <h4><?= __('Additional') ?></h4>
         <?= $this->Text->autoParagraph(h($qualityAssessment->additional)); ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Quality Assessments') ?></h4>
+        <?php if (!empty($qualityAssessment->quality_assessments)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Application Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
+                <th scope="col"><?= __('Quality Assessment Id') ?></th>
+                <th scope="col"><?= __('Evaluation Type') ?></th>
+                <th scope="col"><?= __('Quality Workspace') ?></th>
+                <th scope="col"><?= __('Gmp Included') ?></th>
+                <th scope="col"><?= __('Gmp Smpc') ?></th>
+                <th scope="col"><?= __('Quality Data') ?></th>
+                <th scope="col"><?= __('Auxiliary Workspace') ?></th>
+                <th scope="col"><?= __('Auxiliary Comments') ?></th>
+                <th scope="col"><?= __('Adventitious Agents') ?></th>
+                <th scope="col"><?= __('Adventitious Workspace') ?></th>
+                <th scope="col"><?= __('Adventitious Comments') ?></th>
+                <th scope="col"><?= __('Novel Excipients') ?></th>
+                <th scope="col"><?= __('Novel Excipients Workspace') ?></th>
+                <th scope="col"><?= __('Novel Excipients Comments') ?></th>
+                <th scope="col"><?= __('Reconstitution') ?></th>
+                <th scope="col"><?= __('Reconstitution Workspace') ?></th>
+                <th scope="col"><?= __('Reconstitution Comments') ?></th>
+                <th scope="col"><?= __('Labelling') ?></th>
+                <th scope="col"><?= __('Labelling Comments') ?></th>
+                <th scope="col"><?= __('Blinding Workspace') ?></th>
+                <th scope="col"><?= __('Blinding Comments') ?></th>
+                <th scope="col"><?= __('Acceptable') ?></th>
+                <th scope="col"><?= __('Supplementary Need') ?></th>
+                <th scope="col"><?= __('Overall Comments') ?></th>
+                <th scope="col"><?= __('Additional') ?></th>
+                <th scope="col"><?= __('Chosen') ?></th>
+                <th scope="col"><?= __('Created') ?></th>
+                <th scope="col"><?= __('Updated At') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($qualityAssessment->quality_assessments as $qualityAssessments): ?>
+            <tr>
+                <td><?= h($qualityAssessments->id) ?></td>
+                <td><?= h($qualityAssessments->application_id) ?></td>
+                <td><?= h($qualityAssessments->user_id) ?></td>
+                <td><?= h($qualityAssessments->quality_assessment_id) ?></td>
+                <td><?= h($qualityAssessments->evaluation_type) ?></td>
+                <td><?= h($qualityAssessments->quality_workspace) ?></td>
+                <td><?= h($qualityAssessments->gmp_included) ?></td>
+                <td><?= h($qualityAssessments->gmp_smpc) ?></td>
+                <td><?= h($qualityAssessments->quality_data) ?></td>
+                <td><?= h($qualityAssessments->auxiliary_workspace) ?></td>
+                <td><?= h($qualityAssessments->auxiliary_comments) ?></td>
+                <td><?= h($qualityAssessments->adventitious_agents) ?></td>
+                <td><?= h($qualityAssessments->adventitious_workspace) ?></td>
+                <td><?= h($qualityAssessments->adventitious_comments) ?></td>
+                <td><?= h($qualityAssessments->novel_excipients) ?></td>
+                <td><?= h($qualityAssessments->novel_excipients_workspace) ?></td>
+                <td><?= h($qualityAssessments->novel_excipients_comments) ?></td>
+                <td><?= h($qualityAssessments->reconstitution) ?></td>
+                <td><?= h($qualityAssessments->reconstitution_workspace) ?></td>
+                <td><?= h($qualityAssessments->reconstitution_comments) ?></td>
+                <td><?= h($qualityAssessments->labelling) ?></td>
+                <td><?= h($qualityAssessments->labelling_comments) ?></td>
+                <td><?= h($qualityAssessments->blinding_workspace) ?></td>
+                <td><?= h($qualityAssessments->blinding_comments) ?></td>
+                <td><?= h($qualityAssessments->acceptable) ?></td>
+                <td><?= h($qualityAssessments->supplementary_need) ?></td>
+                <td><?= h($qualityAssessments->overall_comments) ?></td>
+                <td><?= h($qualityAssessments->additional) ?></td>
+                <td><?= h($qualityAssessments->chosen) ?></td>
+                <td><?= h($qualityAssessments->created) ?></td>
+                <td><?= h($qualityAssessments->updated_at) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'QualityAssessments', 'action' => 'view', $qualityAssessments->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'QualityAssessments', 'action' => 'edit', $qualityAssessments->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'QualityAssessments', 'action' => 'delete', $qualityAssessments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $qualityAssessments->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
     </div>
     <div class="related">
         <h4><?= __('Related Compliance') ?></h4>
@@ -399,6 +490,9 @@
                 <th scope="col"><?= __('Batch Provided') ?></th>
                 <th scope="col"><?= __('Batch Workspace') ?></th>
                 <th scope="col"><?= __('Batch Comments') ?></th>
+                <th scope="col"><?= __('Substantial Amendment') ?></th>
+                <th scope="col"><?= __('Registered Protocol') ?></th>
+                <th scope="col"><?= __('Sdrug Comments') ?></th>
                 <th scope="col"><?= __('Justification Acceptable') ?></th>
                 <th scope="col"><?= __('Justification Workspace') ?></th>
                 <th scope="col"><?= __('Justification Comments') ?></th>
@@ -479,6 +573,9 @@
                 <td><?= h($sdrugs->batch_provided) ?></td>
                 <td><?= h($sdrugs->batch_workspace) ?></td>
                 <td><?= h($sdrugs->batch_comments) ?></td>
+                <td><?= h($sdrugs->substantial_amendment) ?></td>
+                <td><?= h($sdrugs->registered_protocol) ?></td>
+                <td><?= h($sdrugs->sdrug_comments) ?></td>
                 <td><?= h($sdrugs->justification_acceptable) ?></td>
                 <td><?= h($sdrugs->justification_workspace) ?></td>
                 <td><?= h($sdrugs->justification_comments) ?></td>

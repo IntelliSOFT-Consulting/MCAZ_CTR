@@ -28,6 +28,8 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('quality_assessment_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('evaluation_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('gmp_included') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('gmp_smpc') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('quality_data') ?></th>
@@ -49,6 +51,8 @@
                 <td><?= $this->Number->format($qualityAssessment->id) ?></td>
                 <td><?= $qualityAssessment->has('application') ? $this->Html->link($qualityAssessment->application->id, ['controller' => 'Applications', 'action' => 'view', $qualityAssessment->application->id]) : '' ?></td>
                 <td><?= $qualityAssessment->has('user') ? $this->Html->link($qualityAssessment->user->name, ['controller' => 'Users', 'action' => 'view', $qualityAssessment->user->id]) : '' ?></td>
+                <td><?= $this->Number->format($qualityAssessment->quality_assessment_id) ?></td>
+                <td><?= h($qualityAssessment->evaluation_type) ?></td>
                 <td><?= $this->Number->format($qualityAssessment->gmp_included) ?></td>
                 <td><?= $this->Number->format($qualityAssessment->gmp_smpc) ?></td>
                 <td><?= h($qualityAssessment->quality_data) ?></td>

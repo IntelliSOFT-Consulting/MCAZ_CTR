@@ -18,6 +18,8 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Quality Assessments'), ['controller' => 'QualityAssessments', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Quality Assessment'), ['controller' => 'QualityAssessments', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Compliance'), ['controller' => 'Compliance', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Compliance'), ['controller' => 'Compliance', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Pdrugs'), ['controller' => 'Pdrugs', 'action' => 'index']) ?></li>
@@ -33,6 +35,8 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications, 'empty' => true]);
             echo $this->Form->control('user_id', ['options' => $users, 'empty' => true]);
+            echo $this->Form->control('quality_assessment_id');
+            echo $this->Form->control('evaluation_type');
             echo $this->Form->control('quality_workspace');
             echo $this->Form->control('gmp_included');
             echo $this->Form->control('gmp_smpc');

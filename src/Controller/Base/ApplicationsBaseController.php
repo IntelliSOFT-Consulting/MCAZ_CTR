@@ -322,6 +322,14 @@ class ApplicationsBaseController extends AppController
         };
 
 
+        // QUALITY ASSESSMENT EVALUATION
+        $contains['QualityAssessments'] = function ($q) {
+            return $q->where(['OR' =>
+            ['QualityAssessments.evaluation_type' => 'Initial', 'QualityAssessments.id' => $this->request->query('qu_id'), 'QualityAssessments.id' => $this->request->query('qu_fn_cnl')]]);
+        };
+
+
+
 
         // dd($application);
         // exit;
@@ -402,7 +410,7 @@ class ApplicationsBaseController extends AppController
                 }
             }
         }
-        // CLINICAL SECTION
+        // NONCLINICAL SECTION
       
         $non_clinical_id = $this->request->getData('non_clinical_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -432,6 +440,38 @@ class ApplicationsBaseController extends AppController
                 }
             }
         }
+
+        // START OF QUALITY ASSESSMENT
+        $quality_assessment_id = $this->request->getData('quality_assessment_id');
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            foreach ($application->quality_assessments as $key => $value) {
+                if ($value['id'] == $this->request->getData('quality_assessment_id')) {
+                    $ekey = $key;
+                }
+            }
+        }
+
+        if ($this->request->query('qu_id')) {
+            foreach ($application->quality_assessments as $key => $value) {
+                $ev_id = $this->request->query('qu_id');
+                if ($value['id'] == $ev_id) {
+                    $ekey = $key;
+                    $quality_assessment_id = $this->request->query('qu_id');
+                }
+            }
+        }
+
+        if ($this->request->query('qu_fn_cnl')) {
+            foreach ($application->quality_assessments as $key => $value) {
+                $cp_fn = $this->request->query('qu_fn_cnl');
+                if ($value['id'] == $cp_fn) {
+                    $ekey = $key;
+                    $quality_assessment_id = $this->request->query('qu_fn_cnl');
+                }
+            }
+        }
+
+        // END OF QUALITY ASSESMENT
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
         array_push($this->filt, 1);
 
@@ -446,16 +486,13 @@ class ApplicationsBaseController extends AppController
             'group_id' => 6,
             'id NOT IN' => $this->filt
         ]);
-
-        // get 
-// dd($evaluation_id);
-// exit;
+ 
         $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
             ->where(['OR' => [['group_id IN' => [2, 3]], ['id IN' => $this->filt]]]);
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id','non_clinical_id', 'committee_dates'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id','non_clinical_id','quality_assessment_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -737,7 +774,12 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for quality review of Application ' . $application->protocol_no . '.');
-                    return $this->redirect(['action' => 'view', $application->id]);
+                    return $this->redirect([
+                        'action' => 'view', $application->id,
+                        '?' => [
+                            'qu_id' => $application->quality_assessments[0]->id,
+                        ]
+                    ]);
                 }
             }
             debug($application->errors());
@@ -832,7 +874,7 @@ class ApplicationsBaseController extends AppController
     public function quality($id = null)
     {
         $qualityAssessment = $this->Applications->QualityAssessments->get($id, [
-            'contain' => ['Users', 'Sdrug']
+            'contain' => ['Users', 'Sdrug','QualityAssessmentEdits']
         ]);
         $ekey = 100;
         $this->set('qualityAssessment', $qualityAssessment);

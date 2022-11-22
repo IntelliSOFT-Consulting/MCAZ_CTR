@@ -11,8 +11,10 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\QualityAssessmentsTable|\Cake\ORM\Association\BelongsTo $QualityAssessments
  * @property \App\Model\Table\ComplianceTable|\Cake\ORM\Association\HasMany $Compliance
  * @property \App\Model\Table\PdrugsTable|\Cake\ORM\Association\HasMany $Pdrugs
+ * @property \App\Model\Table\QualityAssessmentsTable|\Cake\ORM\Association\HasMany $QualityAssessments
  * @property \App\Model\Table\SdrugsTable|\Cake\ORM\Association\HasMany $Sdrugs
  *
  * @method \App\Model\Entity\QualityAssessment get($primaryKey, $options = [])
@@ -50,11 +52,21 @@ class QualityAssessmentsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+        $this->belongsTo('QualityAssessments', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
         $this->hasMany('Compliance', [
             'foreignKey' => 'quality_assessment_id'
         ]);
         $this->hasMany('Pdrugs', [
             'foreignKey' => 'quality_assessment_id'
+        ]);
+        
+        $this->hasMany('QualityAssessmentEdits', [
+            'className' => 'QualityAssessments',
+            'foreignKey' => 'quality_assessment_id',
+            'dependent' => true,
+            'conditions' => array('QualityAssessmentEdits.evaluation_type' => 'Revision'),
         ]);
         $this->hasMany('Sdrugs', [
             'foreignKey' => 'quality_assessment_id'
@@ -72,6 +84,11 @@ class QualityAssessmentsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('quality_workspace')
@@ -206,6 +223,7 @@ class QualityAssessmentsTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['quality_assessment_id'], 'QualityAssessments'));
 
         return $rules;
     }

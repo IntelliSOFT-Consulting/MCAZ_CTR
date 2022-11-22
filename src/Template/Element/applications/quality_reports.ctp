@@ -23,7 +23,31 @@ if ($prefix === 'manager') {
     <div class="col-xs-12">
         <?php
         foreach ($quality as $quadata) {
-        ?>
+            if ($quadata->evaluation_type == 'Initial') {
+
+                // Added section
+                $quality_assessment_edits = [];
+                $resa = [];
+                $res = [];
+                foreach ($quadata->quality_assessment_edits as $key => $value) {
+                    $res[$key] = $value->toArray();
+                }
+                $resa = Hash::flatten($res);
+                foreach ($resa as $key => $value) {
+                    if (!isset($quality_assessment_edits[substr($key, strrpos($key, '.') + 1)])) {
+                        $quality_assessment_edits[substr($key, strrpos($key, '.') + 1)][] =
+                            ($quadata[substr($key, strrpos($key, '.') + 1)] != $value) ? $value : null;
+                    } else {
+                        $quality_assessment_edits[substr($key, strrpos($key, '.') + 1)][] =
+                            (end($quality_assessment_edits[substr($key, strrpos($key, '.') + 1)]) != $value) ? $value : null;
+                    }
+                } ?>
+
+                <?php
+                $evec = count($quadata->quality_assessment_edits);
+                $eved = $quadata->quality_assessment_edits;
+                $hlis = [];
+                ?>
 
 
             <div class="thumbnail amend-form">
@@ -34,6 +58,59 @@ if ($prefix === 'manager') {
                 if ($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'quality-review', '_ext' => 'pdf', $quadata->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
 
                 echo '&nbsp;'; //print_r(Hash::extract($evaluations, '{n}.chosen'));
+
+                    // Copy Edit
+                    if (
+                        $this->request->params['_ext'] != 'pdf' and ($quadata->user_id == $this->request->session()->read('Auth.User.id'))
+                        and count(array_filter(Hash::extract($quality, '{n}.chosen'), 'is_numeric')) < 1
+                    ) {
+                        echo $this->Form->postLink(
+                            '<span class="label label-info">Edit</span>',
+                            ['action' => 'view', $application->id, '?' => ['qu_id' => $quadata->id]],
+                            ['data' => ['qu_id' => $quadata->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit quality assessment {0}?', $quadata->id)]
+                        );
+                        echo "&nbsp;";
+                        if ($prefix == 'evaluator') echo $this->Form->postLink(
+                            '<span class="label label-success">Copy & Finalize <small>(initial review)</small></span>',
+                            ['action' => 'view', $application->id, '?' => ['qu_fn_cnl' => $quadata->id]],
+                            ['data' => ['qu_fn_cnl' => $quadata->id], 'escape' => false, 'confirm' => __('Are you sure you want to copy and finalize quality assessment {0}?', $quadata->id)]
+                        );
+                        echo "&nbsp;";
+                        for ($i = 0; $i < count($quadata->quality_assessment_edits); $i++) {
+                            if ($this->request->params['_ext'] != 'pdf' and $quadata->quality_assessment_edits[$i]['user']['group_id'] == 2) {
+                                if ($prefix == 'evaluator') echo $this->Form->postLink(
+                                    '<span class="label label-default">Copy & Finalize <small>(manager version # ' . ($i + 1) . ')</small></span>',
+                                    ['action' => 'view', $application->id, '?' => ['qu_fn_cnl' => $quadata->quality_assessment_edits[$i]['id']]],
+                                    ['data' => ['qu_fn_cnl' => $quadata->quality_assessment_edits[$i]['id']], 'escape' => false, 'confirm' => __('Are you sure you want to copy and finalize manager edit {0}?', ($i + 1))]
+                                );
+                                echo '&nbsp;';
+                            }
+                        }
+                    }
+
+                    if (
+                        $this->request->params['_ext'] != 'pdf' and ($this->request->session()->read('Auth.User.group_id') == 2)
+                        and count(array_filter(Hash::extract($quality, '{n}.chosen'), 'is_numeric')) < 1
+                    ) {
+                        echo $this->Form->postLink(
+                            '<span class="label label-primary">New <small>(tracked changes)</small></span>',
+                            [],
+                            ['data' => ['non_clinical_id' => $quadata->id], 'escape' => false, 'confirm' => __('Are you sure you want to create new tracked change for quality assessment {0}?', $quadata->id)]
+                        );
+                        echo '&nbsp;';
+                        for ($i = 0; $i < count($quadata->quality_assessment_edits); $i++) {
+                            if ($this->request->params['_ext'] != 'pdf' and $quadata->quality_assessment_edits[$i]['user_id'] == $this->request->session()->read('Auth.User.id')) {
+                                echo $this->Form->postLink(
+                                    '<span class="label label-success">Edit change # ' . ($i + 1) . '</span>',
+                                    ['action' => 'view', $application->id, '?' => ['qu_id' => $quadata->quality_assessment_edits[$i]['id']]],
+                                    ['data' => ['qu_id' => $quadata->quality_assessment_edits[$i]['id']], 'escape' => false, 'confirm' => __('Are you sure you want to edit tracked change {0}?', ($i + 1))]
+                                );
+                                echo '&nbsp;';
+                            }
+                        }
+                    }
+                    echo '&nbsp;';
+                    // End of Copy Edit
                 if (
                     $this->request->params['_ext'] != 'pdf' and ($quadata->user_id != $this->request->session()->read('Auth.User.id'))
                     and $this->request->session()->read('Auth.User.group_id') == 2 //available to managers only
@@ -1890,6 +1967,7 @@ if ($prefix === 'manager') {
                 }
                 ?>
             </div>
+            <?php } ?>
         <?php }
         ?>
 
