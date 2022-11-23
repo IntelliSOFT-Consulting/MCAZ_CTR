@@ -37,7 +37,16 @@ use Cake\Utility\Hash;
 
         <?php if (count($application->assign_evaluators) > 0 && in_array("3", Hash::extract($application->application_stages, '{n}.stage_id'))) { ?>
         <?php
-            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+            echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All Evaluations', ['controller' => 'Applications', 'action' => 'review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+           
+            
+            // echo $this->Form->dropdownButton('Operations',$operations,['class'=>'btn btn-info']);
+            // echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All Clinical', ['controller' => 'Applications', 'action' => 'clinical-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+            // echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All Non Clinical', ['controller' => 'Applications', 'action' => 'non-clinical-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+            // echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All Quality', ['controller' => 'Applications', 'action' => 'quality-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+            // echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All Statiticals', ['controller' => 'Applications', 'action' => 'statistical-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+            //
+            
             ?>
     </div>
 </div>
@@ -1165,9 +1174,6 @@ use Cake\Utility\Hash;
 
 <div class="row collapse" id="nonclinicalReview">
     <div class="col-xs-12">
-
-
-
         <?= $this->element('applications/nonclinical_assessment', ["application" => $application]) ?>
 
     </div>

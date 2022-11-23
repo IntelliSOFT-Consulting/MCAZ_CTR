@@ -41,6 +41,11 @@ use Cake\ORM\Entity;
  * @property string $statistical_acceptable
  * @property string $information_needed
  * @property string $overall_comment
+ * @property $file
+ * @property string $dir
+ * @property string $size
+ * @property string $type
+ * @property int $signature
  * @property int $chosen
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
@@ -48,6 +53,8 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Statistical $statistical
+ * @property \App\Model\Entity\Statistical[] $statistical_edits
  */
 class Statistical extends Entity
 {
@@ -96,11 +103,18 @@ class Statistical extends Entity
         'statistical_acceptable' => true,
         'information_needed' => true,
         'overall_comment' => true,
+        'file' => true,
+        'dir' => true,
+        'size' => true,
+        'type' => true,
+        'signature' => true,
         'chosen' => true,
         'created' => true,
         'deleted' => true,
         'additional' => true,
         'application' => true,
-        'user' => true
+        'user' => true,
+        'statistical' => true,
+        'statistical_edits' => true
     ];
 }

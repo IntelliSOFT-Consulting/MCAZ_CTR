@@ -39,6 +39,11 @@
                 <th scope="col"><?= $this->Paginator->sort('interim_planning') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('statistical_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('information_needed') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('file') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('dir') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('size') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('signature') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
@@ -51,7 +56,7 @@
                 <td><?= $this->Number->format($statistical->id) ?></td>
                 <td><?= $statistical->has('application') ? $this->Html->link($statistical->application->id, ['controller' => 'Applications', 'action' => 'view', $statistical->application->id]) : '' ?></td>
                 <td><?= $statistical->has('user') ? $this->Html->link($statistical->user->name, ['controller' => 'Users', 'action' => 'view', $statistical->user->id]) : '' ?></td>
-                <td><?= $this->Number->format($statistical->statistical_id) ?></td>
+                <td><?= $statistical->has('statistical') ? $this->Html->link($statistical->statistical->id, ['controller' => 'Statisticals', 'action' => 'view', $statistical->statistical->id]) : '' ?></td>
                 <td><?= h($statistical->evaluation_type) ?></td>
                 <td><?= h($statistical->design_type) ?></td>
                 <td><?= h($statistical->randomized) ?></td>
@@ -68,6 +73,11 @@
                 <td><?= h($statistical->interim_planning) ?></td>
                 <td><?= h($statistical->statistical_acceptable) ?></td>
                 <td><?= h($statistical->information_needed) ?></td>
+                <td><?= h($statistical->file) ?></td>
+                <td><?= h($statistical->dir) ?></td>
+                <td><?= h($statistical->size) ?></td>
+                <td><?= h($statistical->type) ?></td>
+                <td><?= $this->Number->format($statistical->signature) ?></td>
                 <td><?= $this->Number->format($statistical->chosen) ?></td>
                 <td><?= h($statistical->created) ?></td>
                 <td><?= h($statistical->deleted) ?></td>

@@ -11,8 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property |\Cake\ORM\Association\BelongsTo $Statisticals
- * @property |\Cake\ORM\Association\HasMany $Statisticals
+ * @property \App\Model\Table\StatisticalsTable|\Cake\ORM\Association\BelongsTo $Statisticals
+ * @property \App\Model\Table\StatisticalsTable|\Cake\ORM\Association\HasMany $Statisticals
  *
  * @method \App\Model\Entity\Statistical get($primaryKey, $options = [])
  * @method \App\Model\Entity\Statistical newEntity($data = null, array $options = [])
@@ -42,6 +42,9 @@ class StatisticalsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id',
@@ -54,13 +57,12 @@ class StatisticalsTable extends Table
         $this->belongsTo('Statisticals', [
             'foreignKey' => 'statistical_id'
         ]);
-         
         $this->hasMany('StatisticalEdits', [
             'className' => 'Statisticals',
             'foreignKey' => 'statistical_id',
             'dependent' => true,
             'conditions' => array('StatisticalEdits.evaluation_type' => 'Revision'),
-        ]);  
+        ]);
     }
 
     /**
@@ -229,6 +231,27 @@ class StatisticalsTable extends Table
             ->scalar('overall_comment')
             ->maxLength('overall_comment', 4294967295)
             ->allowEmpty('overall_comment');
+
+        $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
+
+        $validator
+            ->allowEmpty('signature');
 
         $validator
             ->integer('chosen')

@@ -21,7 +21,7 @@ class StatisticalsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'Statisticals']
         ];
         $statisticals = $this->paginate($this->Statisticals);
 
@@ -38,7 +38,7 @@ class StatisticalsController extends AppController
     public function view($id = null)
     {
         $statistical = $this->Statisticals->get($id, [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'Statisticals', 'StatisticalEdits']
         ]);
 
         $this->set('statistical', $statistical);
@@ -63,7 +63,8 @@ class StatisticalsController extends AppController
         }
         $applications = $this->Statisticals->Applications->find('list', ['limit' => 200]);
         $users = $this->Statisticals->Users->find('list', ['limit' => 200]);
-        $this->set(compact('statistical', 'applications', 'users'));
+        $statisticals = $this->Statisticals->Statisticals->find('list', ['limit' => 200]);
+        $this->set(compact('statistical', 'applications', 'users', 'statisticals'));
     }
 
     /**
@@ -89,7 +90,8 @@ class StatisticalsController extends AppController
         }
         $applications = $this->Statisticals->Applications->find('list', ['limit' => 200]);
         $users = $this->Statisticals->Users->find('list', ['limit' => 200]);
-        $this->set(compact('statistical', 'applications', 'users'));
+        $statisticals = $this->Statisticals->Statisticals->find('list', ['limit' => 200]);
+        $this->set(compact('statistical', 'applications', 'users', 'statisticals'));
     }
 
     /**

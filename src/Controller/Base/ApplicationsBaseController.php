@@ -387,7 +387,7 @@ class ApplicationsBaseController extends AppController
         }
 
         // CLINICAL SECTION
-      
+
         $clinical_id = $this->request->getData('clinical_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($application->clinicals as $key => $value) {
@@ -417,7 +417,7 @@ class ApplicationsBaseController extends AppController
             }
         }
         // NONCLINICAL SECTION
-      
+
         $non_clinical_id = $this->request->getData('non_clinical_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($application->non_clinicals as $key => $value) {
@@ -523,13 +523,13 @@ class ApplicationsBaseController extends AppController
             'group_id' => 6,
             'id NOT IN' => $this->filt
         ]);
- 
+
         $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
             ->where(['OR' => [['group_id IN' => [2, 3]], ['id IN' => $this->filt]]]);
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id','non_clinical_id','quality_assessment_id','statistical_id', 'committee_dates'));
+        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id', 'non_clinical_id', 'quality_assessment_id', 'statistical_id', 'committee_dates'));
         $this->set('_serialize', ['application']);
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -743,7 +743,7 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for nonclinical review of Application ' . $application->protocol_no . '.');
-                    
+
                     return $this->redirect([
                         'action' => 'view', $application->id,
                         '?' => [
@@ -752,8 +752,8 @@ class ApplicationsBaseController extends AppController
                     ]);
                 }
             }
-        //  debug($application->errors());
-        //  exit;
+            //  debug($application->errors());
+            //  exit;
             $this->Flash->error(__('Unable to create nonclinical review. Please, try again.'));
             return $this->redirect($this->referer());
         }
@@ -878,7 +878,6 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for statistical review of Application ' . $application->protocol_no . '.');
-                    return $this->redirect(['action' => 'view', $application->id]);
                     return $this->redirect([
                         'action' => 'view', $application->id,
                         '?' => [
@@ -887,7 +886,8 @@ class ApplicationsBaseController extends AppController
                     ]);
                 }
             }
-            // debug($application->errors());
+            debug($application->errors());
+            exit;
             $this->Flash->error(__('Unable to create statistical review. Please, try again.'));
             return $this->redirect($this->referer());
         }
@@ -917,7 +917,7 @@ class ApplicationsBaseController extends AppController
     public function quality($id = null)
     {
         $qualityAssessment = $this->Applications->QualityAssessments->get($id, [
-            'contain' => ['Users', 'Sdrug','QualityAssessmentEdits']
+            'contain' => ['Users', 'Sdrug', 'QualityAssessmentEdits']
         ]);
         $ekey = 100;
         $this->set('qualityAssessment', $qualityAssessment);
@@ -993,7 +993,7 @@ class ApplicationsBaseController extends AppController
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for clinical review of Application ' . $application->protocol_no . '.');
-                    
+
                     return $this->redirect([
                         'action' => 'view', $application->id,
                         '?' => [
@@ -1955,12 +1955,18 @@ class ApplicationsBaseController extends AppController
     // Download Statisctical Reviews
     public function statisticalReview($id = null, $scope = null)
     {
-        $statistic = $this->Applications->Statisticals->get($id, [
-            'contain' => ['Applications' => $this->_contain, 'Users'],
+        if ($scope === 'All') {
+            $statisticals = $this->Applications->Statisticals->findByApplicationId($id)->contain(['Users', 'StatisticalEdits'])->where(['Statisticals.evaluation_type' => 'Initial']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $statistic = $this->Applications->Statisticals->get($id, [
+                'contain' => ['Applications' => $this->_contain, 'Users', 'StatisticalEdits'],
+                'conditions' => ['Statisticals.evaluation_type' => 'Initial']
 
-        ]);
-        $application = $statistic->application;
-        $statisticals[] = $statistic;
+            ]);
+            $application = $statistic->application;
+            $statisticals[] = $statistic;
+        }
 
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('statisticals', 'application', 'all_evaluators'));
@@ -1980,22 +1986,29 @@ class ApplicationsBaseController extends AppController
     // Download Quality Reviews
     public function qualityReview($id = null, $scope = null)
     {
-        $data = $this->Applications->QualityAssessments->get($id, [
-            'contain' => [
-                'Applications' => $this->_contain,
-                'Users', 'SDrugs', 'Compliance', 'PDrugs',
+        if ($scope === 'All') {
+            $quality = $this->Applications->QualityAssessments->findByApplicationId($id)->contain([
+                'Users', 'QualityAssessmentEdits', 'SDrugs', 'Compliance', 'PDrugs',
                 'Sdrugs.SdrugsConditions', 'Pdrugs.StorageConditions'
-            ],
-        ]);
-        $application = $data->application;
-        $quality[] = $data;
+            ])
+                ->where(['QualityAssessments.evaluation_type' => 'Initial']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $data = $this->Applications->QualityAssessments->get($id, [
+                'contain' => [
+                    'Applications' => $this->_contain,
+                    'Users', 'QualityAssessments', 'SDrugs', 'Compliance', 'PDrugs',
+                    'Sdrugs.SdrugsConditions', 'Pdrugs.StorageConditions'
+                ],
+            ]);
+
+            $application = $data->application;
+            $quality[] = $data;
+        }
 
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('quality', 'application', 'all_evaluators'));
         $this->set('_serialize', ['quality', 'application']);
-
-        //    debug($data);
-        //    exit;
 
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -2009,12 +2022,17 @@ class ApplicationsBaseController extends AppController
     }
     public function clinicalReview($id = null, $scope = null)
     {
-        $clinical = $this->Applications->Clinicals->get($id, [
-            'contain' => ['Applications' => $this->_contain, 'Users', 'ClinicalEdits'],
-            'conditions' => ['Clinicals.evaluation_type' => 'Initial']
-        ]);
-        $application = $clinical->application;
-        $clinicals[] = $clinical;
+        if ($scope === 'All') {
+            $clinicals = $this->Applications->Clinicals->findByApplicationId($id)->contain(['Users', 'ClinicalEdits'])->where(['Clinicals.evaluation_type' => 'Initial']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $clinical = $this->Applications->Clinicals->get($id, [
+                'contain' => ['Applications' => $this->_contain, 'Users', 'ClinicalEdits'],
+                'conditions' => ['Clinicals.evaluation_type' => 'Initial']
+            ]);
+            $application = $clinical->application;
+            $clinicals[] = $clinical;
+        }
 
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('clinicals', 'application', 'all_evaluators'));
@@ -2031,12 +2049,17 @@ class ApplicationsBaseController extends AppController
     }
     public function nonClinicalReview($id = null, $scope = null)
     {
-        $non_clinical = $this->Applications->NonClinicals->get($id, [
-            'contain' => ['Applications' => $this->_contain, 'Users'],
+        if ($scope === 'All') {
+            $non_clinicals = $this->Applications->NonClinicals->findByApplicationId($id)->contain(['Users', 'NonClinicalEdits'])->where(['NonClinicals.evaluation_type' => 'Initial']);
+            $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
+        } else {
+            $non_clinical = $this->Applications->NonClinicals->get($id, [
+                'contain' => ['Applications' => $this->_contain, 'Users'],
 
-        ]);
-        $application = $non_clinical->application;
-        $non_clinicals[] = $non_clinical;
+            ]);
+            $application = $non_clinical->application;
+            $non_clinicals[] = $non_clinical;
+        }
 
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
         $this->set(compact('non_clinicals', 'application', 'all_evaluators'));

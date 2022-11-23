@@ -12,6 +12,8 @@
         <li><?= $this->Html->link(__('New Application'), ['controller' => 'Applications', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Statisticals'), ['controller' => 'Statisticals', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Statistical'), ['controller' => 'Statisticals', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="statisticals form large-9 medium-8 columns content">
@@ -21,7 +23,7 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications]);
             echo $this->Form->control('user_id', ['options' => $users]);
-            echo $this->Form->control('statistical_id');
+            echo $this->Form->control('statistical_id', ['options' => $statisticals, 'empty' => true]);
             echo $this->Form->control('evaluation_type');
             echo $this->Form->control('design_type');
             echo $this->Form->control('randomized');
@@ -53,6 +55,11 @@
             echo $this->Form->control('statistical_acceptable');
             echo $this->Form->control('information_needed');
             echo $this->Form->control('overall_comment');
+            echo $this->Form->control('file');
+            echo $this->Form->control('dir');
+            echo $this->Form->control('size');
+            echo $this->Form->control('type');
+            echo $this->Form->control('signature');
             echo $this->Form->control('chosen');
             echo $this->Form->control('deleted', ['empty' => true]);
             echo $this->Form->control('additional');
