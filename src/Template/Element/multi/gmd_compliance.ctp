@@ -67,7 +67,7 @@ $numb = 1;
           <div id="compliance_section">
             <?php
             if (!empty($application['quality_assessments'][$ekey]['compliance'])) {
-              for ($i = 1; $i <= count($application['compliance_section']) - 1; $i++) {
+              for ($i = 1; $i <= count($application['quality_assessments'][$ekey]['compliance']) - 1; $i++) {
                 if ($i == 1) echo "<h5 style='margin-left: 30px;'><b></b></h5>";
             ?>
                 <div class="compliance-group">

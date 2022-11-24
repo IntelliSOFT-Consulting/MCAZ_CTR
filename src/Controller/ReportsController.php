@@ -208,9 +208,9 @@ class ReportsController extends AppController
 
         $lower_values_count = count($lower_values);
         $lower_middle_index = floor($lower_values_count / 2);
-        $return['q1']       = $lower_values[$lower_middle_index];
-        if ($lower_values_count % 2 == 0)
-            $return['q1'] = round(($return['q1'] + $lower_values[$lower_middle_index - 1]) / 2);
+        // $return['q1'] = $lower_values[$lower_middle_index];
+        // if ($lower_values_count % 2 == 0)
+            // $return['q1'] = round(($return['q1'] + $lower_values[$lower_middle_index - 1]) / 2);
 
         $higher_values_count = count($higher_values);
         $higher_middle_index = floor($higher_values_count / 2);
@@ -370,7 +370,7 @@ class ReportsController extends AppController
         ])
             ->where(['submitted' => 2])
             ->hydrate(false);
-            $arr=[];
+        $arr = [];
         foreach ($application_stats->toArray() as $application_stat) {
             foreach ($application_stat as $key => $value) {
                 $arr[$key] = (($arr[$key]) ?? 0) + $value;

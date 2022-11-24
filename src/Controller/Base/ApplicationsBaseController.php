@@ -301,40 +301,63 @@ class ApplicationsBaseController extends AppController
         };
         $contains['Evaluations'] = function ($q) {
             return $q->where(['OR' =>
-            ['Evaluations.evaluation_type' => 'Initial', 'Evaluations.id' => $this->request->query('ev_id'), 'Evaluations.id' => $this->request->query('cp_fn')]]);
+            [
+                'Evaluations.evaluation_type' => 'Initial',
+                'Evaluations.id' => $this->request->query('ev_id'),
+                'Evaluations.id' => $this->request->query('cp_fn')
+            ]]);
         };
 
-        $application = $this->Applications->get($id, [
-            'contain' => $contains,
-            'conditions' => ['report_type' => 'Initial']
-        ]);
+
 
         // CLINICAL EVALUATION
         $contains['Clinicals'] = function ($q) {
             return $q->where(['OR' =>
-            ['Clinicals.evaluation_type' => 'Initial', 'Clinicals.id' => $this->request->query('cnl_id'), 'Clinicals.id' => $this->request->query('cp_fn_cnl')]]);
+            [
+                'Clinicals.evaluation_type' => 'Initial',
+                'Clinicals.id' => $this->request->query('cnl_id'),
+                'Clinicals.id' => $this->request->query('cp_fn_cnl')
+            ]]);
         };
 
         // NONCLINICAL EVALUATION
         $contains['NonClinicals'] = function ($q) {
             return $q->where(['OR' =>
-            ['NonClinicals.evaluation_type' => 'Initial', 'NonClinicals.id' => $this->request->query('non_cnl_id'), 'NonClinicals.id' => $this->request->query('non_cp_fn_cnl')]]);
+            [
+                'NonClinicals.evaluation_type' => 'Initial',
+                'NonClinicals.id' => $this->request->query('non_cnl_id'),
+                'NonClinicals.id' => $this->request->query('non_cp_fn_cnl')
+            ]]);
         };
 
 
         // QUALITY ASSESSMENT EVALUATION
-        $contains['QualityAssessments'] = function ($q) {
+        $quality = function ($q) {
             return $q->where(['OR' =>
-            ['QualityAssessments.evaluation_type' => 'Initial', 'QualityAssessments.id' => $this->request->query('qu_id'), 'QualityAssessments.id' => $this->request->query('qu_fn_cnl')]]);
+            [
+                'QualityAssessments.evaluation_type' => 'Initial',
+                'QualityAssessments.id' => $this->request->query('qu_id'),
+                'QualityAssessments.id' => $this->request->query('qu_fn_cnl')
+            ]]);
         };
 
         // STATISTICAL EVALUATION
-        $contains['Statisticals'] = function ($q) {
+        $statistical = function ($q) {
             return $q->where(['OR' =>
-            ['Statisticals.evaluation_type' => 'Initial', 'Statisticals.id' => $this->request->query('stat_id'), 'Statisticals.id' => $this->request->query('stat_fn')]]);
+            [
+                'Statisticals.evaluation_type' => 'Initial',
+                'Statisticals.id' => $this->request->query('stat_id'),
+                'Statisticals.id' => $this->request->query('stat_fn')
+            ]]);
         };
+ 
+        $contains['QualityAssessments'] = $quality;
+        $contains['Statisticals'] = $statistical;
 
-
+        $application = $this->Applications->get($id, [
+            'contain' => $contains,
+            'conditions' => ['report_type' => 'Initial']
+        ]);
 
 
         // dd($application);
@@ -529,7 +552,21 @@ class ApplicationsBaseController extends AppController
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
-        $this->set(compact('application', 'internal_evaluators', 'external_evaluators', 'all_evaluators', 'feedback_evaluators', 'provinces', 'ekey', 'evaluation_id', 'clinical_id', 'non_clinical_id', 'quality_assessment_id', 'statistical_id', 'committee_dates'));
+        $this->set(compact(
+            'application',
+            'internal_evaluators',
+            'external_evaluators',
+            'all_evaluators',
+            'feedback_evaluators',
+            'provinces',
+            'ekey',
+            'evaluation_id',
+            'clinical_id',
+            'non_clinical_id',
+            'quality_assessment_id',
+            'statistical_id',
+            'committee_dates'
+        ));
         $this->set('_serialize', ['application']);
 
         if ($this->request->params['_ext'] === 'pdf') {
@@ -1997,7 +2034,7 @@ class ApplicationsBaseController extends AppController
             $data = $this->Applications->QualityAssessments->get($id, [
                 'contain' => [
                     'Applications' => $this->_contain,
-                    'Users', 'QualityAssessments', 'SDrugs', 'Compliance', 'PDrugs',
+                    'Users', 'QualityAssessmentEdits', 'SDrugs', 'Compliance', 'PDrugs',
                     'Sdrugs.SdrugsConditions', 'Pdrugs.StorageConditions'
                 ],
             ]);
