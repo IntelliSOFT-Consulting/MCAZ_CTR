@@ -347,6 +347,7 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                             </div>
                         </td>
                     </tr>
+                    
                     <tr class="active">
                         <th> <?php $numb = 1; ?></th>
                         <th>1.9.1 REQUESTS FOR ADDITIONAL INFORMATION ON QUALITY</th>
@@ -360,6 +361,18 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
                                     <label></label>
                                     <?php
                                     echo $this->Form->control('quality_assessments.' . $ekey . '.additional', ['label' => false, 'escape' => false, 'templates' => 'textarea_form']);
+                                    ?>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>File Attachment</label>
+                                    <?php
+                                    echo $this->Form->control('quality_assessments.' . $ekey . '.file', ['type' => 'file', 'label' => false, 'escape' => false, 'templates' => 'table_form']);
                                     ?>
                                 </div>
                             </div>

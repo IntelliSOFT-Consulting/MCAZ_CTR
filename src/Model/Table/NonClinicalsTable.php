@@ -42,6 +42,9 @@ class NonClinicalsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
@@ -51,6 +54,9 @@ class NonClinicalsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('NonClinicals', [
+            'foreignKey' => 'non_clinical_id'
+        ]);
+        $this->hasMany('NonClinicals', [
             'foreignKey' => 'non_clinical_id'
         ]);
         $this->hasMany('NonClinicalEdits', [
@@ -713,6 +719,24 @@ class NonClinicalsTable extends Table
             ->scalar('overall_comments')
             ->maxLength('overall_comments', 4294967295)
             ->allowEmpty('overall_comments');
+
+        $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
 
         $validator
             ->integer('chosen')

@@ -150,6 +150,10 @@ use Cake\ORM\Entity;
  * @property bool $supplementary_required
  * @property string $supplementary_required_comments
  * @property string $overal_assessment_comments
+ * @property $file
+ * @property string $dir
+ * @property string $size
+ * @property string $type
  * @property int $chosen
  * @property int $submitted
  * @property \Cake\I18n\FrozenTime $deleted
@@ -318,6 +322,10 @@ class Clinical extends Entity
         'supplementary_required' => true,
         'supplementary_required_comments' => true,
         'overal_assessment_comments' => true,
+        'file' => true,
+        'dir' => true,
+        'size' => true,
+        'type' => true,
         'chosen' => true,
         'submitted' => true,
         'deleted' => true,

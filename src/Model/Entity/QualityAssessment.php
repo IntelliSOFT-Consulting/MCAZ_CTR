@@ -33,6 +33,10 @@ use Cake\ORM\Entity;
  * @property string $acceptable
  * @property string $supplementary_need
  * @property string $overall_comments
+ * @property $file
+ * @property string $dir
+ * @property string $size
+ * @property string $type
  * @property string $additional
  * @property int $chosen
  * @property \Cake\I18n\FrozenTime $created
@@ -40,9 +44,10 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
- * @property \App\Model\Entity\QualityAssessment[] $quality_assessments
+ * @property \App\Model\Entity\QualityAssessment $quality_assessment
  * @property \App\Model\Entity\Compliance[] $compliance
  * @property \App\Model\Entity\Pdrug[] $pdrugs
+ * @property \App\Model\Entity\QualityAssessment[] $quality_assessment_edits
  * @property \App\Model\Entity\Sdrug[] $sdrugs
  */
 class QualityAssessment extends Entity
@@ -84,15 +89,20 @@ class QualityAssessment extends Entity
         'acceptable' => true,
         'supplementary_need' => true,
         'overall_comments' => true,
+        'file' => true,
+        'dir' => true,
+        'size' => true,
+        'type' => true,
         'additional' => true,
         'chosen' => true,
         'created' => true,
         'updated_at' => true,
         'application' => true,
         'user' => true,
-        'quality_assessments' => true,
+        'quality_assessment' => true,
         'compliance' => true,
         'pdrugs' => true,
+        'quality_assessment_edits' => true,
         'sdrugs' => true
     ];
 }

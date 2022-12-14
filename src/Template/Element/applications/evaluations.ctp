@@ -50,7 +50,7 @@ use Cake\Utility\Hash;
                         echo $this->Html->link('All Clinical', ['controller' => 'Applications', 'action' => 'clinical-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-block btn-sm']);
                         ?></li>
                 <li> <?php
-                        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="false"></i> All Non Clinical', ['controller' => 'Applications', 'action' => 'non-clinical-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-block btn-sm']);
+                        echo $this->Html->link(' All Non Clinical', ['controller' => 'Applications', 'action' => 'non-clinical-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-block btn-sm']);
                         ?></li>
                 <li> <?php
                         echo $this->Html->link('All Quality', ['controller' => 'Applications', 'action' => 'quality-review', '_ext' => 'pdf', $application->id, 'All',], ['escape' => false, 'class' => 'btn btn-block btn-sm']);

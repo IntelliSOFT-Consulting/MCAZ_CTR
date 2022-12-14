@@ -213,6 +213,22 @@
             <td><?= h($clinical->participants_protection_acceptable) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('File') ?></th>
+            <td><?= h($clinical->file) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Dir') ?></th>
+            <td><?= h($clinical->dir) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Size') ?></th>
+            <td><?= h($clinical->size) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Type') ?></th>
+            <td><?= h($clinical->type) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($clinical->id) ?></td>
         </tr>
@@ -774,6 +790,10 @@
                 <th scope="col"><?= __('Supplementary Required') ?></th>
                 <th scope="col"><?= __('Supplementary Required Comments') ?></th>
                 <th scope="col"><?= __('Overal Assessment Comments') ?></th>
+                <th scope="col"><?= __('File') ?></th>
+                <th scope="col"><?= __('Dir') ?></th>
+                <th scope="col"><?= __('Size') ?></th>
+                <th scope="col"><?= __('Type') ?></th>
                 <th scope="col"><?= __('Chosen') ?></th>
                 <th scope="col"><?= __('Submitted') ?></th>
                 <th scope="col"><?= __('Deleted') ?></th>
@@ -928,6 +948,10 @@
                 <td><?= h($clinicalEdits->supplementary_required) ?></td>
                 <td><?= h($clinicalEdits->supplementary_required_comments) ?></td>
                 <td><?= h($clinicalEdits->overal_assessment_comments) ?></td>
+                <td><?= h($clinicalEdits->file) ?></td>
+                <td><?= h($clinicalEdits->dir) ?></td>
+                <td><?= h($clinicalEdits->size) ?></td>
+                <td><?= h($clinicalEdits->type) ?></td>
                 <td><?= h($clinicalEdits->chosen) ?></td>
                 <td><?= h($clinicalEdits->submitted) ?></td>
                 <td><?= h($clinicalEdits->deleted) ?></td>

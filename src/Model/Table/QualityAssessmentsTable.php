@@ -45,6 +45,9 @@ class QualityAssessmentsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
@@ -61,15 +64,17 @@ class QualityAssessmentsTable extends Table
         $this->hasMany('Pdrugs', [
             'foreignKey' => 'quality_assessment_id'
         ]);
-        
+        $this->hasMany('QualityAssessments', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
+        $this->hasMany('Sdrugs', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
         $this->hasMany('QualityAssessmentEdits', [
             'className' => 'QualityAssessments',
             'foreignKey' => 'quality_assessment_id',
             'dependent' => true,
             'conditions' => array('QualityAssessmentEdits.evaluation_type' => 'Revision'),
-        ]);
-        $this->hasMany('Sdrugs', [
-            'foreignKey' => 'quality_assessment_id'
         ]);
     }
 
@@ -195,6 +200,24 @@ class QualityAssessmentsTable extends Table
             ->scalar('overall_comments')
             ->maxLength('overall_comments', 4294967295)
             ->allowEmpty('overall_comments');
+
+        $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
 
         $validator
             ->scalar('additional')

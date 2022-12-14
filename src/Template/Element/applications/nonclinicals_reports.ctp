@@ -1515,6 +1515,26 @@ if ($prefix === 'manager') {
                                 <td colspan="3">
                                     <div class="row">
                                         <div class="col-xs-12">
+                                            <label>File Attachment</label>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label text-success">File</label>
+                                                <div class="col-sm-7">
+                                                    <p class="form-control-static text-info text-left">
+                                                        <?php
+                                                        echo $this->Html->link($nonclinical->file, substr($nonclinical->dir, 8) . '/' . $nonclinical->file, ['fullBase' => true]);
+                                                        ?></p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <div class="col-xs-12">
                                             <h4 class="text-center"> Signature(s)</h4>
                                         </div>
                                         <div class="col-xs-12">

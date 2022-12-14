@@ -317,6 +317,22 @@
             <td><?= h($nonClinical->glp_aspects) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('File') ?></th>
+            <td><?= h($nonClinical->file) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Dir') ?></th>
+            <td><?= h($nonClinical->dir) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Size') ?></th>
+            <td><?= h($nonClinical->size) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Type') ?></th>
+            <td><?= h($nonClinical->type) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($nonClinical->id) ?></td>
         </tr>
@@ -720,6 +736,10 @@
                 <th scope="col"><?= __('Non Clinical Acceptable') ?></th>
                 <th scope="col"><?= __('Supplementary Info Needed') ?></th>
                 <th scope="col"><?= __('Overall Comments') ?></th>
+                <th scope="col"><?= __('File') ?></th>
+                <th scope="col"><?= __('Dir') ?></th>
+                <th scope="col"><?= __('Size') ?></th>
+                <th scope="col"><?= __('Type') ?></th>
                 <th scope="col"><?= __('Chosen') ?></th>
                 <th scope="col"><?= __('Submitted') ?></th>
                 <th scope="col"><?= __('Created') ?></th>
@@ -863,6 +883,10 @@
                 <td><?= h($nonClinicalEdits->non_clinical_acceptable) ?></td>
                 <td><?= h($nonClinicalEdits->supplementary_info_needed) ?></td>
                 <td><?= h($nonClinicalEdits->overall_comments) ?></td>
+                <td><?= h($nonClinicalEdits->file) ?></td>
+                <td><?= h($nonClinicalEdits->dir) ?></td>
+                <td><?= h($nonClinicalEdits->size) ?></td>
+                <td><?= h($nonClinicalEdits->type) ?></td>
                 <td><?= h($nonClinicalEdits->chosen) ?></td>
                 <td><?= h($nonClinicalEdits->submitted) ?></td>
                 <td><?= h($nonClinicalEdits->created) ?></td>

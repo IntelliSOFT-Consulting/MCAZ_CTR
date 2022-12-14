@@ -102,6 +102,10 @@
                 <th scope="col"><?= $this->Paginator->sort('unmonitored_threshold') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('application_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_required') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('file') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('dir') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('size') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('submitted') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
@@ -195,6 +199,10 @@
                 <td><?= h($clinical->unmonitored_threshold) ?></td>
                 <td><?= h($clinical->application_acceptable) ?></td>
                 <td><?= h($clinical->supplementary_required) ?></td>
+                <td><?= h($clinical->file) ?></td>
+                <td><?= h($clinical->dir) ?></td>
+                <td><?= h($clinical->size) ?></td>
+                <td><?= h($clinical->type) ?></td>
                 <td><?= $this->Number->format($clinical->chosen) ?></td>
                 <td><?= $this->Number->format($clinical->submitted) ?></td>
                 <td><?= h($clinical->deleted) ?></td>

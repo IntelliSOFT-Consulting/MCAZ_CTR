@@ -29,7 +29,7 @@
         <?php
             echo $this->Form->control('application_id', ['options' => $applications, 'empty' => true]);
             echo $this->Form->control('user_id', ['options' => $users, 'empty' => true]);
-            echo $this->Form->control('quality_assessment_id');
+            echo $this->Form->control('quality_assessment_id', ['options' => $qualityAssessments, 'empty' => true]);
             echo $this->Form->control('evaluation_type');
             echo $this->Form->control('quality_workspace');
             echo $this->Form->control('gmp_included');
@@ -53,6 +53,10 @@
             echo $this->Form->control('acceptable');
             echo $this->Form->control('supplementary_need');
             echo $this->Form->control('overall_comments');
+            echo $this->Form->control('file');
+            echo $this->Form->control('dir');
+            echo $this->Form->control('size');
+            echo $this->Form->control('type');
             echo $this->Form->control('additional');
             echo $this->Form->control('chosen');
             echo $this->Form->control('updated_at', ['empty' => true]);

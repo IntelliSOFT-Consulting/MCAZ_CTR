@@ -39,6 +39,10 @@
                 <th scope="col"><?= $this->Paginator->sort('labelling') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_need') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('file') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('dir') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('size') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('updated_at') ?></th>
@@ -51,7 +55,7 @@
                 <td><?= $this->Number->format($qualityAssessment->id) ?></td>
                 <td><?= $qualityAssessment->has('application') ? $this->Html->link($qualityAssessment->application->id, ['controller' => 'Applications', 'action' => 'view', $qualityAssessment->application->id]) : '' ?></td>
                 <td><?= $qualityAssessment->has('user') ? $this->Html->link($qualityAssessment->user->name, ['controller' => 'Users', 'action' => 'view', $qualityAssessment->user->id]) : '' ?></td>
-                <td><?= $this->Number->format($qualityAssessment->quality_assessment_id) ?></td>
+                <td><?= $qualityAssessment->has('quality_assessment') ? $this->Html->link($qualityAssessment->quality_assessment->id, ['controller' => 'QualityAssessments', 'action' => 'view', $qualityAssessment->quality_assessment->id]) : '' ?></td>
                 <td><?= h($qualityAssessment->evaluation_type) ?></td>
                 <td><?= $this->Number->format($qualityAssessment->gmp_included) ?></td>
                 <td><?= $this->Number->format($qualityAssessment->gmp_smpc) ?></td>
@@ -62,6 +66,10 @@
                 <td><?= h($qualityAssessment->labelling) ?></td>
                 <td><?= h($qualityAssessment->acceptable) ?></td>
                 <td><?= h($qualityAssessment->supplementary_need) ?></td>
+                <td><?= h($qualityAssessment->file) ?></td>
+                <td><?= h($qualityAssessment->dir) ?></td>
+                <td><?= h($qualityAssessment->size) ?></td>
+                <td><?= h($qualityAssessment->type) ?></td>
                 <td><?= $this->Number->format($qualityAssessment->chosen) ?></td>
                 <td><?= h($qualityAssessment->created) ?></td>
                 <td><?= h($qualityAssessment->updated_at) ?></td>

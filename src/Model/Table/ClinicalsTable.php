@@ -42,7 +42,9 @@ class ClinicalsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
@@ -58,7 +60,7 @@ class ClinicalsTable extends Table
             'foreignKey' => 'clinical_id',
             'dependent' => true,
             'conditions' => array('ClinicalEdits.evaluation_type' => 'Revision'),
-        ]);  
+        ]);
     }
 
     /**
@@ -738,6 +740,24 @@ class ClinicalsTable extends Table
             ->scalar('overal_assessment_comments')
             ->maxLength('overal_assessment_comments', 4294967295)
             ->allowEmpty('overal_assessment_comments');
+
+        $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
 
         $validator
             ->integer('chosen')

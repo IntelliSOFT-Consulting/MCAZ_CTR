@@ -170,6 +170,10 @@
             echo $this->Form->control('supplementary_required');
             echo $this->Form->control('supplementary_required_comments');
             echo $this->Form->control('overal_assessment_comments');
+            echo $this->Form->control('file');
+            echo $this->Form->control('dir');
+            echo $this->Form->control('size');
+            echo $this->Form->control('type');
             echo $this->Form->control('chosen');
             echo $this->Form->control('submitted');
             echo $this->Form->control('deleted', ['empty' => true]);

@@ -21,7 +21,7 @@ class QualityAssessmentsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Applications', 'Users']
+            'contain' => ['Applications', 'Users', 'QualityAssessments']
         ];
         $qualityAssessments = $this->paginate($this->QualityAssessments);
 
@@ -38,7 +38,7 @@ class QualityAssessmentsController extends AppController
     public function view($id = null)
     {
         $qualityAssessment = $this->QualityAssessments->get($id, [
-            'contain' => ['Applications', 'Users', 'QualityAssessments', 'Compliance', 'Pdrugs', 'Sdrugs']
+            'contain' => ['Applications', 'Users', 'QualityAssessments', 'Compliance', 'Pdrugs', 'QualityAssessmentEdits', 'Sdrugs']
         ]);
 
         $this->set('qualityAssessment', $qualityAssessment);
@@ -63,7 +63,8 @@ class QualityAssessmentsController extends AppController
         }
         $applications = $this->QualityAssessments->Applications->find('list', ['limit' => 200]);
         $users = $this->QualityAssessments->Users->find('list', ['limit' => 200]);
-        $this->set(compact('qualityAssessment', 'applications', 'users'));
+        $qualityAssessments = $this->QualityAssessments->QualityAssessments->find('list', ['limit' => 200]);
+        $this->set(compact('qualityAssessment', 'applications', 'users', 'qualityAssessments'));
     }
 
     /**
@@ -89,7 +90,8 @@ class QualityAssessmentsController extends AppController
         }
         $applications = $this->QualityAssessments->Applications->find('list', ['limit' => 200]);
         $users = $this->QualityAssessments->Users->find('list', ['limit' => 200]);
-        $this->set(compact('qualityAssessment', 'applications', 'users'));
+        $qualityAssessments = $this->QualityAssessments->QualityAssessments->find('list', ['limit' => 200]);
+        $this->set(compact('qualityAssessment', 'applications', 'users', 'qualityAssessments'));
     }
 
     /**

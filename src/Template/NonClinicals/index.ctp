@@ -103,6 +103,10 @@
                 <th scope="col"><?= $this->Paginator->sort('glp_aspects') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('non_clinical_acceptable') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('supplementary_info_needed') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('file') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('dir') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('size') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('chosen') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('submitted') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
@@ -197,6 +201,10 @@
                 <td><?= h($nonClinical->glp_aspects) ?></td>
                 <td><?= h($nonClinical->non_clinical_acceptable) ?></td>
                 <td><?= h($nonClinical->supplementary_info_needed) ?></td>
+                <td><?= h($nonClinical->file) ?></td>
+                <td><?= h($nonClinical->dir) ?></td>
+                <td><?= h($nonClinical->size) ?></td>
+                <td><?= h($nonClinical->type) ?></td>
                 <td><?= $this->Number->format($nonClinical->chosen) ?></td>
                 <td><?= $this->Number->format($nonClinical->submitted) ?></td>
                 <td><?= h($nonClinical->created) ?></td>
