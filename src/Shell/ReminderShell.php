@@ -41,8 +41,9 @@ class ReminderShell extends Shell
     {
         // $this->out($this->OptionParser->help());
         $this->out('******** Start of Reminders *********');
+        $managers_finance = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2,5], 'Users.deactivated' => 0]);
         $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2], 'Users.deactivated' => 0]);
-        // SADR Reports
+        // 
 
         $unAssignedApplications = $this->Applications->find('all')
             ->contain([])
@@ -50,13 +51,13 @@ class ReminderShell extends Shell
                 'Applications.status' => 'Submitted', 'DATE(Applications.date_submitted) <=' => date('Y-m-d', strtotime('-7 days'))
             ])
             ->notMatching('Reminders', function ($q) {
-                $ms = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2], 'Users.deactivated' => 0]);
+                $ms = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2,5], 'Users.deactivated' => 0]);
                 return $q->where(['Reminders.user_id IN' => Hash::extract($ms->toArray(), '{n}.id'), 'Reminders.reminder_type' => 'unassigned_protocol_reminder_email', 'Reminders.model' => 'Applications']);
             });
 
         foreach ($unAssignedApplications as $report) {
 
-            foreach ($managers as $manager) {
+            foreach ($managers_finance as $manager) {
 
                 // Work on filtering only manager's who have not been notified.
 
