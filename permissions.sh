@@ -14,6 +14,7 @@ bin/cake acl deny Groups.1 controllers/Admin/Amendments
 bin/cake acl deny Groups.1 controllers/Manager
 bin/cake acl deny Groups.1 controllers/Finance
 bin/cake acl deny Groups.1 controllers/Applicant
+
 # grant mcaz users base
 # bin/cake acl grant Groups.1 controllers/Base/Amendments
 # bin/cake acl deny Groups.2 controllers #TODO: Remove this global assignment

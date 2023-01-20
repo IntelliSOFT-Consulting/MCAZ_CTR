@@ -394,6 +394,12 @@ class ApplicationsTable extends Table
             'conditions' => array('Refids.model' => 'Applications'),
 
         ]);
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Applications'),
+        ]);
     }
 
     /**
