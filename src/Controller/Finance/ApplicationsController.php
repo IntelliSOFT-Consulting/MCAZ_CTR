@@ -50,6 +50,7 @@ class ApplicationsController extends ApplicationsBaseController
           $stage1->alt_date = $application->finance_approvals[0]->outcome_date;
           $application->application_stages = [$stage1];
           $application->status = 'Finance';
+          $application->action_date= date("Y-m-d H:i:s");
           //Generate Refined Protocol Number
           $refid = $this->Applications->Refids->newEntity(
             [

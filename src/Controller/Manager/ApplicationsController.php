@@ -27,6 +27,7 @@ class ApplicationsController extends ApplicationsBaseController
             $stage1->stage_date = date("Y-m-d H:i:s");
             $application->application_stages = [$stage1];
             $application->status = 'Assigned';
+            $application->action_date= date("Y-m-d H:i:s");
         }
 
         if ($this->Applications->save($application)) {

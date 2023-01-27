@@ -10,3 +10,4 @@ ALTER TABLE `quality_assessments` ADD `file` VARCHAR(255) NULL AFTER overall_com
 ALTER TABLE `clinicals` ADD `file` VARCHAR(255) NULL AFTER overal_assessment_comments, ADD `dir` VARCHAR(255) NULL AFTER `file`, ADD `size` VARCHAR(255) NULL AFTER `dir`, ADD `type` VARCHAR(255) NULL AFTER `size`
 
 ALTER TABLE `non_clinicals` ADD `file` VARCHAR(255) NULL AFTER overall_comments, ADD `dir` VARCHAR(255) NULL AFTER `file`, ADD `size` VARCHAR(255) NULL AFTER `dir`, ADD `type` VARCHAR(255) NULL AFTER `size`
+ALTER TABLE `applications` ADD `action_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `date_submitted`;

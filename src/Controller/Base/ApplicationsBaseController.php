@@ -32,6 +32,29 @@ class ApplicationsBaseController extends AppController
      */
     public function index()
     {
+        $applications = $this->Applications->find('all')
+            ->contain(['AssignEvaluators'])
+            ->where([
+                'Applications.status' => 'Assigned', 'DATE(Applications.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ]);
+        $filt = [0];
+        foreach ($applications as $application) {
+            $filt = Hash::merge($filt, Hash::extract($application, 'assign_evaluators.{n}.assigned_to'));
+        }
+        if ($applications) {
+            $unEvaluatedApplications = $applications
+                ->notMatching('Evaluations', function ($q) use ($filt) {
+                    return $q->where(['Evaluations.user_id IN' => $filt]);
+                })
+                ->notMatching('Reminders', function ($q) use ($filt) {
+                    return $q->where(['Reminders.user_id IN' => $filt, 'Reminders.reminder_type' => 'evaluation_protocol_reminder_email']);
+                });
+
+            foreach ($unEvaluatedApplications as $report) {
+                dd($report);
+            }
+        }
+
         $this->paginate = [
             // 'contain' => $this->_contain
         ];
@@ -350,7 +373,7 @@ class ApplicationsBaseController extends AppController
                 'Statisticals.id' => $this->request->query('stat_fn')
             ]]);
         };
- 
+
         $contains['QualityAssessments'] = $quality;
         $contains['Statisticals'] = $statistical;
 
@@ -530,6 +553,8 @@ class ApplicationsBaseController extends AppController
                 }
             }
         }
+
+        // dd($application);
 
         // END OF STATISTICAL ASSESMENT
         $this->filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
@@ -1085,6 +1110,7 @@ class ApplicationsBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $application->application_stages = [$stage1];
                 $application->status = 'Evaluated';
+                $application->action_date=date("Y-m-d H:i:s");
             }
 
             if ($this->Applications->save($application)) {
@@ -1277,6 +1303,7 @@ class ApplicationsBaseController extends AppController
                 $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
                 $application->application_stages[] = $stage1;
                 $application->status = 'DirectorGeneral';
+                $application->action_date=date("Y-m-d H:i:s");
             } elseif ($this->request->getData('committee_reviews.100.decision') === 'Declined') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 13;
@@ -1286,6 +1313,7 @@ class ApplicationsBaseController extends AppController
                 $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('committee_reviews.100.outcome_date'))));
                 $application->application_stages[] = $stage1;
                 $application->status = 'CommitteeDeclined';
+                $application->action_date=date("Y-m-d H:i:s");
             } else {
                 //If Coming from Stage 7 then stage 5
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
@@ -1294,10 +1322,12 @@ class ApplicationsBaseController extends AppController
                 if (in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                     $stage1->stage_id = 8;
                     $application->status = 'Presented';
+                    $application->action_date=date("Y-m-d H:i:s");
                     $application->application_stages[] = $stage1;
                 } else {
                     // $stage1->stage_id = 5;
                     $application->status = 'Committee';
+                    $application->action_date=date("Y-m-d H:i:s");
                     // $application->application_stages = [$stage1];
                 }
             }
