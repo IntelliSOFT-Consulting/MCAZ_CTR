@@ -224,7 +224,7 @@ class ReminderShell extends Shell
         }
         $unEvaluatedApplications = $uncommentedApplications
             ->notMatching('Comments', function ($q) use ($filt) {
-                return $q->where(['Comments.user_id IN' => $filt,'Comments.model'=>'Applications','Comments.category'=>'committee']);
+                return $q->where(['Comments.user_id IN' => $filt, 'Comments.model' => 'Applications', 'Comments.category' => 'committee']);
             })
             ->notMatching('Reminders', function ($q) use ($filt) {
                 return $q->where(['Reminders.user_id IN' => $filt, 'Reminders.reminder_type' => 'comments_protocol_reminder_email']);
@@ -248,7 +248,7 @@ class ReminderShell extends Shell
                     'vars' =>  $report->toArray()
                 ];
                 $data['type'] = 'comments_protocol_reminder_email';
-                $this->QueuedJobs->createJob('GenericEmail', $data);
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Applications->Reminders->newEntity();
                 $rem->user_id = $manager->id;
                 $rem->model = 'Applications';
@@ -256,6 +256,45 @@ class ReminderShell extends Shell
                 $report->reminders = [$rem];
                 $this->Applications->save($report);
             }
+        }
+
+        // STAYED LONG WITHOUT APPLICANT'S COMMENT
+        $correspondenceApplications = $this->Applications->find('all')
+            ->contain([])
+            ->where([
+                'Applications.status' => 'Correspondence', 'DATE(Applications.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Comments', function ($q) {
+                return $q->where(['Comments.category' => 'committee', 'Comments.user_id = Applications.user_id']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Applications.user_id', 'Reminders.reminder_type' => 'applicant_correspondence_reminder_email']);
+            });
+        foreach ($correspondenceApplications as $report) {
+
+
+            $manager = $this->Applications->Users->get($report->user_id);
+            $data = [
+                'email_address' => $manager->email, 'user_id' => $manager->id,
+                'type' => 'applicant_correspondence_reminder_email',
+                'model' => 'Applications', 'foreign_key' => $report->id,
+                'vars' =>  $report->toArray()
+            ];
+            $data = [
+                'email_address' => $manager->email,
+                'user_id' => $manager->id,
+                'model' => 'Applications',
+                'foreign_key' => $report->id,
+                'vars' =>  $report->toArray()
+            ];
+            $data['type'] = 'applicant_correspondence_reminder_email';
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $rem  = $this->Applications->Reminders->newEntity();
+            $rem->user_id = $manager->id;
+            $rem->model = 'Applications';
+            $rem->reminder_type = 'applicant_correspondence_reminder_email';
+            $report->reminders = [$rem];
+            $this->Applications->save($report);
         }
 
         $this->out("******* Reminders Executed Successfully");
