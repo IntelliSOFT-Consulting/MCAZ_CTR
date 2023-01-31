@@ -104,9 +104,10 @@ rsort($v);
                         <div>
                           <p style="text-decoration: underline;">File(s)</p>
                           <?php foreach ($comment->attachments as $attachment) { ?>
-                            <p class="form-control-static text-info text-left"><?php
-                                                                                echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
-                                                                                ?></p>
+                            <p class="form-control-static text-info text-left">
+                              <?php
+                              echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
+                              ?></p>
                             <p><?= $attachment['description'] ?></p>
                           <?php } ?>
                         </div>
@@ -114,8 +115,7 @@ rsort($v);
                       </td>
                       <td>
                         <?php foreach ($comment->responses as $response) : ?>
-                          <div style="
-                          <?php
+                          <div style="<?php
                           if ($response->submitted == '2') {
                             echo 'background-color: #dff0d8;';
                           } elseif ($response->submitted == '1') {
@@ -128,13 +128,13 @@ rsort($v);
                             <p><?= $response->content ?></p>
                             <div>
                               <p style="text-decoration: underline;">File(s)</p>
-                             <?php foreach ($response->attachments as $attachment) { ?>
+                              <?php foreach ($response->attachments as $attachment) { ?>
                                 <p class="form-control-static text-info text-left">
                                   <?php
                                   echo $this->Html->link($attachment->file, substr($attachment->dir, 8) . '/' . $attachment->file, ['fullBase' => true]);
                                   ?></p>
                                 <p><?= $attachment['description'] ?></p>
-                              <?php } ?> 
+                              <?php } ?>
 
                               <!-- Added Section -->
 
@@ -144,13 +144,13 @@ rsort($v);
                                 $this->request->params['_ext'] != 'pdf' and ($response->user_id == $this->request->session()->read('Auth.User.id'))
                                 and $response->submitted != '2'
                               ) {
-                               if (!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) { 
-                                echo $this->Form->postLink(
-                                  '<span class="label label-info">Edit</span>'. $response->created,
-                                  ['action' => 'view', $application->id, '?' => ['rs_id' => $response->id]],
-                                  ['data' => ['rs_id' => $response->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit feedback {0}? Data will be available in the form below.', $response->id)]
-                                );
-                             }
+                                if (!in_array("9", Hash::extract($application->application_stages, '{n}.stage_id'))) {
+                                  echo $this->Form->postLink(
+                                    '<span class="label label-info">Edit</span>' . $response->created,
+                                    ['action' => 'view', $application->id, '?' => ['rs_id' => $response->id]],
+                                    ['data' => ['rs_id' => $response->id], 'escape' => false, 'confirm' => __('Are you sure you want to edit feedback {0}? Data will be available in the form below.', $response->id)]
+                                  );
+                                }
                               }
                               ?>
                               <hr>

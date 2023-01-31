@@ -395,12 +395,12 @@ class ApplicationsBaseController extends AppController
 
         // }
         // // Secretary General only able to view once it has been approved
-        // if ($this->Auth->user('group_id') == 7) {
-        //     if(!in_array(9, Hash::extract($application->application_stages, '{n}.stage_id'))) {                
-        //         $this->Flash->error(__('You have not been assigned this application.'));
-        //         return $this->redirect(['action' => 'index']);
-        //     }
-        // }
+        if ($this->Auth->user('group_id') == 7) {
+            if(!in_array(9, Hash::extract($application->application_stages, '{n}.stage_id'))) {                
+                $this->Flash->error(__('You have not been assigned this application.'));
+                return $this->redirect(['action' => 'index']);
+            }
+        }
 
         $ekey = 100;
         $evaluation_id = $this->request->getData('evaluation_id');
@@ -1290,13 +1290,16 @@ class ApplicationsBaseController extends AppController
              */
 
             // if(in_array("5", Hash::extract($application->application_stages, '{n}.stage_id'))) {      
-            $stage  = $this->Applications->ApplicationStages->newEntity();
-            $stage->stage_id = 5;
-            $stage->stage_date = date("Y-m-d H:i:s");
-            $application->application_stages = [$stage];
+            // $stage  = $this->Applications->ApplicationStages->newEntity();
+            // $stage->stage_id = 5;
+            // $stage->stage_date = date("Y-m-d H:i:s");
+            // $application->application_stages = [$stage];
+            // $application->action_date=date("Y-m-d H:i:s");
             // }
 
-            if ($this->request->getData('committee_reviews.100.decision') === 'Approved') {
+            // dd($this->request->getData('committee_reviews.100.decision'));
+
+            if ($this->request->getData('committee_reviews.100.decision') === "Approved") {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 9;
                 $stage1->stage_date = date("Y-m-d H:i:s");
@@ -1319,16 +1322,18 @@ class ApplicationsBaseController extends AppController
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
+
+                // dd($application->application_stages);
                 if (in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                     $stage1->stage_id = 8;
                     $application->status = 'Presented';
                     $application->action_date=date("Y-m-d H:i:s");
                     $application->application_stages[] = $stage1;
                 } else {
-                    // $stage1->stage_id = 5;
+                    $stage1->stage_id = 5;
                     $application->status = 'Committee';
                     $application->action_date=date("Y-m-d H:i:s");
-                    // $application->application_stages = [$stage1];
+                    $application->application_stages = [$stage1];
                 }
             }
 

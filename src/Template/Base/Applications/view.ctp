@@ -227,7 +227,7 @@
         <!-- Check if  signed in user is found in the assigned_evalutors array -->
         <!-- get auth user  -->
         
-        <?php if($prefix === 'manager' || in_array($this->request->session()->read('Auth.User.id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) { ?>
+        <?php if($prefix === 'manager' || $prefix === 'director_general' || in_array($this->request->session()->read('Auth.User.id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to'))) { ?>
  
 
         <?php if($prefix != 'external_evaluator') { ?>
