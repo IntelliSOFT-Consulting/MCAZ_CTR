@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
 use Cake\View\Helper\HtmlHelper;
 use Cake\Utility\Hash;
 use Cake\ORM\TableRegistry;
+use DateTime;
 
 /**
  * Applications Controller
@@ -284,15 +285,8 @@ class ApplicationsBaseController extends AppController
         }
         if ($this->request->params['_ext'] === 'pdf') {
 
-            //get date today
-            $today = date("Y-m-d");
-            $this->set('applications', $this->paginate($query));
-            $this->viewBuilder()->options([
-                'pdfConfig' => [
-                    'filename' => $today . '_Timeline_Report.pdf'
-                ]
-            ]);
-            $this->render('/Base/Applications/pdf/timeline');
+            $applications = $this->paginate($query);
+            $this->manipulate_timelines($applications);
             return;
         }
 
@@ -305,6 +299,133 @@ class ApplicationsBaseController extends AppController
         $this->render('/Base/Applications/index');
     }
 
+
+    public function manipulate_timelines($applications)
+    {
+        # code...
+        // get date today
+        $time_line_data = [];
+        $report_count = 0;
+        $total_reports_time = 0;
+        $single_report_total_time_array = array();
+        foreach ($applications as $application) {
+            $report_count++;
+            // Get a single stage time
+            $days_array = array();
+            $prev_date = null;
+            $total_days = 0;
+            $stage_days_array = array();
+            $mcaz_time = 0;
+            $applicant_time = 0;
+            $total_mcaz_time = 0;
+
+            foreach ($application->application_stages as $application_stage) {
+                $curr_date = (($application_stage->alt_date)) ?? $application_stage->stage_date;
+                $stage_name = '<b>' . $application_stage->stage->name . '</b> : <br>';
+
+                if (!empty($curr_date) && !empty($prev_date)) {
+                    //get the days between the two dates
+                    $date1 = new DateTime($prev_date);
+                    $date2 = new DateTime($curr_date);
+                    $count = $date1->diff($date2)->days;
+                    //get the day name 
+                    $name = $date1->format('l');
+                    //get the date in the format of 2017-01-01
+                    $prev_date = $date1->format('Y-m-d');
+                    $curr_date = $date2->format('Y-m-d');
+                    //get the number of days between the two dates
+                    $count = $date1->diff($date2)->days;
+                    //loop through the dates and get the number of days
+                    $dates = array();
+                    $dates[] = $prev_date;
+
+                    if ($count > 0) {
+                        for ($i = 1; $i < $count; $i++) {
+                            $date1->modify('+1 day');
+                            $name = $date1->format('l');
+                            //add a flag to the date to indicate if it is a weekend
+                            if ($name == 'Saturday' || $name == 'Sunday') {
+                                $dates[] = $date1->format('Y-m-d') . ' Weekend';
+                            } else {
+                                $dates[] = $date1->format('Y-m-d');
+                            }
+                            //remove the weekends from the array
+                            $dates = array_filter($dates, function ($value) {
+                                return strpos($value, 'Weekend') === false;
+                            });
+                        }
+                    }
+                    $dates[] = $curr_date;
+                    //remove duplicates from the array and make it unique
+                    $dates = array_unique($dates);
+
+                    //for each date in the array, echo the date and the day name
+
+                    //count the number of days in the array
+                    $days = count($dates);
+                    //if days==1 then return 0
+                    if ($days == 1) {
+                        $days = 0;
+                    }
+                    $stage_days =  $days . ' Days<br>';
+                    $total_days += $days;
+                    $days_array[] = $days;
+                } else {
+                    $stage_days =  '0 Days<br>';
+                    $total_days += 0;
+                }
+
+                //applicant time = days under correspondence stage
+                if ($application_stage->stage->name == 'ApplicantResponse') {
+                    $applicant_time += $days;
+                }
+
+                $mcaz_time = $total_days - $applicant_time;
+
+                //add the stage name and days to the array
+                $stage_days_array[] = $stage_name . $stage_days;
+                $prev_date = $curr_date;
+            }
+            $total_mcaz_time += $mcaz_time;
+            $total_reports_time += $total_mcaz_time;
+            $single_report_total_time_array[] = $total_days;
+
+            $time_line_data[] = [
+                'protocol_no' => (($application->submitted == 2) ? $application->protocol_no : $application->created),
+                'approval_time' => $total_days . " Days",
+                'mcaz_time' => $total_mcaz_time . " Days",
+                'applicant_time' => $applicant_time . " Days",
+                'stage_time' => $stage_days_array,
+            ];
+        }
+        //divide the total mcaz days by the number of reports
+        $average_time_per_reports = $total_reports_time / $report_count;
+        // limit the number of decimal places to 2
+        $average_time_per_reports = number_format($average_time_per_reports, 0);
+        // dd($single_report_total_time_array);
+
+        // Median Calculation::::order days_array in ascending order
+        sort($single_report_total_time_array); 
+        // split the array into two halves
+        $half = count($days_array) / 2;
+        //if the array has an odd number of elements, then get the middle element
+        if (count($days_array) % 2) {
+            $median = $days_array[$half];
+        } else {
+            //if the array has an even number of elements, then get the average of the two middle elements
+            $median = ($days_array[$half - 1] + $days_array[$half]) / 2;
+        }
+
+        $today = date("Y-m-d");
+        $this->set(['applications'=>$time_line_data,'total_time'=>$total_reports_time.' Days','mean_time'=> $average_time_per_reports . ' Days','median_time'=> $median . ' Days','report_count'=>$report_count]);
+        
+        $this->viewBuilder()->options([
+            'pdfConfig' => [
+                'filename' => $today . '_Timeline_Report.pdf'
+            ]
+        ]);
+        $this->render('/Base/Applications/pdf/timeline');
+    }
     /**
      * View method
      *
@@ -396,7 +517,7 @@ class ApplicationsBaseController extends AppController
         // }
         // // Secretary General only able to view once it has been approved
         if ($this->Auth->user('group_id') == 7) {
-            if(!in_array(9, Hash::extract($application->application_stages, '{n}.stage_id'))) {                
+            if (!in_array(9, Hash::extract($application->application_stages, '{n}.stage_id'))) {
                 $this->Flash->error(__('You have not been assigned this application.'));
                 return $this->redirect(['action' => 'index']);
             }
@@ -1110,7 +1231,7 @@ class ApplicationsBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $application->application_stages = [$stage1];
                 $application->status = 'Evaluated';
-                $application->action_date=date("Y-m-d H:i:s");
+                $application->action_date = date("Y-m-d H:i:s");
             }
 
             if ($this->Applications->save($application)) {
@@ -1306,7 +1427,7 @@ class ApplicationsBaseController extends AppController
                 $stage1->alt_date = $application->committee_reviews[0]->outcome_date;
                 $application->application_stages[] = $stage1;
                 $application->status = 'DirectorGeneral';
-                $application->action_date=date("Y-m-d H:i:s");
+                $application->action_date = date("Y-m-d H:i:s");
             } elseif ($this->request->getData('committee_reviews.100.decision') === 'Declined') {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 13;
@@ -1316,7 +1437,7 @@ class ApplicationsBaseController extends AppController
                 $application->approved_date = date('Y-m-d', strtotime(str_replace('-', '/', $this->request->getData('committee_reviews.100.outcome_date'))));
                 $application->application_stages[] = $stage1;
                 $application->status = 'CommitteeDeclined';
-                $application->action_date=date("Y-m-d H:i:s");
+                $application->action_date = date("Y-m-d H:i:s");
             } else {
                 //If Coming from Stage 7 then stage 5
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
@@ -1327,12 +1448,12 @@ class ApplicationsBaseController extends AppController
                 if (in_array("6", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                     $stage1->stage_id = 8;
                     $application->status = 'Presented';
-                    $application->action_date=date("Y-m-d H:i:s");
+                    $application->action_date = date("Y-m-d H:i:s");
                     $application->application_stages[] = $stage1;
                 } else {
                     $stage1->stage_id = 5;
                     $application->status = 'Committee';
-                    $application->action_date=date("Y-m-d H:i:s");
+                    $application->action_date = date("Y-m-d H:i:s");
                     $application->application_stages = [$stage1];
                 }
             }

@@ -205,7 +205,7 @@ if (count($arr1) > 1) {
                 </button>
 
                 <!-- check if prefix manager -->
-                <?php if ($prefix == 'manager') { ?>
+                <?php if ($prefix == 'manager' || $prefix == 'evaluator' ) { ?>
                     <a class="btn btn-primary btn-sm btn-block" href="<?= $urlPdf ?>" style="margin-top: 4px;">
                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
                     </a>

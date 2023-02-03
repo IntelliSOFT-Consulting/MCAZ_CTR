@@ -1,5 +1,6 @@
 <?php
-  $this->extend('/Element/applications/timeline_view');
+  // $this->extend('/Element/applications/timeline_view');
+  $this->extend('/Element/applications/timeline_reports');  
 ?>
  
 <?php $this->start('tabs'); ?>
