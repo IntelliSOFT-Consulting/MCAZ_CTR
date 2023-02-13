@@ -231,7 +231,7 @@ Plugin::load('Josegonzalez/Upload');
  * Debug Kit should not be installed on a production system
  */
 if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => false]);
+    Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 
 Plugin::load('Acl', ['bootstrap' => true]);
