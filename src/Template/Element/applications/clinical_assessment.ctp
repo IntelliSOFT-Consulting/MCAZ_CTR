@@ -12,22 +12,14 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             <?php
             echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
             echo $this->Form->control('clinical_pr_id', ['type' => 'hidden', 'value' => (!empty($application->clinicals[$ekey]['id']) ? $application->clinicals[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
+
+            
             if ($this->request->query('cnl_id')) {
                 echo $this->Form->control('clinicals.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                echo $this->Form->control('clinicals.' . $ekey . '.clinical_id', ['type' => 'hidden', 'value' => $clinical_id, 'templates' => 'table_form']);
-                echo $this->Form->control('clinicals.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($clinical_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]);
+                
             } elseif ($this->request->query('cp_fn_cnl')) {
                 echo $this->Form->control('clinicals.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
-                echo $this->Form->control('clinicals.' . $ekey . '.clinical_id', ['type' => 'hidden', 'value' => $clinical_id, 'templates' => 'table_form']);
-                echo $this->Form->control('clinicals.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($clinical_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]);
+              
             } else {
                 echo $this->Form->control('clinicals.' . $ekey . '.clinical_id', ['type' => 'hidden', 'value' => $clinical_id, 'templates' => 'table_form']);
                 echo $this->Form->control('clinicals.' . $ekey . '.evaluation_type', [

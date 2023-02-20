@@ -17,21 +17,9 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             echo $this->Form->control('quality_assessment_pr_id', ['type' => 'hidden', 'value' => (!empty($application->quality_assessments[$ekey]['id']) ? $application->quality_assessments[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
             if ($this->request->query('qu_id')) {
                 echo $this->Form->control('quality_assessments.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                echo $this->Form->control('quality_assessments.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($quality_assessment_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]);
-                echo $this->Form->control('quality_assessments.' . $ekey . '.quality_assessment_id', ['type' => 'hidden', 'value' => $quality_assessment_id, 'templates' => 'table_form']);
-            } elseif ($this->request->query('qu_fn_cnl')) {
+              } elseif ($this->request->query('qu_fn_cnl')) {
                 echo $this->Form->control('quality_assessments.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
-                echo $this->Form->control('quality_assessments.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($quality_assessment_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]);
-                echo $this->Form->control('quality_assessments.' . $ekey . '.quality_assessment_id', ['type' => 'hidden', 'value' => $quality_assessment_id, 'templates' => 'table_form']);
-            } else {
+              } else {
                 echo $this->Form->control('quality_assessments.' . $ekey . '.quality_assessment_id', ['type' => 'hidden', 'value' => $quality_assessment_id, 'templates' => 'table_form']);
                 echo $this->Form->control('quality_assessments.' . $ekey . '.evaluation_type', [
                     'type' => 'hidden',

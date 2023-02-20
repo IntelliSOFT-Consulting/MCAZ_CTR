@@ -405,7 +405,7 @@ class ApplicationsBaseController extends AppController
         // dd($single_report_total_time_array);
 
         // Median Calculation::::order days_array in ascending order
-        sort($single_report_total_time_array); 
+        sort($single_report_total_time_array);
         // split the array into two halves
         $half = count($days_array) / 2;
         //if the array has an odd number of elements, then get the middle element
@@ -417,8 +417,8 @@ class ApplicationsBaseController extends AppController
         }
 
         $today = date("Y-m-d");
-        $this->set(['applications'=>$time_line_data,'total_time'=>$total_reports_time.' Days','mean_time'=> $average_time_per_reports . ' Days','median_time'=> $median . ' Days','report_count'=>$report_count]);
-        
+        $this->set(['applications' => $time_line_data, 'total_time' => $total_reports_time . ' Days', 'mean_time' => $average_time_per_reports . ' Days', 'median_time' => $median . ' Days', 'report_count' => $report_count]);
+
         $this->viewBuilder()->options([
             'pdfConfig' => [
                 'filename' => $today . '_Timeline_Report.pdf'
@@ -452,8 +452,6 @@ class ApplicationsBaseController extends AppController
             ]]);
         };
 
-
-
         // CLINICAL EVALUATION
         $contains['Clinicals'] = function ($q) {
             return $q->where(['OR' =>
@@ -473,7 +471,6 @@ class ApplicationsBaseController extends AppController
                 'NonClinicals.id' => $this->request->query('non_cp_fn_cnl')
             ]]);
         };
-
 
         // QUALITY ASSESSMENT EVALUATION
         $quality = function ($q) {
@@ -935,7 +932,7 @@ class ApplicationsBaseController extends AppController
                     ]);
                 }
             }
-            //  debug($application->errors());
+            //  dd($application->errors());
             //  exit;
             $this->Flash->error(__('Unable to create nonclinical review. Please, try again.'));
             return $this->redirect($this->referer());
@@ -1131,7 +1128,7 @@ class ApplicationsBaseController extends AppController
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-
+            
             // Check if Evaluator has been assigned | if not block from leaving a review
             if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
 

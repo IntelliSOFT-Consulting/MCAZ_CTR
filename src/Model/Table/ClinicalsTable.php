@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -78,8 +81,7 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('evaluation_type')
             ->maxLength('evaluation_type', 255)
-            ->requirePresence('evaluation_type', 'create')
-            ->notEmpty('evaluation_type');
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('sponsor_justification')
@@ -784,6 +786,16 @@ class ClinicalsTable extends Table
         return $validator;
     }
 
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                // $data[$key] = trim($value);
+                //Force UTF8 encoding
+                $data[$key] = iconv(mb_detect_encoding($value, mb_detect_order(), true), 'utf-8//IGNORE', $value); 
+            }
+        }
+    }
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -794,8 +806,7 @@ class ClinicalsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['clinical_id'], 'Clinicals'));
+        $rules->add($rules->existsIn(['user_id'], 'Users')); 
 
         return $rules;
     }

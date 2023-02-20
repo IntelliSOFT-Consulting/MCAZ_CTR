@@ -14,20 +14,8 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
             echo $this->Form->control('statistical_pr_id', ['type' => 'hidden', 'value' => (!empty($application->statisticals[$ekey]['id']) ? $application->statisticals[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
             if ($this->request->query('stat_id')) {
                 echo $this->Form->control('statisticals.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                echo $this->Form->control('statisticals.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($statistical_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]);
-                echo $this->Form->control('statisticals.' . $ekey . '.statistical_id', ['type' => 'hidden', 'value' => $statistical_id, 'templates' => 'table_form']);
             } elseif ($this->request->query('stat_fn')) {
                 echo $this->Form->control('statisticals.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
-                echo $this->Form->control('statisticals.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($statistical_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]);
-                echo $this->Form->control('statisticals.' . $ekey . '.statistical_id', ['type' => 'hidden', 'value' => $statistical_id, 'templates' => 'table_form']);
             } else {
                 echo $this->Form->control('statisticals.' . $ekey . '.statistical_id', ['type' => 'hidden', 'value' => $statistical_id, 'templates' => 'table_form']);
                 echo $this->Form->control('statisticals.' . $ekey . '.evaluation_type', [

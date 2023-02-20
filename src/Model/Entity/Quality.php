@@ -30,13 +30,6 @@ class Quality extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'user_id' => true,
-        'submitted' => true,
-        'quality_workspace' => true,
-        'gmp_smpc' => true,
-        'gmp_included' => true,
-        'application' => true,
-        'user' => true
+        '*' => true,
     ];
 }

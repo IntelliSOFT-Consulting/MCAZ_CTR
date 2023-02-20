@@ -9,33 +9,21 @@ if (!in_array($prefix, ['director_general', 'admin']) and count(array_filter(Has
         <div class="col-xs-12">
             <?php
             echo $this->Form->control('application_pr_id', ['type' => 'hidden', 'value' => $application->id, 'escape' => false, 'templates' => 'table_form']);
-
-
             //   Copy Edit
             echo $this->Form->control('non_clinical_pr_id', ['type' => 'hidden', 'value' => (!empty($application->non_clinicals[$ekey]['id']) ? $application->non_clinicals[$ekey]['id'] : 100), 'escape' => false, 'templates' => 'table_form']);
             if ($this->request->query('non_cnl_id')) {
                 echo $this->Form->control('non_clinicals.' . $ekey . '.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                echo $this->Form->control('non_clinicals.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($non_clinical_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]); echo $this->Form->control('non_clinicals.' . $ekey . '.non_clinical_id', ['type' => 'hidden', 'value' => $non_clinical_id, 'templates' => 'table_form']);
             } elseif ($this->request->query('non_cp_fn_cnl')) {
                 echo $this->Form->control('non_clinicals.' . $ekey . '.submitted', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form', 'value' => 2]);
-                echo $this->Form->control('non_clinicals.' . $ekey . '.evaluation_type', [
-                    'type' => 'hidden',
-                    'value' => ($non_clinical_id) ? 'Revision' : 'Initial',
-                    'templates' => 'table_form'
-                ]); echo $this->Form->control('non_clinicals.' . $ekey . '.non_clinical_id', ['type' => 'hidden', 'value' => $non_clinical_id, 'templates' => 'table_form']);
             } else {
                 echo $this->Form->control('non_clinicals.' . $ekey . '.non_clinical_id', ['type' => 'hidden', 'value' => $non_clinical_id, 'templates' => 'table_form']);
                 echo $this->Form->control('non_clinicals.' . $ekey . '.evaluation_type', [
                     'type' => 'hidden',
                     'value' => ($non_clinical_id) ? 'Revision' : 'Initial',
                     'templates' => 'table_form'
-                ]); 
-            } 
-         
+                ]);
+            }
+
             // End of Copy Edit
             echo $this->Form->control('non_clinicals.' . $ekey . '.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
 

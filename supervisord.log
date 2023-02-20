@@ -105,3 +105,305 @@
 2023-02-20 05:59:08,002 INFO exited: cake_queue_worker (exit status 0; expected)
 2023-02-20 05:59:09,005 INFO spawned: 'cake_queue_worker' with pid 27
 2023-02-20 05:59:19,111 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 06:25:53,069 CRIT Supervisor running as root (no user in config file)
+2023-02-20 06:25:53,075 INFO supervisord started with pid 7
+2023-02-20 06:25:54,077 INFO spawned: 'apache' with pid 10
+2023-02-20 06:25:54,079 INFO spawned: 'cake_queue_worker' with pid 11
+2023-02-20 06:25:54,214 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:25:55,216 INFO success: apache entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-02-20 06:25:55,218 INFO spawned: 'cake_queue_worker' with pid 26
+2023-02-20 06:25:55,298 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:25:57,301 INFO spawned: 'cake_queue_worker' with pid 34
+2023-02-20 06:25:57,369 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:26:00,374 INFO spawned: 'cake_queue_worker' with pid 42
+2023-02-20 06:26:00,459 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:26:01,459 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
+2023-02-20 06:35:10,138 CRIT Supervisor running as root (no user in config file)
+2023-02-20 06:35:10,142 INFO supervisord started with pid 7
+2023-02-20 06:35:11,144 INFO spawned: 'apache' with pid 10
+2023-02-20 06:35:11,145 INFO spawned: 'cake_queue_worker' with pid 11
+2023-02-20 06:35:11,220 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:35:12,222 INFO success: apache entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-02-20 06:35:12,223 INFO spawned: 'cake_queue_worker' with pid 26
+2023-02-20 06:35:12,290 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:35:14,293 INFO spawned: 'cake_queue_worker' with pid 34
+2023-02-20 06:35:14,362 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:35:17,366 INFO spawned: 'cake_queue_worker' with pid 42
+2023-02-20 06:35:17,426 INFO exited: cake_queue_worker (exit status 210; not expected)
+2023-02-20 06:35:18,427 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
+2023-02-20 07:01:18,639 CRIT Supervisor running as root (no user in config file)
+2023-02-20 07:01:18,646 INFO supervisord started with pid 8
+2023-02-20 07:01:19,648 INFO spawned: 'apache' with pid 11
+2023-02-20 07:01:19,650 INFO spawned: 'cake_queue_worker' with pid 12
+2023-02-20 07:01:21,105 INFO success: apache entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2023-02-20 07:01:30,104 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:02:50,140 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:02:51,142 INFO spawned: 'cake_queue_worker' with pid 27
+2023-02-20 07:03:01,229 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:04:21,333 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:04:22,336 INFO spawned: 'cake_queue_worker' with pid 36
+2023-02-20 07:04:32,430 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:05:52,601 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:05:53,605 INFO spawned: 'cake_queue_worker' with pid 45
+2023-02-20 07:06:03,687 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:07:23,866 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:07:24,869 INFO spawned: 'cake_queue_worker' with pid 53
+2023-02-20 07:07:34,969 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:08:55,127 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:08:56,132 INFO spawned: 'cake_queue_worker' with pid 61
+2023-02-20 07:09:06,246 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:10:26,376 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:10:27,378 INFO spawned: 'cake_queue_worker' with pid 69
+2023-02-20 07:10:37,460 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:11:57,583 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:11:58,588 INFO spawned: 'cake_queue_worker' with pid 77
+2023-02-20 07:12:08,691 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:13:28,862 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:13:29,865 INFO spawned: 'cake_queue_worker' with pid 85
+2023-02-20 07:13:39,943 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:15:00,108 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:15:01,111 INFO spawned: 'cake_queue_worker' with pid 93
+2023-02-20 07:15:11,217 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:16:31,334 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:16:32,336 INFO spawned: 'cake_queue_worker' with pid 101
+2023-02-20 07:16:42,361 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:18:06,555 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:18:07,495 INFO spawned: 'cake_queue_worker' with pid 122
+2023-02-20 07:18:17,584 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:19:37,677 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:19:38,679 INFO spawned: 'cake_queue_worker' with pid 130
+2023-02-20 07:19:48,784 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:21:08,885 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:21:09,889 INFO spawned: 'cake_queue_worker' with pid 138
+2023-02-20 07:21:20,007 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:22:40,137 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:22:41,141 INFO spawned: 'cake_queue_worker' with pid 146
+2023-02-20 07:22:51,246 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:24:11,406 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:24:12,408 INFO spawned: 'cake_queue_worker' with pid 154
+2023-02-20 07:24:22,485 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:25:42,683 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:25:43,686 INFO spawned: 'cake_queue_worker' with pid 162
+2023-02-20 07:25:53,808 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:27:13,970 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:27:14,972 INFO spawned: 'cake_queue_worker' with pid 170
+2023-02-20 07:27:25,070 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:28:45,175 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:28:46,177 INFO spawned: 'cake_queue_worker' with pid 178
+2023-02-20 07:28:56,258 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:30:16,402 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:30:17,406 INFO spawned: 'cake_queue_worker' with pid 186
+2023-02-20 07:30:27,515 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:31:47,588 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:31:48,592 INFO spawned: 'cake_queue_worker' with pid 194
+2023-02-20 07:31:58,706 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:33:18,847 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:33:19,851 INFO spawned: 'cake_queue_worker' with pid 202
+2023-02-20 07:33:30,059 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:34:50,182 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:34:51,184 INFO spawned: 'cake_queue_worker' with pid 210
+2023-02-20 07:35:01,270 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:36:21,362 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:36:22,364 INFO spawned: 'cake_queue_worker' with pid 218
+2023-02-20 07:36:32,448 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:37:52,586 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:37:52,628 INFO spawned: 'cake_queue_worker' with pid 226
+2023-02-20 07:38:02,711 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:39:22,807 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:39:23,808 INFO spawned: 'cake_queue_worker' with pid 234
+2023-02-20 07:39:33,881 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:40:54,040 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:40:55,042 INFO spawned: 'cake_queue_worker' with pid 242
+2023-02-20 07:41:05,127 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:42:25,238 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:42:26,240 INFO spawned: 'cake_queue_worker' with pid 250
+2023-02-20 07:42:36,362 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:44:04,679 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:44:05,683 INFO spawned: 'cake_queue_worker' with pid 258
+2023-02-20 07:44:15,903 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:45:44,765 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:45:45,768 INFO spawned: 'cake_queue_worker' with pid 266
+2023-02-20 07:45:55,864 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:47:16,002 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:47:17,004 INFO spawned: 'cake_queue_worker' with pid 274
+2023-02-20 07:47:27,091 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:48:47,219 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:48:48,220 INFO spawned: 'cake_queue_worker' with pid 282
+2023-02-20 07:48:58,299 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:50:18,428 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:50:19,430 INFO spawned: 'cake_queue_worker' with pid 290
+2023-02-20 07:50:29,513 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:51:49,609 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:51:50,612 INFO spawned: 'cake_queue_worker' with pid 298
+2023-02-20 07:52:00,716 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:53:20,843 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:53:21,846 INFO spawned: 'cake_queue_worker' with pid 306
+2023-02-20 07:53:31,936 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:54:52,083 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:54:53,087 INFO spawned: 'cake_queue_worker' with pid 314
+2023-02-20 07:55:03,199 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:56:23,357 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:56:24,359 INFO spawned: 'cake_queue_worker' with pid 322
+2023-02-20 07:56:34,437 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:57:54,609 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:57:55,611 INFO spawned: 'cake_queue_worker' with pid 330
+2023-02-20 07:58:05,723 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 07:59:25,882 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 07:59:26,886 INFO spawned: 'cake_queue_worker' with pid 338
+2023-02-20 07:59:36,993 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:00:57,121 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:00:58,125 INFO spawned: 'cake_queue_worker' with pid 346
+2023-02-20 08:01:08,252 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:02:28,430 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:02:29,432 INFO spawned: 'cake_queue_worker' with pid 354
+2023-02-20 08:02:39,517 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:03:59,674 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:04:00,678 INFO spawned: 'cake_queue_worker' with pid 362
+2023-02-20 08:04:10,799 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:05:30,925 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:05:31,928 INFO spawned: 'cake_queue_worker' with pid 370
+2023-02-20 08:05:42,003 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:07:02,170 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:07:03,174 INFO spawned: 'cake_queue_worker' with pid 378
+2023-02-20 08:07:13,291 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:08:33,426 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:08:34,429 INFO spawned: 'cake_queue_worker' with pid 386
+2023-02-20 08:08:44,516 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:10:04,658 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:10:05,661 INFO spawned: 'cake_queue_worker' with pid 394
+2023-02-20 08:10:15,775 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:11:35,896 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:11:36,900 INFO spawned: 'cake_queue_worker' with pid 402
+2023-02-20 08:11:47,009 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:13:07,157 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:13:08,162 INFO spawned: 'cake_queue_worker' with pid 410
+2023-02-20 08:13:18,272 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:14:38,432 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:14:39,437 INFO spawned: 'cake_queue_worker' with pid 418
+2023-02-20 08:14:49,540 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:16:09,682 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:16:10,686 INFO spawned: 'cake_queue_worker' with pid 426
+2023-02-20 08:16:20,803 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:17:40,952 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:17:41,956 INFO spawned: 'cake_queue_worker' with pid 434
+2023-02-20 08:17:52,059 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:19:12,190 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:19:13,192 INFO spawned: 'cake_queue_worker' with pid 442
+2023-02-20 08:19:23,271 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:20:43,431 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:20:44,435 INFO spawned: 'cake_queue_worker' with pid 450
+2023-02-20 08:20:54,520 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:22:14,696 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:22:15,701 INFO spawned: 'cake_queue_worker' with pid 458
+2023-02-20 08:22:25,809 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:23:45,971 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:23:46,975 INFO spawned: 'cake_queue_worker' with pid 466
+2023-02-20 08:23:57,086 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:25:17,251 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:25:18,254 INFO spawned: 'cake_queue_worker' with pid 474
+2023-02-20 08:25:28,369 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:26:48,453 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:26:49,455 INFO spawned: 'cake_queue_worker' with pid 482
+2023-02-20 08:26:59,545 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:28:19,708 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:28:20,711 INFO spawned: 'cake_queue_worker' with pid 490
+2023-02-20 08:28:30,828 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:29:50,957 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:29:51,475 INFO spawned: 'cake_queue_worker' with pid 498
+2023-02-20 08:30:01,475 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:31:21,697 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:31:22,702 INFO spawned: 'cake_queue_worker' with pid 506
+2023-02-20 08:31:32,798 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:32:52,927 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:32:53,928 INFO spawned: 'cake_queue_worker' with pid 514
+2023-02-20 08:33:04,006 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:34:24,160 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:34:25,164 INFO spawned: 'cake_queue_worker' with pid 522
+2023-02-20 08:34:35,297 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:35:55,436 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:35:56,437 INFO spawned: 'cake_queue_worker' with pid 530
+2023-02-20 08:36:06,525 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:37:26,684 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:37:27,685 INFO spawned: 'cake_queue_worker' with pid 538
+2023-02-20 08:37:37,763 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:38:57,885 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:38:58,887 INFO spawned: 'cake_queue_worker' with pid 546
+2023-02-20 08:39:08,971 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:40:29,142 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:40:30,146 INFO spawned: 'cake_queue_worker' with pid 554
+2023-02-20 08:40:40,246 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:42:00,391 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:42:01,392 INFO spawned: 'cake_queue_worker' with pid 562
+2023-02-20 08:42:11,469 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:43:31,600 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:43:32,604 INFO spawned: 'cake_queue_worker' with pid 570
+2023-02-20 08:43:42,726 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:45:02,875 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:45:03,879 INFO spawned: 'cake_queue_worker' with pid 578
+2023-02-20 08:45:13,981 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:46:34,125 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:46:35,130 INFO spawned: 'cake_queue_worker' with pid 586
+2023-02-20 08:46:45,242 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:48:05,426 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:48:06,428 INFO spawned: 'cake_queue_worker' with pid 594
+2023-02-20 08:48:16,507 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:49:36,673 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:49:37,675 INFO spawned: 'cake_queue_worker' with pid 602
+2023-02-20 08:49:47,750 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:51:07,873 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:51:08,877 INFO spawned: 'cake_queue_worker' with pid 610
+2023-02-20 08:51:19,007 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:52:39,191 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:52:40,194 INFO spawned: 'cake_queue_worker' with pid 618
+2023-02-20 08:52:50,307 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:54:10,436 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:54:11,438 INFO spawned: 'cake_queue_worker' with pid 626
+2023-02-20 08:54:21,516 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:55:41,658 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:55:42,660 INFO spawned: 'cake_queue_worker' with pid 634
+2023-02-20 08:55:52,750 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:57:12,941 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:57:13,945 INFO spawned: 'cake_queue_worker' with pid 642
+2023-02-20 08:57:24,055 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 08:58:44,211 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 08:58:45,214 INFO spawned: 'cake_queue_worker' with pid 650
+2023-02-20 08:58:55,317 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:00:15,432 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:00:16,436 INFO spawned: 'cake_queue_worker' with pid 658
+2023-02-20 09:00:26,553 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:01:46,657 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:01:47,660 INFO spawned: 'cake_queue_worker' with pid 666
+2023-02-20 09:01:57,735 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:03:17,814 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:03:18,816 INFO spawned: 'cake_queue_worker' with pid 674
+2023-02-20 09:03:28,889 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:04:48,994 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:04:49,999 INFO spawned: 'cake_queue_worker' with pid 682
+2023-02-20 09:05:00,089 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:06:20,206 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:06:21,210 INFO spawned: 'cake_queue_worker' with pid 690
+2023-02-20 09:06:31,321 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:07:51,454 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:07:52,455 INFO spawned: 'cake_queue_worker' with pid 698
+2023-02-20 09:08:02,544 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:09:22,687 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:09:23,691 INFO spawned: 'cake_queue_worker' with pid 706
+2023-02-20 09:09:33,817 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:10:53,940 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:10:54,942 INFO spawned: 'cake_queue_worker' with pid 714
+2023-02-20 09:11:05,057 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:12:25,158 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:12:26,160 INFO spawned: 'cake_queue_worker' with pid 722
+2023-02-20 09:12:36,237 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:13:56,354 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:13:57,356 INFO spawned: 'cake_queue_worker' with pid 730
+2023-02-20 09:14:07,454 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:15:27,569 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:15:28,571 INFO spawned: 'cake_queue_worker' with pid 738
+2023-02-20 09:15:38,664 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:16:58,773 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:16:59,775 INFO spawned: 'cake_queue_worker' with pid 746
+2023-02-20 09:17:09,862 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)
+2023-02-20 09:18:29,978 INFO exited: cake_queue_worker (exit status 0; expected)
+2023-02-20 09:18:30,981 INFO spawned: 'cake_queue_worker' with pid 754
+2023-02-20 09:18:41,070 INFO success: cake_queue_worker entered RUNNING state, process has stayed up for > than 10 seconds (startsecs)

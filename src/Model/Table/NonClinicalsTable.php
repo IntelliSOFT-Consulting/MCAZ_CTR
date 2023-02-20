@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -82,8 +83,7 @@ class NonClinicalsTable extends Table
         $validator
             ->scalar('evaluation_type')
             ->maxLength('evaluation_type', 255)
-            ->requirePresence('evaluation_type', 'create')
-            ->notEmpty('evaluation_type');
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('basis_provided')
