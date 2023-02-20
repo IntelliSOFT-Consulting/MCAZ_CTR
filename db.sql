@@ -4362,3 +4362,88 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+DELIMITER $$
+CREATE TRIGGER `tgr_compliance` BEFORE INSERT ON `compliance` FOR EACH ROW BEGIN
+  SET NEW.quality_assessment_id = 
+     (
+       SELECT id 
+         FROM quality_assessments
+        WHERE created = NEW.created_at
+     );
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `tgr_pdrugs` BEFORE INSERT ON `pdrugs` FOR EACH ROW BEGIN
+  SET NEW.quality_assessment_id = 
+     (
+       SELECT id 
+         FROM quality_assessments
+        WHERE created = NEW.created_at
+     );
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `trg_refids` BEFORE INSERT ON `refids` FOR EACH ROW BEGIN
+      DECLARE nrefid INT;
+      SELECT  COALESCE(MAX(refid), 0) + 1
+      INTO    nrefid
+      FROM    `refids`      
+      WHERE   model = NEW.model;
+      SET NEW.refid = nrefid;
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `tgr_sdrugs` BEFORE INSERT ON `sdrugs` FOR EACH ROW BEGIN
+  SET NEW.quality_assessment_id = 
+     (
+       SELECT id 
+         FROM quality_assessments
+        WHERE created = NEW.created_at
+     );
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `tgr_sdrugs_conditions` BEFORE INSERT ON `sdrugs_conditions` FOR EACH ROW BEGIN
+  SET NEW.sdrug_id = 
+     (
+       SELECT id 
+         FROM sdrugs
+        WHERE created_at = NEW.created_at and NEW.model = 'sdrug'
+     );
+END
+$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE TRIGGER `tgr_pdrugs_storage_conditions` BEFORE INSERT ON `storage_conditions` FOR EACH ROW BEGIN
+  SET NEW.pdrug_id = 
+     (
+       SELECT id 
+         FROM pdrugs
+        WHERE created_at = NEW.created_at and NEW.model = 'pdrug'
+     );
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `tgr_sdrugs_storage_conditions` BEFORE INSERT ON `storage_conditions` FOR EACH ROW BEGIN
+  SET NEW.sdrug_id = 
+     (
+       SELECT id 
+         FROM sdrugs
+        WHERE created_at = NEW.created_at AND NEW.model = 'sdrug'
+     );
+END
+$$
+DELIMITER ;

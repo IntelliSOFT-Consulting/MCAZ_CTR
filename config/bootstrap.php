@@ -244,7 +244,10 @@ Plugin::load('Migrations');
 Plugin::load('CakePdf', ['bootstrap' => true]);
 Configure::write('CakePdf', [
     'engine' => 'CakePdf.WkHtmlToPdf',
-    'download' => true
+    'download' => true,
+    'options' => [
+        'enable-local-file-access' => true
+    ]
 ]);
 
 Plugin::load('Queue');
