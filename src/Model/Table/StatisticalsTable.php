@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\StatisticalsTable|\Cake\ORM\Association\BelongsTo $Statisticals
+ * @property \App\Model\Table\StatisticalsTable|\Cake\ORM\Association\HasMany $Statisticals
  *
  * @method \App\Model\Entity\Statistical get($primaryKey, $options = [])
  * @method \App\Model\Entity\Statistical newEntity($data = null, array $options = [])
@@ -19,6 +21,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Statistical patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Statistical[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Statistical findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StatisticalsTable extends Table
 {
@@ -37,6 +41,11 @@ class StatisticalsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
+
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id',
             'joinType' => 'INNER'
@@ -44,6 +53,15 @@ class StatisticalsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Statisticals', [
+            'foreignKey' => 'statistical_id'
+        ]);
+        $this->hasMany('StatisticalEdits', [
+            'className' => 'Statisticals',
+            'foreignKey' => 'statistical_id',
+            'dependent' => true,
+            'conditions' => array('StatisticalEdits.evaluation_type' => 'Revision'),
         ]);
     }
 
@@ -58,6 +76,11 @@ class StatisticalsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('design_type')
@@ -209,6 +232,40 @@ class StatisticalsTable extends Table
             ->maxLength('overall_comment', 4294967295)
             ->allowEmpty('overall_comment');
 
+        $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
+
+        $validator
+            ->allowEmpty('signature');
+
+        $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
+
+        $validator
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
+
         return $validator;
     }
 
@@ -223,6 +280,7 @@ class StatisticalsTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['statistical_id'], 'Statisticals'));
 
         return $rules;
     }

@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
+ * @property int $statistical_id
+ * @property string $evaluation_type
  * @property string $design_type
  * @property string $randomized
  * @property string $blinding
@@ -39,9 +41,20 @@ use Cake\ORM\Entity;
  * @property string $statistical_acceptable
  * @property string $information_needed
  * @property string $overall_comment
+ * @property $file
+ * @property string $dir
+ * @property string $size
+ * @property string $type
+ * @property int $signature
+ * @property int $chosen
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $deleted
+ * @property string $additional
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Statistical $statistical
+ * @property \App\Model\Entity\Statistical[] $statistical_edits
  */
 class Statistical extends Entity
 {
@@ -56,39 +69,6 @@ class Statistical extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'user_id' => true,
-        'design_type' => true,
-        'randomized' => true,
-        'blinding' => true,
-        'design_description' => true,
-        'design_acceptable' => true,
-        'design_comment' => true,
-        'rand_description' => true,
-        'rand_comment' => true,
-        'sample_acceptable' => true,
-        'power_acceptable' => true,
-        'sample_description' => true,
-        'sample_comment' => true,
-        'analysis_description' => true,
-        'analysis_objective' => true,
-        'analysis_objective_comments' => true,
-        'methods_appropriate' => true,
-        'methods_appropriate_comments' => true,
-        'considerations' => true,
-        'considerations_comments' => true,
-        'multiplicity' => true,
-        'multiplicity_comments' => true,
-        'analyses_acceptable' => true,
-        'analysis_comment' => true,
-        'interim_safety' => true,
-        'interim_planning' => true,
-        'interim_description' => true,
-        'interim_comment' => true,
-        'statistical_acceptable' => true,
-        'information_needed' => true,
-        'overall_comment' => true,
-        'application' => true,
-        'user' => true
+        '*' => true,
     ];
 }

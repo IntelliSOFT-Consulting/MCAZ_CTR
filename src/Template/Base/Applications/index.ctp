@@ -3,6 +3,7 @@
 <?php $this->end(); ?>
 
 <?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('selector', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/application_index', ['block' => true]); ?>
 
 <h2 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> Applications
@@ -28,7 +29,9 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"> 
+                <?= $this->Paginator->sort('id') ?>
+            </th>
                 <th scope="col"><?= $this->Paginator->sort('protocol_no') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('public_title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('scientific_title') ?></th>
@@ -45,9 +48,13 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($applications as $application): ?>
+         
+            <?php  
+            foreach ($applications as $application): ?> 
             <tr>
-                <td><?= $this->Number->format($application->id) ?></td>
+
+                <td>   
+                    <?= $this->Number->format($application->id) ?></td>
                 <td><?php
                       echo $this->Html->link((($application->submitted == 2) ? $application->protocol_no : $application->created), ['action' => 'view', $application->id, 'prefix' => $prefix, 'status' => $application->status], ['escape' => false, 'class' => 'btn-zangu']) ; 
                       ?>

@@ -1,5 +1,5 @@
-$(function() {
-    
+$(function () {
+
   /*var dateFormat = "mm/dd/yy",
       from = $( "#created-start" )
         .datepicker({
@@ -27,30 +27,37 @@ $(function() {
  
       return date;
     }*/
-    var dates = $( "#created-start, #created-end" ).datepicker({
-      minDate:"-100Y", 
-      maxDate:"-0D", 
-      dateFormat:'yy-mm-dd', 
-      showButtonPanel:true, 
-      changeMonth:true, 
-      changeYear:true, 
-      showAnim:'show',
-      onSelect: function( selectedDate ) {
-        var option = this.id == "created-start" ? "minDate" : "maxDate",
-          instance = $( this ).data( "datepicker" ),
-          date = $.datepicker.parseDate(
-            instance.settings.dateFormat ||
-            $.datepicker._defaults.dateFormat,
-            selectedDate, instance.settings );
-        dates.not( this ).datepicker( "option", option, date );
-      }
-    }); 
+  var dates = $("#created-start, #created-end").datepicker({
+    minDate: "-100Y",
+    maxDate: "-0D",
+    dateFormat: 'yy-mm-dd',
+    showButtonPanel: true,
+    changeMonth: true,
+    changeYear: true,
+    showAnim: 'show',
+    onSelect: function (selectedDate) {
+      var option = this.id == "created-start" ? "minDate" : "maxDate",
+        instance = $(this).data("datepicker"),
+        date = $.datepicker.parseDate(
+          instance.settings.dateFormat ||
+          $.datepicker._defaults.dateFormat,
+          selectedDate, instance.settings);
+      dates.not(this).datepicker("option", option, date);
+    }
+  });
 
-    $(".collapse :input").each(function()
-    {
-        if (this.value != "")
-        {
-            $('#collapseExample').collapse('show');
-        }
-    });
+  $(".collapse :input").each(function () {
+    if (this.value != "") {
+      $('#collapseExample').collapse('show');
+    }
+  });
+
+  // add onclick listener to class clear_status
+  $(".clear_status").click(function () {
+    console.log("clear status");
+    //get the value from the status 
+    
+
+  });
+
 });

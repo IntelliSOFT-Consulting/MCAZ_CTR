@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $application_id
  * @property int $user_id
+ * @property int $non_clinical_id
+ * @property string $evaluation_type
  * @property string $basis_provided
  * @property string $primary_comment
  * @property string $relevant_vitro_vivo
@@ -138,11 +140,20 @@ use Cake\ORM\Entity;
  * @property bool $non_clinical_acceptable
  * @property bool $supplementary_info_needed
  * @property string $overall_comments
+ * @property $file
+ * @property string $dir
+ * @property string $size
+ * @property string $type
+ * @property int $chosen
+ * @property int $submitted
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $deleted
+ * @property string $additional
  *
  * @property \App\Model\Entity\Application $application
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\NonClinical $non_clinical
+ * @property \App\Model\Entity\NonClinical[] $non_clinical_edits
  */
 class NonClinical extends Entity
 {
@@ -157,140 +168,6 @@ class NonClinical extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'user_id' => true,
-        'basis_provided' => true,
-        'primary_comment' => true,
-        'relevant_vitro_vivo' => true,
-        'pharmacological_exposure' => true,
-        'active_metabolites' => true,
-        'imp_compound' => true,
-        'off_target_identified' => true,
-        'off_target_effects' => true,
-        'secondary_comment' => true,
-        'cardiovascular' => true,
-        'cardiovascular_comments' => true,
-        'respiratory' => true,
-        'respiratory_comments' => true,
-        'pharmacology_comment' => true,
-        'cns' => true,
-        'cns_comments' => true,
-        'other' => true,
-        'other_comments' => true,
-        'significant_concerns' => true,
-        'planned_exposure' => true,
-        'safety_comment' => true,
-        'interactions_identified' => true,
-        'Pharmacodynamic_comment' => true,
-        'adequate_analysis' => true,
-        'analysis_comment' => true,
-        'absorption' => true,
-        'absorption_comments' => true,
-        'distribution' => true,
-        'distribution_comments' => true,
-        'metabolism' => true,
-        'metabolism_comments' => true,
-        'excretion' => true,
-        'excretion_comments' => true,
-        'adme_concerns' => true,
-        'major_metabolites' => true,
-        'unique_metabolites' => true,
-        'pharmacokinetics_comment' => true,
-        'enzyme_inhibition' => true,
-        'enzyme_inhibition_comments' => true,
-        'enzyme_induction' => true,
-        'enzyme_induction_comments' => true,
-        'transporter' => true,
-        'transporter_comments' => true,
-        'co_pathways' => true,
-        'co_pathways_comments' => true,
-        'drug_interaction' => true,
-        'interaction_highlighted' => true,
-        'drug_interaction_comment' => true,
-        'pk_studies' => true,
-        'concerns_identified' => true,
-        'identified_studies_comment' => true,
-        'toxicologically_relevant' => true,
-        'human_pharmacology' => true,
-        'human_pk' => true,
-        'well_designed_studies' => true,
-        'toxicology_comment' => true,
-        'toxicities_identified' => true,
-        'sufficient_margins' => true,
-        'single_dose_comment' => true,
-        'repeat_toxicities_identified' => true,
-        'repeat_sufficient_margins' => true,
-        'repeat_treatment_duration' => true,
-        'repeat_dose_comment' => true,
-        'gene_mutations' => true,
-        'gene_mutation_results' => true,
-        'vitro_mammalian' => true,
-        'vitro_mammalian_results' => true,
-        'vivo_genotoxicit' => true,
-        'vivo_genotoxicit_results' => true,
-        'additional_assays' => true,
-        'additional_assays_results' => true,
-        'potential_genotoxic' => true,
-        'genotoxicity_comment' => true,
-        'carcinogenicity' => true,
-        'carcinogenicity_exposure' => true,
-        'carcinogenicity_comment' => true,
-        'fertility' => true,
-        'fertility_findings' => true,
-        'embryo_dev' => true,
-        'embryo_dev_findings' => true,
-        'pre_post_natal' => true,
-        'pre_post_natal_findings' => true,
-        'reproductive_margins' => true,
-        'reproductive_comment' => true,
-        'juvenile_age_range' => true,
-        'enhanced_juvenile' => true,
-        'planned_juvenile_exposure' => true,
-        'juvenile_comment' => true,
-        'other_potential_toxicities' => true,
-        'other_potential_exposure' => true,
-        'other_potential_comment' => true,
-        'imp_teratogenic' => true,
-        'imp_genotoxic' => true,
-        'imp_insufficient' => true,
-        'imp_irelevant' => true,
-        'imp_nodata' => true,
-        'male_partners_included' => true,
-        'considered_suspected' => true,
-        'considered_possible' => true,
-        'considered_unlikely' => true,
-        'imp_assessor_comment' => true,
-        'local_toxicity' => true,
-        'local_toxicity_comments' => true,
-        'std_phototoxic' => true,
-        'std_phototoxic_comments' => true,
-        'std_tissue' => true,
-        'std_tissue_comments' => true,
-        'std_antigenicity' => true,
-        'std_antigenicity_comments' => true,
-        'std_imuno' => true,
-        'std_imuno_comments' => true,
-        'std_dependence' => true,
-        'std_dependence_comments' => true,
-        'std_metabolites' => true,
-        'std_metabolites_comments' => true,
-        'std_impurities' => true,
-        'std_impurities_comments' => true,
-        'std_other' => true,
-        'std_other_comments' => true,
-        'other_toxicity_comments' => true,
-        'fih_dose' => true,
-        'fih_dose_steps' => true,
-        'fih_dose_max' => true,
-        'fih_dose_comments' => true,
-        'glp_aspects' => true,
-        'glp_aspects_comments' => true,
-        'non_clinical_acceptable' => true,
-        'supplementary_info_needed' => true,
-        'overall_comments' => true,
-        'created' => true,
-        'deleted' => true,
-        'application' => true,
-        'user' => true
+        '*' => true,
     ];
 }

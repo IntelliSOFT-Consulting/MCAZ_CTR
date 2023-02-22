@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,6 +14,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\ClinicalsTable|\Cake\ORM\Association\BelongsTo $Clinicals
+ * @property \App\Model\Table\ClinicalsTable|\Cake\ORM\Association\HasMany $Clinicals
  *
  * @method \App\Model\Entity\Clinical get($primaryKey, $options = [])
  * @method \App\Model\Entity\Clinical newEntity($data = null, array $options = [])
@@ -40,13 +45,24 @@ class ClinicalsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
         ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Clinicals', [
+            'foreignKey' => 'clinical_id'
+        ]);
+        $this->hasMany('ClinicalEdits', [
+            'className' => 'Clinicals',
+            'foreignKey' => 'clinical_id',
+            'dependent' => true,
+            'conditions' => array('ClinicalEdits.evaluation_type' => 'Revision'),
         ]);
     }
 
@@ -61,6 +77,11 @@ class ClinicalsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
+
+        $validator
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('sponsor_justification')
@@ -125,8 +146,7 @@ class ClinicalsTable extends Table
         $validator
             ->scalar('objective_acceptable')
             ->maxLength('objective_acceptable', 255)
-            ->requirePresence('objective_acceptable', 'create')
-            ->notEmpty('objective_acceptable');
+            ->allowEmpty('objective_acceptable');
 
         $validator
             ->scalar('endpoint_acceptable')
@@ -170,11 +190,6 @@ class ClinicalsTable extends Table
             ->allowEmpty('study_adolescent');
 
         $validator
-            ->scalar('adolescents_age_group')
-            ->maxLength('adolescents_age_group', 255)
-            ->allowEmpty('adolescents_age_group');
-
-        $validator
             ->boolean('study_elderly')
             ->allowEmpty('study_elderly');
 
@@ -185,6 +200,11 @@ class ClinicalsTable extends Table
         $validator
             ->boolean('study_female')
             ->allowEmpty('study_female');
+
+        $validator
+            ->scalar('adolescents_age_group')
+            ->maxLength('adolescents_age_group', 255)
+            ->allowEmpty('adolescents_age_group');
 
         $validator
             ->scalar('potential_contraception')
@@ -724,6 +744,32 @@ class ClinicalsTable extends Table
             ->allowEmpty('overal_assessment_comments');
 
         $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
+
+        $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
+            ->integer('submitted')
+            ->allowEmpty('submitted');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmpty('deleted');
 
@@ -732,9 +778,24 @@ class ClinicalsTable extends Table
             ->maxLength('assessor_discussion', 4294967295)
             ->allowEmpty('assessor_discussion');
 
+        $validator
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
+
         return $validator;
     }
 
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                // $data[$key] = trim($value);
+                //Force UTF8 encoding
+                $data[$key] = iconv(mb_detect_encoding($value, mb_detect_order(), true), 'utf-8//IGNORE', $value); 
+            }
+        }
+    }
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -745,7 +806,7 @@ class ClinicalsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['user_id'], 'Users')); 
 
         return $rules;
     }

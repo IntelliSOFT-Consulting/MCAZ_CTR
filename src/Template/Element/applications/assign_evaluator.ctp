@@ -1,3 +1,7 @@
+<?php
+ use Cake\Utility\Hash;
+?>
+
 <div class="row">
     <div class="col-xs-12">
         <h4 class="text-center">Assign Application to Evaluators</h4>
@@ -122,7 +126,7 @@
                 <?php }
                 }  ?>
 
-                <?php if ($prefix == 'manager' && ($application->assign_evaluators == [])) { // check if already self assigned 
+                <?php if ($prefix == 'manager' && (!in_array($this->request->session()->read('Auth.User.id'), Hash::extract($application->assign_evaluators, '{n}.assigned_to')))) { // check if already self assigned 
                 ?>
                 <hr>
                 <?php echo $this->Form->create($application, ['url' => ['action' => 'assign-self']]);

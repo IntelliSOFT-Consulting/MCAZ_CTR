@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -11,6 +12,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\NonClinicalsTable|\Cake\ORM\Association\BelongsTo $NonClinicals
+ * @property \App\Model\Table\NonClinicalsTable|\Cake\ORM\Association\HasMany $NonClinicals
  *
  * @method \App\Model\Entity\NonClinical get($primaryKey, $options = [])
  * @method \App\Model\Entity\NonClinical newEntity($data = null, array $options = [])
@@ -40,6 +43,9 @@ class NonClinicalsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Applications', [
             'foreignKey' => 'application_id'
@@ -47,6 +53,18 @@ class NonClinicalsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('NonClinicals', [
+            'foreignKey' => 'non_clinical_id'
+        ]);
+        $this->hasMany('NonClinicals', [
+            'foreignKey' => 'non_clinical_id'
+        ]);
+        $this->hasMany('NonClinicalEdits', [
+            'className' => 'NonClinicals',
+            'foreignKey' => 'non_clinical_id',
+            'dependent' => true,
+            'conditions' => array('NonClinicalEdits.evaluation_type' => 'Revision'),
         ]);
     }
 
@@ -63,10 +81,14 @@ class NonClinicalsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
+
+        $validator
             ->scalar('basis_provided')
             ->maxLength('basis_provided', 255)
-            ->requirePresence('basis_provided', 'create')
-            ->notEmpty('basis_provided');
+            ->allowEmpty('basis_provided');
 
         $validator
             ->scalar('primary_comment')
@@ -699,8 +721,39 @@ class NonClinicalsTable extends Table
             ->allowEmpty('overall_comments');
 
         $validator
+            ->allowEmpty('file');
+
+        $validator
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
+
+        $validator
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
+
+        $validator
+            ->integer('chosen')
+            ->allowEmpty('chosen');
+
+        $validator
+            ->integer('submitted')
+            ->allowEmpty('submitted');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmpty('deleted');
+
+        $validator
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
 
         return $validator;
     }
@@ -716,6 +769,7 @@ class NonClinicalsTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['non_clinical_id'], 'NonClinicals'));
 
         return $rules;
     }
