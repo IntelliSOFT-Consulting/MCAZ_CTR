@@ -32,15 +32,6 @@ class Compliance extends Entity
      * @var array
      */
     protected $_accessible = [
-        'application_id' => true,
-        'quality_assessment_id' => true,
-        'site_name' => true,
-        'site_function' => true,
-        'valid_license' => true,
-        'comment' => true,
-        'created_at' => true,
-        'updated_at' => true,
-        'application' => true,
-        'quality_assessment' => true
+        '*' => true,
     ];
 }

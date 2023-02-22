@@ -956,7 +956,24 @@ class ApplicationsBaseController extends AppController
                 }
             }
 
+
             if ($this->Applications->save($application)) {
+                // Get the ID of the newly created quality_assessments record
+                $quality_assessment_id = $application->quality_assessments[0]->id;
+                // dd($quality_assessment_id); 
+                $comp = $application->compliance;
+                // dd($comp);
+                if ($comp) {
+                    foreach ($comp as $cp) {
+                        // dd($cp->quality_assessment_id);
+                        $cp->quality_assessment_id=$quality_assessment_id;
+                    }
+                }
+                $complianceTable = TableRegistry::getTableLocator()->get('compliance');
+                $complianceTable->saveMany($comp);
+            
+            
+
                 if ($this->request->getData('ev_save') !== '1') {
                     //Send email, notification and message to managers and assigned evaluators
                     $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
@@ -1128,7 +1145,7 @@ class ApplicationsBaseController extends AppController
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
-            
+
             // Check if Evaluator has been assigned | if not block from leaving a review
             if ($this->Auth->user('group_id') == 3 or $this->Auth->user('group_id') == '6') {
 

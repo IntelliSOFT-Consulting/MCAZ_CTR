@@ -1,5 +1,8 @@
 FROM php:7.0-apache
 
+# Specify the Container Timezone to use
+ENV TZ=Africa/Nairobi  
+
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg-dev \ 

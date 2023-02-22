@@ -52,31 +52,42 @@ $this->Html->script('multi/gmp_compliance', ['block' => true]);
 
                                     <?php
                                     //Dynamic fields
-                                    if (!empty($application['quality_assessments']['compliance'])) {
-                                        for ($i = 0; $i <= count($application['quality_assessments']['compliance']) - 1; $i++) {
+                                    if (!empty($application['quality_assessments'][$ekey]['compliance'])) {
+                                        $i = 0;
+                                        foreach ($application['quality_assessments'][$ekey]['compliance'] as $compliance) {
                                     ?>
 
                                             <tr>
                                                 <td><?= $i + 1; ?></td>
                                                 <td><?php
-                                                    echo $this->Form->control('compliance.' . $i . '.site_name', [
+                                                    echo $this->Form->control('compliance.' . $ekey . '.site_name', [
                                                         'label' => false,
-                                                        'templates' => 'table_form'
+                                                        'templates' => 'table_form',
+                                                        'value' => $compliance->site_name,
                                                     ]);
                                                     ?>
                                                 </td>
                                                 <td>
                                                     <?php
-                                                    echo $this->Form->control('compliance.' . $i . '.site_function', ['label' => false, 'templates' => 'table_form']);
+                                                    echo $this->Form->control('compliance.' . $ekey . '.site_function', [
+                                                        'label' => false, 'templates' => 'table_form',
+                                                        'value' => $compliance->site_function,
+                                                    ]);
                                                     ?>
                                                 </td>
                                                 <td>
                                                     <?php
-                                                    echo $this->Form->control('compliance.' . $i . '.valid_license', ['label' => false, 'templates' => 'table_form']);
+                                                    echo $this->Form->checkbox('compliance.' . $ekey . '.valid_license', [
+                                                        'label' => false, 'templates' => 'table_form',
+                                                        'checked' => $compliance->valid_license == 1,
+                                                    ]);
                                                     ?>
                                                 </td>
                                                 <td><?php
-                                                    echo $this->Form->control('compliance.' . $i . '.comment', ['label' => false, 'type' => 'text', 'templates' => 'dates_form']);
+                                                    echo $this->Form->control('compliance.' . $ekey . '.comment', [
+                                                        'label' => false, 'type' => 'text', 'templates' => 'dates_form',
+                                                        'value' => $compliance->comment,
+                                                    ]);
                                                     ?>
                                                 </td>
                                                 <td>
@@ -85,8 +96,11 @@ $this->Html->script('multi/gmp_compliance', ['block' => true]);
                                                     </button>
                                                 </td>
                                             </tr>
-                                    <?php }
-                                    }; ?>
+                                    <?php
+                                            $i++;
+                                        }
+                                    };
+                                    ?>
 
                                 </tbody>
                             </table>

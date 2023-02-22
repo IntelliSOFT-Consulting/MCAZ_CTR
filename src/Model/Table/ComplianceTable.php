@@ -76,8 +76,8 @@ class ComplianceTable extends Table
             ->allowEmpty('comment');
 
         $validator
-            ->dateTime('created_at')
-            ->allowEmpty('created_at');
+            ->dateTime('created')
+            ->allowEmpty('created');
 
         $validator
             ->dateTime('updated_at')
