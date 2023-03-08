@@ -11,7 +11,11 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ApplicationsTable|\Cake\ORM\Association\BelongsTo $Applications
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\SdrugTable|\Cake\ORM\Association\HasMany $Sdrug
+ * @property \App\Model\Table\QualityAssessmentsTable|\Cake\ORM\Association\BelongsTo $QualityAssessments
+ * @property \App\Model\Table\ComplianceTable|\Cake\ORM\Association\HasMany $Compliance
+ * @property \App\Model\Table\PdrugsTable|\Cake\ORM\Association\HasMany $Pdrugs
+ * @property \App\Model\Table\QualityAssessmentsTable|\Cake\ORM\Association\HasMany $QualityAssessments
+ * @property \App\Model\Table\SdrugsTable|\Cake\ORM\Association\HasMany $Sdrugs
  *
  * @method \App\Model\Entity\QualityAssessment get($primaryKey, $options = [])
  * @method \App\Model\Entity\QualityAssessment newEntity($data = null, array $options = [])
@@ -41,18 +45,36 @@ class QualityAssessmentsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Applications', [
-            'foreignKey' => 'application_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'application_id'
         ]);
         $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('Sdrug', [
+        $this->belongsTo('QualityAssessments', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
+        $this->hasMany('Compliance', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
+        $this->hasMany('Pdrugs', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
+        $this->hasMany('QualityAssessments', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
+        $this->hasMany('Sdrugs', [
+            'foreignKey' => 'quality_assessment_id'
+        ]);
+        $this->hasMany('QualityAssessmentEdits', [
+            'className' => 'QualityAssessments',
             'foreignKey' => 'quality_assessment_id',
-            
+            'dependent' => true,
+            'conditions' => array('QualityAssessmentEdits.evaluation_type' => 'Revision'),
         ]);
     }
 
@@ -69,320 +91,146 @@ class QualityAssessmentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('code')
-            ->allowEmpty('code');
+            ->scalar('evaluation_type')
+            ->maxLength('evaluation_type', 255)
+            ->allowEmpty('evaluation_type');
 
         $validator
             ->scalar('quality_workspace')
+            ->maxLength('quality_workspace', 4294967295)
             ->allowEmpty('quality_workspace');
 
         $validator
-            ->boolean('gmp_smpc')
-            ->allowEmpty('gmp_smpc');
-
-        $validator
-            ->boolean('gmp_included')
             ->allowEmpty('gmp_included');
 
         $validator
+            ->allowEmpty('gmp_smpc');
+
+        $validator
+            ->scalar('quality_data')
+            ->maxLength('quality_data', 255)
+            ->allowEmpty('quality_data');
+
+        $validator
+            ->scalar('auxiliary_workspace')
+            ->maxLength('auxiliary_workspace', 4294967295)
+            ->allowEmpty('auxiliary_workspace');
+
+        $validator
+            ->scalar('auxiliary_comments')
+            ->maxLength('auxiliary_comments', 4294967295)
+            ->allowEmpty('auxiliary_comments');
+
+        $validator
+            ->scalar('adventitious_agents')
+            ->maxLength('adventitious_agents', 255)
+            ->allowEmpty('adventitious_agents');
+
+        $validator
+            ->scalar('adventitious_workspace')
+            ->maxLength('adventitious_workspace', 4294967295)
+            ->allowEmpty('adventitious_workspace');
+
+        $validator
+            ->scalar('adventitious_comments')
+            ->maxLength('adventitious_comments', 4294967295)
+            ->allowEmpty('adventitious_comments');
+
+        $validator
+            ->scalar('novel_excipients')
+            ->maxLength('novel_excipients', 255)
+            ->allowEmpty('novel_excipients');
+
+        $validator
+            ->scalar('novel_excipients_workspace')
+            ->maxLength('novel_excipients_workspace', 4294967295)
+            ->allowEmpty('novel_excipients_workspace');
+
+        $validator
+            ->scalar('novel_excipients_comments')
+            ->maxLength('novel_excipients_comments', 4294967295)
+            ->allowEmpty('novel_excipients_comments');
+
+        $validator
+            ->scalar('reconstitution')
+            ->maxLength('reconstitution', 255)
+            ->allowEmpty('reconstitution');
+
+        $validator
+            ->scalar('reconstitution_workspace')
+            ->maxLength('reconstitution_workspace', 4294967295)
+            ->allowEmpty('reconstitution_workspace');
+
+        $validator
+            ->scalar('reconstitution_comments')
+            ->maxLength('reconstitution_comments', 4294967295)
+            ->allowEmpty('reconstitution_comments');
+
+        $validator
             ->scalar('labelling')
+            ->maxLength('labelling', 255)
             ->allowEmpty('labelling');
 
         $validator
             ->scalar('labelling_comments')
+            ->maxLength('labelling_comments', 4294967295)
             ->allowEmpty('labelling_comments');
 
         $validator
             ->scalar('blinding_workspace')
+            ->maxLength('blinding_workspace', 4294967295)
             ->allowEmpty('blinding_workspace');
 
         $validator
             ->scalar('blinding_comments')
+            ->maxLength('blinding_comments', 4294967295)
             ->allowEmpty('blinding_comments');
 
         $validator
             ->scalar('acceptable')
+            ->maxLength('acceptable', 255)
             ->allowEmpty('acceptable');
 
         $validator
             ->scalar('supplementary_need')
+            ->maxLength('supplementary_need', 255)
             ->allowEmpty('supplementary_need');
 
         $validator
             ->scalar('overall_comments')
+            ->maxLength('overall_comments', 4294967295)
             ->allowEmpty('overall_comments');
 
         $validator
-            ->scalar('submitted')
-            ->allowEmpty('submitted');
+            ->allowEmpty('file');
 
         $validator
-            ->dateTime('deleted')
-            ->allowEmpty('deleted');
+            ->scalar('dir')
+            ->maxLength('dir', 255)
+            ->allowEmpty('dir');
 
         $validator
-            ->boolean('drug_eur')
-            ->allowEmpty('drug_eur');
+            ->scalar('size')
+            ->maxLength('size', 255)
+            ->allowEmpty('size');
 
         $validator
-            ->boolean('drug_usp')
-            ->allowEmpty('drug_usp');
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->allowEmpty('type');
 
         $validator
-            ->boolean('drug_none')
-            ->allowEmpty('drug_none');
+            ->scalar('additional')
+            ->maxLength('additional', 4294967295)
+            ->allowEmpty('additional');
 
         $validator
-            ->scalar('drug_authorised')
-            ->allowEmpty('drug_authorised');
+            ->integer('chosen')
+            ->allowEmpty('chosen');
 
         $validator
-            ->scalar('drug_ssection')
-            ->allowEmpty('drug_ssection');
-
-        $validator
-            ->scalar('nomen_workspace')
-            ->allowEmpty('nomen_workspace');
-
-        $validator
-            ->scalar('noment_comment')
-            ->allowEmpty('noment_comment');
-
-        $validator
-            ->scalar('str_subsection')
-            ->allowEmpty('str_subsection');
-
-        $validator
-            ->scalar('str_workspace')
-            ->allowEmpty('str_workspace');
-
-        $validator
-            ->scalar('str_comment')
-            ->allowEmpty('str_comment');
-
-        $validator
-            ->scalar('gen_prop_adequately')
-            ->allowEmpty('gen_prop_adequately');
-
-        $validator
-            ->scalar('gen_prop_workspace')
-            ->allowEmpty('gen_prop_workspace');
-
-        $validator
-            ->scalar('gen_prop_comment')
-            ->allowEmpty('gen_prop_comment');
-
-        $validator
-            ->scalar('manu_identified')
-            ->allowEmpty('manu_identified');
-
-        $validator
-            ->scalar('process_described')
-            ->allowEmpty('process_described');
-
-        $validator
-            ->scalar('gen_manu_comment')
-            ->allowEmpty('gen_manu_comment');
-
-        $validator
-            ->scalar('process_workspace')
-            ->allowEmpty('process_workspace');
-
-        $validator
-            ->scalar('workspace_comment')
-            ->allowEmpty('workspace_comment');
-
-        $validator
-            ->scalar('control_described')
-            ->allowEmpty('control_described');
-
-        $validator
-            ->scalar('control_workspace')
-            ->allowEmpty('control_workspace');
-
-        $validator
-            ->scalar('control_comment')
-            ->allowEmpty('control_comment');
-
-        $validator
-            ->scalar('control_steps_described')
-            ->allowEmpty('control_steps_described');
-
-        $validator
-            ->scalar('control_steps_comments')
-            ->allowEmpty('control_steps_comments');
-
-        $validator
-            ->scalar('validation_described')
-            ->allowEmpty('validation_described');
-
-        $validator
-            ->scalar('validation_comments')
-            ->allowEmpty('validation_comments');
-
-        $validator
-            ->scalar('manufacturing_described')
-            ->allowEmpty('manufacturing_described');
-
-        $validator
-            ->scalar('manufacturing_workspace')
-            ->allowEmpty('manufacturing_workspace');
-
-        $validator
-            ->scalar('manufacturing_comments')
-            ->allowEmpty('manufacturing_comments');
-
-        $validator
-            ->scalar('substance_described')
-            ->allowEmpty('substance_described');
-
-        $validator
-            ->scalar('substance_workspace')
-            ->allowEmpty('substance_workspace');
-
-        $validator
-            ->scalar('substance_comments')
-            ->allowEmpty('substance_comments');
-
-        $validator
-            ->scalar('impurities_characterised')
-            ->allowEmpty('impurities_characterised');
-
-        $validator
-            ->scalar('impurities_workspace')
-            ->allowEmpty('impurities_workspace');
-
-        $validator
-            ->scalar('impurities_comments')
-            ->allowEmpty('impurities_comments');
-
-        $validator
-            ->scalar('specifications_appropriate')
-            ->allowEmpty('specifications_appropriate');
-
-        $validator
-            ->scalar('specifications_workspace')
-            ->allowEmpty('specifications_workspace');
-
-        $validator
-            ->scalar('specifications_comments')
-            ->allowEmpty('specifications_comments');
-
-        $validator
-            ->scalar('analytical_described')
-            ->allowEmpty('analytical_described');
-
-        $validator
-            ->scalar('analytical_comments')
-            ->allowEmpty('analytical_comments');
-
-        $validator
-            ->scalar('acceptance_presented')
-            ->allowEmpty('acceptance_presented');
-
-        $validator
-            ->scalar('suitability_explained')
-            ->allowEmpty('suitability_explained');
-
-        $validator
-            ->scalar('validation_procedures_comments')
-            ->allowEmpty('validation_procedures_comments');
-
-        $validator
-            ->scalar('batch_provided')
-            ->allowEmpty('batch_provided');
-
-        $validator
-            ->scalar('batch_workspace')
-            ->allowEmpty('batch_workspace');
-
-        $validator
-            ->scalar('batch_comments')
-            ->allowEmpty('batch_comments');
-
-        $validator
-            ->scalar('justification_acceptable')
-            ->allowEmpty('justification_acceptable');
-
-        $validator
-            ->scalar('justification_workspace')
-            ->allowEmpty('justification_workspace');
-
-        $validator
-            ->scalar('justification_comments')
-            ->allowEmpty('justification_comments');
-
-        $validator
-            ->scalar('reference_described')
-            ->allowEmpty('reference_described');
-
-        $validator
-            ->scalar('reference_comments')
-            ->allowEmpty('reference_comments');
-
-        $validator
-            ->scalar('container_suitable')
-            ->allowEmpty('container_suitable');
-
-        $validator
-            ->scalar('container_comments')
-            ->allowEmpty('container_comments');
-
-        $validator
-            ->scalar('stability_satisfactory')
-            ->allowEmpty('stability_satisfactory');
-
-        $validator
-            ->scalar('stability_workspace')
-            ->allowEmpty('stability_workspace');
-
-        $validator
-            ->scalar('medical_product')
-            ->allowEmpty('medical_product');
-
-        $validator
-            ->scalar('medical_product_workspace')
-            ->allowEmpty('medical_product_workspace');
-
-        $validator
-            ->scalar('medical_product_comments')
-            ->allowEmpty('medical_product_comments');
-
-        $validator
-            ->scalar('agents_adequate')
-            ->allowEmpty('agents_adequate');
-
-        $validator
-            ->scalar('agents_workspace')
-            ->allowEmpty('agents_workspace');
-
-        $validator
-            ->scalar('agents_comments')
-            ->allowEmpty('agents_comments');
-
-        $validator
-            ->scalar('novel_excipients')
-            ->allowEmpty('novel_excipients');
-
-        $validator
-            ->scalar('novel_workspace')
-            ->allowEmpty('novel_workspace');
-
-        $validator
-            ->scalar('novel_comments')
-            ->allowEmpty('novel_comments');
-
-        $validator
-            ->scalar('solvents_info')
-            ->allowEmpty('solvents_info');
-
-        $validator
-            ->scalar('solvents_workspace')
-            ->allowEmpty('solvents_workspace');
-
-        $validator
-            ->scalar('solvents_comments')
-            ->allowEmpty('solvents_comments');
+            ->dateTime('updated_at')
+            ->allowEmpty('updated_at');
 
         return $validator;
     }
@@ -398,6 +246,7 @@ class QualityAssessmentsTable extends Table
     {
         $rules->add($rules->existsIn(['application_id'], 'Applications'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['quality_assessment_id'], 'QualityAssessments'));
 
         return $rules;
     }

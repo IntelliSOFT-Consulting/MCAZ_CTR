@@ -51,6 +51,7 @@ class CommentsController extends AppController
             $stage1->stage_date = date("Y-m-d H:i:s");
             $application->application_stages = [$stage1];
             $application->status = 'ApplicantResponse';
+            $application->action_date=date("Y-m-d H:i:s");
 
             //if ($this->Comments->save($comment) && $this->Applications->save($application))
             if ($this->Comments->updateAll(['submitted' => $this->request->getData('submitted')], ['id IN' => $this->request->getData('feedbacks')]) && $this->Applications->save($application))

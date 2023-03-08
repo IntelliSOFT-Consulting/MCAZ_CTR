@@ -199,7 +199,8 @@
       <li role="presentation"><a href="#final" aria-controls="final" role="tab" data-toggle="tab"><b>Final Stage</b></a></li> 
       <?php } ?>       
     <?php } ?>   
-    <?php } ?>       
+    <?php 
+  } ?>       
       <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab"><b>STAGES</b></a></li>  
       <?php if($application->approved === 'Declined' || $application->approved === 'Suspended') { ?>    
       <li role="presentation"><a href="#appeals" aria-controls="appeals" role="tab" data-toggle="tab"><b>Appeals</b></a></li> 

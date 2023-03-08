@@ -49,7 +49,26 @@ configuration relevant for your application.
 The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) CSS
 framework by default. You can, however, replace it with any other library or
 custom styles.
+ 
 
+## Docker Configuration
+Docker enables you to create and distribute all the necessary images for your entire project, making it easier to manage and deploy the application across different environments.
+
+To run a production build of a Docker-powered project, you will need to have several prerequisites installed on your machine. These include:
+- Git
+- Docker and
+- Docker Compose.
+
+#### Note:
+Copy the app.default.php to app.php and update the database configuration.
+
+Run the following command to launch the docker build
+`docker compose up -d --build`
+
+This command will run the fire up the application and you can easily access the two instances of the web application and the phpmyadmin.
+1. Web Interface - localhost:8767
+2. PhpMyAdmin - localhost:8185
+ 
 ## License
 [![License](http://img.shields.io/:license-gnu-blue.svg?style=flat-square)](http://badges.gnu-license.org) 
 
@@ -64,5 +83,5 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
+ 
 

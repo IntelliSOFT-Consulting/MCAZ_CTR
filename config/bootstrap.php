@@ -95,7 +95,7 @@ if (Configure::read('debug')) {
  * choice but using UTC makes time calculations / conversions easier.
  * Check http://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
-date_default_timezone_set('Africa/Harare');
+date_default_timezone_set('Africa/Harare'); 
 
 /*
  * Configure the mbstring extension to use the correct encoding.
@@ -231,7 +231,7 @@ Plugin::load('Josegonzalez/Upload');
  * Debug Kit should not be installed on a production system
  */
 if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => false]);
+    Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 
 Plugin::load('Acl', ['bootstrap' => true]);
@@ -244,7 +244,10 @@ Plugin::load('Migrations');
 Plugin::load('CakePdf', ['bootstrap' => true]);
 Configure::write('CakePdf', [
     'engine' => 'CakePdf.WkHtmlToPdf',
-    'download' => true
+    'download' => true,
+    'options' => [
+        'enable-local-file-access' => true
+    ]
 ]);
 
 Plugin::load('Queue');

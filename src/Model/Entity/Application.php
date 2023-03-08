@@ -651,7 +651,12 @@ class Application extends Entity
         'clinicals' => true,
         'non_clinicals' => true,
         'statisticals' => true,
-        'quality_assessments;' => true,
-        'sdrug' => true,
+        'quality_assessments' => true,
+        'sdrugs' => true,
+        'quality' => true,
+        'compliance' => true,
+        'storage_conditions' => true,
+        'pdrugs' => true,
+        'sdrugs_conditions' => true,
     ];
 }
