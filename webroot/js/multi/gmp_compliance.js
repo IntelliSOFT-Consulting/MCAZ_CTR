@@ -86,10 +86,15 @@ $(function() {
           url:'/compliance/delete/'+$(this).val()+'.json',
           data:{'id': $(this).val(), 'adr_id': $('#adr_pr_id').text()}, //TODO:Use this to ensure the adr belongs to the user
           success : function(data) {
-             console.log(data);
+             console.log('Success' +data);
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            console.log('Error: ' + textStatus + ' ' + errorThrown);
           }
         }); 
-      } 
+      } else{
+        console.log('Error: ' );
+      }
       updateLABTr($(this));         
     }
 

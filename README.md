@@ -63,7 +63,7 @@ To run a production build of a Docker-powered project, you will need to have sev
 Copy the app.default.php to app.php and update the database configuration.
 
 Run the following command to launch the docker build
-`docker-compose up -d --build`
+`docker compose up -d --build`
 
 This command will run the fire up the application and you can easily access the two instances of the web application and the phpmyadmin.
 1. Web Interface - localhost:8767
