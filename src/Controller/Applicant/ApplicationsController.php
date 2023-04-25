@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Controller\Applicant;
 
 use App\Controller\AppController;
 use Cake\ORM\Entity;
-use Cake\View\Helper\HtmlHelper; 
+use Cake\View\Helper\HtmlHelper;
 use Cake\Utility\Hash;
 
 /**
@@ -17,10 +18,11 @@ class ApplicationsController extends AppController
 {
 
     public $filt = [1];
-    public function initialize() {
-       parent::initialize();
-       // $this->Auth->allow(['view']);       
-       $this->loadComponent('Search.Prg', ['actions' => ['index']]);
+    public function initialize()
+    {
+        parent::initialize();
+        // $this->Auth->allow(['view']);       
+        $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
 
     /**
@@ -31,7 +33,7 @@ class ApplicationsController extends AppController
     public function index()
     {
         $this->paginate = [
-           // 'contain' => $this->_contain
+            // 'contain' => $this->_contain
         ];
 
         // $applications = $this->paginate($this->Applications,['finder' => ['status' => $id]]);
@@ -52,9 +54,10 @@ class ApplicationsController extends AppController
             ->leftJoinWith('SiteDetails')
             ->leftJoinWith('Medicines')
             // You can add extra things to the query if you need to
-            ->where([['report_type' => 'Initial', 'user_id' => $this->Auth->user('id'),
-                      //'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not'
-                     ]])
+            ->where([[
+                'report_type' => 'Initial', 'user_id' => $this->Auth->user('id'),
+                //'status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not'
+            ]])
             ->distinct();
 
         if ($this->request->params['_ext'] === 'csv') {
@@ -92,7 +95,7 @@ class ApplicationsController extends AppController
         $this->set(compact('application', 'provinces'));
         $this->set('_serialize', ['application']);
     }
-    
+
 
     /**
      * Add method
@@ -145,7 +148,7 @@ class ApplicationsController extends AppController
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-        } 
+        }
         // $this->_isApplicant($application);  
         if ($application->submitted == 2) {
             $this->Flash->success(__('Application already submitted.'));
@@ -153,93 +156,101 @@ class ApplicationsController extends AppController
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
-                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, 
-                         'associated' => [
-                            'InvestigatorContacts' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
-                            'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2 && count($application->sponsors) > 0) ? true : false],
-                            'Attachments' => ['validate' => true],
-                            'Receipts' => ['validate' => true],
-                            'Participants' => ['validate' => false],
-                            'SiteDetails' => ['validate' => false],
-                            'Medicines' => ['validate' => false],
-                            'Committees' => ['validate' => false],
-                        ]
-                     ]);
+            $application = $this->Applications->patchEntity(
+                $application,
+                $this->request->getData(),
+                [
+                    'validate' => ($this->request->getData('submitted') == 2) ? true : false,
+                    'associated' => [
+                        'InvestigatorContacts' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                        'Sponsors' => ['validate' => ($this->request->getData('submitted') == 2 && count($application->sponsors) > 0) ? true : false],
+                        'Attachments' => ['validate' => true],
+                        'Receipts' => ['validate' => true],
+                        'Participants' => ['validate' => false],
+                        'SiteDetails' => ['validate' => false],
+                        'Medicines' => ['validate' => false],
+                        'Committees' => ['validate' => false],
+                    ]
+                ]
+            );
             //
             if ($application->submitted == 1) {
-              //save changes button
-              if ($this->Applications->save($application)) {
-                $this->Flash->success(__('The changes to the Application  have been saved.'));
-                return $this->redirect(['action' => 'edit', $application->id]);
-              } else {
-                $this->Flash->error(__('Application  could not be saved. Kindly correct the errors and try again.'));
-              }
-            } elseif ($application->submitted == 2) {
-              //submit to mcaz button
-              if (empty($application->mc10_forms)) {                  
-                $this->Flash->error(__('13. MC10 Form: Kindly download sign and upload the MC10 form.'));
-                return $this->redirect(['action' => 'edit', $application->id]);
-              }
-              if (empty($application->receipts)) {                  
-                $this->Flash->error(__('14. Financials: Kindly upload receipts.'));
-                return $this->redirect(['action' => 'edit', $application->id]);
-              }
-              $application->date_submitted = date("Y-m-d H:i:s");
-
-              //new stage
-              $stage1  = $this->Applications->ApplicationStages->newEntity();
-              $stage1->stage_id = 1;
-              $stage1->stage_date = date("Y-m-d H:i:s");
-              $application->application_stages = [$stage1];
-
-              $application->status = 'Submitted';
-              //$application->protocol_no = 'CT'.$application->id.'/'.$application->created->i18nFormat('yyyy');
-              $application->protocol_no = 'FN'.$application->id.'/'.$application->created->i18nFormat('yyyy');
-              if ($this->Applications->save($application)) {
-                $this->Flash->success(__('Report '.$application->protocol_no.' has been successfully submitted to MCAZ for review.'));
-                //send email and notification
-                $this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_application_email', 'model' => 'Applications', 'foreign_key' => $application->id,
-                    'vars' =>  $application->toArray()
-                ]; 
-                $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['name'] = $this->Auth->user('name');
-                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, '_ext' => 'pdf',  
-                                          '_full' => true]);
-                //notify applicant
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_application_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //notify managers and finance
-                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3, 5]]);
-                foreach ($managers as $manager) {
-                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
-                    'vars' =>  $application->toArray()];
-                  $data['type'] = 'manager_submit_application_email';
-                  $this->QueuedJobs->createJob('GenericEmail', $data);
-                  $data['type'] = 'manager_submit_application_notification';
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                //save changes button
+                if ($this->Applications->save($application)) {
+                    $this->Flash->success(__('The changes to the Application  have been saved.'));
+                    return $this->redirect(['action' => 'edit', $application->id]);
+                } else {
+                    $this->Flash->error(__('Application  could not be saved. Kindly correct the errors and try again.'));
                 }
-                //
-                return $this->redirect(['action' => 'view', $application->id]);
-              } else {
-                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
-              }
-            } elseif ($application->submitted == -1) {
-               //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
-                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
+            } elseif ($application->submitted == 2) {
+                //submit to mcaz button
+                if (empty($application->mc10_forms)) {
+                    $this->Flash->error(__('13. MC10 Form: Kindly download sign and upload the MC10 form.'));
+                    return $this->redirect(['action' => 'edit', $application->id]);
+                }
+                if (empty($application->receipts)) {
+                    $this->Flash->error(__('14. Financials: Kindly upload receipts.'));
+                    return $this->redirect(['action' => 'edit', $application->id]);
+                }
+                $application->date_submitted = date("Y-m-d H:i:s");
 
+                //new stage
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 1;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $application->application_stages = [$stage1];
+
+                $application->status = 'Submitted';
+                //   $application->protocol_no = 'FN'.$application->id.'/'.$application->created->i18nFormat('yyyy');
+                $application->protocol_no = $this->generate_fn_reference($id);
+                if ($this->Applications->save($application)) {
+                    $this->Flash->success(__('Report ' . $application->protocol_no . ' has been successfully submitted to MCAZ for review.'));
+                    //send email and notification
+                    $this->loadModel('Queue.QueuedJobs');
+                    $data = [
+                        'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
+                        'type' => 'applicant_submit_application_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'vars' =>  $application->toArray()
+                    ];
+                    $html = new HtmlHelper(new \Cake\View\View());
+                    $data['vars']['name'] = $this->Auth->user('name');
+                    $data['vars']['pdf_link'] = $html->link('Download', [
+                        'controller' => 'applications', 'action' => 'view', $application->id, '_ext' => 'pdf',
+                        '_full' => true
+                    ]);
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_submit_application_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //notify managers and finance
+                    // Add check to only include active users
+                    $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3, 5],'deactivated'=>0]);
+                    foreach ($managers as $manager) {
+                        $data = [
+                            'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
+                            'vars' =>  $application->toArray()
+                        ];
+                        $data['type'] = 'manager_submit_application_email';
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_submit_application_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                    //
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
+                }
+            } elseif ($application->submitted == -1) {
+                //cancel button              
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
+                return $this->redirect(['controller' => 'Users', 'action' => 'dashboard']);
             } else {
-              if ($this->Applications->save($application, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Application have been saved.'));
-                return $this->redirect(['action' => 'edit', $application->id]);
-              } else {
-                $this->Flash->error(__('Application could not be saved. Kindly correct the errors and try again.'));
-              }
+                if ($this->Applications->save($application, ['validate' => false])) {
+                    $this->Flash->success(__('The changes to the Application have been saved.'));
+                    return $this->redirect(['action' => 'edit', $application->id]);
+                } else {
+                    $this->Flash->error(__('Application could not be saved. Kindly correct the errors and try again.'));
+                }
             }
         }
 
@@ -250,7 +261,23 @@ class ApplicationsController extends AppController
         //start
     }
 
-    public function approvalEdit($id = null) {
+    public function generate_fn_reference($id)
+    {
+        # code...
+        $refid = $this->Applications->Refids->newEntity(
+            [
+                'foreign_key' => $id,
+                'model' => 'Applications',
+                'year' => date('Y')
+            ]
+        );
+        $this->Applications->Refids->save($refid);
+        $refid = $this->Applications->Refids->get($refid->id);
+        return 'FN' . $refid->refid . '/' . $refid->year;
+    }
+
+    public function approvalEdit($id = null)
+    {
 
         $application = $this->Applications->get($this->request->getData('id'));
 
@@ -261,40 +288,43 @@ class ApplicationsController extends AppController
                 $this->response->body('Success');
                 $this->response->statusCode(200);
                 $this->set([
-                    'error' => '', 
-                    'message' => $this->request->getData(), 
+                    'error' => '',
+                    'message' => $this->request->getData(),
                     'application' => $application,
-                    '_serialize' => ['error', 'message', 'application']]);
+                    '_serialize' => ['error', 'message', 'application']
+                ]);
                 return;
-
             } else {
                 $this->response->body('Failure');
                 $this->response->statusCode(401);
                 $this->set([
-                    'message' => 'Unable to save application!!', 
-                    '_serialize' => ['message']]);
-                return; 
+                    'message' => 'Unable to save application!!',
+                    '_serialize' => ['message']
+                ]);
+                return;
             }
         } else {
             $this->response->body('Failure');
             $this->response->statusCode(404);
             $this->set([
-                'error' => 'Only approved protocols', 
-                'message' => 'Only approved protocols', 
-                '_serialize' => ['error', 'message']]);
+                'error' => 'Only approved protocols',
+                'message' => 'Only approved protocols',
+                '_serialize' => ['error', 'message']
+            ]);
             return;
         }
     }
 
 
-    public function addAmendment($id) {
+    public function addAmendment($id)
+    {
         $application = $this->Applications->get($id, ['contain' => ['Amendments']]);
         if (empty($application)) {
             $this->Flash->error(__('The application does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-        } 
+        }
 
-        if (!empty($application->amendments)) { 
+        if (!empty($application->amendments)) {
             if (end($application->amendments)['submitted'] != 2) {
                 $this->Flash->warning(__('An editable amendment is already available. Please submit the amendment before creating a new one'));
                 return $this->redirect(['action' => 'amendment', end($application->amendments)['id']]);
@@ -307,7 +337,7 @@ class ApplicationsController extends AppController
             $amendment->application_id = $application->id;
             $amendment->user_id = $this->Auth->user('id');
             //New amendment to have finance temporary protocol no
-            $amendment->protocol_no = $application->protocol_no.' - FN'.(count($application->amendments)+1).'/'.date('Y');
+            $amendment->protocol_no = $application->protocol_no . ' - FN' . (count($application->amendments) + 1) . '/' . date('Y');
 
             //new stage
             /*$stage1  = $this->Applications->Amendments->ApplicationStages->newEntity();
@@ -318,34 +348,9 @@ class ApplicationsController extends AppController
 
             if ($this->Applications->Amendments->save($amendment, ['validate' => false])) {
 
-                $this->Flash->success(__('Amendment '.$amendment->protocol_no.' for '.$application->protocol_no.' has been successfully created. Kindly complete and submit to MCAZ for review.'));
-                //send email and notification
-                /*$this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_amendment_email', 'model' => 'Applications', 'foreign_key' => $application->id,
-                    'vars' =>  $application->toArray()
-                ]; 
-                $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $application->id, 
-                    '_ext' => 'pdf', '_full' => true]);
-                $data['vars']['amend_no'] = $amendment->protocol_no;
-                //notify applicant
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_amendment_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //notify managers and finance
-                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 3, 5]]);
-                foreach ($managers as $manager) {
-                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 
-                            'foreign_key' => $application->id, 'vars' =>  $application->toArray()];
-                  $data['vars']['amend_no'] = $amendment->protocol_no;
-                  $data['type'] = 'manager_submit_amendment_email';
-                  $this->QueuedJobs->createJob('GenericEmail', $data);
-                  $data['type'] = 'manager_submit_amendment_notification';
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
-                }*/
+                $this->Flash->success(__('Amendment ' . $amendment->protocol_no . ' for ' . $application->protocol_no . ' has been successfully created. Kindly complete and submit to MCAZ for review.'));
                 
+
                 return $this->redirect(['action' => 'amendment', $amendment->id]);
             }
             $this->Flash->error(__('The amendment could not be created. Please, try again.'));
@@ -367,113 +372,118 @@ class ApplicationsController extends AppController
         if (empty($amendment)) {
             $this->Flash->error(__('The amendment does not exists!!'));
             $this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'applicant'));
-        } 
+        }
         if ($amendment->submitted == 2) {
             $this->Flash->success(__('Amendment already submitted.'));
             return $this->redirect(['action' => 'view', $application->id]);
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $amendment = $this->Applications->patchEntity($amendment, $this->request->getData(), 
-                        ['validate' => false, 
-                         'associated' => [
-                            'InvestigatorContacts' =>  ['validate' => false],
-                            'Sponsors' =>  ['validate' => false],
-                            'Attachments' => ['validate' => false],
-                            'Receipts' => ['validate' => true],
-                            'Participants' => ['validate' => false],
-                            'SiteDetails' => ['validate' => false],
-                            'Medicines' => ['validate' => false],
-                            'Committees' => ['validate' => false],
-                        ]
-                     ]);
+            $amendment = $this->Applications->patchEntity(
+                $amendment,
+                $this->request->getData(),
+                [
+                    'validate' => false,
+                    'associated' => [
+                        'InvestigatorContacts' =>  ['validate' => false],
+                        'Sponsors' =>  ['validate' => false],
+                        'Attachments' => ['validate' => false],
+                        'Receipts' => ['validate' => true],
+                        'Participants' => ['validate' => false],
+                        'SiteDetails' => ['validate' => false],
+                        'Medicines' => ['validate' => false],
+                        'Committees' => ['validate' => false],
+                    ]
+                ]
+            );
             //
             // debug($this->request->getData());
             // debug($amendment->errors());
             // return;
             if ($amendment->submitted == 1) {
-              //save changes button
-              if ($this->Applications->Amendments->save($amendment)) {
-                $this->Flash->success(__('The changes to the amendment  have been saved.'));
-                return $this->redirect(['action' => 'amendment', $amendment->id]);
-              } else {
-                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
-              }
+                //save changes button
+                if ($this->Applications->Amendments->save($amendment)) {
+                    $this->Flash->success(__('The changes to the amendment  have been saved.'));
+                    return $this->redirect(['action' => 'amendment', $amendment->id]);
+                } else {
+                    $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
+                }
             } elseif ($amendment->submitted == 2) {
 
-              if (empty($amendment->receipts)) {                  
-                $this->Flash->error(__('14. Financials: Kindly upload receipts before submitting amendment.'));
-                return $this->redirect(['action' => 'amendment', $amendment->id]);
-              }
+                if (empty($amendment->receipts)) {
+                    $this->Flash->error(__('14. Financials: Kindly upload receipts before submitting amendment.'));
+                    return $this->redirect(['action' => 'amendment', $amendment->id]);
+                }
 
-              //submit to mcaz button
-              $amendment->date_submitted = date("Y-m-d H:i:s");
+                //submit to mcaz button
+                $amendment->date_submitted = date("Y-m-d H:i:s");
 
 
-              //new stage
-              $stage1  = $this->Applications->ApplicationStages->newEntity();
-              $stage1->stage_id = 1;
-              $stage1->stage_date = date("Y-m-d H:i:s");
-              $amendment->application_stages = [$stage1];
-              $amendment->status = 'Submitted';
-              
-              if ($this->Applications->Amendments->save($amendment)) {
-                $this->Flash->success(__('Amendment '.$amendment->created.' has been successfully submitted to MCAZ for review.'));
-                //send email and notification
-                $this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_amendment_email', 'model' => 'Amendments', 'foreign_key' => $amendment->id,
-                ]; 
-                $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['amend_no'] = $amendment->protocol_no;
-                $data['vars']['applicant_name'] = $this->Auth->user('name');
-                $data['vars']['date_submitted'] = $amendment->date_submitted;
-                $data['vars']['email_address'] = $application->email_address;
-                $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'applications', 'action' => 'view', $amendment->id, '_ext' => 'pdf',  
-                                          '_full' => true]);
-                //notify applicant
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_amendment_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //notify managers and finance
-                $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5]]);
-                foreach ($managers as $manager) {
-                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
+                //new stage
+                $stage1  = $this->Applications->ApplicationStages->newEntity();
+                $stage1->stage_id = 1;
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $amendment->application_stages = [$stage1];
+                $amendment->status = 'Submitted';
+
+                if ($this->Applications->Amendments->save($amendment)) {
+                    $this->Flash->success(__('Amendment ' . $amendment->created . ' has been successfully submitted to MCAZ for review.'));
+                    //send email and notification
+                    $this->loadModel('Queue.QueuedJobs');
+                    $data = [
+                        'email_address' => $application->email_address, 'user_id' => $this->Auth->user('id'),
+                        'type' => 'applicant_submit_amendment_email', 'model' => 'Amendments', 'foreign_key' => $amendment->id,
+                    ];
                     $data['vars']['protocol_no'] = $application->protocol_no;
                     $data['vars']['amend_no'] = $amendment->protocol_no;
-                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     $data['vars']['date_submitted'] = $amendment->date_submitted;
-                    $data['type'] = 'manager_submit_amendment_email';
+                    $data['vars']['email_address'] = $application->email_address;
+                    $html = new HtmlHelper(new \Cake\View\View());
+                    $data['vars']['pdf_link'] = $html->link('Download', [
+                        'controller' => 'applications', 'action' => 'view', $amendment->id, '_ext' => 'pdf',
+                        '_full' => true
+                    ]);
+                    //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_submit_amendment_notification';
+                    $data['type'] = 'applicant_submit_amendment_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //notify managers and finance
+                    $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5],'deactivated'=>0]);
+                    foreach ($managers as $manager) {
+                        $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['amend_no'] = $amendment->protocol_no;
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['date_submitted'] = $amendment->date_submitted;
+                        $data['type'] = 'manager_submit_amendment_email';
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_submit_amendment_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                    //notify assigned evaluators
+                    foreach ($application->assign_evaluators as $evaluator) {
+                        $manager = $this->Applications->Users->get($evaluator->assigned_to, []);
+                        $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
+                        $data['vars']['protocol_no'] = $application->protocol_no;
+                        $data['vars']['amend_no'] = $amendment->protocol_no;
+                        $data['vars']['name'] = $manager->name;
+                        $data['vars']['date_submitted'] = $amendment->date_submitted;
+                        $data['type'] = 'manager_submit_amendment_email';
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_submit_amendment_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                    //
+                    return $this->redirect(['action' => 'view', $application->id]);
+                } else {
+                    $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
                 }
-                //notify assigned evaluators
-                foreach ($application->assign_evaluators as $evaluator) {
-                    $manager = $this->Applications->Users->get($evaluator->assigned_to, []);
-                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Amendments', 'foreign_key' => $amendment->id];
-                    $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['amend_no'] = $amendment->protocol_no;
-                    $data['vars']['name'] = $manager->name;
-                    $data['vars']['date_submitted'] = $amendment->date_submitted;
-                    $data['type'] = 'manager_submit_amendment_email';
-                    $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_submit_amendment_notification';
-                    $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
-                //
-                return $this->redirect(['action' => 'view', $application->id]);
-              } else {
-                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
-              }
             } elseif ($amendment->submitted == "-1") {
-               //cancel button              
+                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
-                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
-
-            } 
+                return $this->redirect(['controller' => 'Users', 'action' => 'dashboard']);
+            }
         }
 
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
@@ -486,12 +496,13 @@ class ApplicationsController extends AppController
         $application = $this->Applications->get($this->request->getData('foreign_key'), ['contain' => [], 'fields' => ['id', 'user_id']]);
         if (empty($application)) {
             $this->response->body('Failure');
-                $this->response->statusCode(403);
-                $this->set([
-                        'errors' => 'The application does not exist',
-                        'message' => 'Failure', 
-                        '_serialize' => ['errors','message']]);
-                    return;
+            $this->response->statusCode(403);
+            $this->set([
+                'errors' => 'The application does not exist',
+                'message' => 'Failure',
+                '_serialize' => ['errors', 'message']
+            ]);
+            return;
         }
 
         //$category = $this->request->getData();
@@ -499,19 +510,21 @@ class ApplicationsController extends AppController
             $application = $this->Applications->patchEntity($application, $this->request->getData());
             if ($this->Applications->save($application)) {
                 $this->set([
-                        'message' => 'Success', 
-                        //'category' => $category,
-                        'content' => $application['attachments'],
-                        '_serialize' => ['message', 'content', 'category']]);
-                    return;
+                    'message' => 'Success',
+                    //'category' => $category,
+                    'content' => $application['attachments'],
+                    '_serialize' => ['message', 'content', 'category']
+                ]);
+                return;
             } else {
                 $this->response->body('Failure');
                 $this->response->statusCode(403);
                 $this->set([
-                        'errors' => $application->errors(),
-                        'message' => 'Failure', 
-                        '_serialize' => ['errors','message']]);
-                    return;
+                    'errors' => $application->errors(),
+                    'message' => 'Failure',
+                    '_serialize' => ['errors', 'message']
+                ]);
+                return;
             }
         }
         $this->set(compact('application'));
@@ -519,33 +532,37 @@ class ApplicationsController extends AppController
     }
 
 
-    public function requestInfoResponse() {
+    public function requestInfoResponse()
+    {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
-                        ['validate' => true,
-                            'associated' => [
-                                'RequestInfos' => ['validate' => true],
-                                'RequestInfos.Attachments'
-                            ]
-                        ]);
+            $application = $this->Applications->patchEntity(
+                $application,
+                $this->request->getData(),
+                [
+                    'validate' => true,
+                    'associated' => [
+                        'RequestInfos' => ['validate' => true],
+                        'RequestInfos.Attachments'
+                    ]
+                ]
+            );
 
             //$application->status = 'ReporterResponse';
 
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
-                // (!empty($application->assign_evaluators)) ? 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->eq('group_id', 2);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
+                array_push($filt, 1); 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                    $orConditions = $exp->or_(['id IN' => $filt])
+                        ->eq('group_id', 2);
+                    return $exp
+                        ->add($orConditions)
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
+                });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -555,7 +572,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     $data['vars']['applicant_message'] = $this->request->getData('request_infos.100.applicant_comment');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -565,39 +582,44 @@ class ApplicationsController extends AppController
                 //Notify applicant 
                 // $applicant = $this->Applications->Users->get($application);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_send_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_send_request_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['name'] = $this->Auth->user('name');
                 $data['vars']['applicant_message'] = $this->request->getData('request_infos.100.applicant_comment');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_send_request_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
-                $this->Flash->success('Request sent to MCAZ for '.$application->protocol_no.'.');
+                $this->Flash->success('Request sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error(__('Unable to create review. Please, try again.')); 
+            }
+            $this->Flash->error(__('Unable to create review. Please, try again.'));
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
-    public function raiseAppeal() {
+    public function raiseAppeal()
+    {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
-                        ['validate' => true,
-                            'associated' => [
-                                'Appeals' => ['validate' => true],
-                                'Appeals.Attachments'
-                            ]
-                        ]);
+            $application = $this->Applications->patchEntity(
+                $application,
+                $this->request->getData(),
+                [
+                    'validate' => true,
+                    'associated' => [
+                        'Appeals' => ['validate' => true],
+                        'Appeals.Attachments'
+                    ]
+                ]
+            );
 
             /*debug($this->request->getData());
             debug($application);
@@ -606,16 +628,15 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
-                // (!empty($application->assign_evaluators)) ? 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->eq('group_id', 2);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
+                array_push($filt, 1); 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                    $orConditions = $exp->or_(['id IN' => $filt])
+                        ->eq('group_id', 2);
+                    return $exp
+                        ->add($orConditions)
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
+                });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
@@ -625,7 +646,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     $data['vars']['applicant_message'] = $this->request->getData('appeals.100.comment');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -635,29 +656,30 @@ class ApplicationsController extends AppController
                 //Notify applicant 
                 // $applicant = $this->Applications->Users->get($application);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_raise_appeal_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_raise_appeal_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['name'] = $this->Auth->user('name');
                 $data['vars']['applicant_message'] = $this->request->getData('appeals.100.comment');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_raise_appeal_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
-                $this->Flash->success('Appeal for '.$application->protocol_no.' sent to MCAZ for review');
+                $this->Flash->success('Appeal for ' . $application->protocol_no . ' sent to MCAZ for review');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error(__('Unable to create appeal. Please, try again.')); 
+            }
+            $this->Flash->error(__('Unable to create appeal. Please, try again.'));
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
-    public function addSection75() {
+    public function addSection75()
+    {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
@@ -666,17 +688,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
-                // (!empty($application->assign_evaluators)) ? 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->eq('group_id', 2);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
-                $this->loadModel('Queue.QueuedJobs');    
+                array_push($filt, 1); 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                    $orConditions = $exp->or_(['id IN' => $filt])
+                        ->eq('group_id', 2);
+                    return $exp
+                        ->add($orConditions)
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
+                });
+                $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
                     $data = [
@@ -685,7 +706,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     $data['vars']['applicant_message'] = $this->request->getData('seventy_fives.100.applicant_comment');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -695,29 +716,30 @@ class ApplicationsController extends AppController
                 //Notify applicant 
                 // $applicant = $this->Applications->Users->get($application);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_send_section75_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_send_section75_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['name'] = $this->Auth->user('name');
                 $data['vars']['applicant_message'] = $this->request->getData('seventy_fives.100.applicant_comment');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_section75_request_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
-                $this->Flash->success('Section 75 request sent to MCAZ for '.$application->protocol_no.'.');
+                $this->Flash->success('Section 75 request sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error(__('Unable to create request. Please, try again.')); 
+            }
+            $this->Flash->error(__('Unable to create request. Please, try again.'));
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
-    public function addNotifications() {
+    public function addNotifications()
+    {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
@@ -726,17 +748,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
-                // (!empty($application->assign_evaluators)) ? 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->eq('group_id', 2);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
-                $this->loadModel('Queue.QueuedJobs');    
+                array_push($filt, 1); 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                    $orConditions = $exp->or_(['id IN' => $filt])
+                        ->eq('group_id', 2);
+                    return $exp
+                        ->add($orConditions)
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
+                });
+                $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
                     $data = [
@@ -745,7 +766,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     //notify managers
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'applicant_notification_managers_notification';
@@ -754,28 +775,29 @@ class ApplicationsController extends AppController
                 //Notify applicant 
                 // $applicant = $this->Applications->Users->get($application);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_send_notification_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_send_notification_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['name'] = $this->Auth->user('name');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_send_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
-                $this->Flash->success('Notification sent to MCAZ for '.$application->protocol_no.'.');
+                $this->Flash->success('Notification sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error(__('Unable to create request. Please, try again.')); 
+            }
+            $this->Flash->error(__('Unable to create request. Please, try again.'));
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
-    public function addGcpInspection() {
+    public function addGcpInspection()
+    {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $application = $this->Applications->patchEntity($application, $this->request->getData());
@@ -784,17 +806,16 @@ class ApplicationsController extends AppController
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, 1);
-                // (!empty($application->assign_evaluators)) ? 
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]) : 
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->eq('group_id', 2);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
-                $this->loadModel('Queue.QueuedJobs');    
+                array_push($filt, 1); 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                    $orConditions = $exp->or_(['id IN' => $filt])
+                        ->eq('group_id', 2);
+                    return $exp
+                        ->add($orConditions)
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
+                });
+                $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     //Notify managers    
                     $data = [
@@ -803,7 +824,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');                
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     $data['vars']['applicant_message'] = $this->request->getData('gcp_inspections.100.applicant_comment');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -813,34 +834,35 @@ class ApplicationsController extends AppController
                 //Notify applicant 
                 // $applicant = $this->Applications->Users->get($application);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_send_gcp_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_send_gcp_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $this->Auth->user('name');                
+                $data['vars']['name'] = $this->Auth->user('name');
                 $data['vars']['applicant_message'] = $this->request->getData('gcp_inspections.100.applicant_comment');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_gcp_inspection_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
-                $this->Flash->success('GCP Inspection feedback sent to MCAZ for '.$application->protocol_no.'.');
+                $this->Flash->success('GCP Inspection feedback sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error(__('Unable to create gcp inspection request. Please, try again.')); 
+            }
+            $this->Flash->error(__('Unable to create gcp inspection request. Please, try again.'));
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
-    public function addIndemnityForms($id) {
+    public function addIndemnityForms($id)
+    {
         $application = $this->Applications->get($this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators']]);
         $dg_review = $this->Applications->DgReviews->get($id);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            
+
             $dg_review = $this->Applications->DgReviews->patchEntity($dg_review, $this->request->getData());
 
             /**
@@ -856,60 +878,67 @@ class ApplicationsController extends AppController
             if ($this->Applications->DgReviews->save($dg_review) && $this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
-                array_push($filt, $application->user_id);
-                // $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 7]])->orWhere(['id IN' => $filt]);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use($filt) {
-                                $orConditions = $exp->or_(['id IN' => $filt])
-                                    ->in('group_id', [2, 7]);
-                                return $exp
-                                    ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
-                            });
+                array_push($filt, $application->user_id); 
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(function ($exp, $query) use ($filt) {
+                    $orConditions = $exp->or_(['id IN' => $filt])
+                        ->in('group_id', [2, 7]);
+                    return $exp
+                        ->add($orConditions)
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
+                });
 
                 //Notify managers, evaluators, director generals and users that indemnity forms have been uploaded
-                $this->loadModel('Queue.QueuedJobs');  
+                $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
                     $data = [
-                        'email_address' => ($manager->id == $application->user_id) ? $application->email_address : $manager->email, 
+                        'email_address' => ($manager->id == $application->user_id) ? $application->email_address : $manager->email,
                         'user_id' => $manager->id,
                         'type' => 'indemnity_forms_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');  
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'indemnity_forms_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-                
-                $this->Flash->success('Successfully uploaded indemnity forms for '.$application->protocol_no.'.');
+
+                $this->Flash->success('Successfully uploaded indemnity forms for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
+            }
             // $this->Flash->error(__('Unable to create dg review. Please, try again.')); 
-            $this->Flash->error('Unable to upload indemnity forms. Please, try again. <br>'.implode('<br>', Hash::flatten($application->errors())),
-                                ['escape' => false]); 
+            $this->Flash->error(
+                'Unable to upload indemnity forms. Please, try again. <br>' . implode('<br>', Hash::flatten($application->errors())),
+                ['escape' => false]
+            );
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
     /*   Add the final Report for the protocol
      *   Adious
     */
-    public function addFinalReport($id = null) {
+    public function addFinalReport($id = null)
+    {
         $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
-                        ['validate' => true,
-                            'associated' => [
-                                'FinalStages' => ['validate' => true],
-                                'FinalStages.Attachments'
-                            ]
-                     ]);
+            $application = $this->Applications->patchEntity(
+                $application,
+                $this->request->getData(),
+                [
+                    'validate' => true,
+                    'associated' => [
+                        'FinalStages' => ['validate' => true],
+                        'FinalStages.Attachments'
+                    ]
+                ]
+            );
 
 
             /**
@@ -917,7 +946,7 @@ class ApplicationsController extends AppController
              * Ensure Forms are attached before submit
              * 
              */
-            if(!in_array("12", Hash::extract($application->application_stages, '{n}.stage_id'))) { 
+            if (!in_array("12", Hash::extract($application->application_stages, '{n}.stage_id'))) {
                 $stage1  = $this->Applications->ApplicationStages->newEntity();
                 $stage1->stage_id = 12;
                 $stage1->stage_date = date("Y-m-d H:i:s");
@@ -932,19 +961,19 @@ class ApplicationsController extends AppController
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2,'deactivated'=>0])->orWhere(['id IN' => $filt,'deactivated'=>0]);
 
-                $this->loadModel('Queue.QueuedJobs'); 
+                $this->loadModel('Queue.QueuedJobs');
 
                 //Notify director general(s)
-                $secgs = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 7]);
+                $secgs = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 7,'deactivated'=>0]);
                 foreach ($secgs as $secg) {
                     $data = [
-                            'email_address' => $secg->email, 'user_id' => $secg->id,
-                            'type' => 'director_general_final_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'email_address' => $secg->email, 'user_id' => $secg->id,
+                        'type' => 'director_general_final_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['name'] = $secg->name;                
+                    $data['vars']['name'] = $secg->name;
                     // $data['vars']['internal_message'] = $this->request->getData('final_stages.100.internal_review_comment');
                     $data['vars']['approved_date'] = $this->request->getData('final_stages.100.approved_date');
                     $data['vars']['user_message'] = $this->request->getData('final_stages.100.applicant_review_comment');
@@ -952,7 +981,7 @@ class ApplicationsController extends AppController
                     $data['type'] = 'director_general_final_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
- 
+
                 foreach ($managers as $manager) {
                     //Notify managers  
                     $data = [
@@ -961,7 +990,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['evaluator_name'] = $this->Auth->user('name');  
+                    $data['vars']['evaluator_name'] = $this->Auth->user('name');
                     $data['vars']['internal_message'] = $this->request->getData('final_stages.100.internal_review_comment');
                     $data['vars']['approved_date'] = $this->request->getData('final_stages.100.approved_date');
                     $data['vars']['user_message'] = $this->request->getData('final_stages.100.applicant_review_comment');
@@ -974,29 +1003,31 @@ class ApplicationsController extends AppController
                 //Notify Applicant 
                 $applicant = $this->Applications->Users->get($application->user_id);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_final_stage_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_final_stage_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $applicant->name;                
+                $data['vars']['name'] = $applicant->name;
                 $data['vars']['approved_date'] = $this->request->getData('final_stages.100.approved_date');
                 $data['vars']['user_message'] = $this->request->getData('final_stages.100.applicant_review_comment');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_final_stage_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-                
-                $this->Flash->success('Successful submit final report for '.$application->protocol_no.'.');
+
+                $this->Flash->success('Successful submit final report for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error('Unable to submit final report. Please, try again. <br>'.implode('<br>', Hash::flatten($application->errors())),
-                                ['escape' => false]); 
+            }
+            $this->Flash->error(
+                'Unable to submit final report. Please, try again. <br>' . implode('<br>', Hash::flatten($application->errors())),
+                ['escape' => false]
+            );
             // debug($application->errors());
             // return;
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
@@ -1004,17 +1035,22 @@ class ApplicationsController extends AppController
      *   Adious
     */
 
-    public function addAnnualApproval($id = null) {
+    public function addAnnualApproval($id = null)
+    {
         $application = $this->Applications->get((isset($id)) ? $id : $this->request->getData('application_pr_id'), ['contain' => ['AssignEvaluators', 'ApplicationStages']]);
 
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
-            $application = $this->Applications->patchEntity($application, $this->request->getData(), 
-                        ['validate' => true,
-                            'associated' => [
-                                'AnnualApprovals' => ['validate' => true],
-                                'AnnualApprovals.Attachments'
-                            ]
-                     ]);
+            $application = $this->Applications->patchEntity(
+                $application,
+                $this->request->getData(),
+                [
+                    'validate' => true,
+                    'associated' => [
+                        'AnnualApprovals' => ['validate' => true],
+                        'AnnualApprovals.Attachments'
+                    ]
+                ]
+            );
 
 
             /**
@@ -1024,31 +1060,33 @@ class ApplicationsController extends AppController
              */
             // debug($application);
             // return;
-            
+
             if ($this->Applications->save($application)) {
                 //Send email, notification and message to managers and assigned evaluators
                 $filt = Hash::extract($application, 'assign_evaluators.{n}.assigned_to');
                 array_push($filt, 1);
-                $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $managers = $this->Applications->Users->find('all', ['limit' => 200])
+                ->where(['group_id' => 2,'deactivated'=>0])
+                ->orWhere(['id IN' => $filt,'deactivated'=>0]);
 
-                $this->loadModel('Queue.QueuedJobs'); 
+                $this->loadModel('Queue.QueuedJobs');
 
                 //Notify finance user(s)
-                $fins = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 5]);
+                $fins = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 5,'deactivated'=>0]);
                 foreach ($fins as $fin) {
                     $data = [
-                            'email_address' => $fin->email, 'user_id' => $fin->id,
-                            'type' => 'finance_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                        'email_address' => $fin->email, 'user_id' => $fin->id,
+                        'type' => 'finance_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                     ];
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['name'] = $fin->name;                
+                    $data['vars']['name'] = $fin->name;
                     $data['vars']['approved_date'] = $this->request->getData('annual_approvals.100.approved_date');
                     $data['vars']['user_message'] = $this->request->getData('annual_approvals.100.applicant_review_comment');
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'finance_annual_approval_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
- 
+
                 foreach ($managers as $manager) {
                     //Notify managers  
                     $data = [
@@ -1057,7 +1095,7 @@ class ApplicationsController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['protocol_no'] = $application->protocol_no;
-                    $data['vars']['applicant_name'] = $this->Auth->user('name');  
+                    $data['vars']['applicant_name'] = $this->Auth->user('name');
                     $data['vars']['user_message'] = $this->request->getData('annual_approvals.100.applicant_review_comment');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -1068,29 +1106,31 @@ class ApplicationsController extends AppController
                 //Notify Applicant 
                 $applicant = $this->Applications->Users->get($application->user_id);
                 $data = [
-                        'email_address' => $application->email_address, 'user_id' => $application->user_id,
-                        'type' => 'applicant_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
+                    'email_address' => $application->email_address, 'user_id' => $application->user_id,
+                    'type' => 'applicant_annual_approval_email', 'model' => 'Applications', 'foreign_key' => $application->id,
                 ];
                 $data['vars']['protocol_no'] = $application->protocol_no;
-                $data['vars']['name'] = $applicant->name;                
+                $data['vars']['name'] = $applicant->name;
                 $data['vars']['approved_date'] = $this->request->getData('annual_approvals.100.approved_date');
                 $data['vars']['user_message'] = $this->request->getData('annual_approvals.100.applicant_review_comment');
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_annual_approval_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-                
-                $this->Flash->success('Successful submit annual approval for '.$application->protocol_no.'.');
+
+                $this->Flash->success('Successful submit annual approval for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
-            } 
-            $this->Flash->error('Unable to submit annual approval. Please, try again. <br>'.implode('<br>', Hash::flatten($application->errors())),
-                                ['escape' => false]); 
+            }
+            $this->Flash->error(
+                'Unable to submit annual approval. Please, try again. <br>' . implode('<br>', Hash::flatten($application->errors())),
+                ['escape' => false]
+            );
             // debug($application->errors());
             // return;
             return $this->redirect($this->referer());
-        } 
-        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.')); 
+        }
+        $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
         return $this->redirect($this->referer());
     }
 
@@ -1105,7 +1145,7 @@ class ApplicationsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $application = $this->Applications->get($id);
-        if($application->submitted != 2) {
+        if ($application->submitted != 2) {
             if ($this->Applications->delete($application)) {
                 $this->Flash->success(__('The application has been deleted.'));
             } else {
@@ -1118,13 +1158,14 @@ class ApplicationsController extends AppController
 
 
     //PDF views
-    public function finance($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function finance($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $finance_approvals = $this->Applications->FinanceApprovals->findByApplicationId($id)->contain(['Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $finance = $this->Applications->FinanceApprovals
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Attachments']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Attachments']]);
             $application = $finance->application;
             $finance_approvals[] = $finance;
         }
@@ -1135,18 +1176,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_finance_'.$id.'.pdf' : 'application_finance_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_finance_' . $id . '.pdf' : 'application_finance_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function section75($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function section75($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $seventy_fives = $this->Applications->SeventyFives->findByApplicationId($id)->contain(['Users']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $section75 = $this->Applications->SeventyFives
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);
             $application = $section75->application;
             $seventy_fives[] = $section75;
         }
@@ -1157,22 +1199,24 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_section75_'.$id.'.pdf' : 'application_section75_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_section75_' . $id . '.pdf' : 'application_section75_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function evaluator($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function evaluator($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $assign_evaluators = $this->Applications->AssignEvaluators->findByApplicationId($id);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $evaluator = $this->Applications->AssignEvaluators
-                ->get($id, ['contain' => ['Applications' => $this->_contain]]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain]]);
             $application = $evaluator->application;
             $assign_evaluators[] = $evaluator;
         }
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
+        ->where(['group_id IN' => [2, 3, 6],'deactivated'=>0]);
         $this->set(compact('assign_evaluators', 'application', 'all_evaluators'));
         $this->set('_serialize', ['assign_evaluators', 'application']);
 
@@ -1180,18 +1224,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_evaluator_'.$id.'.pdf' : 'application_evaluator_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_evaluator_' . $id . '.pdf' : 'application_evaluator_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function communication($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function communication($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $request_infos = $this->Applications->RequestInfos->findByApplicationId($id)->contain(['Users', 'Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $request_info = $this->Applications->RequestInfos
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);
             $application = $request_info->application;
             $request_infos[] = $request_info;
         }
@@ -1202,18 +1247,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_communication_'.$id.'.pdf' : 'application_communication_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_communication_' . $id . '.pdf' : 'application_communication_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function committee($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function committee($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $committee_reviews = $this->Applications->CommitteeReviews->findByApplicationId($id)->contain(['Users']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $committee = $this->Applications->CommitteeReviews
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);
             $application = $committee->application;
             $committee_reviews[] = $committee;
         }
@@ -1224,16 +1270,17 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_committee_'.$id.'.pdf' : 'application_committee_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_committee_' . $id . '.pdf' : 'application_committee_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function committeeFeedback($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function committeeFeedback($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $comments = $this->Applications->Comments->findByApplicationId($id)->contain(['Responses', 'Attachments', 'Responses.Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
-        } 
+        }
         $this->set(compact('comments', 'application'));
         $this->set('_serialize', ['comments', 'application']);
 
@@ -1241,18 +1288,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_committee_feedback_'.$id.'.pdf' : 'application_committee_feedback_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_committee_feedback_' . $id . '.pdf' : 'application_committee_feedback_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function dg($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function dg($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $dg_reviews = $this->Applications->DgReviews->findByApplicationId($id)->contain(['Users', 'Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $dg = $this->Applications->DgReviews
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);
             $application = $dg->application;
             $dg_reviews[] = $dg;
         }
@@ -1263,18 +1311,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_dg_'.$id.'.pdf' : 'application_dg_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_dg_' . $id . '.pdf' : 'application_dg_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function gcp($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function gcp($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $gcp_inspections = $this->Applications->GcpInspections->findByApplicationId($id)->contain(['Users']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $gcp_inspection = $this->Applications->GcpInspections
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);
             $application = $gcp_inspection->application;
             $gcp_inspections[] = $gcp_inspection;
         }
@@ -1285,18 +1334,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_gcp_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_gcp_' . $id . '.pdf' : 'application_gcp_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function appeal($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function appeal($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $appeals = $this->Applications->Appeals->findByApplicationId($id)->contain(['Users', 'Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $appeal = $this->Applications->Appeals
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);
             $application = $appeal->application;
             $appeals[] = $appeal;
         }
@@ -1307,18 +1357,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_appeal_'.$id.'.pdf' : 'application_appeal_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_appeal_' . $id . '.pdf' : 'application_appeal_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function finals($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function finals($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $final_stages = $this->Applications->FinalStages->findByApplicationId($id)->contain(['Users', 'Attachments']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $final_stage = $this->Applications->FinalStages
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users', 'Attachments']]);
             $application = $final_stage->application;
             $final_stages[] = $final_stage;
         }
@@ -1329,18 +1380,19 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_final_stage_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_final_stage_' . $id . '.pdf' : 'application_gcp_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function annualApprovals($id = null, $scope = null) {
-        if($scope === 'All') {
+    public function annualApprovals($id = null, $scope = null)
+    {
+        if ($scope === 'All') {
             $annual_approvals = $this->Applications->AnnualApprovals->findByApplicationId($id)->contain(['Users']);
             $application = $this->Applications->get($id, ['contain' =>  $this->_contain]);
         } else {
             $annual_approval = $this->Applications->AnnualApprovals
-                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);            
+                ->get($id, ['contain' => ['Applications' => $this->_contain, 'Users']]);
             $application = $annual_approval->application;
             $annual_approvals[] = $annual_approval;
         }
@@ -1351,21 +1403,22 @@ class ApplicationsController extends AppController
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_annual_approval_'.$id.'.pdf' : 'application_gcp_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_annual_approval_' . $id . '.pdf' : 'application_gcp_' . $id . '.pdf'
                 ]
             ]);
         }
     }
-    public function stages($id = null) {
+    public function stages($id = null)
+    {
         $application = $this->Applications->get($id, ['contain' => $this->_contain]);
-        $this->set(compact( 'application'));
+        $this->set(compact('application'));
         $this->set('_serialize', ['application']);
 
 
         if ($this->request->params['_ext'] === 'pdf') {
             $this->viewBuilder()->options([
                 'pdfConfig' => [
-                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no.'_stages_'.$id.'.pdf' : 'application_stages_'.$id.'.pdf'
+                    'filename' => (isset($application->protocol_no)) ? $application->protocol_no . '_stages_' . $id . '.pdf' : 'application_stages_' . $id . '.pdf'
                 ]
             ]);
             $this->render('/Base/Stages/pdf/application_view');

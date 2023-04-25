@@ -293,7 +293,7 @@ class ApplicationsBaseController extends AppController
         //$this->set(compact('applications'));
         //$this->set('_serialize', ['applications']);
 
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('all_evaluators'));
         $this->set('applications', $this->paginate($query));
         $this->render('/Base/Applications/index');
@@ -679,19 +679,22 @@ class ApplicationsBaseController extends AppController
         array_push($this->filt, 1);
 
         $provinces = $this->Applications->SiteDetails->Provinces->find('list', ['limit' => 200]);
+
         $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
-            ->where(['OR' => [['group_id IN' => [2, 3, 6]], ['id IN' => $this->filt]]]);
+            ->where(['OR' => [['group_id IN' => [2, 3, 6],'deactivated'=>0], ['id IN' => $this->filt, 'deactivated'=>0]]]);
         $internal_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where([
             'group_id' => 3,
-            'id NOT IN' => $this->filt
+            'id NOT IN' => $this->filt,
+            'deactivated'=>0
         ]);
         $external_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where([
             'group_id' => 6,
-            'id NOT IN' => $this->filt
+            'id NOT IN' => $this->filt,
+            'deactivated'=>0
         ]);
 
         $feedback_evaluators = $this->Applications->Users->find('list', ['limit' => 200])
-            ->where(['OR' => [['group_id IN' => [2, 3]], ['id IN' => $this->filt]]]);
+            ->where(['OR' => [['group_id IN' => [2, 3],  'deactivated'=>0], ['id IN' => $this->filt,'deactivated'=>0]]]);
         $this->loadModel('CommitteeDates');
         $committee_dates = $this->CommitteeDates->find('list', ['keyField' => 'meeting_number', 'valueField' => 'meeting_number']);
 
@@ -900,7 +903,8 @@ class ApplicationsBaseController extends AppController
                             ->eq('group_id', 2);
                         return $exp
                             ->add($orConditions)
-                            ->add(['group_id !=' => 6]);
+                            ->add(['group_id !=' => 6])
+                            ->add(['deactivated' => 0]); 
                     });
                     $this->loadModel('Queue.QueuedJobs');
                     foreach ($managers as $manager) {
@@ -985,7 +989,8 @@ class ApplicationsBaseController extends AppController
                             ->eq('group_id', 2);
                         return $exp
                             ->add($orConditions)
-                            ->add(['group_id !=' => 6]);
+                            ->add(['group_id !=' => 6])
+                            ->add(['deactivated' => 0]); 
                     });
                     $this->loadModel('Queue.QueuedJobs');
                     foreach ($managers as $manager) {
@@ -1052,7 +1057,8 @@ class ApplicationsBaseController extends AppController
                             ->eq('group_id', 2);
                         return $exp
                             ->add($orConditions)
-                            ->add(['group_id !=' => 6]);
+                            ->add(['group_id !=' => 6])
+                            ->add(['deactivated' => 0]); 
                     });
                     $this->loadModel('Queue.QueuedJobs');
                     foreach ($managers as $manager) {
@@ -1167,7 +1173,8 @@ class ApplicationsBaseController extends AppController
                             ->eq('group_id', 2);
                         return $exp
                             ->add($orConditions)
-                            ->add(['group_id !=' => 6]);
+                            ->add(['group_id !=' => 6])
+                            ->add(['deactivated' => 0]); 
                     });
                     $this->loadModel('Queue.QueuedJobs');
                     foreach ($managers as $manager) {
@@ -1261,7 +1268,8 @@ class ApplicationsBaseController extends AppController
                             ->eq('group_id', 2);
                         return $exp
                             ->add($orConditions)
-                            ->add(['group_id !=' => 6]);
+                            ->add(['group_id !=' => 6])
+                            ->add(['deactivated' => 0]); 
                     });
                     $this->loadModel('Queue.QueuedJobs');
                     foreach ($managers as $manager) {
@@ -1482,7 +1490,8 @@ class ApplicationsBaseController extends AppController
                         ->eq('group_id', 2);
                     return $exp
                         ->add($orConditions)
-                        ->add(['group_id !=' => 6]);
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
                 });
 
                 $this->loadModel('Queue.QueuedJobs');
@@ -1595,7 +1604,8 @@ class ApplicationsBaseController extends AppController
                         ->eq('group_id', 2);
                     return $exp
                         ->add($orConditions)
-                        ->add(['group_id !=' => 6]);
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
                 });
 
                 $this->loadModel('Queue.QueuedJobs');
@@ -1686,7 +1696,8 @@ class ApplicationsBaseController extends AppController
                         ->eq('group_id', 2);
                     return $exp
                         ->add($orConditions)
-                        ->add(['group_id !=' => 6]);
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
                 });
 
                 $this->loadModel('Queue.QueuedJobs');
@@ -1782,7 +1793,8 @@ class ApplicationsBaseController extends AppController
                         ->eq('group_id', 2);
                     return $exp
                         ->add($orConditions)
-                        ->add(['group_id !=' => 6]);
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
                 });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
@@ -1872,7 +1884,8 @@ class ApplicationsBaseController extends AppController
                         ->eq('group_id', 2);
                     return $exp
                         ->add($orConditions)
-                        ->add(['group_id !=' => 6]);
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
                 });
                 $this->loadModel('Queue.QueuedJobs');
                 foreach ($managers as $manager) {
@@ -1962,7 +1975,8 @@ class ApplicationsBaseController extends AppController
                         ->eq('group_id', 2);
                     return $exp
                         ->add($orConditions)
-                        ->add(['group_id !=' => 6]);
+                        ->add(['group_id !=' => 6])
+                        ->add(['deactivated' => 0]); 
                 });
 
                 $this->loadModel('Queue.QueuedJobs');
@@ -2116,7 +2130,7 @@ class ApplicationsBaseController extends AppController
             $application = $evaluator->application;
             $assign_evaluators[] = $evaluator;
         }
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('assign_evaluators', 'application', 'all_evaluators'));
         $this->set('_serialize', ['assign_evaluators', 'application']);
 
@@ -2144,7 +2158,7 @@ class ApplicationsBaseController extends AppController
             $application = $review->application;
             $evaluations[] = $review;
         }
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('evaluations', 'application', 'all_evaluators'));
         $this->set('_serialize', ['evaluations', 'application']);
 
@@ -2175,7 +2189,7 @@ class ApplicationsBaseController extends AppController
             $statisticals[] = $statistic;
         }
 
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('statisticals', 'application', 'all_evaluators'));
         $this->set('_serialize', ['statisticals', 'application']);
 
@@ -2213,7 +2227,7 @@ class ApplicationsBaseController extends AppController
             $quality[] = $data;
         }
 
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('quality', 'application', 'all_evaluators'));
         $this->set('_serialize', ['quality', 'application']);
 
@@ -2241,7 +2255,7 @@ class ApplicationsBaseController extends AppController
             $clinicals[] = $clinical;
         }
 
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('clinicals', 'application', 'all_evaluators'));
         $this->set('_serialize', ['clinicals', 'application']);
 
@@ -2268,7 +2282,7 @@ class ApplicationsBaseController extends AppController
             $non_clinicals[] = $non_clinical;
         }
 
-        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6]]);
+        $all_evaluators = $this->Applications->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 3, 6],'deactivated' => 0]);
         $this->set(compact('non_clinicals', 'application', 'all_evaluators'));
         $this->set('_serialize', ['non_clinicals', 'application']);
 
@@ -2520,7 +2534,8 @@ class ApplicationsBaseController extends AppController
                 ->eq('group_id', 2);
             return $exp
                 ->add($orConditions)
-                ->add(['group_id !=' => 6]);
+                ->add(['group_id !=' => 6])
+                ->add(['deactivated' => 0]); 
         });
         $this->loadModel('Queue.QueuedJobs');
         foreach ($managers as $manager) {
@@ -2585,7 +2600,8 @@ class ApplicationsBaseController extends AppController
                     ->eq('group_id', 2);
                 return $exp
                     ->add($orConditions)
-                    ->add(['group_id !=' => 6]);
+                    ->add(['group_id !=' => 6])
+                    ->add(['deactivated' => 0]); 
             });
             $this->loadModel('Queue.QueuedJobs');
             foreach ($managers as $manager) {
@@ -2629,7 +2645,8 @@ class ApplicationsBaseController extends AppController
                 ->eq('group_id', 2);
             return $exp
                 ->add($orConditions)
-                ->add(['group_id !=' => 6]);
+                ->add(['group_id !=' => 6])
+                ->add(['deactivated' => 0]); 
         });
         $this->loadModel('Queue.QueuedJobs');
         foreach ($managers as $manager) {

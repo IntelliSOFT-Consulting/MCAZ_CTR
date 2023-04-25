@@ -50,7 +50,8 @@ class CommentsBaseController extends AppController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
 
                     foreach ($managers as $manager) {
@@ -124,7 +125,8 @@ class CommentsBaseController extends AppController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
                 
                 $this->loadModel('Queue.QueuedJobs'); 
@@ -193,7 +195,8 @@ class CommentsBaseController extends AppController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
                 
                 $this->loadModel('Queue.QueuedJobs'); 
@@ -254,7 +257,8 @@ class CommentsBaseController extends AppController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
 
             //Applicant submits all queries to manager for approval
@@ -481,7 +485,8 @@ class CommentsBaseController extends AppController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
 
                 //Manager approves query
@@ -693,7 +698,8 @@ class CommentsBaseController extends AppController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
                 foreach ($managers as $manager) {
                     //Notify managers  

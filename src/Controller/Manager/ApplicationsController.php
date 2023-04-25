@@ -32,7 +32,7 @@ class ApplicationsController extends ApplicationsBaseController
 
         if ($this->Applications->save($application)) {
 
-            $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2]);
+            $managers = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 2,'deactivated' => 0]);
             $this->loadModel('Queue.QueuedJobs');
             foreach ($managers as $manager) {
                 //Notify managers   

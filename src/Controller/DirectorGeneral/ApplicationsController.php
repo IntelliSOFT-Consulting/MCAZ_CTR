@@ -68,12 +68,13 @@ class ApplicationsController extends ApplicationsBaseController
                                     ->eq('group_id', 2);
                                 return $exp
                                     ->add($orConditions)
-                                    ->add(['group_id !=' => 6]);
+                                    ->add(['group_id !=' => 6])
+                                    ->add(['deactivated' => 0]); 
                             });
                 
                 $this->loadModel('Queue.QueuedJobs');  
                 //Notify director general(s)
-                $secgs = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 7]);
+                $secgs = $this->Applications->Users->find('all', ['limit' => 200])->where(['group_id' => 7,'deactivated' => 0]);
                 foreach ($secgs as $secg) {
                     $data = [
                             'email_address' => $secg->email, 'user_id' => $secg->id,

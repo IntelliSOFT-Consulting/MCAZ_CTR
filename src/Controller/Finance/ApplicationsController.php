@@ -50,18 +50,10 @@ class ApplicationsController extends ApplicationsBaseController
           $stage1->alt_date = $application->finance_approvals[0]->outcome_date;
           $application->application_stages = [$stage1];
           $application->status = 'Finance';
-          $application->action_date= date("Y-m-d H:i:s");
-          //Generate Refined Protocol Number
-          $refid = $this->Applications->Refids->newEntity(
-            [
-              'foreign_key' => $application->id,
-              'model' => 'Applications',
-              'year' => date('Y')
-            ]
-          );
-          $this->Applications->Refids->save($refid);
-          $refid = $this->Applications->Refids->get($refid->id);
-          $application->protocol_no = 'CT' . $refid->refid . '/' . $refid->year;
+          $application->action_date= date("Y-m-d H:i:s"); 
+          $protocol_no=$application->protocol_no; 
+          $protocol_no = str_replace('FN', 'CT', $protocol_no);
+          $application->protocol_no = $protocol_no; //. $refid->refid . '/' . $refid->year;
           $this->Applications->save($application);
         }
       }
@@ -72,7 +64,7 @@ class ApplicationsController extends ApplicationsBaseController
         //Send email and message (if present!!!) 
         $this->loadModel('Queue.QueuedJobs');
         //notify managers and finance
-        $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5]]);
+        $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5],'deactivated' => 0]);
         foreach ($managers as $manager) {
           $data = [
             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
@@ -134,7 +126,7 @@ class ApplicationsController extends ApplicationsBaseController
         //Send email and message (if present!!!) 
         $this->loadModel('Queue.QueuedJobs');
         //notify managers and finance
-        $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5]]);
+        $managers = $this->Applications->Users->find('all')->where(['Users.group_id IN' => [2, 5],'deactivated' => 0]);
         foreach ($managers as $manager) {
           $data = [
             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Applications', 'foreign_key' => $application->id,
