@@ -6,7 +6,7 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <h4 class="text-center"><label class="text-info"><u>PVCT Committee Feedback</u></label></h4>
+      <h4 class="text-center"><label class="text-info"><u>Responses</u></label></h4>
       <hr>
     <?php
       if(!empty($application->committee_reviews)) {

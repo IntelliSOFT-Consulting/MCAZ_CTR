@@ -142,7 +142,7 @@ if (count($arr1) > 1) {
                                 echo $this->Form->control(
                                     'status',
                                     [
-                                        'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true, 'class' => 'status',
+                                        'type' => 'select', 'label' => 'Evaluation Status', 'templates' => 'clear_form','placeholder'=>'Evaluation Status', 'empty' => true, 'class' => 'status',
                                         'options' => [
                                             'Submitted' => 'Submitted',
                                             'Finance' => 'Finance',
@@ -171,7 +171,7 @@ if (count($arr1) > 1) {
                                 echo $this->Form->control(
                                     'approved',
                                     [
-                                        'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                        'type' => 'select', 'label' => 'Approval Status','placeholder'=>'Approval Status', 'templates' => 'clear_form', 'empty' => true,
                                         'options' => [
                                             'DirectorAuthorize' => 'DirectorAuthorize',
                                             'Authorize' => 'Authorize'
