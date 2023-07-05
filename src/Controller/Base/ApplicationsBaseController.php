@@ -8,6 +8,7 @@ use Cake\View\Helper\HtmlHelper;
 use Cake\Utility\Hash;
 use Cake\ORM\TableRegistry;
 use DateTime;
+use Exception;
 
 /**
  * Applications Controller
@@ -202,13 +203,25 @@ class ApplicationsBaseController extends AppController
                     return implode('|', Hash::extract($row['site_details'], '{n}.contact_person'));
                 },
                 function ($row) use ($_provinces) {
-                    return implode('|', Hash::map(
-                        $row['site_details'],
-                        '{n}.province_id',
-                        function ($val) use ($_provinces) {
-                            return $_provinces[$val];
-                        }
-                    ));
+                    // return implode('|', Hash::map(
+                    //     $row['site_details'],
+                    //     '{n}.province_id',
+                    //     function ($val) use ($_provinces) {
+                    //         return $_provinces[$val];
+                    //     }
+                    // ));
+                    try {
+                        return implode('|', Hash::map(
+                            $row['site_details'],
+                            '{n}.province_id',
+                            function ($val) use ($_provinces) {
+                                return $_provinces[$val];
+                            }
+                        ));
+                    } catch (Exception $e) {
+                        // Handle the error by returning an empty string
+                        return '';
+                    }
                 },
                 'multiple_countries', 'multiple_member_states', 'multi_country_list', 'drug_name', 'quantity_excemption',
                 function ($row) {
