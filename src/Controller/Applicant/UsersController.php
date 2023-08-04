@@ -25,7 +25,15 @@ class UsersController extends AppController
        parent::initialize();
        $this->loadComponent('Paginator');
     }
-
+    public function generate_audit_trail($id, $message)
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Application', $message, $ipAddress);
+    }
 
     public function dashboard() {
         $this->paginate = ['limit' => 5];
@@ -51,6 +59,8 @@ class UsersController extends AppController
 
             $application->user_id = $this->Auth->User('id');
             if ($this->Users->Applications->save($application)) {
+                $message="The application has been created";
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success(__('The application has been created'));
                 $this->redirect(array('controller' => 'applications', 'action' => 'edit', $application->id));
             } else {

@@ -60,6 +60,11 @@
             echo $this->Html->link('<i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp; System Logs', ['controller' => 'Logs', 'action' => 'index', 'prefix' => $prefix, 'plugin' => 'DatabaseLog'], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
+        <li class="list-group-item">
+          <?php
+             echo $this->Html->link('<i class="fa fa-history" aria-hidden="true"></i> &nbsp; Audit Trail', ['controller' => 'AuditTrails', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
       </ul>  
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">

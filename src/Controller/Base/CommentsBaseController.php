@@ -15,6 +15,16 @@ use Cake\I18n\Number;
 class CommentsBaseController extends AppController
 {
 
+    public function generate_audit_trail($id, $message)
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Comment', $message, $ipAddress);
+    }
+    
     public function addFromCommittee($id = null)
     {
         $comment = !empty($this->request->getData('id')) ? $this->Comments->get($this->request->getData('id'), []) : $this->Comments->newEntity();
@@ -71,15 +81,17 @@ class CommentsBaseController extends AppController
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
                 }
-
+                $message="Response successfully saved";
                 if($this->request->getData('submitted') == '1') {
+                    $message="Committee feedback successfully saved";
                      $this->Flash->info(__('The committee feedback has been successfully saved. Please submit to manager for review.'));
                 } elseif ($this->request->getData('submitted') == '2') {
+                    $message="Committee feedback successfully submitted to the managers for review";
                     $this->Flash->success(__('The committee feedback has been submitted to the managers for review.'));
                 } else {
                     $this->Flash->success(__('The comment has been successfully saved.'));
-                } 
-
+                }  
+                $this->generate_audit_trail($comment->id, $message); 
                 return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
@@ -147,7 +159,8 @@ class CommentsBaseController extends AppController
                     $data['type'] = 'manager_evaluation_query_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-
+                $message="Internal review comment has been successfully raised";
+                $this->generate_audit_trail($comment->id, $message); 
                 $this->Flash->success(__('The internal review comment has been successfully raised.'));
 
                 return $this->redirect($this->referer());
@@ -233,7 +246,8 @@ class CommentsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_notification_query_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="Notification query/comment successfully submitted";
+                $this->generate_audit_trail($comment->id, $message); 
                 $this->Flash->success(__('The notification query/comment has been successfully submitted.'));
 
                 return $this->redirect($this->referer());
@@ -283,7 +297,8 @@ class CommentsBaseController extends AppController
                         $data['type'] = 'manager_new_query_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
-                    
+                    $message="Committee feedback has been submitted to the managers for review";
+                    $this->generate_audit_trail($application->id, $message); 
                     $this->Flash->success(__('The committee feedback has been submitted to the managers for review.'));
 
                     return $this->redirect($this->referer());
@@ -530,7 +545,8 @@ class CommentsBaseController extends AppController
                         $this->QueuedJobs->createJob('GenericEmail', $data);
                         $data['type'] = 'applicant_pvct_query_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                        $message="Feedback approved and shared with the applicant";
+                        $this->generate_audit_trail($application->id, $message); 
                         $this->Flash->success(__('The feedback has been approved and shared with the applicant.'));  
 
                         return $this->redirect($this->referer());
@@ -717,6 +733,8 @@ class CommentsBaseController extends AppController
                     $data['type'] = 'manager_delete_query_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
+                $message="Comment/query successfully deleted.";
+                $this->generate_audit_trail($application->id, $message); 
                 $this->Flash->success(__('The comment/query has been successfully deleted.'));
             } else {
                 $this->Flash->success(__('The comment has been deleted.'));

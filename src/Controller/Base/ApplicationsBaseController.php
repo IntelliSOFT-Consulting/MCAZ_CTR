@@ -27,6 +27,15 @@ class ApplicationsBaseController extends AppController
         $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
 
+    public function generate_audit_trail($id, $message)
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Application', $message, $ipAddress);
+    }
     /**
      * Index method
      *
@@ -935,7 +944,8 @@ class ApplicationsBaseController extends AppController
                         $data['type'] = 'manager_create_review_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
-
+                    $message = "Successful submitted nonclinical review of Application " . $application->protocol_no;
+                    $this->generate_audit_trail($application->id, $message);
                     $this->Flash->success('Successful submitted nonclinical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
@@ -1021,7 +1031,8 @@ class ApplicationsBaseController extends AppController
                         $data['type'] = 'manager_create_review_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
-
+                    $message = "Successful submitted quality review of Application " . $application->protocol_no;
+                    $this->generate_audit_trail($application->id, $message);
                     $this->Flash->success('Successful submitted quality review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
@@ -1089,7 +1100,8 @@ class ApplicationsBaseController extends AppController
                         $data['type'] = 'manager_create_review_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
-
+                    $message = "Successful submitted statistical review of Application " . $application->protocol_no;
+                    $this->generate_audit_trail($application->id, $message);
                     $this->Flash->success('Successful submitted statistical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
@@ -1149,6 +1161,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
             && $this->Applications->NonClinicals->delete($clinical)
         ) {
+            $message = "Non clinical assessment removed ";
+            $this->generate_audit_trail($clinical->application_id, $message);
             $this->Flash->success(__('The clinical assessment has been removed.'));
         } else {
             $this->Flash->error(__('The assessment could not be removed. Please, try again.'));
@@ -1205,8 +1219,9 @@ class ApplicationsBaseController extends AppController
                         $data['type'] = 'manager_create_review_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
-
-                    $this->Flash->success('Successful submitted clinical review of Application ' . $application->protocol_no . '.');
+                    $message = "Successfully submitted clinical review of Application " . $application->protocol_no;
+                    $this->generate_audit_trail($application->id, $message);
+                    $this->Flash->success('Successfully submitted clinical review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for clinical review of Application ' . $application->protocol_no . '.');
@@ -1235,6 +1250,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $clinical->user_id)
             && $this->Applications->Clinicals->delete($clinical)
         ) {
+            $message = "clincal assessment has been removed";
+            $this->generate_audit_trail($clinical->application_id, $message);
             $this->Flash->success(__('The clincal assessment has been removed.'));
         } else {
             $this->Flash->error(__('The assessment could not be removed. Please, try again.'));
@@ -1300,8 +1317,9 @@ class ApplicationsBaseController extends AppController
                         $data['type'] = 'manager_create_review_notification';
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                     }
-
-                    $this->Flash->success('Successful submitted review of Application ' . $application->protocol_no . '.');
+                    $message = "Successfully submitted review of Application " . $application->protocol_no;
+                    $this->generate_audit_trail($application->id, $message);
+                    $this->Flash->success('Successfully submitted review of Application ' . $application->protocol_no . '.');
                     return $this->redirect(['action' => 'view', $application->id]);
                 } else {
                     $this->Flash->success('Saved changes for review of Application ' . $application->protocol_no . '.');
@@ -1329,6 +1347,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
             && $this->Applications->Evaluations->delete($review)
         ) {
+            $message = "The review has been removed";
+            $this->generate_audit_trail($review->application_id, $message);
             $this->Flash->success(__('The review has been removed.'));
         } else {
             $this->Flash->error(__('The review could not be removed. Please, try again.'));
@@ -1344,6 +1364,8 @@ class ApplicationsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $quality = $this->Applications->QualityAssessments->patchEntity($quality, ['chosen' => $this->Auth->user('id')]);
             if ($this->Applications->QualityAssessments->save($quality)) {
+                $message = "Signature successfully attached to the review";
+                $this->generate_audit_trail($quality->application_id, $message);
                 $this->Flash->success('Signature successfully attached to the review');
                 return $this->redirect($this->referer());
             } else {
@@ -1361,6 +1383,8 @@ class ApplicationsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $clinical = $this->Applications->Clinicals->patchEntity($clinical, ['chosen' => $this->Auth->user('id')]);
             if ($this->Applications->Clinicals->save($clinical)) {
+                $message = "Signature successfully attached to the review";
+                $this->generate_audit_trail($clinical->application_id, $message);
                 $this->Flash->success('Signature successfully attached to the review');
                 return $this->redirect($this->referer());
             } else {
@@ -1375,6 +1399,8 @@ class ApplicationsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $nonclinical = $this->Applications->NonClinicals->patchEntity($nonclinical, ['chosen' => $this->Auth->user('id')]);
             if ($this->Applications->NonClinicals->save($nonclinical)) {
+                $message = "Signature successfully attached to the review";
+                $this->generate_audit_trail($nonclinical->application_id, $message);
                 $this->Flash->success('Signature successfully attached to the review');
                 return $this->redirect($this->referer());
             } else {
@@ -1389,6 +1415,8 @@ class ApplicationsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $statistical = $this->Applications->Statisticals->patchEntity($statistical, ['chosen' => $this->Auth->user('id')]);
             if ($this->Applications->Statisticals->save($statistical)) {
+                $message = "Signature successfully attached to the review";
+                $this->generate_audit_trail($statistical->application_id, $message);
                 $this->Flash->success('Signature successfully attached to the review');
                 return $this->redirect($this->referer());
             } else {
@@ -1404,6 +1432,8 @@ class ApplicationsBaseController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $evaluation = $this->Applications->Evaluations->patchEntity($evaluation, ['chosen' => $this->Auth->user('id')]);
             if ($this->Applications->Evaluations->save($evaluation)) {
+                $message = "Signature successfully attached to the review";
+                $this->generate_audit_trail($evaluation->application_id, $message);
                 $this->Flash->success('Signature successfully attached to evaluation');
                 return $this->redirect($this->referer());
             } else {
@@ -1562,7 +1592,8 @@ class ApplicationsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_committee_review_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message = "Successful committee review of Application " . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Successful committee review of Application ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -1581,6 +1612,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
             && $this->Applications->CommitteeReviews->delete($review)
         ) {
+            $message = "committee review has been removed";
+            $this->generate_audit_trail($review->application_id, $message);
             $this->Flash->success(__('The committee review has been removed.'));
         } else {
             $this->Flash->error(__('The committee review could not be removed. Please, try again.'));
@@ -1652,7 +1685,8 @@ class ApplicationsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'manager_applicant_section75_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message = "Successful section 75 review of Application " . $application->protocol_no . " done";
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Successful section 75 review of Application ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -1671,6 +1705,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
             && $this->Applications->SeventyFives->delete($review)
         ) {
+            $message = "Section 75 review been removed";
+            $this->generate_audit_trail($review->application_id, $message);
             $this->Flash->success(__('The section 75 review has been removed.'));
         } else {
             $this->Flash->error(__('The section 75 review could not be removed. Please, try again.'));
@@ -1748,7 +1784,8 @@ class ApplicationsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_get_request_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message = "Request sent to " . $application->email_address . " for " . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Request sent to ' . $application->email_address . ' for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -1767,6 +1804,7 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
             && $this->Applications->RequestInfos->delete($review)
         ) {
+
             $this->Flash->success(__('The request has been removed.'));
         } else {
             $this->Flash->error(__('The request could not be removed. Please, try again.'));
@@ -1839,7 +1877,8 @@ class ApplicationsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'manager_applicant_gcp_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message = "Successful GCP Inspection review of Application " . $application->protocol_no . " added ";
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Successful GCP Inspection review of Application ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -1860,6 +1899,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
             && $this->Applications->GcpInspections->delete($review)
         ) {
+            $message = "The GCP inspection review has been removed ";
+            $this->generate_audit_trail($review->application_id, $message);
             $this->Flash->success(__('The GCP inspection review has been removed.'));
         } else {
             $this->Flash->error(__('The GCP inspection review could not be removed. Please, try again.'));
@@ -1929,7 +1970,8 @@ class ApplicationsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_appeal_respond_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message = "Response to appeal for " . $application->protocol_no . " sent to applicant";
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Response to appeal for ' . $application->protocol_no . ' sent to applicant');
 
                 return $this->redirect($this->referer());
@@ -2043,7 +2085,8 @@ class ApplicationsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_final_stage_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message = "Successful final stage review of Application " . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Successful final stage review of Application ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -2067,6 +2110,8 @@ class ApplicationsBaseController extends AppController
         if (($this->Auth->user('group_id') == 2 or $this->Auth->user('id') == $review->user_id)
             && $this->Applications->FinalStages->delete($review)
         ) {
+            $message = "The final stage review has been removed ";
+            $this->generate_audit_trail($review->application_id, $message);
             $this->Flash->success(__('The final stage review has been removed.'));
         } else {
             $this->Flash->error(__('The final stage review could not be removed. Please, try again.'));
@@ -2565,18 +2610,20 @@ class ApplicationsBaseController extends AppController
             $data['type'] = 'suspend_notification';
             $this->QueuedJobs->createJob('GenericNotification', $data);
         }
+        $message = "Suspended " . $application->protocol_no;
+        $this->generate_audit_trail($application->id, $message);
         $this->Flash->success('Suspended ' . $application->protocol_no . '. ');
         return $this->redirect($this->referer());
     }
     public function validReference($input)
     {
         # code...
-        $pattern = '/^[a-z\s]+$/i'; 
-        $bol=false;
+        $pattern = '/^[a-z\s]+$/i';
+        $bol = false;
         if (preg_match($pattern, $input)) {
-            $bol=true;
+            $bol = true;
         } else {
-            $bol=false;
+            $bol = false;
         }
         return $bol;
     }
@@ -2691,6 +2738,8 @@ class ApplicationsBaseController extends AppController
             $data['type'] = 'reinstate_notification';
             $this->QueuedJobs->createJob('GenericNotification', $data);
         }
+        $message = "Reinstated " . $application->protocol_no;
+        $this->generate_audit_trail($application->id, $message);
         $this->Flash->success('Reinstated ' . $application->protocol_no . '. ');
         return $this->redirect($this->referer());
     }

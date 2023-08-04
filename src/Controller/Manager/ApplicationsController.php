@@ -87,6 +87,8 @@ class ApplicationsController extends ApplicationsBaseController
             $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
             return $this->redirect($this->referer());
         }
+        $message="Manager ".$evaluator->name." self assigned the application ". $application->protocol_no;
+        $this->generate_audit_trail($application->id, $message);
         $this->processAssignment($application, $evaluator, $message);
     }
 
@@ -97,6 +99,8 @@ class ApplicationsController extends ApplicationsBaseController
         $evaluator = $this->Applications->Users->get($this->request->getData('assign_evaluators.100.assigned_to'));
         if (isset($application->id) && $this->request->is(['patch', 'post', 'put'])) {
             $message = $this->request->getData('user_message');
+            $message="Evaluator ".$evaluator->name." has been assigned ". $application->protocol_no;
+            $this->generate_audit_trail($application->id, $message);
             $this->processAssignment($application, $evaluator, $message);
         } else {
             $this->Flash->error(__('Unknown application. Kindly contact MCAZ.'));
@@ -109,6 +113,8 @@ class ApplicationsController extends ApplicationsBaseController
         $this->request->allowMethod(['post', 'delete']);
         $evaluator = $this->Applications->AssignEvaluators->get($id);
         if ($this->Auth->user('group_id') == 2 && $this->Applications->AssignEvaluators->delete($evaluator)) {
+            $message="Evaluator ".$evaluator->name." has been removed";
+            $this->generate_audit_trail($id, $message);
             $this->Flash->success(__('The evaluator has been removed.'));
         } else {
             $this->Flash->error(__('The evaluator could not be removed. Please, try again.'));
@@ -129,6 +135,8 @@ class ApplicationsController extends ApplicationsBaseController
         $this->request->allowMethod(['post', 'delete']);
         $application = $this->Applications->get($id);
         if ($this->Applications->delete($application)) {
+            $message="The application has been deleted";
+            $this->generate_audit_trail($id, $message);
             $this->Flash->success(__('The application has been deleted.'));
         } else {
             $this->Flash->error(__('The application could not be deleted. Please, try again.'));

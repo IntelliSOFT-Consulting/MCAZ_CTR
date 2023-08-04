@@ -58,8 +58,7 @@ class ApplicationsController extends ApplicationsBaseController
         }
       }
       //Notification should be sent to manager and assigned_to evaluator if exists
-      // debug($application);
-      // return;
+      
       if ($this->Applications->save($application)) {
         //Send email and message (if present!!!) 
         $this->loadModel('Queue.QueuedJobs');
@@ -96,7 +95,8 @@ class ApplicationsController extends ApplicationsBaseController
           $this->QueuedJobs->createJob('GenericNotification', $data);
         }
         //end 
-
+        $message="Finance Review successfully done for Application " . $application->protocol_no;
+        $this->generate_audit_trail($application->id, $message);
         $this->Flash->success('Finance Review successfully done for Application ' . $application->protocol_no);
 
         return $this->redirect($this->referer());
@@ -158,7 +158,8 @@ class ApplicationsController extends ApplicationsBaseController
           $this->QueuedJobs->createJob('GenericNotification', $data);
         }
         //end 
-
+        $message="Finance Review successfully done for Annual approval for " . $application->protocol_no;
+        $this->generate_audit_trail($application->id, $message);
         $this->Flash->success('Finance Review successfully done for Annual approval for ' . $application->protocol_no);
 
         return $this->redirect($this->referer());

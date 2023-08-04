@@ -25,6 +25,17 @@ class ApplicationsController extends AppController
         $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
 
+
+    public function generate_audit_trail($id, $message)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Application', $message, $ipAddress);
+    }
     /**
      * Index method
      *
@@ -109,7 +120,8 @@ class ApplicationsController extends AppController
             $application = $this->Applications->patchEntity($application, $this->request->getData());
             if ($this->Applications->save($application)) {
                 $this->Flash->success(__('The application has been saved.'));
-
+                $message="A new application has been created";
+                $this->generate_audit_trail($application->id, $message);
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The application could not be saved. Please, try again.'));
@@ -206,6 +218,8 @@ class ApplicationsController extends AppController
                 if ($this->Applications->save($application)) {
                     $application->protocol_no = $this->generate_fn_reference($id);
                     $this->Applications->save($application);
+                    $message="Report " . $application->protocol_no . " has been successfully submitted to MCAZ for review";
+                    $this->generate_audit_trail($application->id, $message);
                     $this->Flash->success(__('Report ' . $application->protocol_no . ' has been successfully submitted to MCAZ for review.'));
                     //send email and notification
                     $this->loadModel('Queue.QueuedJobs');
@@ -594,7 +608,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_send_request_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="Request sent to MCAZ for " . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Request sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -668,7 +683,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_raise_appeal_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="Appeal for " . $application->protocol_no . "sent to MCAZ for review ";
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Appeal for ' . $application->protocol_no . ' sent to MCAZ for review');
 
                 return $this->redirect($this->referer());
@@ -728,7 +744,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_section75_request_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="Section 75 request sent to MCAZ for" . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Section 75 request sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -786,7 +803,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_send_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="Notification sent to MCAZ for" . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Notification sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -846,7 +864,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_gcp_inspection_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="GCP Inspection feedback sent to MCAZ for" . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('GCP Inspection feedback sent to MCAZ for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -906,6 +925,9 @@ class ApplicationsController extends AppController
                     $data['type'] = 'indemnity_forms_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
+
+                $message="Successfully uploaded indemnity forms " . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
 
                 $this->Flash->success('Successfully uploaded indemnity forms for ' . $application->protocol_no . '.');
 
@@ -1016,7 +1038,8 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_final_stage_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
+                $message="Successfully submitted final report for" . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success('Successful submit final report for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
@@ -1119,8 +1142,9 @@ class ApplicationsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_annual_approval_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-
-                $this->Flash->success('Successful submit annual approval for ' . $application->protocol_no . '.');
+                $message="Successfully submitted annual approval for " . $application->protocol_no;
+                $this->generate_audit_trail($application->id, $message);
+                $this->Flash->success('Successfully submitted annual approval for ' . $application->protocol_no . '.');
 
                 return $this->redirect($this->referer());
             }
@@ -1149,6 +1173,8 @@ class ApplicationsController extends AppController
         $application = $this->Applications->get($id);
         if ($application->submitted != 2) {
             if ($this->Applications->delete($application)) {
+                $message="The application has been deleted";
+                $this->generate_audit_trail($application->id, $message);
                 $this->Flash->success(__('The application has been deleted.'));
             } else {
                 $this->Flash->error(__('The application could not be deleted. Please, try again.'));

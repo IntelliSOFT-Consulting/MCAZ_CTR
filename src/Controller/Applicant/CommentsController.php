@@ -15,6 +15,19 @@ use Cake\I18n\Number;
 class CommentsController extends AppController
 {
 
+
+    public function generate_audit_trail($id, $message)
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Comment', $message, $ipAddress);
+    }
+
+
+
     public function addFromApplicant()
     {
         $comment = $this->Comments->newEntity();
@@ -22,7 +35,9 @@ class CommentsController extends AppController
             $this->loadModel('Applications');
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
             
-            if ($this->Comments->save($comment)) {                
+            if ($this->Comments->save($comment)) {   
+                $message="Response successfully saved";
+                $this->generate_audit_trail($comment->id, $message);             
                 $this->Flash->info(__('The response has been successfully saved. Remember to respond to all queries then submit to MCAZ for review.'));                
                 return $this->redirect($this->referer());
             }
@@ -107,6 +122,8 @@ class CommentsController extends AppController
                     $data['type'] = 'applicant_response_query_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
+                $message="Response submitted to MCAZ for review";
+                $this->generate_audit_trail($comment->id, $message);  
                 
                 $this->Flash->success(__('The response has been submitted to MCAZ for review.'));
                 return $this->redirect(['controller' => 'Applications', 'action' => 'view', $application->id, 'prefix' => 'applicant']);
@@ -176,6 +193,8 @@ class CommentsController extends AppController
                 $data['type'] = 'applicant_response_query_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
+                $message="The comment has been created";
+                $this->generate_audit_trail($application->id, $message);  
                 $this->Flash->success(__('The comment has been saved.'));
 
                 return $this->redirect($this->referer());
