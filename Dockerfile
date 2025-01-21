@@ -1,34 +1,47 @@
-FROM php:7.0-apache
+# Use the official PHP image with Apache
+FROM php:7.1-apache
 
-# Specify the Container Timezone to use
-ENV TZ=Africa/Nairobi  
-
-RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg-dev \ 
-    libpng-dev \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
-
-    
-RUN a2enmod rewrite
-RUN docker-php-ext-install mbstring
-RUN docker-php-ext-install mysqli
-RUN apt-get update && apt-get install -y libicu-dev wget \
-    libzip-dev \
-    cron \
-    libmcrypt-dev \   
-    libxrender1 libfontconfig1 libx11-dev libjpeg-dev gdebi \
-    && docker-php-ext-install zip \ 
-    && docker-php-ext-install intl \
-    && docker-php-ext-install mcrypt mysqli \
-    && docker-php-ext-install pdo_mysql
-
-
-RUN mkdir -p /var/www/html 
-COPY . /var/www/html/ 
+# Set the working directory
 WORKDIR /var/www/html
-RUN ./install_wkhtmltopdf.sh
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    libicu-dev \
+    libzip-dev \
+    zip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd intl pdo pdo_mysql zip \
+    && apt-get clean
+
+# Enable Apache Rewrite Module
+RUN a2enmod rewrite
+
+# Install Composer globally
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy project files to the container
+COPY . /var/www/html
+
+# Set proper permissions for the web server
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+# Configure CakePHP permissions
+RUN mkdir -p /var/www/html/tmp \
+    && mkdir -p /var/www/html/logs \
+    && chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
+
+# Expose the default web server port
+# EXPOSE 80
+
+# # Start the Apache server
+# CMD ["apache2-foreground"] 
+# RUN ./install_wkhtmltopdf.sh
  
 RUN apt-get update && apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor

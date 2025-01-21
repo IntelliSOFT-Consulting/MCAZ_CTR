@@ -1377,3 +1377,16 @@
 2023-02-27 08:54:48,136 INFO spawned: 'cake_queue_worker' with pid 42
 2023-02-27 08:54:48,199 INFO exited: cake_queue_worker (exit status 210; not expected)
 2023-02-27 08:54:49,200 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
+2025-01-21 08:16:43,172 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-01-21 08:16:43,177 INFO supervisord started with pid 7
+2025-01-21 08:16:44,179 INFO spawned: 'apache' with pid 10
+2025-01-21 08:16:44,180 INFO spawned: 'cake_queue_worker' with pid 11
+2025-01-21 08:16:44,296 INFO exited: cake_queue_worker (exit status 210; not expected)
+2025-01-21 08:16:45,297 INFO success: apache entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-21 08:16:45,298 INFO spawned: 'cake_queue_worker' with pid 26
+2025-01-21 08:16:45,444 INFO exited: cake_queue_worker (exit status 210; not expected)
+2025-01-21 08:16:47,446 INFO spawned: 'cake_queue_worker' with pid 34
+2025-01-21 08:16:47,524 INFO exited: cake_queue_worker (exit status 210; not expected)
+2025-01-21 08:16:50,528 INFO spawned: 'cake_queue_worker' with pid 42
+2025-01-21 08:16:50,659 INFO exited: cake_queue_worker (exit status 210; not expected)
+2025-01-21 08:16:51,660 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
