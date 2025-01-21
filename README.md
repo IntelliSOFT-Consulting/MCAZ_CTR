@@ -1,75 +1,107 @@
-# CakePHP Application Skeleton
 
-[![Build Status](https://img.shields.io/travis/cakephp/app/master.svg?style=flat-square)](https://travis-ci.org/cakephp/app)
-[![License](https://img.shields.io/packagist/l/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
+# MCAZ Clinical Trials System
+This repository contains the necessary configuration files for setting up a Clinical Trials System using Docker. The system leverages CakePHP 3.x for the backend, MySQL for the database, and phpMyAdmin for database management. The application is designed to handle data related to clinical trials, including participant enrollment, data collection, and trial management.
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 3.x.
+## Prerequisites
+Before you begin, ensure that you have the following installed:
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/)
 
-## Installation
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
-
-If Composer is installed globally, run
-
-```bash
-composer create-project --prefer-dist cakephp/app
+## Project Setup
+### 1. Clone the Repository
+First, clone the repository to your local machine:
 ```
-
-In case you want to use a custom app dir name (e.g. `/myapp/`):
-
-```bash
-composer create-project --prefer-dist cakephp/app myapp
+git clone https://github.com/IntelliSOFT-Consulting/MCAZ_CTR.git
+cd MCAZ_CTR
 ```
+Then, navigate to the app/config directory and rename the file app.example.php to app.php:
 
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
-
-```bash
-bin/cake server -p 8765
 ```
+cd app/config
+mv app.example.php app.php
 
-Then visit `http://localhost:8765` to see the welcome page.
+```
+### 2. Build and Start the Containers
 
-## Update
+The project comes with a docker-compose.yml file that sets up all required services: MySQL, Apache, and phpMyAdmin.
 
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
+Run the following command to build the Docker images and start the containers:
+```
+docker-compose up --build
+```
+This will:
 
-## Configuration
+- Build the Docker images.
+- Start the MySQL container (db), the web server (web), and phpMyAdmin (phpmyadmin).
+- Expose the web application on port 8767 and phpMyAdmin on port 8185.
 
-Read and edit `config/app.php` and setup the `'Datasources'` and any other
-configuration relevant for your application.
+### 3. Initializing the MySQL Database
 
-## Layout
+The MySQL container will automatically execute the db.sql script on startup, if provided, to set up the database structure. This will create the necessary database (mcaz_ctr_prod) and user (changeme) as defined in the docker-compose.yml.
 
-The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+If you need to manually initialize or reinitialize the database, you can copy your SQL file to the ./db.sql location and restart the containers using:
+
  
+```docker-compose down
+docker-compose up --build
+```
+### 4. Accessing the Web Application
 
-## Docker Configuration
-Docker enables you to create and distribute all the necessary images for your entire project, making it easier to manage and deploy the application across different environments.
+Once the containers are running, you can access the application at:
 
-To run a production build of a Docker-powered project, you will need to have several prerequisites installed on your machine. These include:
-- Git
-- Docker and
-- Docker Compose.
+- http://localhost:8767
 
-#### Note:
-Copy the app.default.php to app.php and update the database configuration.
+### 5. Accessing phpMyAdmin
 
-Run the following command to launch the docker build
-`docker compose up -d --build`
+You can also manage your MySQL database using phpMyAdmin. To access phpMyAdmin, go to:
 
-This command will run the fire up the application and you can easily access the two instances of the web application and the phpmyadmin.
-1. Web Interface - localhost:8767
-2. PhpMyAdmin - localhost:8185
+- http://localhost:8185
+
+Use the following credentials to log in:
+
+- Username: changeme
+- Password: changeme.
+- Host: db (the MySQL service name defined in the docker-compose.yml)
+
+### 6. Stopping the Containers
+
+To stop the containers when you're done, run the following command:
  
-## License
+```
+docker-compose down
+
+```
+This will stop and remove the containers. If you want to remove all the containers, volumes, and networks, you can run:
+
+ ```
+docker-compose down --volumes --remove-orphans
+```
+
+### 7. Managing MySQL Data Persistence
+
+To ensure that your MySQL data persists across container restarts, the docker-compose.yml defines a volume to store the data locally:
+ ```
+volumes:
+  - ~/ctr-mysql-data:/var/lib/mysql
+```
+This will store the MySQL data on your local machine under the ~/ctr-mysql-data directory.
+
+### 8. Customizing the Application
+
+To customize the application, you can modify the CakePHP files directly on your host machine. The project files are mounted into the Docker container at:
+
+
+```
+volumes:
+  - ./:/var/www/html/
+
+```
+This allows you to edit the files locally and see changes reflected immediately in the Docker container.
+ 
+### 9. License
 [![License](http://img.shields.io/:license-gnu-blue.svg?style=flat-square)](http://badges.gnu-license.org) 
 
 Licensed under the GNU General Public License, Version 3.0 (the "License");
